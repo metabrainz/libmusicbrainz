@@ -21,7 +21,7 @@
 #
 AUTOMAKE_OPTIONS = foreign
 
-SUBDIRS = expat lib
+SUBDIRS = expat lib examples vmm
 
 SYM_LINKS = \
 	mb.cpp \
