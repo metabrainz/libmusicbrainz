@@ -30,8 +30,8 @@
 #include <sys/stat.h>
 #endif
 #include <string.h>
-#include "mb_c.h"
-#include "browser.h"
+#include "musicbrainz/mb_c.h"
+#include "musicbrainz/browser.h"
 
 int main(int argc, char *argv[])
 {
