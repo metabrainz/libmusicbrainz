@@ -1,7 +1,7 @@
 
 /* --------------------------------------------------------------------------
 
-   MusicBrainz -- The Intenet music metadatabase
+   MusicBrainz -- The Internet music metadatabase
 
    Copyright (C) 2000 Robert Kaye
    Copyright (C) 1999 Marc E E van Woerkom
