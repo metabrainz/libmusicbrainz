@@ -99,7 +99,7 @@ int MP3Info::framesync(const unsigned char *header)
     return 1;
 }
 
-bool MP3Info::isFrame(char *ptr, int &layer, int &sampleRate, 
+bool MP3Info::isFrame(unsigned char *ptr, int &layer, int &sampleRate, 
                       int &mpegVer, int &bitRate, int &frameSize)
 {
     /* Find the frame marker */
@@ -140,18 +140,19 @@ bool MP3Info::isFrame(char *ptr, int &layer, int &sampleRate,
     return true;
 }       
 
-int MP3Info::findStart(FILE *fp)
+int MP3Info::findStart(FILE *fp, unsigned offset)
 {
-   char           ptr[4];
-   unsigned       baseOffset;
-   int            firstSampleRate = -1, firstLayer = -1, nextSampleRate = -1, nextLayer = -1;
-   int            firstMpegVer = -1, nextMpegVer = -1;
-   int            firstBitrate = -1, nextBitrate = -1;
-   unsigned int   firstFrameSize = -1, nextFrameSize = -1;
-   int            goodFrames;
+   unsigned char ptr[4];
+   unsigned      baseOffset;
+   int           firstSampleRate = -1, firstLayer = -1, nextSampleRate = -1, nextLayer = -1;
+   int           firstMpegVer = -1, nextMpegVer = -1;
+   int           firstBitrate = -1, nextBitrate = -1;
+   int           firstFrameSize = -1, nextFrameSize = -1;
+   int           goodFrames = 0, ret;
 
-   goodFrames = 0;
-   baseOffset = 0;
+   goodFrames = -1;
+   baseOffset = offset - 1;
+   m_badBytes--;
 
    /* Loop through the buffer trying to find frames */
    for(;;)
@@ -161,35 +162,36 @@ int MP3Info::findStart(FILE *fp)
        // from an earlier pass
        if (goodFrames < 0)
        {
-           ptr = ++baseOffset;
+           baseOffset++;
+           m_badBytes++;
            goodFrames = 0;
+
+           ret = fseek(fp, baseOffset, SEEK_SET);
+           if (ret < 0)
+               return -1;
        }
 
-       ret = fseek(fp, baseOffset, SEEK_SET);
-       if (ret < 0)
-           return -1;
-
-       ret = fread(ptr, 4, sizeof(char), fp);
+       ret = fread(ptr, sizeof(char), 4, fp);
        if (ret != 4)
            return -1;
 
        // Check to see if we have a valid frame
        if (!isFrame(ptr, firstLayer, firstSampleRate, firstMpegVer, 
-                     firstBitrate, firstFrameSize))
+                    firstBitrate, firstFrameSize))
        {
            goodFrames = -1;
            continue;
        }
 
-       printf("First [%x]: br: %d sr: %d mp: %d sz: %d\n",
-               baseOffset, firstBitrate, firstSampleRate, 
-               firstMpegVer, firstFrameSize);
+       //printf("First [%05lu]: br: %d sr: %d mp: %d sz: %d\n",
+       //        ftell(fp)-4, (int)firstBitrate, firstSampleRate, 
+       //        firstMpegVer, firstFrameSize);
 
-       ret = fseek(fp, baseOffset + firstFrameSize, SEEK_SET);
+       ret = fseek(fp, firstFrameSize - 4, SEEK_CUR);
        if (ret < 0)
            return -1;
 
-       ret = fread(ptr, 4, sizeof(char), fp);
+       ret = fread(ptr, sizeof(char), 4, fp);
        if (ret != 4)
            return -1;
 
@@ -200,9 +202,9 @@ int MP3Info::findStart(FILE *fp)
            goodFrames = -1;
            continue;
        }
-       printf("secnd [%x] br: %d sr: %d mp: %d sz: %d (%d)\n",
-                 baseOffset + firstFrameSize, nextBitrate, nextSampleRate, 
-                 nextMpegVer, nextFrameSize, goodFrames);
+       //printf("secnd [%05lu] br: %d sr: %d mp: %d sz: %d (%d)\n",
+       //          ftell(fp)-4, (int)nextBitrate, nextSampleRate, 
+       //          nextMpegVer, nextFrameSize, goodFrames);
 
        if (firstSampleRate == nextSampleRate && 
            firstLayer == nextLayer &&
@@ -210,7 +212,9 @@ int MP3Info::findStart(FILE *fp)
        {
            // How do you move to the next iteration??
            goodFrames++;
-           ptr += firstFrameSize;
+           ret = fseek(fp, nextFrameSize - 4, SEEK_CUR);
+           if (ret < 0)
+               return -1;
 
            if (goodFrames == 6)
                return baseOffset;
@@ -222,188 +226,96 @@ int MP3Info::findStart(FILE *fp)
    return -1;
 }
 
-void mp3_update(mp3_info      *info,
-                unsigned char *buffer, 
-                unsigned       len)
+bool MP3Info::scanFile(FILE *fp)
 {
-   unsigned       size, bytesLeft;
-   unsigned char *ptr, *max;
-   unsigned char *temp = NULL;
+   unsigned char ptr[4];
+   int           sampleRate, layer, mpegVer, frameSize, bitRate;
+   long          start = 0;
+   int           ret;
 
-   /* If this is the first time in the update function, then seek to
-      find the actual start of the mp3 and skip over any ID3 tags or garbage
-      that might be at the beginning of the file */
-   if (info->badBytes == 0 && info->goodBytes == 0)
-   {
-      int offset;
+   m_frames = 0;
 
-      offset = find_mp3_start(info, buffer, len);
-      if (offset < 0)
-         return;
+   for(;;)
+   {       
+       start = findStart(fp, start);
+       if (start < 0)
+           return (m_frames > 0) ? true : false;
 
-      /* If it took more than one block to determine the start of the mp3
-         file, then use the buffer that was created by the find_mp3_start
-         routine, rather than the buffer that was passed in. */
-      if (info->startBuffer)
-      {
-         buffer = info->startBuffer;
-         len = info->startBytes;
-      }
 
-      /* Skip over the crap at the beginning of the file */
-      buffer += offset;
-      len -= offset;
-      size = 0;
+       ret = fseek(fp, start, SEEK_SET);
+       if (ret < 0)
+           return false;
+
+       for(;;)
+       {
+           ret = fread(ptr, sizeof(char), 4, fp);
+           if (ret != 4)
+               return true;
+
+           // Check to see if we have a valid frame
+           if (!isFrame(ptr, layer, sampleRate, mpegVer, bitRate, frameSize))
+           {
+               break;
+           }
+       
+           //printf(" scan [%05lu] br: %d sr: %d mp: %d ly: %d sz: %d\n",
+           //      ftell(fp)-4, (int)bitRate, sampleRate, 
+           //      mpegVer, layer, frameSize);
+
+           m_frames++;
+           m_goodBytes += frameSize;
+           start += frameSize;
+           m_avgbitrate += frameSize;
+
+           if (m_samplerate == 0)
+           {
+               m_samplerate = sampleRate;
+               m_bitrate = bitRate;
+               m_stereo = stereo(ptr);
+               m_mpegver = mpegVer;
+               m_bitrate = bitRate;
+           }
+
+           // Check for VBR, and if so, set bitrate to 0.
+           if (m_bitrate != 0 && bitRate != m_bitrate)
+               m_bitrate = 0;
+
+           ret = fseek(fp, frameSize - 4, SEEK_CUR);
+           if (ret < 0)
+               return true;
+       }
    }
-
-   /* If the a header spanned the last block and this block, then
-      allocate a larger buffer and copy the last header plus the new
-      block into the new buffer and work on it. This shouldn't happen
-      very often. */
-   if (info->spanningSize > 0)
-   {
-      temp = malloc(len + info->spanningSize);
-      memcpy(temp, info->spanningHeader, info->spanningSize);
-      memcpy(temp + info->spanningSize, buffer, len);
-      len += info->spanningSize;
-      buffer = temp;
-   }
-
-   /* Loop through the buffer trying to find frames */
-   for(ptr = buffer + info->skipSize, max = buffer + len;
-       ptr < max;)
-   {
-      /* printf("%02X%02X\n", ptr[0], ptr[1]); */
-      if ((unsigned int)max - (unsigned int)ptr < 4)
-      {
-         /* If we have a header that spans a block boundary, save
-            up to 3 bytes and then return */
-         info->spanningSize = (unsigned int)max - (unsigned int)ptr;
-         memcpy(info->spanningHeader, ptr, info->spanningSize);
-         info->skipSize = 0;
-
-         if (temp)
-            free(temp);
-
-         return;
-      }
- 
-      /* Find the frame marker */
-      if (*ptr != 0xFF || ((*(ptr + 1) & 0xF0) != 0xF0 &&
-                           (*(ptr + 1) & 0xF0) != 0xE0)) 
-      {
-          info->badBytes ++;
-          ptr++;
-          continue;
-      }
-
-      /* Check for invalid sample rates */
-      if (samplerate(ptr) == 0)
-      { 
-          info->badBytes ++;
-          ptr++;
-          continue;
-      }
-
-      /* Calculate the size of the frame from the header components */
-      if (mpeg_ver(ptr) == 1)
-          size = (144000 * bitrate(ptr)) / samplerate(ptr) + padding(ptr);
-      else
-          size = (72000 * bitrate(ptr)) / samplerate(ptr) + padding(ptr);
-      if (size <= 1 || size > 2048)
-      {
-          info->badBytes ++;
-          ptr++;
-          continue;
-      }
-
-      /* If this is the first frame, then tuck away important info */
-      if (info->frames == 0)
-      {
-          info->samplerate = samplerate(ptr);
-          info->bitrate = bitrate(ptr);
-          info->mpegVer = mpeg_ver(ptr);
-          info->stereo = stereo(ptr);
-      }
-      else
-      {
-          /* The sample rate inside of a file should never change. If the
-             header says it did, then assume that we found a bad header 
-             and skip past it. */
-          if (info->samplerate != samplerate(ptr))
-          {
-             info->badBytes ++;
-             ptr++;
-             continue;
-          }
-
-          /* If the bitrate in subsequent frames is different from the
-             first frame, then we have a VBR file */
-          if (info->bitrate && info->bitrate != bitrate(ptr))
-          {
-             info->bitrate = 0;
-          }
-      }
-
-      /*
-      printf("%08x: [%04d] %3d %d %5d %d %d ", 
-              (unsigned int)ptr - (unsigned int)buffer,
-              info->frames, bitrate(ptr), mpeg_ver(ptr),
-              samplerate(ptr), size, padding(ptr)); 
-      printf(" (%02X %02X %02X %02X)\n", ptr[0], ptr[1], ptr[2], ptr[3]);
-      */
-
-      /* Update the sha hash with the data from this frame */
-      bytesLeft = (unsigned int)max - (unsigned int)ptr;
-
-      /* Move the memory pointer past the frame */
-      info->frames++;
-      info->goodBytes += size;
-      info->avgBitrate += bitrate(ptr);
-      ptr += size;
-   }
-
-   /* skipSize defines the number of bytes to skip in the next block,
-      so that we're not searching for the frame marker inside of
-      a frame, which can lead to false hits. Grrr. 
-      Vielen Dank, Karl-Heinz Brandenburg! */
-   info->skipSize = (unsigned int)ptr - (unsigned int)max;
-   info->spanningSize = 0;
-   if (temp)
-      free(temp);
 }
 
 bool MP3Info::analyze(const string &fileName)
 {
-    FILE     *fp;
-    unsigned  start = 0;
+    FILE *fp;
 
-    goodBytes = 0;
-    badBytes = 0;
+    m_goodBytes = 0;
+    m_badBytes = 0;
+    m_bitrate = -1;
+    m_samplerate = 0;
 
     fp = fopen(fileName.c_str(), "rb");
     if (fp == NULL)
        return false;
 
-    start = findStart(fp);
-    if (start < 0)
+    if (!scanFile(fp))
     {
         fclose(fp);
         return false;
     }
-
-
     fclose(fp);
 
-    if (badBytes > goodBytes || goodBytes == 0)
+    if (m_badBytes > m_goodBytes || m_goodBytes == 0)
         return false;
 
-    if (mpegVer == 1)
-        duration = (frames * 1152 / (samplerate / 100)) * 10;
+    if (m_mpegver == 1)
+        m_duration = (m_frames * 1152 / (m_samplerate / 100)) * 10;
     else
-        duration = (frames * 576 / (samplerate / 100)) * 10;
+        m_duration = (m_frames * 576 / (m_samplerate / 100)) * 10;
 
-    avgBitrate /= frames;
+    m_avgbitrate /= m_frames;
 
     return true;
 }

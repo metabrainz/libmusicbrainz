@@ -30,7 +30,6 @@
 #include <list>
 
 #include "errors.h"
-#include "bitprintinfo.h"
 #include "queries.h"
 
 using namespace std;
@@ -91,9 +90,6 @@ class MusicBrainz
        EXPORT int      GetOrdinalFromList(const string &resultList, const string &URI);
 
        /* These functions are helper functions that may be useful for clients */
-       EXPORT bool     CalculateSha1    (const string &fileName, string &sha1);
-       EXPORT bool     CalculateBitprint(const string &fileName,
-                                         BitprintInfo *info);
        EXPORT bool     GetMP3Info       (const string &fileName, 
                                          int          &duration,
                                          int          &bitrate,

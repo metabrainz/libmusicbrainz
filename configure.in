@@ -1,7 +1,7 @@
 dnl Process this file with autoconf to produce a configure script.
 AC_INIT(lib/musicbrainz.h)
 AM_CONFIG_HEADER(config.h)
-AM_INIT_AUTOMAKE(libmusicbrainz, 2.0.2)
+AM_INIT_AUTOMAKE(libmusicbrainz, 2.1.0)
 
 AM_MAINTAINER_MODE
 
@@ -155,7 +155,6 @@ expat/Makefile
 expat/xmltok/Makefile 
 expat/xmlparse/Makefile 
 osdep/Makefile
-lib/bitzi/Makefile 
 examples/Makefile
 perl/Makefile
 libmusicbrainz.pc], 

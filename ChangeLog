@@ -1,3 +1,14 @@
+Changes for libmusicbrainz 2.1.0
+-------------------------------------
+
+   - moved the python bindings into a new seperate project
+   - rewrote the mp3 duration detection code to be more robust
+     by making it vastly easier. In the process the bitzi 
+     related code has been tossed. This should make the libary
+     smaller and the mp3 duration checking faster.
+   - Due to the bitzi code being removed, the SHA1 and Bitprint
+     related functions have been removed.
+
 Changes for libmusicbrainz 2.0.2
 -------------------------------------
 

@@ -26,7 +26,6 @@
 
 #include "errors.h"
 #include "queries.h"
-#include "bitprintinfo.h"
 
 #ifdef __cplusplus
 extern "C"
@@ -441,32 +440,6 @@ void      mb_GetFragmentFromURL(musicbrainz_t o, char *url, char *fragment,
 int       mb_GetOrdinalFromList(musicbrainz_t o, char *resultList, char *URI);
 
 /**
- * Calculate the sha1 hash for a given filename. This function is
- * often used in conjunction with an MBQ_ExchangeMetadataLite query,
- * to calculate the needed arguments for a metadata exchange with the
- * MusicBrainz server.
- * @param o the musicbrainz_t object returned from mb_New()
- * @param fileName the file to calculate a sha1 value for
- * @param sha1 a string with space for 41 bytes that will hold the sha1 value
- * @return true if the sha1 value was successfully calculated, false otherwise.
- */
-int       mb_CalculateSha1     (musicbrainz_t o, char *fileName, 
-                                char sha1[41]);
-
-/**
- * Calculate Bitzi bitprint info for a given filename.A bitprint is a 
- * SHA1 hash and a tigertree hash combined into one ueberhash. For
- * more details on Bitprints, check out the http://bitzi.com site.
- * @see mb_QueryWithArgs
- * @param o the musicbrainz_t object returned from mb_New()
- * @param fileName the file to calculate a bitprint for
- * @param info the structure to be filled out with bitprint information.
- * @return true if the bitprint was successfully calculated, false otherwise.
- *  */
-int       mb_CalculateBitprint (musicbrainz_t o, char *fileName,
-                                BitprintInfo *info);
-
-/**
  * This helper function calculates the crucial pieces of information for an MP3
  * files. This function returns the duration of the MP3 in milliseconds, which
  * is handy for passing the length of the track to the TRM generation routines.
@@ -487,7 +460,6 @@ int       mb_GetMP3Info        (musicbrainz_t  o,
                                 int           *bitrate,
                                 int           *stereo,
                                 int           *samplerate);
-
 
 /* The interface to the Relatable TRM signature generator */
 
