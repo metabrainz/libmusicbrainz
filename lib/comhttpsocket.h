@@ -54,7 +54,7 @@ private: // Private attributes
         /** proxy URL for current request */
 	char m_proxyname[1025];
         /** file to request or post to */
-	char* m_pFile;
+	const char* m_pFile;
 	/** temp buffer for excess data when parsing header */
 	char* m_pTempBuf;
 	int m_nBufLen;

@@ -22,6 +22,7 @@
 
 ----------------------------------------------------------------------------*/
 #include <stdio.h>
+#include <assert.h>
 #ifdef WIN32
 #include <winsock.h>
 #endif

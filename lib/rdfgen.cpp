@@ -110,8 +110,8 @@ Error RDFGenerator::BeginElement(const string &oElement, AttrMap &oAttrMap)
 
 Error RDFGenerator::EndElement(const string &oElement)
 {
-    char                          *pPtr;
-    int                           iOffset;  
+    const char *pPtr;
+    int         iOffset;  
 
     m_oOutput += string("</") + oElement.c_str() + string(">");
 
