@@ -1,6 +1,6 @@
 #include "haar.h"
 
-HaarWavelet::HaarWavelet(int nNumPoints, int nLevel = 1)
+HaarWavelet::HaarWavelet(int nNumPoints, int nLevel)
 {
 	m_dRoot2 = 1.0 / 2.0;
 	m_pTape = new double[nNumPoints];

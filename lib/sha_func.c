@@ -15,7 +15,7 @@
    Lesser General Public License for more details.
    
    You should have received a copy of the GNU Lesser General Public
-   License along with this library; if not, write to the Free Software
+   License aSHA_LONG with this library; if not, write to the Free Software
    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
      $Id$
@@ -94,8 +94,8 @@
 static void sha_transform(SHA_INFO *sha_info)
 {
     int i;
-    BYTE *dp;
-    LONG T, A, B, C, D, E, W[80], *WP;
+    SHA_BYTE *dp;
+    SHA_LONG T, A, B, C, D, E, W[80], *WP;
 
     dp = sha_info->data;
 
@@ -107,29 +107,29 @@ nether regions of the anatomy...
 */
 #undef SWAP_DONE
 
-#if (SHA_BYTE_ORDER == 1234)
+#if (SHA_SHA_BYTE_ORDER == 1234)
 #define SWAP_DONE
     for (i = 0; i < 16; ++i) {
-	T = *((LONG *) dp);
+	T = *((SHA_LONG *) dp);
 	dp += 4;
 	W[i] =  ((T << 24) & 0xff000000) | ((T <<  8) & 0x00ff0000) |
 		((T >>  8) & 0x0000ff00) | ((T >> 24) & 0x000000ff);
     }
-#endif /* SHA_BYTE_ORDER == 1234 */
+#endif /* SHA_SHA_BYTE_ORDER == 1234 */
 
-#if (SHA_BYTE_ORDER == 4321)
+#if (SHA_SHA_BYTE_ORDER == 4321)
 #define SWAP_DONE
     for (i = 0; i < 16; ++i) {
-	T = *((LONG *) dp);
+	T = *((SHA_LONG *) dp);
 	dp += 4;
 	W[i] = T32(T);
     }
-#endif /* SHA_BYTE_ORDER == 4321 */
+#endif /* SHA_SHA_BYTE_ORDER == 4321 */
 
-#if (SHA_BYTE_ORDER == 12345678)
+#if (SHA_SHA_BYTE_ORDER == 12345678)
 #define SWAP_DONE
     for (i = 0; i < 16; i += 2) {
-	T = *((LONG *) dp);
+	T = *((SHA_LONG *) dp);
 	dp += 8;
 	W[i] =  ((T << 24) & 0xff000000) | ((T <<  8) & 0x00ff0000) |
 		((T >>  8) & 0x0000ff00) | ((T >> 24) & 0x000000ff);
@@ -137,20 +137,20 @@ nether regions of the anatomy...
 	W[i+1] = ((T << 24) & 0xff000000) | ((T <<  8) & 0x00ff0000) |
 		 ((T >>  8) & 0x0000ff00) | ((T >> 24) & 0x000000ff);
     }
-#endif /* SHA_BYTE_ORDER == 12345678 */
+#endif /* SHA_SHA_BYTE_ORDER == 12345678 */
 
-#if (SHA_BYTE_ORDER == 87654321)
+#if (SHA_SHA_BYTE_ORDER == 87654321)
 #define SWAP_DONE
     for (i = 0; i < 16; i += 2) {
-	T = *((LONG *) dp);
+	T = *((SHA_LONG *) dp);
 	dp += 8;
 	W[i] = T32(T >> 32);
 	W[i+1] = T32(T);
     }
-#endif /* SHA_BYTE_ORDER == 87654321 */
+#endif /* SHA_SHA_BYTE_ORDER == 87654321 */
 
 #ifndef SWAP_DONE
-#error Unknown byte order -- you need to add code here
+#error Unknown SHA_BYTE order -- you need to add code here
 #endif /* SWAP_DONE */
 
     for (i = 16; i < 80; ++i) {
@@ -219,23 +219,23 @@ void sha_init(SHA_INFO *sha_info)
 
 /* update the SHA digest */
 
-void sha_update(SHA_INFO *sha_info, BYTE *buffer, int count)
+void sha_update(SHA_INFO *sha_info, SHA_BYTE *buffer, int count)
 {
     int i;
-    LONG clo;
+    SHA_LONG clo;
 
-    clo = T32(sha_info->count_lo + ((LONG) count << 3));
+    clo = T32(sha_info->count_lo + ((SHA_LONG) count << 3));
     if (clo < sha_info->count_lo) {
 	++sha_info->count_hi;
     }
     sha_info->count_lo = clo;
-    sha_info->count_hi += (LONG) count >> 29;
+    sha_info->count_hi += (SHA_LONG) count >> 29;
     if (sha_info->local) {
 	i = SHA_BLOCKSIZE - sha_info->local;
 	if (i > count) {
 	    i = count;
 	}
-	memcpy(((BYTE *) sha_info->data) + sha_info->local, buffer, i);
+	memcpy(((SHA_BYTE *) sha_info->data) + sha_info->local, buffer, i);
 	count -= i;
 	buffer += i;
 	sha_info->local += i;
@@ -260,18 +260,18 @@ void sha_update(SHA_INFO *sha_info, BYTE *buffer, int count)
 void sha_final(unsigned char digest[20], SHA_INFO *sha_info)
 {
     int count;
-    LONG lo_bit_count, hi_bit_count;
+    SHA_LONG lo_bit_count, hi_bit_count;
 
     lo_bit_count = sha_info->count_lo;
     hi_bit_count = sha_info->count_hi;
     count = (int) ((lo_bit_count >> 3) & 0x3f);
-    ((BYTE *) sha_info->data)[count++] = 0x80;
+    ((SHA_BYTE *) sha_info->data)[count++] = 0x80;
     if (count > SHA_BLOCKSIZE - 8) {
-	memset(((BYTE *) sha_info->data) + count, 0, SHA_BLOCKSIZE - count);
+	memset(((SHA_BYTE *) sha_info->data) + count, 0, SHA_BLOCKSIZE - count);
 	sha_transform(sha_info);
-	memset((BYTE *) sha_info->data, 0, SHA_BLOCKSIZE - 8);
+	memset((SHA_BYTE *) sha_info->data, 0, SHA_BLOCKSIZE - 8);
     } else {
-	memset(((BYTE *) sha_info->data) + count, 0,
+	memset(((SHA_BYTE *) sha_info->data) + count, 0,
 	    SHA_BLOCKSIZE - 8 - count);
     }
     sha_info->data[56] = (unsigned char) ((hi_bit_count >> 24) & 0xff);
@@ -312,7 +312,7 @@ void sha_final(unsigned char digest[20], SHA_INFO *sha_info)
 void sha_stream(unsigned char digest[20], SHA_INFO *sha_info, FILE *fin)
 {
     int i;
-    BYTE data[BLOCK_SIZE];
+    SHA_BYTE data[BLOCK_SIZE];
 
     sha_init(sha_info);
     while ((i = fread(data, 1, BLOCK_SIZE, fin)) > 0) {

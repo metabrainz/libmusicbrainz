@@ -25,6 +25,7 @@
 #include <assert.h>
 #ifdef WIN32
 #include <winsock.h>
+#include "config_win32.h"
 #endif
 #include "musicbrainz.h"
 #include "http.h"

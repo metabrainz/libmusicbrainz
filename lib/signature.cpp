@@ -38,6 +38,12 @@ using namespace std;
 const int iFFTPoints = 64;
 const int iNumSamplesNeeded = 288000;
 
+#ifdef WIN32
+   typedef __int64 llong;
+#else
+   typedef long long llong;
+#endif
+
 TRM::TRM(void)
 {
     m_downmixBuffer = NULL;
@@ -303,7 +309,7 @@ int TRM::CountBeats(void)
             maxpeak = beatStore[i];
 
     int beats = 0;
-    maxpeak *= 0.80;
+    maxpeak *= (float)0.80;
 
     for (i = 3; i < (beatindex - 4); i++)
     {
@@ -358,7 +364,7 @@ void TRM::GenerateSignatureNow(string &strGUID, string &collID)
         fSpectrum[j] = fAvgFFTDelta[j] = 0;
 
     int iZeroCrossings = 0;
-    long long sum = 0, sumsquared = 0;
+    llong sum = 0, sumsquared = 0;
     int iFinishedFFTs = 0;
 
     float *energys = new float[10];
