@@ -95,9 +95,9 @@ bool MusicBrainz::UseEncoding(const char *encoding)
 }
 
 // Get the current encoding that is being used
-string MusicBrainz::GetCurrentEncoding() 
+bool MusicBrainz::GetCurrentEncoding(string &encoding) 
 {
-  return m_encoder.GetCurrentEncoding();
+  return m_encoder.GetCurrentEncoding(encoding);
 }
 
 // Get the all available encodings that can be used.

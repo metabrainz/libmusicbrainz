@@ -133,16 +133,24 @@ int mb_UseEncoding(musicbrainz_t o, const char *encoding)
     return 1;
 }
 
-const char *mb_GetCurrentEncoding(musicbrainz_t o)
+int mb_GetCurrentEncoding(musicbrainz_t o, char *encoding)
 {
     MusicBrainz *obj = (MusicBrainz *)o;
     if (o == NULL) {
-       return NULL;
+       return 0;
     }
-    return (obj->GetCurrentEncoding().c_str());
+    string charSetName;
+    if (obj->GetCurrentEncoding(charSetName) == false) {
+      encoding = 0;
+      return 0;
+    }
+    else {
+      encoding = strdup(charSetName.c_str());
+      return 1;
+    }
 }
 
-int mb_GetAvailableEncodings(musicbrainz_t o, char** encodings, int encLength) {
+int mb_GetAvailableEncodings(musicbrainz_t o, char** encodings, unsigned int encLength) {
   if (encodings == NULL || o == NULL) {
     return 0;
   }
@@ -154,19 +162,18 @@ int mb_GetAvailableEncodings(musicbrainz_t o, char** encodings, int encLength) {
   if (encLength < charsetList.size()) { limit = encLength; }
   else { limit = charsetList.size(); }
 
-  for (int x = 0; x < limit; x++) {
+  for (unsigned int x = 0; x < limit; x++) {
     encodings[x] = strdup(charsetList[x].c_str());
   }
   return 1;
 }
 
-int mb_GetNumAvailableEncodings(musicbrainz_t o, int *numEncodings) {
+int mb_GetNumAvailableEncodings(musicbrainz_t o) {
   MusicBrainz *obj = (MusicBrainz *)o;
   if (o == NULL) {
-    return 0;
+    return -1;
   }
-  *numEncodings = obj->GetNumAvailableEncodings();
-  return 1;
+  return obj->GetNumAvailableEncodings();
 }
 
 #ifdef WIN32

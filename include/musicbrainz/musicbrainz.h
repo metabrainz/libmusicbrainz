@@ -85,15 +85,15 @@ class MusicBrainz
 
        /** Returns the current character set encoding that is being used for
         * displaying the metadata information.
-	* @returns The current character set name
+        * @param encoding - The pointer that will have the character set name.
+	* @returns True if the character set name was returned successfully, false if an error occurred.
 	*/
-       EXPORT string   GetCurrentEncoding ();
+       EXPORT bool   GetCurrentEncoding (string &encoding);
 
        /** Retrieves the list of character set encodings that are available to the
         * system.  This list contains only the character set names.
 	* @param encodings - the string vector that will be filled with the character set names.
 	* @returns True if the list was generated successfully, false if an error occurred.
-        * Call GetQueryError() to get the ICU error code name.
 	*/
        EXPORT bool     GetAvailableEncodings(vector<string> &encodings);
 

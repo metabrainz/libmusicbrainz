@@ -181,11 +181,12 @@ int      mb_UseEncoding           (musicbrainz_t o, const char *encoding);
 
 /**
  * Returns the encoding that is being used to convert the UTF-8 data returned by
- * the Get functions.
+ * the Get functions.  The encoding character-array pointer must be freed!
  * @param o the musicbrainz_t object returned from mb_New()
- * @return the character set encoding that is currently being used, or NULL if an error occurred.
+ * @param encoding the character set name string
+ * @return returns 1 if the character set name can be retrieved, 0 if an error occurred.
  */
-const char *mb_GetCurrentEncoding        (musicbrainz_t o);
+int mb_GetCurrentEncoding        (musicbrainz_t o, char *encoding);
 
 /**
  * Gets the available character encodings that can be used. Call mb_GetNumAvailableEncodings()
@@ -195,14 +196,14 @@ const char *mb_GetCurrentEncoding        (musicbrainz_t o);
  * @param encodings a pointer to char arrays that will store the character set names.
  * @param encLength the size of the encodings array.
  */
-int      mb_GetAvailableEncodings(musicbrainz_t o, char** encodings, int encLength);
+int      mb_GetAvailableEncodings(musicbrainz_t o, char** encodings, unsigned int encLength);
 
 /**
  * Returns the number of available encodings.
  * @param o the musicbrainz_t object returned from mb_New()
- * @param numEncodings the number of encodings available, or -1 if an error occurred.
+ * @returns the number of encodings available, or -1 if an error occurred.
  */
-int      mb_GetNumAvailableEncodings(musicbrainz_t o, int *numEncodings);
+int      mb_GetNumAvailableEncodings(musicbrainz_t o);
 
 /**
  * Set the search depth of the query. Please refer to the MusicBrainz HOWTO
