@@ -248,10 +248,10 @@ void TRM::DownmixPCM(void)
    }
 
    if (m_number_of_channels == 2) {
-       signed short *tempbuf = new signed short[m_numBytesWritten / 2];
+       signed short *tempbuf = new signed short[m_numBytesWritten / 4];
        readpos = 0;
        writepos = 0;
-       while (writepos < m_numBytesWritten / 2) {
+       while (writepos < m_numBytesWritten / 4) {
           long ls = ((signed short *)m_storeBuffer)[readpos++];
           long rs = ((signed short *)m_storeBuffer)[readpos++];
 
