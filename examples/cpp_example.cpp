@@ -37,7 +37,7 @@ int main(void)
     // Execute the GetCDInfo query, which pull the TOC from the 
     // audio CD in the cd-rom drive, calculate the disk id and the
     // request the data from the server
-    ret = o.Query(string(GetCDInfo));
+    ret = o.Query(string(MB_GetCDInfo));
     if (!ret)
     {
          o.GetQueryError(error);
@@ -54,46 +54,46 @@ int main(void)
 
     // Now start the data extraction process.
     // Select the first item in the list of returned items
-    o.Select(SelectFirstItem);
+    o.Select(MB_SelectFirstItem);
 
     // Get the number of tracks
-    numTracks = o.DataInt(GetNumTracks);
+    numTracks = o.DataInt(MB_GetNumTracks);
     printf("NumTracks: %d\n", numTracks);
 
     // Now get and print the title of the cd
-    printf("Title: '%s'\n", o.Data(GetAlbumName).c_str());
+    printf("Title: '%s'\n", o.Data(MB_GetAlbumName).c_str());
 
     // Check to see if the GetArtist field exits. If it does, the returned
     // CD is a single artist CD. If it does not, the CD is a multiple
     // artist CD.
-    if (o.DoesResultExist(GetArtistName))
+    if (o.DoesResultExist(MB_GetArtistName))
     {
          // Print out the artist and then print the titles of the tracks
-         printf("Artist: '%s'\n", o.Data(GetArtistName).c_str());
-         o.Select(SelectFirstTrack);
+         printf("Artist: '%s'\n", o.Data(MB_GetArtistName).c_str());
+         o.Select(MB_SelectFirstTrack);
          for(int i = 0; i < numTracks; i++)
          {
-             printf("Track %d: '%s'\n", i+1, o.Data(GetTrackName).c_str());
+             printf("Track %d: '%s'\n", i+1, o.Data(MB_GetTrackName).c_str());
 
              // Now move on to the next track
-             o.Select(SelectNextTrack);
+             o.Select(MB_SelectNextTrack);
          }
     }
     else
     {
          // Now select the first track
-         o.Select(SelectFirstTrack);
+         o.Select(MB_SelectFirstTrack);
 
          // For each track print out the artist and title
          for(int i = 0; i < numTracks; i++)
          {
              printf("Artist %d: '%s'\n", i+1, 
-                    o.Data(GetArtistName).c_str());
+                    o.Data(MB_GetArtistName).c_str());
              printf(" Track %d: '%s'\n", i+1, 
-                    o.Data(GetTrackName).c_str());
+                    o.Data(MB_GetTrackName).c_str());
 
              // Now move on to the next track
-             o.Select(SelectNextTrack);
+             o.Select(MB_SelectNextTrack);
          }
     }
     return 0;

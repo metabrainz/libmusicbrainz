@@ -22,9 +22,9 @@
 AUTOMAKE_OPTIONS = foreign
 
 lib_LTLIBRARIES = libmusicbrainz.la
-libmusicbrainz_la_SOURCES = base64.c base64.h musicbrainz.cpp musicbrainz.h diskid.cpp diskid.h errors.h http.cpp http.h sha.h sha_func.c types.h xd3.h xmlparse.cpp xmlparse.h xql.cpp xql.h mb.cpp mb.h c_wrapper.cpp mb_c.h 
+libmusicbrainz_la_SOURCES = base64.c base64.h musicbrainz.cpp musicbrainz.h diskid.cpp diskid.h errors.h http.cpp http.h sha.h sha_func.c types.h xd3.h parse.cpp parse.h xql.cpp xql.h mb.cpp mb.h c_wrapper.cpp mb_c.h 
 libmusicbrainz_la_LDFLAGS = -version-info 1:0:0
 libmusicbrainz_la_LIBADD = ../expat/xmlparse/libxmlparse.la ../expat/xmltok/libxmltok.la
 
-noinst_HEADERS = base64.h musicbrainz.h diskid.h errors.h http.h sha.h types.h xmlparse.h xql.h mb_c.h
+noinst_HEADERS = base64.h musicbrainz.h diskid.h errors.h http.h sha.h types.h parse.h xql.h mb_c.h
 

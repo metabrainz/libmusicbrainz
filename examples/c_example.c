@@ -37,10 +37,10 @@ int main(void)
     // Set the server you want to use. Defaults to www.musicbrainz.org:80
     mb_SetServer(o, "www.musicbrainz.org", 80);
 
-    // Execute the GetCDInfo query, which pull the TOC from the
+    // Execute the MB_GetCDInfo query, which pull the TOC from the
     // audio CD in the cd-rom drive, calculate the disk id and the
     // request the data from the server
-    ret = mb_Query(o, GetCDInfo);
+    ret = mb_Query(o, MB_GetCDInfo);
     if (!ret)
     {
          mb_GetQueryError(o, error, 256);
@@ -57,52 +57,52 @@ int main(void)
 
     // Now start the data extraction process.
     // Select the first item in the list of returned items
-    mb_Select(o, SelectFirstItem);  
+    mb_Select(o, MB_SelectFirstItem);  
 
     // Get the number of tracks
-    mb_GetResultData(o, GetNumTracks, data, 256);
+    mb_GetResultData(o, MB_GetNumTracks, data, 256);
     numTracks = atoi(data);
     printf("NumTracks: %d\n", numTracks);
 
     // Now get and print the title of the cd
-    mb_GetResultData(o, GetAlbumName, data, 256);
+    mb_GetResultData(o, MB_GetAlbumName, data, 256);
     printf("Title: '%s'\n", data);
 
     // Check to see if the GetArtist field exits. If it does, the returned
     // CD is a single artist CD. If it does not, the CD is a multiple
     // artist CD.
-    if (mb_DoesResultExist(o, GetArtistName))
+    if (mb_DoesResultExist(o, MB_GetArtistName))
     {
         // Print out the artist and then print the titles of the tracks 
-        mb_GetResultData(o, GetArtistName, data, 256);
+        mb_GetResultData(o, MB_GetArtistName, data, 256);
         printf("Artist: '%s'\n", data);
 
         // Select the first track and then get info for this track
-        mb_Select(o, SelectFirstTrack);
+        mb_Select(o, MB_SelectFirstTrack);
         for(i = 0; i < numTracks; i++)
         {
-            mb_GetResultData(o, GetTrackName, data, 256);
+            mb_GetResultData(o, MB_GetTrackName, data, 256);
             printf("Track %d: '%s'\n", i+1, data);
 
             // Done with this track, move on to next
-            mb_Select(o, SelectNextTrack);
+            mb_Select(o, MB_SelectNextTrack);
         }
     }
     else
     {
         // Select the first track and then get info for this track
-        mb_Select(o, SelectFirstTrack);
+        mb_Select(o, MB_SelectFirstTrack);
 
         // For each track print out the artist and title
         for(i = 0; i < numTracks; i++)
         {
-            mb_GetResultData(o, GetArtistName, data, 256);
+            mb_GetResultData(o, MB_GetArtistName, data, 256);
             printf("Artist %d: '%s'\n", i+1, data);
-            mb_GetResultData(o, GetTrackName, data, 256);
+            mb_GetResultData(o, MB_GetTrackName, data, 256);
             printf(" Track %d: '%s'\n", i+1, data);
 
             // Done with this track, move on to next
-            mb_Select(o, SelectNextTrack);
+            mb_Select(o, MB_SelectNextTrack);
         }
     }
 
