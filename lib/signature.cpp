@@ -361,7 +361,7 @@ void TRM::GenerateSignatureNow(string &strGUID, string &collID)
     float fSpectrum[32];
     float fAvgFFTDelta[32];
     for (j = 0; j < 32; j++)
-        fSpectrum[j] = fAvgFFTDelta[j] = 0;
+        fLastFFT[j] = fSpectrum[j] = fAvgFFTDelta[j] = 0;
 
     int iZeroCrossings = 0;
     llong sum = 0, sumsquared = 0;
