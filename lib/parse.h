@@ -42,12 +42,12 @@ using namespace std;
 
 typedef map<string, string > AttrMap;
 
-class Parse
+class MBParse
 {
     public:
 
-               Parse(void);
-      virtual ~Parse(void);
+               MBParse(void);
+      virtual ~MBParse(void);
 
       Error    ParseFile(const string &oFile);
       Error    ParseString(const string &oXML);

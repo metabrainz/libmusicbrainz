@@ -39,7 +39,7 @@ using namespace std;
 
 #include "parse.h"
 
-class XQL : public Parse
+class XQL : public MBParse
 {
     public:
 
