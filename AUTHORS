@@ -41,5 +41,7 @@ The following people have contributed to this program:
   Winston Chang <wchang3@students.wisc.edu>
   - support for Solaris
 
+  David W. Gray <david@thegray.com>
+  - cmd.dsp and added support for exporting the C++ interface in Win32
 
 (please send change requests to rob@musicbrainz.org or maintainer)

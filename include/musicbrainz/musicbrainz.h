@@ -3,6 +3,7 @@
    MusicBrainz -- The Internet music metadatabase
 
    Copyright (C) 2000 Robert Kaye
+   Portions Copyright (C) 2000 David Gray
    
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
@@ -33,33 +34,45 @@
 using namespace std;
 
 class XQL;
+
+#if defined(_WIN32) && defined(MUSICBRAINZ_EXPORTS)
+#define EXPORT __declspec(dllexport)
+#else
+#define EXPORT
+#endif
+
 class MusicBrainz
 {
     public:
 
-                MusicBrainz(void);
-       virtual ~MusicBrainz(void);
+       EXPORT          MusicBrainz(void);
+       EXPORT virtual ~MusicBrainz(void);
 
-       bool     SetServer      (const string &serverAddr, short serverPort);
-       bool     SetProxy       (const string &proxyAddr, short proxyPort);
-       bool     SetDevice      (const string &device);
-       void     UseUTF8        (bool bUse) { m_useUTF8 = bUse; };
+       EXPORT bool     SetServer      (const string &serverAddr, 
+                                       short serverPort);
+       EXPORT bool     SetProxy       (const string &proxyAddr, 
+                                       short proxyPort);
+       EXPORT bool     SetDevice      (const string &device);
+       EXPORT void     UseUTF8        (bool bUse) { m_useUTF8 = bUse; };
 
-       bool     Query          (const string &xmlObject, 
+       EXPORT bool     Query          (const string &xmlObject, 
                                 vector<string> *args = NULL);
-       void     GetQueryError  (string &ErrorText);
-       int      GetNumItems    (void);
-       bool     GetWebSubmitURL(string &url);
+       EXPORT void     GetQueryError  (string &ErrorText);
+       EXPORT int      GetNumItems    (void);
+       EXPORT bool     GetWebSubmitURL(string &url);
 
-       bool     Select         (const string &selectQuery);
-       bool     DoesResultExist(const string &resultName, int Index = -1);
-       bool     GetResultData  (const string &resultName, int Index, 
+       EXPORT bool     Select         (const string &selectQuery);
+       EXPORT bool     DoesResultExist(const string &resultName, 
+                                       int Index = -1);
+       EXPORT bool     GetResultData  (const string &resultName, int Index, 
                                 string &data);
-       bool     GetResultRDF   (string &RDFObject);
-       bool     SetResultRDF   (string &RDFObject);
+       EXPORT bool     GetResultRDF   (string &RDFObject);
+       EXPORT bool     SetResultRDF   (string &RDFObject);
 
-       const string &Data      (const string &resultName, int Index = -1);
-       int           DataInt   (const string &resultName, int Index = -1);
+       EXPORT const string &Data      (const string &resultName, 
+                                       int Index = -1);
+       EXPORT int      DataInt        (const string &resultName, 
+                                       int Index = -1);
 
     private:
 
