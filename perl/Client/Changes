@@ -5,6 +5,11 @@ otherwise noted.
 
 $Id$
 
+0.08 	Fri Jun 18 00:41:04 2004
+	- Fixed int size cast warning
+	- Fixed #6431: unmatched bootstrap parameter
+	- Updated req for MusicBrainz::Queries to 0.07
+
 0.07	Sun May 16 20:23:22 2004
 	- Updated to libmusicbrainz 2.1.1
 	  [Matthias Friedrich, Sander van Zoest]
