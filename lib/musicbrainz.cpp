@@ -847,38 +847,18 @@ bool MusicBrainz::GetMP3Info(const string &fileName,
                              int          &stereo,
                              int          &samplerate)
 {
-    FILE *fp;
-    unsigned char *buffer;
-    mp3_info       info;
-    int            read;
+    MP3Info info;
 
-    mp3_init(&info);
-
-    fp = fopen(fileName.c_str(), "rb");
-    if (fp == NULL)
-       return false;
-
-    buffer = new unsigned char[bufferSize];
-    for(;;)
-    {
-        read = fread(buffer, sizeof(char), bufferSize, fp);
-        if (read <= 0)
-            break;
-
-        mp3_update(&info, buffer, (unsigned)read);
-    }
-
-    fclose(fp);
-
-    mp3_final(&info);
-
-    if (info.duration == 0)
+    if (!info.analyze())
         return false;
 
-    duration = info.duration;
-    bitrate = info.bitrate;
-    stereo = info.stereo;
-    samplerate = info.samplerate;
+    if (info.getDuration() == 0)
+        return false;
+
+    duration = info.getDuration();
+    bitrate = info.getBitrate();
+    stereo = info.getStereo();
+    samplerate = info.getSamplerate();
 
     return true;
 }

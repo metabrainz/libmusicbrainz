@@ -21,10 +21,6 @@
 #
 AUTOMAKE_OPTIONS = foreign
 
-SUBDIRS = bitzi
-
-AM_CPPFLAGS = -I$(srcdir)/bitzi
-
 lib_LTLIBRARIES = libmusicbrainz.la
 
 dist_libmusicbrainz_la_SOURCES = \
@@ -32,7 +28,7 @@ dist_libmusicbrainz_la_SOURCES = \
   diskid.cpp haar.cpp http.cpp \
   musicbrainz.cpp sha1.c signature.cpp \
   sigxdr.cpp sigclient.cpp sigfft.cpp \
-  rdfparse.c rdfextract.cpp uuid.cpp 
+  rdfparse.c rdfextract.cpp uuid.cpp mp3.cpp
 nodist_libmusicbrainz_la_SOURCES = mb.cpp
 
 # Here are a set of rules to help you update your library version information:
@@ -50,23 +46,16 @@ nodist_libmusicbrainz_la_SOURCES = mb.cpp
 #  6. If any interfaces have been removed since the last public release, then 
 #     set age to 0. 
 libmusicbrainz_la_LDFLAGS = -version-info 3:0:0
-
-if DARWIN
-libmusicbrainz_la_LIBADD = @EXPAT_LIBS@ bitzi/bitprint.lo bitzi/id3.lo bitzi/md5.lo bitzi/sboxes.lo bitzi/browser.lo bitzi/list.lo bitzi/mp3.lo bitzi/tiger.lo bitzi/dirsearch.lo bitzi/main.lo bitzi/plugin_man.lo bitzi/tigertree.lo 
-else
-libmusicbrainz_la_LIBADD = @EXPAT_LIBS@ bitzi/libbitzi.la 
-endif
-
+libmusicbrainz_la_LIBADD = @EXPAT_LIBS@
 
 mb_incdir = $(includedir)/musicbrainz
 
-mb_inc_HEADERS = bitprintinfo.h browser.h errors.h mb_c.h musicbrainz.h \
-		 queries.h 
+mb_inc_HEADERS = browser.h errors.h mb_c.h musicbrainz.h queries.h 
 
 noinst_HEADERS = \
   audiosig.h base64.h comhttpsocket.h comsocket.h \
   diskid.h haar.h http.h parse.h \
   sha1.h sigfft.h sigclient.h sigcomplex.h sigxdr.h \
-  rdfparse.h rdfextract.h types.h trm.h uuid.h 
+  rdfparse.h rdfextract.h types.h trm.h uuid.h mp3.h
 
 EXTRA_DIST = wincomsocket.cpp wincomsocket.h apsmetadata.h apsutility.h
