@@ -39,7 +39,7 @@
 #include "config.h"
 
 
-MUSICBRAINZ_DEVICE DEFAULT_DEVICE = "/dev/cd0c";
+MUSICBRAINZ_DEVICE DEFAULT_DEVICE = "/dev/cdrom";
 
 
 int ReadTOCHeader(int fd, 

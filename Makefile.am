@@ -38,9 +38,9 @@ cvsclean: distclean
 	rm -f mb.h cdi.cpp
 	rm -f $(PACKAGE)-$(VERSION).tar.gz
 
-$(OBJECTS): libtool
-libtool: $(LIBTOOL_DEPS)
-	$(SHELL) ./config.status --recheck
+#$(OBJECTS): libtool
+#libtool: $(LIBTOOL_DEPS)
+#	$(SHELL) ./config.status --recheck
 
 install-data-local:
 	mkdir -p $(DESTDIR)$(includedir)/musicbrainz

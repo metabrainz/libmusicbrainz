@@ -24,20 +24,20 @@ INCLUDES = -I$(top_srcdir)/lib
 
 noinst_PROGRAMS = c_example cpp_example cmd findartist gettrack cdlookup
 c_example_SOURCES = c_example.c
-c_example_LDADD = $(top_builddir)/lib/.libs/libmusicbrainz.a -lstdc++ -ldl
+c_example_LDADD = $(top_builddir)/lib/libmusicbrainz.la -lstdc++ 
 
 cpp_example_SOURCES = cpp_example.cpp
-cpp_example_LDADD = $(top_builddir)/lib/.libs/libmusicbrainz.a -ldl
+cpp_example_LDADD = $(top_builddir)/lib/libmusicbrainz.la -lstdc++
 
 cmd_SOURCES = cmd.cpp
-cmd_LDADD = $(top_builddir)/lib/libmusicbrainz.la -ldl
+cmd_LDADD = $(top_builddir)/lib/libmusicbrainz.la -lstdc++
 
 findartist_SOURCES = findartist.c
-findartist_LDADD = $(top_builddir)/lib/libmusicbrainz.la -ldl -lstdc++
+findartist_LDADD = $(top_builddir)/lib/libmusicbrainz.la -lstdc++
 
 gettrack_SOURCES = gettrack.c
-gettrack_LDADD = $(top_builddir)/lib/libmusicbrainz.la -ldl -lstdc++
+gettrack_LDADD = $(top_builddir)/lib/libmusicbrainz.la -lstdc++
 
 cdlookup_SOURCES = cdlookup.c
-cdlookup_LDADD = $(top_builddir)/lib/libmusicbrainz.la -ldl -lstdc++
+cdlookup_LDADD = $(top_builddir)/lib/libmusicbrainz.la -lstdc++
 
