@@ -89,7 +89,11 @@ int main(int argc, char *argv[])
 
     // Extract the artist name
     if (mb_GetResultData(o, MBE_ArtistGetArtistName, data, 256))
-       printf("     Name: %s\n", data);    // Select the first album
+       printf("     Name: %s\n", data);   
+
+    // Extract the sort name
+    if (mb_GetResultData(o, MBE_ArtistGetArtistSortName, data, 256))
+       printf(" SortName: %s\n", data);    
 
     // and clean up the musicbrainz object
     mb_Delete(o);

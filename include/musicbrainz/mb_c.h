@@ -33,6 +33,16 @@ extern "C"
 #endif
 
 /**
+ * The length of a CD Index id in characters
+ */
+#define MB_CDINDEX_ID_LEN 28
+
+/**
+ * The length of a Artist/Album/Track id in characters
+ */
+#define MB_ID_LEN 36
+
+/**
  * Basic C abstraction for the MusicBrainz Object 
  */
 typedef void * musicbrainz_t;

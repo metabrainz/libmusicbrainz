@@ -34,7 +34,7 @@ int main(int argc, char *argv[])
 
     if (argc < 2)
     {
-        printf("Usage: getalbum <albumid> [depth]\n");
+        printf("Usage: getalbum <albumid|cdindexid>\n");
         exit(0);
     }
 
@@ -43,9 +43,6 @@ int main(int argc, char *argv[])
 
     // Tell the client library to return data in ISO8859-1 and not UTF-8
     mb_UseUTF8(o, 0);
-
-    // Tell the client library to print query and response info to stdout 
-    mb_SetDebug(o, 1);
 
     // Set the proper server to use. Defaults to mm.musicbrainz.org:80
     if (getenv("MB_SERVER"))
@@ -59,14 +56,19 @@ int main(int argc, char *argv[])
     if (getenv("MB_DEPTH"))
         mb_SetDepth(o, atoi(getenv("MB_DEPTH")));
     else
-        mb_SetDepth(o, 2);
+        mb_SetDepth(o, 4);
 
     // Set up the args for the find album query
     args[0] = argv[1];
     args[1] = NULL;
 
-    // Execute the MB_GetAlbumById query
-    ret = mb_QueryWithArgs(o, MBQ_GetAlbumById, args);
+    if (strlen(argv[1]) != MB_CDINDEX_ID_LEN)
+        // Execute the MB_GetAlbumById query
+        ret = mb_QueryWithArgs(o, MBQ_GetAlbumById, args);
+    else
+        // Execute the MBQ_GetCDInfoFromCDIndexId
+        ret = mb_QueryWithArgs(o, MBQ_GetCDInfoFromCDIndexId, args);
+
     if (!ret)
     {
         mb_GetQueryError(o, error, 256);
