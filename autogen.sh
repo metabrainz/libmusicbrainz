@@ -31,8 +31,8 @@ echo "  aclocal $ACLOCAL_FLAGS"
 aclocal $ACLOCAL_FLAGS
 echo "  autoheader"
 autoheader
-echo "  libtoolize --automake"
-libtoolize --automake
+echo "  libtoolize --automake --force"
+libtoolize --automake --force
 echo "  automake --add-missing"
 automake --add-missing 
 echo "  autoconf"
