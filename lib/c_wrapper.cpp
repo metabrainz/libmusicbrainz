@@ -23,9 +23,10 @@
 ----------------------------------------------------------------------------*/
 #include "musicbrainz.h"
 
+#include "mb_c.h"
+
 extern "C"
 {
-#include "mb_c.h"
 
 musicbrainz_t mb_New(void)
 {
