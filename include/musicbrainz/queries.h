@@ -64,7 +64,7 @@
  * @param ordinal This select requires one ordinal argument
  */
 #define MBS_SelectArtist           \
-        "http://musicbrainz.org/mm/mm-2.0#artistList []"
+        "http://musicbrainz.org/mm/mm-2.1#artistList []"
 
 /**
  * Use this Select Query to select an album from an query that returns
@@ -74,7 +74,7 @@
  * @param ordinal This select requires one ordinal argument
  */
 #define MBS_SelectAlbum            \
-        "http://musicbrainz.org/mm/mm-2.0#albumList []"
+        "http://musicbrainz.org/mm/mm-2.1#albumList []"
 
 /**
  * Use this Select Query to select a track from an query that returns
@@ -84,7 +84,7 @@
  * @param ordinal This select requires one ordinal argument
  */
 #define MBS_SelectTrack            \
-        "http://musicbrainz.org/mm/mm-2.0#trackList []"
+        "http://musicbrainz.org/mm/mm-2.1#trackList []"
 
 /**
  * Use this Select Query to select an the corresponding artist from a track 
@@ -95,21 +95,18 @@
         "http://purl.org/dc/elements/1.1/creator"
 
 /**
- * Use this Select Query to select a set of lyrics from an query that returns
- * a list of lyrics. Giving the argument 1 for the ordinal selects 
- * the first lyric in the list, 2 the second and so on. Use
- * MBE_LyricsXXXXXX queries to extract data after the select.
- * @param ordinal This select requires one ordinal argument
- */
-#define MBS_SelectLyrics           \
-        "http://musicbrainz.org/mm/mm-2.0#lyricList []"
-
-/**
  * Use this Select Query to select a trmid from the list. 
  * @param ordinal This select requires one ordinal argument
  */
 #define MBS_SelectTrmid           \
-        "http://musicbrainz.org/mm/mm-2.0#trmidList []"
+        "http://musicbrainz.org/mm/mm-2.1#trmidList []"
+
+/**
+ * Use this Select Query to select a CD Index id from the list. 
+ * @param ordinal This select requires one ordinal argument
+ */
+#define MBS_SelectCdindexid           \
+        "http://musicbrainz.org/mm/mm-2.1#cdindexidList []"
 
 /* -------------------------------------------------------------------------
  * General top level queries -- Internal use only.
@@ -119,12 +116,12 @@
  * Internal use only.
  */
 #define MBE_QuerySubject           \
-        "http://musicbrainz.org/mm/mq-1.0#Result"
+        "http://musicbrainz.org/mm/mq-1.1#Result"
 /** 
  * Internal use only.
  */
 #define MBE_GetError               \
-        "http://musicbrainz.org/mm/mq-1.0#error"
+        "http://musicbrainz.org/mm/mq-1.1#error"
 
 
 /* -------------------------------------------------------------------------
@@ -138,7 +135,7 @@
  * a fuzzy match somewhere while handling the query.
  */
 #define MBE_GetStatus              \
-        "http://musicbrainz.org/mm/mq-1.0#status"
+        "http://musicbrainz.org/mm/mq-1.1#status"
 
 /** 
  * Return the matchType for query. The matchtype tells the client
@@ -146,7 +143,7 @@
  * artist, artist_album, artist_track, artist_album_track.
  */
 #define MBE_GetMatchType      \
-        "http://musicbrainz.org/mm/mq-1.0#matchType"
+        "http://musicbrainz.org/mm/mq-1.1#matchType"
 
 /* -------------------------------------------------------------------------
  * Queries used to determine the number of items returned
@@ -157,31 +154,25 @@
  * Return the number of artist returned in this query.
  */
 #define MBE_GetNumArtists     \
-        "http://musicbrainz.org/mm/mm-2.0#artistList [COUNT]"
+        "http://musicbrainz.org/mm/mm-2.1#artistList [COUNT]"
 
 /**
  * Return the number of albums returned in this query.
  */
 #define MBE_GetNumAlbums      \
-        "http://musicbrainz.org/mm/mm-2.0#albumList [COUNT]"
+        "http://musicbrainz.org/mm/mm-2.1#albumList [COUNT]"
 
 /**
  * Return the number of tracks returned in this query.
  */
 #define MBE_GetNumTracks      \
-        "http://musicbrainz.org/mm/mm-2.0#trackList [COUNT]"
-
-/**
- * Return the number of lyrics returned in this query.
- */
-#define MBE_GetNumLyrics      \
-        "http://musicbrainz.org/mm/mm-2.0#trackList [COUNT]"
+        "http://musicbrainz.org/mm/mm-2.1#trackList [COUNT]"
 
 /**
  * Return the number of trmids returned in this query.
  */
 #define MBE_GetNumTrmids      \
-        "http://musicbrainz.org/mm/mm-2.0#trmidList [COUNT]"
+        "http://musicbrainz.org/mm/mm-2.1#trmidList [COUNT]"
 
 /* -------------------------------------------------------------------------
  * artistList queries
@@ -198,7 +189,7 @@
  * Return the name of the currently selected Album
  */
 #define MBE_ArtistGetArtistSortName      \
-        "http://musicbrainz.org/mm/mm-2.0#sortName"
+        "http://musicbrainz.org/mm/mm-2.1#sortName"
 
 /**
  * Return the ID of the currently selected Album. The value of this
@@ -213,7 +204,7 @@
  * @param ordinal This select requires one ordinal argument to select an album
  */
 #define MBE_ArtistGetAlbumName      \
-        "http://musicbrainz.org/mm/mm-2.0#albumList [] http://purl.org/dc/elements/1.1/title"
+        "http://musicbrainz.org/mm/mm-2.1#albumList [] http://purl.org/dc/elements/1.1/title"
 
 /**
  * Return the ID of the nth album. Requires an ordinal argument to select
@@ -221,7 +212,7 @@
  * @param ordinal This select requires one ordinal argument to select an album
  */
 #define MBE_ArtistGetAlbumId      \
-        "http://musicbrainz.org/mm/mm-2.0#albumList []"
+        "http://musicbrainz.org/mm/mm-2.1#albumList []"
 
 /* -------------------------------------------------------------------------
  * albumList queries
@@ -242,6 +233,18 @@
         "" // yes, empty! 
 
 /**
+ * Return the release status of the currently selected Album.
+ */
+#define MBE_AlbumGetAlbumStatus        \
+        "http://musicbrainz.org/mm/mm-2.1#releaseStatus"
+
+/**
+ * Return the release type of the currently selected Album.
+ */
+#define MBE_AlbumGetAlbumType        \
+        "http://musicbrainz.org/mm/mm-2.1#releaseType"
+
+/**
  * Return the Artist ID of the currently selected Album. This may return 
  * the artist id for the Various Artists' artist, and then you should 
  * check the artist for each track of the album seperately with MBE_AlbumGetArtistName,
@@ -254,7 +257,7 @@
  * Return the mumber of tracks in the currently selected Album
  */
 #define MBE_AlbumGetNumTracks      \
-        "http://musicbrainz.org/mm/mm-2.0#trackList [COUNT]"
+        "http://musicbrainz.org/mm/mm-2.1#trackList [COUNT]"
 
 /**
  * Return the Id of the nth track in the album. Requires a
@@ -262,7 +265,7 @@
  * @param ordinal This select requires one ordinal argument to select a track
  */
 #define MBE_AlbumGetTrackId        \
-        "http://musicbrainz.org/mm/mm-2.0#trackList [] "
+        "http://musicbrainz.org/mm/mm-2.1#trackList [] "
 
 /**
  * Return the track number of the nth track in the album. Requires a
@@ -270,7 +273,7 @@
  * @param ordinal This select requires one ordinal argument to select a track
  */
 #define MBE_AlbumGetTrackNum       \
-        "http://musicbrainz.org/mm/mm-2.0#trackList [] http://musicbrainz.org/mm/mm-2.0#trackNum"
+        "http://musicbrainz.org/mm/mm-2.1#trackList [] http://musicbrainz.org/mm/mm-2.1#trackNum"
 
 /**
  * Return the track name of the nth track in the album. Requires a
@@ -278,7 +281,7 @@
  * @param ordinal This select requires one ordinal argument to select a track
  */
 #define MBE_AlbumGetTrackName      \
-        "http://musicbrainz.org/mm/mm-2.0#trackList [] http://purl.org/dc/elements/1.1/title"
+        "http://musicbrainz.org/mm/mm-2.1#trackList [] http://purl.org/dc/elements/1.1/title"
 
 /**
  * Return the track duration of the nth track in the album. Requires a
@@ -286,7 +289,7 @@
  * @param ordinal This select requires one ordinal argument to select a track
  */
 #define MBE_AlbumGetTrackDuration       \
-        "http://musicbrainz.org/mm/mm-2.0#trackList [] http://musicbrainz.org/mm/mm-2.0#duration"
+        "http://musicbrainz.org/mm/mm-2.1#trackList [] http://musicbrainz.org/mm/mm-2.1#duration"
 
 /**
  * Return the artist name of the nth track in the album. Requires a
@@ -294,7 +297,7 @@
  * @param ordinal This select requires one ordinal argument to select a track
  */
 #define MBE_AlbumGetArtistName     \
-        "http://musicbrainz.org/mm/mm-2.0#trackList [] http://purl.org/dc/elements/1.1/creator http://purl.org/dc/elements/1.1/title"
+        "http://musicbrainz.org/mm/mm-2.1#trackList [] http://purl.org/dc/elements/1.1/creator http://purl.org/dc/elements/1.1/title"
 
 /**
  * Return the artist sortname of the nth track in the album. Requires a
@@ -302,7 +305,7 @@
  * @param ordinal This select requires one ordinal argument to select a track
  */
 #define MBE_AlbumGetArtistSortName \
-        "http://musicbrainz.org/mm/mm-2.0#trackList [] http://purl.org/dc/elements/1.1/creator http://musicbrainz.org/mm/mm-2.0#sortName"
+        "http://musicbrainz.org/mm/mm-2.1#trackList [] http://purl.org/dc/elements/1.1/creator http://musicbrainz.org/mm/mm-2.1#sortName"
 
 /**
  * Return the artist Id of the nth track in the album. Requires a
@@ -310,7 +313,7 @@
  * @param ordinal This select requires one ordinal argument to select a track
  */
 #define MBE_AlbumGetArtistId       \
-        "http://musicbrainz.org/mm/mm-2.0#trackList [] http://purl.org/dc/elements/1.1/creator"
+        "http://musicbrainz.org/mm/mm-2.1#trackList [] http://purl.org/dc/elements/1.1/creator"
 
 /* -------------------------------------------------------------------------
  * trackList queries
@@ -334,13 +337,13 @@
  * Return the track number in the currently selected track
  */
 #define MBE_TrackGetTrackNum      \
-        "http://musicbrainz.org/mm/mm-2.0#trackNum"
+        "http://musicbrainz.org/mm/mm-2.1#trackNum"
 
 /**
  * Return the track duration in the currently selected track
  */
 #define MBE_TrackGetTrackDuration \
-        "http://musicbrainz.org/mm/mm-2.0#duration"
+        "http://musicbrainz.org/mm/mm-2.1#duration"
 
 /**
  * Return the name of the artist for this track. 
@@ -352,7 +355,7 @@
  * Return the sortname of the artist for this track. 
  */
 #define MBE_TrackGetArtistSortName      \
-        "http://purl.org/dc/elements/1.1/creator http://musicbrainz.org/mm/mm-2.0#sortName"
+        "http://purl.org/dc/elements/1.1/creator http://musicbrainz.org/mm/mm-2.1#sortName"
 
 /**
  * Return the Id of the artist for this track. 
@@ -366,7 +369,7 @@
  * @param ordinal This select requires one ordinal argument to select an album 
  */
 #define MBE_TrackGetAlbumName      \
-        "http://purl.org/dc/elements/1.1/creator http://musicbrainz.org/mm/mm-2.0#albumList [] http://purl.org/dc/elements/1.1/title"
+        "http://purl.org/dc/elements/1.1/creator http://musicbrainz.org/mm/mm-2.1#albumList [] http://purl.org/dc/elements/1.1/title"
 
 /**
  * Return the Id of the album for this track. Requires an ordinal to
@@ -374,64 +377,28 @@
  * @param ordinal This select requires one ordinal argument to select an album 
  */
 #define MBE_TrackGetAlbumId      \
-        "http://purl.org/dc/elements/1.1/creator http://musicbrainz.org/mm/mm-2.0#albumList []"
+        "http://purl.org/dc/elements/1.1/creator http://musicbrainz.org/mm/mm-2.1#albumList []"
+
+/**
+ * Return the release status of the album for this track. Requires an ordinal to
+ * select which album to retrieve the name from.
+ */
+#define MBE_AlbumGetAlbumStatus        \
+        "http://purl.org/dc/elements/1.1/creator http://musicbrainz.org/mm/mm-2.1#albumList [] http://musicbrainz.org/mm/mm-2.1#releaseStatus"
+
+/**
+ * Return the release type of the album for this track. Requires an ordinal to
+ * select which album to retrieve the name from.
+ */
+#define MBE_AlbumGetAlbumType        \
+        "http://purl.org/dc/elements/1.1/creator http://musicbrainz.org/mm/mm-2.1#albumList [] http://musicbrainz.org/mm/mm-2.1#releaseType"
 
 /**
  * Return the track duration in the currently selected track
  */
 #define MBE_TrackGetTrackDuration      \
-        "http://musicbrainz.org/mm/mm-2.0#duration"
+        "http://musicbrainz.org/mm/mm-2.1#duration"
 
-
-/* -------------------------------------------------------------------------
- * ExchangeMetadata queries
- * -------------------------------------------------------------------------
- */
-/**
- * return the artist name for the exchanged metadata item
- */
-#define MBE_MEGetArtistName        \
-        "http://musicbrainz.org/mm/mq-1.0#artistName"
-/**
- * return the album name for the exchanged metadata item
- */
-#define MBE_MEGetAlbumName         \
-        "http://musicbrainz.org/mm/mq-1.0#albumName"
-/**
- * return the track name for the exchanged metadata item
- */
-#define MBE_MEGetTrackName         \
-        "http://musicbrainz.org/mm/mq-1.0#trackName"
-/**
- * return the track number for the exchanged metadata item
- */
-#define MBE_MEGetTrackNum          \
-        "http://musicbrainz.org/mm/mm-2.0#trackNum"
-/**
- * return the TRM ID for the exchanged metadata item
- */
-#define MBE_MEGetTRMId             \
-        "http://musicbrainz.org/mm/mm-2.0#trmid"
-/**
- * return the duration in milliseconds for the exchanged metadata item
- */
-#define MBE_MEGetDuration          \
-        "http://musicbrainz.org/mm/mm-2.0#duration"
-/**
- * return the release year for the exchanged metadata item
- */
-#define MBE_MEGetYear              \
-        "http://musicbrainz.org/mm/mm-2.0#issued"
-/**
- * return the genre for the exchanged metadata item
- */
-#define MBE_MEGetGenre             \
-        "http://musicbrainz.org/mm/mm-2.0#genre"
-/**
- * return the description for the exchanged metadata item
- */
-#define MBE_MEGetDescription       \
-        "http://purl.org/dc/elements/1.1/description"
 
 /* -------------------------------------------------------------------------
  * Quick track/trm queries
@@ -442,37 +409,37 @@
  * Return the name of the aritst
  */
 #define MBE_QuickGetArtistName      \
-        "http://musicbrainz.org/mm/mq-1.0#artistName"
+        "http://musicbrainz.org/mm/mq-1.1#artistName"
 
 /**
  * Return the name of the aritst
  */
 #define MBE_QuickGetAlbumName      \
-        "http://musicbrainz.org/mm/mq-1.0#albumName"
+        "http://musicbrainz.org/mm/mq-1.1#albumName"
 
 /**
  * Return the name of the aritst
  */
 #define MBE_QuickGetTrackName      \
-        "http://musicbrainz.org/mm/mq-1.0#trackName"
+        "http://musicbrainz.org/mm/mq-1.1#trackName"
 
 /**
  * Return the name of the aritst
  */
 #define MBE_QuickGetTrackNum       \
-        "http://musicbrainz.org/mm/mm-2.0#trackNum"
+        "http://musicbrainz.org/mm/mm-2.1#trackNum"
 
 /**
  * Return the MB track id
  */
 #define MBE_QuickGetTrackId       \
-        "http://musicbrainz.org/mm/mm-2.0#trackid"
+        "http://musicbrainz.org/mm/mm-2.1#trackid"
 
 /**
  * Return the track duration
  */
 #define MBE_QuickGetTrackDuration       \
-        "http://musicbrainz.org/mm/mm-2.0#duration"
+        "http://musicbrainz.org/mm/mm-2.1#duration"
 
 /* -------------------------------------------------------------------------
  * Extract queries for the MBQ_GetCDTOC query
@@ -482,32 +449,32 @@
  * return the CDIndex ID from the table of contents from the CD
  */
 #define MBE_TOCGetCDIndexId           \
-        "http://musicbrainz.org/mm/mm-2.0#cdindexId"
+        "http://musicbrainz.org/mm/mm-2.1#cdindexid"
 /**
  * return the first track number from the table of contents from the CD
  */
 #define MBE_TOCGetFirstTrack          \
-        "http://musicbrainz.org/mm/mm-2.0#firstTrack"
+        "http://musicbrainz.org/mm/mm-2.1#firstTrack"
 /**
  * return the last track number (total number of tracks on the CD) 
  * from the table of contents from the CD
  */
 #define MBE_TOCGetLastTrack           \
-        "http://musicbrainz.org/mm/mm-2.0#lastTrack"
+        "http://musicbrainz.org/mm/mm-2.1#lastTrack"
 /**
  * return the sector offset from the nth track. One ordinal argument must
  * be given to specify the track. Track 1 is a special lead-out track,
  * and the actual track 1 on a CD can be retrieved as track 2 and so forth.
  */
 #define MBE_TOCGetTrackSectorOffset   \
-        "http://musicbrainz.org/mm/mm-2.0#toc [] http://musicbrainz.org/mm/mm-2.0#sectorOffset"
+        "http://musicbrainz.org/mm/mm-2.1#toc [] http://musicbrainz.org/mm/mm-2.1#sectorOffset"
 /**
  * return the number of sectors for the nth track. One ordinal argument must
  * be given to specify the track. Track 1 is a special lead-out track,
  * and the actual track 1 on a CD can be retrieved as track 2 and so forth.
  */
 #define MBE_TOCGetTrackNumSectors     \
-        "http://musicbrainz.org/mm/mm-2.0#toc [] http://musicbrainz.org/mm/mm-2.0#numSectors"
+        "http://musicbrainz.org/mm/mm-2.1#toc [] http://musicbrainz.org/mm/mm-2.1#numSectors"
 
 /* -------------------------------------------------------------------------
  * Extract queries for the MBQ_AuthenticateQuery query
@@ -518,14 +485,14 @@
  * internally by the client library.
  */
 #define MBE_AuthGetSessionId  \
-        "http://musicbrainz.org/mm/mq-1.0#sessionId"
+        "http://musicbrainz.org/mm/mq-1.1#sessionId"
 
 /**
  * return the Auth Challenge data from the Auth Query This query will be used 
  * internally by the client library.
  */
 #define MBE_AuthGetChallenge  \
-        "http://musicbrainz.org/mm/mq-1.0#authChallenge"
+        "http://musicbrainz.org/mm/mq-1.1#authChallenge"
 
 /* -------------------------------------------------------------------------
  * Local queries (queries are automatically generated)
@@ -575,16 +542,16 @@
 
 /**
  * Use this query to return an albumList for the given CD Index Id
- * @param cdindexId The cdindex id to look up at the remote server.
+ * @param cdindexid The cdindex id to look up at the remote server.
  */
 #define MBQ_GetCDInfoFromCDIndexId \
     "<mq:GetCDInfo>\n" \
     "   <mq:depth>@DEPTH@</mq:depth>\n" \
-    "   <mm:cdindexId>@1@</mm:cdindexId>\n" \
+    "   <mm:cdindexid>@1@</mm:cdindexid>\n" \
     "</mq:GetCDInfo>\n" 
 
 /**
- * Use this query to return the basic metadata information (artistname,
+ * Use this query to return the metadata information (artistname,
  * albumname, trackname, tracknumber) for a given trm id. Optionally, 
  * you can also specifiy the basic artist metadata, so that if the server
  * cannot match on the TRM id, it will attempt to match based on the basic
@@ -595,15 +562,15 @@
  * @param trackName The name of the track
  * @param trackNum The number of the track
  */
-#define MBQ_QuickTrackInfoFromTRMId \
-    "<mq:QuickTrackInfoFromTRMId>\n" \
+#define MBQ_TrackInfoFromTRMId \
+    "<mq:TrackInfoFromTRMId>\n" \
     "   <mm:trmid>@1@</mm:trmid>\n" \
     "   <mq:artistName>@2@</mq:artistName>\n" \
     "   <mq:albumName>@3@</mq:albumName>\n" \
     "   <mq:trackName>@4@</mq:trackName>\n" \
     "   <mm:trackNum>@5@</mm:trackNum>\n" \
     "   <mm:duration>@6@</mm:duration>\n" \
-    "</mq:QuickTrackInfoFromTRMId>\n" 
+    "</mq:TrackInfoFromTRMId>\n" 
 
 /**
  * Use this query to return the basic metadata information (artistname,
@@ -690,24 +657,6 @@
     "http://@URL@/trmid/@1@/@DEPTH@" 
 
 /** 
- * Retrieve an lyricList from a given Track Id
- */
-#define MBQ_GetSyncTextById \
-    "   <mm:cdindexId>@1@</mm:cdindexId>\n" \
-    "http://@URL@/synctext/@1@/@DEPTH@" 
-
-/**
- * Look up a track using only a TRM ID. This query returns the same
- * information as the ExchangeMetadata query, but no metadata is sent
- * to the server.
- * @param trmid The TRM Id of the track.
- */
-#define MBQ_LookupMetadata \
-    "<mq:LookupMetadata>\n" \
-    "   <mm:trmid>@1@</mm:trmid>\n" \
-    "</mq:LookupMetadata>\n" 
-
-/** 
  * Internal use only.
  */
 #define MBQ_SubmitTrack \
@@ -737,7 +686,7 @@
  */
 #define MBQ_SubmitTrackTRMId \
     "<mq:SubmitTRMList>\n" \
-    " <mm:trmList>\n" \
+    " <mm:trmidList>\n" \
     "  <rdf:Bag>\n" \
     "   <rdf:li>\n" \
     "    <mq:trmTrackPair>\n" \
@@ -746,7 +695,7 @@
     "    </mq:trmTrackPair>\n" \
     "   </rdf:li>\n" \
     "  </rdf:Bag>\n" \
-    " </mm:trmList>\n" \
+    " </mm:trmidList>\n" \
     " <mq:sessionId>@SESSID@</mq:sessionId>\n" \
     " <mq:sessionKey>@SESSKEY@</mq:sessionKey>\n" \
     " <mq:clientVersion>@CLIENTVER@</mq:clientVersion>\n" \
