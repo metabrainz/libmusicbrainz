@@ -394,34 +394,53 @@ Error MBHttp::Download(const string &url, const string &xml, bool fileDownload)
             Error err;
             result = kError_NoErr;
 
-            do
+            for(;;)
             {
-                if(total >= bufferSize - 1)
+                do
                 {
-                    bufferSize *= 2;
-
-                    buffer = (char*) realloc(buffer, bufferSize);
-
-                    if(!buffer)
+                    if(total >= bufferSize - 1)
                     {
-                        result = kError_OutOfMemory;
-                        break;
+                        bufferSize *= 2;
+    
+                        buffer = (char*) realloc(buffer, bufferSize);
+    
+                        if(!buffer)
+                        {
+                            result = kError_OutOfMemory;
+                            break;
+                        }
                     }
-                }
-
-                err = Recv(s, buffer + total, bufferSize - total - 1, 0, count);
-                if (IsError(err))
-                    result = kError_UserCancel;
-
-                //count = recv(s, buffer + total, bufferSize - total - 1, 0);
-                if(count > 0)
-                    total += count;
-                else
+    
+                    err = Recv(s, buffer + total, bufferSize - total - 1, 0, count);
+                    if (IsError(err))
+                        result = kError_UserCancel;
+    
+                    //count = recv(s, buffer + total, bufferSize - total - 1, 0);
+                    if(count > 0)
+                        total += count;
+                    else
+                    {
+                        result = kError_IOError;
+                    }
+    
+                }while(IsntError(result) && !IsHTTPHeaderComplete(buffer, total));
+                // If this is a continue response, skip the first header
+                // and keep on truckin'
+                if (buffer[9] == '1')
                 {
-                    result = kError_IOError;
-                }
+                    char *cp;
 
-            }while(IsntError(result) && !IsHTTPHeaderComplete(buffer, total));
+                    cp = strstr(buffer, "\r\n\r\n");
+                    if(cp)
+                    {  
+                        cp += 4;
+                        total -= (cp - buffer); 
+                        memmove(buffer, cp, total); 
+                    }                
+                }
+                else
+                    break;
+            }
         }
 
         // parse header
