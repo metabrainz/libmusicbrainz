@@ -21,6 +21,7 @@ int main(int argc, char *argv[])
     }
 
     memset(args, 0, sizeof(args));
+    memset(&info, 0, sizeof(info));
     o = mb_New();
 
     // Calculate the bitzi bitprint for this file.
@@ -45,7 +46,7 @@ int main(int argc, char *argv[])
     sprintf(temp, "%d", info.length);
     args[11] = strdup(temp);
 
-    if (info.audioSha1)
+    if (info.audioSha1[0])
     {
         args[12] = strdup(info.audioSha1);
         sprintf(temp, "%d", info.duration);
