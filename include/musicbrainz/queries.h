@@ -132,7 +132,15 @@
                                   "<DC:Date issued=\"@8@\"/>\n"                \
                                   "<MM:Genre>@9@</MM:Genre>\n"                 \
                                   "<DC:Description>@10@</DC:Description>\n"    \
-                                  "<DC:Identifier sha1=\"@11@\"/>\n"      
+                                  "<DC:Identifier bitprint=\"@11@\"/>\n"       \
+                                  "<DC:Identifier first20=\"@12@\"/>\n"        \
+                                  "<DC:Identifier length=\"@13@\"/>\n"         \
+                                  "<DC:Identifier audioSha1=\"@14@\"/>\n"      \
+                                  "<DC:Identifier duration=\"@15@\"/>\n"       \
+                                  "<DC:Identifier sampleRate=\"@16@\"/>\n"     \
+                                  "<DC:Identifier bitRate=\"@17@\"/>\n"        \
+                                  "<DC:Identifier stereo=\"@18@\"/>\n"         \
+                                  "<DC:Identifier vbr=\"@19@\"/>\n"            
 #define MB_GetSyncTextById        "<MQ:Query>GetSyncTextById</MQ:Query>\n"     \
                                   "<MQ:Args id=\"@1@\"/>\n"
 #define MB_SubmitTrack            "<MQ:Query>SubmitTrack</MQ:Query>\n"         \

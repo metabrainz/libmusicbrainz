@@ -22,6 +22,7 @@
 
 ----------------------------------------------------------------------------*/
 #include <stdio.h>
+#include <string.h>
 #include <assert.h>
 #ifdef WIN32
 #include <winsock.h>
@@ -238,7 +239,7 @@ bool MusicBrainz::Query(const string &xmlObject, vector<string> *args)
           string("</MQ:Version>\n") +
           string(rdfFooter);
 
-    //printf("query: %s\n\n", xml.c_str());
+    printf("query: %s\n\n", xml.c_str());
 
     if (m_proxy.length() > 0)
     {
@@ -638,10 +639,15 @@ int MusicBrainz::SplitResponse(const string &inXML)
 bool MusicBrainz::CalculateBitprint(const string &fileName, BitprintInfo *info) 
 {
     BitcolliderSubmission *sub;
+    char                  *ptr;
 
     sub = create_submission();
     if (sub == NULL)
        return false;
+
+    ptr = strrchr(fileName.c_str(), '.');
+    if (ptr && strcasecmp(ptr, ".mp3") == 0)
+       set_mp3_check(sub, 1);
 
     if (!analyze_file(sub, fileName.c_str()))
        return false;
