@@ -5,6 +5,9 @@ otherwise noted.
 
 $Id$
 
+	- Added beginnings of a perlish interface
+	  MusicBrainz::Client::Simple [Matthias Friedrich]
+
 0.06   Sat Mar  1 01:16:40 2003
 	- Added Win32 support [Tom Heady]
 

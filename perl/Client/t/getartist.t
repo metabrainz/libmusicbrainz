@@ -1,6 +1,8 @@
 BEGIN { $| =1;  print "1..1\n"; }
 END { print "not ok 1\n" unless $loaded; }
 #
+# $Id$
+#
 use strict;
 use MusicBrainz::Client qw(MB_CDINDEX_ID_LEN);
 use MusicBrainz::Queries qw(MBQ_GetArtistById

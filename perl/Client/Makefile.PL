@@ -32,6 +32,7 @@ WriteMakefile(
        AUTHOR     => 'Sander van Zoest <svanzoest@cpan.org>') : ()),
 
     'LIBS'		=> ['-L/usr/local/lib -lstdc++ -lm -lmusicbrainz'], 
+    'PMLIBDIRS'         => ['Client'],
     'DEFINE'		=> '', # e.g., '-DHAVE_SOMETHING'
     'CCFLAGS'           => '',
     'INC'		=> '-I/usr/local/include -I.',
