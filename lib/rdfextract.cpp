@@ -191,6 +191,28 @@ const string &RDFExtract::Extract(const string &startURI,
               predicateList.pop_front();
               if ((*i).ordinal > 0)
                  ordinalList->pop_front();
+
+              if (predicateList.size() > 0)
+              {
+                  printf("TP [%s]\n", (*(predicateList.begin())).c_str());
+              }
+              if (predicateList.size() > 0 &&
+                  *(predicateList.begin()) == string("[COUNT]"))
+              {
+                 int num = 0;
+                 char temp[10];
+
+                 vector<RDFStatement>::iterator j;
+                 for(j = triples.begin(); j != triples.end(); j++)
+                 {
+                    if ((*j).subject == currentURI)
+                        num++;
+                 }
+                 sprintf(temp, "%d", num);
+                 count = string(temp);
+
+                 return count;
+              }
    
               // Force to exit the loop
               done = true;

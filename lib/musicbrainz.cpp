@@ -40,11 +40,11 @@ extern "C"
    #include "bitcollider.h"
 }
 
-const char *scriptUrl = "/cgi-bin/rquery.pl";
+const char *scriptUrl = "/cgi-bin/mq.pl";
 const char *localCDInfo = "@CDINFO@";
 const char *localTOCInfo = "@LOCALCDINFO@";
 const char *localAssociateCD = "@CDINFOASSOCIATECD@";
-const char *defaultServer = "www.musicbrainz.org";
+const char *defaultServer = "mm.musicbrainz.org";
 const short defaultPort = 80;
 const char *rdfUTF8Encoding = "<?xml version=\"1.0\"?>\n";
 const char *rdfISOEncoding = 
@@ -198,8 +198,6 @@ bool MusicBrainz::Query(const string &rdfObject, vector<string> *args)
     string rdf = rdfObject, url, value;
     Error  ret;
 
-#if 0
-
     // Is the given query a placeholder to perform a local query?
     // A cd lookup/associate function requires to have the diskid
     // module to generate an RDF query based on the values read
@@ -217,6 +215,7 @@ bool MusicBrainz::Query(const string &rdfObject, vector<string> *args)
             id.GetLastError(m_error);
             return false;
         }
+        printf("%s\n", rdf.c_str());
     }
     // If the query is a local TOC query, the client just wants to
     // know about the table of contents of the CD, not about the
@@ -238,7 +237,6 @@ bool MusicBrainz::Query(const string &rdfObject, vector<string> *args)
         // And now take the query and parse it so the user can query it
         MakeRDFQuery(m_response);
 
-        printf("%s\n", m_response.c_str());
         m_rdf = new RDFExtract(m_response, m_useUTF8);
         if (m_rdf->HasError())
         {
@@ -299,9 +297,7 @@ bool MusicBrainz::Query(const string &rdfObject, vector<string> *args)
         SetError(ret);
         return false;
     }
-    printf("response: %s\n\n", m_response.c_str());
-#endif
-    m_response = rdfObject;
+    printf("result: %s\n\n", m_response.c_str());
 
     // Parse the returned RDF
     m_rdf = new RDFExtract(m_response, m_useUTF8);
@@ -351,14 +347,14 @@ bool MusicBrainz::Query(const string &rdfObject, vector<string> *args)
         return false;
     }
 
-    // Finally, extrac the number of items returned.
-    value = m_rdf->Extract(m_currentURI, string(MBE_NumItems)); 
-    if (value.length() == 0)
-    {    
-        m_error = string("Could not determine the number of items returned");
-        return false;
-    }
-    m_numItems = atoi(value.c_str());
+    // Finally, extract the number of items returned.
+//    value = m_rdf->Extract(m_currentURI, string(MBE_NumItems)); 
+//    if (value.length() == 0)
+//    {    
+//        m_error = string("Could not determine the number of items returned");
+//        return false;
+//    }
+    m_numItems = 1; //atoi(value.c_str());
 
     // We're done bail. The user can now use Select/Extract to retrieve
     // data from the RDF

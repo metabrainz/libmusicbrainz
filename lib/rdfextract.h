@@ -67,7 +67,7 @@ class RDFExtract
     private:
 
         vector<RDFStatement>  triples;
-        string                error, empty, retValue;
+        string                error, empty, retValue, count;
         bool                  useUTF8, hasError;
 
     public:

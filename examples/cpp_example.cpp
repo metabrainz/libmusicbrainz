@@ -24,52 +24,6 @@
 #include <stdio.h>
 #include "musicbrainz.h"
 
-const char *sampleRDF = 
-"<rdf:RDF xmlns:rdf = \"http://www.w3.org/1999/02/22-rdf-syntax-ns#\"\n"
-"         xmlns:dc  = \"http://purl.org/dc/elements/1.1/\"\n"
-"         xmlns:mq  = \"http://musicbrainz.org/mm/mq-1.0#\"\n"
-"         xmlns:mm  = \"http://musicbrainz.org/mm/mm-2.0#\">\n"
-"\n"
-"  <mq:Result>\n"
-"    <mq:status>OK</mq:status>\n"
-"    <mm:albumList>\n"
-"       <rdf:Seq>\n"
-"          <rdf:li rdf:resource=\"http://musicbrainz.org/album/l1000\"/>\n"
-"       </rdf:Seq>\n"
-"    </mm:albumList>\n"
-"  </mq:Result>\n"
-"\n"
-"  <mm:Album rdf:about=\"http://musicbrainz.org/album/l1000\">\n"
-"    <dc:title>Dummy</dc:title>\n"
-"    <dc:creator rdf:resource=\"http://musicbrainz.org/artist/a1000\"/>\n"
-"    <mm:numTracks>2</mm:numTracks>\n"
-"    <mm:trackList>\n"
-"       <rdf:Seq>\n"
-"          <rdf:li rdf:resource=\"http://musicbrainz.org/track/t1000\"/>\n"
-"          <rdf:li rdf:resource=\"http://musicbrainz.org/track/t1001\"/>\n"
-"       </rdf:Seq>\n"
-"    </mm:trackList>\n"
-"  </mm:Album>\n"
-"\n"
-"  <mm:Artist rdf:about=\"http://musicbrainz.org/artist/a1000\">\n"
-"     <dc:title>Portishead</dc:title>\n"
-"  </mm:Artist>\n"
-"\n"
-"  <mm:Track rdf:about=\"http://musicbrainz.org/track/t1000\">\n"
-"    <dc:title>Mysterons</dc:title>\n"
-"    <mm:trackNum>1</mm:trackNum>\n"
-"    <dc:creator rdf:resource=\"http://musicbrainz.org/artist/a1000\"/>\n"
-"  </mm:Track>\n"
-"\n"
-"  <mm:Track rdf:about=\"http://musicbrainz.org/track/t1001\">\n"
-"    <dc:title>Sour Times</dc:title>\n"
-"    <mm:trackNum>2</mm:trackNum>\n"
-"    <dc:creator rdf:resource=\"http://musicbrainz.org/artist/a1000\"/>\n"
-"  </mm:Track>\n"
-"\n"
-"</rdf:RDF>\n";
-
-
 int main(void)
 {
     MusicBrainz o;
@@ -78,7 +32,7 @@ int main(void)
     int         numTracks, trackNum;
  
     // Set the server you want to use. Defaults to www.musicbrainz.org:80
-    //o.SetServer(string("musicbrainz.eorbit.net"), 80);
+    o.SetServer(string("musicbrainz.eorbit.net"), 80);
 
     // If you need to use a proxy, uncomment/edit the following line
     // as appropriate
@@ -90,8 +44,7 @@ int main(void)
     // Execute the GetCDInfo query, which pull the TOC from the 
     // audio CD in the cd-rom drive, calculate the disk id and the
     // request the data from the server
-    //ret = o.Query(string(MBQ_GetCDInfo));
-    ret = o.Query(string(sampleRDF));
+    ret = o.Query(string(MBQ_GetCDInfo));
     if (!ret)
     {
          o.GetQueryError(error);
@@ -120,6 +73,7 @@ int main(void)
     o.GetIDFromURL(o.Data(MBE_GetAlbumID), data);
     printf("   AlbumID: '%s'\n\n", data.c_str());
 
+    numTracks = 5;
     for(int i = 1; i <= numTracks; i++)
     {
         // Print out the artist and then print the titles of the tracks

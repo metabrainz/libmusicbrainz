@@ -59,7 +59,7 @@
 // mm:albumList queries
 #define MBE_GetAlbumName           "http://purl.org/dc/elements/1.1/title"
 #define MBE_GetAlbumID             "" // yes, empty! 
-#define MBE_GetNumTracks           "http://musicbrainz.org/mm/mm-2.0#numTracks"
+#define MBE_GetNumTracks           "http://musicbrainz.org/mm/mm-2.0#trackList [COUNT]"
 #define MBE_GetTrackID             "http://musicbrainz.org/mm/mm-2.0#trackList [] "
 #define MBE_GetTrackNum            "http://musicbrainz.org/mm/mm-2.0#trackList [] http://musicbrainz.org/mm/mm-2.0#trackNum"
 #define MBE_GetTrackName           "http://musicbrainz.org/mm/mm-2.0#trackList [] http://purl.org/dc/elements/1.1/title"
