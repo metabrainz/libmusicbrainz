@@ -51,7 +51,7 @@ libmusicbrainz_la_LIBADD = @EXPAT_LIBS@ @ICU_LIBS@ -lstdc++ -lm
 
 noinst_HEADERS = \
   audiosig.h base64.h comhttpsocket.h comsocket.h \
-  diskid.h haar.h http.h parse.h proxyhandler.h \
+  diskid.h haar.h http.h proxyhandler.h \
   sha1.h sigfft.h sigclient.h sigcomplex.h sigxdr.h \
   rdfparse.h rdfextract.h types.h trm.h uuid.h mp3.h md5.h
 
