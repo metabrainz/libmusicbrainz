@@ -26,6 +26,7 @@
 
 #include "types.h"
 #include "errors.h"
+#include "proxyHandler.h"
 #include <string>
 
 using namespace std;
@@ -56,22 +57,18 @@ class MBHttp
 
       int32    GetContentLengthFromHeader(const char* buffer);
       bool     IsHTTPHeaderComplete(char* buffer, uint32 length);
-      Error    Connect(int hHandle, const struct sockaddr *pAddr, int &iRet);
+      Error    Connect(int hHandle, const struct sockaddr *pAddr, int &iRet);   
       Error    Recv(int hHandle, char *pBuffer, int iSize, 
                     int iFlags, int &iRead);
       Error    Send(int hHandle, char *pBuffer, int iSize, 
                     int iFlags, int &iSend);
-      Error    ProxyAuthenticate(const string &header, int hHandle, int iFlags);
-      string   ConvertToHex(const string &ascii);
-      
+
       bool           m_exit;
       unsigned char *m_buffer;
       uint32         m_bufferSize, m_bytesInBuffer;
       FILE          *m_file;
-      string         m_destPath, m_proxy;
-      string         m_proxyUID, m_proxyPWD;
-      bool           m_useProxy, m_proxyCredsUsed;
-      string         m_httpRequestBuf[3]; // 0 - HTTP Request Header, 1 - digest-uri, [2 - Data]
+      string         m_destPath;
+      ProxyHandler   m_proxy;
 };
 
 #endif

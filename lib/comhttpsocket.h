@@ -9,6 +9,7 @@
 
 #ifndef MBCOMHTTPSocket_H
 #define MBCOMHTTPSocket_H
+#include "proxyhandler.h"
 #include <stdio.h>
 #include <string>
 
@@ -37,30 +38,18 @@ public:
 	int Write(const char* pBuffer, int nLen, int* pnBytesWritten);
 	/** Sets the proxy address. Use NULL to disable. */
 	int SetProxy(const char* pURL);
-    /** Sets the proxy credentials. */
-    int SetProxyCreds(const string &username, const string &password);
+        /** Sets the proxy credentials. */
+        int SetProxyCreds(const string &username, const string &password);
 
 protected:
 	/** Internal validation function */
 	bool IsHTTPHeaderComplete(char* buffer, unsigned int length);
-    /** Generates the proxy authorization header and sends the response back to the server. */
-    int ProxyAuthenticate(const string &header) ;
-    /** Converts ascii characters to hexadecimal characters */
-    string ConvertToHex(const string &ascii);
 
 private: // Private attributes
 	/** socket used for transport */
 	MBCOMSocket* m_pSock;
-	/** URL of proxy */
-	string m_strProxyAddr;
-    /** Username and Password for proxy. */
-    string m_strProxyUID, m_strProxyPWD;
-    /** Flags if the proxy credentials have been used for the current session. */
-    bool m_bProxyCredsUsed;
-    /** Flags if we are using a proxy server. */
-    bool m_bUseProxy;
-    /** Used for temporary storage of request during proxy authorization. */
-    string m_strHttpRequestBuf[3]; // 0 - Request Header, 1 - Requested file (for digest uri), 2 - Request Data
+	/** Proxy server handler */
+        ProxyHandler m_proxy;
 	/** URL of current connection */
 	string m_strURL;
         /** hostname field for current request */
