@@ -1,5 +1,14 @@
 Revision history for Perl extension MusicBrainz::Client.
 
+All changes by Sander van Zoest <svanzoest@cpan.org> unless 
+otherwise noted.
+
+$Id$
+
+0.02   Thu Feb 20 20:43:39 2003
+        - First public alpha version
+	  Still lots to work on.
+
 0.01  Sun May 26 01:27:03 2002
 	- original version; created by h2xs 1.20 with options
 		-n MusicBrainz::Client /usr/local/musicbrainz/mb_c.h -L /usr/local/lib/ -lmusicbrainz
