@@ -381,6 +381,35 @@
         "http://purl.org/dc/elements/1.1/description"
 
 /* -------------------------------------------------------------------------
+ * Quick track/trm queries
+ * -------------------------------------------------------------------------
+ */
+
+/**
+ * Return the name of the aritst
+ */
+#define MBE_QuickGetArtistName      \
+        "http://musicbrainz.org/mm/mq-1.0#artistName"
+
+/**
+ * Return the name of the aritst
+ */
+#define MBE_QuickGetAlbumName      \
+        "http://musicbrainz.org/mm/mq-1.0#albumName"
+
+/**
+ * Return the name of the aritst
+ */
+#define MBE_QuickGetTrackName      \
+        "http://musicbrainz.org/mm/mq-1.0#trackName"
+
+/**
+ * Return the name of the aritst
+ */
+#define MBE_QuickGetTrackNum       \
+        "http://musicbrainz.org/mm/mm-2.0#trackNum"
+
+/* -------------------------------------------------------------------------
  * Extract queries for the MBQ_GetCDTOC query
  * -------------------------------------------------------------------------
  */
@@ -488,6 +517,27 @@
     "</mq:GetCDInfo>\n" 
 
 /**
+ * Use this query to return the basic metadata information (artistname,
+ * albumname, trackname, tracknumber) for a given trm id.
+ * @param trmid The TRM id for the track to be looked up
+ */
+#define MBQ_QuickTrackInfoFromTRMId \
+    "<mq:QuickTrackInfoFromTRMId>\n" \
+    "   <mm:trmid>@1@</mm:trmid>\n" \
+    "</mq:QuickTrackInfoFromTRMId>\n" 
+
+/**
+ * Use this query to return the basic metadata information (artistname,
+ * albumname, trackname, tracknumber) for a given track mb id
+ * @param trackid The MB track id for the track to be looked up
+ */
+#define MBQ_QuickTrackInfoFromTrackId \
+    "<mq:QuickTrackInfoFromTrackId>\n" \
+    "   <mm:trackid>@1@</mm:trackid>\n" \
+    "   <mm:albumid>@2@</mm:albumid>\n" \
+    "</mq:QuickTrackInfoFromTrackId>\n" 
+
+/**
  * Use this query to find artists by name. This function returns an artistList 
  * for the given artist name.
  * @param artistName The name of the artist to find.
@@ -571,6 +621,7 @@
  * Retrieve an lyricList from a given Track Id
  */
 #define MBQ_GetSyncTextById \
+    "   <mm:cdindexId>@1@</mm:cdindexId>\n" \
     "http://@URL@/synctext/@1@/@DEPTH@" 
 
 /**
