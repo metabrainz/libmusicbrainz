@@ -551,6 +551,9 @@ bool MusicBrainz::SetResultRDF(string &rdf)
         m_response = rdf;
     
         m_rdf->GetSubjectFromObject(string(MBE_QuerySubject), m_baseURI);
+        if (m_baseURI.empty())
+            m_rdf->GetFirstSubject(m_baseURI);
+        
         m_currentURI = m_baseURI;
 
         return true;

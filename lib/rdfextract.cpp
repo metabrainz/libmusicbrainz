@@ -270,6 +270,16 @@ bool RDFExtract::GetSubjectFromObject(const string &object,
     return false;
 }
 
+bool RDFExtract::GetFirstSubject(string &subject)
+{
+    if (triples.size() > 0)
+    {
+        subject = (*(triples.begin())).subject;
+        return true;
+    }
+    return false;
+}
+
 int RDFExtract::GetOrdinalFromList(const string &startURI, 
                                    const string &listQuery,
                                    const string &id)
