@@ -60,6 +60,8 @@
 #define MBE_LocalGetTrackLengths   "MQ:Args[2]/@trackLengths"
 
 // description context queries
+
+#define MBE_GetError               ""
 #define MBE_GetArtistName          "DC:Creator"
 #define MBE_GetArtistID            "DC:Identifier/@artistId"
 

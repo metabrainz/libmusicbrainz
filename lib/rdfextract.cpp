@@ -44,6 +44,7 @@ RDFExtract::RDFExtract(const string &rdfDocument, bool useUTF8)
 {
    RDF_Parser parser;
 
+   hasError = false;
    this->useUTF8 = useUTF8;
 
    parser = RDF_ParserCreate(NULL);
@@ -60,6 +61,7 @@ RDFExtract::RDFExtract(const string &rdfDocument, bool useUTF8)
                string(XML_ErrorString(XML_GetErrorCode(
                       RDF_GetXmlParser(parser)))) +
                string(line);
+       hasError = true;
    }
 }
 

@@ -60,14 +60,16 @@ class RDFExtract
                                          const string &query,
                                          string       &value,
                                          list<int>    *ordinalList);
+        bool     Get
 
         bool     GetError               (string &error);
+        bool     HasError               (void) { return hasError; };
 
     private:
 
         vector<RDFStatement>  triples;
         string                error;
-        bool                  useUTF8;
+        bool                  useUTF8, hasError;
 
     public:
 
