@@ -444,7 +444,7 @@ void      mb_GetFragmentFromURL(musicbrainz_t o, char *url, char *fragment,
  * an album. A result list query (usually MBE_AlbumGetTrackList)
  * @see MBE_AlbumGetTrackList
  * @param o the musicbrainz_t object returned from mb_New()
- * @param list selector (usually MBE_AlbumGetTrackList)
+ * @param resultList selector (usually MBE_AlbumGetTrackList)
  * @param URI of the item from the list to return.
  */
 int       mb_GetOrdinalFromList(musicbrainz_t o, char *resultList, char *URI);
