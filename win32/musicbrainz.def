@@ -4,6 +4,7 @@ DESCRIPTION  'MusicBrainz Client Library'
 EXPORTS
    mb_New
    mb_Delete         
+   mb_UseUTF8
    mb_SetServer      
    mb_SetProxy       
    mb_SetDevice      
