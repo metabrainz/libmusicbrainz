@@ -603,7 +603,7 @@
  * @param vbr 1 if file is VBR, 0 otherwise 
  */
 #define MBQ_ExchangeMetadata \
-    "<mq:ExchangeMetadata>\n" \
+    "<mq:SubmitAndLookupMetadata>\n" \
     "   <mq:artistName>@1@</mq:artistName>\n" \
     "   <mq:albumName>@2@</mq:albumName>\n" \
     "   <mq:trackName>@3@</mq:trackName>\n" \
@@ -622,7 +622,7 @@
     "   <mm:bitRate>@16@</mm:bitRate>\n" \
     "   <mm:channels>@17@</mm:channels>\n" \
     "   <mm:vbr>@18@</mm:vbr>\n" \
-    "</mq:ExchangeMetadata>\n" 
+    "</mq:SubmitAndLookupMetadata>\n" 
 
 /**
  * Do a lite (without Bitzi data) Metadata exchange with the MusicBrainz 
@@ -647,7 +647,7 @@
  * @param sha1 The sha1 hash value calculated for the entire file
  */
 #define MBQ_ExchangeMetadataLite \
-    "<mq:ExchangeMetadataLite>\n" \
+    "<mq:SubmitAndLookupMetadataLite>\n" \
     "   <mq:artistName>@1@</mq:artistName>\n" \
     "   <mq:albumName>@2@</mq:albumName>\n" \
     "   <mq:trackName>@3@</mq:trackName>\n" \
@@ -659,7 +659,7 @@
     "   <dc:description>@9@</dc:description>\n" \
     "   <mm:sha1>@10@</mm:sha1>\n" \
     "   <mm:duration>@11@</mm:duration>\n" \
-    "</mq:ExchangeMetadataLite>\n" 
+    "</mq:SubmitAndLookupMetadataLite>\n" 
 
 /**
  * Look up a track using only a TRM ID. This query returns the same
