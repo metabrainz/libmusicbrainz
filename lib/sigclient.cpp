@@ -45,7 +45,7 @@ namespace SigClientVars
 
     static const int nGUIDSize = 16;
     static const int nTimeout = 15;
-    static const int nVersion = 1;
+    static const int nVersion = 2;
     static const int nHeaderSize = sizeof(char) + sizeof(int);
 }
 
@@ -76,7 +76,7 @@ int SigClient::GetSignature(AudioSig *sig, string &strGUID,
 
     int nOffSet = sizeof(char) + sizeof(int);
     int nGUIDLen = strCollectionID.size() * sizeof(char) + sizeof(char);
-    int iSigEncodeSize = sizeof(int) + 35 * sizeof(int32) + nGUIDLen;
+    int iSigEncodeSize = sizeof(int) + 69 * sizeof(int32) + nGUIDLen;
     int nTotalSize = nOffSet + iSigEncodeSize;
 
     char* pBuffer = new char[nTotalSize + 1];
@@ -128,7 +128,9 @@ int SigClient::Connect(string& strIP, int nPort)
         return -1;  // server probably down.
 
     if (m_proxyAddr.empty())
+    {
         m_pSocket->SetProxy(NULL);
+    }
     else {
         char *proxyurl = new char[m_proxyAddr.size() + 128];
         sprintf(proxyurl, "%s:%d", m_proxyAddr.c_str(), m_proxyPort);
