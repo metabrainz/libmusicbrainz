@@ -51,8 +51,7 @@ libmusicbrainz_la_LIBADD = @EXPAT_LIBS@ -lstdc++ -lm
 
 noinst_HEADERS = \
   audiosig.h base64.h comhttpsocket.h comsocket.h \
-  diskid.h haar.h http.h parse.h \
-  sha1.h sigfft.h sigclient.h sigcomplex.h sigxdr.h \
-  rdfparse.h rdfextract.h types.h trm.h uuid.h mp3.h
-
+  diskid.h haar.h http.h sha1.h sigfft.h sigclient.h \
+  sigcomplex.h sigxdr.h rdfparse.h rdfextract.h types.h \
+  trm.h uuid.h mp3.h 
 EXTRA_DIST = wincomsocket.cpp wincomsocket.h apsmetadata.h apsutility.h
