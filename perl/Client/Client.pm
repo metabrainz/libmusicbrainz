@@ -9,7 +9,7 @@ package MusicBrainz::Client;
 #
 #----------------------------------------------------------------------------*/
 
-require 5.6.1;
+use 5.006_001; 
 use strict;
 use warnings;
 use Carp;
