@@ -26,7 +26,6 @@
 
 #include "errors.h"
 #include "queries.h"
-#include "bitprintinfo.h"
 
 #ifdef __cplusplus
 extern "C"
@@ -166,6 +165,17 @@ void      mb_UseUTF8           (musicbrainz_t o, int useUTF8);
  * @param depth an integer value from zero or greater
  */
 void      mb_SetDepth          (musicbrainz_t o, int depth);
+
+/**
+ * Set the maximum number of items to return to the client. If a search
+ * query yields more items than this max number, the server will omit
+ * the excess items and not return them to the client. This value defaults
+ * to 25.
+ * @see mb_Query()
+ * @param o the musicbrainz_t object returned from mb_New()
+ * @param maxItems the maximum number of items to return for a search 
+ */
+void      mb_SetMaxItems       (musicbrainz_t o, int maxItems);
 
 /**
  * Query the MusicBrainz server. Use this function if your query requires no
@@ -408,20 +418,6 @@ void      mb_GetIDFromURL      (musicbrainz_t o, char *url, char *id,
  */
 int       mb_CalculateSha1     (musicbrainz_t o, char *fileName, 
                                 char sha1[41]);
-/**
- * Calculate Bitzi bitprint info for a given filename. This function is
- * often used in conjunction with an MBQ_ExchangeMetadata query,
- * to calculate the needed arguments for a metadata exchange with the
- * MusicBrainz server.
- * @see mb_QueryWithArgs
- * @param o the musicbrainz_t object returned from mb_New()
- * @param fileName the file to calculate a bitprint for
- * @param info the structure to be filled out with bitprint information.
- * @return true if the bitprint was successfully calculated, false otherwise.
- */
-int       mb_CalculateBitprint (musicbrainz_t o, char *fileName, 
-                                BitprintInfo *info);
-
 
 /* The interface to the Relatable TRM signature generator */
 

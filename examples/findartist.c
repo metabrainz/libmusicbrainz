@@ -46,7 +46,10 @@ int main(int argc, char *argv[])
     // Tell the server to only return 2 levels of data
     mb_SetDepth(o, 2);
 
-    // Set the proper server to use. Defaults to www.musicbrainz.org:80
+    // Tell the server to return max 10 items.
+    mb_SetMaxItems(o, 10);
+
+    // Set the proper server to use. Defaults to mm.musicbrainz.org:80
     if (getenv("MB_SERVER"))
         mb_SetServer(o, getenv("MB_SERVER"), 80);
 

@@ -50,10 +50,7 @@ int main(int argc, char *argv[])
     // Tell the client library to print query and response info to stdout 
     mb_SetDebug(o, 1);
 
-    // Tell the server to return 4 levels of data
-    mb_SetDepth(o, 3);
-
-    // Set the proper server to use. Defaults to www.musicbrainz.org:80
+    // Set the proper server to use. Defaults to mm.musicbrainz.org:80
     if (getenv("MB_SERVER"))
         mb_SetServer(o, getenv("MB_SERVER"), 80);
 
@@ -62,7 +59,7 @@ int main(int argc, char *argv[])
     args[1] = argv[2];
     args[2] = NULL;
 
-    // Execute the MB_GetTrackById query
+    // Execute the MB_GetQuickTrackInfoFromTrackId query
     ret = mb_QueryWithArgs(o, MBQ_QuickTrackInfoFromTrackId, args);
     if (!ret)
     {
@@ -74,7 +71,7 @@ int main(int argc, char *argv[])
 
     // Extract the artist name from the track
     if (mb_GetResultData(o, MBE_QuickGetArtistName, data, 256))
-	{
+    {
        printf("    Artist: '%s'\n", data);
     }
 

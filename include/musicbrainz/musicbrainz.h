@@ -27,15 +27,14 @@
 
 #include <string>
 #include <vector>
+#include <list>
 
 #include "errors.h"
 #include "queries.h"
-#include "bitprintinfo.h"
-#include "rdfextract.h"
 
 using namespace std;
 
-class XQL;
+class RDFExtract;
 
 #if defined(_WIN32) && defined(MUSICBRAINZ_EXPORTS)
 #define EXPORT __declspec(dllexport)
@@ -60,6 +59,7 @@ class MusicBrainz
 
        EXPORT bool     SetDevice        (const string &device);
        EXPORT bool     SetDepth         (int depth);
+       EXPORT bool     SetMaxItems      (int maxItems);
        EXPORT void     UseUTF8          (bool bUse) { m_useUTF8 = bUse; };
 
        EXPORT bool     Query            (const string &rdfObject, 
@@ -87,8 +87,7 @@ class MusicBrainz
 
        EXPORT void     GetIDFromURL     (const string &url, string &id);
        EXPORT bool     CalculateSha1    (const string &fileName, string &sha1);
-       EXPORT bool     CalculateBitprint(const string &fileName,
-                                         BitprintInfo *info);
+
 #ifdef WIN32
        EXPORT void     WSAInit          (void);
        EXPORT void     WSAStop          (void);
@@ -114,7 +113,7 @@ class MusicBrainz
        string          m_device, m_currentURI, m_baseURI, m_response; 
        RDFExtract     *m_rdf;
        bool            m_useUTF8, m_debug;
-       int             m_depth;
+       int             m_depth, m_maxItems;
 };
 
 #endif

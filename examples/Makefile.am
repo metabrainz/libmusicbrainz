@@ -22,9 +22,7 @@
 
 INCLUDES = -I$(top_srcdir)/lib
 
-noinst_PROGRAMS = c_example cpp_example cmd findartist findtrack gettrack cdlookup gettrm submittrm getalbum
-c_example_SOURCES = c_example.c
-c_example_LDADD = $(top_builddir)/lib/libmusicbrainz.la -lstdc++ -lm
+noinst_PROGRAMS = cpp_example cmd findartist findtrack gettrack cdlookup gettrm submittrm getalbum getartist
 
 cpp_example_SOURCES = cpp_example.cpp
 cpp_example_LDADD = $(top_builddir)/lib/libmusicbrainz.la -lstdc++ -lm
@@ -52,4 +50,7 @@ submittrm_LDADD = $(top_builddir)/lib/libmusicbrainz.la -lstdc++ -lm
 
 getalbum_SOURCES = getalbum.c
 getalbum_LDADD = $(top_builddir)/lib/libmusicbrainz.la -lstdc++ -lm
+
+getartist_SOURCES = getartist.c
+getartist_LDADD = $(top_builddir)/lib/libmusicbrainz.la -lstdc++ -lm
 

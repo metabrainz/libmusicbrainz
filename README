@@ -8,3 +8,10 @@ use this client library:
          Online Docs: http://www.musicbrainz.org/docs/mb_client/index.html
      Query Reference: http://www.musicbrainz.org/docs/mb_client/queries_h.html
   Function Reference: http://www.musicbrainz.org/docs/mb_client/mb_c_h.html
+
+
+Configure notes:
+----------------
+
+configure --prefix=/usr
+configure --enable-cpp-headers

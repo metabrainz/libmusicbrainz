@@ -32,7 +32,7 @@ int main(void)
     bool        ret;
     int         numTracks, trackNum;
  
-    // Set the proper server to use. Defaults to www.musicbrainz.org:80
+    // Set the proper server to use. Defaults to mm.musicbrainz.org:80
     if (getenv("MB_SERVER"))
     {
         string server(getenv("MB_SERVER"));

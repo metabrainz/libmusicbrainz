@@ -568,6 +568,7 @@
     "   <mq:albumName>@3@</mq:albumName>\n" \
     "   <mq:trackName>@4@</mq:trackName>\n" \
     "   <mm:trackNum>@5@</mm:trackNum>\n" \
+    "   <mm:duration>@6@</mm:duration>\n" \
     "</mq:QuickTrackInfoFromTRMId>\n" 
 
 /**
@@ -589,6 +590,7 @@
 #define MBQ_FindArtistByName \
     "<mq:FindArtist>\n" \
     "   <mq:depth>@DEPTH@</mq:depth>\n" \
+    "   <mq:maxItems>@MAX_ITEMS@</mq:maxItems>\n" \
     "   <mq:artistName>@1@</mq:artistName>\n" \
     "</mq:FindArtist>\n" 
 
@@ -603,6 +605,7 @@
 #define MBQ_FindAlbumByName \
     "<mq:FindAlbum>\n" \
     "   <mq:depth>@DEPTH@</mq:depth>\n" \
+    "   <mq:maxItems>@MAX_ITEMS@</mq:maxItems>\n" \
     "   <mq:artistName>@1@</mq:artistName>\n" \
     "   <mq:albumName>@2@</mq:albumName>\n" \
     "</mq:FindAlbum>\n" 
@@ -619,6 +622,7 @@
 #define MBQ_FindTrackByName \
     "<mq:FindTrack>\n" \
     "   <mq:depth>@DEPTH@</mq:depth>\n" \
+    "   <mq:maxItems>@MAX_ITEMS@</mq:maxItems>\n" \
     "   <mq:artistName>@1@</mq:artistName>\n" \
     "   <mq:albumName>@2@</mq:albumName>\n" \
     "   <mq:trackName>@3@</mq:trackName>\n" \
@@ -667,94 +671,6 @@
 #define MBQ_GetSyncTextById \
     "   <mm:cdindexId>@1@</mm:cdindexId>\n" \
     "http://@URL@/synctext/@1@/@DEPTH@" 
-
-/**
- * Do a full Metadata exchange with the MusicBrainz server. The user
- * must fill out as many of the fields as possible. All of the
- * fields but fileName, issued, genre, description are required.
- * If not all required fields are present, the server will not
- * accept the metadata into its Pending Table. However, the
- * server will attempt to look up any known information about
- * the track from the TRM ID, and return this data to the
- * user. The user may extract the information returned by the
- * server by using the MBE_MEXXXXXXX functions.
- * @param artistName The name of the artist for the given track. 
- * @param albumName The name of the album for the given track.
- * @param trackName The name of the track.
- * @param trmid The TRM Id of the track.
- * @param fileName The complete filename of the track.
- * @param issued The year the track was released
- * @param genre The genre that this track is classified as.
- * @param description A description associated with this track.
- * @param bitprint The Bitzi bitprint for this file. See mb_CalculateBitprint() 
-          for details on this and the remaining arguments.
- * @param first20 The first 20 characters of this file encoded in hex.
- * @param fileSize The size of the file in bytes.
- * @param audioSha1 The sha1 value calculated for the audio contents.
- * @param duration The length of the track in milliseconds.
- * @param sampleRate The samplerate of this track in hertz.
- * @param bitRate The bitrate of this track in kbps.
- * @param channels The number of channels for this track. 2 = Stereo
- * @param vbr 1 if file is VBR, 0 otherwise 
- */
-#define MBQ_ExchangeMetadata \
-    "<mq:SubmitAndLookupMetadata>\n" \
-    "   <mq:artistName>@1@</mq:artistName>\n" \
-    "   <mq:albumName>@2@</mq:albumName>\n" \
-    "   <mq:trackName>@3@</mq:trackName>\n" \
-    "   <mm:trackNum>@4@</mm:trackNum>\n" \
-    "   <mm:trmid>@5@</mm:trmid>\n" \
-    "   <mm:fileName>@6@</mm:fileName>\n" \
-    "   <mm:issued>@7@</mm:issued>\n" \
-    "   <mm:genre>@8@</mm:genre>\n" \
-    "   <dc:description>@9@</dc:description>\n" \
-    "   <mm:bitprint>@10@</mm:bitprint>\n" \
-    "   <mm:first20>@11@</mm:first20>\n" \
-    "   <mm:fileSize>@12@</mm:fileSize>\n" \
-    "   <mm:audioSha1>@13@</mm:audioSha1>\n" \
-    "   <mm:duration>@14@</mm:duration>\n" \
-    "   <mm:sampleRate>@15@</mm:sampleRate>\n" \
-    "   <mm:bitRate>@16@</mm:bitRate>\n" \
-    "   <mm:channels>@17@</mm:channels>\n" \
-    "   <mm:vbr>@18@</mm:vbr>\n" \
-    "</mq:SubmitAndLookupMetadata>\n" 
-
-/**
- * Do a lite (without Bitzi data) Metadata exchange with the MusicBrainz 
- * server. The user  must fill out as many of the fields as possible. All 
- * of the
- * fields but fileName, issued, genre, description are required.
- * If not all required fields are present, the server will not
- * accept the metadata into its Pending Table. However, the
- * server will attempt to look up any known information about
- * the track from the TRM ID, and return this data to the
- * user. The user may extract the information returned by the
- * server by using the MBE_MEXXXXXXX functions.
- * @param artistName The name of the artist for the given track. 
- * @param albumName The name of the album for the given track.
- * @param trackName The name of the track.
- * @param trmid The TRM Id of the track.
- * @param fileName The complete filename of the track.
- * @param issued The year the track was released
- * @param genre The genre that this track is classified as.
- * @param description A description associated with this track.
- * @param duration The length of the track in milliseconds.
- * @param sha1 The sha1 hash value calculated for the entire file
- */
-#define MBQ_ExchangeMetadataLite \
-    "<mq:SubmitAndLookupMetadataLite>\n" \
-    "   <mq:artistName>@1@</mq:artistName>\n" \
-    "   <mq:albumName>@2@</mq:albumName>\n" \
-    "   <mq:trackName>@3@</mq:trackName>\n" \
-    "   <mm:trackNum>@4@</mm:trackNum>\n" \
-    "   <mm:trmid>@5@</mm:trmid>\n" \
-    "   <mm:fileName>@6@</mm:fileName>\n" \
-    "   <mm:issued>@7@</mm:issued>\n" \
-    "   <mm:genre>@8@</mm:genre>\n" \
-    "   <dc:description>@9@</dc:description>\n" \
-    "   <mm:sha1>@10@</mm:sha1>\n" \
-    "   <mm:duration>@11@</mm:duration>\n" \
-    "</mq:SubmitAndLookupMetadataLite>\n" 
 
 /**
  * Look up a track using only a TRM ID. This query returns the same
