@@ -30,6 +30,7 @@ ____________________________________________________________________________*/
 MBCOMSocket::MBCOMSocket(int nSocket, int nSockType)
 {
     m_nSocket = nSocket;
+    m_bConnected = true;
     if (m_nSocket != INVALID_SOCKET) 
         m_bConnected = true;
     m_nSockType = nSockType;

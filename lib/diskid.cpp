@@ -34,7 +34,7 @@
 
 extern "C"
 {
-   #include "sha.h"
+   #include "sha1.h"
    #include "base64.h"
 }
 
@@ -248,15 +248,15 @@ Error DiskId::GetWebSubmitURLArgs(const string &device, string &args)
    // TO DO: resolve BeOS long issue
    sprintf(toc_string,
            "%d+%d+%d",
-           cdinfo.FirstTrack,
-           cdinfo.LastTrack,
-           cdinfo.FrameOffset[0]);
+           (int)cdinfo.FirstTrack,
+           (int)cdinfo.LastTrack,
+           (int)cdinfo.FrameOffset[0]);
 
    for (i = cdinfo.FirstTrack; i <= cdinfo.LastTrack; i++)
    {
        sprintf(toc_string + strlen(toc_string),
                "+%d",
-               cdinfo.FrameOffset[i]);
+               (int)cdinfo.FrameOffset[i]);
    }   
 
    sprintf(tracks, "%d", cdinfo.LastTrack);

@@ -27,6 +27,7 @@
 
 #include "errors.h"
 #include "queries.h"
+#include "bitprint.h"
 
 #include <string>
 #include <vector>
@@ -48,32 +49,34 @@ class MusicBrainz
        EXPORT          MusicBrainz(void);
        EXPORT virtual ~MusicBrainz(void);
 
-       EXPORT bool     SetServer      (const string &serverAddr, 
-                                       short serverPort);
-       EXPORT bool     SetProxy       (const string &proxyAddr, 
-                                       short proxyPort);
+       EXPORT bool     SetServer        (const string &serverAddr, 
+                                         short serverPort);
+       EXPORT bool     SetProxy         (const string &proxyAddr, 
+                                         short proxyPort);
 
-       EXPORT bool     SetDevice      (const string &device);
-       EXPORT void     UseUTF8        (bool bUse) { m_useUTF8 = bUse; };
+       EXPORT bool     SetDevice        (const string &device);
+       EXPORT void     UseUTF8          (bool bUse) { m_useUTF8 = bUse; };
 
-       EXPORT bool     Query          (const string &xmlObject, 
-                                       vector<string> *args = NULL);
-       EXPORT void     GetQueryError  (string &ErrorText);
-       EXPORT int      GetNumItems    (void);
-       EXPORT bool     GetWebSubmitURL(string &url);
+       EXPORT bool     Query            (const string &xmlObject, 
+                                         vector<string> *args = NULL);
+       EXPORT void     GetQueryError    (string &ErrorText);
+       EXPORT int      GetNumItems      (void);
+       EXPORT bool     GetWebSubmitURL  (string &url);
+  
+       EXPORT bool     Select           (const string &selectQuery);
+       EXPORT bool     DoesResultExist  (const string &resultName, 
+                                         int Index = -1);
+       EXPORT bool     GetResultData    (const string &resultName, int Index, 
+                                         string &data);
+       EXPORT bool     GetResultRDF     (string &RDFObject);
+       EXPORT bool     SetResultRDF     (string &RDFObject);
 
-       EXPORT bool     Select         (const string &selectQuery);
-       EXPORT bool     DoesResultExist(const string &resultName, 
-                                       int Index = -1);
-       EXPORT bool     GetResultData  (const string &resultName, int Index, 
-                                       string &data);
-       EXPORT bool     GetResultRDF   (string &RDFObject);
-       EXPORT bool     SetResultRDF   (string &RDFObject);
-
-       EXPORT const string &Data      (const string &resultName, 
-                                       int Index = -1);
-       EXPORT int      DataInt        (const string &resultName, 
-                                       int Index = -1);
+       EXPORT const string &Data        (const string &resultName, 
+                                         int Index = -1);
+       EXPORT int      DataInt          (const string &resultName, 
+                                         int Index = -1);
+       EXPORT bool     CalculateBitprint(const string &fileName,
+                                         BitprintInfo *info);
 #ifdef WIN32
        EXPORT void     WSAInit        (void);
        EXPORT void     WSAStop        (void);

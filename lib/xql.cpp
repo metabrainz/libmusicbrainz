@@ -74,8 +74,8 @@ Error XQL::BeginElement(const string &oElement, AttrMap &oAttrMap)
 
 Error XQL::EndElement(const string &oElement)
 {
-    char *pPtr;
-    int   iOffset;  
+    const char *pPtr;
+    int         iOffset;  
 
     pPtr = strrchr(m_oPath.c_str(), '/');
     if (pPtr == NULL)

@@ -24,49 +24,49 @@
 #ifndef AUDIOSIG_H
 #define AUDIOSIG_H
 
-#define NUMSIGFIELDS 70 
+#define NUMSIGFIELDS 134
 
 class AudioSig
 {
 public:
-    AudioSig(float energy, float zxing, float length, int *spectrum,
-             float estBPM, float energydiff, int energyzc, 
-	     float *spectrumdiffs)
-    { m_fEnergy = energy; m_fZXing = zxing; m_fLength = length;
+    AudioSig(float meansquareratio, float zxing, float *spectrum,
+             float spectraldiffsum, float beatimpulses, float *avgfftdelta,
+	     float *haar, float energydiff, int energyzc) 
+    { m_fMeanSquare = meansquareratio; m_fZXing = zxing; 
       for (int i = 0; i < 32; i++) 
       {
-          m_iSpectrum[i] = spectrum[i]; 
-          m_fSpectrumDiffs[i] = spectrumdiffs[i];
+          m_fSpectrum[i] = spectrum[i]; 
+          m_fAvgFFTDelta[i] = avgfftdelta[i];
+      }
+      for (int j = 0; j < 64; j++)
+      {
+          m_fHaar[j] = haar[j];
       }
       m_fEnergyDiff = energydiff; m_iEnergyZC = energyzc;
-      m_fEstimatedBPM = estBPM;
+      m_fSpectralSum = spectraldiffsum, m_fBeats = beatimpulses;
     }
    ~AudioSig() {}
 
-    float Energy()   { return m_fEnergy; }
-    float ZXing()    { return m_fZXing; }
-    float Length()   { return m_fLength; }
-    int  *Spectrum() { return m_iSpectrum; }
-
-    float EstimatedBPM() { return m_fEstimatedBPM; }
-    
-    float EnergyDiff() { return m_fEnergyDiff; }
-    short EnergyZC()   { return m_iEnergyZC; }
-
-    float *SpectrumDiffs() { return m_fSpectrumDiffs; }
+    float  MeanSquare()  { return m_fMeanSquare; }
+    float  ZXing()       { return m_fZXing; }
+    float *Spectrum()    { return m_fSpectrum; }
+    float  SpectralSum() { return m_fSpectralSum; }
+    float  Beats()       { return m_fBeats; }
+    float *AvgFFTDelta() { return m_fAvgFFTDelta; }
+    float *Haar()        { return m_fHaar; }
+    float  EnergyDiff()  { return m_fEnergyDiff; }
+    short  EnergyZC()    { return m_iEnergyZC; }
     
 private:
-    float m_fEnergy;
+    float m_fMeanSquare;
     float m_fZXing;
-    float m_fLength;
-    int   m_iSpectrum[32];
-
-    float m_fEstimatedBPM;
-
+    float m_fSpectrum[32];
+    float m_fSpectralSum;
+    float m_fBeats;
+    float m_fAvgFFTDelta[32];
+    float m_fHaar[64];
     float m_fEnergyDiff;
     int   m_iEnergyZC;
-   
-    float m_fSpectrumDiffs[32];
 };
 
 #endif /* AUDIOSIG_H */

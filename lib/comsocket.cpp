@@ -395,7 +395,7 @@ int MBCOMSocket::NBConnect(const char* pIP, int nPort, int nType, int nTimeout)
 int MBCOMSocket::SetMCastInterface(const char* pNIC)
 {
 #ifndef __linux__
-#warning WARNING COMSocket::SetMCastInterface is NOT IMPLEMENTED
+//#warning WARNING COMSocket::SetMCastInterface is NOT IMPLEMENTED
     return -1;
 #else
 	struct ip_mreqn mReq;
