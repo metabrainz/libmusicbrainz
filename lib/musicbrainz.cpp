@@ -164,8 +164,8 @@ bool MusicBrainz::Query(const string &xmlObject, vector<string> *args)
 
     if (m_proxy.length() > 0)
     {
-       sprintf(port, ":%d", m_proxyPort);   
-       http.SetProxyURL(string("http://") + m_proxy + string(port));
+       sprintf(port, ":%d", m_proxyPort);
+       http.SetProxyURL(m_proxy + string(port));
     }
     sprintf(port, ":%d", m_serverPort);   
     url = string("http://") + m_server + string(port) + string(scriptUrl);

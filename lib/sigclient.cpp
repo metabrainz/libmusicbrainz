@@ -133,6 +133,7 @@ int SigClient::Connect(string& strIP, int nPort)
         char *proxyurl = new char[m_proxyAddr.size() + 128];
         sprintf(proxyurl, "%s:%d", m_proxyAddr.c_str(), m_proxyPort);
         m_pSocket->SetProxy(proxyurl);
+
         delete [] proxyurl;
     }
         
