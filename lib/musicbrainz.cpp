@@ -531,8 +531,13 @@ bool MusicBrainz::SetResultRDF(string &rdf)
     if (!m_rdf->HasError())
     {
         m_response = rdf;
+    
+        m_rdf->GetSubjectFromObject(string(MBE_QuerySubject), m_baseURI);
+        m_currentURI = m_baseURI;
+
         return true;
     }
+
     return false;
 }
 
