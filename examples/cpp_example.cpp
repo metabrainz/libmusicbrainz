@@ -45,19 +45,16 @@ int main(void)
     // If you need to use a proxy, uncomment/edit the following line
     // as appropriate
     //o.SetProxy("proxy.mydomain.com", 80);
-
-
-    if (o.UseEncoding("us-ascii") == false) {
-      o.GetQueryError(error);
-      printf("Error: %s\n", error.c_str());
-      return 1;
-    }
-
+    
     int numEncodings = o.GetNumAvailableEncodings();
-
-    string currentEncoding = o.GetCurrentEncoding();
+    string encoding;
+    if (o.GetCurrentEncoding(encoding) == false) {
+        o.GetQueryError(error);
+        printf(error.c_str());
+        return 0;
+    }
     printf("Number of Encodings Available: %d\n", numEncodings);
-    printf("Current Encoding: %s\n", currentEncoding.c_str());
+    printf("Current Encoding: %s\n", encoding.c_str());
 
     // Execute the GetCDInfo query, which pulls the TOC from the
     // audio CD in the cd-rom drive, calculates the disk id and
