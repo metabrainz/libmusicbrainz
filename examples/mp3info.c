@@ -43,10 +43,10 @@ int main(int argc, char *argv[])
     {
         printf("%s:\n", argv[1]);
         duration /= 1000;
-        printf("  duration: %d:%02d\n", duration / 60, duration % 60);
-        printf("   bitrate: %d\n", bitrate);
-        printf("    stereo: %d\n", stereo);
-        printf("samplerate: %d\n", samplerate);
+        printf("%d\n", duration);
+        printf("%d\n", bitrate);
+        printf("%d\n", stereo);
+        printf("%d\n", samplerate);
     }
     else
         printf("Cannot get file stats\n");
