@@ -43,8 +43,12 @@
 				OutputFile=".\Release/musicbrainz.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
+				IgnoreDefaultLibraryNames="LIBC"
 				ModuleDefinitionFile=".\musicbrainz.def"
 				ProgramDatabaseFile=".\Release/musicbrainz.pdb"
+				GenerateMapFile="TRUE"
+				MapExports="TRUE"
+				MapLines="TRUE"
 				ImportLibrary=".\Release/musicbrainz.lib"/>
 			<Tool
 				Name="VCMIDLTool"
@@ -82,7 +86,7 @@
 				AdditionalIncludeDirectories="..\osdep,..,..\expat\xmlparse,..\expat\xmltok,..\lib,..\lib\bitzi"
 				PreprocessorDefinitions="_DEBUG;WIN32;_WINDOWS;_USRDLL;MB_CLIENT_EXPORTS;NOMINMAX"
 				BasicRuntimeChecks="3"
-				RuntimeLibrary="1"
+				RuntimeLibrary="0"
 				UsePrecompiledHeader="2"
 				PrecompiledHeaderFile=".\Debug/musicbrainz.pch"
 				AssemblerListingLocation=".\Debug/"
@@ -99,11 +103,15 @@
 				AdditionalOptions="/MACHINE:I386"
 				AdditionalDependencies="winmm.lib odbc32.lib odbccp32.lib wsock32.lib comctl32.lib"
 				OutputFile=".\Debug/musicbrainz.dll"
-				LinkIncremental="2"
+				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
+				IgnoreDefaultLibraryNames="LIBC"
 				ModuleDefinitionFile=".\musicbrainz.def"
 				GenerateDebugInformation="TRUE"
 				ProgramDatabaseFile=".\Debug/musicbrainz.pdb"
+				GenerateMapFile="TRUE"
+				MapExports="TRUE"
+				MapLines="TRUE"
 				ImportLibrary=".\Debug/musicbrainz.lib"/>
 			<Tool
 				Name="VCMIDLTool"
@@ -140,6 +148,9 @@
 			</File>
 			<File
 				RelativePath="..\lib\comhttpsocket.cpp">
+			</File>
+			<File
+				RelativePath="..\lib\debug.cpp">
 			</File>
 			<File
 				RelativePath="..\lib\diskid.cpp">
