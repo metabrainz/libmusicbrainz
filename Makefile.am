@@ -21,7 +21,7 @@
 #
 AUTOMAKE_OPTIONS = foreign
 
-SUBDIRS = @MAYBE_EXPAT@ lib osdep examples
+SUBDIRS = @MAYBE_EXPAT@ lib osdep examples 
 DIST_SUBDIRS = expat osdep lib examples perl python
 
 cvsclean: distclean
@@ -34,7 +34,6 @@ pcdir = $(libdir)/pkgconfig
 pc_DATA = libmusicbrainz.pc
 
 EXTRA_DIST = libmusicbrainz.pc.in README.win32 config_win32.h \
-	     mb_client.doxy mb_client.spec
-	     docs/mb_howto.txt
+	     mb_client.doxy mb_client.spec docs/mb_howto.txt
 
 CLEANFILES = stamp-h

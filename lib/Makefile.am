@@ -39,8 +39,9 @@ libmusicbrainz_la_LDFLAGS = -version-info 2:1:0
 if DARWIN
 libmusicbrainz_la_LIBADD = ../expat/xmlparse/hashtable.lo ../expat/xmlparse/xmlparse.lo ../expat/xmltok/xmlrole.lo ../expat/xmltok/xmltok.lo bitzi/bitprint.lo bitzi/id3.lo bitzi/md5.lo bitzi/sboxes.lo bitzi/browser.lo bitzi/list.lo bitzi/mp3.lo bitzi/tiger.lo bitzi/dirsearch.lo bitzi/main.lo bitzi/plugin_man.lo bitzi/tigertree.lo 
 else
-libmusicbrainz_la_LIBADD = ../expat/xmlparse/libxmlparse.la ../expat/xmltok/libxmltok.la bitzi/libbitzi.la 
+libmusicbrainz_la_LIBADD = @EXPAT_LIBS@ bitzi/libbitzi.la 
 endif
+
 
 mb_incdir = $(includedir)/musicbrainz
 
@@ -53,4 +54,4 @@ noinst_HEADERS = \
   sha1.h sigfft.h sigclient.h sigcomplex.h sigxdr.h \
   rdfparse.h rdfextract.h types.h trm.h uuid.h 
 
-EXTRA_DIST = wincomsocket.cpp wincomsocket.h
+EXTRA_DIST = wincomsocket.cpp wincomsocket.h apsmetadata.h apsutility.h
