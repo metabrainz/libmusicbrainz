@@ -603,6 +603,9 @@
  * you can also specifiy the basic artist metadata, so that if the server
  * cannot match on the TRM id, it will attempt to match based on the basic
  * metadata.
+ * In case of a TRM collision (where one TRM may point to more than one track)
+ * this function will return more than on track. The user (or tagging app)
+ * must decide which track information is correct.
  * @param trmid The TRM id for the track to be looked up
  * @param artistName The name of the artist
  * @param albumName The name of the album
