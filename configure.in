@@ -1,6 +1,6 @@
 dnl Process this file with autoconf to produce a configure script.
 AC_INIT(lib/musicbrainz.h)
-AM_INIT_AUTOMAKE(musicbrainz, 1.2.1)
+AM_INIT_AUTOMAKE(musicbrainz, 1.0.0)
 AM_CONFIG_HEADER(config.h)
 
 dnl Canonicalize host.
@@ -114,6 +114,12 @@ AC_PROTOTYPE(accept,
 AC_PROTOTYPE_ACCEPT
 
 dnl Checks for library functions.
+AC_CHECK_LIB(ogg, ogg_stream_flush,[AC_DEFINE(HAVE_OGG)],[],)
+AC_CHECK_LIB(vorbis, vorbis_synthesis_init,[AC_DEFINE(HAVE_VORBIS)],[],)
+AC_CHECK_LIB(vorbisfile, ov_open,
+   [ AC_DEFINE(HAVE_VORBISFILE) 
+     VMM="vmm"
+     AC_SUBST(VMM)
+   ],[],-lvorbis)
 
-
-AC_OUTPUT(Makefile lib/Makefile expat/Makefile expat/xmltok/Makefile expat/xmlparse/Makefile examples/Makefile, echo timestamp > stamp-h)
+AC_OUTPUT(Makefile lib/Makefile expat/Makefile expat/xmltok/Makefile expat/xmlparse/Makefile examples/Makefile vmm/Makefile, echo timestamp > stamp-h)
