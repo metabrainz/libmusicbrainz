@@ -420,23 +420,65 @@ bool MusicBrainz::SelectXMLResult(int index)
     return true;
 }
 
+const string MusicBrainz::EscapeArg(const string &arg)
+{
+    string            text;
+    string::size_type pos;
+
+    text = arg;
+
+    pos = text.find("&", 0);
+    for(;;)
+    {
+       pos = text.find("&", pos);
+       if (pos != string::npos)
+           text.replace(pos, 1, string("&amp;"));
+       else
+           break;
+       pos++;
+    }
+
+    pos = text.find("<", 0);
+    for(;;)
+    {
+       pos = text.find("<", pos);
+       if (pos != string::npos)
+           text.replace(pos, 1, string("&lt;"));
+       else
+           break;
+    }
+    pos = text.find(">", 0);
+    for(;;)
+    {
+       pos = text.find(">", pos);
+       if (pos != string::npos)
+           text.replace(pos, 1, string("&gt;"));
+       else
+           break;
+    }
+
+    return text;
+}
+
 void MusicBrainz::SubstituteArgs(string &xml, vector<string> *args)
 {
     vector<string>::iterator i;
     string::size_type        pos;
     char                     replace[100];
     int                      j;
+    string                   arg;
 
     if (args == NULL)
        return;
 
     for(i = args->begin(), j = 1; i != args->end(); i++, j++)
     {
+        arg = EscapeArg(*i);
         sprintf(replace, "@%d@", j); 
         pos = xml.find(string(replace), 0);
         if (pos != string::npos)
         {
-            xml.replace(pos, strlen(replace), *i);
+            xml.replace(pos, strlen(replace), arg);
         }
     }
     for(;; j++)
