@@ -2,7 +2,7 @@ package MusicBrainz::Queries;
 
 # $Id$
 
-use 5.6.1;
+use 5.006_001; 
 use strict;
 use warnings;
 use Carp;
