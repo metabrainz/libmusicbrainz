@@ -105,6 +105,13 @@ void RDFExtract::StatementHandler(RDF_SubjectType subject_type,
     statement.subjectType = subject_type;
     statement.objectType = object_type;
 
+#ifdef DEBUG
+    printf("%s\n%s\n%s\n\n", 
+       statement.subject.c_str(),
+       statement.predicate.c_str(),
+       statement.object.c_str());
+#endif
+
     triples.push_back(statement);
 }
 
@@ -182,6 +189,7 @@ const string &RDFExtract::Extract(const string &startURI,
                  printf("   pred: %s\n", (*i).predicate.c_str());
           }
 #endif
+          //printf("Subject: '%s'\n", (*i).subject.c_str());
           if ((*i).subject == currentURI && 
              ((*i).predicate == *(predicateList.begin()) ||
              ((*i).ordinal > 0 && (*i).ordinal == *(ordinalList->begin()))))

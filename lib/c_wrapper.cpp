@@ -182,6 +182,7 @@ int mb_GetResultData(musicbrainz_t o, char *resultName,
     if (o == NULL)
        return 0;
 
+    *data = 0;
     value = obj->Data(string(resultName));
     if (value.length() == 0)
        return 0;
@@ -201,6 +202,7 @@ int mb_GetResultData1(musicbrainz_t o, char *resultName,
     if (o == NULL)
        return 0;
 
+    *data = 0;
     value = obj->Data(string(resultName), ordinal);
     if (value.length() == 0)
        return 0;

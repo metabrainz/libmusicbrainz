@@ -32,7 +32,7 @@ int main(void)
     int         numTracks, trackNum;
  
     // Set the server you want to use. Defaults to www.musicbrainz.org:80
-    //o.SetServer(string("www.musicbrainz.org"), 80);
+    //o.SetServer(string("musicbrainz.eorbit.net"), 80);
 
     // If you need to use a proxy, uncomment/edit the following line
     // as appropriate
