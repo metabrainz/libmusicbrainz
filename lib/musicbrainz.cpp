@@ -644,18 +644,18 @@ void MusicBrainz::SetError(Error ret)
 // Bitizi community metadatabase.
 bool MusicBrainz::CalculateBitprint(const string &fileName, BitprintInfo *info) 
 {
+    Bitcollider           *bc;
     BitcolliderSubmission *sub;
-    char                  *ptr;
 
-    sub = create_submission();
+    bc = bitcollider_init(0);
+    if (!bc)
+        return false;
+
+    sub = create_submission(bc);
     if (sub == NULL)
        return false;
 
-    ptr = strrchr(fileName.c_str(), '.');
-    if (ptr && strcasecmp(ptr, ".mp3") == 0)
-       set_mp3_check(sub, 1);
-
-    if (!analyze_file(sub, fileName.c_str()))
+    if (!analyze_file(sub, fileName.c_str(), false))
        return false;
 
     strncpy(info->filename, fileName.c_str(), 255);
@@ -678,6 +678,7 @@ bool MusicBrainz::CalculateBitprint(const string &fileName, BitprintInfo *info)
            info->vbr = 0;
     }
     delete_submission(sub);
+    bitcollider_shutdown(bc);
 
     return true;
 }
