@@ -2,7 +2,7 @@
 
    MusicBrainz -- The Internet music metadatabase
 
-   Copyright (C) 2000 Robert Kaye
+   Copyright (C) 2000 Robert Kaye, Johan Pouwelse
    
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
@@ -33,19 +33,19 @@ int main(void)
     vector<string> args;
 
     // Set the server you want to use. Defaults to www.musicbrainz.org:80
-    o.SetServer(string("www.musicbrainz.org"), 80);
+    o.SetServer(string("localhost"), 80);
 
     // Tell the client library to return data in ISO8859-1 and not UTF-8
     o.UseUTF8(false);
 
     // The string below needs to be a valid track id for this example
     // to work!
-    args.push_back("00000003@fuss@39A6F490");
+    args.push_back("00000005@camry@39FBE6D0");
 
     // Execute the GetCDInfo query, which pull the TOC from the 
     // audio CD in the cd-rom drive, calculate the disk id and the
     // request the data from the server
-    ret = o.Query(string(MB_GetLyricsById), &args);
+    ret = o.Query(string(MB_GetSyncTextById), &args);
     if (!ret)
     {
          o.GetQueryError(error);
@@ -67,27 +67,33 @@ int main(void)
     printf("Artist: '%s'\n", o.Data(MB_GetArtistName).c_str());
     printf("Title: '%s'\n", o.Data(MB_GetTrackName).c_str());
 
+    o.Select(MB_SelectSyncTextAlbum);
+    printf("Album: '%s'\n", o.Data(MB_GetAlbumName).c_str());
+
     // Now select the lyric information
-    o.Select(MB_SelectLyricInfo);
+    o.Select(MB_SelectFirstSyncText);
+    while(1) {
+       if (!o.DoesResultExist(MB_GetSyncTextType))
+          break;
+       // Now get and print the title of the cd
+       printf("Submitted By: '%s'\n", o.Data(MB_GetSyncTextSubmittor).c_str());
+       printf("Submitted Date: '%s'\n", o.Data(MB_GetSyncTextSubmitDate).c_str());
+       printf("Submitted Type: '%s'\n", o.Data(MB_GetSyncTextType).c_str());
 
-    // Now get and print the title of the cd
-    printf("Submitted By: '%s'\n", o.Data(MB_GetLyricSubmittor).c_str());
-    printf("Submitted Date: '%s'\n", o.Data(MB_GetLyricSubmitDate).c_str());
-    printf("Submitted Type: '%s'\n", o.Data(MB_GetLyricType).c_str());
+       // Now select the first sync event data item
+       o.Select(MB_SelectFirstSyncEvent);
+       while(1) {
+          if (!o.DoesResultExist(MB_GetSyncTextText))
+             break;
 
-    // Now select the first sync event data item
-    o.Select(MB_SelectFirstSyncEvent);
-    while(1)
-    {
-         if (!o.DoesResultExist(MB_GetLyricText))
-            break;
+          printf("@ %d: '%s'\n", 
+             o.DataInt(MB_GetSyncTextTimestamp),
+             o.Data(MB_GetSyncTextText).c_str());
 
-         printf("@ %d: '%s'\n", 
-             o.DataInt(MB_GetLyricTimestamp),
-             o.Data(MB_GetLyricText).c_str());
-
-         // Now move on to the next track
-         o.Select(MB_SelectNextSyncEvent);
+          // Now move on to the next track
+          o.Select(MB_SelectNextSyncEvent);
+       }
+       o.Select(MB_SelectNextSyncText);
     }
     return 0;
 }

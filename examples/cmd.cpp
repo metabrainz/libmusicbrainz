@@ -34,10 +34,10 @@ struct Queries
 
 const char *SUBMIT_LYRICS_QUERY=
 "   <MQ:Query>SubmitTrack</MQ:Query>\n"
-"    <DC:Title>Big Time</DC:Title>\n"
-"    <DC:Creator>Peter Gabriel</DC:Creator>\n"
-"    <MM:Album>So</MM:Album>\n"
-"    <DC:Relation track=\"7\"/>\n"
+"    <DC:Title>Big Time TWO</DC:Title>\n"
+"    <DC:Creator>Peter another Gabriel</DC:Creator>\n"
+"    <MM:Album>So des ca</MM:Album>\n"
+"    <DC:Relation track=\"9\"/>\n"
 "    <MM:SyncEvents>\n"
 //"       <rdf:Description about=\"http://usenet4free.com?grp=alt.music.lyrics&art=26819\">\n"
 "       <rdf:Description>\n"
@@ -101,6 +101,8 @@ Queries queries[] =
       1, "Artist ID", "", "", "" },
     { "GetTrack",               MB_GetTrackById ,
       1, "Track ID", "", "", "" },
+    { "GetSyncText",            MB_GetSyncTextById ,
+      1, "Track ID", "", "", "" },
     { "GetLyrics",              MB_GetLyricsById ,
       1, "Track ID", "", "", "" },
     { "GetCDInfo",              MB_GetCDInfo ,
@@ -124,8 +126,8 @@ int main(void)
     vector<string> args;
 
     // Set the server you want to use. Defaults to www.musicbrainz.org:80
-    //server = string("musicbrainz.eorbit.net");
-    //o.SetServer(server, 80);
+    server = string("localhost");
+    o.SetServer(server, 80);
 
     // Tell the client library to return data in ISO8859-1 and not UTF-8
     o.UseUTF8(0);
