@@ -45,6 +45,9 @@ const int iNumSamplesNeeded = 288000;
    typedef long long llong;
 #endif
 
+char silenceTRM[] = { 0x7d, 0x15, 0x4f, 0x52, 0xb5, 0x36, 0x4f, 0xae, 
+                      0xb5, 0x8b, 0x06, 0x66, 0x82, 0x6c, 0x2b, 0xac, 0x00 };
+
 TRM::TRM(void)
 {
     m_downmixBuffer = NULL;
@@ -440,12 +443,7 @@ int TRM::FinalizeSignature(string &strGUID, string &collID)
 {
     if (m_numBytesWritten < 2)
     {
-        SigXDR conv;
-        char   buffer[64];
-
-        memset(buffer, 0xFF, 64);
-        strGUID = conv.ToStrGUID(buffer, 64);
-
+        strGUID = string(silenceTRM);
         return 0;
     }
 
@@ -797,6 +795,7 @@ int TRM::FinalizeSignature(string &strGUID, string &collID)
         collID = "EMPTY_COLLECTION";
 
     int ret = sigClient->GetSignature(signature, strGUID, collID);
+    printf("ret: %d\n", ret);
 
     delete wavelet;
     delete pFFT;
