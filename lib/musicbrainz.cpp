@@ -656,18 +656,21 @@ bool MusicBrainz::CalculateBitprint(const string &fileName, BitprintInfo *info)
     strncpy(info->bitprint, get_attribute(sub, "bitprint"), MB_BITPRINTSIZE);
     strncpy(info->first20, 
             get_attribute(sub, "tag.file.first20"), MB_FIRST20SIZE);
-    strncpy(info->audioSha1, 
-            get_attribute(sub, "tag.mp3.audio_sha1"), MB_SHA1SIZE);
     info->length = atoi(get_attribute(sub, "tag.file.length"));
-    info->duration = atoi(get_attribute(sub, "tag.mp3.duration"));
-    info->samplerate = atoi(get_attribute(sub, "tag.mp3.samplerate"));
-    info->bitrate = atoi(get_attribute(sub, "tag.mp3.bitrate"));
-    info->stereo = strcmp(get_attribute(sub, "tag.mp3.stereo"), "y") == 0;
-    if (get_attribute(sub, "tag.mp3.vbr"))
-       info->vbr = strcmp(get_attribute(sub, "tag.mp3.vbr"), "y") == 0;
-    else
-       info->vbr = 0;
 
+    if (info->audioSha1[0])
+    {
+        strncpy(info->audioSha1, 
+            get_attribute(sub, "tag.mp3.audio_sha1"), MB_SHA1SIZE);
+        info->duration = atoi(get_attribute(sub, "tag.mp3.duration"));
+        info->samplerate = atoi(get_attribute(sub, "tag.mp3.samplerate"));
+        info->bitrate = atoi(get_attribute(sub, "tag.mp3.bitrate"));
+        info->stereo = strcmp(get_attribute(sub, "tag.mp3.stereo"), "y") == 0;
+        if (get_attribute(sub, "tag.mp3.vbr"))
+           info->vbr = strcmp(get_attribute(sub, "tag.mp3.vbr"), "y") == 0;
+        else
+           info->vbr = 0;
+    }
     delete_submission(sub);
 
     return true;
