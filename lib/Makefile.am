@@ -47,7 +47,7 @@ nodist_libmusicbrainz_la_SOURCES = mb.cpp
 #  6. If any interfaces have been removed since the last public release, then 
 #     set age to 0. 
 libmusicbrainz_la_LDFLAGS = -version-info 4:0:0
-libmusicbrainz_la_LIBADD = @EXPAT_LIBS@ -licudata -licuuc
+libmusicbrainz_la_LIBADD = @EXPAT_LIBS@ @ICU_LIBS@
 
 noinst_HEADERS = \
   audiosig.h base64.h comhttpsocket.h comsocket.h \
