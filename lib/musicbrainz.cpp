@@ -445,11 +445,11 @@ bool MusicBrainz::Select(const string &query, list<int> *ordinalList)
     if (m_rdf == NULL)
        return false;
 
-    if (query == string(MBS_Reset))
-    {
-        m_currentURI = m_baseURI;
-        return true;
-    }
+    //if (query == string(MBS_Reset))
+    //{
+    //    m_currentURI = m_baseURI;
+    //    return true;
+    //}
     
     newURI = m_rdf->Extract(m_currentURI, query, ordinalList);
     if (newURI.length() == 0)
@@ -566,19 +566,22 @@ void MusicBrainz::SubstituteArgs(string &rdf, vector<string> *args)
             pos = rdf.find(string(replace), 0);
             if (pos != string::npos)
             {
-                rdf.replace(pos, strlen(replace), arg);
+                if (arg.length() == 0)
+                   rdf.replace(pos, strlen(replace), string("__NULL__"));
+                else
+                   rdf.replace(pos, strlen(replace), arg);
             }
         }
     }
     // If there are fewer args passed than are in the rdf, then
-    // delete the remaining substitute tokens.
+    // replace the remaining tokens with a NULL specifier.
     for(;; j++)
     {
         sprintf(replace, "@%d@", j); 
         pos = rdf.find(string(replace), 0);
         if (pos != string::npos)
         {
-            rdf.replace(pos, strlen(replace), "");
+            rdf.replace(pos, strlen(replace), "__NULL__");
         }
         else
             break;

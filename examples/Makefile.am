@@ -22,7 +22,7 @@
 
 INCLUDES = -I$(top_srcdir)/lib
 
-noinst_PROGRAMS = c_example cpp_example cmd lyric_example mbtest rdf
+noinst_PROGRAMS = c_example cpp_example cmd 
 c_example_SOURCES = c_example.c
 c_example_LDADD = $(top_builddir)/lib/.libs/libmusicbrainz.a -lstdc++ -lm
 
@@ -32,11 +32,3 @@ cpp_example_LDADD = $(top_builddir)/lib/.libs/libmusicbrainz.a
 cmd_SOURCES = cmd.cpp
 cmd_LDADD = $(top_builddir)/lib/libmusicbrainz.la
 
-lyric_example_SOURCES = lyric_example.cpp
-lyric_example_LDADD = $(top_builddir)/lib/.libs/libmusicbrainz.a
-
-mbtest_SOURCES = mbtest.cpp
-mbtest_LDADD = $(top_builddir)/lib/.libs/libmusicbrainz.a
-
-rdf_SOURCES = rdf.cpp
-rdf_LDADD = $(top_builddir)/lib/.libs/libmusicbrainz.a

@@ -36,7 +36,6 @@
 // as specified by the predicate list. The URI of the new node, will be
 // saved as the 'selected context'. Once a context has been selected,
 // you can use the MBE_ queries below to extract metadata out of a context.
-#define MBS_Reset "[reset]"
 #define MBS_SelectArtist           "http://musicbrainz.org/MM/artistList []"
 #define MBS_SelectAlbum            "http://musicbrainz.org/mm/mm-2.0#albumList []"
 #define MBS_SelectTrack            "http://musicbrainz.org/mm/mm-2.0#trackList []"
