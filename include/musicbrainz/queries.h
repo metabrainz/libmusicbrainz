@@ -416,6 +416,22 @@
         "http://musicbrainz.org/mm/mm-2.0#toc [] http://musicbrainz.org/mm/mm-2.0#numSectors"
 
 /* -------------------------------------------------------------------------
+ * Extract queries for the MBQ_AuthenticateQuery query
+ * -------------------------------------------------------------------------
+ */
+/**
+ * return the Session Id from the Auth Query. This query will be used 
+ * internally by the client library.
+ */
+#define MBE_AuthGetSessionId  "http://musicbrainz.org/mm/mq-1.0#sessionId"
+
+/**
+ * return the Auth Challenge data from the Auth Query This query will be used 
+ * internally by the client library.
+ */
+#define MBE_AuthGetChallenge  "http://musicbrainz.org/mm/mq-1.0#authChallenge"
+
+/* -------------------------------------------------------------------------
  * Local queries (queries are automatically generated)
  * -------------------------------------------------------------------------
  */
@@ -442,9 +458,25 @@
         "@CDINFOASSOCIATECD@"
 
 /* -------------------------------------------------------------------------
- * Server queries (queries must have argument substituted in them)
+ * Server queries (queries must have argument(s) substituted in them)
  * -------------------------------------------------------------------------
  */
+
+/**
+ * This query is use to start an authenticated session with the MB server.
+ * The username is sent to the server, and the server responds with 
+ * session id and a challenge sequence that the client needs to use to create 
+ * a session key. The session key and session id need to be provided with
+ * the MBQ_SubmitXXXX functions in order to give moderators/users credit
+ * for their submissions. This query will be carried out by the client
+ * libary automatically -- you should not need to use it.
+ * @param username -- the name of the user who would like to submit data.
+ */
+#define MBQ_Authenticate \
+    "<mq:AuthenticateQuery>\n" \
+    "   <mq:username>@1@</mq:username>\n" \
+    "</mq:AuthenticateQuery>\n" 
+
 /**
  * Use this query to return an albumList for the given CD Index Id
  * @param cdindexId The cdindex id to look up at the remote server.
@@ -655,6 +687,8 @@
     "   <mm:genre>@8@</mm:genre>\n" \
     "   <dc:description>@9@</dc:description>\n" \
     "   <mm:link>@10@</mm:link>\n" \
+    "   <mq:sessionId>@SESSID@</mq:sessionId>\n" \
+    "   <mq:sessionKey>@SESSKEY@</mq:sessionKey>\n" \
     "</mq:SubmitTrack>\n" 
 
 /** 
@@ -671,6 +705,8 @@
     "<mq:SubmitTrackTRMId>\n" \
     "   <mm:trackid>@1@</mm:trackid>\n" \
     "   <mm:trmid>@2@</mm:trmid>\n" \
-    "</mq:SubmitTrackTRMId>\n" 
+    "   <mq:sessionId>@SESSID@</mq:sessionId>\n" \
+    "   <mq:sessionKey>@SESSKEY@</mq:sessionKey>\n" \
+    "</mq:SubmitTrackTRMId>\n"  \
 
 #endif

@@ -113,6 +113,20 @@ void      mb_WSAStop           (musicbrainz_t o);
 #endif 
 
 /**
+ * This function must be called if you want to submit data to the server
+ * and give the user credit for the submission. If you're looking up
+ * data from the server, you do not need to call mb_Authenticate.
+ * If you are submitting data to the MB server and you want your submissions
+ * be submitted anonymously, then do not call this function.
+ * @param o the musicbrainz_t object returned from mb_New()
+ * @param userName the name of the user
+ * @param password the plaintext password of the user.
+ * @return returns true if the server authentication was correctly
+ *         initiated.
+ */
+int mb_Authenticate(musicbrainz_t o, char *userName, char *password);
+
+/**
  * Call this function to set the CD-ROM drive device if you plan to use
  * the client library to identify and look up CD-ROMs using MusicBrainz.
  * @a Unix: specify a device such as /dev/cdrom. Defaults to /dev/cdrom
