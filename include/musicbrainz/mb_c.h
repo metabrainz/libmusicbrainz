@@ -50,4 +50,10 @@ int       mb_GetResultRDF      (musicbrainz_t o, char *xml, int maxXMLLen);
 int       mb_GetResultRDFLen   (musicbrainz_t o);
 int       mb_GetNumItems       (musicbrainz_t o);
 
+void      mb_SetPCMData        (musicbrainz_t o, int samplesPerSecond, 
+		                int numChannels, int bitsPerSample);
+int       mb_GenerateSignature (musicbrainz_t o, char *data, int size,
+		                char **signature, char *collectionID);
+void      mb_GenerateSignatureNow(musicbrainz_t o, char **signature,
+		                  char *collectionID);
 #endif

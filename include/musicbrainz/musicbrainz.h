@@ -32,6 +32,10 @@
 
 using namespace std;
 
+const int iFFTPoints = 32;
+const int iNumSamplesNeeded = 288000;
+const int iMaxFFTs = 9000;
+
 class XQL;
 class MusicBrainz
 {
@@ -59,6 +63,13 @@ class MusicBrainz
        const string &Data      (const string &resultName, int Index = -1);
        int           DataInt   (const string &resultName, int Index = -1);
 
+       
+       void  SetPCMDataInfo    (int samplesPerSecond, int numChannels,
+		                int bitsPerSample);
+       bool  GenerateSignature (char *data, int size, string &strGUID, 
+		                string &collID);
+       void  GenerateSignatureNow(string &strGUID, string &collID);
+        
     private:
 
        void     SubstituteArgs(string &xml, vector<string> *args);
@@ -76,6 +87,14 @@ class MusicBrainz
        int             m_xmlIndex, m_numItems;
        XQL            *m_xql;
        vector<int>     m_indexes;
+
+       int             m_bits_per_sample;
+       int             m_samples_per_second;
+       int             m_number_of_channels;
+       int             m_downmix_size;
+       int             m_finishedFFTs;
+       unsigned char  *m_downmixBuffer;
+       int             m_numSamplesWritten;
 };
 
 #endif
