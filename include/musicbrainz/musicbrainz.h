@@ -54,6 +54,9 @@ class MusicBrainz
        EXPORT bool     SetProxy         (const string &proxyAddr, 
                                          short proxyPort);
 
+       EXPORT bool     Authenticate     (const string &userName,
+                                         const string &password);
+
        EXPORT bool     SetDevice        (const string &device);
        EXPORT bool     SetDepth         (int depth);
        EXPORT void     UseUTF8          (bool bUse) { m_useUTF8 = bUse; };
@@ -96,12 +99,16 @@ class MusicBrainz
 
        const string EscapeArg(const string &xml);
        void         SubstituteArgs(string &xml, vector<string> *args);
+       void         ReplaceArg(string &rdf, const string &from, 
+                               const string &to);
+       void         ReplaceIntArg(string &rdf, const string &from, int to);
        void         SetError(Error ret);
        void         MakeRDFQuery(string &rdf);
 
        vector<string>  m_contextHistory;
        string          m_error, m_empty; 
        string          m_server, m_proxy;
+       string          m_sessionKey, m_sessionId;
        short           m_serverPort, m_proxyPort;
        string          m_device, m_currentURI, m_baseURI, m_response; 
        RDFExtract     *m_rdf;

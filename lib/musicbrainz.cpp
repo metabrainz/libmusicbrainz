@@ -109,6 +109,62 @@ void MusicBrainz::SetDebug(bool debug)
     m_debug = debug;
 }
 
+// Start the authentication process. Contact the server and send the
+// username to the server. The server will respond with authChallenge
+// data and a sessionId. The authChallenge will need to get hashed into
+// an authorization key, and that key and the session id will need to
+// be sent to the server to get credit for a submission.
+bool MusicBrainz::Authenticate(const string &userName, const string &password)
+{
+    bool ret;
+    vector<string> args;
+    string         authChallenge;
+    SHA_INFO       context;
+    unsigned char  digest[20];
+    char           sessionKey[41]; 
+
+    m_sessionId = string("");
+    m_sessionKey = string("");
+
+    args.push_back(userName);
+    ret = Query(string(MBQ_Authenticate), &args);
+    if (!ret)
+    {
+         string error;
+
+         GetQueryError(error);
+         printf("Authenticate: query failed: %s\n", error.c_str());
+         return false;
+    }
+
+    m_sessionId = Data(MBE_AuthGetSessionId);
+    authChallenge = Data(MBE_AuthGetChallenge);
+    if (m_sessionId.length() == 0 || authChallenge.length() == 0)
+    {
+         m_sessionId = string("");
+         m_sessionKey = string("");
+
+         m_error = "The server did not return a session id an auth challenge."
+                   "Make sure the username is valid.";
+         return false;
+    }
+
+    sha_init(&context);
+    sha_update(&context, (SHA_BYTE *)authChallenge.c_str(), 
+                         authChallenge.length());
+    sha_update(&context, (SHA_BYTE *)userName.c_str(), 
+                         userName.length());
+    sha_update(&context, (SHA_BYTE *)password.c_str(), 
+                         password.length());
+    sha_final((unsigned char *)&digest, &context);
+
+    for(int i = 0; i < 20; i++)
+        sprintf(sessionKey + (i * sizeof(char) * 2), "%02x", digest[i] & 0xFF);
+    m_sessionKey = string(sessionKey);
+
+    return true;
+}
+
 // Set the depth for the queries. The depth of a query determines the
 // number of levels of information are returned from the server.
 bool MusicBrainz::SetDepth(int depth)
@@ -577,15 +633,38 @@ void MusicBrainz::SubstituteArgs(string &rdf, vector<string> *args)
             break;
     }
 
-    // Replace any depth place holders with the current depth value
+    ReplaceIntArg(rdf, "@DEPTH@", m_depth);
+    ReplaceArg(rdf, "@SESSID@", m_sessionId);
+    ReplaceArg(rdf, "@SESSKEY@", m_sessionKey);
+}
+
+void MusicBrainz::ReplaceArg(string &rdf, const string &from, const string &to)
+{
+    string::size_type        pos;
     for(;;)
     {
-        strcpy(replace, "@DEPTH@"); 
-        pos = rdf.find(string(replace), 0);
+        pos = rdf.find(from, 0);
         if (pos != string::npos)
         {
-            sprintf(replace, "%d", m_depth);
-            rdf.replace(pos, 7, string(replace));
+            rdf.replace(pos, from.length(), to);
+        }
+        else
+            break;
+    }
+}
+
+void MusicBrainz::ReplaceIntArg(string &rdf, const string &from, int to)
+{
+    char              replace[10];
+    string::size_type pos;
+
+    for(;;)
+    {
+        pos = rdf.find(from, 0);
+        if (pos != string::npos)
+        {
+            sprintf(replace, "%d", to);
+            rdf.replace(pos, from.length(), string(replace));
         }
         else
             break;

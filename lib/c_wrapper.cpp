@@ -70,6 +70,15 @@ int mb_SetProxy(musicbrainz_t o,char *proxyAddr, short proxyPort)
     return (int)obj->SetProxy(addr, proxyPort);
 }
 
+int mb_Authenticate(musicbrainz_t o, char *userName, char *password)
+{
+    MusicBrainz *obj = (MusicBrainz *)o;
+    if (o == NULL)
+       return 0;
+
+    return (int)obj->Authenticate(userName, password);
+}
+
 int mb_SetDevice(musicbrainz_t o, char *device)
 {
     MusicBrainz *obj = (MusicBrainz *)o;
