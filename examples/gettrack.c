@@ -76,37 +76,44 @@ int main(int argc, char *argv[])
     mb_Select1(o, MBS_SelectTrack, 1);  
 
     // Extract the track name
-    mb_GetResultData(o, MBE_TrackGetTrackName, data, 256);
-    printf("     Track: '%s'\n", data);
+    if (mb_GetResultData(o, MBE_TrackGetTrackName, data, 256))
+       printf("     Track: '%s'\n", data);
 
     // Extract the track id
-    mb_GetResultData(o, MBE_TrackGetTrackId, data, 256);
-    mb_GetIDFromURL(o, data, temp, 256);
-    printf("   TrackId: '%s'\n", temp);
+    if (mb_GetResultData(o, MBE_TrackGetTrackId, data, 256))
+    {
+       mb_GetIDFromURL(o, data, temp, 256);
+       printf("   TrackId: '%s'\n", temp);
+    }
 
     // Extract the track number
     trackNum = mb_GetResultInt(o, MBE_TrackGetTrackNum);
-    printf("  TrackNum: %d\n", trackNum);
+    if (trackNum > 0 && trackNum < 100)
+       printf("  TrackNum: %d\n", trackNum);
 
     // Extract the artist name from the track
-    mb_GetResultData(o, MBE_TrackGetArtistName, data, 256);
-    printf("    Artist: '%s'\n", data);
+    if (mb_GetResultData(o, MBE_TrackGetArtistName, data, 256))
+       printf("    Artist: '%s'\n", data);
 
     // Extract the artist id from the track
-    mb_GetResultData(o, MBE_TrackGetArtistId, data, 256);
-    mb_GetIDFromURL(o, data, temp, 256);
-    printf("  ArtistId: '%s'\n", temp);
+    if (mb_GetResultData(o, MBE_TrackGetArtistId, data, 256))
+    {
+       mb_GetIDFromURL(o, data, temp, 256);
+       printf("  ArtistId: '%s'\n", temp);
+    }
 
     // Extract the album name from the track. Just use the
     // first album that this track appears on
-    mb_GetResultData1(o, MBE_TrackGetAlbumName, data, 256, 1);
-    printf("     Album: '%s'\n", temp);
+    if (mb_GetResultData1(o, MBE_TrackGetAlbumName, data, 256, 1))
+       printf("     Album: '%s'\n", temp);
 
     // Extract the album id from the track. Just use the
     // first album that this track appears on
-    mb_GetResultData1(o, MBE_TrackGetAlbumId, data, 256, 1);
-    mb_GetIDFromURL(o, data, temp, 256);
-    printf("   AlbumId: '%s'\n", temp);
+    if (mb_GetResultData1(o, MBE_TrackGetAlbumId, data, 256, 1))
+    {
+       mb_GetIDFromURL(o, data, temp, 256);
+       printf("   AlbumId: '%s'\n", temp);
+    }
 
     // and clean up the musicbrainz object
     mb_Delete(o);
