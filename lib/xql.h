@@ -43,7 +43,7 @@ class XQL : public MBParse
 {
     public:
 
-               XQL(void);
+               XQL(bool useUTF8);
       virtual ~XQL(void);
 
       const string &Query(const string &oKey);

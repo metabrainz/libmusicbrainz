@@ -47,6 +47,7 @@ class MusicBrainz
        bool     SetServer      (const string &serverAddr, short serverPort);
        bool     SetProxy       (const string &proxyAddr, short proxyPort);
        bool     SetDevice      (const string &device);
+       void     UseUTF8        (bool bUse) { m_useUTF8 = bUse; };
 
        bool     Query          (const string &xmlObject, 
                                 vector<string> *args = NULL);
@@ -91,6 +92,7 @@ class MusicBrainz
        int             m_xmlIndex, m_numItems;
        XQL            *m_xql;
        vector<int>     m_indexes;
+       bool            m_useUTF8;
 
        int             m_bits_per_sample;
        int             m_samples_per_second;

@@ -42,17 +42,20 @@ using namespace std;
 
 typedef map<string, string > AttrMap;
 
+const string ConvertToISO(const char *utf8);
+
 class MBParse
 {
     public:
 
-               MBParse(void);
+               MBParse(bool useUTF8);
       virtual ~MBParse(void);
 
       Error    ParseFile(const string &oFile);
       Error    ParseString(const string &oXML);
       void     GetErrorString(string &oError);
       int      GetErrorLine(void);
+      bool     UseUTF8(void) { return m_useUTF8; };
 
       virtual Error BeginElement(const string &oElement, AttrMap &oAttrMap)=0; 
       virtual Error EndElement(const string &oElement) = 0;
@@ -60,7 +63,9 @@ class MBParse
 
     protected:
 
+
       XML_Parser   *m_pParser;
+      bool          m_useUTF8;
 };
 
 #endif
