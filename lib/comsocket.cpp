@@ -29,6 +29,7 @@ ____________________________________________________________________________*/
     email                : sward@relatable.com
  ***************************************************************************/
 
+#include "config.h"
 
 #include "comsocket.h"
 #ifndef WIN32
@@ -368,11 +369,8 @@ int MBCOMSocket::NBConnect(const char* pIP, int nPort, int nType, int nTimeout)
 &wset))
 		{
 			int error = 0;
-#if defined(__sgi)
-                        int len = sizeof(error);
-#else
-			unsigned int len = sizeof(error);
-#endif
+                        mb_socklen_t len = sizeof(error);
+
 		if (getsockopt(m_nSocket, SOL_SOCKET, SO_ERROR, &error,
 &len) < 0)
 		{	
