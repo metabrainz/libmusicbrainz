@@ -85,7 +85,7 @@ void MusicBrainz::DownmixPCM(void)
    long int numsamps = 0;
    int lDC = 0, rDC = 0;
    signed short lsample, rsample;
-   unsigned char ls, rs;
+   unsigned char ls;
    int readpos = 0;
    
    if (m_bits_per_sample == 16) {
@@ -331,6 +331,6 @@ void MusicBrainz::GenerateSignatureNow(string &strGUID, string &collID)
 
 void MusicBrainz::ConvertSigToASCII(char sig[17], char ascii_sig[37])
 {
-    uuid_ascii((uuid_t1)sig, ascii_sig);
+    uuid_ascii((unsigned char *)sig, ascii_sig);
 }
 
