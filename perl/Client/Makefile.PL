@@ -33,7 +33,7 @@ WriteMakefile(
 
     'LIBS'		=> ['-L/usr/local/lib -lstdc++ -lm -lmusicbrainz'], 
     'DEFINE'		=> '', # e.g., '-DHAVE_SOMETHING'
-    'CCFLAGS'           => '-Wall',
+    'CCFLAGS'           => '',
     'INC'		=> '-I/usr/local/include -I.',
     'dist'		=> {
 	COMPRESS	=> 'gzip -9f',
