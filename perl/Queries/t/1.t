@@ -40,7 +40,7 @@ foreach my $constname (qw(
 	MBS_SelectLookupResult MBS_SelectLookupResultAlbum
 	MBS_SelectLookupResultArtist MBS_SelectLookupResultTrack
 	MBS_SelectTrack MBS_SelectTrackAlbum MBS_SelectTrackArtist
-	MBS_SelectTrmid THIS_IS_BROKEN)) {
+	MBS_SelectTrmid)) {
   next if (eval "my \$a = $constname; 1");
   if ($@ =~ /^Your vendor has not defined MusicBrainz::Queries macro $constname/) {
     print "# pass: $@";
