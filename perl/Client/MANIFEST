@@ -1,0 +1,15 @@
+# $Id$
+Changes
+Client.pm
+Client.xs
+MANIFEST
+Makefile.PL
+README
+ppport.h
+t/1.t
+t/findalbum.t
+t/findartist.t
+t/findtrack.t
+t/getalbum.t
+t/getartist.t
+typemap
