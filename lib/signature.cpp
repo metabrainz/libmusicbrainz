@@ -52,7 +52,6 @@ void MusicBrainz::SetPCMDataInfo(int samplesPerSecond, int numChannels,
     mult *= (m_number_of_channels);
     mult = ceil(mult);
 
-cout << m_samples_per_second << " " << m_bits_per_sample << " " << m_number_of_channels << endl;
     m_numRealSamplesWritten = 0;
     m_numRealSamplesNeeded = iNumSamplesNeeded * (int)mult;
     m_storeBuffer = new char[m_numRealSamplesNeeded + 20];
@@ -102,9 +101,6 @@ void MusicBrainz::DownmixPCM(void)
            lDC = -(lsum / numsamps);
            rDC = -(rsum / numsamps);
 
-           cout << "left offset " << lDC << endl;
-           cout << "right offset " << rDC << endl;
-
            readpos = 0;
            while (readpos < (m_numRealSamplesWritten / 2)) {
                ((signed short *)m_storeBuffer)[readpos] = 
@@ -125,8 +121,6 @@ void MusicBrainz::DownmixPCM(void)
 
            lDC = -(lsum / numsamps);
  
-           cout << "offset " << lDC << endl;
-
            readpos = 0;
            while (readpos < m_numRealSamplesWritten / 2) {
                ((signed short *)m_storeBuffer)[readpos] =
@@ -148,9 +142,6 @@ void MusicBrainz::DownmixPCM(void)
            lDC = -(lsum / numsamps);
            rDC = -(rsum / numsamps);
 
-           cout << "left offset " << lDC << endl;
-           cout << "right offset " << rDC << endl;
-
            readpos = 0;
            while (readpos < (m_numRealSamplesWritten)) {
                ((char *)m_storeBuffer)[readpos] =
@@ -170,8 +161,6 @@ void MusicBrainz::DownmixPCM(void)
            }
 
            lDC = -(lsum / numsamps);
-
-           cout << "offset " << lDC << endl;
 
            readpos = 0;
            while (readpos < m_numRealSamplesWritten / 2) {
@@ -319,9 +308,9 @@ void MusicBrainz::GenerateSignatureNow(string &strGUID, string &collID)
     AudioSig *signature = new AudioSig(fEnergy, fAverageZeroCrossing,
                                        fLength, iSpectrum);
 
-cout << fEnergy << endl << fAverageZeroCrossing << endl << fLength << endl;
-for (int q = 0; q < 32; q++)
-  cout << iSpectrum[q] << endl;
+//cout << fEnergy << endl << fAverageZeroCrossing << endl << fLength << endl;
+//for (int q = 0; q < 32; q++)
+//  cout << iSpectrum[q] << endl;
 
     SigClient *sigClient = new SigClient();
     sigClient->SetAddress("209.249.187.199", 4445);
