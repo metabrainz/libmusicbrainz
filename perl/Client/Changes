@@ -5,6 +5,9 @@ otherwise noted.
 
 $Id$
 
+0.06
+	- Added Win32 support [Tom Heady]
+
 0.05   Sat Feb 22 08:40:08 2003
 	- Test scripts and documentation updates [Tom Heady]
 	- Added Test::More dependency for better tests
