@@ -54,7 +54,7 @@ int main(int argc, char *argv[])
     o = mb_New();
 
     // Set the server you want to use. Defaults to www.musicbrainz.org:80
-    mb_SetServer(o, "musicbrainz.eorbit.net", 80);
+    //mb_SetServer(o, "musicbrainz.eorbit.net", 80);
 
     // If a device was specified on the command line, then pass on 
     if (argc > 1)
