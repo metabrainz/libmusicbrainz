@@ -1,16 +1,10 @@
-MusicBrainz Client Library
---------------------------
+                         MusicBrainz Client Library
+                         --------------------------
 
-Compiling the Client Library Under Window using Visual C++ 6.0:
-===============================================================
+Please refer to the online documentation for information on how to
+use this client library:
 
-Due to numerous bugs/mistakes in microsofts implementation of the STL,
-we switched to using the SGI STL for windows builds.
-
-You can get a MSVC++ 5.0 compatible copy here:
-    http://www.sirius.com/~ouchida/
-
-You can get a MSVC++ 6.0 compatible copy here:
-    http://www.stlport.org
-(Johan: the software and site looks nice, but I was unable to get it running :-( )
-
+        Online HOWTO: http://www.musicbrainz.org/client_howto.html
+         Online Docs: http://www.musicbrainz.org/docs/mb_client/index.html
+     Query Reference: http://www.musicbrainz.org/docs/mb_client/queries_h.html
+  Function Reference: http://www.musicbrainz.org/docs/mb_client/mb_c_h.html
