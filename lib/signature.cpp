@@ -221,6 +221,7 @@ for (int q = 0; q < 32; q++)
 
     sigClient->GetSignature(signature, strGUID, collID);
 
+    delete pFFT;
     delete signature;
     delete sigClient;
 
