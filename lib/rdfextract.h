@@ -50,7 +50,7 @@ class RDFExtract
         virtual ~RDFExtract             (void);
 
         int      GetNumTriples          (void);
-        int      GetTriples             (vector<RDFStatement> *triples);
+        void     GetTriples             (vector<RDFStatement> *triples);
 
         const string &Extract           (const string &startURI,
                                          const string &query,

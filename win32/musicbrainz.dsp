@@ -53,7 +53,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /machine:I386
-# ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib wsock32.lib winmm.lib /nologo /dll /machine:I386
+# ADD LINK32 winmm.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib wsock32.lib comctl32.lib /nologo /dll /machine:I386
 
 !ELSEIF  "$(CFG)" == "musicbrainz - Win32 Debug"
 
@@ -79,7 +79,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /debug /machine:I386 /pdbtype:sept
-# ADD LINK32 winmm.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib wsock32.lib /nologo /dll /debug /machine:I386 /pdbtype:sept
+# ADD LINK32 winmm.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib wsock32.lib comctl32.lib /nologo /dll /debug /machine:I386 /pdbtype:sept
 
 !ENDIF 
 
@@ -132,7 +132,11 @@ SOURCE=..\lib\parse.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\lib\rdfgen.cpp
+SOURCE=..\lib\rdfextract.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\lib\rdfparse.c
 # End Source File
 # Begin Source File
 
@@ -200,7 +204,19 @@ SOURCE=..\expat\xmltok\xmltok.c
 # PROP Default_Filter ""
 # Begin Source File
 
+SOURCE=..\lib\bitzi\dirsearch.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\lib\bitzi\gui_win32.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\lib\bitzi\id3.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\lib\bitzi\list.c
 # End Source File
 # Begin Source File
 
@@ -209,6 +225,10 @@ SOURCE=..\lib\bitzi\main.c
 # Begin Source File
 
 SOURCE=..\lib\bitzi\mp3.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\lib\bitzi\plugin_win32.c
 # End Source File
 # Begin Source File
 

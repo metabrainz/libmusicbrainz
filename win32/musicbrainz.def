@@ -2,28 +2,36 @@ LIBRARY      "musicbrainz"
 DESCRIPTION  'MusicBrainz Client Library'
 
 EXPORTS
-   mb_New
-   mb_Delete         
-   mb_UseUTF8
-   mb_SetServer      
-   mb_SetProxy       
-   mb_WSAInit
-   mb_WSAStop
-   mb_SetDevice      
-   mb_Query          
-   mb_QueryWithArgs  
-   mb_GetWebSubmitURL
-   mb_GetQueryError  
-   mb_Select         
-   mb_DoesResultExist  
-   mb_GetResultData  
-   mb_GetResultInt  
-   mb_GetResultRDF   
-   mb_SetResultRDF   
-   mb_GetResultRDFLen
-   mb_GetNumItems 
-   mb_CalculateBitprint 
-     
+   ; Functions for the queries against a MusicBrainz server  
+   mb_New 
+   mb_Delete            
+   mb_SetServer         
+   mb_SetProxy          
+   mb_WSAInit           
+   mb_WSAStop           
+   mb_SetDevice         
+   mb_UseUTF8           
+   mb_SetDepth          
+   mb_Query             
+   mb_QueryWithArgs     
+   mb_GetWebSubmitURL   
+   mb_GetQueryError     
+   mb_Select            
+   mb_Select1           
+   mb_SelectWithArgs    
+   mb_DoesResultExist   
+   mb_DoesResultExist1  
+   mb_GetResultData     
+   mb_GetResultData1    
+   mb_GetResultInt      
+   mb_GetResultInt1     
+   mb_GetResultRDF      
+   mb_GetResultRDFLen   
+   mb_SetResultRDF      
+   mb_GetIDFromURL      
+   mb_CalculateBitprint
+   
+   ; Functions for the TRM generation  
    trm_New
    trm_Delete
    trm_SetProxy
@@ -31,10 +39,51 @@ EXPORTS
    trm_GenerateSignature   
    trm_GenerateSignatureNow
    trm_ConvertSigToASCII   
-   rg_New
-   rg_Delete
-   rg_Select
-   rg_Insert
-   rg_Generate
 
+   ; These are the functions from the bitzi source code
+   bitcollider_init    
+   bitcollider_shutdown
 
+   get_error           
+   get_warning         
+
+   create_submission   
+   delete_submission   
+   set_auto_submit     
+   set_check_as        
+   set_exit
+   analyze_file        
+   submit_submission   
+   print_submission    
+   convert_to_hex      
+   add_attribute       
+   get_attribute       
+   get_agent_string    
+   get_num_bitprints
+   getLongPathName
+   convert_to_hex		
+
+   sha_init
+   sha_update
+   sha_final
+
+   tiger
+
+   tt_init
+   tt_update
+   tt_digest
+
+   check_file_type
+   recurse_dir
+
+   init_gui
+   set_progress_callback
+   win32_progress_callback
+   BitcolliderThread
+
+   create_list
+   add_to_list
+   return_item
+   num_items_in_list
+   delete_list
+   
