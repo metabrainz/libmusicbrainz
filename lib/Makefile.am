@@ -22,13 +22,30 @@
 AUTOMAKE_OPTIONS = foreign
 
 SUBDIRS = bitzi
-INCLUDES = -I$(srcdir)/bitzi
+
+AM_CPPFLAGS = -I$(srcdir)/bitzi
+
 lib_LTLIBRARIES = libmusicbrainz.la
 
-libmusicbrainz_la_SOURCES = base64.c base64.h musicbrainz.cpp musicbrainz.h diskid.cpp diskid.h errors.h http.cpp http.h sha1.h sha1.c types.h mb.cpp signature.cpp signature.h comhttpsocket.cpp comhttpsocket.h comsocket.cpp comsocket.h haar.cpp haar.h sigxdr.cpp sigxdr.h sigclient.cpp sigclient.h sigfft.cpp audiosig.h sigcomplex.h sigfft.h mb.h c_wrapper.cpp mb_c.h uuid.cpp rdfparse.c rdfparse.h rdfextract.cpp rdfextract.h browser.c browser.h
+dist_libmusicbrainz_la_SOURCES = \
+  base64.c browser.c c_wrapper.cpp comhttpsocket.cpp comsocket.cpp \
+  diskid.cpp haar.cpp http.cpp \
+  musicbrainz.cpp sha1.c signature.cpp \
+  sigxdr.cpp sigclient.cpp sigfft.cpp \
+  rdfparse.c rdfextract.cpp uuid.cpp 
+nodist_libmusicbrainz_la_SOURCES = mb.cpp
 libmusicbrainz_la_LDFLAGS = -version-info 2:1:0
-libmusicbrainz_la_LIBADD = ../expat/xmlparse/libxmlparse.la ../expat/xmltok/libxmltok.la bitzi/libbitzi.la @EXTRA_CPP_LIBS@
+libmusicbrainz_la_LIBADD = bitzi/libbitzi.la @EXPAT_LIBS@ @EXTRA_CPP_LIBS@
 
-noinst_HEADERS = audiosig.h base64.h diskid.h http.h sha1.h sigfft.h sigcomplex.h types.h parse.h uuid.h 
+mb_incdir = $(includedir)/musicbrainz
+
+mb_inc_HEADERS = bitprintinfo.h browser.h errors.h mb_c.h musicbrainz.h \
+		 queries.h 
+
+noinst_HEADERS = \
+  audiosig.h base64.h comhttpsocket.h comsocket.h \
+  diskid.h haar.h http.h parse.h \
+  sha1.h sigfft.h sigclient.h sigcomplex.h sigxdr.h \
+  rdfparse.h rdfextract.h types.h trm.h uuid.h 
 
 EXTRA_DIST = wincomsocket.cpp wincomsocket.h
