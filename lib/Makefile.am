@@ -27,8 +27,10 @@ lib_LTLIBRARIES = libmusicbrainz.la
 
 libmusicbrainz_la_SOURCES = base64.c base64.h musicbrainz.cpp musicbrainz.h diskid.cpp diskid.h errors.h http.cpp http.h sha1.h sha1.c types.h mb.cpp signature.cpp signature.h comhttpsocket.cpp comhttpsocket.h comsocket.cpp comsocket.h haar.cpp haar.h sigxdr.cpp sigxdr.h sigclient.cpp sigclient.h sigfft.cpp audiosig.h sigcomplex.h sigfft.h mb.h c_wrapper.cpp mb_c.h uuid.cpp rdfparse.c rdfparse.h rdfextract.cpp rdfextract.h browser.c browser.h
 libmusicbrainz_la_LDFLAGS = -version-info 2:1:0
-libmusicbrainz_la_LIBADD = ../expat/xmlparse/libxmlparse.la ../expat/xmltok/libxmltok.la bitzi/libbitzi.la @EXTRA_CPP_LIBS@
-
+if DARWIN
+libmusicbrainz_la_LIBADD = ../expat/xmlparse/libxmlparse.la ../expat/xmltok/libxmltok.la bitzi/libbitzi.la 
+else
+libmusicbrainz_la_LIBADD = ../expat/xmlparse/hashtable.lo ../expat/xmlparse/xmlparse.lo ../expat/xmltok/xmlrole.lo ../expat/xmltok/xmltok.lo bitzi/bitprint.lo bitzi/id3.lo bitzi/md5.lo bitzi/sboxes.lo bitzi/browser.lo bitzi/list.lo bitzi/mp3.lo bitzi/tiger.lo bitzi/dirsearch.lo bitzi/main.lo bitzi/plugin_man.lo bitzi/tigertree.lo 
 noinst_HEADERS = audiosig.h base64.h diskid.h http.h sha1.h sigfft.h sigcomplex.h types.h parse.h uuid.h 
 
 EXTRA_DIST = wincomsocket.cpp wincomsocket.h
