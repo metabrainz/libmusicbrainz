@@ -26,6 +26,11 @@
 #include <string.h>
 #include <list>
 #include <string>
+
+#ifdef WIN32
+#define XML_STATIC
+#endif
+
 #include "rdfextract.h"
 
 using namespace std;

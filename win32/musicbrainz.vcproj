@@ -2,7 +2,7 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="7.00"
-	Name="musicbrainz"
+	Name="libmusicbrainz"
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>
@@ -39,18 +39,18 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="/MACHINE:I386"
-                                AdditionalLibraryDirectories="..\..\expat\Libs"
-				AdditionalDependencies="winmm.lib odbc32.lib odbccp32.lib wsock32.lib comctl32.lib libexpat.lib"
-				OutputFile=".\Release/musicbrainz.dll"
+				AdditionalDependencies="winmm.lib odbc32.lib odbccp32.lib wsock32.lib comctl32.lib"
+				OutputFile=".\Release/libmusicbrainz.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
+				AdditionalLibraryDirectories=""
 				IgnoreDefaultLibraryNames="LIBC"
 				ModuleDefinitionFile=".\musicbrainz.def"
-				ProgramDatabaseFile=".\Release/musicbrainz.pdb"
+				ProgramDatabaseFile=".\Release/libmusicbrainz.pdb"
 				GenerateMapFile="TRUE"
 				MapExports="TRUE"
 				MapLines="TRUE"
-				ImportLibrary=".\Release/musicbrainz.lib"/>
+				ImportLibrary=".\Release/libmusicbrainz.lib"/>
 			<Tool
 				Name="VCMIDLTool"
 				PreprocessorDefinitions="NDEBUG"
@@ -102,11 +102,11 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="/MACHINE:I386"
-                                AdditionalLibraryDirectories="..\..\expat\Libs"
 				AdditionalDependencies="winmm.lib odbc32.lib odbccp32.lib wsock32.lib comctl32.lib libexpat.lib"
 				OutputFile=".\Debug/musicbrainz.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
+				AdditionalLibraryDirectories="..\..\expat\Libs"
 				IgnoreDefaultLibraryNames="LIBC"
 				ModuleDefinitionFile=".\musicbrainz.def"
 				GenerateDebugInformation="TRUE"
@@ -208,6 +208,9 @@
 			Name="Resource Files"
 			Filter="ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe">
 		</Filter>
+		<File
+			RelativePath="..\..\expat\StaticLibs\libexpatMT.lib">
+		</File>
 	</Files>
 	<Globals>
 	</Globals>

@@ -75,6 +75,9 @@
 #include <stdlib.h>
 #include <assert.h>
 
+#ifdef WIN32
+#define XML_STATIC
+#endif
 #include "rdfparse.h"
 
 #define XML_NAMESPACE_URI        T( "http://www.w3.org/XML/1998/namespace" )
