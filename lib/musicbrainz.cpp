@@ -55,8 +55,8 @@ const char *rdfISOEncoding =
 const char *rdfHeader = 
     "<rdf:RDF xmlns:rdf = \"http://www.w3.org/1999/02/22-rdf-syntax-ns#\"\n"
     "         xmlns:dc  = \"http://purl.org/dc/elements/1.1/\"\n"
-    "         xmlns:mq  = \"http://musicbrainz.org/mm/mq-1.0#\"\n"
-    "         xmlns:mm  = \"http://musicbrainz.org/mm/mm-2.0#\">\n";
+    "         xmlns:mq  = \"http://musicbrainz.org/mm/mq-1.1#\"\n"
+    "         xmlns:mm  = \"http://musicbrainz.org/mm/mm-2.1#\">\n";
 
 const char *rdfFooter = 
     "</rdf:RDF>\n";
@@ -382,7 +382,7 @@ bool MusicBrainz::Query(const string &rdfObject, vector<string> *args)
         return false;
     }
 
-    // Determine the top level node by reverse looking up the mq:result node
+    // Determine the top level node by reverse looking up the mq:Result node
     if (!m_rdf->GetSubjectFromObject(string(MBE_QuerySubject), m_baseURI))
     {
         m_error = string("Cannot parse the server response (cannot find "

@@ -162,8 +162,8 @@ Error DiskId::GenerateDiskIdRDF(const string &device, string &xml)
 
    xml = string("  <mq:Result>\n");
    xml += string("    <mq:status>OK</mq:status>\n");
-   xml += string("    <mm:cdindexId>") + string(id) + 
-          string("</mm:cdindexId>\n");
+   xml += string("    <mm:cdindexid>") + string(id) + 
+          string("</mm:cdindexid>\n");
    xml += string("    <mm:firstTrack>") + 
           MakeString(cdinfo.FirstTrack) +
           string("</mm:firstTrack>\n");
@@ -229,8 +229,8 @@ Error DiskId::GenerateDiskIdQueryRDF(const string &device, string &xml,
        xml = string("  <mq:GetCDInfo>\n");
 
    xml += string("  <mq:depth>@DEPTH@</mq:depth>\n");
-   xml += string("    <mm:cdindexId>") + string(id) + 
-          string("</mm:cdindexId>\n");
+   xml += string("    <mm:cdindexid>") + string(id) + 
+          string("</mm:cdindexid>\n");
    if (associateCD)
       xml += string("    <mq:associate>@1@</mq:associate>\n");
    xml += string("    <mm:firstTrack>") + 
