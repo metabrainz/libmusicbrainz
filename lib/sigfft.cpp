@@ -96,6 +96,8 @@ FFT::FFT (int Points, long sampleRate)
         rev += mask;
     }
     _aBitRev [_Points-1] = _Points-1;
+    _winFac = new double[_Points];
+    SetWindowFunc();
 }
 
 FFT::~FFT()
@@ -108,6 +110,7 @@ FFT::~FFT()
     }
     delete []_W;
     delete []_Bleh;
+    delete []_winFac;
 }
 
 //void Fft::CopyIn (SampleIter& iter)

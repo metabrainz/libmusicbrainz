@@ -434,34 +434,19 @@ void trm_SetPCMDataInfo(trm_t o, int samplesPerSecond, int numChannels,
     obj->SetPCMDataInfo(samplesPerSecond, numChannels, bitsPerSample);
 }
 
-int trm_GenerateSignature(trm_t o, char *data, int size, 
-                          char signature[17], char *collectionID)
+int trm_GenerateSignature(trm_t o, char *data, int size)
 {
-   string strGUID;
-   string collID;
-
    if (o == NULL)
       return 0;
 
-   if (!collectionID)
-       collID = "EMPTY_COLLECTION";
-   else
-        collID = string(collectionID, 16);
-
    TRM *obj = (TRM *)o;
    
-   bool retvalue = obj->GenerateSignature(data, size, strGUID, collID);
+   bool retvalue = obj->GenerateSignature(data, size);
 
-   if (retvalue) {
-       memset(signature, '\0', 17);
-       strncpy(signature, strGUID.c_str(), 16);
-
-       return 1; 
-   }
-   return 0;
+   return (int)retvalue;
 } 
 
-void trm_GenerateSignatureNow(trm_t o, char signature[17], char *collectionID)
+void trm_FinalizeSignature(trm_t o, char signature[17], char *collectionID)
 {
    string strGUID;
    string collID;

@@ -33,6 +33,7 @@
 
 #include <stack>
 #include <queue>
+#include <deque>
 using namespace std;
 
 const int iFFTPoints = 64;
@@ -91,28 +92,44 @@ void TRM::SetPCMDataInfo(int samplesPerSecond, int numChannels,
     m_storeBuffer = new char[m_numBytesNeeded + 20];
 }
 
-bool TRM::GenerateSignature(char *data, int size, string &strGUID,
-                            string &collID)
+bool TRM::GenerateSignature(char *data, int size)
 {
    if (m_numBytesWritten < m_numBytesNeeded) {
        int i = 0;
-       while (i < size && m_numBytesWritten < m_numBytesNeeded) {
-           if (m_numBytesWritten == 0 && (abs(data[i]) == 0))
+       while (i < size && m_numBytesWritten < m_numBytesNeeded) 
+       {
+           if (m_bits_per_sample == 8)
            {
+               if (m_numBytesWritten == 0 && (abs(data[i]) == 0))
+               {
+               }
+               else
+               {
+                   m_storeBuffer[m_numBytesWritten] = data[i];
+                   m_numBytesWritten++;
+               }
+               i++;
            }
-           else
+	   else
            {
-               m_storeBuffer[m_numBytesWritten] = data[i];
-               m_numBytesWritten++;
-           }
-           i++;
+               if (m_numBytesWritten == 0 && (abs(data[i]) == 0) &&
+                   (abs(data[i+1]) == 0))
+               {
+               }
+               else
+               {
+                   m_storeBuffer[m_numBytesWritten] = data[i];
+                   m_numBytesWritten++;
+                   m_storeBuffer[m_numBytesWritten] = data[i+1];
+                   m_numBytesWritten++;
+               }
+               i += 2;
+	   }
        }
    }
 
    if (m_numBytesWritten < m_numBytesNeeded)
        return false;
-
-   GenerateSignatureNow(strGUID, collID);
 
    return true;
 
@@ -358,8 +375,6 @@ void TRM::GenerateSignatureNow(string &strGUID, string &collID)
     if (*sample <= 0)
           bLastNeg = true;
 
-    FFT *pFFT = new FFT(iFFTPoints, 11025);
-
     signed short *pCurrent = m_downmixBuffer;
     signed short *pBegin = pCurrent;
     int iFFTs = (m_numSamplesWritten / 32) - 2;
@@ -381,17 +396,12 @@ void TRM::GenerateSignatureNow(string &strGUID, string &collID)
     int energySub = 0;
     int energyCounter = 0;
 
-    for (j = 0; j < 64; j++)
-    {
-        double mult = 3.141592627 * j / 64;
-        fWin[j] = 0.355768 - 0.487396 * cos(2 * mult) + 
-                  0.144232 * cos(4 * mult) - 0.012604 * cos(6 * mult);
-    }
-
     double mag = 0;
     double tempf = 0;
     float bandDelta = 0;
     float beatavg = 0;
+
+    FFT *pFFT = new FFT(iFFTPoints, 11025);
 
     beatStore = new float[iFFTs + 2];
     beatindex = 0;
@@ -423,8 +433,8 @@ void TRM::GenerateSignatureNow(string &strGUID, string &collID)
 
         for (k = 0; k < iFFTPoints; k++)
         {
-            fftBuffer[k] = pCurrent[k] * fWin[k];
-            fftBuffer2[k] = pCurrent[k + 32] * fWin[k];
+            fftBuffer[k] = pCurrent[k];
+            fftBuffer2[k] = pCurrent[k + 32];
         }
 
         pFFT->CopyIn2(fftBuffer, fftBuffer2, iFFTPoints);
@@ -517,6 +527,58 @@ void TRM::GenerateSignatureNow(string &strGUID, string &collID)
     if (energySub >= 9)
         energySub = 8;
 
+    FFT *fft1 = new FFT(512, 1);
+    FFT *fft2 = new FFT(512, 1);
+    double *dbuffer = new double[512];
+    deque<double> f2buffer;
+    int i, f1count = 0, f2count = 0;
+   
+    float f2Spec[32];
+    for (i = 0; i < 32; i++)
+        f2Spec[i] = 0;
+
+    for (j = 0; j < m_numSamplesWritten;)
+    {
+        for (i = 0; i < 512; i++)
+            dbuffer[i] = m_downmixBuffer[j];
+
+        fft1->CopyIn(dbuffer, 512);
+        fft1->Transform();
+        f2buffer.push_back(fft1->GetLogPower(3));
+
+        if (f2buffer.size() == 512)
+            f1count++;
+
+        if (f1count > 0 && (f1count % 44) == 0)
+        {
+            double avg = 0;
+            for (i = 0; i < 512; i++)
+               avg += (dbuffer[i] = f2buffer[i]);
+            avg /= 512;
+            for (i = 0; i < 512; i++)
+               dbuffer[i] -= avg;
+            fft2->CopyIn(dbuffer, 512);
+            fft2->Transform();
+            for (int i = 0; i < 32; i++)
+                f2Spec[i] += fft2->GetLogPower(i);
+	    f2count++;
+        }
+
+        if (f2buffer.size() == 512)
+            f2buffer.pop_front();
+
+        j += 64;
+    }
+
+    delete fft1;
+    delete fft2;
+    delete [] dbuffer;
+   
+    for (i = 0; i < 32; i++)
+    {
+        f2Spec[i] /= f2count;
+    }
+
     float fLength = m_numSamplesWritten / (float)11025;
     float fAverageZeroCrossing = iZeroCrossings / fLength;
 
@@ -524,13 +586,17 @@ void TRM::GenerateSignatureNow(string &strGUID, string &collID)
     for (j = 0; j < 32; j++)
     {
         fSpectrum[j] = fSpectrum[j] / iFinishedFFTs;
-        if (fSpectrum[j] < smallest)
+        if ((j <= 28) && (fSpectrum[j] < smallest))
             smallest = fSpectrum[j];
     }
 
     for (j = 0; j < 32; j++)
+    {
         fSpectrum[j] = fSpectrum[j] - smallest;
-
+        if (fSpectrum[j] < 0)
+            fSpectrum[j] = 0;
+    }
+	
     smallest = 9999;
     priority_queue<float, deque<float>, greater<float> > m_haarList;
     for (j = 0; j < 64; j++)
@@ -624,12 +690,12 @@ void TRM::GenerateSignatureNow(string &strGUID, string &collID)
 #endif
 
     AudioSig *signature = new AudioSig(msratio, fAverageZeroCrossing,
-                                       fSpectrum, specsum, estBPM, 
+                                       f2Spec, specsum, estBPM, 
                                        fAvgFFTDelta, haar, 
                                        avgdiff, numsignchanges);
 
     SigClient *sigClient = new SigClient();
-    sigClient->SetAddress("209.249.187.199", 4446);
+    sigClient->SetAddress("trm.musicbrainz.org", 4446);
     sigClient->SetProxy(m_proxy, m_proxyPort);
 
     if (collID == "")

@@ -38,6 +38,8 @@ ____________________________________________________________________________*/
 
 #include "sigcomplex.h"
 #include <assert.h>
+#include <iostream>
+using namespace std;
 
 class SampleIter;
 
@@ -102,6 +104,28 @@ public:
        return _Bleh[i].Im();
     }
 
+    double GetLogPower(int i) const
+    {
+       assert( i < _Points);
+       double power;
+       power = _Bleh[i].Re() * _Bleh[i].Re() + _Bleh[i].Im() * _Bleh[i].Im();
+       if (power > 0.005)
+           return log10(power / 4096) + 6;
+       else 
+           return 0;
+    }
+
+    void SetWindowFunc(int type = 0)
+    {   
+        // now only blackman-harris
+        double mult;
+        for (int i = 0; i < _Points; i++) {
+            mult = 3.141592627 * i / _Points;
+            _winFac[i] = 0.355768 - 0.487396 * cos(2 * mult) + 0.144232 *
+                cos(4 * mult) - 0.012604 * cos(6 * mult);
+        }
+    }
+
     int     GetFrequency (int point) const
     {
         // return frequency in Hz of a given point
@@ -127,12 +151,12 @@ private:
 
     void PutAt ( int i, double val )
     {
-        _Bleh[_aBitRev[i]] = Complex (val);
+        _Bleh[_aBitRev[i]] = Complex (val * _winFac[i]);
     }
 
     void PutAt2 ( int i, double val, double val2 )
     {
-        _Bleh[_aBitRev[i]] = Complex(val, val2);
+        _Bleh[_aBitRev[i]] = Complex(val * _winFac[i], val2 * _winFac[i]);
     }
     
     int        _Points;
@@ -143,6 +167,7 @@ private:
     Complex   *_Bleh;          // in-place fft array
     Complex  **_W;             // exponentials
     double    *_aTape;         // recording tape
+    double    *_winFac;
 };
 
 #endif
