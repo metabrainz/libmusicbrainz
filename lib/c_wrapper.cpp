@@ -40,12 +40,18 @@ void mb_Delete(musicbrainz_t o)
 int mb_SetServer(musicbrainz_t o, char *serverAddr, short serverPort)
 {
     MusicBrainz *obj = (MusicBrainz *)o;
+    if (o == NULL)
+       return 0;
+
     return (int)obj->SetServer(string(serverAddr), serverPort);
 }
 
 int mb_SetProxy(musicbrainz_t o,char *proxyAddr, short proxyPort)
 {
     MusicBrainz *obj = (MusicBrainz *)o;
+    if (o == NULL)
+       return 0;
+
     string addr = "";
     if (proxyAddr) 
         addr = proxyAddr;
@@ -55,6 +61,9 @@ int mb_SetProxy(musicbrainz_t o,char *proxyAddr, short proxyPort)
 int mb_SetDevice(musicbrainz_t o, char *device)
 {
     MusicBrainz *obj = (MusicBrainz *)o;
+    if (o == NULL)
+       return 0;
+
     return (int)obj->SetDevice(string(device));
 }
 
@@ -63,6 +72,9 @@ int mb_GetWebSubmitURL(musicbrainz_t o, char *url, int urlLen)
     MusicBrainz *obj = (MusicBrainz *)o;
     string   urlString;
     int      ret;
+
+    if (o == NULL)
+       return 0;
 
     ret = (int)obj->GetWebSubmitURL(urlString);
     if (ret)
@@ -76,6 +88,9 @@ int mb_GetWebSubmitURL(musicbrainz_t o, char *url, int urlLen)
 int mb_Query(musicbrainz_t o, char *xmlObject)
 {
     MusicBrainz *obj = (MusicBrainz *)o;
+    if (o == NULL)
+       return 0;
+
     return (int)obj->Query(string(xmlObject));
 }
 
@@ -85,6 +100,9 @@ int mb_QueryWithArgs(musicbrainz_t o, char *xmlObject, char **args)
     vector<string>           *argList;
     string                    temp;
     int                       ret;
+
+    if (o == NULL)
+       return 0;
 
     argList = new vector<string>;
     for(; *args; args++)
@@ -105,6 +123,9 @@ void mb_GetQueryError(musicbrainz_t o, char *error, int maxErrorLen)
     MusicBrainz *obj = (MusicBrainz *)o;
     string                    err;
 
+    if (o == NULL)
+       return;
+
     obj->GetQueryError(err);
 
     strncpy(error, err.c_str(), maxErrorLen);
@@ -116,6 +137,9 @@ int mb_GetResultData(musicbrainz_t o, char *resultName,
 {
     MusicBrainz *obj = (MusicBrainz *)o;
     string   value;
+
+    if (o == NULL)
+       return 0;
 
     value = obj->Data(string(resultName));
     if (value.length() == 0)
@@ -130,18 +154,30 @@ int mb_GetResultData(musicbrainz_t o, char *resultName,
 int mb_GetResultInt(musicbrainz_t o, char *resultName)
 {
     MusicBrainz *obj = (MusicBrainz *)o;
+
+    if (o == NULL)
+       return 0;
+
     return obj->DataInt(string(resultName));
 }
 
 int mb_Select(musicbrainz_t o, char *selectQuery)
 {
     MusicBrainz *obj = (MusicBrainz *)o;
+
+    if (o == NULL)
+       return 0;
+
     return obj->Select(string(selectQuery));
 }
 
 int mb_DoesResultExist(musicbrainz_t o, char *resultName)
 {
     MusicBrainz *obj = (MusicBrainz *)o;
+
+    if (o == NULL)
+       return 0;
+
     return obj->DoesResultExist(string(resultName));
 }
 
@@ -149,6 +185,9 @@ int mb_GetResultRDF(musicbrainz_t o,char *xml, int maxXMLLen)
 {
     MusicBrainz *obj = (MusicBrainz *)o;
     string   xmlString;
+
+    if (o == NULL)
+       return 0;
 
     if (!obj->GetResultRDF(xmlString))
        return 0;
@@ -164,6 +203,9 @@ int mb_GetResultRDFLen(musicbrainz_t o)
     MusicBrainz *obj = (MusicBrainz *)o;
     string   xmlString;
 
+    if (o == NULL)
+       return 0;
+
     if (!obj->GetResultRDF(xmlString))
        return 0;
 
@@ -175,12 +217,18 @@ int mb_SetResultRDF(musicbrainz_t o,char *xml)
     MusicBrainz *obj = (MusicBrainz *)o;
     string   xmlString(xml);
 
+    if (o == NULL)
+       return 0;
+
     return obj->SetResultRDF(xmlString);
 }
 
 int mb_GetNumItems(musicbrainz_t o)
 {
     MusicBrainz *obj = (MusicBrainz *)o;
+
+    if (o == NULL)
+       return 0;
 
     return obj->GetNumItems();
 }
@@ -190,18 +238,24 @@ void mb_SetPCMDataInfo(musicbrainz_t o, int samplesPerSecond, int numChannels,
 {
     MusicBrainz *obj = (MusicBrainz *)o;
      
+    if (o == NULL)
+       return;
+
     obj->SetPCMDataInfo(samplesPerSecond, numChannels, bitsPerSample);
 }
 
 int mb_GenerateSignature(musicbrainz_t o, char *data, int size, 
                          char signature[17], char *collectionID)
 {
-    string strGUID;
-    string collID;
+   string strGUID;
+   string collID;
 
-    if (!collectionID)
-        collID = "EMPTY_COLLECTION";
-    else
+   if (o == NULL)
+      return 0;
+
+   if (!collectionID)
+       collID = "EMPTY_COLLECTION";
+   else
         collID = string(collectionID, 16);
 
    MusicBrainz *obj = (MusicBrainz *)o;
@@ -221,13 +275,16 @@ void mb_GenerateSignatureNow(musicbrainz_t o,
                              char signature[17], 
                              char *collectionID)
 {
-    string strGUID;
-    string collID;
+   string strGUID;
+   string collID;
 
-    if (!collectionID)
-        collID = "EMPTY_COLLECTION";
-    else
-        collID = string(collectionID, 16);
+   if (o == NULL)
+      return;
+
+   if (!collectionID)
+       collID = "EMPTY_COLLECTION";
+   else
+       collID = string(collectionID, 16);
 
    MusicBrainz *obj = (MusicBrainz *)o;
 
@@ -240,6 +297,10 @@ void mb_GenerateSignatureNow(musicbrainz_t o,
 void mb_ConvertSigToASCII(musicbrainz_t o, char sig[17], char ascii_sig[37])
 {
    MusicBrainz *obj = (MusicBrainz *)o;
+
+   if (o == NULL)
+      return;
+
    obj->ConvertSigToASCII(sig, ascii_sig);
 }
 
