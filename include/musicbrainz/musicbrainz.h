@@ -85,9 +85,12 @@ class MusicBrainz
        EXPORT bool     CalculateBitprint(const string &fileName,
                                          BitprintInfo *info);
 #ifdef WIN32
-       EXPORT void     WSAInit        (void);
-       EXPORT void     WSAStop        (void);
+       EXPORT void     WSAInit          (void);
+       EXPORT void     WSAStop          (void);
 #endif
+
+       EXPORT void     SetDebug         (bool debug);
+
     private:
 
        const string EscapeArg(const string &xml);
@@ -101,7 +104,7 @@ class MusicBrainz
        short           m_serverPort, m_proxyPort;
        string          m_device, m_currentURI, m_baseURI, m_response; 
        RDFExtract     *m_rdf;
-       bool            m_useUTF8;
+       bool            m_useUTF8, m_debug;
        int             m_depth;
 };
 

@@ -49,6 +49,15 @@ int mb_SetServer(musicbrainz_t o, char *serverAddr, short serverPort)
     return (int)obj->SetServer(string(serverAddr), serverPort);
 }
 
+void mb_SetDebug(musicbrainz_t o, int debug)
+{
+    MusicBrainz *obj = (MusicBrainz *)o;
+    if (o == NULL)
+       return;
+
+    obj->SetDebug((bool)debug);
+}
+
 int mb_SetProxy(musicbrainz_t o,char *proxyAddr, short proxyPort)
 {
     MusicBrainz *obj = (MusicBrainz *)o;

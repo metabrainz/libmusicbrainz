@@ -69,6 +69,15 @@ void      mb_Delete            (musicbrainz_t o);
  */
 int       mb_SetServer         (musicbrainz_t o, char *serverAddr, 
                                 short serverPort);
+
+/**
+ * Enable debug out to stdout by sending a non-zero value to this
+ * function. 
+ * @param o the musicbrainz_t object returned from mb_New
+ * @param debug whether or not to enable debug (non zero enables debug output)
+ */
+void       mb_SetDebug         (musicbrainz_t o, int debug);
+
 /**
  * Set the name of the HTTP Proxy to use. This function must be called anytime
  * the client library must communicate via a proxy firewall. 

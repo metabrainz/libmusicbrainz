@@ -69,6 +69,7 @@ MusicBrainz::MusicBrainz(void)
     m_proxy = "";
     m_useUTF8 = true;
     m_depth = 2;
+    m_debug = false;
 }
 
 MusicBrainz::~MusicBrainz(void)
@@ -100,6 +101,12 @@ bool MusicBrainz::SetDevice(const string &device)
 {
     m_device = device;
     return true;
+}
+
+// Set the debug option -- if enabled debug output will be printed to stdout
+void MusicBrainz::SetDebug(bool debug)
+{
+    m_debug = debug;
 }
 
 // Set the depth for the queries. The depth of a query determines the
@@ -186,7 +193,9 @@ bool MusicBrainz::Query(const string &rdfObject, vector<string> *args)
             id.GetLastError(m_error);
             return false;
         }
-        //printf("%s\n", rdf.c_str());
+
+        if (m_debug)
+           printf("%s\n", rdf.c_str());
     }
     // If the query is a local TOC query, the client just wants to
     // know about the table of contents of the CD, not about the
@@ -246,6 +255,12 @@ bool MusicBrainz::Query(const string &rdfObject, vector<string> *args)
             sprintf(port, ":%d", m_serverPort);   
             rdf.replace(pos, 5, m_server + string(port));
         }
+        pos = rdf.find("@DEPTH@", pos);
+        if (pos != string::npos)
+        {
+            sprintf(port, "%d", m_depth);   
+            rdf.replace(pos, 7, string(port));
+        }
         url = rdf;
         rdf = string("");
     }
@@ -257,8 +272,11 @@ bool MusicBrainz::Query(const string &rdfObject, vector<string> *args)
         url = string("http://") + m_server + string(port) + string(scriptUrl);
     }
 
-    //printf("  url: %s\n", url.c_str());
-    printf("query: %s\n\n", rdf.c_str());
+    if (m_debug)
+    {
+        printf("  url: %s\n", url.c_str());
+        printf("query: %s\n\n", rdf.c_str());
+    }
 
     // Now use the http module to get/post the request and to download
     // the result.
@@ -268,7 +286,9 @@ bool MusicBrainz::Query(const string &rdfObject, vector<string> *args)
         SetError(ret);
         return false;
     }
-    printf("result: %s\n\n", m_response.c_str());
+
+    if (m_debug)
+        printf("result: %s\n\n", m_response.c_str());
 
     // Parse the returned RDF
     m_rdf = new RDFExtract(m_response, m_useUTF8);

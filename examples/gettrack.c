@@ -43,11 +43,14 @@ int main(int argc, char *argv[])
     // Tell the client library to return data in ISO8859-1 and not UTF-8
     mb_UseUTF8(o, 0);
 
+    // Tell the client library to print query and response info to stdout 
+    mb_SetDebug(o, 1);
+
     // Tell the server to only return 2 levels of data
     mb_SetDepth(o, 4);
 
     // Set the server you want to use. Defaults to www.musicbrainz.org:80
-    //mb_SetServer(o, "www.musicbrainz.org", 80);
+    //mb_SetServer(o, "musicbrainz.eorbit.net", 80);
 
     // Set up the args for the find artist query
     args[0] = argv[1];

@@ -515,31 +515,31 @@
  * Retrieve an artistList from a given Artist id 
  */
 #define MBQ_GetArtistById \
-    "http://@URL@/artist/@1@" 
+    "http://@URL@/artist/@1@?depth=@DEPTH@" 
 
 /** 
  * Retrieve an albumList from a given Album id 
  */
 #define MBQ_GetAlbumById \
-    "http://@URL@/album/@1@" 
+    "http://@URL@/album/@1@?depth=@DEPTH@" 
 
 /** 
  * Retrieve an trackList from a given Track id 
  */
 #define MBQ_GetTrackById \
-    "http://@URL@/track/@1@" 
+    "http://@URL@/track/@1@?depth=@DEPTH@" 
 
 /** 
  * Retrieve an trackList from a given TRM Id 
  */
 #define MBQ_GetTrackByTRMId \
-    "http://@URL@/trmid/@1@" 
+    "http://@URL@/trmid/@1@?depth=@DEPTH@" 
 
 /** 
  * Retrieve an lyricList from a given Track Id
  */
 #define MBQ_GetSyncTextById \
-    "http://@URL@/synctext/@1@" 
+    "http://@URL@/synctext/@1@?depth=@DEPTH@" 
 
 /**
  * Do a Metadata exchange with the MusicBrainz server. The user
