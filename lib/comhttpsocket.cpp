@@ -119,6 +119,7 @@ int MBCOMHTTPSocket::Write(const char* pBuffer, int nLen, int* pnBytesWritten)
 			+ strlen(g_strCOMVer)
 			+ nLen + 2;
 	char* pReq = new char[nReqLen];
+        memset(pReq, 0, nReqLen);
 	assert(pReq != NULL);
 	
 	sprintf(pReq, pRequest, m_pFile, m_hostname, g_strCOMVer, nLen);

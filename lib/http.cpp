@@ -90,7 +90,7 @@ MBHttp::MBHttp(void)
 MBHttp::~MBHttp(void)
 {
     if (m_buffer)
-       delete m_buffer;
+       delete [] m_buffer;
 
     if (m_file)
         fclose(m_file);
@@ -113,7 +113,7 @@ Error MBHttp::DownloadToString(const string &url,
 
     if (m_buffer)
     {
-       delete m_buffer;
+       delete [] m_buffer;
        m_buffer = NULL;
     }
 
@@ -152,7 +152,7 @@ int MBHttp::WriteToBuffer(unsigned char *buffer, unsigned int size)
         pTemp = new unsigned char[m_bufferSize];
 
         memcpy(pTemp, m_buffer, m_bytesInBuffer);
-        delete m_buffer;
+        delete [] m_buffer;
         m_buffer = pTemp;
     }
 
