@@ -144,7 +144,12 @@ bool MusicBrainz::Query(const string &xmlObject, vector<string> *args)
             id.GetLastError(m_error);
             return false;
         }
-        xml = string(rdfHeader) + xml + string(rdfFooter);
+        xml = string(rdfHeader) + 
+              xml + 
+              string("<MQ:Version>") + 
+              string(MM_VERSION) + 
+              string("</MQ:Version>\n") +
+              string(rdfFooter);
 
         m_xql = new XQL(m_useUTF8);
         ret = m_xql->ParseString(xml);
@@ -160,7 +165,12 @@ bool MusicBrainz::Query(const string &xmlObject, vector<string> *args)
     }
 
     SubstituteArgs(xml, args);
-    xml = string(rdfHeader) + xml + string(rdfFooter);
+    xml = string(rdfHeader) + 
+                 xml + 
+                 string("<MQ:Version>") + 
+                 string(MM_VERSION) + 
+                 string("</MQ:Version>\n") +
+                 string(rdfFooter);
 
     //printf("query: %s\n\n", xml.c_str());
 
