@@ -25,6 +25,7 @@
 #include "musicbrainz.h"
 #include "sigfft.h"
 #include "sigclient.h"
+#include "uuid.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -338,3 +339,9 @@ for (int q = 0; q < 32; q++)
     m_downmixBuffer = 0;
     m_numSamplesWritten = 0;
 }
+
+void MusicBrainz::ConvertSigToASCII(char sig[17], char ascii_sig[37])
+{
+    uuid_ascii((uuid_t1)sig, ascii_sig);
+}
+

@@ -61,6 +61,8 @@ int       mb_GenerateSignature (musicbrainz_t o, char *data, int size,
                                 char signature[17], char *collectionID);
 void      mb_GenerateSignatureNow(musicbrainz_t o, char signature[17],
                                 char *collectionID);
+void      mb_ConvertSigToASCII (musicbrainz_t o, char sig[17], 
+                                char ascii_sig[37]);
 
 #ifdef __cplusplus
 }
