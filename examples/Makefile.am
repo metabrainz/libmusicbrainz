@@ -57,3 +57,4 @@ getartist_LDADD = $(top_builddir)/lib/libmusicbrainz.la -lstdc++ -lm
 tagger_SOURCES = tagger.c
 tagger_LDADD = $(top_builddir)/lib/libmusicbrainz.la -lstdc++ -lm
 
+EXTRA_DIST = win32/examples.dsp win32/cmd.dsp win32/examples.opt
