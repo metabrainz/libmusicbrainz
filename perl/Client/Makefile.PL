@@ -24,7 +24,7 @@ EOT
 # the contents of the Makefile that is written.
 WriteMakefile(
     'NAME'              => 'MusicBrainz::Client',
-    'VERSION'           => '0.06_01',
+    'VERSION'           => '0.07',
     'PREREQ_PM'	        => {'MusicBrainz::Queries' => 0.01,
                             'Test::More'           => 0 }, 
     ($] >= 5.005 ?    ## Add these new keywords supported since 5.005
