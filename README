@@ -34,3 +34,13 @@ If you want to use the client library with C++, give the following arguments to
 configure:
 
     configure --enable-cpp-headers
+
+
+Link notes:
+-----------
+
+If you're compiling a C program and you're linking in the musicbrainz client
+library you will need to also link in the C++ standard library:
+
+   cc -o test_app test_app.c -lmusicbrainz -lm -lstdc++
+
