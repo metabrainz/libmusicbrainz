@@ -1,0 +1,68 @@
+/* --------------------------------------------------------------------------
+
+   MusicBrainz -- The Internet music metadatabase
+
+   Copyright (C) 2000 Robert Kaye
+   Copyright (C) Relatable
+   
+   This library is free software; you can redistribute it and/or
+   modify it under the terms of the GNU Lesser General Public
+   License as published by the Free Software Foundation; either
+   version 2.1 of the License, or (at your option) any later version.
+   
+   This library is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+   Lesser General Public License for more details.
+   
+   You should have received a copy of the GNU Lesser General Public
+   License along with this library; if not, write to the Free Software
+   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
+     $Id$
+
+----------------------------------------------------------------------------*/
+#ifndef _TRM_H_
+#define _TRM_H_
+
+#include <string>
+#include <vector>
+
+using namespace std;
+
+class TRM
+{
+    public:
+
+                TRM(void);
+       virtual ~TRM(void);
+
+       bool  SetProxy          (const string &proxyAddr, short proxyPort);
+	
+       void  SetPCMDataInfo    (int samplesPerSecond, int numChannels,
+		                int bitsPerSample);
+       bool  GenerateSignature (char *data, int size, string &strGUID, 
+		                string &collID);
+       void  GenerateSignatureNow(string &strGUID, string &collID);
+       void  ConvertSigToASCII(char sig[17], char ascii_sig[37]);
+        
+    private:
+
+       void     DownmixPCM(void);
+       
+       int             m_bits_per_sample;
+       int             m_samples_per_second;
+       int             m_number_of_channels;
+       long            m_downmix_size;
+       int             m_finishedFFTs;
+       unsigned char  *m_downmixBuffer;
+       char           *m_storeBuffer;
+       long            m_numRealSamplesNeeded;
+       long            m_numRealSamplesWritten;
+       long            m_numSamplesWritten;
+
+       string          m_proxy;
+       short           m_proxyPort;
+};
+
+#endif
