@@ -38,8 +38,9 @@ const char *rdfUTF8Encoding = "<?xml version=\"1.0\"?>\n";
 const char *rdfISOEncoding = 
     "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?>\n";
 const char *rdfHeader = 
-    "<rdf:RDF xmlns = \"http://w3.org/TR/1999/PR-rdf-syntax-19990105#\"\n"
+    "<rdf:RDF xmlns:rdf = \"http://www.w3.org/1999/02/22-rdf-syntax-ns#\"\n"
     "         xmlns:DC = \"http://purl.org/DC#\"\n"
+    "         xmlns:DCQ = \"http://purl.org/dc/qualifiers/1.0/\"\n"
     "         xmlns:MM = \"http://musicbrainz.org/MM#\"\n"
     "         xmlns:MQ = \"http://musicbrainz.org/MQ#\">\n\n"
     "<rdf:Description>\n";

@@ -211,6 +211,7 @@ Error MBHttp::Download(const string &url, const string &xml, bool fileDownload)
 {
     Error          result = kError_InvalidParam;
     char           hostname[kMaxHostNameLen + 1];
+    char           targethostname[kMaxHostNameLen + 1];
     char           proxyname[kMaxURLLen + 1];
     unsigned short port;
     struct         sockaddr_in  addr;
@@ -230,8 +231,10 @@ Error MBHttp::Download(const string &url, const string &xml, bool fileDownload)
 
         if(m_proxy.length() > 0)
         {
+            hostname[0] = 0;
             numFields = sscanf(m_proxy.c_str(), 
                                "http://%[^:/]:%hu", hostname, &port);
+            sscanf(url.c_str(), "http://%[^:/]", targethostname);
 
             strcpy(proxyname, url.c_str());
             file = string(proxyname);
@@ -239,9 +242,10 @@ Error MBHttp::Download(const string &url, const string &xml, bool fileDownload)
         else
         {
             const char *ptr;
+            hostname[0] = 0;
             numFields = sscanf(url.c_str(), 
                            "http://%[^:/]:%hu", hostname, &port);
-
+            strcpy(targethostname, hostname);
             ptr = strchr(url.c_str() + 7, '/');
             file = string(ptr ? ptr : "");
         }
@@ -343,15 +347,15 @@ Error MBHttp::Download(const string &url, const string &xml, bool fileDownload)
             // we got from the server
             char* query = new char[ strlen(kHTTPQuery) + 
                                     file.length() +
-                                    strlen(hostname) +
+                                    strlen(targethostname) +
                                     strlen(VERSION)+
                                     2 + xml.length()];
         
             if (xml.length() == 0)
-               sprintf(query, kHTTPQuery, file.c_str(), hostname, 
+               sprintf(query, kHTTPQuery, file.c_str(), targethostname, 
                        VERSION);
             else
-               sprintf(query, kHTTPQuery, file.c_str(), hostname, 
+               sprintf(query, kHTTPQuery, file.c_str(), targethostname, 
                        VERSION, xml.length());
             strcat(query, "\r\n");
 
