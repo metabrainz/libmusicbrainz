@@ -523,10 +523,11 @@ int   trm_SetProxy            (trm_t o, char *proxyAddr, short proxyPort);
  * @param o the trm_t object returned by trm_New()
  * @param samplesPerSecond the sampling rate of the audio. eg. 44100
  * @param numChannels the number of audio channels in the audio. 
- * 1 or 2 for mono or stereo respectively.
- * @param bitsPerSample the number of bits per audio sample.  generally 8 or 16.
+ * must be 1 or 2 for mono or stereo respectively.
+ * @param bitsPerSample the number of bits per audio sample.  must be 8 or 16.
+ * @return 1 on success, 0 on failure
  */
-void  trm_SetPCMDataInfo      (trm_t o, int samplesPerSecond, 
+int  trm_SetPCMDataInfo      (trm_t o, int samplesPerSecond, 
                                int numChannels, int bitsPerSample);
 
 /**

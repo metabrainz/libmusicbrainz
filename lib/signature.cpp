@@ -57,6 +57,14 @@ TRM::TRM(void)
 
 TRM::~TRM(void)
 {
+    if (m_downmixBuffer) {
+	delete [] m_downmixBuffer;
+	m_downmixBuffer = NULL;
+    }
+    if (m_storeBuffer) {
+        delete [] m_storeBuffer;
+        m_storeBuffer = NULL;
+    }
 }
 
 bool TRM::SetProxy(const string &proxyAddr, short proxyPort)
@@ -67,11 +75,16 @@ bool TRM::SetProxy(const string &proxyAddr, short proxyPort)
     return true;
 }
 
-void TRM::SetPCMDataInfo(int samplesPerSecond, int numChannels,
+bool TRM::SetPCMDataInfo(int samplesPerSecond, int numChannels,
                          int bitsPerSample)
 {
     m_samples_per_second = samplesPerSecond;
+
+    if (numChannels != 1 && numChannels != 2) 
+      return false;
     m_number_of_channels = numChannels;
+    if (bitsPerSample != 8 && bitsPerSample != 16)
+      return false;
     m_bits_per_sample = bitsPerSample;
 
     if (m_downmixBuffer) {
@@ -95,6 +108,7 @@ void TRM::SetPCMDataInfo(int samplesPerSecond, int numChannels,
 
     m_song_samples = 0;
     m_song_seconds = -1;
+    return true;
 }
 
 void TRM::SetSongLength(long seconds)
