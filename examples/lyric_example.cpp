@@ -33,8 +33,7 @@ int main(void)
     vector<string> args;
 
     // Set the server you want to use. Defaults to www.musicbrainz.org:80
-    //o.SetServer(string("www.musicbrainz.org"), 80);
-    o.SetServer(string("localhost"), 80);
+    o.SetServer(string("www.musicbrainz.org"), 80);
 
     // The string below needs to be a valid track id for this example
     // to work!
