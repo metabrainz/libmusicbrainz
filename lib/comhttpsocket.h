@@ -1,5 +1,5 @@
 /***************************************************************************
-                          comhttpsocket.h  -  description
+                          MBCOMHTTPSocket.h  -  description
                              -------------------
     begin                : Sat Jun 3 2000
     copyright            : (C) 2000 by Relatable
@@ -7,12 +7,14 @@
     email                : sward@relatable.com
  ***************************************************************************/
 
-#ifndef COMHTTPSOCKET_H
-#define COMHTTPSOCKET_H
+#ifndef MBCOMHTTPSocket_H
+#define MBCOMHTTPSocket_H
 #include <stdio.h>
 #include <string>
 
-class MBCOMSocket;
+using namespace std;
+
+class COMSocket;
 /**Wraps the OS specifics of an http based proxiable client socket.
   *@author Sean Ward
   */
@@ -42,7 +44,7 @@ protected:
 
 private: // Private attributes
 	/** socket used for transport */
-	MBCOMSocket* m_pSock;
+	COMSocket* m_pSock;
 	/** URL of proxy */
 	string m_strProxyAddr;
 	/** URL of current connection */
