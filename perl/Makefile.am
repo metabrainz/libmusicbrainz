@@ -13,4 +13,4 @@ trm = $(common_files) t/1.t TRM.pm TRM.xs
 all_files = $(bundle:%=Bundle/%) $(client:%=Client/%) $(queries:%=Queries/%) \
 	    $(trm:%=TRM/%)
 
-EXTRA_DIST = $(all_files)
+EXTRA_DIST = $(all_files) Client/fallback/const-c.inc Client/fallback/const-xs.inc TRM/typemap
