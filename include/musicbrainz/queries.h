@@ -135,8 +135,6 @@
                                   "<DC:Identifier sha1=\"@11@\"/>\n"      
 #define MB_GetSyncTextById        "<MQ:Query>GetSyncTextById</MQ:Query>\n"     \
                                   "<MQ:Args id=\"@1@\"/>\n"
-//#define MB_GetLyricsById          "<MQ:Query>GetLyricsById</MQ:Query>\n"       \
-//                                  "<MQ:Args id=\"@1@\"/>\n"
 #define MB_SubmitTrack            "<MQ:Query>SubmitTrack</MQ:Query>\n"         \
                                   "<DC:Title>@1@</DC:Title>\n"                 \
                                   "<DC:Identifier guid=\"@2@\"/>\n"            \
