@@ -34,21 +34,18 @@ email                : ijr@relatable.com
 #endif
 
 #include "sigclient.h"
-#ifdef WIN32
-#include "wincomsocket.h"
-#else
-#include "comsocket.h"
-#endif
+#include "comhttpsocket.h"
 
 #include "sigxdr.h"
 
 namespace SigClientVars
 {
-    static const char cGetGUID = 'G';
+    static const char cGetGUID = 'N';
     static const char cDisconnect = 'E';
 
     static const int nGUIDSize = 16;
     static const int nTimeout = 15;
+    static const int nVersion = 1;
     static const int nHeaderSize = sizeof(char) + sizeof(int);
 }
 
@@ -56,7 +53,7 @@ using namespace std;
 
 SigClient::SigClient()
 {
-    m_pSocket = new COMSocket;
+    m_pSocket = new MBCOMHTTPSocket;
     m_nNumFailures = 0;
 }
 
@@ -79,15 +76,19 @@ int SigClient::GetSignature(AudioSig *sig, string &strGUID,
 
     int nOffSet = sizeof(char) + sizeof(int);
     int nGUIDLen = strCollectionID.size() * sizeof(char) + sizeof(char);
-    int iSigEncodeSize = 35 * sizeof(int32) + nGUIDLen;
+    int iSigEncodeSize = sizeof(int) + 35 * sizeof(int32) + nGUIDLen;
     int nTotalSize = nOffSet + iSigEncodeSize;
 
-    char* pBuffer = new char[nTotalSize];
+    char* pBuffer = new char[nTotalSize + 1];
     memset(pBuffer, 0, nTotalSize);
     memcpy(&pBuffer[0], &SigClientVars::cGetGUID, sizeof(char));
     memcpy(&pBuffer[1], &iSigEncodeSize, sizeof(int));
 
-    iSigEncodeSize -= nGUIDLen;
+    memcpy(&pBuffer[nOffSet], &SigClientVars::nVersion, sizeof(int));
+    nOffSet += sizeof(int);
+
+    iSigEncodeSize -= (nGUIDLen + sizeof(int));
+
     char *sigencode = converter.FromSig(sig);
     memcpy(&pBuffer[nOffSet], sigencode, iSigEncodeSize);
 
@@ -124,8 +125,24 @@ int SigClient::GetSignature(AudioSig *sig, string &strGUID,
 int SigClient::Connect(string& strIP, int nPort)
 {
     if (m_nNumFailures > 5) 
-        return -1;  // server probably down. 
-    int nErr = m_pSocket->Connect(strIP.c_str(), nPort, SOCK_STREAM);
+        return -1;  // server probably down.
+
+    if (m_proxyAddr.empty())
+        m_pSocket->SetProxy(NULL);
+    else {
+        char *proxyurl = new char[m_proxyAddr.size() + 128];
+        sprintf(proxyurl, "http://%s:%d", m_proxyAddr.c_str(), m_proxyPort);
+        m_pSocket->SetProxy(proxyurl);
+        delete [] proxyurl;
+    }
+        
+    char *url = new char[strIP.size() + 128]; // ample space..
+    sprintf(url, "http://%s/cgi-bin/gateway/gateway?%d", strIP.c_str(), nPort);
+    //sprintf(url, "http://209.249.187.200/cgi-bin/gateway?%d", nPort);
+    int nErr = m_pSocket->Connect(url);
+
+    delete [] url;
+
     if (nErr == -1)
     {
         m_nNumFailures++;

@@ -40,7 +40,7 @@ ____________________________________________________________________________*/
 
 using namespace std;
 
-class COMSocket;
+class MBCOMHTTPSocket;
 class Mutex;
 
 class SigClient
@@ -52,16 +52,20 @@ public:
        	             string strCollectionID = "EMPTY_COLLECTION");
     void SetAddress(string strIP, int nPort) 
     { m_strIP = strIP; m_nPort = nPort; }
+    void SetProxy(string strAddr, int nPort)
+    { m_proxyAddr = strAddr; m_proxyPort = nPort; }
 
 protected:
     int Connect(string& strIP, int nPort);
     int Disconnect();
 
 private:
-    COMSocket* m_pSocket;
+    MBCOMHTTPSocket* m_pSocket;
     Mutex* m_pMutex;
     string m_strIP;
     int m_nPort;
+    string m_proxyAddr;
+    int m_proxyPort;
     int m_nNumFailures;
 };
 

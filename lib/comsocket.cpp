@@ -119,7 +119,7 @@ static int poll(struct pollfd *fds, unsigned int nfds, int timeout)
 #include <sys/poll.h>
 #endif
 
-COMSocket::COMSocket(int nSocket, int nSockType)
+MBCOMSocket::MBCOMSocket(int nSocket, int nSockType)
 {
 	m_nSocket = nSocket;
 	m_bConnected = false;
@@ -127,13 +127,13 @@ COMSocket::COMSocket(int nSocket, int nSockType)
 	m_nSockType = nSockType;
 }
 
-COMSocket::~COMSocket()
+MBCOMSocket::~MBCOMSocket()
 {
 	if (IsConnected()) Disconnect();
 }
 
 /** Connects a socket to pIP, on nPort, of type nType. */
-int COMSocket::Connect(const char* pIP, int nPort, int nType, bool
+int MBCOMSocket::Connect(const char* pIP, int nPort, int nType, bool
 	bBroadcast)
 {
 	if (this->IsConnected()) this->Disconnect();
@@ -185,7 +185,7 @@ int COMSocket::Connect(const char* pIP, int nPort, int nType, bool
 }
 
 /** Disconnects the current socket */
-int COMSocket::Disconnect()
+int MBCOMSocket::Disconnect()
 {
 	int nErr = 0;
 	if (!IsConnected()) return -1;
@@ -201,13 +201,13 @@ int COMSocket::Disconnect()
 }
 
 /** Checks if there is a current open connection */
-bool COMSocket::IsConnected()
+bool MBCOMSocket::IsConnected()
 {
 	return m_bConnected;
 }
 
 /** Reads from a socket, into pbuffer, up to a max of nLen byte, and writes how many were actually written to nBytesWritten. */
-int COMSocket::Read(char* pBuffer, int nLen, int* nBytesWritten)
+int MBCOMSocket::Read(char* pBuffer, int nLen, int* nBytesWritten)
 {
 	if (!IsConnected()) return -1;	// no connection
 	int nErr = 0;
@@ -224,7 +224,7 @@ int COMSocket::Read(char* pBuffer, int nLen, int* nBytesWritten)
 }
 
 /** Writes to a socket, from buffer pBuffer, up to nLen bytes, and returns the number of written bytes in pnBytesWritten. */
-int COMSocket::Write(const char* pBuffer, int nLen, int* pnBytesWritten)
+int MBCOMSocket::Write(const char* pBuffer, int nLen, int* pnBytesWritten)
 {
 	if (!IsConnected()) return -1; // no connection
 	int nErr = 0;
@@ -250,7 +250,7 @@ int COMSocket::Write(const char* pBuffer, int nLen, int* pnBytesWritten)
 	return ((nErr != -1) - 1);
 }
 /** Sets TCPNODELAY to nFlag */
-int COMSocket::SetNoDelay(int nFlag)
+int MBCOMSocket::SetNoDelay(int nFlag)
 {
 	if (!IsConnected()) return -1;
 	int nErr = 0;
@@ -263,7 +263,7 @@ int COMSocket::SetNoDelay(int nFlag)
 }
 
 /** Reads in a non blocking fashion (ie, selects and polls) for nTimeout seconds */
-int COMSocket::NBRead(char* pBuffer, int nLen, int* nBytesWritten, int nTimeout)
+int MBCOMSocket::NBRead(char* pBuffer, int nLen, int* nBytesWritten, int nTimeout)
 {
 	struct pollfd pfd;
 	pfd.fd = m_nSocket;
@@ -282,7 +282,7 @@ int COMSocket::NBRead(char* pBuffer, int nLen, int* nBytesWritten, int nTimeout)
 	}
 }
 
-int COMSocket::SetNonBlocking(bool bType)
+int MBCOMSocket::SetNonBlocking(bool bType)
 {
 	int nRes = 0;
 	int flags = 0;
@@ -299,7 +299,7 @@ int COMSocket::SetNonBlocking(bool bType)
 	return nRes;
 }
 
-int COMSocket::NBConnect(const char* pIP, int nPort, int nType, int nTimeout)
+int MBCOMSocket::NBConnect(const char* pIP, int nPort, int nType, int nTimeout)
 {
 	if (this->IsConnected()) this->Disconnect();
 	
@@ -392,7 +392,7 @@ int COMSocket::NBConnect(const char* pIP, int nPort, int nType, int nTimeout)
 }
 
 /** Sets multicast packets to only go through the NIC labeled pNIC */
-int COMSocket::SetMCastInterface(const char* pNIC)
+int MBCOMSocket::SetMCastInterface(const char* pNIC)
 {
 #ifndef __linux__
 #warning WARNING COMSocket::SetMCastInterface is NOT IMPLEMENTED

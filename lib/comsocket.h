@@ -49,17 +49,17 @@ ____________________________________________________________________________*/
 
 #endif // ! WIN32
 
-class COMServerSocket;
+class MBCOMServerSocket;
 
 /**Wraps the OS specifics of a client socket.
   *@author Sean Ward
   */
-class COMSocket {
+class MBCOMSocket {
 public: 
 
-	COMSocket(int nSocket = INVALID_SOCKET, int nSockType = SOCK_STREAM);
-	~COMSocket();
-	friend class COMServerSocket;
+	MBCOMSocket(int nSocket = INVALID_SOCKET, int nSockType = SOCK_STREAM);
+	~MBCOMSocket();
+	friend class MBCOMServerSocket;
 	/** Connects a socket to pIP, on nPort, of type nType. */
 	int Connect(const char* pIP, int nPort, int nType, bool
 		bBroadcast = false);
