@@ -35,7 +35,8 @@ EXPORTS
    mb_GetIDFromURL      
    mb_CalculateSha1
    mb_GetMP3Info
-
+   mb_GetFragmentFromURL
+   mb_GetOrdinalFromList
    
    ; Functions for the TRM generation  
    trm_New
