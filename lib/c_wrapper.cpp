@@ -175,7 +175,7 @@ int mb_GetNumItems(musicbrainz_t o)
     return obj->GetNumItems();
 }
 
-void mb_SetPCMData(musicbrainz_t o, int samplesPerSecond, int numChannels,
+void mb_SetPCMDataInfo(musicbrainz_t o, int samplesPerSecond, int numChannels,
                    int bitsPerSample)
 {
     MusicBrainz *obj = (MusicBrainz *)o;

@@ -19,5 +19,5 @@ EXPORTS
    mb_GetResultRDFLen
    mb_GetNumItems    
    mb_GenerateSignature
-   mb_SetPCMData
+   mb_SetPCMDataInfo
    mb_GenerateSignatureNow
