@@ -35,8 +35,8 @@ char *sha_version(void);
 
 #define SHA_VERSION 1
 
-#ifndef WIN32 
-#include "../config.h"
+#ifdef HAVE_CONFIG_H 
+#include "config.h"
 
 
 #ifdef WORDS_BIGENDIAN

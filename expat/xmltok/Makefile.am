@@ -20,5 +20,10 @@
 #    $Id$
 #
 noinst_LTLIBRARIES = libxmltok.la
-libxmltok_la_SOURCES = Makefile.am asciitab.h iasciitab.h latin1tab.h nametab.h utf8tab.h xmldef.h xmlrole.c xmlrole.h xmltok.c xmltok.h 
-INCLUDES = -I$(srcdir)/../xmlparse -DXML_NS
+libxmltok_la_SOURCES = asciitab.h iasciitab.h latin1tab.h \
+		       nametab.h utf8tab.h xmldef.h xmlrole.c xmlrole.h \
+		       xmltok.c xmltok.h xmltok_impl.h 
+
+EXTRA_DIST = xmltok_impl.c xmltok_ns.c 
+
+AM_CPPFLAGS = -I$(srcdir)/../xmlparse -DXML_NS
