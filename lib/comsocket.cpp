@@ -45,6 +45,8 @@ ____________________________________________________________________________*/
 #include <sys/ioctl.h>
 #endif
 
+#define mb_socklen_t ACCEPT_ARG3
+
 #ifndef SHUT_RDWR
 #define SHUT_RDWR 2
 #endif
