@@ -22,6 +22,9 @@
 
 ----------------------------------------------------------------------------*/
 #include <stdio.h>
+#ifdef WIN32
+#include <winsock.h>
+#endif
 #include "musicbrainz.h"
 #include "http.h"
 #include "errors.h"
