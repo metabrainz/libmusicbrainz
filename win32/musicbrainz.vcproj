@@ -164,6 +164,9 @@
 			<File
 				RelativePath="..\osdep\mb_win32.cpp">
 			</File>
+                        <File
+                                RelativePath="..\lib\md5.c">
+                        </File>
 			<File
 				RelativePath="..\lib\mp3.cpp">
 			</File>

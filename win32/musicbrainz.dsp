@@ -124,6 +124,10 @@ SOURCE=..\osdep\mb_win32.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=..\osdep\md5.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\lib\musicbrainz.cpp
 # End Source File
 # Begin Source File
