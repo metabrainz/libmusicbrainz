@@ -130,7 +130,7 @@ int main(void)
 
     // Set the server you want to use. Defaults to www.musicbrainz.org:80
     //server = string("www.musicbrainz.org");
-    o.SetServer(server, 80);
+    //o.SetServer(server, 80);
 
     // Tell the client library to return data in ISO8859-1 and not UTF-8
     o.UseUTF8(0);
