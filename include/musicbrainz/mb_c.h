@@ -159,9 +159,8 @@ int       mb_SetDevice         (musicbrainz_t o, char *device);
 
 /**
  * Use this function to set the output returned by the Get function. The
- * Get functions can return data in ISO-8859-1 encoding or in UTF-8. Currently
- * MusicBrainz only supports ISO-8895-1 (standard linux and windows for
- * western european and northern american languages). Defaults to ISO-8859-1.
+ * Get functions can return data in ISO-8859-1 encoding or in UTF-8.
+ * Defaults to ISO-8859-1.
  * @see 
  * @param o the musicbrainz_t object returned from mb_New()
  * @param useUTF8 if set to a non-zero value, UTF-8 will be used.
