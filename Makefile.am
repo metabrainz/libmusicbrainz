@@ -44,9 +44,13 @@ libtool: $(LIBTOOL_DEPS)
 
 install-data-local:
 	mkdir -p $(DESTDIR)$(includedir)/musicbrainz
+	mkdir -p $(DESTDIR)$(includedir)/musicbrainz/bitzi
 	$(INSTALL) -m 0644 lib/musicbrainz.h $(DESTDIR)$(includedir)/musicbrainz
 	$(INSTALL) -m 0644 lib/queries.h  $(DESTDIR)$(includedir)/musicbrainz
 	$(INSTALL) -m 0644 lib/errors.h $(DESTDIR)$(includedir)/musicbrainz
 	$(INSTALL) -m 0644 lib/mb_c.h $(DESTDIR)$(includedir)/musicbrainz
-	$(INSTALL) -m 0644 lib/bitprint.h $(DESTDIR)$(includedir)/musicbrainz
-	$(INSTALL) -m 0644 lib/bitzi/bitcollider.h $(DESTDIR)$(includedir)/musicbrainz
+	$(INSTALL) -m 0644 lib/bitprint.h $(DESTDIR)$(includedir)/musicbrainz/bitzi
+	$(INSTALL) -m 0644 lib/bitzi/bitcollider.h $(DESTDIR)$(includedir)/musicbrainz/bitzi
+	$(INSTALL) -m 0644 lib/bitzi/gui_win32.h $(DESTDIR)$(includedir)/musicbrainz/bitzi
+	$(INSTALL) -m 0644 lib/bitzi/list.h $(DESTDIR)$(includedir)/musicbrainz/bitzi
+	$(INSTALL) -m 0644 lib/bitzi/plugin.h $(DESTDIR)$(includedir)/musicbrainz/bitzi
