@@ -24,8 +24,8 @@ EOT
 # the contents of the Makefile that is written.
 WriteMakefile(
     'NAME'              => 'MusicBrainz::Client',
-    'VERSION'           => '0.07',
-    'PREREQ_PM'	        => {'MusicBrainz::Queries' => 0.06,
+    'VERSION_FROM'           => 'Client.pm', # finds $VERSION
+    'PREREQ_PM'	        => {'MusicBrainz::Queries' => 0.07,
                             'Test::More'           => 0 }, 
     ($] >= 5.005 ?    ## Add these new keywords supported since 5.005
       (ABSTRACT_FROM => 'Client.pm', # retrieve abstract from module
