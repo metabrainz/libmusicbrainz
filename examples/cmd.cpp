@@ -124,7 +124,7 @@ int main(void)
     vector<string> args;
 
     // Set the server you want to use. Defaults to www.musicbrainz.org:80
-    o.SetServer(string("musicbrainz.eorbit.net"), 80);
+    o.SetServer(string("ww.musicbrainz.org"), 80);
 
     for(;;)
     {
