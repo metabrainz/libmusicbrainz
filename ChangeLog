@@ -1,0 +1,241 @@
+1999-12-06  Marc van Woerkom  <van.woerkom@netcologne.de>
+
+	* Tagged everything, we're going 2.0 now
+	
+
+1999-08-16  Marc van Woerkom  <van.woerkom@netcologne.de>
+
+	* cdi_beos.cpp:
+	  Stephen van Egmond forwarded a change that is supposed 
+	  to make the BeOS client recognize the device 
+	  specified on the commmand line. Author unknown.
+
+	  Jeez, the first update in six weeks! Shame on me.
+	
+
+1999-07-01  Marc van Woerkom  <van.woerkom@netcologne.de>
+
+	* Bumped version to 1.2.1
+	
+	* cdi_freebsd.cpp, cdi_netbsd.cpp, cdi_openbsd.cpp:
+	  Threw away unused variables.
+	
+	* cdindex.cpp:
+	  Added times to debug track listing
+	
+
+1999-06-30  Marc van Woerkom  <van.woerkom@netcologne.de>
+
+	* cdi_solaris.cpp, cdi_solaris.h:
+	  I put in some corrections mostly due to Winston Chang
+	  so I think it should work now out of the box
+	
+
+1999-06-29  Marc van Woerkom  <van.woerkom@netcologne.de>
+
+	* configure.in:
+	  After confirmation, switch version string 
+	  from 1.2.0pre to 1.2.0
+	
+
+1999-06-28  Marc van Woerkom  <van.woerkom@netcologne.de>
+
+	* configure.in:
+	  set the the client version to 1.2.0pre
+	
+	
+1999-06-27  Marc van Woerkom  <van.woerkom@netcologne.de>
+
+	* cdi_<os>.cpp, cdi_<os>.h:
+	  Added the -d option proposed by Stephen van Egmond.
+
+	* cdi_beos.cpp, cdi_beos.h:
+	  Added the files sent by Stephen van Egmond.
+	
+	* Have to ask him about BeOS assumptions on integer sizes.
+	  The assumptions in the program so far seem to be:
+    	      sizeof(int) <= sizeof(long)
+	      sizeof(int) = 4
+	  Remember: Solaris >= 2.6 is 64 bit, Irix 6 too!
+	
+	
+1999-06-13  Marc van Woerkom  <van.woerkom@netcologne.de>
+
+	* cdi_linux.cpp, cdi_linux.h:
+	  a bit of code polishing
+
+	* cdi_solaris.cpp, cdi_solaris.h:
+	  I was soo stupid (see comments) .. but I hope it has a good chance
+	  to built and run now!
+
+	* qa/solaris-emu:
+	  added an emulation for Solaris
+
+	* had a look at the Darwin (Rhapsody?) sources from Apple Computer Inc,
+	  because it has been welcomed by the BSD camp and I want to make the
+	  Mac crowd happy, but I can't see any similarities regarding CDDA 
+	  control yet .. 
+	  what a strange, incomplete brew of NeXT, Mac and BSD stuff!
+
+	
+1999-06-10  Marc van Woerkom  <van.woerkom@netcologne.de>
+
+	* introduced support for NetBSD and OpenBSD
+	
+	* Updated the MSVC++ project files to MSVC++ 6.0
+	
+
+1999-06-10  Robert Kaye  <rob@goodnoise.com>
+
+	* updated AUTHORS
+
+	
+1999-06-08  Marc van Woerkom  <van.woerkom@netcologne.de>
+
+	* updated configure etc with recent versions
+
+	* updated the INSTALL doc
+	
+
+1999-06-04  Marc van Woerkom  <van.woerkom@netcologne.de>
+
+	* added Ben's description to INSTALL (thanks for the IRIX binary too!)
+
+	* started OS/2 and Solaris support (both are not supposed
+	  to build or work right now)
+
+	  Bah, the internal layout sucks! - after 1.1.0 release
+	  operation Augeas 
+	
+	      http://despina.advanced.org/23057/stables7.html
+	
+	  has to start!
+	
+        * improved project file for Win32/MSVC++
+	
+        * changed sha_func.c to supress some conversion warnings
+	
+	* changed cdindex.h to use '_WIN32' for recognizing the Win32
+	  platform and within this '__CYGWIN__' to differentiate
+	  between usual Windows environment based compilers and the UNIX
+	  like Cygwin environment
+	
+
+1999-06-03  Marc van Woerkom  <van.woerkom@netcologne.de>
+
+	* Ben Wong tested the IRIX version and fixed some errors,
+	  he also added some comments to the Linux version
+
+	* updated the MSVC++ project files (which I have to have
+	  a look again when I understand the IDE better)
+	  This make the client compile and run again under Win32!
+	
+
+1999-05-21  Marc van Woerkom  <van.woerkom@netcologne.de>
+
+	* added a build emulation for Win32/MS VC++
+
+	* updated cdi_win32.cpp and cdi_win32.h to work again
+	
+
+1999-05-20  Marc van Woerkom  <van.woerkom@netcologne.de>
+
+	* updated the server URL for Irix
+	
+	* updated the address of the mailing list to cdindex@cdindex.org
+	
+	* updated the Linux status in INSTALL
+	
+	* fixed some problems with CVS that caused configuration errors
+	  and unnecessary autoheader/-conf/-make runs
+
+
+1999-05-14  Marc van Woerkom  <van.woerkom@netcologne.de>
+
+	* added a hint about using GNU make
+
+
+1999-05-07  Marc van Woerkom  <van.woerkom@netcologne.de>
+
+	* modified the docs a bit
+
+	
+1999-05-06  Marc van Woerkom  <van.woerkom@netcologne.de>
+
+	* told cvsclean target to nuke files ending with .exe
+
+	
+1999-05-05  Marc van Woerkom  <van.woerkom@netcologne.de>
+
+	* adapted the win32/MS VC++ code to run under Cygwin, due to
+	  incompleteness of the Cygwin headers this blew up cdi_cygwin.h
+	  a bit
+	  Welcome on board, Cygwin!
+	
+
+1999-05-04  Marc van Woerkom  <van.woerkom@netcologne.de>
+
+	* introduced a 'qa' (quality assurance) subdirectory to help release
+	  engineering by use of partially emulated clients - this should 
+	  catch easy errors like stupid typos and certain linkage failures - 
+	  first candidate: the Irix client
+
+	
+1999-05-03  Marc van Woerkom  <van.woerkom@netcologne.de>
+	
+	* took a lesson from the Linux failure, thus tested compilation of 
+	  the Irix client with a bogus header/lib - it compiles and spawns a 
+	  browser. 
+
+	* Cygwin client should compile and run now (and exit with a message
+	  that it can't read the TOC :)
+	
+	* changed a typo in cdi_linux.cpp that prevented compilation
+	  under Linux
+
+	* updated the home URL to www.cdindex.org - in both cases thanks
+	  to Nick Lamb <njl98r@ecs.soton.ac.uk> for pointing this out
+
+	* told cvsclean target to nuke the tarball if present
+
+	* the Irix target enforces more modifications to the specific
+	  and general code (it is more odd than Linux ;-)
+
+	* solved how to hold back the symbolic links from the tarball
+	
+
+1999-05-02  Marc van Woerkom  <van.woerkom@netcologne.de>
+
+	* several changes to the platform specific cdi_<osname>.cpp and 
+	  cdi_<osname>.h files
+
+	* introduced a BUGS file
+
+	* updated README file
+
+	* added information to INSTALL file
+
+        * added the new files to Makefile.am
+	
+	* hope to have updated all autoconf stuff to version 2.13 plus all
+	  automake and aclocal stuff to 1.4
+
+	* added cdi_irix.cc and cdi_irix.h and filled them according to the 
+	  changes sent by Ben Wong <cdindex@wongs.net> - not finished yet
+
+	* added Irix target to configure.in
+
+	* sorted AUTHORS file by first name, reformatted it to include the 
+	  authors e-mail addresses
+
+	* added cygwin target to configure.in
+
+	* added a cvsclean target to Makefile.am, to help me not to check
+	  in bogus files (and worse: directories) into CVS
+
+	* added dummy cdi_cygwin.cc and cdi_cygwin.h to allow configuration
+	  and compilation under Win32 Cygwin environment
+
+	* switched to the change log format supported by mighty Emacs,
+	  moved the old ChangeLog file to NEWS 
+

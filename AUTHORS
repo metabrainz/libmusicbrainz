@@ -1,0 +1,45 @@
+Credits
+=======
+
+The following people have contributed to this program:
+
+  Adam Wozniak <adam@mudlist.eorbit.net>
+  - original CD-ROM TOC code
+
+  Ben Wong <cdindex@wongs.net>
+  - support for SGI Irix
+
+  Bert Vermeulen <bert@biot.com>
+  - improved endian support
+
+  Johnny Tevessen <j.tevessen@gmx.net>
+  - brought in autoconf support
+
+  Jukka Poikolainen <jukka.poikolainen@poikosoft.com>
+  - brought in Win32 TOC code
+
+  Marc E E van Woerkom <van.woerkom@netcologne.de>
+  - support for FreeBSD, NetBSD, OpenBSD, Solaris and Win32/Cygwin
+  - current maintainer
+
+  Mark A Mankins <raider@dnaco.net>
+  - improved Netscape support 
+
+  Rick Bradey <roundeye@bellsouth.net>
+  - support Linux 2.2 kernel and -l command line option
+
+  Robert Kaye <rob@emusic.com>
+  - hacked it together in the first place
+  - support for Win32/MS VC++
+  - coordination of the CD Index/MusicBrainz project
+  - move the CD Index over to MusicBrainz
+  - All the RDF/XML work in the client library
+
+  Stephen van Egmond <svanegmond@home.com>
+  - support for BeOS
+
+  Winston Chang <wchang3@students.wisc.edu>
+  - support for Solaris
+
+
+(please send change requests to rob@musicbrainz.org or maintainer)
