@@ -19,8 +19,13 @@
 #ifndef _ENCODER_H_
 #define _ENCODER_H_
 
-#include <unicode/ucnv.h>
-#include <unicode/utypes.h>
+#include "config.h"
+
+#ifdef USE_ICU
+  #include <unicode/ucnv.h>
+  #include <unicode/utypes.h>
+#endif
+
 #include <string>
 #include <vector>
 #include <map>
@@ -36,7 +41,7 @@ public:
 public:
   /** Initialize the encoder to use the desired encoding.
    * This will have the encoder initialize the converter to use either the
-   * desired character set or the default one (NULL as character name.) The
+   * desired character set or the default ISO-8859-1 (use NULL as character name.) The
    * converter is initialized to use that character set only. If you need to
    * change to a different one call this method again with the new character
    * set.  The old converter will be destroyed and replaced by a new one.
@@ -46,13 +51,13 @@ public:
    */
   bool SetEncoding(const char *charSetName = NULL);
  
-  /** Converts a string of data from UTF-8 encoding to the encoding desired.
+  /** Converts a string of data from UTF-8 encoding.
    * This will convert a string of data that is in UTF-8 encoding to whatever
    * encoding was specified for the converter.
    * @param dest - the converted string of data.
    * @param src - the string of UTF-8 data to convert.
-   * @return True if the conversion was successful. False if an error occured,
-             use GetLastError() to get the error code.
+   * @returns True if the conversion was successful. False if an error occured,
+              use GetLastError() to get the error code.
    */
   bool ConvertData(string &dest, const string &src);
   
@@ -65,12 +70,11 @@ public:
 
   /** Returns the current character set being used.
    * Returns the character set the encoder was initialized with. If the character
-   * set has a MIME or IANA alias it will be returned, if not, the internal canonical name 
-   * for it will be returned.
-   * for the character set will be returned.
-   * @return the character set name, if NULL is returned an error occurred. Use GetLastError() to get the error code.
+   * set has a MIME or IANA alias it will be returned.
+   * @returns True if the encoding name is returned, false if an error occurred. 
+   * Use GetLastError() to get the error code.
    */
-  string GetCurrentEncoding(); 
+  bool GetCurrentEncoding(string &encoding); 
 
   /** Returns a list of available character sets.
    * This method will query the system for available character sets it can use.
@@ -78,40 +82,52 @@ public:
    * canonical name is used. If false is returned then an error occurred.
    * Call GetLastError() to find out what error occurred.
    * @param encodings - an string vector that will hold the character set names. 
-   * @return True if the encodings array was filled, false if an error occurred.
+   * @returns True if the encodings array was filled, false if an error occurred.
    */
   bool GetAvailableEncodings (vector<string> &encodings);
 
   /** Returns the total number of character sets available.
-   * @return - the total number of character sets, if -1 is returned an error occurred. Use GetLastError() to get the error code.
+   * @returns the total number of character sets, if -1 is returned an error occurred. Use GetLastError() to get the error code.
    */
   int GetTotalEncodings();
 
   /** Returns the last error that occurred.
    * This will return the last error that has occurred if there was one. 
-   * If there was no error code than this will return U_ZERO_ERROR. Please
-   * refer to IBM's ICU Project website for the meaning of the error codes. 
+   * If the encoder is using the ICU library this will return U_ZERO_ERROR or a specific error code. 
+   * Please refer to IBM's ICU Project website for the meaning of the error codes. 
    * (http://oss.software.ibm.com/icu/apiref/utypes_8h.html#a162)
-   * @return - The error given by the ICU library. It will be the string representation of the code.
+   * @returns A description of the error that occurred.
    */
   string GetLastError();
 
 private:
   /** Querys the ICU library for an alias to a canonical converter name.
    * @param cnvName - The canonical converter name.
-   * @return - The MIME or IANA alias for the converter name, otherwise the canonical name is returned.
+   * @returns The MIME or IANA alias for the converter name, otherwise the canonical name is returned.
    */
   string GetAlias(const char *cnvName);
+
+  /** Converts from UTF-8 to ISO-8859-1. 
+   * This method is only used when the ICU libraries are unavailable.
+   * @param UTF8 - the UTF-8 encoded string
+   * @returns The new ISO-8859-1 encoded string. 
+   */
+  string ConvertToISO(const string &UTF8);
  
 private:
+#ifdef USE_ICU
   /** The ICU converter object. */
   UConverter *m_converter;
+  /** Error code when using ICU Library. */
+  UErrorCode m_errorCode;
+#else
+  /** Error code when not using ICU Library. */
+  string m_errorCode;
+#endif
   /** The current character set being used. */
   string m_encoding;
   /** Tells if the encoder is using UTF-8 encoding. */
   bool m_useUTF8;
-  /** The last error that occurred. */
-  UErrorCode m_errorCode;
 };
 
 #endif // #ifndef _ENCODER_H_
