@@ -40,6 +40,8 @@ email                : ijr@relatable.com
 
 char tooShortTRM[] = { 0xf9, 0x80, 0x9a, 0xb1, 0x2b, 0x0f, 0x4d, 0x78, 
                        0x88, 0x62, 0xfb, 0x42, 0x5a, 0xde, 0x8a, 0xb9 };
+char sigserverBusyTRM[] = { 0xc4, 0x57, 0xa4, 0xa8, 0xb3, 0x42, 0x4e, 0xc9, 
+                            0x8f, 0x13, 0xb6, 0xbd, 0x26, 0xc0, 0xe4, 0x00 };
 
 namespace SigClientVars
 {
@@ -119,7 +121,14 @@ int SigClient::GetSignature(AudioSig *sig, string &strGUID,
     ret = m_pSocket->NBRead(pBuffer, iGUIDSize, &nBytes, 
                             SigClientVars::nTimeout);
 
-    
+   
+    // If NBRead returned -2 then sigserver is busy
+    if (ret == -2)
+    {
+        ret = 0;
+        strGUID = sigserverBusyTRM;
+    }
+    else
     if ((ret != -1) && (nBytes == iGUIDSize)) {
         ret = 0;
         if (memcmp(pBuffer, pBlank, nBytes))
@@ -137,7 +146,7 @@ int SigClient::GetSignature(AudioSig *sig, string &strGUID,
     }
     else 
     {
-	    ret = -1;
+        ret = -1;
         strGUID = "";
     }
     this->Disconnect();

@@ -174,6 +174,22 @@ int MBCOMHTTPSocket::NBRead(char* pBuffer, int nLen, int* nBytesWritten, int nTi
 			return -1;
 		}
 	}
+
+        // Check to see if the sigserver is happy/busy
+        char *ptr = strchr(HeaderBuffer, ' ');
+        if (ptr)
+        {
+             int status;
+
+             ptr++;
+             status = atoi(ptr);
+             if (status == 503)
+                 return -2;
+             if (status != 200)
+                 return -1;
+        }
+        else
+             return -1;
 	
 	// advance to the data now, if there is any in this first buffer. 
 	char* pData = strstr(HeaderBuffer, "\r\n\r\n");
