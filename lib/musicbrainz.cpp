@@ -39,6 +39,7 @@ extern "C"
    #include "sha1.h"
    #include "base64.h"
    #include "bitcollider.h"
+   #include "mp3.h"
 }
 
 const char *scriptUrl = "/cgi-bin/mq.pl";
@@ -803,6 +804,52 @@ bool MusicBrainz::CalculateBitprint(const string &fileName, BitprintInfo *info)
     }
     delete_submission(sub);
     bitcollider_shutdown(bc);
+
+    return true;
+}
+
+const int bufferSize = 8192;
+
+// Get MP3 information. This function calls the bitzi code to compute the
+// length of the mp3 and other vital mp3 information.
+bool MusicBrainz::GetMP3Info(const string &fileName, 
+                             int          &duration,
+                             int          &bitrate,
+                             int          &stereo,
+                             int          &samplerate)
+{
+    FILE *fp;
+    unsigned char *buffer;
+    mp3_info       info;
+    int            read;
+
+    mp3_init(&info);
+
+    fp = fopen(fileName.c_str(), "rb");
+    if (fp == NULL)
+       return false;
+
+    buffer = new unsigned char[bufferSize];
+    for(;;)
+    {
+        read = fread(buffer, sizeof(char), bufferSize, fp);
+        if (read <= 0)
+            break;
+
+        mp3_update(&info, buffer, (unsigned)read);
+    }
+
+    fclose(fp);
+
+    mp3_final(&info);
+
+    if (info.duration == 0)
+        return false;
+
+    duration = info.duration;
+    bitrate = info.bitrate;
+    stereo = info.stereo;
+    samplerate = info.samplerate;
 
     return true;
 }

@@ -413,6 +413,30 @@ int mb_CalculateBitprint(musicbrainz_t o, char *fileName, BitprintInfo *info)
     return obj->CalculateBitprint(string(fileName), info);
 }
 
+int mb_GetMP3Info(musicbrainz_t o, 
+                  char         *fileNameArg,
+                  int          *durationArg,
+                  int          *bitrateArg,
+                  int          *stereoArg,
+                  int          *samplerateArg)
+{
+    MusicBrainz *obj = (MusicBrainz *)o;
+    int          duration, bitrate, stereo, samplerate, ret;
+
+    if (o == NULL)
+        return 0;
+
+    duration = bitrate = stereo = samplerate = 0;
+
+    ret = obj->GetMP3Info(string(fileNameArg), duration, bitrate, stereo, samplerate);
+    *durationArg = duration;
+    *bitrateArg = bitrate;
+    *stereoArg = stereo;
+    *samplerateArg = samplerate;
+
+    return ret;
+}
+
 trm_t trm_New(void)
 {
     return (trm_t)new TRM();

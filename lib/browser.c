@@ -67,7 +67,7 @@ int LaunchBrowser(const char* url, const char *browser)
              strcpy(command, "netscape \"file://%s\" &");
     }
     else
-        sprintf(command, "%s '%s' &", browser);
+        sprintf(command, "%s '%%s' &", browser);
 
     return Launch(url, command);
 }
@@ -101,7 +101,7 @@ int Launch(const char *url, const char *browser)
     if (ptr && ptr > browser && *(ptr-1) != '"' && *(ptr-1) != '\'')
     {
         *ptr = 0;
-        sprintf(newBrowser, "%s\"%%s\"", browser, ptr + 2);  
+        sprintf(newBrowser, "%s\"%%s\"", browser);  
         browser = newBrowser;
     }
 
