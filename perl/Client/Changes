@@ -5,6 +5,9 @@ otherwise noted.
 
 $Id$
 
+0.04
+	- Test scripts and documentation updates [Tom Heady]
+
 0.03   Fri Feb 21 07:41:05 2003
 	- Added missing ExtUtil::Constant fallback files
 	- Added more pod documentation

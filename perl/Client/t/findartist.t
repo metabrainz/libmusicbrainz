@@ -37,33 +37,33 @@ $mb->set_debug(MB_DEBUG);
 $mb->set_depth(MB_DEPTH);
 
 # Execute the MB_FiendArtistByName query
-my $ret = $mb->query_with_args( MBQ_FindArtistByName, [ ARTIST ]);
-if( !$ret) {
+my $ret = $mb->query_with_args( MBQ_FindArtistByName, [ ARTIST ] );
+unless( $ret) {
    print "Query failed: ", $mb->get_query_error(), "\n";
    exit(0);
 }
 
 # Check to see how many items were returned from the server
-my $num_artists = $mb->get_result_int(MBE_GetNumArtists);
+my $num_artists = $mb->get_result_int( MBE_GetNumArtists );
 if( $num_artists < 1 ) {
    print("No artists found.\n");
    exit(0);
 }
 print "Found ", $num_artists, " artists.\n\n";
 
-for(my $i = 1; $i <= $num_artists; $i++) {
+for( my $i = 1; $i <= $num_artists; $i++ ) {
   # Start at the top of the query and work our way down
   $mb->select( MBS_Rewind );
 
   # Select the $i-th artist
-  $mb->select1( MBS_SelectArtist, $i);
+  $mb->select1( MBS_SelectArtist, $i );
 
   # Extract the artist name from the $i-th track
-  my $data = $mb->get_result_data( MBE_ArtistGetArtistName);
+  my $data = $mb->get_result_data( MBE_ArtistGetArtistName );
   printf("  Artist: '%s'\n", $data |"");
   # Extract the artist id from the $-th track
-  $data = $mb->get_result_data( MBE_ArtistGetArtistId);
-  my $temp = $mb->get_id_from_url( $data) unless( $data );
+  $data = $mb->get_result_data( MBE_ArtistGetArtistId );
+  my $temp = $mb->get_id_from_url( $data ) if( $data );
   printf("  ArtistId: '%s'\n", $temp || "");
   print "\n"; 
 }
