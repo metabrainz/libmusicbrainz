@@ -25,6 +25,7 @@
 #include "trm.h"
 #include "sigfft.h"
 #include "sigclient.h"
+#include "sigxdr.h"
 #include "uuid.h"
 #include "haar.h"
 
@@ -372,7 +373,15 @@ int TRM::CountBeats(void)
 int TRM::FinalizeSignature(string &strGUID, string &collID)
 {
     if (m_numBytesWritten < 2)
-        return -1;
+    {
+        SigXDR conv;
+        char   buffer[64];
+
+        memset(buffer, 0xFF, 64);
+        strGUID = conv.ToStrGUID(buffer, 64);
+
+        return 0;
+    }
 
     DownmixPCM();
 
