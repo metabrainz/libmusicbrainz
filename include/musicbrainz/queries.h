@@ -433,7 +433,7 @@
  * Return the id of the artist
  */
 #define MBE_QuickGetArtistId      \
-        "http://musicbrainz.org/mm/mm-2.1#artistId"
+        "http://musicbrainz.org/mm/mm-2.1#artistid"
 
 /**
  * Return the name of the aritst
