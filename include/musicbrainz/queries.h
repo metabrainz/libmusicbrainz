@@ -498,7 +498,7 @@
  * Return the artist id of the lookup result
  */
 #define MBE_LookupGetAlbumArtistId      \
-        "http://musicbrainz.org/mm/mq-1.1#album" \
+        "http://musicbrainz.org/mm/mq-1.1#album " \
         "http://purl.org/dc/elements/1.1/creator"
 
 /**
