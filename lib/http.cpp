@@ -68,7 +68,7 @@ const unsigned int kBufferSize=8192;
 
 #define DB printf("%s:%d\n", __FILE__, __LINE__);
 
-Http::Http(void)
+MBHttp::MBHttp(void)
 {
     m_exit = false;
     m_file = NULL;
@@ -77,7 +77,7 @@ Http::Http(void)
     m_bufferSize = 0;
 }
 
-Http::~Http(void)
+MBHttp::~MBHttp(void)
 {
     if (m_buffer)
        delete m_buffer;
@@ -86,14 +86,14 @@ Http::~Http(void)
         fclose(m_file);
 }
 
-void Http::SetProxyURL(const string &proxy)
+void MBHttp::SetProxyURL(const string &proxy)
 {
     m_proxy = proxy;    
 }
 
-Error Http::DownloadToString(const string &url, 
-                             const string &xml, 
-                             string &page)
+Error MBHttp::DownloadToString(const string &url, 
+                               const string &xml, 
+                               string &page)
 {
     Error eRet;
 
@@ -110,9 +110,9 @@ Error Http::DownloadToString(const string &url,
     return eRet;
 }
 
-Error Http::DownloadToFile(const string &url, 
-                           const string &xml, 
-                           const string &destPath)
+Error MBHttp::DownloadToFile(const string &url, 
+                             const string &xml, 
+                             const string &destPath)
 {
     Error eRet;
 
@@ -127,7 +127,7 @@ Error Http::DownloadToFile(const string &url,
     return eRet;
 }
 
-int Http::WriteToBuffer(unsigned char *buffer, unsigned int size)
+int MBHttp::WriteToBuffer(unsigned char *buffer, unsigned int size)
 {
     if (m_buffer == NULL)
     {
@@ -153,7 +153,7 @@ int Http::WriteToBuffer(unsigned char *buffer, unsigned int size)
     return size;
 }
 
-int Http::WriteToFile(unsigned char *buffer, unsigned int size)
+int MBHttp::WriteToFile(unsigned char *buffer, unsigned int size)
 {
 
     if (m_file == NULL)
@@ -166,7 +166,7 @@ int Http::WriteToFile(unsigned char *buffer, unsigned int size)
     return fwrite(buffer, sizeof(unsigned char), size, m_file);
 }
 
-Error Http::Download(const string &url, const string &xml, bool fileDownload)
+Error MBHttp::Download(const string &url, const string &xml, bool fileDownload)
 {
     Error          result = kError_InvalidParam;
     char           hostname[kMaxHostNameLen + 1];
@@ -552,7 +552,7 @@ Error Http::Download(const string &url, const string &xml, bool fileDownload)
     return result;
 }
 
-Error Http::Connect(int hHandle, const struct sockaddr *pAddr, int &iRet)
+Error MBHttp::Connect(int hHandle, const struct sockaddr *pAddr, int &iRet)
 {
     fd_set              sSet; 
     struct timeval      sTv;
@@ -595,8 +595,8 @@ Error Http::Connect(int hHandle, const struct sockaddr *pAddr, int &iRet)
     return kError_NoErr;
 }
 
-Error Http::Recv(int hHandle, char *pBuffer, int iSize, 
-                 int iFlags, int &iRead)
+Error MBHttp::Recv(int hHandle, char *pBuffer, int iSize, 
+                   int iFlags, int &iRead)
 {
     fd_set              sSet; 
     struct timeval      sTv;
@@ -627,8 +627,8 @@ Error Http::Recv(int hHandle, char *pBuffer, int iSize,
     return kError_NoErr;
 }                            
 
-Error Http::Send(int hHandle, char *pBuffer, int iSize, 
-                 int iFlags, int &iRead)
+Error MBHttp::Send(int hHandle, char *pBuffer, int iSize, 
+                   int iFlags, int &iRead)
 {
     fd_set              sSet; 
     struct timeval      sTv;
@@ -659,12 +659,12 @@ Error Http::Send(int hHandle, char *pBuffer, int iSize,
     return kError_NoErr;
 }                            
 
-void Http::Progress(unsigned int bytesReceived, unsigned int maxBytes)
+void MBHttp::Progress(unsigned int bytesReceived, unsigned int maxBytes)
 {
 
 }
 
-bool Http::IsHTTPHeaderComplete(char* buffer, uint32 length)
+bool MBHttp::IsHTTPHeaderComplete(char* buffer, uint32 length)
 {
     bool result = false;
 
@@ -680,7 +680,7 @@ bool Http::IsHTTPHeaderComplete(char* buffer, uint32 length)
     return result;
 }
 
-int32 Http::GetContentLengthFromHeader(const char* buffer)
+int32 MBHttp::GetContentLengthFromHeader(const char* buffer)
 {
     int32 result = -1;
 

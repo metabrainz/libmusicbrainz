@@ -154,8 +154,8 @@ void MusicBrainz::GenerateSignatureNow(string &strGUID, string &collID)
     
     if (DCOffsetFix != 0) {
         cout << "DC offset fix: " << DCOffsetFix << " (" << sum << ")\n";
-        for (int z = 0; z < m_numSamplesWritten; z++)
-            sample[z] += DCOffsetFix;
+//        for (int z = 0; z < m_numSamplesWritten; z++)
+//            sample[z] += DCOffsetFix;
     }
  
     bool bLastNeg = false;
