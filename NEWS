@@ -1,3 +1,8 @@
+Changes from MusicBrainz 1.0.0-pre?:
+
+- Changed everything again. Now the client library uses an RDF parser
+  instead of the previous fake RDF stuff bolted on top of XML. :-)
+
 Changes from 1.2.1 to MusicBrainz 1.0.0-pre1:
 
 - Changed everything. :-)
