@@ -42,7 +42,7 @@ extern "C"
    #include "mp3.h"
 }
 
-const char *scriptUrl = "/cgi-bin/mq.pl";
+const char *scriptUrl = "/cgi-bin/mq_2_1.pl";
 const char *localCDInfo = "@CDINFO@";
 const char *localTOCInfo = "@LOCALCDINFO@";
 const char *localAssociateCD = "@CDINFOASSOCIATECD@";
@@ -572,6 +572,17 @@ void MusicBrainz::GetIDFromURL(const string &url, string &id)
        pos++;
 
     id.erase(0, pos); 
+}
+
+// track numbers are usually expressed in terms of ordinals in a list. This
+// query assists in getting the ordinal number from a list. A list context
+// selector needs to be specified and an id to be plucked from the list as well.
+int MusicBrainz::GetOrdinalFromList(const string &resultList, const string &id)
+{
+    if (m_rdf == NULL)
+       return false;
+
+    return m_rdf->GetOrdinalFromList(m_currentURI, resultList, id);
 }
 
 // Escape the & < and > in the passed rdf string and replace with
