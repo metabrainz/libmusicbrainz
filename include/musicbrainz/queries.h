@@ -114,7 +114,7 @@
                                   "<DC:Format duration=\"@7@\"/>\n"            \
                                   "<DC:Date issued=\"@8@\"/>\n"                \
                                   "<MM:Genre>@9@</MM:Genre>\n"                 \
-                                  "<DC:Description>@10</DC:Description>\n"    
+                                  "<DC:Description>@10@</DC:Description>\n"
 #define MB_GetLyricsById          "<MQ:Query>GetLyricsById</MQ:Query>\n"       \
                                   "<MQ:Args id=\"@1@\"/>\n"
 
