@@ -124,12 +124,28 @@
  */
 #define MBE_GetError               \
         "http://musicbrainz.org/mm/mq-1.0#error"
+
+
+/* -------------------------------------------------------------------------
+ * Top level queries used with MBQ_FileInfoLookup 
+ * -------------------------------------------------------------------------
+ */
+
 /** 
- * Internal use only.
+ * Get the general return status of this query. Values for this
+ * include OK or fuzzy. Fuzzy is returned when the server made 
+ * a fuzzy match somewhere while handling the query.
  */
 #define MBE_GetStatus              \
         "http://musicbrainz.org/mm/mq-1.0#status"
 
+/** 
+ * Return the matchType for query. The matchtype tells the client
+ * what elements the server was able to resolve. Possible values are
+ * artist, artist_album, artist_track, artist_album_track.
+ */
+#define MBE_GetMatchType      \
+        "http://musicbrainz.org/mm/mq-1.0#matchType"
 
 /* -------------------------------------------------------------------------
  * Queries used to determine the number of items returned
@@ -731,5 +747,40 @@
     " <mq:sessionId>@SESSID@</mq:sessionId>\n" \
     " <mq:sessionKey>@SESSKEY@</mq:sessionKey>\n" \
     "</mq:SubmitTRMList>\n" 
+
+/** 
+ * Lookup metadata for one file. This function can be used by tagging applications
+ * to attempt to match a given track with a track in the database. The server will
+ * attempt to match an artist, album and track during three phases. If 
+ * at any one lookup phase the server finds ONE item only, it will move on to
+ * to the next phase. If no items are returned, an error message is returned. If 
+ * more then one item is returned, the end-user will have to choose one from
+ * the returned list and then make another call to the server. To express the
+ * choice made by a user, the client should leave the artistName/albumName empty and 
+ * provide the artistId and/or albumId empty on the subsequent call. Once an artistId
+ * or albumId is provided the server will pick up from the given Ids and attempt to
+ * resolve the next phase.
+ * @param ArtistName The name of the artist, gathered from ID3 tags or user input
+ * @param AlbumName  The name of the album, also from ID3 or user input
+ * @param TrackName  The name of the track
+ * @param TrackNum   The track number of the track being matched
+ * @param Duration   The duration of the track being matched
+ * @param FileName   The name of the file that is being matched. This will only be used
+ *                   if the ArtistName, AlbumName or TrackName fields are blank. 
+ * @param ArtistId   The AritstId resolved from an earlier call. 
+ * @param AlbumId    The AlbumId resolved from an earlier call. 
+ */
+#define MBQ_FileInfoLookup \
+    "<mq:FileInfoLookup>\n" \
+    "   <mq:artistName>@1@</mq:artistName>\n" \
+    "   <mq:albumName>@2@</mq:albumName>\n" \
+    "   <mq:trackName>@3@</mq:trackName>\n" \
+    "   <mm:trackNum>@4@</mm:trackNum>\n" \
+    "   <mm:duration>@5@</mm:duration>\n" \
+    "   <mq:fileName>@6@</mq:fileName>\n" \
+    "   <mm:artistid>@7@</mm:artistid>\n" \
+    "   <mm:albumid>@8@</mm:albumid>\n" \
+    "   <mq:maxItems>@MAX_ITEMS@</mq:maxItems>\n" \
+    "</mq:FileInfoLookup>\n" 
 
 #endif
