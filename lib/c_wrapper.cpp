@@ -170,6 +170,14 @@ int mb_GetResultRDFLen(musicbrainz_t o)
     return xmlString.length();
 }
 
+void mb_SetResultRDF(musicbrainz_t o,char *xml)
+{
+    MusicBrainz *obj = (MusicBrainz *)o;
+    string   xmlString(xml);
+
+    obj->SetResultRDF(xmlString);
+}
+
 int mb_GetNumItems(musicbrainz_t o)
 {
     MusicBrainz *obj = (MusicBrainz *)o;
