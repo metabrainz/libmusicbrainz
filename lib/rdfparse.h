@@ -73,11 +73,7 @@
 extern "C" {
 #endif
 
-#ifdef RDFPARSE_INCLUDE_XMLPARSE
-#include "xmlparse.h"
-#else
-#include "../expat/xmlparse/xmlparse.h"
-#endif
+#include "expat.h"
 
 #ifndef RDFPARSEAPI
 #define RDFPARSEAPI /* as nothing */
