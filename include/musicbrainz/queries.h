@@ -51,7 +51,7 @@
 #define MB_GetNumTracks           "MM:Collection/@numParts"
 
 #define MB_GetGUID                "DC:Identifier/@guid"
-#define MB_GetFilename            "DC:Identifier/@fileName"
+#define MB_GetFilename            "MQ:Filename"
 #define MB_GetDuration            "DC:Format/@duration"
 #define MB_GetYear                "DC:Date/@issued"
 #define MB_GetGenre               "MM:Genre"
@@ -112,11 +112,15 @@
                                   "<MQ:Args id=\"@1@\"/>\n"
 #define MB_ExchangeMetadata       "<MQ:Query>ExchangeMetadata</MQ:Query>\n"    \
                                   "<DC:Title>@1@</DC:Title>\n"                 \
-                                  "<DC:Identifier guid=\"@2@\" \n"             \
-                                  "               fileName=\"@3@\"/>\n"        \
+                                  "<DC:Identifier guid=\"@2@\"/>\n"            \
+                                  "<MQ:Filename>@3@</MQ:Filename>\n"           \
                                   "<DC:Creator>@4@</DC:Creator>\n"             \
-                                  "<MM:Album>@5@</MM:Album>\n"                 \
-                                  "<DC:Relation track=\"@6@\"/>\n"             \
+                                  "<DC:Relation>\n"                            \
+                                  "  <rdf:Description>\n"                      \
+                                  "    <DC:Title>@5@</DC:Title>\n"             \
+                                  "  </rdf:Description>\n"                     \
+                                  "</DC:Relation>\n"                           \
+                                  "<MM:TrackNum>@6@</MM:TrackNum>\n"           \
                                   "<DC:Format duration=\"@7@\"/>\n"            \
                                   "<DC:Date issued=\"@8@\"/>\n"                \
                                   "<MM:Genre>@9@</MM:Genre>\n"                 \
@@ -127,9 +131,13 @@
                                   "<DC:Title>@1@</DC:Title>\n"                 \
                                   "<DC:Identifier guid=\"@2@\"/>\n"            \
                                   "<DC:Creator>@3@</DC:Creator>\n"             \
-                                  "<MM:Album>@4@</MM:Album>\n"                 \
+                                  "<DC:Relation>\n"                            \
+                                  "  <rdf:Description>\n"                      \
+                                  "    <DC:Title>@4@</DC:Title>\n"             \
+                                  "  </rdf:Description>\n"                     \
+                                  "</DC:Relation>\n"                           \
                                   "<DC:Relation track=\"@5@\"/>\n"             \
-                                  "<DC:Format duration=\"@6@\"/>\n"            \
+                                  "<MM:TrackNum>@6@</MM:TrackNum>\n"           \
                                   "<DC:Date issued=\"@7@\"/>\n"                \
                                   "<MM:Genre>@8@</MM:Genre>\n"                 \
                                   "<DC:Description>@9@</DC:Description>\n"
