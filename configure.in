@@ -49,23 +49,16 @@ fi
 dnl Checks for libraries.
 
 dnl libexpat check
-have_expat=false
-AC_CHECK_HEADER(expat.h, [
-  AC_CHECK_LIB(expat, XML_ExpatVersionInfo, [have_expat=true])])
+AC_CHECK_LIB(expat, XML_ExpatVersion,
+	[EXPAT_LIBS="-lexpat"], [
+	echo "*"
+	echo "*  expat is needed to build this library. It is either not"
+	echo "*  installed on your system or it is too old."
+	echo "*  Please download it from http://expat.sourceforge.net."
+	echo "*"
+	AC_MSG_ERROR("Cannot build. Stop.")], -lexpat)
 
-if test "$have_expat" = true; then
-  EXPAT_LIBS="-lexpat"
-  MAYBE_EXPAT=""
-else
-  if test "$os" = "darwin"; then
-     EXPAT_LIBS='$(top_builddir)/expat/xmlparse/hashtable.lo $(top_builddir)/expat/xmlparse/xmlparse.lo $(top_builddir)/expat/xmltok/xmlrole.lo $(top_builddir)/expat/xmltok/xmltok.lo'
-  else
-     EXPAT_LIBS='$(top_builddir)/expat/xmlparse/libxmlparse.la $(top_builddir)/expat/xmltok/libxmltok.la'
-  fi
-  MAYBE_EXPAT=expat
-fi
 AC_SUBST(EXPAT_LIBS)
-AC_SUBST(MAYBE_EXPAT)
 
 dnl Checks for header files.
 
@@ -153,9 +146,6 @@ Makefile
 include/Makefile 
 include/musicbrainz/Makefile 
 lib/Makefile 
-expat/Makefile 
-expat/xmltok/Makefile 
-expat/xmlparse/Makefile 
 osdep/Makefile
 examples/Makefile
 perl/Makefile
