@@ -21,7 +21,7 @@
 #
 AUTOMAKE_OPTIONS = foreign
 
-SUBDIRS = @MAYBE_EXPAT@ include lib osdep examples 
+SUBDIRS = include lib osdep examples 
 DIST_SUBDIRS = expat osdep include lib examples perl 
 
 cvsclean: distclean
