@@ -46,8 +46,9 @@ int main(int argc, char *argv[])
     // Tell the server to only return 2 levels of data
     mb_SetDepth(o, 2);
 
-    // Set the server you want to use. Defaults to www.musicbrainz.org:80
-    //mb_SetServer(o, "www.musicbrainz.org", 80);
+    // Set the proper server to use. Defaults to www.musicbrainz.org:80
+    if (getenv("MB_SERVER"))
+        mb_SetServer(o, getenv("MB_SERVER"), 80);
 
     // Set up the args for the find artist query
     args[0] = argv[1];

@@ -85,9 +85,9 @@ int main(void)
     string         xml, qarg, query, server;
     vector<string> args;
 
-    // Set the server you want to use. Defaults to www.musicbrainz.org:80
-    //server = string("mb.eorbit.net");
-    //o.SetServer(server, 80);
+    // Set the proper server to use. Defaults to www.musicbrainz.org:80
+    if (getenv("MB_SERVER"))
+        mb_SetServer(o, getenv("MB_SERVER"), 80);
 
     // Tell the client library to return data in ISO8859-1 and not UTF-8
     o.UseUTF8(0);

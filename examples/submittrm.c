@@ -49,8 +49,9 @@ int main(int argc, char *argv[])
     // Tell the server to return 4 levels of data
     mb_SetDepth(o, 3);
 
-    // Set the server you want to use. Defaults to www.musicbrainz.org:80
-    mb_SetServer(o, "musicbrainz.eorbit.net", 80);
+    // Set the proper server to use. Defaults to www.musicbrainz.org:80
+    if (getenv("MB_SERVER"))
+        mb_SetServer(o, getenv("MB_SERVER"), 80);
 
     ret = mb_Authenticate(o, argv[1], argv[2]);
     if (ret == 0)

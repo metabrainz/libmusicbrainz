@@ -28,8 +28,8 @@
 int main(int argc, char *argv[])
 {
     musicbrainz_t o;
-    char          error[256], data[256], temp[256], *args[2];
-    int           ret, numTracks, trackNum, i;
+    char          error[256], data[256],*args[2];
+    int           ret, trackNum;
 
     if (argc < 2)
     {
@@ -49,8 +49,9 @@ int main(int argc, char *argv[])
     // Tell the server to return 4 levels of data
     mb_SetDepth(o, 3);
 
-    // Set the server you want to use. Defaults to www.musicbrainz.org:80
-    //mb_SetServer(o, "musicbrainz.eorbit.net", 80);
+    // Set the proper server to use. Defaults to www.musicbrainz.org:80
+    if (getenv("MB_SERVER"))
+        mb_SetServer(o, getenv("MB_SERVER"), 80);
 
     // Set up the args for the find artist query
     args[0] = argv[1];

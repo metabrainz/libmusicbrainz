@@ -22,6 +22,7 @@
 
 ----------------------------------------------------------------------------*/
 #include <stdio.h>
+#include <stdlib.h>
 #include "musicbrainz.h"
 
 int main(void)
@@ -31,8 +32,12 @@ int main(void)
     bool        ret;
     int         numTracks, trackNum;
  
-    // Set the server you want to use. Defaults to www.musicbrainz.org:80
-    //o.SetServer(string("musicbrainz.eorbit.net"), 80);
+    // Set the proper server to use. Defaults to www.musicbrainz.org:80
+    if (getenv("MB_SERVER"))
+    {
+        string server(getenv("MB_SERVER"));
+        o.SetServer(server, 80);
+    }
 
     // If you need to use a proxy, uncomment/edit the following line
     // as appropriate
