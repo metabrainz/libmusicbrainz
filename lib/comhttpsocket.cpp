@@ -1,5 +1,5 @@
 /***************************************************************************
-                          comhttpsocket.cpp  -  description
+                          MBCOMHTTPSocket.cpp  -  description
                              -------------------
     begin                : Sat Sep 29 2000
     copyright            : (C) 2000 by Relatable 
@@ -24,9 +24,12 @@ const char* g_strCOMVer = "Freeamp_2.1.1.0";
 
 MBCOMHTTPSocket::MBCOMHTTPSocket()
 {
-	m_pSock = new MBCOMSocket;
+	m_pSock = new COMSocket;
 	m_pTempBuf = NULL;
-	m_nBufLen = 0;	
+	m_nBufLen = 0;
+	memset(m_hostname, 0x00, 65);
+	memset(m_proxyname, 0x00, 1025);
+	m_pFile = NULL;
 }
 MBCOMHTTPSocket::~MBCOMHTTPSocket()
 {
@@ -47,7 +50,8 @@ int MBCOMHTTPSocket::Connect(const char* pURL)
 		m_nBufLen = 0;
 	}
 	// if its not an http:// based url, this can't deal with it
-	if (strncasecmp(pURL, "http://", 7)) return -1;
+//	if (strncasecmp(pURL, "http://", 7)) return -1;
+	if (strncmp(pURL, "http://", 7)) return -1;
 	m_strURL = pURL;
 
 	int nRes = 0;
@@ -72,7 +76,7 @@ int MBCOMHTTPSocket::Connect(const char* pURL)
 		
 		m_pFile = strchr(m_strURL.c_str() + 7, '/');
 	}
-
+	
 	if (nNumFields < 1)
 	{
 		return -1; // screwed url
@@ -81,7 +85,7 @@ int MBCOMHTTPSocket::Connect(const char* pURL)
 	{
 		nPort = 80;
 	}
-
+	
 	nRes = m_pSock->Connect((const char*)m_hostname, nPort, SOCK_STREAM);
 	return nRes;	
 }
@@ -119,7 +123,7 @@ int MBCOMHTTPSocket::Write(const char* pBuffer, int nLen, int* pnBytesWritten)
 	sprintf(pReq, pRequest, m_pFile, m_hostname, g_strCOMVer, nLen);
 	
 	strcat(pReq, "\r\n");
-
+	
 	memcpy(pReq + strlen(pReq), pBuffer, nLen);
 	int nBytes = 0;
 	int nRes = m_pSock->Write(pReq, nReqLen, &nBytes);
