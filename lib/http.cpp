@@ -172,6 +172,31 @@ int MBHttp::WriteToFile(unsigned char *buffer, unsigned int size)
     return fwrite(buffer, sizeof(unsigned char), size, m_file);
 }
 
+EncodeURI(string & URI)
+{
+   string::size_type convert = 0;
+   const char *legalCharacters =
+
+      "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/?.";
+
+   if (strncmp(URI.c_str(), "http://", 7) == 0)
+       convert = URI.find(string("/"), 7);
+
+   while ((convert = URI.find_first_not_of(legalCharacters, convert)) !=
+          string::npos)
+   {
+      string    hex = "%";
+      char      num[8];
+
+      sprintf(num, "%02x", URI[convert] & 0xFF);
+      hex += num;
+
+      URI.replace(convert, 1, hex);
+
+      convert += hex.length();
+   }
+}
+
 Error MBHttp::Download(const string &url, const string &xml, bool fileDownload)
 {
     Error          result = kError_InvalidParam;
@@ -181,7 +206,7 @@ Error MBHttp::Download(const string &url, const string &xml, bool fileDownload)
     struct         sockaddr_in  addr;
     struct         hostent      host;
     SOCKET         s = -1;
-    char*          file = NULL;
+    string         file;
     unsigned int   bytesReceived = 0;
 
     result = kError_ProtocolNotSupported;
@@ -199,15 +224,16 @@ Error MBHttp::Download(const string &url, const string &xml, bool fileDownload)
                                "http://%[^:/]:%hu", hostname, &port);
 
             strcpy(proxyname, url.c_str());
-            file = proxyname;
+            file = string(proxyname);
         }
         else
         {
             numFields = sscanf(url.c_str(), 
                            "http://%[^:/]:%hu", hostname, &port);
 
-            file = strchr(url.c_str() + 7, '/');
+            file = string(strchr(url.c_str() + 7, '/'));
         }
+        EncodeURI(file);
 
         if(numFields < 1)
         {
@@ -304,15 +330,16 @@ Error MBHttp::Download(const string &url, const string &xml, bool fileDownload)
             // the magic 256 is enough for a time field that
             // we got from the server
             char* query = new char[ strlen(kHTTPQuery) + 
-                                    strlen(file) +
+                                    file.length() +
                                     strlen(hostname) +
                                     strlen(MUSICBRAINZ_VERSION)+
                                     2 + xml.length()];
         
             if (xml.length() == 0)
-               sprintf(query, kHTTPQuery, file, hostname, MUSICBRAINZ_VERSION);
+               sprintf(query, kHTTPQuery, file.c_str(), hostname, 
+                       MUSICBRAINZ_VERSION);
             else
-               sprintf(query, kHTTPQuery, file, hostname, 
+               sprintf(query, kHTTPQuery, file.c_str(), hostname, 
                        MUSICBRAINZ_VERSION, xml.length());
             strcat(query, "\r\n");
 
