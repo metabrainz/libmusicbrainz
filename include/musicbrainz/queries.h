@@ -305,6 +305,12 @@
         "http://musicbrainz.org/mm/mm-2.0#trackNum"
 
 /**
+ * Return the track duration in the currently selected track
+ */
+#define MBE_TrackGetTrackDuration \
+        "http://musicbrainz.org/mm/mm-2.0#duration"
+
+/**
  * Return the name of the artist for this track. 
  */
 #define MBE_TrackGetArtistName      \
