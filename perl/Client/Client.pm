@@ -71,9 +71,10 @@ XSLoader::load('MusicBrainz::Client', $VERSION);
 1;
 __END__
 
+
 =head1 NAME
 
-MusicBrainz::Client - Perl extension for MusicBrainz Client Library
+MusicBrainz::Client - MusicBrainz Client API
 
 =head1 SYNOPSIS
 
@@ -85,7 +86,6 @@ MusicBrainz::Client - Perl extension for MusicBrainz Client Library
     die("Query failed: ", $mb->get_query_error(), "\n");
   }
   print "Found ", $mb->get_result_int(MBE_GetNumArtists), " artists\n";
-    
 
 =head1 DESCRIPTION
 
@@ -93,65 +93,360 @@ This module provides access to the musicbrainz client API using a perl-ish
 OO interface.
 
 =head2 Methods
+  
 
-$mb->new()
+=over 4
 
-($major, $minor, $revision) = $mb->get_version()
 
-$success = $mb->set_server($serverAddr, $serverPort)
+=item new
 
-$mb->set_debug($debug)
+$mb->new();
+
+Create a new handle to the MusicBrainz object.
+
+=item get_version
+
+($major, $minor, $revision) = $mb->get_version();
+
+Get the version number of the libmusicbrainz library in use.
+
+=item set_server
+
+$success = $mb->set_server($serverAddr, $serverPort);
+
+Set the name and the port of the MusicBrainz server to use.
+If this function is not called, the default www.musicbrainz.org server on port 80 will be used.
+
+See also: L<set_proxy>
+
+=item set_debug
+
+$mb->set_debug($debug);
+
+Enable debug out to stdout by sending a non-zero value to this function.
+
+
+=item set_proxy
+
+$success = $mb->set_proxy($serverAddr, $serverPort);
+
+Set the name of the HTTP Proxy to use.
+This function must be called anytime the client library must communicate via a proxy firewall.
+
+See also: L<set_server>
+
+
+=item authenticate
+
+$success = $mb->authenticate($userName, $password);
+
+This function must be called if you want to submit data to the server 
+and give the user credit for the submission. If you're looking up data 
+from the server, you do not need to call authenticate. If you are 
+submitting data to the MB server and you want your submissions be submitted 
+anonymously, then do not call this function.
+
+returns true if the server authentication was correctly initiated.
+
+Note: the password is sent in plaintext.
+
+
+=item set_device
+
+$success = $mb->set_device($device);
+
+Call this function to set the CD-ROM drive device if you plan to use the 
+client library to identify and look up CD-ROMs using MusicBrainz. 
+Unix: specify a device such as /dev/cdrom. Defaults to /dev/cdrom 
+Windows: specify a drive letter of a CD-ROM drive. e.g. E:
+
+Always returns true.
+
+
+=item use_utf8
+
+$mb->use_utf8( 1 );
+
+Use this function to set the output returned by the Get function. 
+The Get functions can return data in ISO-8859-1 encoding or in UTF-8. 
+Defaults to ISO-8859-1.
+
+=item set_depth
+
+$mb->set_depth($depth);
  
-$success = $mb->set_proxy($serverAddr, $serverPort)
+Set the search depth of the query. 
+Please refer to the "Query Depth" section in the MusicBrainz HOWTO 
+(http://www.musicbrainz.org/client_howto.html) for an explanation of this value. 
+Defaults to 2.
 
-$success = $mb->authenticate($userName, $password) 
+=item set_max_items
 
-$success = $mb->set_device($device)
+$mb->set_max_items($maxItems);
 
-$mb->use_utf8($useUTF8)
+Set the maximum number of items to return to the client. 
+If a search query yields more items than this max number, 
+the server will omit the excess items and not return them to the client. 
+This value defaults to 25.
 
-$mb->set_depth($depth)
+See also: L<query>
 
-$mb->set_max_items($maxItems)
+=item query
 
-$success = $mb->query($rdfObject)
+$success = $mb->query($rdfObject);
 
-$sucess = $mb->query_with_args($rdfObject, \@args)
+Query the MusicBrainz server. 
+Use this function if your query requires no arguments other than the query itself. 
+Please refer to the MusicBrainz::Queries module for the documentation 
+on the available queries.
 
-$url = $mb->get_web_submit_url()
-
-$error = $mb->get_query_error()
-
-$success = $mb->select($selectQuery)
+Returns true if the query succeeded (even if no items are returned) 
+and false if the query failed. 
+Call $mb->get_query_error(); for details on the error that occurred.
  
-$success = j$mb->select1($selectQuery, $ord)
+ See also: L<get_query_error> , L<query_with_args>
+ 
 
-$data =  $mb->get_result_data($resultName)
+=item query_with_args
+ 
 
-$data1 = $mb->get_result_data1($resultName, $ordinal)
+$sucess = $mb->query_with_args($rdfObject, \@args);
 
-$success = $mb->does_result_exist($resultName)
+Query the MusicBrainz server. 
+Use this function if your query requires one or more arguments. 
+The arguments are as an anonymous array.
 
-$success $mb->does_result_exist1($resultName, $ordinal)
+$rdfObject is one of the exportable constants defined in MusicBrainz::Queries
+  
+Returns true if the query succeeded (even if no items are returned) 
+and false if the query failed. 
+Call $mb->get_query_error(); for details on the error that occurred.
+  
+See also: L<get_query_error> , L<query>
+  
 
-$result = $mb->get_result_int($resultName)
+=item get_web_submit_url
+  
 
-$result = $mb->get_result_int1($resultName, $ordinal)
+$url = $mb->get_web_submit_url();
+  
+Use this function to query the current CD-ROM and to calculate the web 
+submit URL that can be opened in a browser in order to start the web 
+based CD-ROM Submission to MusicBrainz. The CD-ROM in the CD-ROM drive 
+set by $mb->set_device(); will be queried.
+  
+Returns true if the url was successfully generated, false if an error occurred.
+  
+See also: L<set_device>
+  
 
-$rdfstr = $mb->get_result_rdf()
+=item get_query_error
+  
 
-$success = $mb->set_result_rdf($rdfstr)
+$error = $mb->get_query_error();
+  
+Retrieve the error message that was generated during the last call 
+to $mb->query(); or $mb->query_with_args();
+  
+See also: L<query> , L<query_with_args>
+  
 
-$id = $mb->get_id_from_url($url)
+=item select
+  
 
-$fragment = $mb->get_fragment_from_url($url)
+$success = $mb->select($selectQuery);
+  
+Select a context in the result query. Use this function if your Select requires 
+no ordinal arguments. Pass this function a select query (starts with MBS_) from MusicBrainz::Queries. 
+Please refer to the MusicBrainz HOWTO (http://www.musicbrainz.org/client_howto.html)
+for more details on why you need to do a Select and what types of Selects are available. 
+  
+Returns true if the select succeeded, false otherwise.
+  
+See also: L<select1> 
+  
 
-$ord = $mb->get_ordinal_from_list($resultList, $URI)
+=item select1
+  
 
-$sha1 = $mb->calculate_sha1($filename)
+$success = $mb->select1($selectQuery, $ord);
+  
+Select a context in the result query. Use this function if your Select 
+requires one ordinal argument. Pass this function a selectQuery 
+(usually start with MBS_) from MusicBrainz::Queries.
+Please refer to the MusicBrainz HOWTO (http://www.musicbrainz.org/client_howto.html)
+for more details on why you need to do a Select and what types of Selects are available. 
+  
+Returns true if the select succeeded, false otherwise. 
+  
+See also: L<select>
+  
 
-($duration, $bitrate, $stereo, $samplerate) =  $mb->get_mp3_info($filename)
+=item get_result_data
+  
 
+$data = $mb->get_result_data($resultName);
+  
+Extract a piece of information from the data returned by a successful query. 
+This function takes a resultName (usually named starting with MBE_) from MusicBrainz::Queries.
+Please refer to the MusicBrainz HOWTO (http://www.musicbrainz.org/client_howto.html)
+  
+Returns true if the correct piece of data was returned and found, false otherwise.
+  
+See also: L<get_result_data1>
+  
+
+=item get_result_data1
+
+
+$data1 = $mb->get_result_data1($resultName, $ordinal);
+
+Extract a piece of information from the data returned by a successful query. 
+This function takes a resultName (usually named starting with MBE_) from MusicBrainz::Queries.
+See the MusicBrainz HOWTO (http://www.musicbrainz.org/client_howto.html).
+$ordinal is the position of the data you wish to retrieve.
+
+Returns true if the correct piece of data was returned and found, false otherwise.
+
+See also: L<get_result_data> 
+
+
+=item does_result_exist
+
+
+$success = $mb->does_result_exist($resultName);
+
+Check to see if a piece of information exists in data returned by a successful query. 
+This function takes the same resultName argument as L<get_result_data>
+
+Returns true if the result data exists, false otherwise 
+
+See also: L<get_result_data> 
+  
+
+=item does_result_exist1
+
+
+$success $mb->does_result_exist1($resultName, $ordinal);
+
+Check to see if a piece of information exists in data returned by a 
+successful query. This function takes the same resultName and ordinal 
+arguments as L<get_result_data1>
+
+Returns true if the result data exists, false otherwise 
+
+See also: L<get_result_data1> 
+
+
+=item get_result_int
+
+
+$result = $mb->get_result_int($resultName);
+
+Return the integer value of a result from the data returned 
+by a successful Query. This function takes the same resultName 
+argument as L<get_result_data>
+
+Returns the integer value of the result 
+
+See also: L<get_result_data> 
+
+
+=item get_result_int1
+
+
+$result = $mb->get_result_int1($resultName, $ordinal);
+
+Return the integer value of a result from the data returned 
+by a successful Query. This function takes the same resultName and ordinal
+arguments as L<get_result_data1>
+
+Returns the integer value of the result 
+
+See also: L<get_result_data1>
+
+
+=item get_result_rdf
+
+
+$rdfstr = $mb->get_result_rdf();
+
+Retrieve the RDF that was returned by the server. 
+Most users will not want to use this function!
+
+
+=item set_result_rdf
+
+
+$success = $mb->set_result_rdf($rdfstr);
+
+Set an RDF object for so that the Get functions can be used to 
+extract data from the RDF. Advanced users only!
+
+See also: L<get_result_rdf>
+
+
+=item get_id_from_url
+
+
+$id = $mb->get_id_from_url($url);
+
+Extract the actual artist/album/track ID from a MBE_GETxxxxxId query. 
+The MBE_GETxxxxxId functions return a URL to where the more RDF metadata 
+for the given ID can be retrieved. Callers may wish to extract only the 
+ID of an artist/album/track for reference elsewhere.
+
+See also: L<get_result_data>
+
+
+=item get_fragment_from_url
+
+
+$fragment = $mb->get_fragment_from_url($url);
+
+Extract the identifier fragment from a URI. Given a URI this function will 
+return the string that follows the # seperator. 
+(e.g. when passed 'http://musicbrainz.org/mm/mq-1.1#ArtistResult', this function
+will return 'ArtistResult' 
+  
+
+=item get_ordinal_from_list
+
+
+$ord = $mb->get_ordinal_from_list($resultList, $URI);
+
+Get the ordinal (list position) of an item in a list. 
+This function is normally used to retrieve the track number out 
+of a list of tracks in an album. A result list query (usually MBE_AlbumGetTrackList)
+
+See also: MBE_AlbumGetTrackList in MusicBrainz::Queries
+
+
+=item calculate_sha1
+
+
+$sha1 = $mb->calculate_sha1($filename);
+
+Calculate the sha1 hash for a given filename. This function is often used in 
+conjunction with an MBQ_ExchangeMetadataLite query, to calculate the needed 
+arguments for a metadata exchange with the MusicBrainz server.
+
+Returns true if the sha1 value was successfully calculated, false otherwise. 
+
+
+=item get_mp3_info
+
+
+($duration, $bitrate, $stereo, $samplerate) =  $mb->get_mp3_info($filename);
+
+This helper function calculates the crucial pieces of information for a
+MP3 files. $duration = duration of the MP3 in milliseconds, which is handy for 
+passing the length of the track to the TRM generation routines. Beware: The 
+TRM routines are expecting the duratin in SECONDS, so you will need to divide the 
+duration returned by this function by 1000 before you pass it to the TRM routines.
+
+=back
+  
 =head2 Examples
 
 For examples on how to use this API please see the test scripts provided and the
@@ -162,13 +457,16 @@ C client library documentation at http://www.musicbrainz.org/client_howto.html
 None by default.
 
 =head2 Exportable constants
-    
+
   MB_CDINDEX_ID_LEN
   MB_ID_LEN
 
 =head1 SEE ALSO
 
-perl(1). http://www.musicbrainz.org/
+perl(1) 
+http://www.musicbrainz.org/ 
+http://www.musicbrainz.org/client_howto.html 
+MusicBrainz::Queries
 
 =head1 AUTHOR
 

@@ -36,30 +36,30 @@ $mb->set_depth(MB_DEPTH);
 
 # Execute the MB_GetArtistById query
 my $ret = $mb->query_with_args(MBQ_GetArtistById, [ ARTIST_ID ]);
-if( !$ret) {
+unless( $ret) {
    print "Query failed: ", $mb->get_query_error(), "\n";
    exit(0);
 }
 
 # Select the first artist
-$mb->select1(MBS_SelectArtist, 1);
+$mb->select1( MBS_SelectArtist, 1 );
 
 my $data;
 # Pull back the artist id to see if we got the artist
-if(!( $data = $mb->get_result_data(MBE_ArtistGetArtistId)) ) {
+unless( $data = $mb->get_result_data( MBE_ArtistGetArtistId ) ) {
   print "Artist not found.\n";
   exit(0);
 }
-my $temp = $mb->get_id_from_url($data) unless ($data);
+my $temp = $mb->get_id_from_url($data) if ($data);
 print "  ArtistId: ", $temp || "", "\n";
 
 # Extract the artist name
-if( $data = $mb->get_result_data(MBE_ArtistGetArtistName)) {
+if( $data = $mb->get_result_data( MBE_ArtistGetArtistName ) ) {
   print "  Name: ", $data, "\n";
 }
 
 # Extract the sort name
-if( $data = $mb->get_result_data(MBE_ArtistGetArtistSortName)) {
+if( $data = $mb->get_result_data( MBE_ArtistGetArtistSortName ) ) {
   print " SortName: ", $data, "\n";
 }
 

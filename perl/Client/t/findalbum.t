@@ -36,33 +36,33 @@ $mb->set_debug(MB_DEBUG);
 $mb->set_depth(MB_DEPTH);
 
 # Execute the MB_FindAlbumByName query
-my $ret = $mb->query_with_args( MBQ_FindAlbumByName, [ ALBUM ]);
-if( !$ret) {
+my $ret = $mb->query_with_args( MBQ_FindAlbumByName, [ ALBUM ] );
+unless( $ret ) {
    print "Query failed: ", $mb->get_query_error(), "\n";
    exit(0);
 }
 
 # Check to see how many items were returned from the server
-my $num_albums = $mb->get_result_int(MBE_GetNumAlbums);
+my $num_albums = $mb->get_result_int( MBE_GetNumAlbums );
 if( $num_albums < 1 ) {
    print("No albums found.\n");
    exit(0);
 }
 print "Found ", $num_albums, " albums.\n\n";
 
-for(my $i = 1; $i <= $num_albums; $i++) {
+for( my $i = 1; $i <= $num_albums; $i++ ) {
   # Start at the top of the query and work our way down
   $mb->select( MBS_Rewind );
 
   # Select the $i-th album
-  $mb->select1( MBS_SelectAlbum, $i);
+  $mb->select1( MBS_SelectAlbum, $i );
 
   # Extract the album name from the $i-th track
-  my $data = $mb->get_result_data( MBE_AlbumGetAlbumName);
+  my $data = $mb->get_result_data( MBE_AlbumGetAlbumName );
   printf("  Album: '%s'\n", $data || "");
   # Extract the album id from the $-th track
-  $data = $mb->get_result_data( MBE_AlbumGetAlbumId);
-  printf("  AlbumId: '%s'\n", $mb->get_id_from_url($data));
+  $data = $mb->get_result_data( MBE_AlbumGetAlbumId );
+  printf("  AlbumId: '%s'\n", $mb->get_id_from_url($data) );
   print "\n"; 
 }
 
