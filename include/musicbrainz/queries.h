@@ -412,6 +412,12 @@
 #define MBE_TrackGetArtistId      \
         "http://purl.org/dc/elements/1.1/creator"
 
+/**
+ * Return the number of trmids returned in this query.
+ */
+#define MBE_TrackGetNumTRMIds    \
+        "http://musicbrainz.org/mm/mm-2.1#trmidList [COUNT]"
+
 /* -------------------------------------------------------------------------
  * Quick track queries
  * -------------------------------------------------------------------------
