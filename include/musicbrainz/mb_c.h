@@ -24,6 +24,7 @@
 #ifndef _MB_C_H_
 #define _MB_C_H_
 
+#include "defs.h"
 #include "errors.h"
 #include "queries.h"
 
@@ -32,24 +33,6 @@ extern "C"
 {
 #endif
 
-/**
- * The length of a CD Index id in characters
- */
-#define MB_CDINDEX_ID_LEN 28
-
-/**
- * The length of a Artist/Album/Track id in characters
- */
-#define MB_ID_LEN 36
-
-/**
- * Basic C abstraction for the MusicBrainz Object 
- */
-typedef void * musicbrainz_t;
-/**
- * Basic C abstraction for the TRM Object 
- */
-typedef void * trm_t;
 
 /**
  * Create a new handle (a C abstraction) to the MusicBrainz object.
@@ -460,6 +443,19 @@ int       mb_GetMP3Info        (musicbrainz_t  o,
                                 int           *bitrate,
                                 int           *stereo,
                                 int           *samplerate);
+
+/**
+ * This helper function calculates the disc id needed to look up a CD.
+ * @param o the musicbrainz_t object returned from mb_New()
+ * @param pCDInfo tracks offsets which will be used in the calculation. This
+ *        is basically the offsets of the various tracks.
+ * @param DiscId this is returned value. The pointer should be able contain
+ *        MB_CDINDEX_ID_LEN + 1 characters
+ *  */
+void      mb_GenerateId        (musicbrainz_t  o, 
+				cdtoc_t       *cdInfo,
+				char           discId[MB_CDINDEX_ID_LEN + 1]);
+  
 
 /* The interface to the Relatable TRM signature generator */
 

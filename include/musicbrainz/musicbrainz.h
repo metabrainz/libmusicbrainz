@@ -29,6 +29,7 @@
 #include <vector>
 #include <list>
 
+#include "defs.h"
 #include "errors.h"
 #include "queries.h"
 
@@ -95,6 +96,8 @@ class MusicBrainz
                                          int          &bitrate,
                                          int          &stereo,
                                          int          &samplerate);
+
+       EXPORT void     GenerateId       (cdtoc_t *cdInfo, char discId[MB_CDINDEX_ID_LEN + 1]);
 
 #ifdef WIN32
        EXPORT void     WSAInit          (void);

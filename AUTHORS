@@ -85,4 +85,7 @@ The following people have contributed to this program:
   - Supplied minimal patch for making sure that mb_client still works
     when CDO_CHECK_TYPE is defined.
 
+  R. Bernstein <rocky@panix.com>
+  - Supplied GenerateId patch
+
 (please send change requests to rob@musicbrainz.org or maintainer)

@@ -51,7 +51,7 @@ int ReadTOCEntry(int fd,
 
 
 bool DiskId::ReadTOC(MUSICBRAINZ_DEVICE device, 
-                     MUSICBRAINZ_CDINFO& cdinfo)
+                     cdtoc_t& cdinfo)
 {
     UINT wDeviceID;
     DWORD i;

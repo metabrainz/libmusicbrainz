@@ -430,6 +430,18 @@ int mb_GetMP3Info(musicbrainz_t o,
     return ret;
 }
 
+void mb_GenerateId(musicbrainz_t  o, 
+		   cdtoc_t       *cdInfo,
+		   char           discId[MB_CDINDEX_ID_LEN + 1])
+{
+    MusicBrainz *obj = (MusicBrainz *)o;
+    if (o == NULL)
+       return;
+
+    obj->GenerateId(cdInfo, discId);
+}
+
+
 trm_t trm_New(void)
 {
     return (trm_t)new TRM();

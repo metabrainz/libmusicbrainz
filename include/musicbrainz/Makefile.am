@@ -22,4 +22,4 @@
 AUTOMAKE_OPTIONS = foreign
 
 mb_incdir = $(includedir)/musicbrainz
-mb_inc_HEADERS = browser.h errors.h mb_c.h musicbrainz.h queries.h 
+mb_inc_HEADERS = browser.h errors.h mb_c.h musicbrainz.h queries.h defs.h

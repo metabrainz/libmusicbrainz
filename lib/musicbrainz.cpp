@@ -792,3 +792,13 @@ bool MusicBrainz::GetMP3Info(const string &fileName,
 
     return true;
 }
+
+// Pass MusicBrainz::GenerateId along to DiskId::GenerateId
+void MusicBrainz::GenerateId(cdtoc_t *cdInfo, 
+ 			     char discId[MB_CDINDEX_ID_LEN + 1])
+{
+  DiskId id;
+
+  id.GenerateId(cdInfo, discId);
+}
+

@@ -44,7 +44,7 @@
 MUSICBRAINZ_DEVICE DEFAULT_DEVICE = "/dev/rdisk1";
 
 bool DiskId::ReadTOC(MUSICBRAINZ_DEVICE device, 
-                     MUSICBRAINZ_CDINFO& cdinfo)
+                     cdtoc_t& cdinfo)
 {
    int fd;
    int i;

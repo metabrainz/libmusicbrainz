@@ -46,7 +46,7 @@ ReadTOCEntry(int fd, int track, int &lba)
    return 0;
 }
 
-bool DiskId::ReadTOC(MUSICBRAINZ_DEVICE cd_desc, MUSICBRAINZ_CDINFO & disc)
+bool DiskId::ReadTOC(MUSICBRAINZ_DEVICE cd_desc, cdtoc_t & disc)
 {
    int       readtracks, ret, numTracks;
    char      mciCommand[128];

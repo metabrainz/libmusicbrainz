@@ -64,7 +64,7 @@ status_t gConfigureGlobals() {
 }
 
 bool DiskId::ReadTOC(char *device, 
-                     MUSICBRAINZ_CDINFO& cdinfo) {
+                     cdtoc_t& cdinfo) {
     // how does it get the device?
     status_t rc = gConfigureGlobals();
     if (rc != B_NO_ERROR) {
@@ -99,7 +99,7 @@ bool DiskId::ReadTOC(char *device,
 
           // Leadout Track will be TrackFrameOffset[0]
 	
-      } MUSICBRAINZ_CDINFO, *PMUSICBRAINZ_CDINFO; 
+      } cdtoc_t, *cdtoc_t \*; 
 
     */
 	

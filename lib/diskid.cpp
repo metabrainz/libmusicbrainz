@@ -78,7 +78,7 @@ void DiskId::TestGenerateId()
    free(base64);
 }
 
-void DiskId::GenerateId(PMUSICBRAINZ_CDINFO pCDInfo, 
+void DiskId::GenerateId(cdtoc_t * pCDInfo, 
                         char DiscId[33])
 {
    SHA_INFO       sha;
@@ -120,7 +120,7 @@ const string &DiskId::MakeString(int i)
    return *new string(text);
 }
 
-Error DiskId::FillCDInfo(const string &device, MUSICBRAINZ_CDINFO &cdinfo)
+Error DiskId::FillCDInfo(const string &device, cdtoc_t &cdinfo)
 {
    int   i;
    bool  bRet;
@@ -149,7 +149,7 @@ Error DiskId::FillCDInfo(const string &device, MUSICBRAINZ_CDINFO &cdinfo)
 
 Error DiskId::GenerateDiskIdRDF(const string &device, string &xml)
 {
-   MUSICBRAINZ_CDINFO cdinfo;
+   cdtoc_t cdinfo;
    int   i;
    char  id[33];
    Error eRet;
@@ -212,7 +212,7 @@ Error DiskId::GenerateDiskIdRDF(const string &device, string &xml)
 Error DiskId::GenerateDiskIdQueryRDF(const string &device, string &xml,
                                      bool associateCD)
 {
-   MUSICBRAINZ_CDINFO cdinfo;
+   cdtoc_t cdinfo;
    int   i;
    char  id[33];
    Error eRet;
@@ -284,7 +284,7 @@ Error DiskId::GenerateDiskIdQueryRDF(const string &device, string &xml,
 
 Error DiskId::GetWebSubmitURLArgs(const string &device, string &args)
 {
-   MUSICBRAINZ_CDINFO cdinfo;
+   cdtoc_t cdinfo;
    int   i;
    char  id[33], toc_string[1024], tracks[10];
    Error eRet;

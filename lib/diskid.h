@@ -41,6 +41,7 @@ using namespace std;
 #endif
 #include "types.h"
 #include "errors.h"
+#include "defs.h"
 
 
 //
@@ -51,27 +52,7 @@ using namespace std;
 #define CD_BLOCK_OFFSET CD_MSF_OFFSET
 #endif
 
-
-
-//
-//  cdinfo struct 
-//
-
-typedef	unsigned char byte;
-typedef unsigned long dword;
-
-typedef struct {
-    byte FirstTrack;         // The first track on CD : normally 1
-    byte LastTrack;          // The last track on CD: max number 99
-    
-    dword FrameOffset[100];  // Track 2 is TrackFrameOffset[2] etc.
-                             // Leadout Track will be TrackFrameOffset[0]
-
-} MUSICBRAINZ_CDINFO, *PMUSICBRAINZ_CDINFO; 
-
-
 extern MUSICBRAINZ_DEVICE DEFAULT_DEVICE;
-
 
 //
 // DiskId class 
@@ -89,19 +70,18 @@ class DiskId
                                      bool associateCD);
         Error GetWebSubmitURLArgs(const string &device, string &args);
         void  GetLastError(string &err);
+        void  GenerateId(cdtoc_t *cdInfo, char discId[MB_CDINDEX_ID_LEN + 1]);
 
     protected:
 
         void  TestGenerateId();
-        void  GenerateId(PMUSICBRAINZ_CDINFO pCDInfo, char DiscId[33]);
         void  ReportError(char *err);
-        Error FillCDInfo(const string &device, MUSICBRAINZ_CDINFO &cdinfo);
+        Error FillCDInfo(const string &device, cdtoc_t &cdinfo);
         const string &MakeString(int i);
 
         // This function is OS dependent, and will be implemented by
         // one of the modules in the osdep dir.
-        bool ReadTOC(MUSICBRAINZ_DEVICE device, 
-                     MUSICBRAINZ_CDINFO& cdinfo);
+        bool ReadTOC(MUSICBRAINZ_DEVICE device, cdtoc_t &cdinfo);
 
     private:
 

@@ -115,7 +115,7 @@ int ReadTOCEntryEnd(CDPLAYER* fd,
 
 
 bool DiskId::ReadTOC(MUSICBRAINZ_DEVICE device, 
-                     MUSICBRAINZ_CDINFO& cdinfo)
+                     cdtoc_t& cdinfo)
 {
    CDSTATUS status;
    CDPLAYER *fd = CDopen(device, "r");
@@ -175,7 +175,7 @@ bool DiskId::ReadTOC(MUSICBRAINZ_DEVICE device,
    }
 
    // Initialize cdinfo to all zeroes.
-   memset(&cdinfo, 0, sizeof(MUSICBRAINZ_CDINFO));
+   memset(&cdinfo, 0, sizeof(cdtoc_t));
 
    // Find the number of the first track (usually 1) and the last track.
    if (ReadTOCHeader(fd, first, last))

@@ -3,7 +3,7 @@
    MusicBrainz -- The Internet music metadatabase
 
    Copyright (C) 2000 Robert Kaye
-   Copyright (C) 2000 Relatable
+   Portions Copyright (C) 2000 David Gray
    
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
@@ -22,41 +22,39 @@
      $Id$
 
 ----------------------------------------------------------------------------*/
+#ifndef _DEFS_H_
+#define _DEFS_H_
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <errno.h>
-#include <sys/types.h>
-#include <sys/ioctl.h>
-#include <sys/stat.h>
-#include <unistd.h>
-#include <fcntl.h>
-#include <assert.h>
+/**
+ * The length of a CD Index id in characters
+ */
+#define MB_CDINDEX_ID_LEN 28
 
-#include "mb.h"
-#include "diskid.h"
-#include "config.h"
+/**
+ * The length of a Artist/Album/Track id in characters
+ */
+#define MB_ID_LEN 36
 
+/**
+ * Basic C abstraction for the MusicBrainz Object 
+ */
+typedef void * musicbrainz_t;
 
-MUSICBRAINZ_DEVICE DEFAULT_DEVICE = "/dev/cdrom";
-
-
-int ReadTOCHeader(int fd, 
-                  int& first, 
-                  int& last)
+/**
+ * Basic C abstraction for the TRM Object 
+ */
+typedef void * trm_t;
+//
+//  cdinfo struct 
+//
+typedef struct 
 {
-}
+    unsigned char FirstTrack;        // The first track on CD : normally 1
+    unsigned char LastTrack;         // The last track on CD: max number 99
+    
+    unsigned long FrameOffset[100];  // Track 2 is TrackFrameOffset[2] etc.
+                                     // Leadout Track will be TrackFrameOffset[0]
 
+} cdtoc_t;
 
-int ReadTOCEntry(int fd, 
-                 int track, 
-                 int& lba)
-{
-}
-
-
-bool DiskId::ReadTOC(MUSICBRAINZ_DEVICE device, 
-                     cdtoc_t& cdinfo)
-{
-}
+#endif
