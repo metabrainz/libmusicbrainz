@@ -353,9 +353,9 @@ constant_20 (pTHX_ const char *name, const char **pv_return) {
      here.  However, subsequent manual editing may have added or removed some.
      MBE_AlbumGetArtistId MBE_AlbumGetTrackNum MBE_ArtistGetAlbumId
      MBE_AuthGetChallenge MBE_AuthGetSessionId MBE_LookupGetAlbumId
-     MBE_LookupGetTrackId MBE_QuickGetTrackNum MBE_TOCGetFirstTrack
-     MBE_TrackGetArtistId MBE_TrackGetTrackNum MBQ_FindArtistByName
-     MBQ_SubmitTrackTRMId MBS_SelectTrackAlbum */
+     MBE_LookupGetTrackId MBE_QuickGetArtistId MBE_QuickGetTrackNum
+     MBE_TOCGetFirstTrack MBE_TrackGetArtistId MBE_TrackGetTrackNum
+     MBQ_FindArtistByName MBQ_SubmitTrackTRMId MBS_SelectTrackAlbum */
   /* Offset 16 gives the best switch position.  */
   switch (name[16]) {
   case 'N':
@@ -474,6 +474,15 @@ constant_20 (pTHX_ const char *name, const char **pv_return) {
       return PERL_constant_NOTDEF;
 #endif
     }
+    if (memEQ(name, "MBE_QuickGetArtistId", 20)) {
+    /*                               ^          */
+#ifdef MBE_QuickGetArtistId
+      *pv_return = MBE_QuickGetArtistId;
+      return PERL_constant_ISPV;
+#else
+      return PERL_constant_NOTDEF;
+#endif
+    }
     if (memEQ(name, "MBE_TrackGetArtistId", 20)) {
     /*                               ^          */
 #ifdef MBE_TrackGetArtistId
@@ -515,124 +524,22 @@ constant_21 (pTHX_ const char *name, const char **pv_return) {
      MBE_AlbumGetAlbumName MBE_AlbumGetAlbumType MBE_AlbumGetNumTracks
      MBE_AlbumGetTrackList MBE_AlbumGetTrackName MBE_ArtistGetArtistId
      MBE_LookupGetArtistId MBE_QuickGetAlbumName MBE_QuickGetTrackName
-     MBE_TrackGetTrackName MBI_VARIOUS_ARTIST_ID MBQ_FindDistinctTRMId
-     MBS_SelectTrackArtist */
-  /* Offset 6 gives the best switch position.  */
-  switch (name[6]) {
-  case 'R':
-    if (memEQ(name, "MBI_VARIOUS_ARTIST_ID", 21)) {
-    /*                     ^                     */
-#ifdef MBI_VARIOUS_ARTIST_ID
-      *pv_return = MBI_VARIOUS_ARTIST_ID;
+     MBE_ReleaseGetCountry MBE_TrackGetTrackName MBI_VARIOUS_ARTIST_ID
+     MBQ_FindDistinctTRMId MBS_SelectReleaseDate MBS_SelectTrackArtist */
+  /* Offset 13 gives the best switch position.  */
+  switch (name[13]) {
+  case 'A':
+    if (memEQ(name, "MBE_ArtistGetArtistId", 21)) {
+    /*                            ^              */
+#ifdef MBE_ArtistGetArtistId
+      *pv_return = MBE_ArtistGetArtistId;
       return PERL_constant_ISPV;
 #else
       return PERL_constant_NOTDEF;
 #endif
     }
-    break;
-  case 'a':
-    if (memEQ(name, "MBE_TrackGetTrackName", 21)) {
-    /*                     ^                     */
-#ifdef MBE_TrackGetTrackName
-      *pv_return = MBE_TrackGetTrackName;
-      return PERL_constant_ISPV;
-#else
-      return PERL_constant_NOTDEF;
-#endif
-    }
-    break;
-  case 'b':
-    if (memEQ(name, "MBE_AlbumGetAlbumName", 21)) {
-    /*                     ^                     */
-#ifdef MBE_AlbumGetAlbumName
-      *pv_return = MBE_AlbumGetAlbumName;
-      return PERL_constant_ISPV;
-#else
-      return PERL_constant_NOTDEF;
-#endif
-    }
-    if (memEQ(name, "MBE_AlbumGetAlbumType", 21)) {
-    /*                     ^                     */
-#ifdef MBE_AlbumGetAlbumType
-      *pv_return = MBE_AlbumGetAlbumType;
-      return PERL_constant_ISPV;
-#else
-      return PERL_constant_NOTDEF;
-#endif
-    }
-    if (memEQ(name, "MBE_AlbumGetNumTracks", 21)) {
-    /*                     ^                     */
-#ifdef MBE_AlbumGetNumTracks
-      *pv_return = MBE_AlbumGetNumTracks;
-      return PERL_constant_ISPV;
-#else
-      return PERL_constant_NOTDEF;
-#endif
-    }
-    if (memEQ(name, "MBE_AlbumGetTrackList", 21)) {
-    /*                     ^                     */
-#ifdef MBE_AlbumGetTrackList
-      *pv_return = MBE_AlbumGetTrackList;
-      return PERL_constant_ISPV;
-#else
-      return PERL_constant_NOTDEF;
-#endif
-    }
-    if (memEQ(name, "MBE_AlbumGetTrackName", 21)) {
-    /*                     ^                     */
-#ifdef MBE_AlbumGetTrackName
-      *pv_return = MBE_AlbumGetTrackName;
-      return PERL_constant_ISPV;
-#else
-      return PERL_constant_NOTDEF;
-#endif
-    }
-    break;
-  case 'i':
-    if (memEQ(name, "MBE_QuickGetAlbumName", 21)) {
-    /*                     ^                     */
-#ifdef MBE_QuickGetAlbumName
-      *pv_return = MBE_QuickGetAlbumName;
-      return PERL_constant_ISPV;
-#else
-      return PERL_constant_NOTDEF;
-#endif
-    }
-    if (memEQ(name, "MBE_QuickGetTrackName", 21)) {
-    /*                     ^                     */
-#ifdef MBE_QuickGetTrackName
-      *pv_return = MBE_QuickGetTrackName;
-      return PERL_constant_ISPV;
-#else
-      return PERL_constant_NOTDEF;
-#endif
-    }
-    break;
-  case 'l':
-    if (memEQ(name, "MBS_SelectTrackArtist", 21)) {
-    /*                     ^                     */
-#ifdef MBS_SelectTrackArtist
-      *pv_return = MBS_SelectTrackArtist;
-      return PERL_constant_ISPV;
-#else
-      return PERL_constant_NOTDEF;
-#endif
-    }
-    break;
-  case 'n':
-    if (memEQ(name, "MBQ_FindDistinctTRMId", 21)) {
-    /*                     ^                     */
-#ifdef MBQ_FindDistinctTRMId
-      *pv_return = MBQ_FindDistinctTRMId;
-      return PERL_constant_ISPV;
-#else
-      return PERL_constant_NOTDEF;
-#endif
-    }
-    break;
-  case 'o':
     if (memEQ(name, "MBE_LookupGetArtistId", 21)) {
-    /*                     ^                     */
+    /*                            ^              */
 #ifdef MBE_LookupGetArtistId
       *pv_return = MBE_LookupGetArtistId;
       return PERL_constant_ISPV;
@@ -641,11 +548,133 @@ constant_21 (pTHX_ const char *name, const char **pv_return) {
 #endif
     }
     break;
+  case 'R':
+    if (memEQ(name, "MBI_VARIOUS_ARTIST_ID", 21)) {
+    /*                            ^              */
+#ifdef MBI_VARIOUS_ARTIST_ID
+      *pv_return = MBI_VARIOUS_ARTIST_ID;
+      return PERL_constant_ISPV;
+#else
+      return PERL_constant_NOTDEF;
+#endif
+    }
+    break;
+  case 'c':
+    if (memEQ(name, "MBS_SelectTrackArtist", 21)) {
+    /*                            ^              */
+#ifdef MBS_SelectTrackArtist
+      *pv_return = MBS_SelectTrackArtist;
+      return PERL_constant_ISPV;
+#else
+      return PERL_constant_NOTDEF;
+#endif
+    }
+    break;
+  case 'e':
+    if (memEQ(name, "MBS_SelectReleaseDate", 21)) {
+    /*                            ^              */
+#ifdef MBS_SelectReleaseDate
+      *pv_return = MBS_SelectReleaseDate;
+      return PERL_constant_ISPV;
+#else
+      return PERL_constant_NOTDEF;
+#endif
+    }
+    break;
+  case 'l':
+    if (memEQ(name, "MBE_AlbumGetAlbumName", 21)) {
+    /*                            ^              */
+#ifdef MBE_AlbumGetAlbumName
+      *pv_return = MBE_AlbumGetAlbumName;
+      return PERL_constant_ISPV;
+#else
+      return PERL_constant_NOTDEF;
+#endif
+    }
+    if (memEQ(name, "MBE_AlbumGetAlbumType", 21)) {
+    /*                            ^              */
+#ifdef MBE_AlbumGetAlbumType
+      *pv_return = MBE_AlbumGetAlbumType;
+      return PERL_constant_ISPV;
+#else
+      return PERL_constant_NOTDEF;
+#endif
+    }
+    if (memEQ(name, "MBE_QuickGetAlbumName", 21)) {
+    /*                            ^              */
+#ifdef MBE_QuickGetAlbumName
+      *pv_return = MBE_QuickGetAlbumName;
+      return PERL_constant_ISPV;
+#else
+      return PERL_constant_NOTDEF;
+#endif
+    }
+    break;
+  case 'n':
+    if (memEQ(name, "MBQ_FindDistinctTRMId", 21)) {
+    /*                            ^              */
+#ifdef MBQ_FindDistinctTRMId
+      *pv_return = MBQ_FindDistinctTRMId;
+      return PERL_constant_ISPV;
+#else
+      return PERL_constant_NOTDEF;
+#endif
+    }
+    break;
+  case 'r':
+    if (memEQ(name, "MBE_AlbumGetTrackList", 21)) {
+    /*                            ^              */
+#ifdef MBE_AlbumGetTrackList
+      *pv_return = MBE_AlbumGetTrackList;
+      return PERL_constant_ISPV;
+#else
+      return PERL_constant_NOTDEF;
+#endif
+    }
+    if (memEQ(name, "MBE_AlbumGetTrackName", 21)) {
+    /*                            ^              */
+#ifdef MBE_AlbumGetTrackName
+      *pv_return = MBE_AlbumGetTrackName;
+      return PERL_constant_ISPV;
+#else
+      return PERL_constant_NOTDEF;
+#endif
+    }
+    if (memEQ(name, "MBE_QuickGetTrackName", 21)) {
+    /*                            ^              */
+#ifdef MBE_QuickGetTrackName
+      *pv_return = MBE_QuickGetTrackName;
+      return PERL_constant_ISPV;
+#else
+      return PERL_constant_NOTDEF;
+#endif
+    }
+    if (memEQ(name, "MBE_TrackGetTrackName", 21)) {
+    /*                            ^              */
+#ifdef MBE_TrackGetTrackName
+      *pv_return = MBE_TrackGetTrackName;
+      return PERL_constant_ISPV;
+#else
+      return PERL_constant_NOTDEF;
+#endif
+    }
+    break;
   case 't':
-    if (memEQ(name, "MBE_ArtistGetArtistId", 21)) {
-    /*                     ^                     */
-#ifdef MBE_ArtistGetArtistId
-      *pv_return = MBE_ArtistGetArtistId;
+    if (memEQ(name, "MBE_ReleaseGetCountry", 21)) {
+    /*                            ^              */
+#ifdef MBE_ReleaseGetCountry
+      *pv_return = MBE_ReleaseGetCountry;
+      return PERL_constant_ISPV;
+#else
+      return PERL_constant_NOTDEF;
+#endif
+    }
+    break;
+  case 'u':
+    if (memEQ(name, "MBE_AlbumGetNumTracks", 21)) {
+    /*                            ^              */
+#ifdef MBE_AlbumGetNumTracks
+      *pv_return = MBE_AlbumGetNumTracks;
       return PERL_constant_ISPV;
 #else
       return PERL_constant_NOTDEF;
@@ -660,9 +689,9 @@ static int
 constant_22 (pTHX_ const char *name, const char **pv_return) {
   /* When generated this function returned values for the list of names given
      here.  However, subsequent manual editing may have added or removed some.
-     MBE_AlbumGetArtistName MBE_ArtistGetAlbumName MBE_LookupGetRelevance
-     MBE_QuickGetArtistName MBE_TrackGetArtistName MBQ_TrackInfoFromTRMId
-     MBS_SelectLookupResult */
+     MBE_AlbumGetAmazonAsin MBE_AlbumGetArtistName MBE_ArtistGetAlbumName
+     MBE_LookupGetRelevance MBE_QuickGetArtistName MBE_TrackGetArtistName
+     MBQ_TrackInfoFromTRMId MBS_SelectLookupResult */
   /* Offset 6 gives the best switch position.  */
   switch (name[6]) {
   case 'a':
@@ -686,6 +715,15 @@ constant_22 (pTHX_ const char *name, const char **pv_return) {
     }
     break;
   case 'b':
+    if (memEQ(name, "MBE_AlbumGetAmazonAsin", 22)) {
+    /*                     ^                      */
+#ifdef MBE_AlbumGetAmazonAsin
+      *pv_return = MBE_AlbumGetAmazonAsin;
+      return PERL_constant_ISPV;
+#else
+      return PERL_constant_NOTDEF;
+#endif
+    }
     if (memEQ(name, "MBE_AlbumGetArtistName", 22)) {
     /*                     ^                      */
 #ifdef MBE_AlbumGetArtistName
@@ -867,8 +905,9 @@ static int
 constant_26 (pTHX_ const char *name, const char **pv_return) {
   /* When generated this function returned values for the list of names given
      here.  However, subsequent manual editing may have added or removed some.
-     MBE_AlbumGetArtistSortName MBE_TrackGetArtistSortName
-     MBQ_GetCDInfoFromCDIndexId */
+     MBE_AlbumGetArtistSortName MBE_LookupGetAlbumArtistId
+     MBE_LookupGetTrackArtistId MBE_QuickGetArtistSortName
+     MBE_TrackGetArtistSortName MBQ_GetCDInfoFromCDIndexId */
   /* Offset 5 gives the best switch position.  */
   switch (name[5]) {
   case 'e':
@@ -893,11 +932,42 @@ constant_26 (pTHX_ const char *name, const char **pv_return) {
 #endif
     }
     break;
+  case 'o':
+    if (memEQ(name, "MBE_LookupGetAlbumArtistId", 26)) {
+    /*                    ^                           */
+#ifdef MBE_LookupGetAlbumArtistId
+      *pv_return = MBE_LookupGetAlbumArtistId;
+      return PERL_constant_ISPV;
+#else
+      return PERL_constant_NOTDEF;
+#endif
+    }
+    if (memEQ(name, "MBE_LookupGetTrackArtistId", 26)) {
+    /*                    ^                           */
+#ifdef MBE_LookupGetTrackArtistId
+      *pv_return = MBE_LookupGetTrackArtistId;
+      return PERL_constant_ISPV;
+#else
+      return PERL_constant_NOTDEF;
+#endif
+    }
+    break;
   case 'r':
     if (memEQ(name, "MBE_TrackGetArtistSortName", 26)) {
     /*                    ^                           */
 #ifdef MBE_TrackGetArtistSortName
       *pv_return = MBE_TrackGetArtistSortName;
+      return PERL_constant_ISPV;
+#else
+      return PERL_constant_NOTDEF;
+#endif
+    }
+    break;
+  case 'u':
+    if (memEQ(name, "MBE_QuickGetArtistSortName", 26)) {
+    /*                    ^                           */
+#ifdef MBE_QuickGetArtistSortName
+      *pv_return = MBE_QuickGetArtistSortName;
       return PERL_constant_ISPV;
 #else
       return PERL_constant_NOTDEF;
@@ -912,8 +982,9 @@ static int
 constant_27 (pTHX_ const char *name, const char **pv_return) {
   /* When generated this function returned values for the list of names given
      here.  However, subsequent manual editing may have added or removed some.
-     MBE_ArtistGetArtistSortName MBE_TOCGetTrackSectorOffset
-     MBS_SelectLookupResultAlbum MBS_SelectLookupResultTrack */
+     MBE_AlbumGetNumReleaseDates MBE_ArtistGetArtistSortName
+     MBE_TOCGetTrackSectorOffset MBS_SelectLookupResultAlbum
+     MBS_SelectLookupResultTrack */
   /* Offset 26 gives the best switch position.  */
   switch (name[26]) {
   case 'e':
@@ -943,6 +1014,17 @@ constant_27 (pTHX_ const char *name, const char **pv_return) {
     /*                                         ^       */
 #ifdef MBS_SelectLookupResultAlbum
       *pv_return = MBS_SelectLookupResultAlbum;
+      return PERL_constant_ISPV;
+#else
+      return PERL_constant_NOTDEF;
+#endif
+    }
+    break;
+  case 's':
+    if (memEQ(name, "MBE_AlbumGetNumReleaseDates", 27)) {
+    /*                                         ^       */
+#ifdef MBE_AlbumGetNumReleaseDates
+      *pv_return = MBE_AlbumGetNumReleaseDates;
       return PERL_constant_ISPV;
 #else
       return PERL_constant_NOTDEF;
@@ -983,46 +1065,50 @@ use ExtUtils::Constant qw (constant_types C_constant XS_constant);
 my $types = {map {($_, 1)} qw(PV)};
 my @names = (qw(MBE_AlbumGetAlbumArtistId MBE_AlbumGetAlbumId
 	       MBE_AlbumGetAlbumName MBE_AlbumGetAlbumStatus
-	       MBE_AlbumGetAlbumType MBE_AlbumGetArtistId
+	       MBE_AlbumGetAlbumType MBE_AlbumGetAmazonAsin
+	       MBE_AlbumGetAmazonCoverartURL MBE_AlbumGetArtistId
 	       MBE_AlbumGetArtistName MBE_AlbumGetArtistSortName
-	       MBE_AlbumGetNumCdindexIds MBE_AlbumGetNumTracks
-	       MBE_AlbumGetTrackDuration MBE_AlbumGetTrackId
-	       MBE_AlbumGetTrackList MBE_AlbumGetTrackName MBE_AlbumGetTrackNum
-	       MBE_ArtistGetAlbumId MBE_ArtistGetAlbumName
+	       MBE_AlbumGetNumCdindexIds MBE_AlbumGetNumReleaseDates
+	       MBE_AlbumGetNumTracks MBE_AlbumGetTrackDuration
+	       MBE_AlbumGetTrackId MBE_AlbumGetTrackList MBE_AlbumGetTrackName
+	       MBE_AlbumGetTrackNum MBE_ArtistGetAlbumId MBE_ArtistGetAlbumName
 	       MBE_ArtistGetArtistId MBE_ArtistGetArtistName
 	       MBE_ArtistGetArtistSortName MBE_AuthGetChallenge
 	       MBE_AuthGetSessionId MBE_GetError MBE_GetNumAlbums
 	       MBE_GetNumArtists MBE_GetNumLookupResults MBE_GetNumTracks
-	       MBE_GetNumTrmids MBE_GetStatus MBE_LookupGetAlbumId
-	       MBE_LookupGetArtistId MBE_LookupGetRelevance
+	       MBE_GetNumTrmids MBE_GetStatus MBE_LookupGetAlbumArtistId
+	       MBE_LookupGetAlbumId MBE_LookupGetArtistId
+	       MBE_LookupGetRelevance MBE_LookupGetTrackArtistId
 	       MBE_LookupGetTrackId MBE_LookupGetType MBE_QuerySubject
-	       MBE_QuickGetAlbumName MBE_QuickGetArtistName
+	       MBE_QuickGetAlbumName MBE_QuickGetArtistId
+	       MBE_QuickGetArtistName MBE_QuickGetArtistSortName
 	       MBE_QuickGetTrackDuration MBE_QuickGetTrackId
-	       MBE_QuickGetTrackName MBE_QuickGetTrackNum MBE_TOCGetCDIndexId
-	       MBE_TOCGetFirstTrack MBE_TOCGetLastTrack
-	       MBE_TOCGetTrackNumSectors MBE_TOCGetTrackSectorOffset
-	       MBE_TrackGetArtistId MBE_TrackGetArtistName
-	       MBE_TrackGetArtistSortName MBE_TrackGetTrackDuration
-	       MBE_TrackGetTrackId MBE_TrackGetTrackName MBE_TrackGetTrackNum
-	       MBI_VARIOUS_ARTIST_ID MBQ_AssociateCD MBQ_Authenticate
-	       MBQ_FileInfoLookup MBQ_FindAlbumByName MBQ_FindArtistByName
-	       MBQ_FindDistinctTRMId MBQ_FindTrackByName MBQ_GetAlbumById
-	       MBQ_GetArtistById MBQ_GetCDInfo MBQ_GetCDInfoFromCDIndexId
-	       MBQ_GetCDTOC MBQ_GetTrackById MBQ_GetTrackByTRMId
+	       MBE_QuickGetTrackName MBE_QuickGetTrackNum MBE_ReleaseGetCountry
+	       MBE_ReleaseGetDate MBE_TOCGetCDIndexId MBE_TOCGetFirstTrack
+	       MBE_TOCGetLastTrack MBE_TOCGetTrackNumSectors
+	       MBE_TOCGetTrackSectorOffset MBE_TrackGetArtistId
+	       MBE_TrackGetArtistName MBE_TrackGetArtistSortName
+	       MBE_TrackGetTrackDuration MBE_TrackGetTrackId
+	       MBE_TrackGetTrackName MBE_TrackGetTrackNum MBI_VARIOUS_ARTIST_ID
+	       MBQ_AssociateCD MBQ_Authenticate MBQ_FileInfoLookup
+	       MBQ_FindAlbumByName MBQ_FindArtistByName MBQ_FindDistinctTRMId
+	       MBQ_FindTrackByName MBQ_GetAlbumById MBQ_GetArtistById
+	       MBQ_GetCDInfo MBQ_GetCDInfoFromCDIndexId MBQ_GetCDTOC
+	       MBQ_GetTrackById MBQ_GetTrackByTRMId
 	       MBQ_QuickTrackInfoFromTrackId MBQ_SubmitTrack
 	       MBQ_SubmitTrackTRMId MBQ_TrackInfoFromTRMId MBS_Back MBS_Rewind
 	       MBS_SelectAlbum MBS_SelectArtist MBS_SelectCdindexid
 	       MBS_SelectLookupResult MBS_SelectLookupResultAlbum
 	       MBS_SelectLookupResultArtist MBS_SelectLookupResultTrack
-	       MBS_SelectTrack MBS_SelectTrackAlbum MBS_SelectTrackArtist
-	       MBS_SelectTrmid));
+	       MBS_SelectReleaseDate MBS_SelectTrack MBS_SelectTrackAlbum
+	       MBS_SelectTrackArtist MBS_SelectTrmid));
 
 print constant_types(); # macro defs
-foreach (C_constant ("SusicBrainz::Queries", 'constant', 'PV', $types, undef, 3, @names) ) {
+foreach (C_constant ("MusicBrainz::Queries", 'constant', 'PV', $types, undef, 3, @names) ) {
     print $_, "\n"; # C constant subs
 }
 print "#### XS Section:\n";
-print XS_constant ("SusicBrainz::Queries", $types);
+print XS_constant ("MusicBrainz::Queries", $types);
 __END__
    */
 
@@ -1115,13 +1201,32 @@ __END__
     return constant_17 (aTHX_ name, pv_return);
     break;
   case 18:
-    if (memEQ(name, "MBQ_FileInfoLookup", 18)) {
-#ifdef MBQ_FileInfoLookup
-      *pv_return = MBQ_FileInfoLookup;
-      return PERL_constant_ISPV;
+    /* Names all of length 18.  */
+    /* MBE_ReleaseGetDate MBQ_FileInfoLookup */
+    /* Offset 10 gives the best switch position.  */
+    switch (name[10]) {
+    case 'e':
+      if (memEQ(name, "MBE_ReleaseGetDate", 18)) {
+      /*                         ^              */
+#ifdef MBE_ReleaseGetDate
+        *pv_return = MBE_ReleaseGetDate;
+        return PERL_constant_ISPV;
 #else
-      return PERL_constant_NOTDEF;
+        return PERL_constant_NOTDEF;
 #endif
+      }
+      break;
+    case 'f':
+      if (memEQ(name, "MBQ_FileInfoLookup", 18)) {
+      /*                         ^              */
+#ifdef MBQ_FileInfoLookup
+        *pv_return = MBQ_FileInfoLookup;
+        return PERL_constant_ISPV;
+#else
+        return PERL_constant_NOTDEF;
+#endif
+      }
+      break;
     }
     break;
   case 19:
@@ -1159,13 +1264,32 @@ __END__
     }
     break;
   case 29:
-    if (memEQ(name, "MBQ_QuickTrackInfoFromTrackId", 29)) {
-#ifdef MBQ_QuickTrackInfoFromTrackId
-      *pv_return = MBQ_QuickTrackInfoFromTrackId;
-      return PERL_constant_ISPV;
+    /* Names all of length 29.  */
+    /* MBE_AlbumGetAmazonCoverartURL MBQ_QuickTrackInfoFromTrackId */
+    /* Offset 17 gives the best switch position.  */
+    switch (name[17]) {
+    case 'n':
+      if (memEQ(name, "MBE_AlbumGetAmazonCoverartURL", 29)) {
+      /*                                ^                  */
+#ifdef MBE_AlbumGetAmazonCoverartURL
+        *pv_return = MBE_AlbumGetAmazonCoverartURL;
+        return PERL_constant_ISPV;
 #else
-      return PERL_constant_NOTDEF;
+        return PERL_constant_NOTDEF;
 #endif
+      }
+      break;
+    case 'o':
+      if (memEQ(name, "MBQ_QuickTrackInfoFromTrackId", 29)) {
+      /*                                ^                  */
+#ifdef MBQ_QuickTrackInfoFromTrackId
+        *pv_return = MBQ_QuickTrackInfoFromTrackId;
+        return PERL_constant_ISPV;
+#else
+        return PERL_constant_NOTDEF;
+#endif
+      }
+      break;
     }
     break;
   }
