@@ -196,13 +196,13 @@ Error DiskId::GenerateDiskIdRDF(const string &device, string &xml)
        xml += string("    <mm:numSectors>");
        if (i < cdinfo.LastTrack)
        {
-          xml += MakeString((cdinfo.FrameOffset[i + 1] -
-                            cdinfo.FrameOffset[i]) / 75);
+          xml += MakeString(cdinfo.FrameOffset[i + 1] - 
+                            cdinfo.FrameOffset[i]);
        }
        else
        {
-          xml += MakeString((cdinfo.FrameOffset[0] -
-                            cdinfo.FrameOffset[i]) / 75);
+          xml += MakeString(cdinfo.FrameOffset[0] -
+                            cdinfo.FrameOffset[i]);
        }
        xml += string("</mm:numSectors>\n");
        xml += string("  </mm:TocInfo>\n");
@@ -270,13 +270,11 @@ Error DiskId::GenerateDiskIdQueryRDF(const string &device, string &xml,
        xml += string("    <mm:numSectors>");
        if (i < cdinfo.LastTrack)
        {
-          xml += MakeString((cdinfo.FrameOffset[i + 1] -
-                            cdinfo.FrameOffset[i]) / 75);
+          xml += MakeString(cdinfo.FrameOffset[i + 1] - cdinfo.FrameOffset[i]);
        }
        else
        {
-          xml += MakeString((cdinfo.FrameOffset[0] -
-                            cdinfo.FrameOffset[i]) / 75);
+          xml += MakeString(cdinfo.FrameOffset[0] - cdinfo.FrameOffset[i]);
        }
        xml += string("</mm:numSectors>\n");
        xml += string("  </mm:TocInfo>\n");

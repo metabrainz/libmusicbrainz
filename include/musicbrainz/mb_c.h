@@ -69,6 +69,7 @@ int       mb_GetResultData     (musicbrainz_t o, char *resultName,
                                 char *data, int maxDataLen);
 int       mb_GetResultData1    (musicbrainz_t o, char *resultName, 
                                 char *data, int maxDataLen, int ordinal);
+int       mb_GetResultInt      (musicbrainz_t o, char *resultName);
 int       mb_GetResultInt1     (musicbrainz_t o, char *resultName, int ordinal);
 
 int       mb_GetResultRDF      (musicbrainz_t o, char *RDF, int maxRDFLen);

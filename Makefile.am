@@ -49,4 +49,4 @@ install-data-local:
 	$(INSTALL) -m 0644 lib/errors.h $(DESTDIR)$(includedir)/musicbrainz
 	$(INSTALL) -m 0644 lib/mb_c.h $(DESTDIR)$(includedir)/musicbrainz
 	$(INSTALL) -m 0644 lib/bitprint.h $(DESTDIR)$(includedir)/musicbrainz
-
+	$(INSTALL) -m 0644 lib/bitzi/bitcollider.h $(DESTDIR)$(includedir)/musicbrainz

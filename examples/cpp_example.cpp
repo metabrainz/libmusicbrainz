@@ -53,7 +53,7 @@ int main(void)
     }
 
     // Check to see how many items were returned from the server
-    if (o.DataInt(MBE_GetNumAlbums) < 1)
+    if (o.DataInt(MBE_AlbumGetNumAlbums) < 1)
     {
         printf("This CD was not found.\n");
         return 0;
@@ -65,23 +65,23 @@ int main(void)
     o.Select(MBS_SelectAlbum, 1);
 
     // Get the number of tracks
-    numTracks = o.DataInt(MBE_GetNumTracks);
+    numTracks = o.DataInt(MBE_AlbumGetNumTracks);
     printf(" NumTracks: %d\n", numTracks);
 
     // Now get and print the title of the cd
-    printf("Album Name: '%s'\n", o.Data(MBE_GetAlbumName).c_str());
-    o.GetIDFromURL(o.Data(MBE_GetAlbumId), data);
+    printf("Album Name: '%s'\n", o.Data(MBE_AlbumGetAlbumName).c_str());
+    o.GetIDFromURL(o.Data(MBE_AlbumGetAlbumId), data);
     printf("   AlbumId: '%s'\n\n", data.c_str());
 
     for(int i = 1; i <= numTracks; i++)
     {
         // Print out the artist and then print the titles of the tracks
-        printf("    Artist: '%s'\n", o.Data(MBE_GetArtistName, i).c_str());
+        printf("    Artist: '%s'\n", o.Data(MBE_AlbumGetArtistName, i).c_str());
 
-        trackNum = o.DataInt(MBE_GetTrackNum, i);
+        trackNum = o.DataInt(MBE_AlbumGetTrackNum, i);
         printf("  Track %2d: '%s'\n", 
-            trackNum, o.Data(MBE_GetTrackName, i).c_str());
-        o.GetIDFromURL(o.Data(MBE_GetTrackId, i), data);
+            trackNum, o.Data(MBE_AlbumGetTrackName, i).c_str());
+        o.GetIDFromURL(o.Data(MBE_AlbumGetTrackId, i), data);
         printf("   TrackId: '%s'\n\n", data.c_str());
     }
     return 0;

@@ -56,7 +56,7 @@ int main(void)
     }
 
     // Check to see how many items were returned from the server
-    if (mb_GetResultInt(o, MBE_GetNumAlbums) < 1)
+    if (mb_GetResultInt(o, MBE_AlbumGetNumAlbums) < 1)
     {
         printf("This CD was not found.\n");
         return 0;
@@ -68,26 +68,26 @@ int main(void)
     mb_Select1(o, MBS_SelectAlbum, 1);  
 
     // Get the number of tracks
-    numTracks = mb_GetResultInt(o, MBE_GetNumTracks);
+    numTracks = mb_GetResultInt(o, MBE_AlbumGetNumTracks);
     printf(" NumTracks: %d\n", numTracks);
 
     // Now get and print the title of the cd
-    mb_GetResultData(o, MBE_GetAlbumName, data, 256);
+    mb_GetResultData(o, MBE_AlbumGetAlbumName, data, 256);
     printf("Album Name: '%s'\n", data);
-    mb_GetResultData(o, MBE_GetAlbumId, data, 256);
+    mb_GetResultData(o, MBE_AlbumGetAlbumId, data, 256);
     mb_GetIDFromURL(o, data, temp, 256);
     printf("   AlbumId: '%s'\n\n", temp);
 
     for(i = 1; i <= numTracks; i++)
     {
-        mb_GetResultData1(o, MBE_GetArtistName, data, 256, i);
+        mb_GetResultData1(o, MBE_AlbumGetArtistName, data, 256, i);
         printf("    Artist: '%s'\n", data);
 
-        mb_GetResultData1(o, MBE_GetTrackName, data, 256, i);
+        mb_GetResultData1(o, MBE_AlbumGetTrackName, data, 256, i);
         printf("  Track %2d: '%s'\n", mb_GetResultInt1(o, 
-               MBE_GetTrackNum, i), data);
+               MBE_AlbumGetTrackNum, i), data);
 
-        mb_GetResultData1(o, MBE_GetTrackId, data, 256, i);
+        mb_GetResultData1(o, MBE_AlbumGetTrackId, data, 256, i);
         mb_GetIDFromURL(o, data, temp, 256);
         printf("   TrackId: '%s'\n\n", temp);
             
