@@ -64,6 +64,10 @@ Queries queries[] =
       0, "", "", "", "" },
     { "SubmitTRMId",       MBQ_SubmitTrackTRMId,
       2, "Track GID", "TRM ID", "", "" },
+    { "QuickTRM",       MBQ_QuickTrackInfoFromTRMId,
+      1, "Track TRM Id", "", "", "" },
+    { "QuickTrack",       MBQ_QuickTrackInfoFromTrackId,
+      1, "Track Id", "Album Id", "", "" },
     { "\0",                     "\0", 0, "", "", "", "" }
 }; 
 

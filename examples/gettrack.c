@@ -28,12 +28,12 @@
 int main(int argc, char *argv[])
 {
     musicbrainz_t o;
-    char          error[256], data[256], temp[256], *args[2];
+    char          error[256], data[256], temp[256], *args[3];
     int           ret, numTracks, trackNum, i;
 
-    if (argc < 2)
+    if (argc < 3)
     {
-        printf("Usage: gettrack <trackid>\n");
+        printf("Usage: gettrack <trackid> <albumid>\n");
         exit(0);
     }
 
@@ -54,10 +54,11 @@ int main(int argc, char *argv[])
 
     // Set up the args for the find artist query
     args[0] = argv[1];
-    args[1] = NULL;
+    args[1] = argv[2];
+    args[2] = NULL;
 
     // Execute the MB_GetTrackById query
-    ret = mb_QueryWithArgs(o, MBQ_GetTrackById, args);
+    ret = mb_QueryWithArgs(o, MBQ_QuickTrackInfoFromTrackId, args);
     if (!ret)
     {
         mb_GetQueryError(o, error, 256);
@@ -66,63 +67,22 @@ int main(int argc, char *argv[])
         return 0;
     }
 
-    // Check to see how many items were returned from the server
-    numTracks = mb_GetResultInt(o, MBE_GetNumTracks);
-    if (numTracks < 1)
-    {
-        printf("Tracks not found.\n");
-        mb_Delete(o);
-        return 0;
-    }  
+    // Extract the artist name from the track
+    if (mb_GetResultData(o, MBE_QuickGetArtistName, data, 256))
+       printf("    Artist: '%s'\n", data);
 
-    // Select the first track
-    mb_Select1(o, MBS_SelectTrack, 1);  
+    // Extract the album name from the track
+    if (mb_GetResultData(o, MBE_QuickGetAlbumName, data, 256))
+       printf("     Album: '%s'\n", data);
 
     // Extract the track name
-    if (mb_GetResultData(o, MBE_TrackGetTrackName, data, 256))
+    if (mb_GetResultData(o, MBE_QuickGetTrackName, data, 256))
        printf("     Track: '%s'\n", data);
-
-    // Extract the track id
-    if (mb_GetResultData(o, MBE_TrackGetTrackId, data, 256))
-    {
-       mb_GetIDFromURL(o, data, temp, 256);
-       printf("   TrackId: '%s'\n", temp);
-    }
 
     // Extract the track number
     trackNum = mb_GetResultInt(o, MBE_TrackGetTrackNum);
     if (trackNum > 0 && trackNum < 100)
        printf("  TrackNum: %d\n", trackNum);
-
-    // Extract the artist name from the track
-    if (mb_GetResultData(o, MBE_TrackGetArtistName, data, 256))
-       printf("    Artist: '%s'\n", data);
-
-    // Extract the artist id from the track
-    if (mb_GetResultData(o, MBE_TrackGetArtistId, data, 256))
-    {
-       mb_GetIDFromURL(o, data, temp, 256);
-       printf("  ArtistId: '%s'\n", temp);
-    }
-
-    printf("\nAlbums by this artist:\n");
-    for(i = 1;; i++)
-    {
-       // Extract the album name from the track. Just use the
-       // first album that this track appears on
-       if (mb_GetResultData1(o, MBE_TrackGetAlbumName, data, 256, i))
-          printf("     Album: '%s'\n", data);
-       else
-          break;
-   
-       // Extract the album id from the track. Just use the
-       // first album that this track appears on
-       if (mb_GetResultData1(o, MBE_TrackGetAlbumId, data, 256, i))
-       {
-          mb_GetIDFromURL(o, data, temp, 256);
-          printf("   AlbumId: '%s'\n", temp);
-       }
-    }
 
     // and clean up the musicbrainz object
     mb_Delete(o);
