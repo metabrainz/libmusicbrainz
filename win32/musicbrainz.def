@@ -1,5 +1,4 @@
-LIBRARY      "musicbrainz"
-DESCRIPTION  'MusicBrainz Client Library'
+LIBRARY      "libmusicbrainz"
 
 EXPORTS
    ; Functions for the queries against a MusicBrainz server  
