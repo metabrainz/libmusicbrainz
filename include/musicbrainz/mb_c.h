@@ -482,6 +482,19 @@ int   trm_SetProxy            (trm_t o, char *proxyAddr, short proxyPort);
  */
 void  trm_SetPCMDataInfo      (trm_t o, int samplesPerSecond, 
                                int numChannels, int bitsPerSample);
+
+/**
+ * Called to set the total length of the song in seconds.  Optional, but if this
+ * function is not used, trm_GenerateSignature() will calculate the length of
+ * the audio instead.  Must be called after trm_SetPCMDataInfo() but before
+ * any calls to trm_GenerateSignature().
+ * @see trm_SetPCMDataInfo()
+ * @see trm_GenerateSignature()
+ * @param o the trm_t object returned by trm_New()
+ * @param seconds the total number of seconds of the track
+ */
+void  trm_SetSongLength(trm_t o, long int seconds);
+
 /**
  * The main functionality of the TRM class.  Audio is passed to this function
  * and stored for analysis. trm_SetPCMDataInfo() needs to be called before

@@ -446,6 +446,16 @@ void trm_SetPCMDataInfo(trm_t o, int samplesPerSecond, int numChannels,
     obj->SetPCMDataInfo(samplesPerSecond, numChannels, bitsPerSample);
 }
 
+void trm_SetSongLength(trm_t o, long int seconds)
+{
+    TRM *obj = (TRM *)o;
+
+    if (o == NULL)
+       return;
+
+    obj->SetSongLength(seconds);
+}
+
 int trm_GenerateSignature(trm_t o, char *data, int size)
 {
    if (o == NULL)

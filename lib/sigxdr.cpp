@@ -83,6 +83,9 @@ char *SigXDR::FromSig(AudioSig *sig)
     tempi = sig->EnergyZC();
     PutInt32(&tempi);
 
+    temp = sig->Seconds();
+    PutFloat(&temp);
+
     return m_buffer;
 }
 

@@ -70,15 +70,13 @@ int SigClient::GetSignature(AudioSig *sig, string &strGUID,
 {
     int nConRes = this->Connect(m_strIP, m_nPort);
     if (nConRes != 0) 
-	{
         return -1;
-	}
 
     SigXDR converter;
 
     int nOffSet = sizeof(char) + sizeof(int);
     int nGUIDLen = strCollectionID.size() * sizeof(char) + sizeof(char);
-    int iSigEncodeSize = sizeof(int) + 134 * sizeof(int32) + nGUIDLen;
+    int iSigEncodeSize = sizeof(int) + NUMSIGFIELDS * sizeof(int32) + nGUIDLen;
     int nTotalSize = nOffSet + iSigEncodeSize;
 
     char* pBuffer = new char[nTotalSize + 1];
@@ -170,12 +168,12 @@ int SigClient::Disconnect()
 {
     if (m_pSocket->IsConnected())
     {
-        char cBuffer[562];
-        memset(cBuffer, 0, 562);
+        char cBuffer[566];
+        memset(cBuffer, 0, 566);
         cBuffer[0] = SigClientVars::cDisconnect;
 
         int nBytes = 0;
-        m_pSocket->Write(cBuffer, 562, &nBytes);
+        m_pSocket->Write(cBuffer, 566, &nBytes);
         m_pSocket->Disconnect();	
     }
 	

@@ -51,6 +51,8 @@ TRM::TRM(void)
     m_storeBuffer = NULL;
     m_proxy = "";
     m_proxyPort = 80;
+    m_song_samples = 0;
+    m_song_seconds = -1;
 }
 
 TRM::~TRM(void)
@@ -90,6 +92,14 @@ void TRM::SetPCMDataInfo(int samplesPerSecond, int numChannels,
     m_numBytesWritten = 0;
     m_numBytesNeeded = iNumSamplesNeeded * (int)mult;
     m_storeBuffer = new char[m_numBytesNeeded + 20];
+
+    m_song_samples = 0;
+    m_song_seconds = -1;
+}
+
+void TRM::SetSongLength(long seconds)
+{
+    m_song_seconds = seconds;
 }
 
 bool TRM::GenerateSignature(char *data, int size)
@@ -128,11 +138,18 @@ bool TRM::GenerateSignature(char *data, int size)
        }
    }
 
+   if (m_bits_per_sample == 8)
+       m_song_samples += size;
+   else
+       m_song_samples += size / 2;
+
    if (m_numBytesWritten < m_numBytesNeeded)
        return false;
 
-   return true;
+   if (m_song_seconds > 0)
+       return true;
 
+   return false;
 }
 
 void TRM::DownmixPCM(void)
@@ -286,8 +303,6 @@ void TRM::DownmixPCM(void)
       delete [] m_storeBuffer;
       m_numBytesWritten /= 2;
       m_storeBuffer = (char *)tempbuf;
-
-      m_number_of_channels = 1;
    }
 
    writepos = 0;
@@ -692,11 +707,10 @@ int TRM::FinalizeSignature(string &strGUID, string &collID)
     AudioSig *signature = new AudioSig(msratio, fAverageZeroCrossing,
                                        f2Spec, specsum, estBPM, 
                                        fAvgFFTDelta, haar, 
-                                       avgdiff, numsignchanges);
+                                       avgdiff, numsignchanges, m_song_seconds);
 
     SigClient *sigClient = new SigClient();
-    sigClient->SetAddress("trm.musicbrainz.org", 4446);
-    //sigClient->SetAddress("218.216.240.152", 4446);
+    sigClient->SetAddress("trm.musicbrainz.org", 4447);
     sigClient->SetProxy(m_proxy, m_proxyPort);
 
     if (collID == "")
