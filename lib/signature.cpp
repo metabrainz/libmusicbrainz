@@ -795,7 +795,6 @@ int TRM::FinalizeSignature(string &strGUID, string &collID)
         collID = "EMPTY_COLLECTION";
 
     int ret = sigClient->GetSignature(signature, strGUID, collID);
-    printf("ret: %d\n", ret);
 
     delete wavelet;
     delete pFFT;

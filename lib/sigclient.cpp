@@ -38,6 +38,9 @@ email                : ijr@relatable.com
 
 #include "sigxdr.h"
 
+char tooShortTRM[] = { 0xf9, 0x80, 0x9a, 0xb1, 0x2b, 0x0f, 0x4d, 0x78, 
+                       0x88, 0x62, 0xfb, 0x42, 0x5a, 0xde, 0x8a, 0xb9 };
+
 namespace SigClientVars
 {
     static const char cGetGUID = 'N';
@@ -82,6 +85,7 @@ int SigClient::GetSignature(AudioSig *sig, string &strGUID,
     int nTotalSize = nOffSet + iSigEncodeSize;
 
     char* pBuffer = new char[nTotalSize + 1];
+    char* pBlank = new char[nTotalSize + 1];
     memset(pBuffer, 0, nTotalSize);
     memcpy(&pBuffer[0], &SigClientVars::cGetGUID, sizeof(char));
 #ifdef WORDS_BIGENDIAN
@@ -109,6 +113,7 @@ int SigClient::GetSignature(AudioSig *sig, string &strGUID,
     int ret = m_pSocket->Write(pBuffer, nTotalSize, &nBytes);
 
     memset(pBuffer, 0, nTotalSize);
+    memset(pBlank, 0, nTotalSize);
     int iGUIDSize = 16 * sizeof(int32);
 
     ret = m_pSocket->NBRead(pBuffer, iGUIDSize, &nBytes, 
@@ -117,23 +122,28 @@ int SigClient::GetSignature(AudioSig *sig, string &strGUID,
     
     if ((ret != -1) && (nBytes == iGUIDSize)) {
         ret = 0;
-        strGUID = converter.ToStrGUID(pBuffer, nBytes);
+        if (memcmp(pBuffer, pBlank, nBytes))
+            strGUID = converter.ToStrGUID(pBuffer, nBytes);
+        else
+            strGUID = tooShortTRM;
+
         if (strGUID == "") 
-		{
+        {
             printf("Your MusicBrainz client library is too old to talk to\n"
                    "the signature server.  Please go to www.musicbrainz.org\n"
                    "and upgrade to the latest version, or upgrade whatever\n"
                    "software package your are currently using.\n");
-		}
+	}
     }
     else 
-	{
+    {
 	    ret = -1;
         strGUID = "";
     }
     this->Disconnect();
 
     delete [] pBuffer;
+    delete [] pBlank;
     delete [] sigencode;
 
     return ret;
