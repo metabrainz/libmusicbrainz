@@ -27,6 +27,8 @@
 #include <list>
 #include "rdfextract.h"
 
+#undef DEBUG
+
 void statement_handler(void*           user_data,
                        RDF_SubjectType subject_type,
                        const XML_Char* subject,
@@ -154,19 +156,24 @@ const string &RDFExtract::Extract(const string &startURI,
     }
     free(queryString);
 
+#ifdef DEBUG
     printf("-----------------------------------------------\n");
     printf(" Base: %s\n", startURI.c_str());
     printf("Query: %s\n\n", query.c_str());
+#endif
 
     for(;;)
     {
        done = false;
+#ifdef DEBUG
        printf("Curr URI %s: Pred: %s / [%d]\n", 
                  currentURI.c_str(),
                  (*predicateList.begin()).c_str(),
                  *(ordinalList->begin()));
+#endif
        for(i = triples.begin(); i != triples.end() && !done; i++)
        {
+#ifdef DEBUG
           if ((*i).subject == currentURI)
           {
               if ((*i).ordinal > 0)
@@ -174,6 +181,7 @@ const string &RDFExtract::Extract(const string &startURI,
               else
                  printf("   pred: %s\n", (*i).predicate.c_str());
           }
+#endif
           if ((*i).subject == currentURI && 
              ((*i).predicate == *(predicateList.begin()) ||
              ((*i).ordinal > 0 && (*i).ordinal == *(ordinalList->begin()))))
@@ -195,8 +203,10 @@ const string &RDFExtract::Extract(const string &startURI,
        // query failed.
        if (i == triples.end())
        {
+#ifdef DEBUG
           printf("-------------------------------------------\n");
           printf("Not found.\n\n");
+#endif
           return empty;
        }
        // If we found a matching predicate and there are not more
@@ -204,8 +214,10 @@ const string &RDFExtract::Extract(const string &startURI,
        // the query. Return the last subject.
        if (done && predicateList.size() == 0)
        {
+#ifdef DEBUG
           printf("-------------------------------------------\n");
           printf("Value: %s\n\n", (*i).object.c_str());
+#endif
           return (*i).object;
        }
     }

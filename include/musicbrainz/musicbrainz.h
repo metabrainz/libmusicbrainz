@@ -78,6 +78,7 @@ class MusicBrainz
                                          int Index = -1);
        EXPORT int      DataInt          (const string &resultName, 
                                          int Index = -1);
+       EXPORT void     GetIDFromURL     (const string &url, string &id);
        EXPORT bool     CalculateBitprint(const string &fileName,
                                          BitprintInfo *info);
 #ifdef WIN32

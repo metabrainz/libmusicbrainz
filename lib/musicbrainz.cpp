@@ -198,7 +198,7 @@ bool MusicBrainz::Query(const string &rdfObject, vector<string> *args)
     string rdf = rdfObject, url, value;
     Error  ret;
 
-#if 1
+#if 0
 
     // Is the given query a placeholder to perform a local query?
     // A cd lookup/associate function requires to have the diskid
@@ -212,7 +212,6 @@ bool MusicBrainz::Query(const string &rdfObject, vector<string> *args)
         // Generate the local query and then keep trucking
         ret = id.GenerateDiskIdQueryRDF(m_device, rdf, 
                         rdf == string(localAssociateCD));
-        printf("%s\n", rdf.c_str());
         if (IsError(ret))
         {
             id.GetLastError(m_error);
@@ -229,7 +228,7 @@ bool MusicBrainz::Query(const string &rdfObject, vector<string> *args)
         DiskId id;
 
         // Generate the TOC query
-        ret = id.GenerateDiskIdQueryRDF(m_device, m_response, 0);
+        ret = id.GenerateDiskIdRDF(m_device, m_response);
         if (IsError(ret))
         {
             id.GetLastError(m_error);
@@ -238,12 +237,17 @@ bool MusicBrainz::Query(const string &rdfObject, vector<string> *args)
 
         // And now take the query and parse it so the user can query it
         MakeRDFQuery(m_response);
+
+        printf("%s\n", m_response.c_str());
         m_rdf = new RDFExtract(m_response, m_useUTF8);
         if (m_rdf->HasError())
         {
             m_error = string("Internal error.");
             return false;
         }
+         
+        m_rdf->GetSubjectFromObject(string(MBE_QuerySubject), m_baseURI);
+        m_currentURI = m_baseURI;
 
         // Return, because we don't want to actually query the server
         return true;
@@ -297,7 +301,7 @@ bool MusicBrainz::Query(const string &rdfObject, vector<string> *args)
     }
     printf("response: %s\n\n", m_response.c_str());
 #endif
-//    m_response = rdfObject;
+    m_response = rdfObject;
 
     // Parse the returned RDF
     m_rdf = new RDFExtract(m_response, m_useUTF8);
@@ -488,6 +492,21 @@ bool MusicBrainz::SetResultRDF(string &rdf)
         return true;
     }
     return false;
+}
+
+// some Get???ID queries return complete URLs that can be used
+// to retrieve the related content from the MB server. To get just
+// the id from the URL, use this function.
+void MusicBrainz::GetIDFromURL(const string &url, string &id)
+{
+    string::size_type pos;
+
+    id = url;
+    pos = id.rfind("/", string::npos); 
+    if (pos != string::npos)
+       pos++;
+
+    id.erase(0, pos); 
 }
 
 // Escape the & < and > in the passed rdf string and replace with

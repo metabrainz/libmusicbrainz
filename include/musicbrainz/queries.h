@@ -78,6 +78,13 @@
 #define MBE_GetSyncTextText        ""
 #define MBE_GetSyncTextTimestamp   ""
 
+// Extract queries for the MBQ:GetCDTOC query
+#define MBE_GetCDIndexId           "http://musicbrainz.org/mm/mm-2.0#cdindexId"
+#define MBE_GetFirstTrack          "http://musicbrainz.org/mm/mm-2.0#firstTrack"
+#define MBE_GetLastTrack           "http://musicbrainz.org/mm/mm-2.0#lastTrack"
+#define MBE_GetTrackSectorOffset   "http://musicbrainz.org/mm/mm-2.0#toc [] http://musicbrainz.org/mm/mm-2.0#sectorOffset"
+#define MBE_GetTrackNumSectors     "http://musicbrainz.org/mm/mm-2.0#toc [] http://musicbrainz.org/mm/mm-2.0#numSectors"
+
 // local queries
 #define MBQ_GetCDInfo              "@CDINFO@"
 #define MBQ_GetCDTOC               "@LOCALCDINFO@"
