@@ -657,4 +657,20 @@
     "   <mm:link>@10@</mm:link>\n" \
     "</mq:SubmitTrack>\n" 
 
+/** 
+ * JOHAN: submission of the Track Global ID, TRMId connection from Tunetagger
+ * Allows the addition of signatures without any moderation or insert process.
+ * Directly inserts the TRMId in the GUID and GUIDJoin table if trackGID exists
+ * and the TRMId is not already attached to different track
+ *
+ * ToDo: extend it with moderation, voting, from a list of recent additions.
+ * @param TrackGID  The Global ID field of the track
+ * @param trmid     The TRM Id of the track.
+ */
+#define MBQ_SubmitTrackTRMId \
+    "<mq:SubmitTrackTRMId>\n" \
+    "   <mm:trackid>@1@</mm:trackid>\n" \
+    "   <mm:trmid>@2@</mm:trmid>\n" \
+    "</mq:SubmitTrackTRMId>\n" 
+
 #endif
