@@ -322,7 +322,7 @@ void TRM::GenerateSignatureNow(string &strGUID, string &collID)
     for (j = 0; j < 9; j++)
     {
         specs[j] = new float[32];
-        for (int q = 0; q < 32; q++)
+        for (q = 0; q < 32; q++)
             specs[j][q] = 0.0;
     }
 
@@ -404,10 +404,10 @@ void TRM::GenerateSignatureNow(string &strGUID, string &collID)
     float estBPM = beats / fLength * 60.0;
 
     int *energydiffs = new int[8];
-    for (int q = 0; q < 8; q++)
+    for (q = 0; q < 8; q++)
         energydiffs[q] = 0;
 
-    for (int q = 0; q < energySub; q++)
+    for (q = 0; q < energySub; q++)
     {
         energydiffs[q] = (int)(energys[q + 1] - energys[q]);
         //cout << energydiffs[q] << endl;
@@ -417,7 +417,7 @@ void TRM::GenerateSignatureNow(string &strGUID, string &collID)
     int numsignchanges = 0;
     bool lastdiffneg = (energydiffs[0] < 0);
 
-    for (int q = 0; q < 8; q++)
+    for (q = 0; q < 8; q++)
     {
         avgdiff += (energydiffs[q] * energydiffs[q]);
         if (lastdiffneg && energydiffs[q] > 0)
