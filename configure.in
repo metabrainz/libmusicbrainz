@@ -8,15 +8,13 @@ dnl AC_DEFINE_UNQUOTED(VERSION, "$VERSION")
 CFLAGS="-Wall -O2"
 CPPFLAGS="-Wall -O2"
 
-darwin=false
-
 dnl Canonicalize host.
 AC_CANONICAL_HOST
 case "${host_cpu}-${host_os}" in
   *-beos*)    os=beos; LIBS='-lbe -lroot' ;;
   *-cygwin*)  os=cygwin; LIBS='-lwinmm' ;;
   *-freebsd*) os=freebsd ;;
-  *-darwin*)  os=darwin; darwin = true ;;
+  *-darwin*)  os=darwin ;;
   *-irix*)    os=irix; CXXFLAGS="$CFLAGS -fsquangle"; 
                        LIBS='-lcdaudio -lmediad -lds' ;; 
   *-linux*)   os=linux ;;
@@ -27,7 +25,7 @@ case "${host_cpu}-${host_os}" in
   *-qnx*)     os=qnx; LIBS='-lsocket' ;;
   *)          AC_MSG_RESULT([WARNING: unknown system]) ;;
 esac
-AM_CONDITIONAL(DARWIN, darwin)
+AM_CONDITIONAL(DARWIN, test x$os = xdarwin)
 
 dnl right now we specialize by linking (subject to change)
 AC_LINK_FILES(osdep/mb_${os}.cpp osdep/mb_${os}.h, lib/mb.cpp lib/mb.h)
