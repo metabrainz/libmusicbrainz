@@ -57,7 +57,11 @@ if test "$have_expat" = true; then
   EXPAT_LIBS="-lexpat"
   MAYBE_EXPAT=""
 else
-  EXPAT_LIBS='$(top_builddir)/expat/xmlparse/libxmlparse.la $(top_builddir)/expat/xmltok/libxmltok.la'
+  if test "$os" = "darwin"; then
+     EXPAT_LIBS='$(top_builddir)/expat/xmlparse/hashtable.lo $(top_builddir)/expat/xmlparse/xmlparse.lo $(top_builddir)/expat/xmltok/xmlrole.lo $(top_builddir)/expat/xmltok/xmltok.lo'
+  else
+     EXPAT_LIBS='$(top_builddir)/expat/xmlparse/libxmlparse.la $(top_builddir)/expat/xmltok/libxmltok.la'
+  fi
   MAYBE_EXPAT=expat
 fi
 AC_SUBST(EXPAT_LIBS)
