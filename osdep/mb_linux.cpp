@@ -132,7 +132,7 @@ bool DiskId::ReadTOC(MUSICBRAINZ_DEVICE device,
        device = DEFAULT_DEVICE;
    }
 
-   fd = open(device, O_RDONLY);
+   fd = open(device, O_RDONLY | O_NONBLOCK);
    if (fd < 0)
    {
        char err[256];

@@ -81,4 +81,8 @@ The following people have contributed to this program:
   Clayton O'Neill <coneill@oneill.net>
   - Improved the mp3 sanity checking code in the lib/bitzi/mp3.c
 
+  Juergen Kreileder <jk@blackdown.de>
+  - Supplied minimal patch for making sure that mb_client still works
+    when CDO_CHECK_TYPE is defined.
+
 (please send change requests to rob@musicbrainz.org or maintainer)
