@@ -1,4 +1,4 @@
-/* --------------------------------------------------------------------------
+/* ----------------------------------------------------------------------
 
    MusicBrainz -- The Internet music metadatabase
 
@@ -23,7 +23,10 @@
 ----------------------------------------------------------------------------*/
 #include <stdio.h>
 #include <stdlib.h>
+#include <iostream>
+#include <string>
 #include "musicbrainz/musicbrainz.h"
+using namespace std;
 
 int main(void)
 {
@@ -43,11 +46,21 @@ int main(void)
     // as appropriate
     //o.SetProxy("proxy.mydomain.com", 80);
 
-    // Tell the client library to return data in ISO8859-1 and not UTF-8
-    o.UseUTF8(false);
 
-    // Execute the GetCDInfo query, which pulls the TOC from the 
-    // audio CD in the cd-rom drive, calculates the disk id and 
+    if (o.UseEncoding("us-ascii") == false) {
+      o.GetQueryError(error);
+      printf("Error: %s\n", error.c_str());
+      return 1;
+    }
+
+    int numEncodings = o.GetNumAvailableEncodings();
+
+    string currentEncoding = o.GetCurrentEncoding();
+    printf("Number of Encodings Available: %d\n", numEncodings);
+    printf("Current Encoding: %s\n", currentEncoding.c_str());
+
+    // Execute the GetCDInfo query, which pulls the TOC from the
+    // audio CD in the cd-rom drive, calculates the disk id and
     // requests the data from the server
     ret = o.Query(string(MBQ_GetCDInfo));
     if (!ret)

@@ -45,8 +45,7 @@ class RDFExtract
 {
     public:
 
-                 RDFExtract             (const string &rdfDocument,
-                                         bool          useUTF8);
+                 RDFExtract             (const string &rdfDocument);
         virtual ~RDFExtract             (void);
 
         int      GetNumTriples          (void);
@@ -72,12 +71,9 @@ class RDFExtract
 
         vector<RDFStatement>  triples;
         string                error, empty, retValue, count;
-        bool                  useUTF8, hasError;
+        bool                  hasError;
 
     public:
-
-        const string ConvertToISO(const char *UTF8);
-
         void     StatementHandler(RDF_SubjectType subject_type,
                                   const XML_Char* subject,
                                   const XML_Char* predicate,

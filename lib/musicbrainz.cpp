@@ -49,8 +49,6 @@ const char *localAssociateCD = "@CDINFOASSOCIATECD@";
 const char *defaultServer = "mm.musicbrainz.org";
 const short defaultPort = 80;
 const char *rdfUTF8Encoding = "<?xml version=\"1.0\"?>\n";
-const char *rdfISOEncoding = 
-    "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?>\n";
 
 const char *rdfHeader = 
     "<rdf:RDF xmlns:rdf = \"http://www.w3.org/1999/02/22-rdf-syntax-ns#\"\n"
@@ -69,7 +67,6 @@ MusicBrainz::MusicBrainz(void)
     m_server = string(defaultServer);
     m_serverPort = defaultPort;
     m_proxy = "";
-    m_useUTF8 = true;
     m_depth = 2;
     m_debug = false;
     m_maxItems = 25;
@@ -85,6 +82,34 @@ MusicBrainz::~MusicBrainz(void)
 void MusicBrainz::GetVersion(int &major, int &minor, int &rev)
 {
     sscanf(VERSION, "%d.%d.%d", &major, &minor, &rev);
+}
+
+// Set the encoding to use to convert the UTF-8 data
+bool MusicBrainz::UseEncoding(const char *encoding)
+{
+    if (m_encoder.SetEncoding(encoding) == false) {
+       SetError(kError_EncodingError);
+       return false;
+    }
+    return true;
+}
+
+// Get the current encoding that is being used
+string MusicBrainz::GetCurrentEncoding() 
+{
+  return m_encoder.GetCurrentEncoding();
+}
+
+// Get the all available encodings that can be used.
+bool MusicBrainz::GetAvailableEncodings(vector<string> &encodings) 
+{
+  return m_encoder.GetAvailableEncodings(encodings);
+}
+
+// Get the total number of available encodings.
+int MusicBrainz::GetNumAvailableEncodings() 
+{
+  return m_encoder.GetTotalEncodings();
 }
 
 // Set the URL and port of the musicbrainz server to use.
@@ -243,7 +268,7 @@ bool MusicBrainz::GetWebSubmitURL(string &url)
 // a valid RDF query
 void MusicBrainz::MakeRDFQuery(string &rdf)
 {
-    rdf = (m_useUTF8 ? string(rdfUTF8Encoding) : string(rdfISOEncoding)) +
+    rdf = (string(rdfUTF8Encoding)) +
            string(rdfHeader) + 
            rdf + 
            string(rdfFooter);
@@ -300,7 +325,7 @@ bool MusicBrainz::Query(const string &rdfObject, vector<string> *args)
         // And now take the query and parse it so the user can query it
         MakeRDFQuery(m_response);
 
-        m_rdf = new RDFExtract(m_response, m_useUTF8);
+        m_rdf = new RDFExtract(m_response);
         if (m_rdf->HasError())
         {
             m_error = string("Internal error.");
@@ -316,7 +341,9 @@ bool MusicBrainz::Query(const string &rdfObject, vector<string> *args)
 
     // Substitute the passed in literal strings into the placeholders
     // in the query.
-    SubstituteArgs(rdf, args);
+    if (SubstituteArgs(rdf, args) == false) {
+       return false;
+    }
 
     // If there is a proxy, set up the proxy url now
     if (m_proxy.length() > 0)
@@ -388,7 +415,7 @@ bool MusicBrainz::Query(const string &rdfObject, vector<string> *args)
         printf("result: %s\n\n", m_response.c_str());
 
     // Parse the returned RDF
-    m_rdf = new RDFExtract(m_response, m_useUTF8);
+    m_rdf = new RDFExtract(m_response);
     if (m_rdf->HasError())
     {
         string err;
@@ -447,14 +474,23 @@ void MusicBrainz::GetQueryError(string &ErrorText)
 }
 
 // A shortcut function to retrieve a string value from the RDF result.
-const string &MusicBrainz::Data(const string &resultName, int Index)
+string MusicBrainz::Data(const string &resultName, int Index)
 {
     if (!m_rdf)
     {
        m_error = string("The server returned no valid data");
        return m_empty;
     }
-    return m_rdf->Extract(m_currentURI, resultName, Index);
+    string src = m_rdf->Extract(m_currentURI, resultName, Index);
+    if (src.length() == 0) {
+       return m_empty;
+    }
+    string dest;
+    if (!m_encoder.ConvertData(dest, src)) {
+       SetError(kError_EncodingError);
+       return m_empty;
+    }
+    return dest;
 }
 
 // A shortcut function to retrieve an integer value from the RDF result.
@@ -562,7 +598,7 @@ bool MusicBrainz::SetResultRDF(string &rdf)
     if (m_rdf)
        delete m_rdf;
 
-    m_rdf = new RDFExtract(rdf, m_useUTF8);
+    m_rdf = new RDFExtract(rdf);
     if (!m_rdf->HasError())
     {
         m_response = rdf;
@@ -668,13 +704,14 @@ const string MusicBrainz::EscapeArg(const string &arg)
 
 // This function replaces the @1@, @2@ argument place holders with
 // literal values passed in the args vector.
-void MusicBrainz::SubstituteArgs(string &rdf, vector<string> *args)
+bool MusicBrainz::SubstituteArgs(string &rdf, vector<string> *args)
 {
     vector<string>::iterator i;
     string::size_type        pos;
     char                     replace[100];
     int                      j = 1;
     string                   arg;
+    string                   utfArg; // the argument converted to utf-8 encoding
 
     if (args)
     {
@@ -687,10 +724,18 @@ void MusicBrainz::SubstituteArgs(string &rdf, vector<string> *args)
             pos = rdf.find(string(replace), 0);
             if (pos != string::npos)
             {
-                if (arg.length() == 0)
-                   rdf.replace(pos, strlen(replace), string("__NULL__"));
-                else
-                   rdf.replace(pos, strlen(replace), arg);
+	        if (arg.length() == 0) {
+                    rdf.replace(pos, strlen(replace), string("__NULL__"));
+	        }
+                else {
+		    if (m_encoder.ConvertToUTF8(utfArg, arg)) {
+                        rdf.replace(pos, strlen(replace), utfArg);
+                    }
+                    else {
+ 		        SetError(kError_EncodingError);
+		        return false;
+                    }
+                }
             }
         }
     }
@@ -713,6 +758,7 @@ void MusicBrainz::SubstituteArgs(string &rdf, vector<string> *args)
     ReplaceArg(rdf, "@SESSKEY@", m_sessionKey);
     ReplaceIntArg(rdf, "@MAX_ITEMS@", m_maxItems);
     ReplaceArg(rdf, "@CLIENTVER@", m_versionString);
+    return true;
 }
 
 void MusicBrainz::ReplaceArg(string &rdf, const string &from, const string &to)
@@ -782,6 +828,9 @@ void MusicBrainz::SetError(Error ret)
        case kError_InvalidProxyCreds:
           m_error = string("Invalid Proxy Credentials. Check if username and "
                            "password are empty and username does not contain a colon ':'");
+          break;
+       case kError_EncodingError:
+	  m_error = string("Encoding error: " + m_encoder.GetLastError());
           break;
        default:
           char num[10];

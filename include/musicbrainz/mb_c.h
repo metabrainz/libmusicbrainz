@@ -167,14 +167,42 @@ int mb_Authenticate(musicbrainz_t o, char *userName, char *password);
 int       mb_SetDevice         (musicbrainz_t o, char *device);
 
 /**
- * Use this function to set the output returned by the Get function. The
- * Get functions can return data in ISO-8859-1 encoding or in UTF-8.
- * Defaults to ISO-8859-1.
- * @see 
+ * Use this function to set the output returned by the Get functions. The
+ * Get functions will return data in a desired encoding specifed by the
+ * encoding's character set name, such as "ISO-8859-1".  If no encoding is
+ * specified, the default encoding will be used (ISO-8859-1). To bypass
+ * the character set conversion process, use "UTF-8" as the character set name.
  * @param o the musicbrainz_t object returned from mb_New()
- * @param useUTF8 if set to a non-zero value, UTF-8 will be used.
+ * @param encoding the encoding's character set name to convert data to.
+ * @return returns 1 if the encoding is available and will be used, -1 if the encoding cannot be used,
+ *         or 0 if the musicbrainz object has not been initialized.
  */
-void      mb_UseUTF8           (musicbrainz_t o, int useUTF8);
+int      mb_UseEncoding           (musicbrainz_t o, const char *encoding);
+
+/**
+ * Returns the encoding that is being used to convert the UTF-8 data returned by
+ * the Get functions.
+ * @param o the musicbrainz_t object returned from mb_New()
+ * @return the character set encoding that is currently being used, or NULL if an error occurred.
+ */
+const char *mb_GetCurrentEncoding        (musicbrainz_t o);
+
+/**
+ * Gets the available character encodings that can be used. Call mb_GetNumAvailableEncodings()
+ * to get the total number of character set encodings.  The character strings in the array are
+ * dynamically allocated and need to be destroyed when done using them!
+ * @param o the musicbrainz_t object returned from mb_New()
+ * @param encodings a pointer to char arrays that will store the character set names.
+ * @param encLength the size of the encodings array.
+ */
+int      mb_GetAvailableEncodings(musicbrainz_t o, char** encodings, int encLength);
+
+/**
+ * Returns the number of available encodings.
+ * @param o the musicbrainz_t object returned from mb_New()
+ * @param numEncodings the number of encodings available, or -1 if an error occurred.
+ */
+int      mb_GetNumAvailableEncodings(musicbrainz_t o, int *numEncodings);
 
 /**
  * Set the search depth of the query. Please refer to the MusicBrainz HOWTO
@@ -444,7 +472,7 @@ void      mb_GetFragmentFromURL(musicbrainz_t o, char *url, char *fragment,
  * an album. A result list query (usually MBE_AlbumGetTrackList)
  * @see MBE_AlbumGetTrackList
  * @param o the musicbrainz_t object returned from mb_New()
- * @param resultList selector (usually MBE_AlbumGetTrackList)
+ * @param list selector (usually MBE_AlbumGetTrackList)
  * @param URI of the item from the list to return.
  */
 int       mb_GetOrdinalFromList(musicbrainz_t o, char *resultList, char *URI);

@@ -123,13 +123,50 @@ void mb_SetMaxItems(musicbrainz_t o, int maxItems)
     obj->SetMaxItems(maxItems);
 }
 
-void mb_UseUTF8(musicbrainz_t o, int useUTF8)
+int mb_UseEncoding(musicbrainz_t o, const char *encoding)
 {
     MusicBrainz *obj = (MusicBrainz *)o;
     if (o == NULL)
-       return;
+       return 0;
 
-    obj->UseUTF8((bool)useUTF8);
+    if (obj->UseEncoding(encoding) == false) { return 0; }
+    return 1;
+}
+
+const char *mb_GetCurrentEncoding(musicbrainz_t o)
+{
+    MusicBrainz *obj = (MusicBrainz *)o;
+    if (o == NULL) {
+       return NULL;
+    }
+    return (obj->GetCurrentEncoding().c_str());
+}
+
+int mb_GetAvailableEncodings(musicbrainz_t o, char** encodings, int encLength) {
+  if (encodings == NULL || o == NULL) {
+    return 0;
+  }
+  MusicBrainz *obj = (MusicBrainz *)o;
+  vector<string> charsetList;
+  unsigned int limit;
+  if (obj->GetAvailableEncodings(charsetList) == false) { return 0; }
+
+  if (encLength < charsetList.size()) { limit = encLength; }
+  else { limit = charsetList.size(); }
+
+  for (int x = 0; x < limit; x++) {
+    encodings[x] = strdup(charsetList[x].c_str());
+  }
+  return 1;
+}
+
+int mb_GetNumAvailableEncodings(musicbrainz_t o, int *numEncodings) {
+  MusicBrainz *obj = (MusicBrainz *)o;
+  if (o == NULL) {
+    return 0;
+  }
+  *numEncodings = obj->GetNumAvailableEncodings();
+  return 1;
 }
 
 #ifdef WIN32

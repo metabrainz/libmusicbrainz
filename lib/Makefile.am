@@ -29,7 +29,7 @@ dist_libmusicbrainz_la_SOURCES = \
   diskid.cpp haar.cpp http.cpp \
   musicbrainz.cpp sha1.c signature.cpp \
   sigxdr.cpp sigclient.cpp sigfft.cpp \
-  rdfparse.c rdfextract.cpp uuid.cpp mp3.cpp md5.c
+  rdfparse.c rdfextract.cpp uuid.cpp mp3.cpp md5.c encoder.cpp
 nodist_libmusicbrainz_la_SOURCES = mb.cpp
 
 # Here are a set of rules to help you update your library version information:
@@ -47,7 +47,7 @@ nodist_libmusicbrainz_la_SOURCES = mb.cpp
 #  6. If any interfaces have been removed since the last public release, then 
 #     set age to 0. 
 libmusicbrainz_la_LDFLAGS = -version-info 4:0:0
-libmusicbrainz_la_LIBADD = @EXPAT_LIBS@
+libmusicbrainz_la_LIBADD = @EXPAT_LIBS@ -licudata -licuuc
 
 noinst_HEADERS = \
   audiosig.h base64.h comhttpsocket.h comsocket.h \

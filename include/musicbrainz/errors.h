@@ -67,6 +67,7 @@ typedef enum _Error
     kError_InvalidProxyCreds    = 61,
     kError_ProxyAuthRequired    = 62,
     kError_UnknownProxyAuth     = 63,
+    kError_EncodingError        = 64,
     kError_LastError            = 9999
 } Error;
 

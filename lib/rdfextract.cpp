@@ -45,12 +45,11 @@ void statement_handler(void*           user_data,
         subject, predicate, ordinal, object_type, object);
 }
 
-RDFExtract::RDFExtract(const string &rdfDocument, bool useUTF8)
+RDFExtract::RDFExtract(const string &rdfDocument)
 {
    RDF_Parser parser;
 
    hasError = false;
-   this->useUTF8 = useUTF8;
 
    parser = RDF_ParserCreate(NULL);
    RDF_SetUserData(parser, (void *)this);
@@ -84,23 +83,13 @@ void RDFExtract::StatementHandler(RDF_SubjectType subject_type,
 {
     RDFStatement statement;
 
-    if (useUTF8)
-        statement.subject = string((char *)subject);
-    else
-        statement.subject = ConvertToISO(subject);
-
-    if (useUTF8)
-        statement.object = string((char *)object);
-    else
-        statement.object = ConvertToISO(object);
-
+    statement.subject = string((char *)subject);
+    statement.object = string((char *)object);
+    
     if (ordinal == 0)
     {
-        if (useUTF8)
-            statement.predicate = string((char *)predicate);
-        else
-            statement.predicate = ConvertToISO(predicate);
-        statement.ordinal = 0;
+      statement.predicate = string((char*)predicate);
+      statement.ordinal = 0;
     }
     else
         statement.ordinal = ordinal;
@@ -305,50 +294,3 @@ bool RDFExtract::GetError(string &error)
     return error.length() > 0;
 }
 
-const string RDFExtract::ConvertToISO(const char *UTF8)
-{
-   unsigned char *in, *buf;
-   unsigned char *out, *end;
-   string               ret;
-
-   in = (unsigned char *)UTF8;
-   buf = out = new unsigned char[strlen(UTF8) + 1];
-   end = in + strlen(UTF8);
-   for(;*in != 0x00 && in <= end; in++, out++)
-   {
-       if (*in < 0x80)
-       {  /* lower 7-bits unchanged */
-          *out = *in;
-       }
-       else
-       if (*in > 0xC3)
-       { /* discard anything above 0xFF */
-          *out = '?';
-       }
-       else
-       if (*in & 0xC0)
-       { /* parse upper 7-bits */
-          if (in >= end)
-            *out = 0;
-          else
-          {
-			// The following used to be in one block, but the math would end up 
-		    // wrong if compiled with MSVC++ in release mode. Using the left and right
-			// intermediates fixes the problem. Gotta love M$ crap.
-			unsigned char left, right;
-            left = (((*in) & 0x1F) << 6); 
-			right = (0x3F & (*(++in)));
-            *out = right | left;
-          }
-       }
-       else
-       {
-          *out = '?';  /* this should never happen */
-       }
-   }
-   *out = 0x00; /* append null */
-   ret = string((char *)buf);
-   delete buf;
-
-   return ret;
-}

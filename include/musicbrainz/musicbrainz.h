@@ -29,6 +29,7 @@
 #include <vector>
 #include <list>
 
+#include "encoder.h"
 #include "errors.h"
 #include "queries.h"
 
@@ -53,6 +54,14 @@ class MusicBrainz
                                          short serverPort);
        EXPORT bool     SetProxy         (const string &proxyAddr, 
                                          short proxyPort);
+
+       /** Sets the username and password for proxy authentication.
+        * If a proxy server is needed and http authentication is required,
+	* use this method to set the username and password for authorization.
+	* Both Basic and MD5 hash authentication is supported.
+	* @param proxyUsername - the username
+	* @param proxyPassword - the password
+	*/
        EXPORT bool     SetProxyCreds    (const string &proxyUsername, 
                                          const string &proxyPassword);
        EXPORT bool     Authenticate     (const string &userName,
@@ -61,13 +70,43 @@ class MusicBrainz
        EXPORT bool     SetDevice        (const string &device);
        EXPORT bool     SetDepth         (int depth);
        EXPORT bool     SetMaxItems      (int maxItems);
-       EXPORT void     UseUTF8          (bool bUse) { m_useUTF8 = bUse; };
 
-       EXPORT bool     Query            (const string &rdfObject, 
+       /** Specifies which encoding to convert the data to.
+        * This method is used to specify the character set encoding for
+	* converting the metadata information. The default character set
+	* that Musicbrainz converts to is ISO-8859-1.  To change it, call
+	* this method with the desired character set name.  To perform
+	* no character set conversions, just specify "UTF-8" as the character set.
+	* @param encoding - The character set name.
+	* @returns True if the character set is supported and will be used, false if
+	* an error occurred.  Call GetQueryError() to get the ICU error code name.
+	*/
+       EXPORT bool     UseEncoding      (const char *encoding);
+
+       /** Returns the current character set encoding that is being used for
+        * displaying the metadata information.
+	* @returns The current character set name
+	*/
+       EXPORT string   GetCurrentEncoding ();
+
+       /** Retrieves the list of character set encodings that are available to the
+        * system.  This list contains only the character set names.
+	* @param encodings - the string vector that will be filled with the character set names.
+	* @returns True if the list was generated successfully, false if an error occurred.
+        * Call GetQueryError() to get the ICU error code name.
+	*/
+       EXPORT bool     GetAvailableEncodings(vector<string> &encodings);
+
+       /** Returns the number of available character set encodings
+        * @returns the number of available character set encodings
+        */
+       EXPORT int      GetNumAvailableEncodings();
+
+       EXPORT bool     Query            (const string &rdfObject,
                                          vector<string> *args = NULL);
        EXPORT void     GetQueryError    (string &ErrorText);
        EXPORT bool     GetWebSubmitURL  (string &url);
-  
+
        EXPORT bool     Select           (const string &selectQuery,
                                          int           ordinal = 0);
        EXPORT bool     Select           (const string &selectQuery,
@@ -78,7 +117,7 @@ class MusicBrainz
        EXPORT bool     GetResultData    (const string &resultName, 
                                          int Index, 
                                          string &data);
-       EXPORT const string &Data        (const string &resultName, 
+       EXPORT string   Data             (const string &resultName, 
                                          int Index = 0);
        EXPORT int      DataInt          (const string &resultName, 
                                          int Index = 0);
@@ -107,7 +146,7 @@ class MusicBrainz
     private:
 
        const string EscapeArg(const string &xml);
-       void         SubstituteArgs(string &xml, vector<string> *args);
+       bool         SubstituteArgs(string &xml, vector<string> *args);
        void         ReplaceArg(string &rdf, const string &from, 
                                const string &to);
        void         ReplaceIntArg(string &rdf, const string &from, int to);
@@ -118,10 +157,11 @@ class MusicBrainz
        string          m_error, m_empty; 
        string          m_server, m_proxy, m_proxyUid, m_proxyPwd;
        string          m_sessionKey, m_sessionId, m_versionString;
+       Encoder         m_encoder;          
        short           m_serverPort, m_proxyPort;
        string          m_device, m_currentURI, m_baseURI, m_response; 
        RDFExtract     *m_rdf;
-       bool            m_useUTF8, m_debug;
+       bool            m_debug;
        int             m_depth, m_maxItems;
 };
 

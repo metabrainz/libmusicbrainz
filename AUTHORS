@@ -83,5 +83,6 @@ The following people have contributed to this program:
 
   Jay Watkins <jwatk03@yahoo.com>
   - Added proxy authorization support
+  - Added ICU (unicode) support
 
 (please send change requests to rob@musicbrainz.org or maintainer)
