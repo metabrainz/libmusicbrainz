@@ -31,7 +31,7 @@
 #include <stdio.h>
 #include <map>
 #include <assert.h>
-#include "xmlparse.h"
+#include "parse.h"
 
 void BeginElement(void *data, const XML_Char *el, const XML_Char **attr)
 {

@@ -124,7 +124,6 @@ Error DiskId::FillCDInfo(const string &device, MUSICBRAINZ_CDINFO &cdinfo)
 {
    int   i;
    bool  bRet;
-   char  id[33];
 
    // check SHA-1 sanity
    TestGenerateId();
@@ -152,7 +151,6 @@ Error DiskId::GenerateDiskIdRDF(const string &device, string &xml)
 {
    MUSICBRAINZ_CDINFO cdinfo;
    int   i;
-   bool  bRet;
    char  id[33];
    Error eRet;
 
@@ -184,7 +182,6 @@ Error DiskId::GenerateDiskIdQueryRDF(const string &device, string &xml,
 {
    MUSICBRAINZ_CDINFO cdinfo;
    int   i;
-   bool  bRet;
    char  id[33];
    Error eRet;
 
@@ -223,7 +220,6 @@ Error DiskId::GetWebSubmitURLArgs(const string &device, string &args)
 {
    MUSICBRAINZ_CDINFO cdinfo;
    int   i;
-   bool  bRet;
    char  id[33], toc_string[1024], tracks[10];
    Error eRet;
 

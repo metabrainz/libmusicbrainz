@@ -27,9 +27,9 @@
 #include <memory.h>
 #include <shellapi.h>
 
-#include "cdi_win32.h"     // can't assume symlink mb.h to cdi_win32.h
+#include "mb_win32.h"     // can't assume symlink mb.h to cdi_win32.h
 #include "diskid.h"
-#include "config_win32.h"  // a copy of a Cygwin generated config.h
+#include "../config_win32.h"  // a copy of a Cygwin generated config.h
 
 
 MUSICBRAINZ_DEVICE DEFAULT_DEVICE = "0";

@@ -282,7 +282,6 @@ int MusicBrainz::DataInt(const string &resultName, int Index)
 
 bool MusicBrainz::GetResultData(const string &resultName, int Index, string &data)
 {
-    Error  ret;
     string query;
 
     if (!m_xql)
@@ -405,7 +404,6 @@ void MusicBrainz::SubstituteArgs(string &xml, vector<string> *args)
     string::size_type        pos;
     char                     replace[100];
     int                      j;
-    Error                    Err;
 
     if (args == NULL)
        return;

@@ -53,7 +53,13 @@
 
 #include "http.h"
 #include "musicbrainz.h"
+#ifdef WIN32
+#include "../config_win32.h"
+#else
 #include "config.h"
+#endif
+
+using namespace std;
 
 const unsigned short kHttpPort = 80;
 const unsigned int kMaxHostNameLen = 64;
