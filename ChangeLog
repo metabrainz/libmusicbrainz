@@ -1,8 +1,9 @@
-Changes for CVS verison
+Changes for libmusicbrainz 2.0.0
 -------------------------------------
    - Added patch for pkgconfig
    - Threading handled correctly in python wrapper
-   - New perl wrappers
+   - New perl bindings
+   - Had client use HTTP 1.0 rather than HTTP 1.1
    
 
 Changes for libmusicbrainz 2.0.0
