@@ -81,7 +81,7 @@ int HandleArtistList(musicbrainz_t o, Metadata *mdata)
         printf("%2d. %s (%d%% relevance, Sortname: %s)\n", i, artistName, rel, sortName);
     }
 
-    printf("\n 0. (to stop and exit)\n");
+    printf("\n 0. (to cancel lookup)\n");
     choice = GetChoice(i);
     if (choice == 0)
        return 1;
@@ -228,18 +228,22 @@ int main(int argc, char *argv[])
     FILE         *p;
     char          error[256], data[256], temp[256], *args[11], cmd[256], trmdata[6][256];
     int           ret, isDone = 0, i;
-
+    int           argi;
     if (argc < 2)
     {
         printf("Usage: tagger <mp3 file>\n");
         exit(0);
     }
 
+    for( argi=1; argi < argc; argi++ ){
+
+      printf("File: %s\n", argv[argi]);
+
     memset(&mdata, 0, sizeof(Metadata));
 
     // Here we cheat -- big time. We require that the trm program be installed
     // and thus we call it to generate the TRM and extract the id3 data.
-    sprintf(cmd, "trm -i %s", argv[1]);
+      sprintf(cmd, "trm -i \"%s\"", argv[argi]);
     p = popen(cmd, "r");
     if (p == NULL)
     {
@@ -262,7 +266,7 @@ int main(int argc, char *argv[])
     strcpy(mdata.trackName, trmdata[3]);
     strcpy(mdata.trackNum, trmdata[4]);
     strcpy(mdata.duration, trmdata[5]);
-    strcpy(mdata.fileName, argv[1]);
+      strcpy(mdata.fileName, argv[argi]);
 
     // For debug only
     //strcpy(mdata.trmid, "");
@@ -358,6 +362,8 @@ int main(int argc, char *argv[])
 
     // and clean up the musicbrainz object
     mb_Delete(o);
+
+    }
 
     return 0;
 }
