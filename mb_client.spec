@@ -1,31 +1,31 @@
-%define name    musicbrainz
-%define	version	1.0.0pre6
-%define	release	1
-%define	prefix	/usr
+%define     name     musicbrainz
+%define     version  1.0.0pre7
+%define     release  1
+%define     prefix   /usr
 
-Name:		%{name}
-Version:	%{version}
-Release:	%{release}
-Summary:	A software library for accesing MusicBrainz servers
-Source:		http://www.musicbrainz.org/download/%{name}-%{version}.tar.gz
-URL:		http://www.musicbrainz.org
-Group:		System Environment/Libraries
-BuildRoot:	%{_tmppath}/%{name}-buildroot
-Copyright:	LGPL
-Prefix:         %{_prefix}
-Docdir:		%{prefix}/doc
+Name:       %{name}
+Version:    %{version}
+Release:    %{release}
+Summary:    A software library for accesing MusicBrainz servers
+Source:     http://www.musicbrainz.org/download/%{name}-%{version}.tar.gz
+URL:        http://www.musicbrainz.org
+Group:      System Environment/Libraries
+BuildRoot:  %{_tmppath}/%{name}-buildroot
+Copyright:  LGPL
+Prefix:     %{_prefix}
+Docdir:     %{prefix}/doc
 
 %description
 The MusicBrainz client library allows applications to make metadata
 lookup to a MusicBrainz server, generate signatures from WAV data and
 create CD Index Disk ids from audio CD roms.
 
-%package	devel
-Summary:	Headers for developing programs that will use libmusicbrainz
-Group:		Development/Libraries
-Requires:       %{name}
+%package devel
+Summary: Headers for developing programs that will use libmusicbrainz
+Group:      Development/Libraries
+Requires:   %{name}
 
-%description	devel
+%description   devel
 This package contains the headers that programmers will need to develop
 applications which will use libmusicbrainz.
 
