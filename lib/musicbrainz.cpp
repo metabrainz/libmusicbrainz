@@ -60,6 +60,7 @@ MusicBrainz::MusicBrainz(void)
     for(int i = 0; i < 50; i++)
        m_indexes.push_back(0);
     m_selectQuery = string(MB_SelectTopLevel);
+    m_useUTF8 = true;
 }
 
 MusicBrainz::~MusicBrainz(void)
@@ -145,7 +146,7 @@ bool MusicBrainz::Query(const string &xmlObject, vector<string> *args)
         }
         xml = string(rdfHeader) + xml + string(rdfFooter);
 
-        m_xql = new XQL();
+        m_xql = new XQL(m_useUTF8);
         ret = m_xql->ParseString(xml);
         if (IsError(ret))
         {
@@ -185,7 +186,7 @@ bool MusicBrainz::Query(const string &xmlObject, vector<string> *args)
         return false;
     }
 
-    m_xql = new XQL();
+    m_xql = new XQL(m_useUTF8);
     m_xmlIndex = 0;
     ret = m_xql->ParseString(m_xmlList[0]);
     if (IsError(ret))
@@ -229,7 +230,7 @@ bool MusicBrainz::Query(const string &xmlObject, vector<string> *args)
     if (numObjs > 1)
     {
         delete m_xql;
-        m_xql = new XQL();
+        m_xql = new XQL(m_useUTF8);
         xml = m_xmlList[1];
         ret = m_xql->ParseString(xml);
         if (IsError(ret))
@@ -380,7 +381,7 @@ bool MusicBrainz::SetResultRDF(string &rdf)
     if (m_xql)
        delete m_xql;
 
-    m_xql = new XQL();
+    m_xql = new XQL(m_useUTF8);
     ret = m_xql->ParseString(rdf);
     if (!IsError(ret))
     {
@@ -405,7 +406,7 @@ bool MusicBrainz::SelectXMLResult(int index)
         return false;
 
     delete m_xql;
-    m_xql = new XQL();
+    m_xql = new XQL(m_useUTF8);
     ret = m_xql->ParseString(m_xmlList[index]);
     if (IsError(ret))
     {
@@ -515,72 +516,3 @@ int MusicBrainz::SplitResponse(const string &inXML)
 
     return 0;
 }
-
-#if 0
-
-#include "queries.h"
-
-int main(void)
-{
-    MusicBrainz o;
-    vector<string> args;
-    string         error, data, url;
-    bool           ret;
-
-    o.SetServer(string("localhost"), 80);
-    ret = o.Query(string(localCDInfo), &args);
-    if (!ret)
-    {
-         o.GetQueryError(error);
-         printf("Query failed: %s\n", error.c_str());
-    
-         ret = o.GetWebSubmitURL(url);
-         if (ret)
-             printf("submit url: %s\n", url.c_str());
-
-         return 0;
-    }
-
-    o.GetResultRDF(data);
-    printf("XML: '%s'\n", data.c_str());
-
-    ret = o.GetResultData(string(GetTitle), 0, data);
-    if (!ret)
-    {
-         o.GetQueryError(error);
-         printf("Get result failed: %s\n", error.c_str());
-         return 0;
-    }
-    printf("Title: '%s'\n", data.c_str());
-    
-    ret = o.GetResultData(string(GetArtist), 0, data);
-    if (!ret)
-    {
-         o.GetQueryError(error);
-         printf("Get result failed: %s\n", error.c_str());
-         return 0;
-    }
-    printf("Artist: '%s'\n", data.c_str());
-
-    ret = o.DoesResultExist(string(GetFuzzyMatchAlbumId));
-    if (ret)
-    {
-        printf("Fuzzy match!\n");
-
-        o.GetResultData(string(GetFuzzyMatchAlbumId), 0, data);
-        args.clear();
-        args.push_back(data);
-        ret = o.Query(string(AssociateCD), &args);
-        if (!ret)
-        {
-             o.GetQueryError(error);
-             printf("Associate Query failed: %s\n", error.c_str());
-             return 0;
-        }
-        printf("Associate query ok\n");
-    }
-
-
-    return 0;
-}
-#endif

@@ -68,6 +68,15 @@ int mb_SetDevice(musicbrainz_t o, char *device)
     return (int)obj->SetDevice(string(device));
 }
 
+void mb_UseUTF8(musicbrainz_t o, int useUTF8)
+{
+    MusicBrainz *obj = (MusicBrainz *)o;
+    if (o == NULL)
+       return;
+
+    obj->UseUTF8((bool)useUTF8);
+}
+
 int mb_GetWebSubmitURL(musicbrainz_t o, char *url, int urlLen)
 {
     MusicBrainz *obj = (MusicBrainz *)o;

@@ -44,6 +44,7 @@ int       mb_SetServer         (musicbrainz_t o, char *serverAddr,
 int       mb_SetProxy          (musicbrainz_t o, char *serverAddr, 
                                 short serverPort);
 int       mb_SetDevice         (musicbrainz_t o, char *device);
+void      mb_UseUTF8           (musicbrainz_t o, int useUTF8);
 
 int       mb_Query             (musicbrainz_t o, char *xmlObject);
 int       mb_QueryWithArgs     (musicbrainz_t o, char *xmlObject, char **args);

@@ -44,6 +44,7 @@
 #include "rdfgen.h"
 
 RDFGenerator::RDFGenerator(void)
+             :MBParse(true)
 {
 }
 

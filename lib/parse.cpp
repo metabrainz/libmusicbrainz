@@ -35,22 +35,33 @@
 
 void BeginElement(void *data, const XML_Char *el, const XML_Char **attr)
 {
-	map<string, string> oMap;
-	string key, value;
+    map<string, string> oMap;
+    string key, value;
 
     for(; *attr;)
-	{
-        key = string((char *)*(attr++));
-	    value = string((char *)*(attr++));
+    {
+        if (((MBParse *)data)->UseUTF8())
+        {
+           key = string((char *)*(attr++));
+           value = string((char *)*(attr++));
+        }
+        else
+        {
+           key = ConvertToISO((char *)*(attr++));
+           value = ConvertToISO((char *)*(attr++));
+        }
         oMap[key] = value;
-	}
+    }
 
     ((MBParse *)data)->BeginElement(string(el), oMap);
 }
 
 void EndElement(void *data, const XML_Char *el)
 {
-    ((MBParse *)data)->EndElement(string(el));
+    if (((MBParse *)data)->UseUTF8())
+       ((MBParse *)data)->EndElement(string(el));
+    else
+       ((MBParse *)data)->EndElement(ConvertToISO((char *)el));
 }
 
 void PCData(void *data, const XML_Char *charData, int len)
@@ -60,12 +71,17 @@ void PCData(void *data, const XML_Char *charData, int len)
     temp = new char[len + 1];
     strncpy(temp, (char *)charData, len);
     temp[len] = 0;
-    ((MBParse *)data)->PCData(string(temp));
+    if (((MBParse *)data)->UseUTF8())
+       ((MBParse *)data)->PCData(string(temp));
+    else
+       ((MBParse *)data)->PCData(ConvertToISO((char *)temp));
     delete temp;
 }
 
-MBParse::MBParse(void)
+MBParse::MBParse(bool useUTF8)
 {
+    m_useUTF8 = useUTF8;
+
     m_pParser = (XML_Parser *)XML_ParserCreate(NULL);
     XML_SetUserData(m_pParser, this);
     XML_SetElementHandler(m_pParser, ::BeginElement, ::EndElement);
@@ -97,4 +113,47 @@ void MBParse::GetErrorString(string &oError)
 int MBParse::GetErrorLine(void)
 {
     return XML_GetCurrentLineNumber(m_pParser);
+}
+
+const string ConvertToISO(const char *utf8)
+{
+   unsigned char *in;
+   unsigned char *out, *end;
+   string               ret;
+
+   in = (unsigned char *)utf8;
+   out = new unsigned char[strlen(utf8) + 1];
+   end = in + strlen(utf8);
+   for(;*in != 0x00 && in <= end; in++, out++)
+   {
+       if (*in < 0x80)
+       {  /* lower 7-bits unchanged */
+          *out = *in;
+       }
+       else
+       if (*in > 0xC3)
+       { /* discard anything above 0xFF */
+          *out = '?';
+       }
+       else
+       if (*in & 0xC0)
+       { /* parse upper 7-bits */
+          in++;
+          if (in <= end)
+            *out = 0;
+          else
+            *out = (*in) & 0x3F + 0x80;
+       }
+       else
+       {
+          *out = '?';  /* this should never happen */
+       }
+   }
+   *out = 0x00; /* append null */
+
+   ret = string((char *)out);
+
+   delete out;
+
+   return ret;
 }

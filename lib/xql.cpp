@@ -34,7 +34,8 @@
 #include <assert.h>
 #include "xql.h"
 
-XQL::XQL(void)
+XQL::XQL(bool useUTF8) :
+      MBParse(useUTF8)
 {
 }
 
