@@ -31,23 +31,12 @@
 #endif
 #include <string.h>
 #include "mb_c.h"
-
-typedef enum 
-{
-   eBrowserNetscape = 0,
-   eBrowserMozilla,
-   eBrowserKonqueror,
-   eBrowserOpera,
-   eBrowserLynx
-} BrowserEnum;
-
-int launch_browser(const char* url, BrowserEnum browser);
+#include "browser.h"
 
 int main(int argc, char *argv[])
 {
     musicbrainz_t o;
-    char          url[1025];
-    BrowserEnum   browser = eBrowserNetscape;
+    char          url[1025], *browser;
     int           argIndex = 1;
 
     if (argc > 1 && strcmp(argv[1], "--help") == 0)
@@ -59,6 +48,7 @@ int main(int argc, char *argv[])
         printf(" -m       - use the Mozilla to submit\n");
         printf(" -o       - use the Opera to submit\n");
         printf(" -l       - use the lynx to submit\n");
+        printf(" -g       - use the galeon to submit\n");
         printf("\nBy default Netscape will be used. You may also set the\n");
         printf("BROWSER environment variable to specify your browser of "
                "choice. Check http://www.tuxedo.org/~esr/BROWSER/index.html "
@@ -94,22 +84,27 @@ int main(int argc, char *argv[])
         {
             if (strcmp(argv[argIndex], "-m") == 0)
             {
-                browser = eBrowserMozilla;
+                browser = "mozilla";
             }
             else
             if (strcmp(argv[argIndex], "-k") == 0)
             {
-                browser = eBrowserKonqueror;
-                }
+                browser = "konqueror";
+            }
             else
             if (strcmp(argv[argIndex], "-o") == 0)
             {
-                browser = eBrowserOpera;
+                browser = "opera";
                 }
             else
             if (strcmp(argv[argIndex], "-l") == 0)
             {
-                browser = eBrowserLynx;
+                browser = "lynx";
+            }
+            else
+            if (strcmp(argv[argIndex], "-g") == 0)
+            {
+                browser = "galeon";
             }
             else
             {
@@ -126,8 +121,14 @@ int main(int argc, char *argv[])
     // Now get the web submit url
     if (mb_GetWebSubmitURL(o, url, 1024))
     {
+        int ret;
+        
         printf("URL: %s\n", url);
-        launch_browser(url, browser);
+
+        browser = browser ? browser : "mozilla";
+        ret = LaunchBrowser(url, browser);
+        if (ret == 0)
+           printf("Could not launch browser. (%s)\n", browser);
     }
     else
         printf("Could read CD-ROM parameters. Is there a CD in the drive?\n");
@@ -141,115 +142,3 @@ int main(int argc, char *argv[])
 
     return 0;
 }
-
-/* The following functions are for launching the browser */
-#ifdef WIN32
-
-int launch_browser(const char* url, BrowserEnum browser)
-{
-    int foo = ShellExecute(NULL, "open", url, NULL, NULL, SW_SHOWNORMAL);
-    return 1;
-}
-
-#else
-
-int launch(const char *url, const char *command);
-int launch_using_envvar(const char *url);
-int is_netscape_running(void);
-
-int launch_browser(const char* url, BrowserEnum browser)
-{
-    char         command[1024];
-    char        *browser_env;
-
-    browser_env = getenv("BROWSER");
-    if (browser_env && strlen(browser_env) > 0)
-        return launch_using_envvar(url);
-
-    switch(browser)
-    {
-        case eBrowserNetscape:
-           if (is_netscape_running())
-                strcpy(command, "netscape -raise -remote "
-                                "\"openURL(file://%s,new-window)\""); 
-           else
-                strcpy(command, "netscape \"file://%s\" &");
-
-           break;
-        case eBrowserMozilla:
-           strcpy(command, "mozilla '%s' &");
-           break;
-        case eBrowserKonqueror:
-           strcpy(command, "konqueror '%s' &");
-           break;
-        case eBrowserOpera:
-           strcpy(command, "opera '%s' &");
-           break;
-        case eBrowserLynx:
-           strcpy(command, "lynx '%s'");
-           break;
-    }
-
-    return launch(url, command);
-}
-
-int launch_using_envvar(const char *url)
-{
-    char *browser, *token;
-    int   ret = 0;
-
-    browser = strdup(getenv("BROWSER"));
-    token = strtok(browser, ":");
-    while(*token)
-    {
-        ret = launch(url, token);
-        if (ret)
-           break;
-
-        token = strtok(NULL, ":");
-    }
-    free(browser);
-
-    return ret;
-}
-
-int launch(const char *url, const char *browser)
-{
-    char *command, *ptr, newBrowser[1024];
-    int   ret;
-
-    ptr = strchr(browser, '%');
-    if (ptr && ptr > browser && *(ptr-1) != '"' && *(ptr-1) != '\'')
-    {
-        *ptr = 0;
-        sprintf(newBrowser, "%s\"%%s\"", browser, ptr + 2);  
-        browser = newBrowser;
-    }
-
-    command = malloc(strlen(browser) + strlen(url) + 10);
-    sprintf(command, browser, url);
-
-    ret = system(command) >> 8;
-    if (ret == 127)
-       ret = 0;
-    else
-       ret = 1;
-
-    free(command);
-    return ret;
-}
-
-int is_netscape_running(void)
-{
-    struct stat  sb;
-    char        *home, lockfile[1024];
-
-    home = getenv("HOME");
-    if (!home) 
-        return 0;
-
-    sprintf(lockfile,"%.200s/.netscape/lock",home);
-    return (lstat(lockfile, &sb) != -1);
-}
-
-#endif

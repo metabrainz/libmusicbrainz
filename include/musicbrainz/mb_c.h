@@ -152,7 +152,7 @@ int mb_Authenticate(musicbrainz_t o, char *userName, char *password);
  * @a Unix: specify a device such as /dev/cdrom. Defaults to /dev/cdrom
  * @a Windows: specify a drive letter of a CD-ROM drive. e.g. E: 
  * @param o the musicbrainz_t object returned from mb_New()
- * @param
+ * @param device see above
  * @return always returns true. :-)
  */
 int       mb_SetDevice         (musicbrainz_t o, char *device);
@@ -272,7 +272,7 @@ int       mb_Select            (musicbrainz_t o, char *selectQuery);
  * @see mb_Select, mb_SelectWithArgs
  * @param o the musicbrainz_t object returned from mb_New()
  * @param selectQuery The select query as outlined in the MusicBrainz HOWTO.
- * @param arg
+ * @param ord The ordinal as used to select items in a list.
  * @return true if the select succeeded, false otherwise.
  */
 int       mb_Select1           (musicbrainz_t o, char *selectQuery, int ord);
@@ -297,7 +297,7 @@ int       mb_Select1           (musicbrainz_t o, char *selectQuery, int ord);
  * @see mb_QueryWithArgs, mb_Select, mb_Select1
  * @param o the musicbrainz_t object returned from mb_New()
  * @param selectQuery The select query as outlined in the MusicBrainz HOWTO.
- * @param args The array of character pointers that contain the arguments.
+ * @param ordinals The array of character pointers that contain the arguments.
  * @return true if the select succeeded, false otherwise.
  */
 int       mb_SelectWithArgs    (musicbrainz_t o, char *selectQuery, 
@@ -325,7 +325,7 @@ int       mb_GetResultData     (musicbrainz_t o, char *resultName,
  * @param o the musicbrainz_t object returned from mb_New()
  * @param resultName The name of the piece of data to query (MBE_)
  * @param data The place to store the extracted data
- * @param dataLen The number of bytes set aside in data
+ * @param maxDataLen The number of bytes set aside in data
  * @param ordinal The ordinal required by the resultName. 
  * @return true if the correct piece of data was returned and found,
  *         false otherwise.
@@ -399,7 +399,7 @@ int       mb_GetResultRDFLen   (musicbrainz_t o);
  * extract data from the RDF. Advanced users only!
  * @see mb_GetRDFResult
  * @param o the musicbrainz_t object returned from mb_New()
- * @param
+ * @param RDF A pointer to the RDF to set for extraction
  */
 int       mb_SetResultRDF      (musicbrainz_t o, char *RDF);
 
@@ -431,10 +431,9 @@ int       mb_CalculateSha1     (musicbrainz_t o, char *fileName,
                                 char sha1[41]);
 
 /**
- * Calculate Bitzi bitprint info for a given filename. This function is
- * often used in conjunction with an MBQ_ExchangeMetadata query,
- * to calculate the needed arguments for a metadata exchange with the
- * MusicBrainz server.
+ * Calculate Bitzi bitprint info for a given filename.A bitprint is a 
+ * SHA1 hash and a tigertree hash combined into one ueberhash. For
+ * more details on Bitprints, check out the http://bitzi.com site.
  * @see mb_QueryWithArgs
  * @param o the musicbrainz_t object returned from mb_New()
  * @param fileName the file to calculate a bitprint for
