@@ -20,6 +20,9 @@ The client library is released under the LGPL, which means that even
 developers of closed source applications can use the client library, 
 without having to open source their own code.
 
+If you prefer to read code than documentation in order to learn this
+client library, please check out the code in the examples directory.
+
 Overview:
 ---------
 
@@ -101,17 +104,144 @@ Relatable server and the server will assign and return a TRM ID to the given
 song. You can then use the TRM id to look up metadata for the song,
 and fill out the ID3 tags (or equivalent) automatically! 
 
+Function & Query Reference
+--------------------------
 
-            UNFORTUNATELY THIS HOWTO WAS NOT COMPLETED BY THE TIME
-            THAT VERSION 1.0.0 WAS RELEASED. The most up to date
-            documentation will be posted on the main web page:
-    
-                        http://www.musicbrainz.org
+Please refer to the online documentation for details on the functions and
+queries that the client library supports:
+
+<a href="http://www.musicbrainz.org/docs/mb_client/index.html">Online
+Reference</a><br>
+<a href="http://www.musicbrainz.org/docs/mb_client/queries_h.html">Query
+Reference</a><br>
+<a href="http://www.musicbrainz.org/docs/mb_client/mb_c_h.html">Function
+Reference</a><br>
+
+Select & Get Documentation
+--------------------------
+
+The most non-obvious issues in dealing with the client library is having
+to extract data from the result that was returned by the server. If you
+are RDF savvy and would like deal with the result RDF itself, then call
+the mb_GetResultRDF function. Most people won't be interested in doing
+that so, here is a detailed explanation for what you need to do.
+
+The server will return an artist list, album list, track list a trmid
+list or a lyrics list. Let's examine the artist list first, since it ends
+up as a good example for the rest of the select/get stuff. This piece of
+ASCII art shows the different objects returned as part of an artist list
+query:
+
+          Graphical representation of an Artistlist query:
+          ------------------------------------------------
+                                                                Depth:
+                                           +-------------+      
+  [top level]                              | Artist List |        [0]
+                                           +-------------+
+                                              |       |
+                                      +--------+     +--------+
+  MBS_SelectArtist 1 ---------------> | Artist |     | Artist |   [1]
+                                      +--------+     +--------+
+                                       |      |            
+                                +-------+    +-------+
+  MBS_SelectAlbum 1  ---------> | Album |    | Album |            [2]
+                                +-------+    +-------+
+                                 |     |
+                          +-------+   +-------+
+  MBS_SelectTrack 1  ---> | Track |   | Track |                   [3]
+                          +-------+   +-------+
+
+
+If your artistlist query is successful then you can call do the following 
+to find out the number of artists returned by the query:
+
+  numArtists = mb_GetResultInt(o, MBE_GetNumArtists);
+
+Please note that the MBE_GetNumArtists is a MusicBrainzExtract (MBE_) query,
+which queries the result set, not the MusicBrainz server. All server queries
+that can be passed to mb_Query are MusicBrainzQueries that start with MBQ_.
+Then you also have MusicBrainz Select queries (MBS_) which are used to 
+select a subset of a result from a the server. 
+
+Any of the mb_GetResult functions work on the current extract query context.
+Right after you call mb_Query the current context will be set to the
+top level query context, where you can get the number of items returned
+(as shown above) or select one of the returned items as a new context.
+
+So, in our example, after you've determined the number of artists that were
+returned, you can select one of the artists using a the mb_Selection function.
+To select the first artist returned do this:
+
+  mb_Select1(o, MBS_SelectArtist, 1);
+
+The third argument to the mb_Select1 function is an ordinal argument, that
+indicates which artist you'd like to select. Ordinals are 1 based, so to
+select the first artist, use 1, not 0. Select queries that select something
+out of a list require an ordinal argument, as shown above. Some select queries
+do not require ordinals, in which case you can call mb_Select (as opposed to
+mb_Select1). 
+
+Select queries can be arbitrarily complex, and sometimes you may need to
+pass a list of ordinals to make selections out of multiple lists at the 
+same time. In that case call mb_SelectWithArgs and specify a list of
+ordinal arguments.
+
+Let's go back to the example. After you select the context of the first
+artist, you can then use the MBE_ArtistXXXXX functions to extract information
+from the currently selected artist. To get the name of the artist, do this:
+
+  mb_GetResultData(o, MBE_ArtistGetArtistName, data, 256);
+
+Which will extract the artist name and save it into data. The last argumemnt
+specifies the number of bytes allocated in data. Check the query reference
+for the queries that you can do on a given artist.
+
+A query that returns an artist list will also return the list of albums for
+that that given artist. So, from the Artist context you can find out how
+many albums have been returned for that artist:
+
+  numAlbums = mb_GetResultInt(o, MBE_GetNumAlbums);
+
+To select the first album do this:
+
+  mb_Select1(o, MBS_SelectAlbum, 1);
+
+Now you can use the MBE_AlbumXXXX functions to retrieve information about
+the selected album. Now, lets assume that you've extracted the needed
+information from the first album and you want to select the second album.
+It would make sense to just be able to repeat the above call with 2
+as the ordinal. However, that won't work!!! In order to select an album
+you need to be in the artist context, which contains the list of albums
+for the given artist. The proper way to select the second album is to do:
+
+  mb_Select(o, MBS_Back);
+  mb_Select1(o, MBS_SelectAlbum, 2);
+
+The first select will back up the context to the previous context (which
+is the artist context) and then the second call selects the second
+album. You can now query information for the second album. There is one
+more special query:
+
+  mb_Select(o, MBS_Rewind);
+
+This will rewind the context to the top level context, just as it was
+right after the mb_Query function. This should give you a good idea
+on how to extract data from an artist list. 
+
+[explain how to use other queries]
+
+One last thing that needs explaining is the depth of a query. In the
+graph above, there is a column that shows depth. The depth of the query
+determines the amount of data returned by the server. If you set the 
+depth to 0, the server will only return the list of IDs to artists,
+but not the artists themselves. A depth of 1 will return the list,
+and all of the artists, but not the albums that may be referenced in the
+artist. When you write code to access the server you should carefully
+select the depth of your query to make sure that you only retrieve as much
+information as you really need.
+
 
 Topics to be covered in the future:
 -----------------------------------
-- Functions
-- Queries
-- Proxies
 - MBIDs and get id function
 - Creating TRM ids
