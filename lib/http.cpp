@@ -280,7 +280,7 @@ Error MBHttp::Download(const string &url, const string &xml, bool fileDownload)
             static unsigned long ip;
             static char *addr_ptr[2] = {(char*)&ip, NULL};
 
-            if((ip = inet_addr(hostname)) < 0) 
+            if((ip = inet_addr(hostname)) == INADDR_NONE) 
                 result =  kError_CantFindHost;
             else
             {
