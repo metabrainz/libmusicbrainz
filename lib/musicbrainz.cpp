@@ -55,8 +55,6 @@ MusicBrainz::MusicBrainz(void)
     m_serverPort = defaultPort;
     m_xmlIndex = -1;
     m_numItems = 0;
-    m_downmixBuffer = NULL;
-    m_storeBuffer = NULL;
     for(int i = 0; i < 50; i++)
        m_indexes.push_back(0);
     m_selectQuery = string(MB_SelectTopLevel);

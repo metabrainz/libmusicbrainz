@@ -54,7 +54,6 @@ char *SigXDR::FromSig(AudioSig *sig)
     m_position = m_buffer;
 
     float temp;
-    int   tempi; 
 
     temp = sig->Energy();
     PutFloat(&temp);
@@ -68,18 +67,6 @@ char *SigXDR::FromSig(AudioSig *sig)
     for (int i = 0; i < 32; i++)  
         PutInt32(&sig->Spectrum()[i]);
 
-    temp = sig->EnergyDiff();
-    PutFloat(&temp);
-
-    tempi = sig->EnergyZC();
-    PutInt32(&tempi);
-
-    for (int i = 0; i < 32; i++)
-    {
-        temp = sig->SpectrumDiffs()[i];
-        PutFloat(&temp);
-    }
-    
     return m_buffer;
 }
 
@@ -90,15 +77,18 @@ string SigXDR::ToStrGUID(char *buffer, long size)
     m_size = 16 * FIELDSIZE;
     if (size != m_size)
         return ret;
-  
-    char c;
+ 
+    int c = 0; 
+    char uid[16];
  
     m_position = m_buffer = buffer;
-    for (int i = 0; i < 16; i++) {
+    for (int i = 0; i < 16; i++) 
+    {
         GetInt32((int32 *)&c);
-        ret.append(1, c);
+        uid[i] = (char)c;
     }
 
+    ret = string(uid, 16);
     return ret;
 }
 
