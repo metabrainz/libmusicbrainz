@@ -19,7 +19,6 @@
    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
    $Id$
-
 ----------------------------------------------------------------------------*/
 
 #include "trm.h"
@@ -161,13 +160,46 @@ void TRM::DownmixPCM(void)
    int lDC = 0, rDC = 0;
    signed short lsample, rsample;
    int readpos = 0;
+#ifdef WORDS_BIGENDIAN
+   char temp, *lsample_b1, *lsample_b2, *rsample_b1, *rsample_b2;
+
+   lsample_b1 = (char *)&lsample;
+   lsample_b2 = ((char *)&lsample) + 1;
+   rsample_b1 = (char *)&rsample;
+   rsample_b2 = ((char *)&rsample) + 1;
+#endif
    
+#ifdef TRM_DEBUG
+    FILE *blah = fopen("/tmp/one.raw", "w+");
+    fwrite(m_storeBuffer, m_numBytesWritten, sizeof(unsigned char), blah);
+    fclose(blah);
+#endif
+
    if (m_bits_per_sample == 16) {
        if (m_number_of_channels == 2) {
            while (readpos < (m_numBytesWritten / 2)) {
-               lsample = ((signed short *)m_storeBuffer)[readpos++];
-               rsample = ((signed short *)m_storeBuffer)[readpos++];
-               
+               lsample = ((signed short *)m_storeBuffer)[readpos];
+
+#ifdef WORDS_BIGENDIAN
+               temp = *lsample_b1;
+               *lsample_b1 = *lsample_b2; 
+               *lsample_b2 = temp;
+               ((signed short *)m_storeBuffer)[readpos] = lsample;
+#endif
+
+               readpos++;
+
+               rsample = ((signed short *)m_storeBuffer)[readpos];
+
+#ifdef WORDS_BIGENDIAN
+               temp = *rsample_b1;
+               *rsample_b1 = *rsample_b2; 
+               *rsample_b2 = temp;
+               ((signed short *)m_storeBuffer)[readpos] = rsample;
+#endif
+
+               readpos++;
+
                lsum += lsample; 
                rsum += rsample;
                numsamps++;
@@ -178,17 +210,25 @@ void TRM::DownmixPCM(void)
            readpos = 0;
            while (readpos < (m_numBytesWritten / 2)) {
                ((signed short *)m_storeBuffer)[readpos] = 
-                    ((signed short *)m_storeBuffer)[readpos] + lDC;
+                   ((signed short *)m_storeBuffer)[readpos] + lDC;
                readpos++;
                ((signed short *)m_storeBuffer)[readpos] =
-                    ((signed short *)m_storeBuffer)[readpos] + rDC;
+                   ((signed short *)m_storeBuffer)[readpos] + rDC;
                readpos++;
            }
        }
        else {
            while (readpos < m_numBytesWritten / 2) {
-               lsample = ((signed short *)m_storeBuffer)[readpos++];
-               
+               lsample = ((signed short *)m_storeBuffer)[readpos];
+
+#ifdef WORDS_BIGENDIAN
+               temp = *lsample_b1;
+               *lsample_b1 = *lsample_b2; 
+               *lsample_b2 = temp;
+               ((signed short *)m_storeBuffer)[readpos] = lsample;
+#endif
+               readpos++;
+
                lsum += lsample;
                numsamps++;
            }
@@ -245,6 +285,12 @@ void TRM::DownmixPCM(void)
            }
        }
     }
+
+#ifdef TRM_DEBUG
+    blah = fopen("/tmp/two.raw", "w+");
+    fwrite(m_storeBuffer, m_numBytesWritten, sizeof(unsigned char), blah);
+    fclose(blah);
+#endif
 
    if (!m_downmixBuffer)
        m_downmixBuffer = new signed short[iNumSamplesNeeded];
@@ -305,6 +351,12 @@ void TRM::DownmixPCM(void)
       m_numBytesWritten /= 2;
       m_storeBuffer = (char *)tempbuf;
    }
+
+#ifdef TRM_DEBUG
+    blah = fopen("/tmp/three.raw", "w+");
+    fwrite(m_storeBuffer, m_numBytesWritten, sizeof(unsigned char), blah);
+    fclose(blah);
+#endif
 
    writepos = 0;
    while ((writepos < maxwrite) &&

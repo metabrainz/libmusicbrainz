@@ -28,21 +28,7 @@
 
 #define OS "Darwin"
 
-
-
-// 
-//  FreeBSD CD audio declarations
-//
-
-#include <sys/cdio.h>
-
 typedef char* MUSICBRAINZ_DEVICE;
-
-
-
-//
-//  FreeBSD specific prototypes
-//
 
 
 int ReadTOCHeader(int fd, 

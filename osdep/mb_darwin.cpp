@@ -33,79 +33,30 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <assert.h>
+#include <IOKit/storage/IOCDTypes.h>
+#include <IOKit/storage/IOCDMediaBSDClient.h>
 
 #include "mb.h"
 #include "diskid.h"
 #include "config.h"
 
 
-MUSICBRAINZ_DEVICE DEFAULT_DEVICE = "/dev/cdrom";
-
-
-int ReadTOCHeader(int fd, 
-                  int& first, 
-                  int& last)
-{
-   struct ioc_toc_header th;
-
-   int ret = ioctl(fd,
-                   CDIOREADTOCHEADER, 
-                   &th);
-
-   if (!ret)
-   {
-      first = th.starting_track;
-      last  = th.ending_track;
-   }
-
-   return ret;
-}
-
-
-int ReadTOCEntry(int fd, 
-                 int track, 
-                 int& lba)
-{
-    struct ioc_read_toc_entry te;
-
-    te.starting_track = (u_char) track;
-    te.address_format = CD_LBA_FORMAT;   // experiment and cdio.h say 
-                                         // lbas are given in network order!
-    
-    struct cd_toc_entry cte;
-
-    te.data = &cte;
-    te.data_len = sizeof(cd_toc_entry);
-    
-    int ret = ioctl(fd, 
-                    CDIOREADTOCENTRYS, 
-                    &te);
-
-    if (!ret) {
-        assert(te.address_format == CD_LBA_FORMAT);
-
-        lba = ntohl(*((long *)te.data->addr));  // network to host order (long)
-    }
-
-    return ret;
-}
-
+MUSICBRAINZ_DEVICE DEFAULT_DEVICE = "/dev/rdisk1";
 
 bool DiskId::ReadTOC(MUSICBRAINZ_DEVICE device, 
                      MUSICBRAINZ_CDINFO& cdinfo)
 {
    int fd;
-   int first;
-   int last;
-   int lba;
    int i;
+   dk_cd_read_toc_t toc;
+   CDTOC *cdToc;
 
    if (device == NULL)
    {
        device = DEFAULT_DEVICE;
    }
 
-   fd = open(device, O_RDONLY);
+   fd = open(device, O_RDONLY | O_NONBLOCK);
    if (fd < 0)
    {
        char err[256];
@@ -116,46 +67,36 @@ bool DiskId::ReadTOC(MUSICBRAINZ_DEVICE device,
        return false;
    }
 
-   // Initialize cdinfo to all zeroes.
-   memset(&cdinfo, 0, sizeof(MUSICBRAINZ_CDINFO));
-
-   // Find the number of the first track (usually 1) and the last track.
-   if (ReadTOCHeader(fd, first, last))
+   memset(&toc, 0, sizeof(toc));
+   toc.format = kCDTOCFormatTOC;
+   toc.formatAsTime = 0;
+   toc.buffer = new char[1024];
+   toc.bufferLength = 1024;
+   if (ioctl(fd, DKIOCCDREADTOC, &toc) < 0 )
    {
-      ReportError("Cannot read table of contents.");
-      close(fd);
-      return false;
+       delete [] (char *)toc.buffer;
+       return false;
+   }
+   if ( toc.bufferLength < sizeof(CDTOC) )
+   {
+       delete [] (char *)toc.buffer;
+       return false;
    }
 
-   // Do some basic error checking.
-   if (last==0)
-   {
-      ReportError("This disk has no tracks.");
-      close(fd);	
-      return false;
-   }
+   cdToc = (CDTOC *)toc.buffer;
+   int numTracks = CDTOCGetDescriptorCount(cdToc);
 
+   for(i = 3; i < numTracks; i++)
+        cdinfo.FrameOffset[i-2] = CDConvertMSFToLBA(cdToc->descriptors[i].p) + 150; 
 
-   // Now, for every track, find out the block address where it starts.
-   for (i = first; i <= last; i++)
-   {
-      ReadTOCEntry(fd, i, lba);
-      cdinfo.FrameOffset[i] = lba + 150;
-   }
+   cdinfo.FrameOffset[0] = CDConvertMSFToLBA(cdToc->descriptors[2].p) + 150; 
 
-
-   // Get the logical block address (lba) for the end of the audio data.
-   // The "LEADOUT" track is the track beyond the final audio track
-   // so we're looking for the block address of the LEADOUT track.
-
-   int CDROM_LEADOUT = last + 1;
-   ReadTOCEntry(fd, CDROM_LEADOUT, lba);
-   cdinfo.FrameOffset[0] = lba + 150;
-
-   cdinfo.FirstTrack = first;
-   cdinfo.LastTrack = last;
+   cdinfo.FirstTrack = 1;
+   cdinfo.LastTrack = numTracks - 3;
 
    close(fd);
+
+   delete [] (char *)toc.buffer;
 
    return true;
 }

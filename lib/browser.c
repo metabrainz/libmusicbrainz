@@ -40,6 +40,18 @@ int LaunchBrowser(const char* url, const char *browser)
     return 1;
 }
 
+#endif
+
+#ifdef __APPLE__
+
+int LaunchBrowser(const char* url, const char *browser)
+{
+    char *cmd = malloc(strlen(url) + 32);
+    sprintf(cmd, "open '%s'", url);
+    system(cmd);
+    free(cmd);
+}
+
 #else
 
 int Launch(const char *url, const char *command);
