@@ -34,7 +34,7 @@
 
 extern "C"
 {
-   #include "sha.h"
+   #include "sha1.h"
    #include "base64.h"
 }
 

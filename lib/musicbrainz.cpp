@@ -35,8 +35,9 @@
 
 extern "C"
 {
-   #include "sha.h"
+   #include "sha1.h"
    #include "base64.h"
+   #include "bitcollider.h"
 }
 
 const char *scriptUrl = "/cgi-bin/rquery.pl";
@@ -176,7 +177,6 @@ static Error URLToFilePath(const char* url, char* path, uint32* length)
     return result;
 }
 
-const char * magicString = "<MQ:Query>ExchangeMetadata</MQ:Query>";
 bool MusicBrainz::Query(const string &xmlObject, vector<string> *args)
 {
     MBHttp   http;
@@ -184,25 +184,6 @@ bool MusicBrainz::Query(const string &xmlObject, vector<string> *args)
     string xml = xmlObject, url, retXml, firstXml, secondXml, value;
     Error  ret;
     int    numObjs;
-
-    // This is temporary code -- this should be removed for the final
-    // release.
-
-    // This will override anything that the caller sets.
-    SetServer("cranky.eorbit.net", 8080);
-    if (strncmp(xmlObject.c_str(), magicString, strlen(magicString)) == 0 &&
-        args->size() == 10)
-    {
-        char path[1024];
-        uint32 len = 1024;
-        string sha1;
-
-        URLToFilePath((*args)[2].c_str(), path, &len);
-        CalculateSHA1(string(path), sha1);
-        args->push_back(sha1);
-    }
-
-    // END OF TEMPORARY CODE
 
     if (xml == string(localCDInfo) ||
         xml == string(localAssociateCD))
@@ -654,24 +635,34 @@ int MusicBrainz::SplitResponse(const string &inXML)
     return 0;
 }
 
-bool MusicBrainz::CalculateSHA1(const string &fileName, string &sha1)
+bool MusicBrainz::CalculateBitprint(const string &fileName, BitprintInfo *info) 
 {
-    FILE *fp;
-    unsigned char  digest[20];
-    SHA_INFO       sha_info;
-    unsigned long  size;
-    unsigned char *base64;
+    BitcolliderSubmission *sub;
 
-    fp = fopen(fileName.c_str(), "rb");
-    if (fp == NULL)
+    sub = create_submission();
+    if (sub == NULL)
        return false;
 
-    sha_stream(digest, &sha_info, fp);
-    fclose(fp);
-
-    base64 = rfc822_binary(digest, 20, &size);
-    sha1 = string((char *)base64);
-    free(base64);
+    if (!analyze_file(sub, fileName.c_str()))
+       return false;
+#if 0
+    strncpy(info->filename, fileName.c_str(), 255);
+    strncpy(info->bitprint, get_attribute(sub, "bitprint"), MB_BITPRINTSIZE);
+    strncpy(info->first20, 
+            get_attribute(sub, "tag.file.first20"), MB_FIRST20SIZE);
+    strncpy(info->audioSha1, 
+            get_attribute(sub, "tag.mp3.audio_sha1"), MB_SHA1SIZE);
+    info->length = atoi(get_attribute(sub, "tag.file.length"));
+    info->duration = atoi(get_attribute(sub, "tag.mp3.duration"));
+    info->samplerate = atoi(get_attribute(sub, "tag.mp3.samplerate"));
+    info->bitrate = atoi(get_attribute(sub, "tag.mp3.bitrate"));
+    info->stereo = strcmp(get_attribute(sub, "tag.mp3.stereo"), "y") == 0;
+    if (get_attribute(sub, "tag.mp3.vbr"))
+       info->vbr = strcmp(get_attribute(sub, "tag.mp3.vbr"), "y") == 0;
+    else
+       info->vbr = 0;
+#endif
+    delete_submission(sub);
 
     return true;
 }

@@ -26,6 +26,7 @@
 
 #include "errors.h"
 #include "queries.h"
+#include "bitprint.h"
 
 #ifdef __cplusplus
 extern "C"
@@ -66,8 +67,8 @@ int       mb_GetResultRDF      (musicbrainz_t o, char *xml, int maxXMLLen);
 int       mb_GetResultRDFLen   (musicbrainz_t o);
 int       mb_SetResultRDF      (musicbrainz_t o, char *xml);
 int       mb_GetNumItems       (musicbrainz_t o);
-int       mb_CalculateSHA1     (musicbrainz_t o, char *fileName, 
-                                char sha1[33]);
+int       mb_CalculateBitprint (musicbrainz_t o, char *fileName, 
+                                BitprintInfo *info);
 
 /* The interface to the Relatable TRM signature generator */
 

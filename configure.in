@@ -127,4 +127,4 @@ AC_CHECK_LIB(vorbisfile, ov_open,
      AC_SUBST(VMM)
    ],[],-lvorbis)
 
-AC_OUTPUT(Makefile lib/Makefile expat/Makefile expat/xmltok/Makefile expat/xmlparse/Makefile examples/Makefile vmm/Makefile, echo timestamp > stamp-h)
+AC_OUTPUT(Makefile lib/Makefile lib/bitzi/Makefile expat/Makefile expat/xmltok/Makefile expat/xmlparse/Makefile examples/Makefile vmm/Makefile, echo timestamp > stamp-h)
