@@ -108,7 +108,7 @@ class MusicBrainz
        vector<string>  m_contextHistory;
        string          m_error, m_empty; 
        string          m_server, m_proxy;
-       string          m_sessionKey, m_sessionId;
+       string          m_sessionKey, m_sessionId, m_versionString;
        short           m_serverPort, m_proxyPort;
        string          m_device, m_currentURI, m_baseURI, m_response; 
        RDFExtract     *m_rdf;
