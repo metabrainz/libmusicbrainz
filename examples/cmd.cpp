@@ -62,6 +62,8 @@ Queries queries[] =
       0, "", "", "", "" },
     { "AssociateCD",            MBQ_AssociateCD ,
       0, "", "", "", "" },
+    { "SubmitTRMId",       MBQ_SubmitTrackTRMId,
+      2, "Track GID", "TRM ID", "", "" },
     { "\0",                     "\0", 0, "", "", "", "" }
 }; 
 
