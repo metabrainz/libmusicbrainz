@@ -22,8 +22,8 @@ ____________________________________________________________________________*/
 
 /// TODO: implement multicast connections (to allow single packet, multiple receiver connections)
 
-#ifndef WINCOMSOCKET_H
-#define WINCOMSOCKET_H
+#ifndef WINMBCOMSocket_H
+#define WINMBCOMSocket_H
 //#include <sys/socket.h>
 //#include <netinet/in.h>
 //#include <netdb.h>
@@ -37,10 +37,10 @@ ____________________________________________________________________________*/
 /**Wraps the OS specifics of a client socket.
   *@author Sean Ward
   */
-class COMSocket {
+class MBCOMSocket {
 public:
-    COMSocket(int nSocket = INVALID_SOCKET, int nSockType = SOCK_STREAM);
-   ~COMSocket();
+    MBCOMSocket(int nSocket = INVALID_SOCKET, int nSockType = SOCK_STREAM);
+   ~MBCOMSocket();
 
 friend class COMServerSocket;
     /** Connects a socket to pIP, on nPort, of type nType. */
