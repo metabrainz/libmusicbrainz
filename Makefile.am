@@ -51,3 +51,4 @@ install-data-local:
 	$(INSTALL) -m 0644 $(srcdir)/lib/bitzi/gui_win32.h $(DESTDIR)$(includedir)/musicbrainz/bitzi
 	$(INSTALL) -m 0644 $(srcdir)/lib/bitzi/list.h $(DESTDIR)$(includedir)/musicbrainz/bitzi
 	$(INSTALL) -m 0644 $(srcdir)/lib/bitzi/plugin.h $(DESTDIR)$(includedir)/musicbrainz/bitzi
+	$(INSTALL) -m 0644 $(srcdir)/libmusicbrainz.pc $(DESTDIR)$(libdir)/pkgconfig/libmusicbrainz.pc
