@@ -44,6 +44,8 @@ class TRM
        bool  GenerateSignature (char *data, int size);
        int   FinalizeSignature(string &strGUID, string &collID);
        void  ConvertSigToASCII(char sig[17], char ascii_sig[37]);
+
+       void  SetSongLength(long seconds); 
         
     private:
 
@@ -71,6 +73,13 @@ class TRM
        
        string          m_proxy;
        short           m_proxyPort;
+
+#ifdef WIN32
+       __int64         m_song_samples;
+#else
+       long long       m_song_samples;
+#endif
+       long            m_song_seconds;
 };
 
 #endif

@@ -58,6 +58,8 @@ Platforms
   --------
 
     - Works (Solaris 8/SPARC, Michael Richmond)
+    - Works (Solaris 7/SPARC, Jay Jacobs)
+
 
 
   Win32:

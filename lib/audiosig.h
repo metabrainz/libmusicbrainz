@@ -24,14 +24,14 @@
 #ifndef AUDIOSIG_H
 #define AUDIOSIG_H
 
-#define NUMSIGFIELDS 134
+#define NUMSIGFIELDS 135
 
 class AudioSig
 {
 public:
     AudioSig(float meansquareratio, float zxing, float *spectrum,
              float spectraldiffsum, float beatimpulses, float *avgfftdelta,
-	     float *haar, float energydiff, int energyzc) 
+	     float *haar, float energydiff, int energyzc, long seconds) 
     { m_fMeanSquare = meansquareratio; m_fZXing = zxing; 
       for (int i = 0; i < 32; i++) 
       {
@@ -44,6 +44,7 @@ public:
       }
       m_fEnergyDiff = energydiff; m_iEnergyZC = energyzc;
       m_fSpectralSum = spectraldiffsum, m_fBeats = beatimpulses;
+      m_song_seconds = seconds;
     }
    ~AudioSig() {}
 
@@ -56,7 +57,8 @@ public:
     float *Haar()        { return m_fHaar; }
     float  EnergyDiff()  { return m_fEnergyDiff; }
     short  EnergyZC()    { return m_iEnergyZC; }
-    
+    long   Seconds()     { return m_song_seconds; }    
+
 private:
     float m_fMeanSquare;
     float m_fZXing;
@@ -67,6 +69,7 @@ private:
     float m_fHaar[64];
     float m_fEnergyDiff;
     int   m_iEnergyZC;
+    long  m_song_seconds;
 };
 
 #endif /* AUDIOSIG_H */
