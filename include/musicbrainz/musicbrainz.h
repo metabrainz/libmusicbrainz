@@ -69,6 +69,7 @@ class MusicBrainz
        bool  GenerateSignature (char *data, int size, string &strGUID, 
 		                string &collID);
        void  GenerateSignatureNow(string &strGUID, string &collID);
+       void  ConvertSigToASCII(char sig[17], char ascii_sig[37]);
         
     private:
 

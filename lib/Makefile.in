@@ -103,11 +103,11 @@ VERSION = @VERSION@
 AUTOMAKE_OPTIONS = foreign
 
 lib_LTLIBRARIES = libmusicbrainz.la
-libmusicbrainz_la_SOURCES = base64.c base64.h musicbrainz.cpp musicbrainz.h diskid.cpp diskid.h errors.h http.cpp http.h sha.h sha_func.c types.h xd3.h parse.cpp parse.h xql.cpp xql.h mb.cpp signature.cpp signature.h comsocket.cpp comsocket.h sigxdr.cpp sigxdr.h sigclient.cpp sigclient.h sigfft.cpp audiosig.h sigcomplex.h sigfft.h mb.h c_wrapper.cpp mb_c.h 
+libmusicbrainz_la_SOURCES = base64.c base64.h musicbrainz.cpp musicbrainz.h diskid.cpp diskid.h errors.h http.cpp http.h sha.h sha_func.c types.h xd3.h parse.cpp parse.h xql.cpp xql.h mb.cpp signature.cpp signature.h comsocket.cpp comsocket.h sigxdr.cpp sigxdr.h sigclient.cpp sigclient.h sigfft.cpp audiosig.h sigcomplex.h sigfft.h mb.h c_wrapper.cpp mb_c.h uuid.cpp
 libmusicbrainz_la_LDFLAGS = -version-info 1:0:0
 libmusicbrainz_la_LIBADD = ../expat/xmlparse/libxmlparse.la ../expat/xmltok/libxmltok.la
 
-noinst_HEADERS = audiosig.h base64.h musicbrainz.h diskid.h errors.h http.h sha.h sigfft.h sigcomplex.h types.h parse.h xql.h mb_c.h
+noinst_HEADERS = audiosig.h base64.h musicbrainz.h diskid.h errors.h http.h sha.h sigfft.h sigcomplex.h types.h parse.h xql.h mb_c.h uuid.h
 
 EXTRA_DIST = wincomsocket.cpp wincomsocket.h
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
@@ -124,7 +124,7 @@ libmusicbrainz_la_DEPENDENCIES =  ../expat/xmlparse/libxmlparse.la \
 ../expat/xmltok/libxmltok.la
 am_libmusicbrainz_la_OBJECTS =  base64.lo musicbrainz.lo diskid.lo \
 http.lo sha_func.lo parse.lo xql.lo mb.lo signature.lo comsocket.lo \
-sigxdr.lo sigclient.lo sigfft.lo c_wrapper.lo
+sigxdr.lo sigclient.lo sigfft.lo c_wrapper.lo uuid.lo
 libmusicbrainz_la_OBJECTS =  $(am_libmusicbrainz_la_OBJECTS)
 CXXFLAGS = @CXXFLAGS@
 CXXCOMPILE = $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
@@ -148,7 +148,7 @@ GZIP_ENV = --best
 DEP_FILES =  .deps/base64.P .deps/c_wrapper.P .deps/comsocket.P \
 .deps/diskid.P .deps/http.P .deps/mb.P .deps/musicbrainz.P \
 .deps/parse.P .deps/sha_func.P .deps/sigclient.P .deps/sigfft.P \
-.deps/signature.P .deps/sigxdr.P .deps/xql.P
+.deps/signature.P .deps/sigxdr.P .deps/uuid.P .deps/xql.P
 SOURCES = $(libmusicbrainz_la_SOURCES)
 OBJECTS = $(am_libmusicbrainz_la_OBJECTS)
 
@@ -222,6 +222,7 @@ sigxdr.lo:
 sigclient.lo:
 sigfft.lo:
 c_wrapper.lo:
+uuid.lo:
 
 libmusicbrainz.la: $(libmusicbrainz_la_OBJECTS) $(libmusicbrainz_la_DEPENDENCIES)
 	$(CXXLINK) -rpath $(libdir) $(libmusicbrainz_la_LDFLAGS) $(libmusicbrainz_la_OBJECTS) $(libmusicbrainz_la_LIBADD) $(LIBS)

@@ -22,7 +22,6 @@
 
 ----------------------------------------------------------------------------*/
 #include "musicbrainz.h"
-
 #include "mb_c.h"
 
 extern "C"
@@ -225,6 +224,12 @@ void mb_GenerateSignatureNow(musicbrainz_t o,
 
    memset(signature, '\0', 16);
    strncpy(signature, strGUID.c_str(), 16);
+}
+
+void mb_ConvertSigToASCII(musicbrainz_t o, char sig[17], char ascii_sig[37])
+{
+   MusicBrainz *obj = (MusicBrainz *)o;
+   obj->ConvertSigToASCII(sig, ascii_sig);
 }
 
 }
