@@ -87,6 +87,7 @@ class MusicBrainz
        EXPORT bool     SetResultRDF     (string &RDFObject);
 
        EXPORT void     GetIDFromURL     (const string &url, string &id);
+       EXPORT void     GetFragmentFromURL(const string &url, string &fragment);
        EXPORT int      GetOrdinalFromList(const string &resultList, const string &URI);
 
        /* These functions are helper functions that may be useful for clients */

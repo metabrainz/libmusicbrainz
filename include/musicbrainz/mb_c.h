@@ -418,6 +418,19 @@ void      mb_GetIDFromURL      (musicbrainz_t o, char *url, char *id,
                                 int idLen);
 
 /**
+ * Extract the identifier fragment from a URI. Given a URI this function
+ * will return the string that follows the # seperator. 
+ * (e.g. when passed 'http://musicbrainz.org/mm/mq-1.1#ArtistResult', this
+ * function will return 'ArtistResult'
+ * @param o the musicbrainz_t object returned from mb_New()
+ * @param url the url returned from a mb_GetResultData call
+ * @param fragment the location where the fragment will be stored
+ * @param fragmentLen the length of the id field.
+ */
+void      mb_GetFragmentFromURL(musicbrainz_t o, char *url, char *fragment, 
+                                int fragmentLen);
+
+/**
  * Get the ordinal (list position) of an item in a list. This function is
  * normally used to retrieve the track number out of a list of tracks in
  * an album. A result list query (usually MBE_AlbumGetTrackList)

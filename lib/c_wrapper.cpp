@@ -388,6 +388,17 @@ void mb_GetIDFromURL(musicbrainz_t o, char *url, char *idArg, int maxIdLen)
     idArg[maxIdLen - 1] = 0;
 }
 
+void mb_GetFragmentFromURL(musicbrainz_t o, char *url, char *fragmentArg, int maxFragmentLen)
+{
+    string fragment;
+
+    MusicBrainz *obj = (MusicBrainz *)o;
+
+    obj->GetFragmentFromURL(string(url), fragment);
+    strncpy(fragmentArg, fragment.c_str(), maxFragmentLen);
+    fragmentArg[maxFragmentLen - 1] = 0;
+}
+
 int mb_GetOrdinalFromList(musicbrainz_t o, char *resultList, char *id)
 {
     MusicBrainz *obj = (MusicBrainz *)o;
