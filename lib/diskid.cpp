@@ -192,10 +192,11 @@ Error DiskId::GenerateDiskIdQueryRDF(const string &device, string &xml,
    GenerateId(&cdinfo, id);
 
    if (associateCD)
-       xml = string("<MQ:Query>AssociateCDFromAlbumId</MQ:Query>\n");
+       xml = string("<mq:AssociateCDFromAlbumId>\n");
    else
-       xml = string("<MQ:Query>GetCDInfoFromCDIndexId</MQ:Query>\n");
-   xml += string("<MQ:Args id=\"") + string(id) + string("\"/>\n");
+       xml = string("<mq:GetCDInfoFromCDIndexId>\n");
+
+   xml += string("<dc:Identifier id=\"") + string(id) + string("\"/>\n");
    if (associateCD)
       xml += string("<MQ:Args associate=\"@1@\"/>\n");
    xml += string("<MQ:Args first=\"") + MakeString(cdinfo.FirstTrack);

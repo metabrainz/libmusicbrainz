@@ -32,7 +32,6 @@
 #include "http.h"
 #include "errors.h"
 #include "diskid.h"
-#include "xql.h"
 
 extern "C"
 {
@@ -47,15 +46,15 @@ const char *localTOCInfo = "@LOCALCDINFO@";
 const char *localAssociateCD = "@CDINFOASSOCIATECD@";
 const char *defaultServer = "www.musicbrainz.org";
 const short defaultPort = 80;
-const char *rdfUTF8Encoding = "<?xml version=\"1.0\"?>\n";
+const char *rdfUTF8Encoding = "<?rdf version=\"1.0\"?>\n";
 const char *rdfISOEncoding = 
-    "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?>\n";
+    "<?rdf version=\"1.0\" encoding=\"iso-8859-1\"?>\n";
+
 const char *rdfHeader = 
-    "<rdf:RDF xmlns:rdf = \"http://www.w3.org/1999/02/22-rdf-syntax-ns#\"\n"
-    "         xmlns:DC = \"http://purl.org/DC#\"\n"
-    "         xmlns:DCQ = \"http://purl.org/dc/qualifiers/1.0/\"\n"
-    "         xmlns:MM = \"http://musicbrainz.org/MM#\"\n"
-    "         xmlns:MQ = \"http://musicbrainz.org/MQ#\">\n\n"
+    "<rdf:RDF rdfns:rdf = \"http://www.w3.org/1999/02/22-rdf-syntax-ns#\"\n"
+    "         rdfns:dc  = \"http://purl.org/dc/elements/1.1/\"\n"
+    "         rdfns:mq  = \"http://musicbrainz.org/mm/mq-1.0#\"\n"
+    "         rdfns:mm  = \"http://musicbrainz.org/mm/mm-2.0#\">\n"
     "<rdf:Description>\n";
 
 const char *rdfFooter = 
@@ -66,23 +65,19 @@ const char *rdfFooter =
 
 MusicBrainz::MusicBrainz(void)
 {
-    m_xql = NULL;
+    m_rdf = NULL;
     m_server = string(defaultServer);
     m_serverPort = defaultPort;
     m_proxy = "";
-    m_xmlIndex = -1;
-    m_numItems = 0;
-    for(int i = 0; i < 50; i++)
-       m_indexes.push_back(0);
-    m_selectQuery = string(MB_SelectTopLevel);
     m_useUTF8 = true;
 }
 
 MusicBrainz::~MusicBrainz(void)
 {
-    delete m_xql; 
+    delete m_rdf; 
 }
 
+// Set the URL and port of the musicbrainz server to use.
 bool MusicBrainz::SetServer(const string &serverAddr, short serverPort)
 {
     m_server = serverAddr;
@@ -91,6 +86,7 @@ bool MusicBrainz::SetServer(const string &serverAddr, short serverPort)
     return true;
 }
 
+// Set the HTTP proxy server address and port if needed.
 bool MusicBrainz::SetProxy(const string &proxyAddr, short proxyPort)
 {
     m_proxy = proxyAddr;
@@ -99,12 +95,15 @@ bool MusicBrainz::SetProxy(const string &proxyAddr, short proxyPort)
     return true;
 }
 
+// Set the cdrom device used for cd lookups. In windows, this would
+// be a drive specification.
 bool MusicBrainz::SetDevice(const string &device)
 {
     m_device = device;
     return true;
 }
 
+// Stoopid windows helper functions to init the winsock layer.
 #ifdef WIN32
 void MusicBrainz::WSAInit(void)
 {
@@ -118,6 +117,8 @@ void MusicBrainz::WSAStop(void)
 }
 #endif
 
+// This function generates the URL needed to access the web cd submission
+// pages on MusicBrainz.
 bool MusicBrainz::GetWebSubmitURL(string &url)
 {
     DiskId id;
@@ -141,6 +142,7 @@ bool MusicBrainz::GetWebSubmitURL(string &url)
     return true;
 }
 
+// A helper function to convert URLs to local file paths
 static const char* protocol = "file://";
 static Error URLToFilePath(const char* url, char* path, uint32* length)
 {
@@ -178,125 +180,177 @@ static Error URLToFilePath(const char* url, char* path, uint32* length)
     return result;
 }
 
-bool MusicBrainz::Query(const string &xmlObject, vector<string> *args)
+// A helper function to glue the necessary RDF headers and footers to make
+// a valid RDF query
+void MusicBrainz::MakeRDFQuery(string &rdf)
+{
+    rdf = (m_useUTF8 ? string(rdfUTF8Encoding) : string(rdfISOEncoding)) +
+           string(rdfHeader) + 
+           rdf + 
+           string(rdfFooter);
+}
+
+// The main Query function. This query builds a valid RDF query,
+// sends it to the server using http and then creates an RDF parser
+// to parse the returned RDF from the server.
+bool MusicBrainz::Query(const string &rdfObject, vector<string> *args)
 {
     MBHttp   http;
     char   port[20];
-    string xml = xmlObject, url, retXml, firstXml, secondXml, value;
+    string rdf = rdfObject, url, value;
     Error  ret;
-    int    numObjs;
 
-    if (xml == string(localCDInfo) ||
-        xml == string(localAssociateCD))
+#if 1
+
+    // Is the given query a placeholder to perform a local query?
+    // A cd lookup/associate function requires to have the diskid
+    // module to generate an RDF query based on the values read
+    // from the current CD.
+    if (rdf == string(localCDInfo) ||
+        rdf == string(localAssociateCD))
     {
         DiskId id;
 
-        ret = id.GenerateDiskIdQueryRDF(m_device, xml, 
-                        xml == string(localAssociateCD));
+        // Generate the local query and then keep trucking
+        ret = id.GenerateDiskIdQueryRDF(m_device, rdf, 
+                        rdf == string(localAssociateCD));
+        //printf("%s\n", rdf.c_str());
         if (IsError(ret))
         {
             id.GetLastError(m_error);
             return false;
         }
     }
-    if (xml == string(localTOCInfo))
+    // If the query is a local TOC query, the client just wants to
+    // know about the table of contents of the CD, not about the
+    // server lookup metadata. In that case, generate the proper
+    // RDF from the CD, and then use that as the result of the query
+    // so the user can query it to extract the TOC from the CD.
+    if (rdf == string(localTOCInfo))
     {
         DiskId id;
 
-        ret = id.GenerateDiskIdQueryRDF(m_device, xml, 0);
+        // Generate the TOC query
+        ret = id.GenerateDiskIdQueryRDF(m_device, m_response, 0);
         if (IsError(ret))
         {
             id.GetLastError(m_error);
             return false;
         }
-        xml = (m_useUTF8 ? string(rdfUTF8Encoding) : string(rdfISOEncoding)) +
-              string(rdfHeader) + 
-              xml + 
-              string("<MQ:Version>") + 
-              string(MM_VERSION) + 
-              string("</MQ:Version>\n") +
-              string(rdfFooter);
 
-        m_xql = new XQL(m_useUTF8);
-        ret = m_xql->ParseString(xml);
-        if (IsError(ret))
+        // And now take the query and parse it so the user can query it
+        MakeRDFQuery(m_response);
+        m_rdf = new RDFExtract(m_response, m_useUTF8);
+        if (m_rdf->HasError())
         {
             m_error = string("Internal error.");
             return false;
         }
-        m_xmlList.clear();
-        m_xmlList.push_back(xml);
-        m_xmlIndex = 0;
+
+        // Return, because we don't want to actually query the server
         return true;
     }
 
-    SubstituteArgs(xml, args);
-    xml = (m_useUTF8 ? string(rdfUTF8Encoding) : string(rdfISOEncoding)) +
-          string(rdfHeader) + 
-          xml + 
-          string("<MQ:Version>") + 
-          string(MM_VERSION) + 
-          string("</MQ:Version>\n") +
-          string(rdfFooter);
+    // Substitute the passed in literal strings into the placeholders
+    // in the query.
+    SubstituteArgs(rdf, args);
 
-    printf("query: %s\n\n", xml.c_str());
-
+    // If there is a proxy, set up the proxy url now
     if (m_proxy.length() > 0)
     {
-       sprintf(port, ":%d", m_proxyPort);
-       http.SetProxyURL(string("http://") + m_proxy + string(port));
+        sprintf(port, ":%d", m_proxyPort);
+        http.SetProxyURL(string("http://") + m_proxy + string(port));
     }
-    sprintf(port, ":%d", m_serverPort);   
-    url = string("http://") + m_server + string(port) + string(scriptUrl);
-    ret = http.DownloadToString(url, xml, retXml); 
+
+    // Is this a GET or POST query? GET queries start with an http
+    // and will specify the URL to retrieve. If a query does not
+    // start with an http, then its assumed to be a POST query.
+    if (strncmp(rdf.c_str(), "http://", 7) == 0)
+    {
+        string::size_type pos = 0;
+
+        pos = rdf.find("@URL@", pos);
+        if (pos != string::npos)
+        {
+            sprintf(port, ":%d", m_serverPort);   
+            rdf.replace(pos, 5, m_server + string(port));
+        }
+        url = rdf;
+        rdf = string("");
+    }
+    else
+    {
+        MakeRDFQuery(rdf);
+
+        sprintf(port, ":%d", m_serverPort);   
+        url = string("http://") + m_server + string(port) + string(scriptUrl);
+    }
+
+    printf("  url: %s\n", url.c_str());
+    printf("query: %s\n\n", rdf.c_str());
+
+    // Now use the http module to get/post the request and to download
+    // the result.
+    ret = http.DownloadToString(url, rdf, m_response); 
     if (IsError(ret))
     { 
         SetError(ret);
         return false;
     }
-    printf("response: %s\n\n", retXml.c_str());
+    printf("response: %s\n\n", m_response.c_str());
+#endif
+//    m_response = rdfObject;
 
-    numObjs = SplitResponse(retXml);
-    if (numObjs == 0)
-    { 
-        m_error = string("Server response did not contain any XML objects");
-        return false;
-    }
-
-    m_xql = new XQL(m_useUTF8);
-    m_xmlIndex = 0;
-    ret = m_xql->ParseString(m_xmlList[0]);
-    if (IsError(ret))
+    // Parse the returned RDF
+    m_rdf = new RDFExtract(m_response, m_useUTF8);
+    if (m_rdf->HasError())
     {
         string err;
 
-        //printf("ret: [%s]\n", m_xmlList[0].c_str());
-
-        m_xql->GetErrorString(err);
+        m_rdf->GetError(err);
         m_error = string("The server sent an invalid response. (") +
                   err + string(")");
         return false;
     }
 
-    value = m_xql->Query(string("/rdf:RDF/rdf:Description/MQ:Error"));
-    if (value.length() > 0)
+    // Determine the top level node by reverse looking up the mq:result node
+    if (!m_rdf->GetSubjectFromObject(string(MBE_QuerySubject), m_baseURI))
+    {
+        m_error = string("Cannot parse the server response (cannot find "
+                         "mq:Result top level URI)");
+        return false;
+    }
+
+    // Use the baseURI as the starting point in the RDF graph.
+    m_currentURI = m_baseURI;
+
+    // See if an error occured. If so, extract the error message and return 
+    value = m_rdf->Extract(m_currentURI, string(MBE_GetError));
+    if (value.length() != 0)
     {
         m_error = value;
         return false;
     }
 
-    value = m_xql->Query(string("/rdf:RDF/rdf:Description/MQ:Status"));
+    // Extract the status of the query
+    value = m_rdf->Extract(m_currentURI, string(MBE_GetStatus));
     if (value.length() == 0)
     {    
         m_error = string("Could not determine the result of the query");
         return false;
     }
+
+    // Return if its not OK or fuzzy. OK means that the query ran successfully
+    // and if the query was a CD match query and the match was fuzzy,
+    // the status will be Fuzzy.
     if (value != string("OK") && value != string("Fuzzy"))
     {    
-        m_error = value;
+        m_error = string("Unknown query status: ") + value;
         return false;
     }
-    value = m_xql->Query(string("/rdf:RDF/rdf:Description/MQ:Status/@items"));
+
+    // Finally, extrac the number of items returned.
+    value = m_rdf->Extract(m_currentURI, string(MBE_NumItems)); 
     if (value.length() == 0)
     {    
         m_error = string("Could not determine the number of items returned");
@@ -304,74 +358,57 @@ bool MusicBrainz::Query(const string &xmlObject, vector<string> *args)
     }
     m_numItems = atoi(value.c_str());
 
-    if (numObjs > 1)
-    {
-        delete m_xql;
-        m_xql = new XQL(m_useUTF8);
-        xml = m_xmlList[1];
-        ret = m_xql->ParseString(xml);
-        if (IsError(ret))
-        {
-            m_error = string("The server sent an invalid response");
-            delete m_xql;
-            m_xql = NULL;
-            return false;
-        }
-        m_xmlIndex = 1;
-    }
-
+    // We're done bail. The user can now use Select/Extract to retrieve
+    // data from the RDF
     return true;
 }
 
+// returns a error string from the last query
 void MusicBrainz::GetQueryError(string &ErrorText)
 {
     ErrorText = m_error;
 }
 
+// returns the number of items in the query
 int MusicBrainz::GetNumItems(void)
 {
     return m_numItems;
 }
 
+// A shortcut function to retrieve a string value from the RDF result.
 const string &MusicBrainz::Data(const string &resultName, int Index)
 {
-    string query;
-
-    query = m_selectQuery + string("/") + resultName;
-    if (!m_xql)
+    if (!m_rdf)
     {
        m_error = string("The server returned no valid data");
        return m_empty;
     }
-    return m_xql->Query(query);
+    return m_rdf->Extract(m_currentURI, resultName, Index);
 }
 
+// A shortcut function to retrieve an integer value from the RDF result.
 int MusicBrainz::DataInt(const string &resultName, int Index)
 {
-    string query;
-
-    query = m_selectQuery + string("/") + resultName;
-    //printf("Query: '%s'\n", query.c_str());
-    if (!m_xql)
+    if (!m_rdf)
     {
        m_error = string("The server returned no valid data");
        return -1;
     }
-    return atoi(m_xql->Query(query).c_str());
+    return atoi(m_rdf->Extract(m_currentURI, resultName, Index).c_str());
 }
 
-bool MusicBrainz::GetResultData(const string &resultName, int Index, string &data)
+// This function calls the RDF extract function to retrieve one node
+// from the RDF graph. Please see the docs for more details.
+bool MusicBrainz::GetResultData(const string &resultName, int Index, 
+                                string &data)
 {
-    string query;
-
-    if (!m_xql)
+    if (!m_rdf)
     {
        m_error = string("The server returned no valid data");
        return false;
     }
 
-    query = m_selectQuery + string("/") + resultName;
-    data = m_xql->Query(query);
+    data = m_rdf->Extract(m_currentURI, resultName, Index);
     if (data.length() > 0)
         return true;
 
@@ -379,124 +416,77 @@ bool MusicBrainz::GetResultData(const string &resultName, int Index, string &dat
     return false;
 }
 
+// Check to see if a given RDF node exists. This function takes the
+// same args as the Extract and Select functions
 bool MusicBrainz::DoesResultExist(const string &resultName, int Index)
 {
     string data;
     string query;
 
-    if (!m_xql)
+    if (!m_rdf)
        return false;
 
-    query = m_selectQuery + string("/") + resultName;
-    data = m_xql->Query(query);
+    data = m_rdf->Extract(m_currentURI, resultName, Index);
     return data.length() > 0;
 }
 
-bool MusicBrainz::Select(const string &selectQueryArg)
+// This is a shorthand version of the Select, which allows passing
+// one ordinal. The default value for the ordinal is 0. See 
+// the function below and the docs for more details on this function.
+void MusicBrainz::Select(const string &query, int ordinal)
 {
-    string::size_type pos;
-    string            newQuery, index, selectQuery;
-    int               i, newIndex = 0;
-    char              temp[20];
+    list<int> ordinalList;
 
-    selectQuery = selectQueryArg;
+    if (m_rdf == NULL)
+       return;
 
-    for(i = 0;; i++)
-    {
-       pos = selectQuery.find("[", 0);
-       if (pos == string::npos)
-       {
-           newQuery += selectQuery;
-           break;
-       }
-       newQuery += selectQuery.substr(0, pos);
-       selectQuery.erase(0, pos);
-
-       pos = selectQuery.find("]", 0);
-       if (pos == string::npos)
-           return false;
-
-       index = selectQuery.substr(0, pos);
-       selectQuery.erase(0, pos);
-
-       if (index.length() == 1)
-           newIndex = m_indexes[i];
-       else
-       {
-           if (index[1] == '+')
-              newIndex = m_indexes[i] + atoi(index.c_str() + 2);
-           else
-           if (index[1] == '-')
-              newIndex = m_indexes[i] - atoi(index.c_str() + 2);
-           else
-              newIndex = atoi(index.c_str() + 1);
-
-           m_indexes[i] = newIndex;
-       }
-       sprintf(temp, "[%d", newIndex);
-       newQuery += string(temp);
-    }
-    m_selectQuery = newQuery;
-
-    return true;
+    ordinalList.push_back(ordinal);
+    return Select(query, &ordinalList);
 }
 
+// The Select function selects a new currentURI. Please check the
+// docs for details on this important function.
+void MusicBrainz::Select(const string &query, list<int> *ordinalList)
+{
+    if (m_rdf == NULL)
+       return;
+
+    if (query == string(MBS_Reset))
+    {
+        m_currentURI = m_baseURI;
+        return;
+    }
+    
+    m_currentURI = m_rdf->Extract(m_currentURI, query, ordinalList);
+}
+
+// Return the RDF document that the server returned to us.
 bool MusicBrainz::GetResultRDF(string &RDFObject)
 {
-    if (m_xmlList[m_xmlIndex].length() == 0)
-       return false;
-
-    RDFObject = m_xmlList[m_xmlIndex];
-
+    RDFObject = m_response;
     return true;
 }
 
+// This function allows an outside user to set and RDF object and
+// then query it using the Extract/Select functions. 
 bool MusicBrainz::SetResultRDF(string &rdf)
 {
     int ret;
 
-    if (m_xql)
-       delete m_xql;
+    if (m_rdf)
+       delete m_rdf;
 
-    m_xql = new XQL(m_useUTF8);
-    ret = m_xql->ParseString(rdf);
-    if (!IsError(ret))
+    m_rdf = new RDFExtract(rdf, m_useUTF8);
+    if (!m_rdf->HasError())
     {
-        m_xmlList.clear();
-        m_xmlIndex = 0;
-        m_xmlList[m_xmlIndex] = rdf;
+        m_response = rdf;
         return true;
     }
     return false;
 }
 
-int MusicBrainz::GetNumXMLResults(void)
-{
-    return m_xmlList.size();
-}
-
-bool MusicBrainz::SelectXMLResult(int index)
-{
-    Error ret;
-
-    if ((unsigned int)index > m_xmlList.size() - 1)
-        return false;
-
-    delete m_xql;
-    m_xql = new XQL(m_useUTF8);
-    ret = m_xql->ParseString(m_xmlList[index]);
-    if (IsError(ret))
-    {
-        m_error = string("The server sent an invalid xml response");
-        delete m_xql;
-        m_xql = NULL;
-        return false;
-    }
-    m_xmlIndex = index;
-
-    return true;
-}
-
+// Escape the & < and > in the passed rdf string and replace with
+// the proper XML entities
 const string MusicBrainz::EscapeArg(const string &arg)
 {
     string            text;
@@ -504,6 +494,7 @@ const string MusicBrainz::EscapeArg(const string &arg)
 
     text = arg;
 
+    // Replace all the &
     pos = text.find("&", 0);
     for(;;)
     {
@@ -515,6 +506,7 @@ const string MusicBrainz::EscapeArg(const string &arg)
        pos++;
     }
 
+    // Replace all the <
     pos = text.find("<", 0);
     for(;;)
     {
@@ -524,6 +516,8 @@ const string MusicBrainz::EscapeArg(const string &arg)
        else
            break;
     }
+
+    // Replace all the >
     pos = text.find(">", 0);
     for(;;)
     {
@@ -537,7 +531,9 @@ const string MusicBrainz::EscapeArg(const string &arg)
     return text;
 }
 
-void MusicBrainz::SubstituteArgs(string &xml, vector<string> *args)
+// This function replaces the @1@, @2@ argument place holders with
+// literal values passed in the args vector.
+void MusicBrainz::SubstituteArgs(string &rdf, vector<string> *args)
 {
     vector<string>::iterator i;
     string::size_type        pos;
@@ -545,32 +541,37 @@ void MusicBrainz::SubstituteArgs(string &xml, vector<string> *args)
     int                      j;
     string                   arg;
 
-    if (args == NULL)
-       return;
-
-    for(i = args->begin(), j = 1; i != args->end(); i++, j++)
+    if (args)
     {
-        arg = EscapeArg(*i);
-        sprintf(replace, "@%d@", j); 
-        pos = xml.find(string(replace), 0);
-        if (pos != string::npos)
+        // Replace all occurances of @##@ with the arguments passed in the
+        // args list
+        for(i = args->begin(), j = 1; i != args->end(); i++, j++)
         {
-            xml.replace(pos, strlen(replace), arg);
+            arg = EscapeArg(*i);
+            sprintf(replace, "@%d@", j); 
+            pos = rdf.find(string(replace), 0);
+            if (pos != string::npos)
+            {
+                rdf.replace(pos, strlen(replace), arg);
+            }
         }
     }
+    // If there are fewer args passed than are in the rdf, then
+    // delete the remaining substitute tokens.
     for(;; j++)
     {
         sprintf(replace, "@%d@", j); 
-        pos = xml.find(string(replace), 0);
+        pos = rdf.find(string(replace), 0);
         if (pos != string::npos)
         {
-            xml.replace(pos, strlen(replace), "");
+            rdf.replace(pos, strlen(replace), "");
         }
         else
             break;
     }
 }
 
+// Convert the internal error code to an error string
 void MusicBrainz::SetError(Error ret)
 {
     switch(ret)
@@ -606,36 +607,10 @@ void MusicBrainz::SetError(Error ret)
     }
 }
 
-int MusicBrainz::SplitResponse(const string &inXML)
-{
-    string            xml = inXML, temp;
-    string::size_type pos1, pos2;
-    int               i;
-
-    m_xmlList.clear();
-
-    for(i = 0;; i++)
-    {
-        pos1 = xml.find("<?xml", 0);
-        if (pos1 == string::npos)
-           return 0;
-
-        pos2 = xml.find("<?xml", pos1 + 1);
-        if (pos2 == string::npos)
-        {
-           m_xmlList.push_back(xml);
-           return i + 1;
-        }
-    
-        temp = xml.substr(pos1, pos2 - pos1); 
-        m_xmlList.push_back(temp);
-
-        xml.erase(0, pos2); 
-    }
-
-    return 0;
-}
-
+// Calculate a Bitzi bitprint and submit it to musicbrainz. The
+// bitprint will be used in the musicbrainz metadata acceptance 
+// process. The completed bitzi bitprints will be submitted to the
+// Bitizi community metadatabase.
 bool MusicBrainz::CalculateBitprint(const string &fileName, BitprintInfo *info) 
 {
     BitcolliderSubmission *sub;

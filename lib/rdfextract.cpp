@@ -116,23 +116,19 @@ int RDFExtract::GetTriples(vector<RDFStatement> *triplesArg)
     *triplesArg = triples;
 }
 
-bool RDFExtract::Extract(const string &startURI, 
-                         const string &query, 
-                         string &value, 
-                         int ordinal)
+const string &RDFExtract::Extract(const string &startURI, 
+                                  const string &query, 
+                                  int ordinal)
 {
     list<int> ordinalList;
 
-    if (ordinal >= 0)
-       ordinalList.push_back(ordinal);
-
-    return Extract(startURI, query, value, &ordinalList);
+    ordinalList.push_back(ordinal);
+    return Extract(startURI, query, &ordinalList);
 }
 
-bool RDFExtract::Extract(const string &startURI, 
-                         const string &query, 
-                         string &value, 
-                         list<int> *ordinalList)
+const string &RDFExtract::Extract(const string &startURI, 
+                                  const string &query, 
+                                  list<int> *ordinalList)
 {
     vector<RDFStatement>::iterator i;
     list<string>                   predicateList;
@@ -140,7 +136,11 @@ bool RDFExtract::Extract(const string &startURI,
     char                          *queryString, *ptr;
     bool                           done;
 
-    value = string("");
+    if (query.length() == 0)
+    {
+        retValue = startURI;
+        return retValue;
+    }
 
     queryString = strdup(query.c_str());
     ptr = strtok(queryString, " \t\n");
@@ -154,19 +154,30 @@ bool RDFExtract::Extract(const string &startURI,
     }
     free(queryString);
 
+    printf("-----------------------------------------------\n");
+    printf(" Base: %s\n", startURI.c_str());
+    printf("Query: %s\n\n", query.c_str());
+
     for(;;)
     {
        done = false;
+       printf("Curr URI %s: Pred: %s / [%d]\n", 
+                 currentURI.c_str(),
+                 (*predicateList.begin()).c_str(),
+                 *(ordinalList->begin()));
        for(i = triples.begin(); i != triples.end() && !done; i++)
        {
-          //printf("'%s' == '%s'\n", (*i).subject.c_str(), currentURI.c_str());
-          //printf("'%s' == '%s'\n", (*i).predicate.c_str(), 
-          //                         (*predicateList.begin()).c_str());
+          if ((*i).subject == currentURI)
+          {
+              if ((*i).ordinal > 0)
+                 printf("   pred: [%d]\n", (*i).ordinal);
+              else
+                 printf("   pred: %s\n", (*i).predicate.c_str());
+          }
           if ((*i).subject == currentURI && 
              ((*i).predicate == *(predicateList.begin()) ||
              ((*i).ordinal > 0 && (*i).ordinal == *(ordinalList->begin()))))
           {
-              //printf("match!\n");
               currentURI = (*i).object;
 
               predicateList.pop_front();
@@ -175,6 +186,7 @@ bool RDFExtract::Extract(const string &startURI,
    
               // Force to exit the loop
               done = true;
+              break;
           }
           //printf("\n");
        }
@@ -183,17 +195,36 @@ bool RDFExtract::Extract(const string &startURI,
        // query failed.
        if (i == triples.end())
        {
-          return false;
+          printf("-------------------------------------------\n");
+          printf("Not found.\n\n");
+          return empty;
        }
        // If we found a matching predicate and there are not more
        // predicate transitons, then we've arrived at the end of
        // the query. Return the last subject.
        if (done && predicateList.size() == 0)
        {
-          value = currentURI;
-          return true;
+          printf("-------------------------------------------\n");
+          printf("Value: %s\n\n", (*i).object.c_str());
+          return (*i).object;
        }
     }
+}
+
+bool RDFExtract::GetSubjectFromObject(const string &object,
+                                      string       &subject)
+{
+    vector<RDFStatement>::iterator i;
+
+    for(i = triples.begin(); i != triples.end(); i++)
+    {
+       if ((*i).object == object)
+       {
+           subject = (*i).subject;
+           return true;
+       }
+    }
+    return false;
 }
 
 bool RDFExtract::GetError(string &error)

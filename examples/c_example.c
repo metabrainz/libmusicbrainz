@@ -27,6 +27,8 @@
 
 int main(void)
 {
+}
+#if 0
     musicbrainz_t o;
     char          error[256], data[256];
     int           ret, numTracks, i;
@@ -121,3 +123,4 @@ int main(void)
 
     return 0;
 }
+#endif

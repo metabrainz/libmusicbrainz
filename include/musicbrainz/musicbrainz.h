@@ -25,12 +25,13 @@
 #ifndef _MUSICBRAINZ_H_
 #define _MUSICBRAINZ_H_
 
+#include <string>
+#include <vector>
+
 #include "errors.h"
 #include "queries.h"
 #include "bitprint.h"
-
-#include <string>
-#include <vector>
+#include "rdfextract.h"
 
 using namespace std;
 
@@ -44,8 +45,7 @@ class XQL;
 
 class MusicBrainz
 {
-    public:
-
+    public: 
        EXPORT          MusicBrainz(void);
        EXPORT virtual ~MusicBrainz(void);
 
@@ -63,7 +63,10 @@ class MusicBrainz
        EXPORT int      GetNumItems      (void);
        EXPORT bool     GetWebSubmitURL  (string &url);
   
-       EXPORT bool     Select           (const string &selectQuery);
+       EXPORT void     Select           (const string &selectQuery,
+                                         int           ordinal = 0);
+       EXPORT void     Select           (const string &selectQuery,
+                                         list<int>    *ordinalList);
        EXPORT bool     DoesResultExist  (const string &resultName, 
                                          int Index = -1);
        EXPORT bool     GetResultData    (const string &resultName, int Index, 
@@ -86,19 +89,14 @@ class MusicBrainz
        const string EscapeArg(const string &xml);
        void         SubstituteArgs(string &xml, vector<string> *args);
        void         SetError(Error ret);
-       int          SplitResponse(const string &inputXml);
-
-       int          GetNumXMLResults(void);
-       bool         SelectXMLResult(int index);
+       void         MakeRDFQuery(string &rdf);
 
        string          m_error, m_empty; 
        string          m_server, m_proxy;
        short           m_serverPort, m_proxyPort;
-       string          m_device, m_selectQuery; 
-       vector<string>  m_xmlList;
-       int             m_xmlIndex, m_numItems;
-       XQL            *m_xql;
-       vector<int>     m_indexes;
+       string          m_device, m_currentURI, m_baseURI, m_response; 
+       int             m_numItems;
+       RDFExtract     *m_rdf;
        bool            m_useUTF8;
 };
 

@@ -52,15 +52,14 @@ class RDFExtract
         int      GetNumTriples          (void);
         int      GetTriples             (vector<RDFStatement> *triples);
 
-        bool     Extract                (const string &startURI,
+        const string &Extract           (const string &startURI,
                                          const string &query,
-                                         string       &value,
-                                         int           ordinal = -1);
-        bool     Extract                (const string &startURI,
+                                         int           ordinal = 0);
+        const string &Extract           (const string &startURI,
                                          const string &query,
-                                         string       &value,
                                          list<int>    *ordinalList);
-        bool     Get
+        bool     GetSubjectFromObject   (const string &object,
+                                         string       &subject);
 
         bool     GetError               (string &error);
         bool     HasError               (void) { return hasError; };
@@ -68,7 +67,7 @@ class RDFExtract
     private:
 
         vector<RDFStatement>  triples;
-        string                error;
+        string                error, empty, retValue;
         bool                  useUTF8, hasError;
 
     public:

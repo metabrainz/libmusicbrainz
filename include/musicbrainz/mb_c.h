@@ -35,7 +35,6 @@ extern "C"
 
 /* Basic C abstraction types for the interfaces */
 typedef void * musicbrainz_t;
-typedef void * rdfgen_t;
 typedef void * trm_t;
 
 /* The interface to the main MusicBrainz object */
@@ -157,14 +156,6 @@ void  trm_GenerateSignatureNow(trm_t o, char signature[17],
  */
 void  trm_ConvertSigToASCII   (trm_t o, char sig[17], 
                                char ascii_sig[37]);
-
-/* An interface to the very simplistic rdf generator */
-rdfgen_t rg_New           (void);
-void     rg_Delete        (rdfgen_t o);
-int      rg_Select        (rdfgen_t o, char *selectQuery);
-int      rg_Insert        (rdfgen_t o, char *key, char *value);
-int      rg_Generate      (rdfgen_t o, char *RDFtemplate, 
-                           char *RDF, int maxRDFLen);
 
 #ifdef __cplusplus
 }

@@ -24,6 +24,53 @@
 #include <stdio.h>
 #include "musicbrainz.h"
 
+const char *sampleRDF = 
+"<rdf:RDF xmlns:rdf = \"http://www.w3.org/1999/02/22-rdf-syntax-ns#\"\n"
+"         xmlns:dc  = \"http://purl.org/dc/elements/1.1/\"\n"
+"         xmlns:mq  = \"http://musicbrainz.org/mm/mq-1.0#\"\n"
+"         xmlns:mm  = \"http://musicbrainz.org/mm/mm-2.0#\">\n"
+"\n"
+"  <mq:Result>\n"
+"    <mq:numItems>1</mq:numItems>\n"
+"    <mq:status>OK</mq:status>\n"
+"    <mm:albumList>\n"
+"       <rdf:Seq>\n"
+"          <rdf:li rdf:resource=\"http://musicbrainz.org/album=l1000\"/>\n"
+"       </rdf:Seq>\n"
+"    </mm:albumList>\n"
+"  </mq:Result>\n"
+"\n"
+"  <mm:Album rdf:about=\"http://musicbrainz.org/album=l1000\">\n"
+"    <dc:title>Dummy</dc:title>\n"
+"    <dc:creator rdf:resource=\"http://musicbrainz.org/artist=a1000\"/>\n"
+"    <mm:numTracks>2</mm:numTracks>\n"
+"    <mm:trackList>\n"
+"       <rdf:Seq>\n"
+"          <rdf:li rdf:resource=\"http://musicbrainz.org/track=t1000\"/>\n"
+"          <rdf:li rdf:resource=\"http://musicbrainz.org/track=t1001\"/>\n"
+"       </rdf:Seq>\n"
+"    </mm:trackList>\n"
+"  </mm:Album>\n"
+"\n"
+"  <mm:Artist rdf:about=\"http://musicbrainz.org/artist=a1000\">\n"
+"     <dc:title>Portishead</dc:title>\n"
+"  </mm:Artist>\n"
+"\n"
+"  <mm:Track rdf:about=\"http://musicbrainz.org/track=t1000\">\n"
+"    <dc:title>Mysterons</dc:title>\n"
+"    <mm:trackNum>1</mm:trackNum>\n"
+"    <dc:creator rdf:resource=\"http://musicbrainz.org/artist=a1000\"/>\n"
+"  </mm:Track>\n"
+"\n"
+"  <mm:Track rdf:about=\"http://musicbrainz.org/track=t1001\">\n"
+"    <dc:title>Sour Times</dc:title>\n"
+"    <mm:trackNum>2</mm:trackNum>\n"
+"    <dc:creator rdf:resource=\"http://musicbrainz.org/artist=a1000\"/>\n"
+"  </mm:Track>\n"
+"\n"
+"</rdf:RDF>\n";
+
+
 int main(void)
 {
     MusicBrainz o;
@@ -44,7 +91,12 @@ int main(void)
     // Execute the GetCDInfo query, which pull the TOC from the 
     // audio CD in the cd-rom drive, calculate the disk id and the
     // request the data from the server
-    ret = o.Query(string(MB_GetCDInfo));
+
+vector<string> foo;
+foo.push_back(string("ipe"));
+
+    ret = o.Query(string(MB_GetArtistById), &foo);
+    //ret = o.Query(string(sampleRDF));
     if (!ret)
     {
          o.GetQueryError(error);
@@ -59,53 +111,30 @@ int main(void)
         return 0;
     }
 
+    // Now start the data extraction process.
+
+    // Select the first item in the list of returned items
+    o.Select(MBS_SelectAlbum, 1);
+
     // Get the number of tracks
-    numTracks = o.DataInt(MB_GetNumTracks);
+    numTracks = o.DataInt(MBE_GetNumTracks);
     printf("NumTracks: %d\n", numTracks);
 
-    // Now start the data extraction process.
-    // Select the first item in the list of returned items
-    o.Select(MB_SelectAlbum);
-
     // Now get and print the title of the cd
-    printf("Title: '%s'\n", o.Data(MB_GetAlbumName).c_str());
+    printf("Album Name: '%s'\n", o.Data(MBE_GetAlbumName).c_str());
+    printf("   AlbumID: '%s'\n", o.Data(MBE_GetAlbumID).c_str());
 
-    // Check to see if the GetArtist field exits. If it does, the returned
-    // CD is a single artist CD. If it does not, the CD is a multiple
-    // artist CD.
-    if (o.DoesResultExist(MB_GetArtistName))
+    for(int i = 1; i <= numTracks; i++)
     {
-         // Print out the artist and then print the titles of the tracks
-         printf("Artist: '%s'\n", o.Data(MB_GetArtistName).c_str());
-         o.Select(MB_SelectFirstTrack);
-         for(int i = 0; i < numTracks; i++)
-         {
-             trackNum = o.DataInt(MB_GetTrackNum);
-             printf("Track %d: '%s'\n", 
-                 trackNum, o.Data(MB_GetTrackName).c_str());
-             printf("Track id: '%s'\n", 
-                 o.Data(MB_GetTrackID).c_str());
+        // Print out the artist and then print the titles of the tracks
+        printf("Artist: '%s'\n", o.Data(MBE_GetArtistName, i).c_str());
 
-             // Now move on to the next track
-             o.Select(MB_SelectNextTrack);
-         }
-    }
-    else
-    {
-         // Now select the first track
-         o.Select(MB_SelectFirstTrack);
-
-         // For each track print out the artist and title
-         for(int i = 0; i < numTracks; i++)
-         {
-             printf("Artist %d: '%s'\n", i+1, 
-                    o.Data(MB_GetArtistName).c_str());
-             printf(" Track %d: '%s'\n", i+1, 
-                    o.Data(MB_GetTrackName).c_str());
-
-             // Now move on to the next track
-             o.Select(MB_SelectNextTrack);
-         }
+        trackNum = o.DataInt(MBE_GetTrackNum, i);
+        printf("Track %d: '%s'\n", 
+            trackNum, o.Data(MBE_GetTrackName, i).c_str());
+        printf("Track id: '%s'\n\n", 
+            o.Data(MBE_GetTrackID, i).c_str());
     }
     return 0;
 }
+

@@ -36,54 +36,47 @@
 // as specified by the predicate list. The URI of the new node, will be
 // saved as the 'selected context'. Once a context has been selected,
 // you can use the MBE_ queries below to extract metadata out of a context.
-#define MBS_SelectArtist \
-    "http://musicbrainz.org/MM/artistList "\
-    "[] "
-#define MBS_SelectAlbum \
-    "http://musicbrainz.org/MM/albumList "\
-    "[] "
-#define MBS_SelectTrack \
-    "http://musicbrainz.org/MM/trackList "\
-    "[] "
-#define MBS_SelectGUID \
-    "http://musicbrainz.org/MM/guidList "\
-    "[] "
-#define MBS_SelectLyrics \
-    "http://musicbrainz.org/MM/lyricList "\
-    "[] "
+#define MBS_Reset "[reset]"
+#define MBS_SelectArtist           "http://musicbrainz.org/MM/artistList []"
+#define MBS_SelectAlbum            "http://musicbrainz.org/mm/mm-2.0#albumList []"
+#define MBS_SelectTrack            "http://musicbrainz.org/mm/mm-2.0#trackList []"
+#define MBS_SelectGUID             "http://musicbrainz.org/MM/guidList []"
+#define MBS_SelectLyrics           "http://musicbrainz.org/MM/lyricList []"
 
-// local query rdf queries
+// local rdf queries
 #define MBE_LocalGetId             "MQ:Args/@id"
 #define MBE_LocalGetLastTrack      "MQ:Args[1]/@last"
 #define MBE_LocalGetFirstTrack     "MQ:Args[1]/@first"
 #define MBE_LocalGetTOC            "MQ:Args[1]/@toc"
 #define MBE_LocalGetTrackLengths   "MQ:Args[2]/@trackLengths"
 
-// description context queries
+// mq:result queries
+#define MBE_QuerySubject           "http://musicbrainz.org/mm/mq-1.0#Result"
+#define MBE_GetError               "http://musicbrainz.org/mm/mq-1.0#error"
+#define MBE_GetStatus              "http://musicbrainz.org/mm/mq-1.0#status"
+#define MBE_NumItems               "http://musicbrainz.org/mm/mq-1.0#numItems"
 
-#define MBE_GetError               ""
-#define MBE_GetArtistName          "DC:Creator"
-#define MBE_GetArtistID            "DC:Identifier/@artistId"
+// mm:albumList queries
+#define MBE_GetAlbumName           "http://purl.org/dc/elements/1.1/title"
+#define MBE_GetAlbumID             "" // yes, empty! 
+#define MBE_GetNumTracks           "http://musicbrainz.org/mm/mm-2.0#numTracks"
+#define MBE_GetTrackID             "http://musicbrainz.org/mm/mm-2.0#trackList [] "
+#define MBE_GetTrackNum            "http://musicbrainz.org/mm/mm-2.0#trackList [] http://musicbrainz.org/mm/mm-2.0#trackNum"
+#define MBE_GetTrackName           "http://musicbrainz.org/mm/mm-2.0#trackList [] http://purl.org/dc/elements/1.1/title"
+#define MBE_GetArtistName          "http://musicbrainz.org/mm/mm-2.0#trackList [] http://purl.org/dc/elements/1.1/creator http://purl.org/dc/elements/1.1/title"
+#define MBE_GetArtistID            "http://musicbrainz.org/mm/mm-2.0#trackList [] http://purl.org/dc/elements/1.1/creator"
 
-#define MBE_GetAlbumName           "DC:Title"
-#define MBE_GetAlbumID             "DC:Identifier/@albumId"
-
-#define MBE_GetTrackID             "DC:Identifier/@trackId"
-#define MBE_GetTrackNum            "MM:TrackNum"
-#define MBE_GetTrackName           "DC:Title"
-#define MBE_GetNumTracks           "MM:Collection/@numParts"
-
-#define MBE_GetGUID                "DC:Identifier/@guid"
-#define MBE_GetFilename            "MQ:Filename"
-#define MBE_GetDuration            "DC:Format/@duration"
-#define MBE_GetYear                "DC:Date/@issued"
-#define MBE_GetGenre               "MM:Genre"
-#define MBE_GetDescription         "DC:Description"
-#define MBE_GetSyncTextSubmittor   "DC:Contributor"
-#define MBE_GetSyncTextSubmitDate  "DC:Date"
-#define MBE_GetSyncTextType        "DC:Type/@type"
-#define MBE_GetSyncTextText        "MM:SyncText"
-#define MBE_GetSyncTextTimestamp   "MM:SyncText/@ts"
+#define MBE_GetGUID                ""
+#define MBE_GetFilename            ""
+#define MBE_GetDuration            ""
+#define MBE_GetYear                ""
+#define MBE_GetGenre               ""
+#define MBE_GetDescription         ""
+#define MBE_GetSyncTextSubmittor   ""
+#define MBE_GetSyncTextSubmitDate  ""
+#define MBE_GetSyncTextType        ""
+#define MBE_GetSyncTextText        ""
+#define MBE_GetSyncTextTimestamp   ""
 
 // local queries
 #define MBQ_GetCDInfo              "@CDINFO@"
