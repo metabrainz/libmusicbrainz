@@ -39,6 +39,9 @@
 #include "config.h"
 
 
+#define XA_INTERVAL ((60 + 90 + 2) * CD_FRAMES)
+
+
 MUSICBRAINZ_DEVICE DEFAULT_DEVICE = "/dev/cdrom";
 
 
@@ -47,15 +50,26 @@ int ReadTOCHeader(int fd,
                   int& last)
 {
    struct cdrom_tochdr th;
+   struct cdrom_multisession ms;
 
    int ret = ioctl(fd,
-                   CDROMREADTOCHDR, 
+                   CDROMREADTOCHDR,
                    &th);
 
    if (!ret)
    {
+      // Hide the last track if this is a multisession disc (note that
+      // currently only dual-session discs with one track in the second
+      // session are handled correctly).
+      ms.addr_format = CDROM_LBA;
+      ret = ioctl(fd,
+                  CDROMMULTISESSION,
+                  &ms);
+
       first = th.cdth_trk0;
-      last  = th.cdth_trk1;
+      last = th.cdth_trk1;
+      if (ms.xa_flag)
+         last--;
    }
 
    return ret;
@@ -66,22 +80,41 @@ int ReadTOCEntry(int fd,
                  int track, 
                  int& lba)
 {
-    struct cdrom_tocentry te;
+   struct cdrom_tocentry te;
+   struct cdrom_multisession ms;
+   int ret = 0;
 
-    te.cdte_track = track;
-    te.cdte_format = CDROM_LBA;
+   if (track == CDROM_LEADOUT)
+   {
+      // For a multisession disc, the location of the single-session lead-out
+      // track must be calculated based on where the last session begins.
+      ms.addr_format = CDROM_LBA;
+      ret = ioctl(fd,
+                  CDROMMULTISESSION,
+                  &ms);
 
-    int ret = ioctl(fd, 
-                    CDROMREADTOCENTRY, 
-                    &te);
+      if (ms.xa_flag)
+      {
+         lba = ms.addr.lba - XA_INTERVAL;
+         return ret;
+      }
+   }
 
-    if (!ret) {
-        assert(te.cdte_format == CDROM_LBA);
+   if (!ret)
+   {
+      te.cdte_track = track;
+      te.cdte_format = CDROM_LBA;
 
-        lba = te.cdte_addr.lba;
-    }
+      ret = ioctl(fd, 
+                  CDROMREADTOCENTRY, 
+                  &te);
 
-    return ret;
+      assert(te.cdte_format == CDROM_LBA);
+
+      lba = te.cdte_addr.lba;
+   }
+
+   return ret;
 }
 
 

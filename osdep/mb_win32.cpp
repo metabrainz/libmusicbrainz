@@ -97,14 +97,13 @@ bool DiskId::ReadTOC(MUSICBRAINZ_DEVICE cd_desc, MUSICBRAINZ_CDINFO & disc)
                                      atoi(mciReturn + 3) * 75 + 
                                      atoi(mciReturn + 6);
    }
-   sprintf(mciCommand, "status %s length track %d wait",
-           cd_desc, disc.LastTrack);
+   sprintf(mciCommand, "status %s length wait", cd_desc);
    mciSendString(mciCommand, mciReturn, sizeof(mciReturn), NULL);
 
    disc.FrameOffset[0] = atoi(mciReturn) * 4500 +  
                          atoi(mciReturn + 3) * 75 + 
                          atoi(mciReturn + 6) +
-                         disc.FrameOffset[disc.LastTrack] + 1;
+                         1;
 
    sprintf(mciCommand, "close %s wait", cd_desc);
    mciSendString(mciCommand, mciReturn, sizeof(mciReturn), NULL);
