@@ -35,7 +35,12 @@ dist_libmusicbrainz_la_SOURCES = \
   rdfparse.c rdfextract.cpp uuid.cpp 
 nodist_libmusicbrainz_la_SOURCES = mb.cpp
 libmusicbrainz_la_LDFLAGS = -version-info 2:1:0
-libmusicbrainz_la_LIBADD = bitzi/libbitzi.la @EXPAT_LIBS@ @EXTRA_CPP_LIBS@
+
+if DARWIN
+libmusicbrainz_la_LIBADD = ../expat/xmlparse/hashtable.lo ../expat/xmlparse/xmlparse.lo ../expat/xmltok/xmlrole.lo ../expat/xmltok/xmltok.lo bitzi/bitprint.lo bitzi/id3.lo bitzi/md5.lo bitzi/sboxes.lo bitzi/browser.lo bitzi/list.lo bitzi/mp3.lo bitzi/tiger.lo bitzi/dirsearch.lo bitzi/main.lo bitzi/plugin_man.lo bitzi/tigertree.lo 
+else
+libmusicbrainz_la_LIBADD = ../expat/xmlparse/libxmlparse.la ../expat/xmltok/libxmltok.la bitzi/libbitzi.la 
+endif
 
 mb_incdir = $(includedir)/musicbrainz
 

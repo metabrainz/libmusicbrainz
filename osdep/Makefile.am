@@ -1,8 +1,11 @@
+if DARWIN
+else
 noinst_LTLIBRARIES = libosdep.la
 
 libosdep_la_SOURCES = 
 libosdep_la_LIBADD = $(OSDEP_OBJS)
 libosdep_la_DEPENDENCIES = $(OSDEP_SOURCES)
+endif
 
 EXTRA_DIST = \
   mb_beos.cpp mb_beos.h \
