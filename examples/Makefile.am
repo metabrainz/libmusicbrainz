@@ -22,7 +22,7 @@
 
 INCLUDES = -I$(top_srcdir)/lib
 
-bin_PROGRAMS = c_example cpp_example cmd lyric_example
+noinst_PROGRAMS = c_example cpp_example cmd lyric_example
 c_example_SOURCES = c_example.c
 c_example_LDADD = $(top_builddir)/lib/libmusicbrainz.la
 

@@ -1,4 +1,4 @@
-# Makefile.in generated automatically by automake 1.4 from Makefile.am
+# Makefile.in generated automatically by automake 1.4a from Makefile.am
 
 # Copyright (C) 1994, 1995-8, 1999 Free Software Foundation, Inc.
 # This Makefile.in is free software; the Free Software Foundation
@@ -9,29 +9,6 @@
 # but WITHOUT ANY WARRANTY, to the extent permitted by law; without
 # even the implied warranty of MERCHANTABILITY or FITNESS FOR A
 # PARTICULAR PURPOSE.
-
-#
-#  MusicBrainz -- The Intenet music metadatabase
-#
-#  Copyright (C) 2000 Robert Kaye
-#  
-#  This library is free software; you can redistribute it and/or
-#  modify it under the terms of the GNU Lesser General Public
-#  License as published by the Free Software Foundation; either
-#  version 2.1 of the License, or (at your option) any later version.
-#  
-#  This library is distributed in the hope that it will be useful,
-#  but WITHOUT ANY WARRANTY; without even the implied warranty of
-#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-#  Lesser General Public License for more details.
-#  
-#  You should have received a copy of the GNU Lesser General Public
-#  License along with this library; if not, write to the Free Software
-#  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-#
-#    $Id$
-#
-
 
 SHELL = @SHELL@
 
@@ -68,9 +45,10 @@ AUTOMAKE = @AUTOMAKE@
 AUTOHEADER = @AUTOHEADER@
 
 INSTALL = @INSTALL@
-INSTALL_PROGRAM = @INSTALL_PROGRAM@ $(AM_INSTALL_PROGRAM_FLAGS)
+INSTALL_PROGRAM = @INSTALL_PROGRAM@
 INSTALL_DATA = @INSTALL_DATA@
 INSTALL_SCRIPT = @INSTALL_SCRIPT@
+INSTALL_STRIP_FLAG =
 transform = @program_transform_name@
 
 NORMAL_INSTALL = :
@@ -81,19 +59,46 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 host_alias = @host_alias@
 host_triplet = @host@
+AMTAR = @AMTAR@
+AMTARFLAGS = @AMTARFLAGS@
 AS = @AS@
 AWK = @AWK@
 CC = @CC@
 CXX = @CXX@
 DLLTOOL = @DLLTOOL@
+LD = @LD@
 LIBTOOL = @LIBTOOL@
 LIBTOOL_DEPS = @LIBTOOL_DEPS@
 LN_S = @LN_S@
 MAKEINFO = @MAKEINFO@
+NM = @NM@
 OBJDUMP = @OBJDUMP@
 PACKAGE = @PACKAGE@
 RANLIB = @RANLIB@
 VERSION = @VERSION@
+
+#
+#  MusicBrainz -- The Intenet music metadatabase
+#
+#  Copyright (C) 2000 Robert Kaye
+#  
+#  This library is free software; you can redistribute it and/or
+#  modify it under the terms of the GNU Lesser General Public
+#  License as published by the Free Software Foundation; either
+#  version 2.1 of the License, or (at your option) any later version.
+#  
+#  This library is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+#  Lesser General Public License for more details.
+#  
+#  You should have received a copy of the GNU Lesser General Public
+#  License along with this library; if not, write to the Free Software
+#  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+#
+#    $Id$
+#
+
 
 noinst_LTLIBRARIES = libxmltok.la
 libxmltok_la_SOURCES = Makefile.am asciitab.h iasciitab.h latin1tab.h nametab.h utf8tab.h xmldef.h xmlrole.c xmlrole.h xmltok.c xmltok.h 
@@ -110,27 +115,28 @@ LDFLAGS = @LDFLAGS@
 LIBS = @LIBS@
 libxmltok_la_LDFLAGS = 
 libxmltok_la_LIBADD = 
-libxmltok_la_OBJECTS =  xmlrole.lo xmltok.lo
+am_libxmltok_la_OBJECTS =  xmlrole.lo xmltok.lo
+libxmltok_la_OBJECTS =  $(am_libxmltok_la_OBJECTS)
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 LTCOMPILE = $(LIBTOOL) --mode=compile $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
-LINK = $(LIBTOOL) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(LDFLAGS) -o $@
+LINK = $(LIBTOOL) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
+DIST_SOURCES =  $(libxmltok_la_SOURCES)
 DIST_COMMON =  Makefile.am Makefile.in
 
 
-DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
+DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 
-TAR = tar
 GZIP_ENV = --best
 DEP_FILES =  .deps/xmlrole.P .deps/xmltok.P
 SOURCES = $(libxmltok_la_SOURCES)
-OBJECTS = $(libxmltok_la_OBJECTS)
+OBJECTS = $(am_libxmltok_la_OBJECTS)
 
 all: all-redirect
 .SUFFIXES:
-.SUFFIXES: .S .c .lo .o .s
-$(srcdir)/Makefile.in: Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4) 
+.SUFFIXES: .c .lo .o
+$(srcdir)/Makefile.in: Makefile.am $(top_srcdir)/$(altdir)configure.in $(ACLOCAL_M4) 
 	cd $(top_srcdir) && $(AUTOMAKE) --gnu expat/xmltok/Makefile
 
 Makefile: $(srcdir)/Makefile.in  $(top_builddir)/config.status $(BUILT_SOURCES)
@@ -147,12 +153,6 @@ distclean-noinstLTLIBRARIES:
 
 maintainer-clean-noinstLTLIBRARIES:
 
-.s.o:
-	$(COMPILE) -c $<
-
-.S.o:
-	$(COMPILE) -c $<
-
 mostlyclean-compile:
 	-rm -f *.o core *.core
 
@@ -163,12 +163,6 @@ distclean-compile:
 
 maintainer-clean-compile:
 
-.s.lo:
-	$(LIBTOOL) --mode=compile $(COMPILE) -c $<
-
-.S.lo:
-	$(LIBTOOL) --mode=compile $(COMPILE) -c $<
-
 mostlyclean-libtool:
 	-rm -f *.lo
 
@@ -178,6 +172,8 @@ clean-libtool:
 distclean-libtool:
 
 maintainer-clean-libtool:
+xmlrole.lo:
+xmltok.lo:
 
 libxmltok.la: $(libxmltok_la_OBJECTS) $(libxmltok_la_DEPENDENCIES)
 	$(LINK)  $(libxmltok_la_LDFLAGS) $(libxmltok_la_OBJECTS) $(libxmltok_la_LIBADD) $(LIBS)
@@ -247,22 +243,22 @@ maintainer-clean-depend:
 
 %.o: %.c
 	@echo '$(COMPILE) -c $<'; \
-	$(COMPILE) -Wp,-MD,.deps/$(*F).pp -c $<
-	@-cp .deps/$(*F).pp .deps/$(*F).P; \
-	tr ' ' '\012' < .deps/$(*F).pp \
+	$(COMPILE) -Wp,-MD,.deps/$(*D)/$(*F).pp -c $<
+	@-cp .deps/$(*D)/$(*F).pp .deps/$(*D)/$(*F).P; \
+	tr ' ' '\012' < .deps/$(*D)/$(*F).pp \
 	  | sed -e 's/^\\$$//' -e '/^$$/ d' -e '/:$$/ d' -e 's/$$/ :/' \
-	    >> .deps/$(*F).P; \
-	rm .deps/$(*F).pp
+	    >> .deps/$(*D)/$(*F).P; \
+	rm .deps/$(*D)/$(*F).pp
 
 %.lo: %.c
 	@echo '$(LTCOMPILE) -c $<'; \
-	$(LTCOMPILE) -Wp,-MD,.deps/$(*F).pp -c $<
+	$(LTCOMPILE) -Wp,-MD,.deps/$(*D)/$(*F).pp -c $<
 	@-sed -e 's/^\([^:]*\)\.o[ 	]*:/\1.lo \1.o :/' \
-	  < .deps/$(*F).pp > .deps/$(*F).P; \
-	tr ' ' '\012' < .deps/$(*F).pp \
+	  < .deps/$(*D)/$(*F).pp > .deps/$(*D)/$(*F).P; \
+	tr ' ' '\012' < .deps/$(*D)/$(*F).pp \
 	  | sed -e 's/^\\$$//' -e '/^$$/ d' -e '/:$$/ d' -e 's/$$/ :/' \
-	    >> .deps/$(*F).P; \
-	rm -f .deps/$(*F).pp
+	    >> .deps/$(*D)/$(*F).P; \
+	rm -f .deps/$(*D)/$(*F).pp
 info-am:
 info: info-am
 dvi-am:
@@ -285,7 +281,7 @@ uninstall: uninstall-am
 all-am: Makefile $(LTLIBRARIES)
 all-redirect: all-am
 install-strip:
-	$(MAKE) $(AM_MAKEFLAGS) AM_INSTALL_PROGRAM_FLAGS=-s install
+	$(MAKE) $(AM_MAKEFLAGS) INSTALL_STRIP_FLAG=-s install
 installdirs:
 
 
@@ -335,7 +331,7 @@ mostlyclean-depend distclean-depend clean-depend \
 maintainer-clean-depend info-am info dvi-am dvi check check-am \
 installcheck-am installcheck install-exec-am install-exec \
 install-data-am install-data install-am install uninstall-am uninstall \
-all-redirect all-am all installdirs mostlyclean-generic \
+all-redirect all-am all install-strip installdirs mostlyclean-generic \
 distclean-generic clean-generic maintainer-clean-generic clean \
 mostlyclean distclean maintainer-clean
 
