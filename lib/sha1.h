@@ -40,22 +40,22 @@ char *sha_version(void);
 
 
 #ifdef WORDS_BIGENDIAN
-#  if SIZEOF_SHA_LONG == 4
-#    define SHA_SHA_BYTE_ORDER  4321
-#  elif SIZEOF_SHA_LONG == 8
-#    define SHA_SHA_BYTE_ORDER  87654321
+#  if SIZEOF_LONG == 4
+#    define SHA_BYTE_ORDER  4321
+#  elif SIZEOF_LONG == 8
+#    define SHA_BYTE_ORDER  87654321
 #  endif
 #else
-#  if SIZEOF_SHA_LONG == 4
-#    define SHA_SHA_BYTE_ORDER  1234
-#  elif SIZEOF_SHA_LONG == 8
-#    define SHA_SHA_BYTE_ORDER  12345678
+#  if SIZEOF_LONG == 4
+#    define SHA_BYTE_ORDER  1234
+#  elif SIZEOF_LONG == 8
+#    define SHA_BYTE_ORDER  12345678
 #  endif
 #endif
 
 #else
 
-#define SHA_SHA_BYTE_ORDER 1234
+#define SHA_BYTE_ORDER 1234
 
 #endif
 
