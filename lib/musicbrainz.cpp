@@ -149,44 +149,6 @@ bool MusicBrainz::GetWebSubmitURL(string &url)
     return true;
 }
 
-// A helper function to convert URLs to local file paths
-static const char* protocol = "file://";
-static Error URLToFilePath(const char* url, char* path, uint32* length)
-{
-    Error result = kError_InvalidParam;
-
-    assert(path);
-    assert(url);
-    assert(length);
-
-    if(path && url && length && !strncasecmp(url, protocol, strlen(protocol)))
-    {
-        result = kError_BufferTooSmall;
-
-        if(*length >= strlen(url) - strlen(protocol) + 1)
-        {
-            strcpy(path, url + strlen(protocol));
-#ifdef WIN32
-            if(strlen(path) > 1 && path[1] == '|')
-            {
-                path[1] = ':';
-            }
-
-            for(int32 index = strlen(path) - 1; index >=0; index--)
-            {
-                if(path[index] == '/')
-                    path[index] = '\\';
-            }
-#endif
-            result = kError_NoErr;
-        }
-
-        *length = strlen(url) - strlen(protocol) + 1;
-    }
-
-    return result;
-}
-
 // A helper function to glue the necessary RDF headers and footers to make
 // a valid RDF query
 void MusicBrainz::MakeRDFQuery(string &rdf)
@@ -306,7 +268,7 @@ bool MusicBrainz::Query(const string &rdfObject, vector<string> *args)
         SetError(ret);
         return false;
     }
-    printf("result: %s\n\n", m_response.c_str());
+    //printf("result: %s\n\n", m_response.c_str());
 
     // Parse the returned RDF
     m_rdf = new RDFExtract(m_response, m_useUTF8);
@@ -560,7 +522,7 @@ void MusicBrainz::SubstituteArgs(string &rdf, vector<string> *args)
     vector<string>::iterator i;
     string::size_type        pos;
     char                     replace[100];
-    int                      j;
+    int                      j = 1;
     string                   arg;
 
     if (args)
@@ -595,10 +557,10 @@ void MusicBrainz::SubstituteArgs(string &rdf, vector<string> *args)
             break;
     }
 
-    // Replace any depth place holders with the current dept value
+    // Replace any depth place holders with the current depth value
     for(;;)
     {
-        sprintf(replace, "@DEPTH@", j); 
+        strcpy(replace, "@DEPTH@"); 
         pos = rdf.find(string(replace), 0);
         if (pos != string::npos)
         {
