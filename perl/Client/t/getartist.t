@@ -18,9 +18,10 @@ use constant MB_DEPTH  =>  2;
 
 my $mb = new MusicBrainz::Client();
 
-## #ifdef WIN32
-##  $mb->WSAInit();
-## #endif
+if( $^O eq "MSWin32" )
+{
+    $mb->WSAInit();
+}
 
 # Tell the client library to return data in ISO8859-1 and not UTF-8
 $mb->use_utf8(0);
@@ -63,9 +64,10 @@ if( $data = $mb->get_result_data( MBE_ArtistGetArtistSortName ) ) {
   print " SortName: ", $data, "\n";
 }
 
-## #ifdef WIN32
-##  $mb->WSAStop();
-## #endif
+if( $^O eq "MSWin32" )
+{
+    $mb->WSAStop();
+}
 
 our $loaded = 1;
 print "ok 1\n";

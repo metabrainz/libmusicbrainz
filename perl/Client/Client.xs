@@ -133,16 +133,18 @@ OUTPUT:
 
 #
 # XXX: WINDOWS ONLY
-#
-# #ifdef WIN32
-# void  
-# mb_WSAInit(musicbrainz_t mb)
-# PROTOTYPE: $
-#
-# void       
-# mb_WSAStop(musicbrainz_t mb)
-# PROTOTYPE: $
-# #endif
+
+#ifdef WIN32
+
+void  
+mb_WSAInit(musicbrainz_t mb)
+PROTOTYPE: $
+
+void       
+mb_WSAStop(musicbrainz_t mb)
+PROTOTYPE: $
+
+#endif
 
 int
 mb_authenticate(musicbrainz_t mb, char* userName, char* password) 
