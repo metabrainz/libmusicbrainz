@@ -41,7 +41,8 @@ EXPORTS
    trm_New
    trm_Delete
    trm_SetProxy
-   trm_SetPCMDataInfo       
+   trm_SetPCMDataInfo     
+   trm_SetSongLength  
    trm_GenerateSignature   
    trm_FinalizeSignature
    trm_ConvertSigToASCII   
