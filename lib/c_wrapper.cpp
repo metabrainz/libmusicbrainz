@@ -174,4 +174,57 @@ int mb_GetNumItems(musicbrainz_t o)
     return obj->GetNumItems();
 }
 
+void mb_SetPCMData(musicbrainz_t o, int samplesPerSecond, int numChannels,
+                   int bitsPerSample)
+{
+    MusicBrainz *obj = (MusicBrainz *)o;
+     
+    obj->SetPCMDataInfo(samplesPerSecond, numChannels, bitsPerSample);
+}
+
+int mb_GenerateSignature(musicbrainz_t o, char *data, int size, 
+                         char **signature, char *collectionID)
+{
+    string strGUID;
+    string collID;
+
+    if (!collectionID)
+        collID = "EMPTY_COLLECTION";
+    else
+        collID = string(collectionID, 16);
+
+   MusicBrainz *obj = (MusicBrainz *)o;
+   
+   bool retvalue = obj->GenerateSignature(data, size, strGUID, collID);
+
+   if (retvalue) {
+       *signature = (char *)malloc(sizeof(char) * 17);
+       memset(*signature, '\0', 16);
+       strncpy(*signature, strGUID.c_str(), 16);
+
+       return 1; 
+   }
+   return 0;
+} 
+
+void mb_GenerateSignatureNow(musicbrainz_t o, char **signature, 
+                             char *collectionID)
+{
+    string strGUID;
+    string collID;
+
+    if (!collectionID)
+        collID = "EMPTY_COLLECTION";
+    else
+        collID = string(collectionID, 16);
+
+   MusicBrainz *obj = (MusicBrainz *)o;
+
+   obj->GenerateSignatureNow(strGUID, collID);
+
+   *signature = (char *)malloc(sizeof(char) * 17);
+   memset(*signature, '\0', 16);
+   strncpy(*signature, strGUID.c_str(), 16);
+}
+
 }

@@ -1,4 +1,4 @@
-# Makefile.in generated automatically by automake 1.4a from Makefile.am
+# Makefile.in generated automatically by automake 1.4 from Makefile.am
 
 # Copyright (C) 1994, 1995-8, 1999 Free Software Foundation, Inc.
 # This Makefile.in is free software; the Free Software Foundation
@@ -68,10 +68,9 @@ AUTOMAKE = @AUTOMAKE@
 AUTOHEADER = @AUTOHEADER@
 
 INSTALL = @INSTALL@
-INSTALL_PROGRAM = @INSTALL_PROGRAM@
+INSTALL_PROGRAM = @INSTALL_PROGRAM@ $(AM_INSTALL_PROGRAM_FLAGS)
 INSTALL_DATA = @INSTALL_DATA@
 INSTALL_SCRIPT = @INSTALL_SCRIPT@
-INSTALL_STRIP_FLAG =
 transform = @program_transform_name@
 
 NORMAL_INSTALL = :
@@ -99,11 +98,13 @@ VERSION = @VERSION@
 AUTOMAKE_OPTIONS = foreign
 
 lib_LTLIBRARIES = libmusicbrainz.la
-libmusicbrainz_la_SOURCES = base64.c base64.h musicbrainz.cpp musicbrainz.h diskid.cpp diskid.h errors.h http.cpp http.h sha.h sha_func.c types.h xd3.h parse.cpp parse.h xql.cpp xql.h mb.cpp mb.h c_wrapper.cpp mb_c.h 
+libmusicbrainz_la_SOURCES = base64.c base64.h musicbrainz.cpp musicbrainz.h diskid.cpp diskid.h errors.h http.cpp http.h sha.h sha_func.c types.h xd3.h parse.cpp parse.h xql.cpp xql.h mb.cpp signature.cpp signature.h comsocket.cpp comsocket.h sigxdr.cpp sigxdr.h sigclient.cpp sigclient.h sigfft.cpp audiosig.h sigcomplex.h sigfft.h mb.h c_wrapper.cpp mb_c.h 
 libmusicbrainz_la_LDFLAGS = -version-info 1:0:0
 libmusicbrainz_la_LIBADD = ../expat/xmlparse/libxmlparse.la ../expat/xmltok/libxmltok.la
 
-noinst_HEADERS = base64.h musicbrainz.h diskid.h errors.h http.h sha.h types.h parse.h xql.h mb_c.h
+noinst_HEADERS = audiosig.h base64.h musicbrainz.h diskid.h errors.h http.h sha.h sigfft.h sigcomplex.h types.h parse.h xql.h mb_c.h
+
+EXTRA_DIST = wincomsocket.cpp wincomsocket.h
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../config.h
 CONFIG_CLEAN_FILES = 
@@ -117,7 +118,8 @@ LIBS = @LIBS@
 libmusicbrainz_la_DEPENDENCIES =  ../expat/xmlparse/libxmlparse.la \
 ../expat/xmltok/libxmltok.la
 libmusicbrainz_la_OBJECTS =  base64.lo musicbrainz.lo diskid.lo http.lo \
-sha_func.lo parse.lo xql.lo mb.lo c_wrapper.lo
+sha_func.lo parse.lo xql.lo mb.lo signature.lo comsocket.lo sigxdr.lo \
+sigclient.lo sigfft.lo c_wrapper.lo
 CXXFLAGS = @CXXFLAGS@
 CXXCOMPILE = $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 LTCXXCOMPILE = $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
@@ -135,11 +137,12 @@ DIST_COMMON =  Makefile.am Makefile.in
 
 DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 
-TAR = gtar
+TAR = tar
 GZIP_ENV = --best
-DEP_FILES =  .deps/base64.P .deps/c_wrapper.P .deps/diskid.P \
-.deps/http.P .deps/mb.P .deps/musicbrainz.P .deps/parse.P \
-.deps/sha_func.P .deps/xql.P
+DEP_FILES =  .deps/base64.P .deps/c_wrapper.P .deps/comsocket.P \
+.deps/diskid.P .deps/http.P .deps/mb.P .deps/musicbrainz.P \
+.deps/parse.P .deps/sha_func.P .deps/sigclient.P .deps/sigfft.P \
+.deps/signature.P .deps/sigxdr.P .deps/xql.P
 SOURCES = $(libmusicbrainz_la_SOURCES)
 OBJECTS = $(libmusicbrainz_la_OBJECTS)
 
@@ -340,7 +343,7 @@ uninstall: uninstall-am
 all-am: Makefile $(LTLIBRARIES) $(HEADERS)
 all-redirect: all-am
 install-strip:
-	$(MAKE) $(AM_MAKEFLAGS) INSTALL_STRIP_FLAG=-s install
+	$(MAKE) $(AM_MAKEFLAGS) AM_INSTALL_PROGRAM_FLAGS=-s install
 installdirs:
 	$(mkinstalldirs)  $(DESTDIR)$(libdir)
 
