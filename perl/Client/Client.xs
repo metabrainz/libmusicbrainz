@@ -407,6 +407,7 @@ PREINIT:
   int samplerate = 0;   
 PPCODE:  
   mb_GetMP3Info(mb,filename,&duration,&bitrate,&stereo,&samplerate);
+  XPUSHs(sv_2mortal(newSViv(duration)));
   XPUSHs(sv_2mortal(newSViv(bitrate)));
   XPUSHs(sv_2mortal(newSViv(stereo)));
   XPUSHs(sv_2mortal(newSViv(samplerate)));

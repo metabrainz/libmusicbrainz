@@ -5,6 +5,11 @@ otherwise noted.
 
 $Id$
 
+0.03   Fri Feb 21 07:41:05 2003
+	- Added missing ExtUtil::Constant fallback files
+	- Added more pod documentation
+	- Fixed missing $duration return value for get_mp3_info()
+
 0.02   Thu Feb 20 20:43:39 2003
         - First public alpha version
 	  Still lots to work on.
