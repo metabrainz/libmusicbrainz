@@ -36,7 +36,7 @@
 int main(int argc, char *argv[])
 {
     musicbrainz_t o;
-    char          url[1025], *browser;
+    char          url[1025], *browser = NULL;
     int           argIndex = 1;
 
     if (argc > 1 && strcmp(argv[1], "--help") == 0)
