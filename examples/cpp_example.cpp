@@ -30,7 +30,7 @@ int main(void)
     string      error, data;
     bool        ret;
     int         numTracks, trackNum;
-
+ 
     // Set the server you want to use. Defaults to www.musicbrainz.org:80
     //o.SetServer(string("musicbrainz.eorbit.net"), 80);
 

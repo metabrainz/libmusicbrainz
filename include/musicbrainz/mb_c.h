@@ -66,6 +66,8 @@ int       mb_GetResultRDF      (musicbrainz_t o, char *xml, int maxXMLLen);
 int       mb_GetResultRDFLen   (musicbrainz_t o);
 int       mb_SetResultRDF      (musicbrainz_t o, char *xml);
 int       mb_GetNumItems       (musicbrainz_t o);
+int       mb_CalculateSHA1     (musicbrainz_t o, char *fileName, 
+                                char sha1[33]);
 
 /* The interface to the Relatable TRM signature generator */
 trm_t trm_New                 (void);

@@ -74,6 +74,8 @@ class MusicBrainz
                                        int Index = -1);
        EXPORT int      DataInt        (const string &resultName, 
                                        int Index = -1);
+       EXPORT bool     CalculateSHA1  (const string &fileName,
+                                       string &sha1);
 #ifdef WIN32
        EXPORT void     WSAInit        (void);
        EXPORT void     WSAStop        (void);

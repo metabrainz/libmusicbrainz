@@ -26,7 +26,7 @@
 
 // The following define should match the version number of the MM spec
 // that is implemented by the defines in this file
-#define MM_VERSION                "1.0-pre3"
+#define MM_VERSION                "1.0-pre4"
 
 // local query names
 #define MB_GetCDInfo              "@CDINFO@"
@@ -131,7 +131,8 @@
                                   "<DC:Format duration=\"@7@\"/>\n"            \
                                   "<DC:Date issued=\"@8@\"/>\n"                \
                                   "<MM:Genre>@9@</MM:Genre>\n"                 \
-                                  "<DC:Description>@10@</DC:Description>\n"
+                                  "<DC:Description>@10@</DC:Description>\n"    \
+                                  "<DC:Identifier sha1=\"@11@\"/>\n"      
 #define MB_GetSyncTextById        "<MQ:Query>GetSyncTextById</MQ:Query>\n"     \
                                   "<MQ:Args id=\"@1@\"/>\n"
 //#define MB_GetLyricsById          "<MQ:Query>GetLyricsById</MQ:Query>\n"       \

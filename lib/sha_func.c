@@ -305,8 +305,6 @@ void sha_final(unsigned char digest[20], SHA_INFO *sha_info)
     digest[19] = (unsigned char) ((sha_info->digest[4]      ) & 0xff);
 }
 
-#ifdef SHA_FOR_C
-
 /* compute the SHA digest of a FILE stream */
 
 #define BLOCK_SIZE	8192
@@ -347,4 +345,3 @@ char *sha_version(void)
     return(version);
 }
 
-#endif /* SHA_FOR_C */

@@ -264,6 +264,22 @@ int mb_GetNumItems(musicbrainz_t o)
     return obj->GetNumItems();
 }
 
+int mb_CalculateSHA1(musicbrainz_t o, char *fileName, 
+                     char sha1[33])
+{
+    MusicBrainz *obj = (MusicBrainz *)o;
+    string       sha1_str;
+    bool         ret;
+
+    if (o == NULL)
+       return 0;
+
+    ret = obj->CalculateSHA1(string(fileName), sha1_str);
+    strncpy(sha1, sha1_str.c_str(), 33);
+
+    return (int)ret;
+}
+
 trm_t trm_New(void)
 {
     return (trm_t)new TRM();

@@ -31,6 +31,12 @@
 #include "diskid.h"
 #include "xql.h"
 
+extern "C"
+{
+   #include "sha.h"
+   #include "base64.h"
+}
+
 const char *scriptUrl = "/cgi-bin/rquery.pl";
 const char *localCDInfo = "@CDINFO@";
 const char *localTOCInfo = "@LOCALCDINFO@";
@@ -587,4 +593,26 @@ int MusicBrainz::SplitResponse(const string &inXML)
     }
 
     return 0;
+}
+
+bool MusicBrainz::CalculateSHA1(const string &fileName, string &sha1)
+{
+    FILE *fp;
+    unsigned char  digest[20];
+    SHA_INFO       sha_info;
+    unsigned long  size;
+    unsigned char *base64;
+
+    fp = fopen(fileName.c_str(), "rb");
+    if (fp == NULL)
+       return false;
+
+    sha_stream(digest, &sha_info, fp);
+    fclose(fp);
+
+    base64 = rfc822_binary(digest, 20, &size);
+    sha1 = string((char *)base64);
+    free(base64);
+
+    return true;
 }
