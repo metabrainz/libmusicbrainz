@@ -308,7 +308,7 @@ int MusicBrainz::DataInt(const string &resultName, int Index)
     if (!m_xql)
     {
        m_error = string("The server returned no valid data");
-       return 0;
+       return -1;
     }
     return atoi(m_xql->Query(query).c_str());
 }
