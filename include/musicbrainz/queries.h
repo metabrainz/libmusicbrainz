@@ -78,7 +78,7 @@
 
 // Item selectors for queries that return a list of items
 #define MB_SelectExchangedData    "/rdf:RDF/rdf:Description"
-
+#define MB_SelectExchangedAlbum   "/rdf:RDF/rdf:Description/DC:Relation/rdf:Description"
 // Item selectors for lyric queries
 #define MB_SelectTrackInfo        "/rdf:RDF/rdf:Description"
 #define MB_SelectLyricInfo        "/rdf:RDF/rdf:Description/MM:SyncEvents/rdf:Description"
