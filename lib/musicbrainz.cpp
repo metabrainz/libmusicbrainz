@@ -91,6 +91,19 @@ bool MusicBrainz::SetDevice(const string &device)
     return true;
 }
 
+#ifdef WIN32
+void MusicBrainz::WSAInit(void)
+{
+    WSADATA sGawdIHateMicrosoft;
+    WSAStartup(0x0002,  &sGawdIHateMicrosoft);
+}
+
+void MusicBrainz::WSAStop(void)
+{
+    WSACleanup();
+}
+#endif
+
 bool MusicBrainz::GetWebSubmitURL(string &url)
 {
     DiskId id;

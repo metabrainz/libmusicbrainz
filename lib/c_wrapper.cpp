@@ -78,6 +78,26 @@ void mb_UseUTF8(musicbrainz_t o, int useUTF8)
     obj->UseUTF8((bool)useUTF8);
 }
 
+#ifdef WIN32
+void mb_WSAInit(musicbrainz_t o)
+{
+    MusicBrainz *obj = (MusicBrainz *)o;
+    if (o == NULL)
+       return;
+
+    obj->WSAInit();
+}
+    
+void mb_WSAStop(musicbrainz_t o)
+{
+    MusicBrainz *obj = (MusicBrainz *)o;
+    if (o == NULL)
+       return;
+
+    obj->WSAStop();
+}
+#endif
+
 int mb_GetWebSubmitURL(musicbrainz_t o, char *url, int urlLen)
 {
     MusicBrainz *obj = (MusicBrainz *)o;
