@@ -165,13 +165,12 @@ int SigClient::Disconnect()
 {
     if (m_pSocket->IsConnected())
     {
-        char cBuffer[sizeof(char) + sizeof(int)];
-        memset(cBuffer, 0, sizeof(char) + sizeof(int));
+        char cBuffer[562];
+        memset(cBuffer, 0, 562);
         cBuffer[0] = SigClientVars::cDisconnect;
 
         int nBytes = 0;
-        m_pSocket->Write(cBuffer, sizeof(char) + sizeof(int), 
-                         &nBytes);
+        m_pSocket->Write(cBuffer, 562, &nBytes);
         m_pSocket->Disconnect();	
     }
 	

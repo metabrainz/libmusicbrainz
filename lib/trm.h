@@ -41,8 +41,7 @@ class TRM
 	
        void  SetPCMDataInfo    (int samplesPerSecond, int numChannels,
 		                int bitsPerSample);
-       bool  GenerateSignature (char *data, int size, string &strGUID, 
-		                string &collID);
+       bool  GenerateSignature (char *data, int size);
        void  GenerateSignatureNow(string &strGUID, string &collID);
        void  ConvertSigToASCII(char sig[17], char ascii_sig[37]);
         

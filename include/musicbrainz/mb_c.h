@@ -471,13 +471,11 @@ void  trm_SetPCMDataInfo      (trm_t o, int samplesPerSecond,
 /**
  * The main functionality of the TRM class.  Audio is passed to this function
  * and stored for analysis. trm_SetPCMDataInfo() needs to be called before
- * calling this function.
- * This function will access the Relatable signature server to generate 
- * the signature itself. Windows only: You will need to call mb_WSAInit before 
- * you can use this function. If your program already uses sockets, you will 
- * not need to call WSAInit and WSAStop.
+ * calling this function.  trm_FinalizeSignature() needs to be called after
+ * this function has returned a '1' or there is no more audio data to be
+ * passed in.
  * @see trm_SetPCMDataInfo()
- * @see trm_GenerateSignatureNow()
+ * @see trm_FinalizeSignature()
  * @see mb_WSAInit
  * @see mb_WSAStop
  * @param o the trm_t object returned by trm_New()
@@ -485,20 +483,15 @@ void  trm_SetPCMDataInfo      (trm_t o, int samplesPerSecond,
  * It needs to be raw PCM data in the format specified by the call to 
  * trm_SetPCMDataInfo()
  * @param size the size in bytes of the data block.
- * @param signature a 17 character array to store the signature, if generated,
- * in.
- * @param collectionID an optional 16-byte string to associate the signature
- * with a particular collection in the Relatable Engine.  Generally, pass in 
- * NULL.
  * @return returns 1 if enough data has been sent to generate a signature, 
- * or 0 if more data is still needed.  After it returns a '1', the array
- * 'signature' should contain the raw signature.
+ * or 0 if more data is still needed.  After it returns a '1',
+ * trm_FinalizeSignature must be called.
  */
-int   trm_GenerateSignature   (trm_t o, char *data, int size,
-                               char signature[17], char *collectionID);
+int   trm_GenerateSignature   (trm_t o, char *data, int size);
+
 /**
- * Used when there is no more audio data available and trm_GenerateSignature() 
- * has not yet returned a '1'.  This function forces the generation of a 
+ * Used when there is no more audio data available or trm_GenerateSignature() 
+ * has returned a '1'.  This function finishes the  generation of a 
  * signature from the data already sent via trm_GenerateSignature().
  * This function will access the Relatable signature server to generate 
  * the signature itself. Windows only: You will need to call mb_WSAInit before 
@@ -514,8 +507,8 @@ int   trm_GenerateSignature   (trm_t o, char *data, int size,
  * with a particular collection in the Relatable Engine.  Generally, pass in 
  * NULL.
  */
-void  trm_GenerateSignatureNow(trm_t o, char signature[17],
-                               char *collectionID);
+void  trm_FinalizeSignature   (trm_t o, char signature[17], char *collectionID);
+
 /**
  * This translates the 16 character raw signature into a 36 character 
  * human-readable string containing only letters and numbers.  Used after 
