@@ -23,7 +23,7 @@
 ----------------------------------------------------------------------------*/
 #include <stdio.h>
 #include <stdlib.h>
-#include "musicbrainz.h"
+#include "musicbrainz/musicbrainz.h"
 
 int main(void)
 {

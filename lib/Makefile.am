@@ -22,6 +22,7 @@
 AUTOMAKE_OPTIONS = foreign
 
 lib_LTLIBRARIES = libmusicbrainz.la
+INCLUDES = -I$(top_srcdir)/include/musicbrainz
 
 dist_libmusicbrainz_la_SOURCES = \
   base64.c browser.c c_wrapper.cpp comhttpsocket.cpp comsocket.cpp \
@@ -47,10 +48,6 @@ nodist_libmusicbrainz_la_SOURCES = mb.cpp
 #     set age to 0. 
 libmusicbrainz_la_LDFLAGS = -version-info 4:0:0
 libmusicbrainz_la_LIBADD = @EXPAT_LIBS@
-
-mb_incdir = $(includedir)/musicbrainz
-
-mb_inc_HEADERS = browser.h errors.h mb_c.h musicbrainz.h queries.h 
 
 noinst_HEADERS = \
   audiosig.h base64.h comhttpsocket.h comsocket.h \

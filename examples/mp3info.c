@@ -23,7 +23,7 @@
 ----------------------------------------------------------------------------*/
 #include <stdio.h>
 #include <stdlib.h>
-#include "mb_c.h"
+#include "musicbrainz/mb_c.h"
 
 int main(int argc, char *argv[])
 {
@@ -43,10 +43,10 @@ int main(int argc, char *argv[])
     {
         printf("%s:\n", argv[1]);
         duration /= 1000;
-        printf("%d\n", duration);
-        printf("%d\n", bitrate);
-        printf("%d\n", stereo);
-        printf("%d\n", samplerate);
+        printf("%d s\n", duration);
+        printf("%d kbits/s (0 == VBR)\n", bitrate);
+        printf("%d channels\n", stereo ? 2 : 1);
+        printf("%d khz\n", samplerate);
     }
     else
         printf("Cannot get file stats\n");
