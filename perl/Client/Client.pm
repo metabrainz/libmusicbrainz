@@ -433,9 +433,7 @@ arguments for a metadata exchange with the MusicBrainz server.
 
 Returns true if the sha1 value was successfully calculated, false otherwise. 
 
-
 =item get_mp3_info
-
 
 ($duration, $bitrate, $stereo, $samplerate) =  $mb->get_mp3_info($filename);
 
@@ -463,10 +461,11 @@ None by default.
 
 =head1 SEE ALSO
 
-perl(1) 
-http://www.musicbrainz.org/ 
-http://www.musicbrainz.org/client_howto.html 
-MusicBrainz::Queries
+  MusicBrainz::Queries
+  MusicBrainz::TRM
+  http://www.musicbrainz.org/client_howto.html
+  http://www.musicbrainz.org/
+  perl(1) 
 
 =head1 AUTHOR
 
