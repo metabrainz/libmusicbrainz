@@ -86,8 +86,8 @@ AC_DEFUN([AC_PROTOTYPE_LOOP],[
   ], [
     AC_MSG_CHECKING($3 AC_PROTOTYPE_STATUS(tags))
     ac_save_CPPFLAGS="$CPPFLAGS"
-    ifelse(AC_LANG,CPLUSPLUS,if test "$GXX" = "yes" ; then CPPFLAGS="$CPPFLAGS -Werror" ; fi)
-    ifelse(AC_LANG,C,if test "$GCC" = "yes" ; then CPPFLAGS="$CPPFLAGS -Werror" ; fi)
+    ifelse(AC_LANG(C++),,if test "$GXX" = "yes" ; then CPPFLAGS="$CPPFLAGS -Werror" ; fi)
+    ifelse(AC_LANG(C),,if test "$GCC" = "yes" ; then CPPFLAGS="$CPPFLAGS -Werror" ; fi)
     AC_TRY_COMPILE($2, $1, [
       CPPFLAGS="$ac_save_CPPFLAGS"
       AC_MSG_RESULT(ok)
@@ -119,14 +119,8 @@ AC_PROTOTYPE(accept,
 
 AC_PROTOTYPE_ACCEPT
 
-dnl Checks for library functions.
-dnl AC_CHECK_LIB(ogg, ogg_stream_flush,[AC_DEFINE(HAVE_OGG)],[],)
-dnl AC_CHECK_LIB(vorbis, vorbis_synthesis_init,[AC_DEFINE(HAVE_VORBIS)],[],)
-dnl AC_CHECK_LIB(vorbisfile, ov_open,
-dnl    [ AC_DEFINE(HAVE_VORBISFILE) 
-dnl      VMM="vmm"
-dnl      AC_SUBST(VMM)
-dnl    ],[],-lvorbis)
+AC_DEFINE_UNQUOTED([ACCEPT_ARG2],,"Argument 2 to accept()")
+AC_DEFINE_UNQUOTED([ACCEPT_ARG3],,"Argument 3 to accept()")
+AC_DEFINE_UNQUOTED(PREFIX, "${prefix}", [Application install prefix])
 
-AC_DEFINE_UNQUOTED(PREFIX, "${prefix}")
 AC_OUTPUT(Makefile lib/Makefile expat/Makefile expat/xmltok/Makefile expat/xmlparse/Makefile examples/Makefile, echo timestamp > stamp-h)
