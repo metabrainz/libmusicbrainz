@@ -66,14 +66,16 @@
  *      under either the MPL or the LGPL License.
  */
 
-#include "rdfparse.h"
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
 #include <stdarg.h>
 #include <stdlib.h>
 #include <assert.h>
+
+#include "rdfparse.h"
 
 #define XML_NAMESPACE_URI        T( "http://www.w3.org/XML/1998/namespace" )
 #define XML_LANG                 T( "lang" )
@@ -1621,8 +1623,7 @@ handle_property_element(
         rdf_parser->top->ordinal = ++rdf_parser->top->parent->members;
 
         ordinal[ 0 ] = T( '_' );
-        itoa( rdf_parser->top->ordinal, &ordinal[ 1 ], 10 );
-
+        sprintf(&ordinal[1], "%d", rdf_parser->top->ordinal);
         tcscat( buffer, ordinal );
     }
     else
