@@ -524,12 +524,23 @@
 
 /**
  * Use this query to return the basic metadata information (artistname,
- * albumname, trackname, tracknumber) for a given trm id.
+ * albumname, trackname, tracknumber) for a given trm id. Optionally, 
+ * you can also specifiy the basic artist metadata, so that if the server
+ * cannot match on the TRM id, it will attempt to match based on the basic
+ * metadata.
  * @param trmid The TRM id for the track to be looked up
+ * @param artistName The name of the artist
+ * @param albumName The name of the album
+ * @param trackName The name of the track
+ * @param trackNum The number of the track
  */
 #define MBQ_QuickTrackInfoFromTRMId \
     "<mq:QuickTrackInfoFromTRMId>\n" \
     "   <mm:trmid>@1@</mm:trmid>\n" \
+    "   <mq:artistName>@2@</mq:artistName>\n" \
+    "   <mq:albumName>@3@</mq:albumName>\n" \
+    "   <mq:trackName>@4@</mq:trackName>\n" \
+    "   <mm:trackNum>@5@</mm:trackNum>\n" \
     "</mq:QuickTrackInfoFromTRMId>\n" 
 
 /**
