@@ -45,11 +45,13 @@
 #if defined(unix) || defined(__BEOS__)
 #define SOCKET int
 #define closesocket(x) close(x)
-#endif
-
-#if defined(unix)
 #include <arpa/inet.h>
 #endif  
+
+#if defined(__BEOS__)
+#include <OS.h>
+#define usleep snooze
+#endif
 
 #if defined(sun)      // Solaris headers do not define INADDR_NONE
 #define INADDR_NONE   0xffffffff
