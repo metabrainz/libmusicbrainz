@@ -59,6 +59,7 @@ MusicBrainz::MusicBrainz(void)
     m_storeBuffer = NULL;
     for(int i = 0; i < 50; i++)
        m_indexes.push_back(0);
+    m_selectQuery = string(MB_SelectTopLevel);
 }
 
 MusicBrainz::~MusicBrainz(void)
