@@ -89,6 +89,6 @@ libtool: $(LIBTOOL_DEPS)
 	$(SHELL) ./config.status --recheck
 
 install-data-local:
-	mkdir -p $(DESTDIR)$(includedir)/cdindex
-	$(INSTALL) -m 0644 lib/cdindex.h lib/queries.h lib/errors.h lib/cdi_c.h $(DESTDIR)$(includedir)/cdindex   
+	mkdir -p $(DESTDIR)$(includedir)/musicbrainz
+	$(INSTALL) -m 0644 lib/musicbrainz.h lib/queries.h lib/errors.h lib/mb_c.h $(DESTDIR)$(includedir)/musicbrainz
 
