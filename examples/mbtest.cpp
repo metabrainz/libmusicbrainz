@@ -26,6 +26,7 @@ int main(int argc, char *argv[])
 
     // Calculate the bitzi bitprint for this file.
     mb_CalculateBitprint(o, argv[1], &info);
+    return 0;
 
     mb_UseUTF8(o, 0);
     mb_SetServer(o, "musicbrainz.eorbit.net", 80);

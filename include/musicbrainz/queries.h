@@ -26,7 +26,7 @@
 
 // The following define should match the version number of the MM spec
 // that is implemented by the defines in this file
-#define MM_VERSION                "1.0-pre4"
+#define MM_VERSION                "1.0-pre3"
 
 // local query names
 #define MB_GetCDInfo              "@CDINFO@"

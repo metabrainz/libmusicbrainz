@@ -239,7 +239,7 @@ bool MusicBrainz::Query(const string &xmlObject, vector<string> *args)
           string("</MQ:Version>\n") +
           string(rdfFooter);
 
-    //printf("query: %s\n\n", xml.c_str());
+    printf("query: %s\n\n", xml.c_str());
 
     if (m_proxy.length() > 0)
     {
@@ -254,7 +254,7 @@ bool MusicBrainz::Query(const string &xmlObject, vector<string> *args)
         SetError(ret);
         return false;
     }
-    //printf("response: %s\n\n", retXml.c_str());
+    printf("response: %s\n\n", retXml.c_str());
 
     numObjs = SplitResponse(retXml);
     if (numObjs == 0)
