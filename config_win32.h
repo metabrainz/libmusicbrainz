@@ -8,7 +8,7 @@
 #define _CONFIG_WIN32_H_
 
 #define PACKAGE "musicbrainz"
-#define VERSION "1.0.0-pre1"
+#define VERSION "1.0.0-pre5"
 
 /* The number of bytes in a long.  */
 #define SIZEOF_LONG 4
