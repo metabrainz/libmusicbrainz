@@ -160,7 +160,7 @@ bool MusicBrainz::Query(const string &xmlObject, vector<string> *args)
     SubstituteArgs(xml, args);
     xml = string(rdfHeader) + xml + string(rdfFooter);
 
-    //printf("output query: %s\n\n", xml.c_str());
+    //printf("query: %s\n\n", xml.c_str());
 
     if (m_proxy.length() > 0)
     {
@@ -175,6 +175,7 @@ bool MusicBrainz::Query(const string &xmlObject, vector<string> *args)
         SetError(ret);
         return false;
     }
+    //printf("response: %s\n\n", retXml.c_str());
 
     numObjs = SplitResponse(retXml);
     if (numObjs == 0)
@@ -189,7 +190,7 @@ bool MusicBrainz::Query(const string &xmlObject, vector<string> *args)
     {
         string err;
 
-        printf("ret: [%s]\n", m_xmlList[0].c_str());
+        //printf("ret: [%s]\n", m_xmlList[0].c_str());
 
         m_xql->GetErrorString(err);
         m_error = string("The server sent an invalid response. (") +

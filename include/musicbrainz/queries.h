@@ -117,6 +117,17 @@
                                   "<DC:Description>@10@</DC:Description>\n"
 #define MB_GetLyricsById          "<MQ:Query>GetLyricsById</MQ:Query>\n"       \
                                   "<MQ:Args id=\"@1@\"/>\n"
+#define MB_SubmitTrack            "<MQ:Query>SubmitTrack</MQ:Query>\n"         \
+                                  "<DC:Title>@1@</DC:Title>\n"                 \
+                                  "<DC:Identifier guid=\"@2@\"/>\n"            \
+                                  "<DC:Creator>@3@</DC:Creator>\n"             \
+                                  "<MM:Album>@4@</MM:Album>\n"                 \
+                                  "<DC:Relation track=\"@5@\"/>\n"             \
+                                  "<DC:Format duration=\"@6@\"/>\n"            \
+                                  "<DC:Date issued=\"@7@\"/>\n"                \
+                                  "<MM:Genre>@8@</MM:Genre>\n"                 \
+                                  "<DC:Description>@9@</DC:Description>\n"
+                                  
 
 #endif
 
