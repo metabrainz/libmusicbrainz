@@ -1,6 +1,23 @@
                          MusicBrainz Client Library
                          --------------------------
 
+Giving credit where credit is due
+---------------------------------
+
+If you write an application that uses the TRM interface (any functions that
+start with trm_ ) you need to include the following legal quip somewhere in
+your application -- preferrably the about box if your app has one:
+
+   Acoustic fingerprint technology provided by Relatable(TM),
+   Copyright (c) 2000-2, Relatable LLC, All rights reserved.
+
+Relatable has graciously given MusicBrainz a FREE license to use the TRM 
+technology with MusicBrainz. Please give credit to Relatable by including the
+above message into your applications.
+
+Documentation
+-------------
+
 Please refer to the online documentation for information on how to
 use this client library:
 
@@ -13,5 +30,7 @@ use this client library:
 Configure notes:
 ----------------
 
-configure --prefix=/usr
-configure --enable-cpp-headers
+If you want to use the client library with C++, give the following arguments to
+configure:
+
+    configure --enable-cpp-headers
