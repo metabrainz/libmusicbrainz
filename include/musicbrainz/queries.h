@@ -58,11 +58,11 @@
 #define MB_GetYear                "DC:Date/@issued"
 #define MB_GetGenre               "MM:Genre"
 #define MB_GetDescription         "DC:Description"
-#define MB_GetLyricSubmittor      "DC:Contributor"
-#define MB_GetLyricSubmitDate     "DC:Date"
-#define MB_GetLyricType           "DC:Type/@type"
-#define MB_GetLyricText           "MM:SyncText"
-#define MB_GetLyricTimestamp      "MM:SyncText/@ts"
+#define MB_GetSyncTextSubmittor   "DC:Contributor"
+#define MB_GetSyncTextSubmitDate  "DC:Date"
+#define MB_GetSyncTextType        "DC:Type/@type"
+#define MB_GetSyncTextText        "MM:SyncText"
+#define MB_GetSyncTextTimestamp   "MM:SyncText/@ts"
 
 // Select the local query 
 #define MB_SelectTopLevel         "/rdf:RDF/rdf:Description"
@@ -79,11 +79,14 @@
 // Item selectors for queries that return a list of items
 #define MB_SelectExchangedData    "/rdf:RDF/rdf:Description"
 #define MB_SelectExchangedAlbum   "/rdf:RDF/rdf:Description/DC:Relation/rdf:Description"
-// Item selectors for lyric queries
+
+// Item selectors for SyncText queries
 #define MB_SelectTrackInfo        "/rdf:RDF/rdf:Description"
-#define MB_SelectLyricInfo        "/rdf:RDF/rdf:Description/MM:SyncEvents/rdf:Description"
-#define MB_SelectFirstSyncEvent   "/rdf:RDF/rdf:Description/MM:SyncEvents/rdf:Description/rdf:Seq/rdf:li[0]/rdf:Description"
-#define MB_SelectNextSyncEvent    "/rdf:RDF/rdf:Description/MM:SyncEvents/rdf:Description/rdf:Seq/rdf:li[+1]/rdf:Description"
+#define MB_SelectSyncTextAlbum    "/rdf:RDF/rdf:Description/DC:Relation[ @type = 'album' ]/rdf:Description"
+#define MB_SelectFirstSyncText    "/rdf:RDF/rdf:Description/MM:SyncEvents/rdf:Seq/rdf:li[0]/rdf:Description"
+#define MB_SelectNextSyncText     "/rdf:RDF/rdf:Description/MM:SyncEvents/rdf:Seq/rdf:li[+1]/rdf:Description"
+#define MB_SelectFirstSyncEvent   "/rdf:RDF/rdf:Description/MM:SyncEvents/rdf:Seq/rdf:li[]/rdf:Description/rdf:Seq/rdf:li[0]/rdf:Description"
+#define MB_SelectNextSyncEvent    "/rdf:RDF/rdf:Description/MM:SyncEvents/rdf:Seq/rdf:li[]/rdf:Description/rdf:Seq/rdf:li[+1]/rdf:Description"
 
 // GUID selectors for queries that return a list of GUIDS
 #define MB_SelectFirstGUID        "/rdf:RDF/rdf:Description/MM:Collection/rdf:Bag/rdf:li[0]/rdf:Description"
@@ -127,8 +130,10 @@
                                   "<DC:Date issued=\"@8@\"/>\n"                \
                                   "<MM:Genre>@9@</MM:Genre>\n"                 \
                                   "<DC:Description>@10@</DC:Description>\n"
-#define MB_GetLyricsById          "<MQ:Query>GetLyricsById</MQ:Query>\n"       \
+#define MB_GetSyncTextById        "<MQ:Query>GetSyncTextById</MQ:Query>\n"     \
                                   "<MQ:Args id=\"@1@\"/>\n"
+//#define MB_GetLyricsById          "<MQ:Query>GetLyricsById</MQ:Query>\n"       \
+//                                  "<MQ:Args id=\"@1@\"/>\n"
 #define MB_SubmitTrack            "<MQ:Query>SubmitTrack</MQ:Query>\n"         \
                                   "<DC:Title>@1@</DC:Title>\n"                 \
                                   "<DC:Identifier guid=\"@2@\"/>\n"            \
