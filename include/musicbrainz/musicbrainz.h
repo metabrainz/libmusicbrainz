@@ -80,7 +80,7 @@ class MusicBrainz
        bool     SelectXMLResult(int index);
 
        void     DownmixPCM(void);
-
+       
        string          m_error, m_empty; 
        string          m_server, m_proxy;
        short           m_serverPort, m_proxyPort;
