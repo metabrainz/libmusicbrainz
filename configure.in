@@ -158,6 +158,5 @@ osdep/Makefile
 lib/bitzi/Makefile 
 examples/Makefile
 perl/Makefile
-python/Makefile
 libmusicbrainz.pc], 
 echo timestamp > stamp-h)
