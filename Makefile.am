@@ -45,12 +45,12 @@ cvsclean: distclean
 install-data-local:
 	mkdir -p $(DESTDIR)$(includedir)/musicbrainz
 	mkdir -p $(DESTDIR)$(includedir)/musicbrainz/bitzi
-	$(INSTALL) -m 0644 $(VPATH)/lib/musicbrainz.h $(DESTDIR)$(includedir)/musicbrainz
-	$(INSTALL) -m 0644 $(VPATH)/lib/queries.h  $(DESTDIR)$(includedir)/musicbrainz
-	$(INSTALL) -m 0644 $(VPATH)/lib/errors.h $(DESTDIR)$(includedir)/musicbrainz
-	$(INSTALL) -m 0644 $(VPATH)/lib/mb_c.h $(DESTDIR)$(includedir)/musicbrainz
-	$(INSTALL) -m 0644 $(VPATH)/lib/bitprintinfo.h $(DESTDIR)$(includedir)/musicbrainz
-	$(INSTALL) -m 0644 $(VPATH)/lib/bitzi/bitcollider.h $(DESTDIR)$(includedir)/musicbrainz/bitzi
-	$(INSTALL) -m 0644 $(VPATH)/lib/bitzi/gui_win32.h $(DESTDIR)$(includedir)/musicbrainz/bitzi
-	$(INSTALL) -m 0644 $(VPATH)/lib/bitzi/list.h $(DESTDIR)$(includedir)/musicbrainz/bitzi
-	$(INSTALL) -m 0644 $(VPATH)/lib/bitzi/plugin.h $(DESTDIR)$(includedir)/musicbrainz/bitzi
+	$(INSTALL) -m 0644 $(srcdir)/lib/musicbrainz.h $(DESTDIR)$(includedir)/musicbrainz
+	$(INSTALL) -m 0644 $(srcdir)/lib/queries.h  $(DESTDIR)$(includedir)/musicbrainz
+	$(INSTALL) -m 0644 $(srcdir)/lib/errors.h $(DESTDIR)$(includedir)/musicbrainz
+	$(INSTALL) -m 0644 $(srcdir)/lib/mb_c.h $(DESTDIR)$(includedir)/musicbrainz
+	$(INSTALL) -m 0644 $(srcdir)/lib/bitprintinfo.h $(DESTDIR)$(includedir)/musicbrainz
+	$(INSTALL) -m 0644 $(srcdir)/lib/bitzi/bitcollider.h $(DESTDIR)$(includedir)/musicbrainz/bitzi
+	$(INSTALL) -m 0644 $(srcdir)/lib/bitzi/gui_win32.h $(DESTDIR)$(includedir)/musicbrainz/bitzi
+	$(INSTALL) -m 0644 $(srcdir)/lib/bitzi/list.h $(DESTDIR)$(includedir)/musicbrainz/bitzi
+	$(INSTALL) -m 0644 $(srcdir)/lib/bitzi/plugin.h $(DESTDIR)$(includedir)/musicbrainz/bitzi
