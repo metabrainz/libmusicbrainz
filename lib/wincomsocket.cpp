@@ -27,7 +27,7 @@ ____________________________________________________________________________*/
 #define closesocket(s) close(s)
 #endif
 
-COMSocket::COMSocket(int nSocket, int nSockType)
+MBCOMSocket::MBCOMSocket(int nSocket, int nSockType)
 {
     m_nSocket = nSocket;
     if (m_nSocket != INVALID_SOCKET) 
@@ -35,13 +35,13 @@ COMSocket::COMSocket(int nSocket, int nSockType)
     m_nSockType = nSockType;
 }
 
-COMSocket::~COMSocket()
+MBCOMSocket::~MBCOMSocket()
 {
     if (IsConnected()) Disconnect();
 }
 
 /** Connects a socket to pIP, on nPort, of type nType. */
-int COMSocket::Connect(const char* pIP, int nPort, int nType, bool bBroadcast)
+int MBCOMSocket::Connect(const char* pIP, int nPort, int nType, bool bBroadcast)
 {
     if (IsConnected()) 
         Disconnect();
@@ -83,7 +83,7 @@ int COMSocket::Connect(const char* pIP, int nPort, int nType, bool bBroadcast)
 }
 
 /** Disconnects the current socket */
-int COMSocket::Disconnect()
+int MBCOMSocket::Disconnect()
 {
     int nErr = 0;
     if (!IsConnected()) 
@@ -101,14 +101,14 @@ int COMSocket::Disconnect()
 }
 
 /** Checks if there is a current open connection */
-bool COMSocket::IsConnected()
+bool MBCOMSocket::IsConnected()
 {
     return m_bConnected;
 }
 
 /** Reads from a socket, into pbuffer, up to a max of nLen byte, and writes 
   * how many were actually written to nBytesWritten. */
-int COMSocket::Read(char* pBuffer, int nLen, int* nBytesWritten)
+int MBCOMSocket::Read(char* pBuffer, int nLen, int* nBytesWritten)
 {
     if (!IsConnected()) 
         return SOCKET_ERROR;  // no connection
@@ -124,7 +124,7 @@ int COMSocket::Read(char* pBuffer, int nLen, int* nBytesWritten)
 }
 
 /** Reads in a non blocking fashion (ie, selects and polls) for nTimeout seconds */
-int COMSocket::NBRead(char* pBuffer, int nLen, int* nBytesWritten, int nTimeout)
+int MBCOMSocket::NBRead(char* pBuffer, int nLen, int* nBytesWritten, int nTimeout)
 {
     timeval tval;
     tval.tv_sec = nTimeout;
@@ -152,7 +152,7 @@ int COMSocket::NBRead(char* pBuffer, int nLen, int* nBytesWritten, int nTimeout)
 }
 
 /** Writes to a socket, from buffer pBuffer, up to nLen bytes, and returns the number of written bytes in pnBytesWritten. */
-int COMSocket::Write(const char* pBuffer, int nLen, int* pnBytesWritten)
+int MBCOMSocket::Write(const char* pBuffer, int nLen, int* pnBytesWritten)
 {
     if (!IsConnected()) 
         return SOCKET_ERROR; // no connection
