@@ -19,7 +19,9 @@
 #ifndef _ENCODER_H_
 #define _ENCODER_H_
 
-#include "config.h"
+#ifdef HAVE_CONFIG_H
+  #include "config.h"
+#endif
 
 #ifdef USE_ICU
   #include <unicode/ucnv.h>
