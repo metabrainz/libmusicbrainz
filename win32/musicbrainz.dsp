@@ -195,5 +195,57 @@ SOURCE=..\expat\xmltok\xmlrole.c
 SOURCE=..\expat\xmltok\xmltok.c
 # End Source File
 # End Group
+# Begin Group "Bitzi"
+
+# PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=..\lib\bitzi\bitprint.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\lib\bitzi\dirsearch.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\lib\bitzi\gui_win32.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\lib\bitzi\id3.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\lib\bitzi\list.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\lib\bitzi\main.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\lib\bitzi\md5.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\lib\bitzi\mp3.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\lib\bitzi\plugin_win32.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\lib\bitzi\sboxes.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\lib\bitzi\tiger.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\lib\bitzi\tigertree.c
+# End Source File
+# End Group
 # End Target
 # End Project
