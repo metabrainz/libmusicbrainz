@@ -54,6 +54,7 @@
  * a list of artists. Giving the argument 1 for the ordinal selects 
  * the first artist in the list, 2 the second and so on. Use 
  * MBE_ArtistXXXXXX queries to extract data after the select.
+ * @param ordinal This select requires one ordinal argument
  */
 #define MBS_SelectArtist           \
         "http://musicbrainz.org/mm/mm-2.0#artistList []"
@@ -63,6 +64,7 @@
  * a list of albums. Giving the argument 1 for the ordinal selects 
  * the first album in the list, 2 the second and so on. Use
  * MBE_AlbumXXXXXX queries to extract data after the select.
+ * @param ordinal This select requires one ordinal argument
  */
 #define MBS_SelectAlbum            \
         "http://musicbrainz.org/mm/mm-2.0#albumList []"
@@ -72,18 +74,35 @@
  * a list of tracks. Giving the argument 1 for the ordinal selects 
  * the first track in the list, 2 the second and so on. Use
  * MBE_TrackXXXXXX queries to extract data after the select.
+ * @param ordinal This select requires one ordinal argument
  */
 #define MBS_SelectTrack            \
         "http://musicbrainz.org/mm/mm-2.0#trackList []"
+
+/**
+ * Use this Select Query to select an the corresponding artist from a track 
+ * context. MBE_ArtistXXXXXX queries to extract data after the select.
+ * @param ordinal 
+ */
+#define MBS_SelectTrackArtist      \
+        "http://purl.org/dc/elements/1.1/creator"
 
 /**
  * Use this Select Query to select a set of lyrics from an query that returns
  * a list of lyrics. Giving the argument 1 for the ordinal selects 
  * the first lyric in the list, 2 the second and so on. Use
  * MBE_LyricsXXXXXX queries to extract data after the select.
+ * @param ordinal This select requires one ordinal argument
  */
 #define MBS_SelectLyrics           \
         "http://musicbrainz.org/mm/mm-2.0#lyricList []"
+
+/**
+ * Use this Select Query to select a trmid from the list. 
+ * @param ordinal This select requires one ordinal argument
+ */
+#define MBS_SelectTrmid           \
+        "http://musicbrainz.org/mm/mm-2.0#trmidList []"
 
 /* -------------------------------------------------------------------------
  * General top level queries -- Internal use only.
@@ -135,6 +154,12 @@
 #define MBE_GetNumLyrics      \
         "http://musicbrainz.org/mm/mm-2.0#trackList [COUNT]"
 
+/**
+ * Return the number of trmids returned in this query.
+ */
+#define MBE_GetNumTrmids      \
+        "http://musicbrainz.org/mm/mm-2.0#trmidList [COUNT]"
+
 /* -------------------------------------------------------------------------
  * artistList queries
  * -------------------------------------------------------------------------
@@ -147,11 +172,33 @@
         "http://purl.org/dc/elements/1.1/title"
 
 /**
+ * Return the name of the currently selected Album
+ */
+#define MBE_ArtistGetArtistSortName      \
+        "http://musicbrainz.org/mm/mm-2.0#sortName"
+
+/**
  * Return the ID of the currently selected Album. The value of this
  * query is indeed empty!
  */
 #define MBE_ArtistGetArtistId        \
         "" // yes, empty! 
+
+/**
+ * Return the name of the nth album. Requires an ordinal argument to select
+ * an album from a list of albums in the current artist
+ * @param ordinal This select requires one ordinal argument to select an album
+ */
+#define MBE_ArtistGetAlbumName      \
+        "http://musicbrainz.org/mm/mm-2.0#albumList [] http://purl.org/dc/elements/1.1/title"
+
+/**
+ * Return the ID of the nth album. Requires an ordinal argument to select
+ * an album from a list of albums in the current artist
+ * @param ordinal This select requires one ordinal argument to select an album
+ */
+#define MBE_ArtistGetAlbumId      \
+        "http://musicbrainz.org/mm/mm-2.0#albumList []"
 
 /* -------------------------------------------------------------------------
  * albumList queries
@@ -180,6 +227,7 @@
 /**
  * Return the Id of the nth track in the album. Requires a
  * track index ordinal. 1 for the first track, etc...
+ * @param ordinal This select requires one ordinal argument to select a track
  */
 #define MBE_AlbumGetTrackId        \
         "http://musicbrainz.org/mm/mm-2.0#trackList [] "
@@ -187,6 +235,7 @@
 /**
  * Return the track number of the nth track in the album. Requires a
  * track index ordinal. 1 for the first track, etc...
+ * @param ordinal This select requires one ordinal argument to select a track
  */
 #define MBE_AlbumGetTrackNum       \
         "http://musicbrainz.org/mm/mm-2.0#trackList [] http://musicbrainz.org/mm/mm-2.0#trackNum"
@@ -194,6 +243,7 @@
 /**
  * Return the track name of the nth track in the album. Requires a
  * track index ordinal. 1 for the first track, etc...
+ * @param ordinal This select requires one ordinal argument to select a track
  */
 #define MBE_AlbumGetTrackName      \
         "http://musicbrainz.org/mm/mm-2.0#trackList [] http://purl.org/dc/elements/1.1/title"
@@ -201,6 +251,7 @@
 /**
  * Return the artist name of the nth track in the album. Requires a
  * track index ordinal. 1 for the first track, etc...
+ * @param ordinal This select requires one ordinal argument to select a track
  */
 #define MBE_AlbumGetArtistName     \
         "http://musicbrainz.org/mm/mm-2.0#trackList [] http://purl.org/dc/elements/1.1/creator http://purl.org/dc/elements/1.1/title"
@@ -208,12 +259,62 @@
 /**
  * Return the artist Id of the nth track in the album. Requires a
  * track index ordinal. 1 for the first track, etc...
+ * @param ordinal This select requires one ordinal argument to select a track
  */
 #define MBE_AlbumGetArtistId       \
         "http://musicbrainz.org/mm/mm-2.0#trackList [] http://purl.org/dc/elements/1.1/creator"
 
-// artistList queries TBC!
-// trackList queries TBC!
+/* -------------------------------------------------------------------------
+ * trackList queries
+ * -------------------------------------------------------------------------
+ */
+
+/**
+ * Return the name of the currently selected track
+ */
+#define MBE_TrackGetTrackName      \
+        "http://purl.org/dc/elements/1.1/title"
+
+/**
+ * Return the ID of the currently selected track. The value of this
+ * query is indeed empty!
+ */
+#define MBE_TrackGetTrackId        \
+        "" // yes, empty! 
+
+/**
+ * Return the track number in the currently selected track
+ */
+#define MBE_TrackGetTrackNum      \
+        "http://musicbrainz.org/mm/mm-2.0#trackNum"
+
+/**
+ * Return the name of the artist for this track. 
+ */
+#define MBE_TrackGetArtistName      \
+        "http://purl.org/dc/elements/1.1/creator http://purl.org/dc/elements/1.1/title"
+
+/**
+ * Return the Id of the artist for this track. 
+ */
+#define MBE_TrackGetArtistId      \
+        "http://purl.org/dc/elements/1.1/creator"
+
+/**
+ * Return the name of the album for this track. Requires an ordinal to
+ * select which album to retrieve the name from.
+ * @param ordinal This select requires one ordinal argument to select an album 
+ */
+#define MBE_TrackGetAlbumName      \
+        "http://purl.org/dc/elements/1.1/creator http://musicbrainz.org/mm/mm-2.0#albumList [] http://purl.org/dc/elements/1.1/title"
+
+/**
+ * Return the Id of the album for this track. Requires an ordinal to
+ * select which album to retrieve the name from.
+ * @param ordinal This select requires one ordinal argument to select an album 
+ */
+#define MBE_TrackGetAlbumId      \
+        "http://purl.org/dc/elements/1.1/creator http://musicbrainz.org/mm/mm-2.0#albumList []"
 
 /* -------------------------------------------------------------------------
  * ExchangeMetadata queries
