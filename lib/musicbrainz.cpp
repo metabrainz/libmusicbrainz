@@ -165,7 +165,7 @@ bool MusicBrainz::Query(const string &xmlObject, vector<string> *args)
     if (m_proxy.length() > 0)
     {
        sprintf(port, ":%d", m_proxyPort);
-       http.SetProxyURL(m_proxy + string(port));
+       http.SetProxyURL(string("http://") + m_proxy + string(port));
     }
     sprintf(port, ":%d", m_serverPort);   
     url = string("http://") + m_server + string(port) + string(scriptUrl);
@@ -463,6 +463,9 @@ void MusicBrainz::SetError(Error ret)
           break;
        case kError_IOError:
           m_error = string("Cannot send/receive to/from server.");
+          break;
+       case kError_InvalidURL:
+          m_error = string("Proxy or server URL is invalid.");
           break;
        case kError_WriteFile:
           m_error = string("Cannot write to disk. Disk full?");
