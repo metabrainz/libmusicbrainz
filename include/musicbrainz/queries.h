@@ -26,137 +26,148 @@
 
 // The following define should match the version number of the MM spec
 // that is implemented by the defines in this file
-#define MM_VERSION                "1.0-pre4"
+#define MM_VERSION                 "2.0-pre1"
 
-// local query names
-#define MB_GetCDInfo              "@CDINFO@"
-#define MB_GetCDTOC               "@LOCALCDINFO@"
-#define MB_AssociateCD            "@CDINFOASSOCIATECD@"
+// Select queries -- these whitespace seperated list macros are a list of
+// rdf predicates and/or ordinals (specified as []). These predicate lists
+// specify a path to traverse through an RDF graph (comprised of statements,
+// aka triples). Each select query starts at the top level resource and
+// 'selects' another node in the rdf graph by moving through the graph
+// as specified by the predicate list. The URI of the new node, will be
+// saved as the 'selected context'. Once a context has been selected,
+// you can use the MBE_ queries below to extract metadata out of a context.
+#define MBS_SelectArtist           "http://musicbrainz.org/mm/mm-2.0#artistList []"
+#define MBS_SelectAlbum            "http://musicbrainz.org/mm/mm-2.0#albumList []"
+#define MBS_SelectTrack            "http://musicbrainz.org/mm/mm-2.0#trackList []"
+#define MBS_SelectLyrics           "http://musicbrainz.org/mm/mm-2.0#lyricList []"
 
-// local query xql queries
-#define MB_LocalGetId             "MQ:Args/@id"
-#define MB_LocalGetLastTrack      "MQ:Args[1]/@last"
-#define MB_LocalGetFirstTrack     "MQ:Args[1]/@first"
-#define MB_LocalGetTOC            "MQ:Args[1]/@toc"
-#define MB_LocalGetTrackLengths   "MQ:Args[2]/@trackLengths"
+// General top level queries
+#define MBE_QuerySubject           "http://musicbrainz.org/mm/mq-1.0#Result"
+#define MBE_GetError               "http://musicbrainz.org/mm/mq-1.0#error"
+#define MBE_GetStatus              "http://musicbrainz.org/mm/mq-1.0#status"
+#define MBE_NumItems               "http://musicbrainz.org/mm/mq-1.0#numItems"
 
-// description context queries
-#define MB_GetArtistName          "DC:Creator"
-#define MB_GetArtistID            "DC:Identifier/@artistId"
+// albumList queries
+#define MBE_AlbumGetNumAlbums      "http://musicbrainz.org/mm/mm-2.0#albumList [COUNT]"
+#define MBE_AlbumGetAlbumName      "http://purl.org/dc/elements/1.1/title"
+#define MBE_AlbumGetAlbumId        "" // yes, empty! 
+#define MBE_AlbumGetNumTracks      "http://musicbrainz.org/mm/mm-2.0#trackList [COUNT]"
+#define MBE_AlbumGetTrackId        "http://musicbrainz.org/mm/mm-2.0#trackList [] "
+#define MBE_AlbumGetTrackNum       "http://musicbrainz.org/mm/mm-2.0#trackList [] http://musicbrainz.org/mm/mm-2.0#trackNum"
+#define MBE_AlbumGetTrackName      "http://musicbrainz.org/mm/mm-2.0#trackList [] http://purl.org/dc/elements/1.1/title"
+#define MBE_AlbumGetArtistName     "http://musicbrainz.org/mm/mm-2.0#trackList [] http://purl.org/dc/elements/1.1/creator http://purl.org/dc/elements/1.1/title"
+#define MBE_AlbumGetArtistId       "http://musicbrainz.org/mm/mm-2.0#trackList [] http://purl.org/dc/elements/1.1/creator"
 
-#define MB_GetAlbumName           "DC:Title"
-#define MB_GetAlbumID             "DC:Identifier/@albumId"
+// artistList queries TBC!
+// trackList queries TBC!
 
-#define MB_GetTrackID             "DC:Identifier/@trackId"
-#define MB_GetTrackNum            "MM:TrackNum"
-#define MB_GetTrackName           "DC:Title"
-#define MB_GetNumTracks           "MM:Collection/@numParts"
+// ExchangeMetadata queries
+#define MBE_MEGetArtistName        "http://musicbrainz.org/mm/mq-1.0#artistName"
+#define MBE_MEGetAlbumName         "http://musicbrainz.org/mm/mq-1.0#albumName"
+#define MBE_MEGetTrackName         "http://musicbrainz.org/mm/mq-1.0#trackName"
+#define MBE_MEGetTrackNum          "http://musicbrainz.org/mm/mm-2.0#trackNum"
+#define MBE_MEGetTRMId             "http://musicbrainz.org/mm/mm-2.0#trmid"
+#define MBE_MEGetDuration          "http://musicbrainz.org/mm/mm-2.0#duration"
+#define MBE_MEGetYear              "http://musicbrainz.org/mm/mm-2.0#issued"
+#define MBE_MEGetGenre             "http://musicbrainz.org/mm/mm-2.0#genre"
+#define MBE_MEGetDescription       "http://purl.org/dc/elements/1.1/description"
 
-#define MB_GetGUID                "DC:Identifier/@guid"
-#define MB_GetFilename            "MQ:Filename"
-#define MB_GetDuration            "DC:Format/@duration"
-#define MB_GetYear                "DC:Date/@issued"
-#define MB_GetGenre               "MM:Genre"
-#define MB_GetDescription         "DC:Description"
-#define MB_GetSyncTextSubmittor   "DC:Contributor"
-#define MB_GetSyncTextSubmitDate  "DC:Date"
-#define MB_GetSyncTextType        "DC:Type/@type"
-#define MB_GetSyncTextText        "MM:SyncText"
-#define MB_GetSyncTextTimestamp   "MM:SyncText/@ts"
+// Extract queries for the MBQ_GetCDTOC query
+#define MBE_TOCGetCDIndexId           "http://musicbrainz.org/mm/mm-2.0#cdindexId"
+#define MBE_TOCGetFirstTrack          "http://musicbrainz.org/mm/mm-2.0#firstTrack"
+#define MBE_TOCGetLastTrack           "http://musicbrainz.org/mm/mm-2.0#lastTrack"
+#define MBE_TOCGetTrackSectorOffset   "http://musicbrainz.org/mm/mm-2.0#toc [] http://musicbrainz.org/mm/mm-2.0#sectorOffset"
+#define MBE_TOCGetTrackNumSectors     "http://musicbrainz.org/mm/mm-2.0#toc [] http://musicbrainz.org/mm/mm-2.0#numSectors"
 
-// Select the local query 
-#define MB_SelectTopLevel         "/rdf:RDF/rdf:Description"
+// local queries
+#define MBQ_GetCDInfo              "@CDINFO@"
+#define MBQ_GetCDTOC               "@LOCALCDINFO@"
+#define MBQ_AssociateCD            "@CDINFOASSOCIATECD@"
 
-// Select Album information
-#define MB_SelectAlbum            "/rdf:RDF/rdf:Description/MM:Collection/rdf:Description"
-#define MB_SelectFirstTrack       "/rdf:RDF/rdf:Description/MM:Collection/rdf:Description/rdf:Seq/rdf:li[0]/rdf:Description"
-#define MB_SelectNextTrack        "/rdf:RDF/rdf:Description/MM:Collection/rdf:Description/rdf:Seq/rdf:li[+1]/rdf:Description"
+// server queries
+#define MBQ_GetCDInfoFromCDIndexId \
+    "<mq:GetCDInfo>\n" \
+    "   <mq:depth>@DEPTH@</mq:depth>\n" \
+    "   <mm:cdindexId>@1@</mm:cdindexId>\n" \
+    "</mq:GetCDInfo>\n" 
 
-// Item selectors for queries that return a list of items
-#define MB_SelectFirstItem        "/rdf:RDF/rdf:Description/MM:Collection/rdf:Bag/rdf:li[0]/rdf:Description"
-#define MB_SelectNextItem         "/rdf:RDF/rdf:Description/MM:Collection/rdf:Bag/rdf:li[+1]/rdf:Description"
+#define MBQ_FindArtistByName \
+    "<mq:FindArtist>\n" \
+    "   <mq:depth>@DEPTH@</mq:depth>\n" \
+    "   <mq:artistName>@1@</mq:artistName>\n" \
+    "</mq:FindArtist>\n" 
 
-// Item selectors for queries that return a list of items
-#define MB_SelectExchangedData    "/rdf:RDF/rdf:Description"
-#define MB_SelectExchangedAlbum   "/rdf:RDF/rdf:Description/DC:Relation/rdf:Description"
+#define MBQ_FindAlbumByName \
+    "<mq:FindAlbum>\n" \
+    "   <mq:depth>@DEPTH@</mq:depth>\n" \
+    "   <mq:artistName>@1@</mq:artistName>\n" \
+    "   <mq:albumName>@2@</mq:albumName>\n" \
+    "</mq:FindAlbum>\n" 
 
-// Item selectors for SyncText queries
-#define MB_SelectTrackInfo        "/rdf:RDF/rdf:Description"
-#define MB_SelectSyncTextAlbum    "/rdf:RDF/rdf:Description/DC:Relation[ @type = 'album' ]/rdf:Description"
-#define MB_SelectFirstSyncText    "/rdf:RDF/rdf:Description/MM:SyncEvents/rdf:Seq/rdf:li[0]/rdf:Description"
-#define MB_SelectNextSyncText     "/rdf:RDF/rdf:Description/MM:SyncEvents/rdf:Seq/rdf:li[+1]/rdf:Description"
-#define MB_SelectFirstSyncEvent   "/rdf:RDF/rdf:Description/MM:SyncEvents/rdf:Seq/rdf:li[]/rdf:Description/rdf:Seq/rdf:li[0]/rdf:Description"
-#define MB_SelectNextSyncEvent    "/rdf:RDF/rdf:Description/MM:SyncEvents/rdf:Seq/rdf:li[]/rdf:Description/rdf:Seq/rdf:li[+1]/rdf:Description"
+#define MBQ_FindTrackByName \
+    "<mq:FindTrack>\n" \
+    "   <mq:depth>@DEPTH@</mq:depth>\n" \
+    "   <mq:artistName>@1@</mq:artistName>\n" \
+    "   <mq:albumName>@2@</mq:albumName>\n" \
+    "   <mq:trackName>@3@</mq:trackName>\n" \
+    "</mq:FindTrack>\n" 
 
-// GUID selectors for queries that return a list of GUIDS
-#define MB_SelectFirstGUID        "/rdf:RDF/rdf:Description/MM:Collection/rdf:Bag/rdf:li[0]/rdf:Description"
-#define MB_SelectNextGUID         "/rdf:RDF/rdf:Description/MM:Collection/rdf:Bag/rdf:li[+1]/rdf:Description"
+#define MBQ_FindDistinctTRMId \
+    "<mq:FindDistinctTRMID>\n" \
+    "   <mq:depth>@DEPTH@</mq:depth>\n" \
+    "   <mq:artistName>@1@</mq:artistName>\n" \
+    "   <mq:trackName>@2@</mq:trackName>\n" \
+    "</mq:FindDistinctTRMID>\n" 
 
-// Lookup queries
-#define MB_GetCDInfoFromCDIndexID "<MQ:Query>GetCDInfoFromId</MQ:Query>\n"     \
-                                  "<MQ:Args id=\"@1@\"/>\n"
-#define MB_FindArtistByName       "<MQ:Query>FindArtistByName</MQ:Query>\n"    \
-                                  "<MQ:Args artist=\"@1@\"/>\n"
-#define MB_FindAlbumByName        "<MQ:Query>FindAlbumByName</MQ:Query>\n"     \
-                                  "<MQ:Args album=\"@1@\" artist=\"@2@\"/>\n"
-#define MB_FindAlbumsByArtistName "<MQ:Query>FindAlbumsByArtistName</MQ:Query>\n"\
-                                  "<MQ:Args artist=\"@1@\"/>"      
-#define MB_FindTrackByName        "<MQ:Query>FindTrackByName</MQ:Query>\n"     \
-                                  "<MQ:Args album=\"@3@\" artist=\"@2@\"\n"    \
-                                  "         track=\"@1@\"/>\n"
-#define MB_FindDistinctGUID       "<MQ:Query>FindDistinctGUID</MQ:Query>\n"    \
-                                  "<MQ:Args artist=\"@2@\"\n"    \
-                                  "         track=\"@1@\"/>\n"
-#define MB_GetArtistById          "<MQ:Query>GetArtistById</MQ:Query>\n"       \
-                                  "<MQ:Args id=\"@1@\"/>\n"
-#define MB_GetAlbumById           "<MQ:Query>GetAlbumById</MQ:Query>\n"        \
-                                  "<MQ:Args id=\"@1@\"/>\n"
-#define MB_GetAlbumsByArtistId    "<MQ:Query>GetAlbumsByArtistId</MQ:Query>\n" \
-                                  "<MQ:Args id=\"@1@\"/>\n"
-#define MB_GetTrackById           "<MQ:Query>GetTrackById</MQ:Query>\n"        \
-                                  "<MQ:Args id=\"@1@\"/>\n"
-#define MB_GetTrackByGUID         "<MQ:Query>GetTrackByGUID</MQ:Query>\n"      \
-                                  "<MQ:Args id=\"@1@\"/>\n"
-#define MB_ExchangeMetadata       "<MQ:Query>ExchangeMetadata</MQ:Query>\n"    \
-                                  "<DC:Title>@1@</DC:Title>\n"                 \
-                                  "<DC:Creator>@2@</DC:Creator>\n"             \
-                                  "<DC:Relation>\n"                            \
-                                  "  <rdf:Description>\n"                      \
-                                  "    <DC:Title>@3@</DC:Title>\n"             \
-                                  "  </rdf:Description>\n"                     \
-                                  "</DC:Relation>\n"                           \
-                                  "<MM:TrackNum>@4@</MM:TrackNum>\n"           \
-                                  "<DC:Identifier guid=\"@5@\"/>\n"            \
-                                  "<MQ:Filename>@6@</MQ:Filename>\n"           \
-                                  "<DC:Date issued=\"@7@\"/>\n"                \
-                                  "<MM:Genre>@8@</MM:Genre>\n"                 \
-                                  "<DC:Description>@9@</DC:Description>\n"     \
-                                  "<DC:Identifier bitprint=\"@10@\"/>\n"       \
-                                  "<DC:Identifier first20=\"@11@\"/>\n"        \
-                                  "<DC:Format length=\"@12@\"/>\n"             \
-                                  "<DC:Identifier audioSha1=\"@13@\"/>\n"      \
-                                  "<DC:Format duration=\"@14@\"/>\n"           \
-                                  "<DC:Format sampleRate=\"@15@\"/>\n"         \
-                                  "<DC:Format bitRate=\"@16@\"/>\n"            \
-                                  "<DC:Format stereo=\"@17@\"/>\n"             \
-                                  "<DC:Format vbr=\"@18@\"/>\n"            
-#define MB_GetSyncTextById        "<MQ:Query>GetSyncTextById</MQ:Query>\n"     \
-                                  "<MQ:Args id=\"@1@\"/>\n"
-#define MB_SubmitTrack            "<MQ:Query>SubmitTrack</MQ:Query>\n"         \
-                                  "<DC:Title>@1@</DC:Title>\n"                 \
-                                  "<DC:Identifier guid=\"@2@\"/>\n"            \
-                                  "<DC:Creator>@3@</DC:Creator>\n"             \
-                                  "<DC:Relation>\n"                            \
-                                  "  <rdf:Description>\n"                      \
-                                  "    <DC:Title>@4@</DC:Title>\n"             \
-                                  "  </rdf:Description>\n"                     \
-                                  "</DC:Relation>\n"                           \
-                                  "<MM:TrackNum>@5@</MM:TrackNum>\n"           \
-                                  "<DC:Format duration=\"@6@\"/>\n"            \
-                                  "<DC:Date issued=\"@7@\"/>\n"                \
-                                  "<MM:Genre>@8@</MM:Genre>\n"                 \
-                                  "<DC:Description>@9@</DC:Description>\n"
-                                  
+#define MBQ_GetArtistById \
+    "http://@URL@/artist/@1@" 
+
+#define MBQ_GetAlbumById \
+    "http://@URL@/album/@1@" 
+
+#define MBQ_GetTrackById \
+    "http://@URL@/track/@1@" 
+
+#define MBQ_GetTrackByTRMId \
+    "http://@URL@/trmid/@1@" 
+
+#define MBQ_GetSyncTextById \
+    "http://@URL@/synctext/@1@" 
+
+#define MBQ_ExchangeMetadata \
+    "<mq:ExchangeMetadata>\n" \
+    "   <mq:artistName>@1@</mq:artistName>\n" \
+    "   <mq:albumName>@2@</mq:albumName>\n" \
+    "   <mq:trackName>@3@</mq:trackName>\n" \
+    "   <mm:trackNum>@4@</mm:trackNum>\n" \
+    "   <mm:trmid>@5@</mm:trmid>\n" \
+    "   <mm:fileName>@6@</mm:fileName>\n" \
+    "   <mm:issued>@7@</mm:issued>\n" \
+    "   <mm:genre>@8@</mm:genre>\n" \
+    "   <dc:description>@9@</dc:description>\n" \
+    "   <mm:bitprint>@10@</mm:bitprint>\n" \
+    "   <mm:first20>@11@</mm:first20>\n" \
+    "   <mm:fileSize>@12@</mm:fileSize>\n" \
+    "   <mm:audioSha1>@13@</mm:audioSha1>\n" \
+    "   <mm:duration>@14@</mm:duration>\n" \
+    "   <mm:sampleRate>@15@</mm:sampleRate>\n" \
+    "   <mm:bitRate>@16@</mm:bitRate>\n" \
+    "   <mm:channels>@17@</mm:channels>\n" \
+    "   <mm:vbr>@18@</mm:vbr>\n" \
+    "</mq:ExchangeMetadata>\n" 
+
+#define MBQ_SubmitTrack \
+    "<mq:SubmitTrack>\n" \
+    "   <mq:artistName>@1@</mq:artistName>\n" \
+    "   <mq:albumName>@2@</mq:albumName>\n" \
+    "   <mq:trackName>@3@</mq:trackName>\n" \
+    "   <mm:trmid>@4@</mm:trmid>\n" \
+    "   <mm:trackNum>@5@</mm:trackNum>\n" \
+    "   <mm:duration>@6@</mm:duration>\n" \
+    "   <mm:issued>@7@</mm:issued>\n" \
+    "   <mm:genre>@8@</mm:genre>\n" \
+    "   <dc:description>@9@</dc:description>\n" \
+    "   <mm:link>@10@</mm:link>\n" \
+    "</mq:SubmitTrack>\n" 
 
 #endif
-

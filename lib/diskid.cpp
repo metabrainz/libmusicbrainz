@@ -160,18 +160,52 @@ Error DiskId::GenerateDiskIdRDF(const string &device, string &xml)
 
    GenerateId(&cdinfo, id);
 
-   xml = string("<MQ:TOC first=\"") + MakeString(cdinfo.FirstTrack);
-   xml += string("\" last=\"") + MakeString(cdinfo.LastTrack);
-   xml += string("\"/>\n");
-   xml += string("<MQ:Offset num=\"0\">") + MakeString(cdinfo.FrameOffset[0]);
-   xml += string("</MQ:Offset>\n");
+   xml = string("  <mq:Result>\n");
+   xml += string("    <mq:status>OK</mq:status>\n");
+   xml += string("    <mm:cdindexId>") + string(id) + 
+          string("</mm:cdindexId>\n");
+   xml += string("    <mm:firstTrack>") + 
+          MakeString(cdinfo.FirstTrack) +
+          string("</mm:firstTrack>\n");
+   xml += string("    <mm:lastTrack>") + 
+          MakeString(cdinfo.LastTrack) +
+          string("</mm:lastTrack>\n");
+   xml += string("    <mm:toc>\n      <rdf:Seq>\n");
+   for (i = 0; i <= cdinfo.LastTrack; i++)
+      xml += string("       <rdf:li rdf:resource=\"mb:track") +
+             MakeString(i) + string("\"/>\n");
+   xml += string("      </rdf:Seq>\n");
+   xml += string("    </mm:toc>\n");
+
+   xml += string("  </mq:Result>\n");
+
+   xml += string("  <mm:TocInfo rdf:about=\"mb:track0\">\n");
+   xml += string("    <mm:sectorOffset>");
+   xml += MakeString(cdinfo.FrameOffset[0]) +
+          string("</mm:sectorOffset>\n");
+   xml += string("    <mm:numSectors>0</mm:numSectors>\n");
+   xml += string("  </mm:TocInfo>\n");
 
    for (i = cdinfo.FirstTrack; i <= cdinfo.LastTrack; i++)
    {
-       xml += string("<MQ:Offset num=\"");
-       xml += MakeString(i);
-       xml += string("\">") + MakeString(cdinfo.FrameOffset[i]);
-       xml += string("</MQ:Offset>\n");
+       xml += string("  <mm:TocInfo rdf:about=\"mb:track") +
+              MakeString(i) + string("\">\n");
+       xml += string("    <mm:sectorOffset>") + 
+              MakeString(cdinfo.FrameOffset[i]) +
+              string("</mm:sectorOffset>\n");
+       xml += string("    <mm:numSectors>");
+       if (i < cdinfo.LastTrack)
+       {
+          xml += MakeString(cdinfo.FrameOffset[i + 1] - 
+                            cdinfo.FrameOffset[i]);
+       }
+       else
+       {
+          xml += MakeString(cdinfo.FrameOffset[0] -
+                            cdinfo.FrameOffset[i]);
+       }
+       xml += string("</mm:numSectors>\n");
+       xml += string("  </mm:TocInfo>\n");
    }
 
    return kError_NoErr;
@@ -192,42 +226,59 @@ Error DiskId::GenerateDiskIdQueryRDF(const string &device, string &xml,
    GenerateId(&cdinfo, id);
 
    if (associateCD)
-       xml = string("<MQ:Query>AssociateCDFromAlbumId</MQ:Query>\n");
+       xml = string("  <mq:AssociateCD>\n");
    else
-       xml = string("<MQ:Query>GetCDInfoFromCDIndexId</MQ:Query>\n");
-   xml += string("<MQ:Args id=\"") + string(id) + string("\"/>\n");
+       xml = string("  <mq:GetCDInfo>\n");
+
+   xml += string("  <mq:depth>@DEPTH@</mq:depth>\n");
+   xml += string("    <mm:cdindexId>") + string(id) + 
+          string("</mm:cdindexId>\n");
    if (associateCD)
-      xml += string("<MQ:Args associate=\"@1@\"/>\n");
-   xml += string("<MQ:Args first=\"") + MakeString(cdinfo.FirstTrack);
-   xml += string("\" last=\"") + MakeString(cdinfo.LastTrack);
-   xml += string("\" toc=\"");
-   xml += MakeString(cdinfo.FirstTrack) + string(" ");
-   xml += MakeString(cdinfo.LastTrack) + string(" ");
-   xml += MakeString(cdinfo.FrameOffset[0]) + string(" ");
+      xml += string("    <mq:associate>@1@</mq:associate>\n");
+   xml += string("    <mm:firstTrack>") + 
+          MakeString(cdinfo.FirstTrack) +
+          string("</mm:firstTrack>\n");
+   xml += string("    <mm:lastTrack>") + 
+          MakeString(cdinfo.LastTrack) +
+          string("</mm:lastTrack>\n");
+   xml += string("    <mm:toc>\n      <rdf:Seq>\n");
+   for (i = 0; i <= cdinfo.LastTrack; i++)
+      xml += string("       <rdf:li rdf:resource=\"mb:track") +
+             MakeString(i) + string("\"/>\n");
+   xml += string("      </rdf:Seq>\n");
+   xml += string("    </mm:toc>\n");
+
+   if (associateCD)
+       xml += string("  </mq:AssociateCD>\n\n");
+   else
+       xml += string("  </mq:GetCDInfo>\n\n");
+
+   xml += string("  <mm:TocInfo rdf:about=\"mb:track0\">\n");
+   xml += string("    <mm:sectorOffset>");
+   xml += MakeString(cdinfo.FrameOffset[0]) +
+          string("</mm:sectorOffset>\n");
+   xml += string("    <mm:numSectors>0</mm:numSectors>\n");
+   xml += string("  </mm:TocInfo>\n");
 
    for (i = cdinfo.FirstTrack; i <= cdinfo.LastTrack; i++)
    {
-       xml += MakeString(cdinfo.FrameOffset[i]);
-       if (i < cdinfo.LastTrack)
-          xml += string(" ");
-   }
-   xml += string("\"/>\n");
-   xml += string("<MQ:Args trackLengths=\"");
-   for (i = cdinfo.FirstTrack; i <= cdinfo.LastTrack; i++)
-   {
+       xml += string("  <mm:TocInfo rdf:about=\"mb:track") +
+              MakeString(i) + string("\">\n");
+       xml += string("    <mm:sectorOffset>") + 
+              MakeString(cdinfo.FrameOffset[i]) +
+              string("</mm:sectorOffset>\n");
+       xml += string("    <mm:numSectors>");
        if (i < cdinfo.LastTrack)
        {
-          xml += MakeString((cdinfo.FrameOffset[i + 1] -
-                            cdinfo.FrameOffset[i]) / 75);
-          xml += string(" ");
+          xml += MakeString(cdinfo.FrameOffset[i + 1] - cdinfo.FrameOffset[i]);
        }
        else
        {
-          xml += MakeString((cdinfo.FrameOffset[0] -
-                            cdinfo.FrameOffset[i]) / 75);
+          xml += MakeString(cdinfo.FrameOffset[0] - cdinfo.FrameOffset[i]);
        }
+       xml += string("</mm:numSectors>\n");
+       xml += string("  </mm:TocInfo>\n");
    }
-   xml += string("\"/>\n");
 
    return kError_NoErr;
 }

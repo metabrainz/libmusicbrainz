@@ -22,7 +22,6 @@
 
 ----------------------------------------------------------------------------*/
 #include "musicbrainz.h"
-#include "rdfgen.h"
 #include "trm.h"
 #include "mb_c.h"
 
@@ -69,6 +68,15 @@ int mb_SetDevice(musicbrainz_t o, char *device)
        return 0;
 
     return (int)obj->SetDevice(string(device));
+}
+
+void mb_SetDepth(musicbrainz_t o, int depth)
+{
+    MusicBrainz *obj = (MusicBrainz *)o;
+    if (o == NULL)
+       return;
+
+    obj->SetDepth(depth);
 }
 
 void mb_UseUTF8(musicbrainz_t o, int useUTF8)
@@ -118,16 +126,16 @@ int mb_GetWebSubmitURL(musicbrainz_t o, char *url, int urlLen)
     return ret;
 }
 
-int mb_Query(musicbrainz_t o, char *xmlObject)
+int mb_Query(musicbrainz_t o, char *RDFObject)
 {
     MusicBrainz *obj = (MusicBrainz *)o;
     if (o == NULL)
        return 0;
 
-    return (int)obj->Query(string(xmlObject));
+    return (int)obj->Query(string(RDFObject));
 }
 
-int mb_QueryWithArgs(musicbrainz_t o, char *xmlObject, char **args)
+int mb_QueryWithArgs(musicbrainz_t o, char *RDFObject, char **args)
 {
     MusicBrainz *obj = (MusicBrainz *)o;
     vector<string>           *argList;
@@ -144,7 +152,7 @@ int mb_QueryWithArgs(musicbrainz_t o, char *xmlObject, char **args)
         argList->push_back(temp);
     }
         
-    ret = obj->Query(string(xmlObject), argList);
+    ret = obj->Query(string(RDFObject), argList);
 
     delete argList;
 
@@ -184,6 +192,25 @@ int mb_GetResultData(musicbrainz_t o, char *resultName,
     return 1;
 }
 
+int mb_GetResultData1(musicbrainz_t o, char *resultName, 
+                      char *data, int maxDataLen, int ordinal)
+{
+    MusicBrainz *obj = (MusicBrainz *)o;
+    string   value;
+
+    if (o == NULL)
+       return 0;
+
+    value = obj->Data(string(resultName), ordinal);
+    if (value.length() == 0)
+       return 0;
+
+    strncpy(data, value.c_str(), maxDataLen);
+    data[maxDataLen - 1] = 0;
+
+    return 1;
+}
+
 int mb_GetResultInt(musicbrainz_t o, char *resultName)
 {
     MusicBrainz *obj = (MusicBrainz *)o;
@@ -194,14 +221,14 @@ int mb_GetResultInt(musicbrainz_t o, char *resultName)
     return obj->DataInt(string(resultName));
 }
 
-int mb_Select(musicbrainz_t o, char *selectQuery)
+int mb_GetResultInt1(musicbrainz_t o, char *resultName, int ordinal)
 {
     MusicBrainz *obj = (MusicBrainz *)o;
 
     if (o == NULL)
        return 0;
 
-    return obj->Select(string(selectQuery));
+    return obj->DataInt(string(resultName), ordinal);
 }
 
 int mb_DoesResultExist(musicbrainz_t o, char *resultName)
@@ -214,19 +241,74 @@ int mb_DoesResultExist(musicbrainz_t o, char *resultName)
     return obj->DoesResultExist(string(resultName));
 }
 
-int mb_GetResultRDF(musicbrainz_t o,char *xml, int maxXMLLen)
+int mb_DoesResultExist1(musicbrainz_t o, char *resultName, int ordinal)
 {
     MusicBrainz *obj = (MusicBrainz *)o;
-    string   xmlString;
 
     if (o == NULL)
        return 0;
 
-    if (!obj->GetResultRDF(xmlString))
+    return obj->DoesResultExist(string(resultName), ordinal);
+}
+
+
+int mb_Select(musicbrainz_t o, char *selectQuery)
+{
+    MusicBrainz *obj = (MusicBrainz *)o;
+
+    if (o == NULL)
        return 0;
 
-    strncpy(xml, xmlString.c_str(), maxXMLLen);
-    xml[maxXMLLen - 1] = 0;
+    return obj->Select(string(selectQuery));
+}
+
+int mb_Select1(musicbrainz_t o, char *selectQuery, int ordinal)
+{
+    MusicBrainz *obj = (MusicBrainz *)o;
+    list<int>                 argList;
+    bool                      ret;
+
+    if (o == NULL)
+       return 0;
+
+    argList.push_back(ordinal);
+    ret = obj->Select(string(selectQuery), &argList);
+
+    return (int)ret;
+}
+
+int mb_SelectWithArgs(musicbrainz_t o, char *selectQuery, int **args)
+{
+    MusicBrainz *obj = (MusicBrainz *)o;
+    list<int>                argList;
+    int                      temp;
+    bool                     ret;
+
+    if (o == NULL)
+       return 0;
+
+    for(; *args; args++)
+    {
+        temp = **args;
+        argList.push_back(temp);
+    }
+    ret = obj->Select(string(selectQuery), &argList);
+    return (int)ret;
+}
+
+int mb_GetResultRDF(musicbrainz_t o,char *RDF, int maxRdfLen)
+{
+    MusicBrainz *obj = (MusicBrainz *)o;
+    string   RDFString;
+
+    if (o == NULL)
+       return 0;
+
+    if (!obj->GetResultRDF(RDFString))
+       return 0;
+
+    strncpy(RDF, RDFString.c_str(), maxRdfLen);
+    RDF[maxRdfLen - 1] = 0;
 
     return 1;
 }
@@ -234,36 +316,37 @@ int mb_GetResultRDF(musicbrainz_t o,char *xml, int maxXMLLen)
 int mb_GetResultRDFLen(musicbrainz_t o)
 {
     MusicBrainz *obj = (MusicBrainz *)o;
-    string   xmlString;
+    string   RDFString;
 
     if (o == NULL)
        return 0;
 
-    if (!obj->GetResultRDF(xmlString))
+    if (!obj->GetResultRDF(RDFString))
        return 0;
 
-    return xmlString.length();
+    return RDFString.length();
 }
 
-int mb_SetResultRDF(musicbrainz_t o,char *xml)
+int mb_SetResultRDF(musicbrainz_t o,char *RDF)
 {
     MusicBrainz *obj = (MusicBrainz *)o;
-    string   xmlString(xml);
+    string   RDFString(RDF);
 
     if (o == NULL)
        return 0;
 
-    return obj->SetResultRDF(xmlString);
+    return obj->SetResultRDF(RDFString);
 }
 
-int mb_GetNumItems(musicbrainz_t o)
+void mb_GetIDFromURL(musicbrainz_t o, char *url, char *idArg, int maxIdLen)
 {
+    string id;
+
     MusicBrainz *obj = (MusicBrainz *)o;
 
-    if (o == NULL)
-       return 0;
-
-    return obj->GetNumItems();
+    obj->GetIDFromURL(string(url), id);
+    strncpy(idArg, id.c_str(), maxIdLen);
+    idArg[maxIdLen - 1] = 0;
 }
 
 int mb_CalculateBitprint(musicbrainz_t o, char *fileName, BitprintInfo *info)
@@ -365,53 +448,6 @@ void trm_ConvertSigToASCII(trm_t o, char sig[17], char ascii_sig[37])
       return;
 
    obj->ConvertSigToASCII(sig, ascii_sig);
-}
-
-rdfgen_t rg_New(void)
-{
-    return (rdfgen_t)new RDFGenerator();
-}
-
-void rg_Delete(rdfgen_t o)
-{
-    delete (RDFGenerator *)o; 
-}
-
-int rg_Select(rdfgen_t o, char *selectQuery)
-{
-    RDFGenerator *obj = (RDFGenerator *)o;
-
-    if (o == NULL)
-       return 0;
-
-    return obj->Select(string(selectQuery));
-}
-
-int rg_Insert(rdfgen_t o, char *key, char *value)
-{
-    RDFGenerator *obj = (RDFGenerator *)o;
-
-    if (o == NULL)
-       return 0;
-
-    return obj->Insert(string(key), string(value));
-}
-
-int rg_Generate(rdfgen_t o, char *RDFtemplate, char *RDF, int maxRDFLen)
-{
-    RDFGenerator *obj = (RDFGenerator *)o;
-    string   RDFString;
-
-    if (o == NULL)
-       return 0;
-
-    if (!obj->Generate(string(RDFtemplate), RDFString))
-       return 0;
-
-    strncpy(RDF, RDFString.c_str(), maxRDFLen);
-    RDF[maxRDFLen - 1] = 0;
-
-    return 1;
 }
 
 }
