@@ -144,7 +144,7 @@ bool MusicBrainz::GetWebSubmitURL(string &url)
        sprintf(port, ":%d", m_serverPort);
        url += string(port);
     }
-    url += string("/cdi/submit.html") + args;
+    url += string("/bare/cdlookup.html") + args;
 
     return true;
 }
@@ -258,7 +258,7 @@ bool MusicBrainz::Query(const string &rdfObject, vector<string> *args)
     }
 
     //printf("  url: %s\n", url.c_str());
-    //printf("query: %s\n\n", rdf.c_str());
+    printf("query: %s\n\n", rdf.c_str());
 
     // Now use the http module to get/post the request and to download
     // the result.
@@ -268,7 +268,7 @@ bool MusicBrainz::Query(const string &rdfObject, vector<string> *args)
         SetError(ret);
         return false;
     }
-    //printf("result: %s\n\n", m_response.c_str());
+    printf("result: %s\n\n", m_response.c_str());
 
     // Parse the returned RDF
     m_rdf = new RDFExtract(m_response, m_useUTF8);

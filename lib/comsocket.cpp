@@ -56,7 +56,7 @@ ____________________________________________________________________________*/
 #define SOL_TCP IPPROTO_TCP
 #endif
 
-#ifdef __QNX__
+#if defined(__QNX__) || defined (__BEOS__)
 struct pollfd
 {
    int            fd;

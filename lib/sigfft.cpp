@@ -32,7 +32,9 @@ ____________________________________________________________________________*/
 #include <string.h>
 
 // log (1) = 0, log(2) = 1, log(3) = 2, log(4) = 2 ...
-
+#ifdef PI
+#undef PI
+#endif
 #define PI (2.0 * asin(1.0))
 
 // Points must be a power of 2

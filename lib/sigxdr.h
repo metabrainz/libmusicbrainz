@@ -31,6 +31,7 @@ ____________________________________________________________________________*/
 #endif
 
 #include "audiosig.h"
+#include "types.h"
 #include <limits.h>
 
 #include <string>
@@ -38,6 +39,7 @@ using namespace std;
 
 #define FIELDSIZE 4
 
+#ifndef __BEOS__
 #ifndef int32
 #if UINT_MAX == 0xfffffffful
 typedef int             int32;
@@ -50,6 +52,7 @@ typedef short           int32;
 #endif
 #endif
 
+#endif //BEOS
 
 class SigXDR
 {

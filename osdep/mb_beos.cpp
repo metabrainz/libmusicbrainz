@@ -25,7 +25,7 @@
 ----------------------------------------------------------------------------*/
 
 #include "mb.h"
-#include "disk.h"
+#include "diskid.h"
 #include "config.h"
 
 // BeOS layer includes

@@ -24,8 +24,13 @@
 #ifndef INCLUDED_TYPES_H
 #define INCLUDED_TYPES_H
 
+#ifdef __BEOS__
+typedef long int32;
+typedef unsigned long uint32;
+#else
 typedef int int32;
 typedef unsigned int uint32;
+#endif
 
 #define TRUE  1
 #define true  1

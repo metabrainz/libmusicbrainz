@@ -54,7 +54,7 @@ char *SigXDR::FromSig(AudioSig *sig)
     m_position = m_buffer;
 
     float temp;
-    int   tempi, i;
+    int32 tempi, i;
 
     temp = sig->MeanSquare();
     PutFloat(&temp);
