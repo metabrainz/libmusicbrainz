@@ -243,9 +243,9 @@ MusicBrainz::Queries - MusicBrainz RDF Query Constants
 
 =head1 DESCRIPTION
 
-Stub documentation for MusicBrainz::Queries, created by h2xs. It looks like the
-author of the extension was negligent enough to leave the stub
-unedited.
+This module is used to provide access to the RDF Query Constants
+used by the MusicBrainz::Client module for querying the MusicBrainz
+server.
 
 =head2 EXPORT
 
@@ -262,16 +262,16 @@ id for the Various Artists' artist, and then you should check the artist for
 each track of the album seperately with MBE_AlbumGetArtistName, 
 MBE_AlbumGetArtistSortName and MBE_AlbumGetArtistId.
 
-=item=item  MBE_AlbumGetAlbumId
+=item  MBE_AlbumGetAlbumId
 
 Return the ID of the currently selected Album.
 
-=item=item  MBE_AlbumGetAlbumName
+=item  MBE_AlbumGetAlbumName
 
 Return the name of the currently selected Album.
 
-=item=item  MBE_AlbumGetAlbumStatus
-
+=item  MBE_AlbumGetAlbumStatus
+ 
 Return the release status of the currently selected Album.
 
 =item MBE_AlbumGetAlbumType
