@@ -165,6 +165,9 @@
 				RelativePath="..\osdep\mb_win32.cpp">
 			</File>
 			<File
+				RelativePath="..\lib\mp3.cpp">
+			</File>
+			<File
 				RelativePath="..\lib\musicbrainz.cpp">
 			</File>
 			<File
@@ -215,46 +218,6 @@
 			</File>
 			<File
 				RelativePath="..\expat\xmltok\xmltok.c">
-			</File>
-		</Filter>
-		<Filter
-			Name="Bitzi"
-			Filter="">
-			<File
-				RelativePath="..\lib\bitzi\bitprint.c">
-			</File>
-			<File
-				RelativePath="..\lib\bitzi\dirsearch.c">
-			</File>
-			<File
-				RelativePath="..\lib\bitzi\gui_win32.c">
-			</File>
-			<File
-				RelativePath="..\lib\bitzi\id3.c">
-			</File>
-			<File
-				RelativePath="..\lib\bitzi\list.c">
-			</File>
-			<File
-				RelativePath="..\lib\bitzi\main.c">
-			</File>
-			<File
-				RelativePath="..\lib\bitzi\md5.c">
-			</File>
-			<File
-				RelativePath="..\lib\bitzi\mp3.c">
-			</File>
-			<File
-				RelativePath="..\lib\bitzi\plugin_win32.c">
-			</File>
-			<File
-				RelativePath="..\lib\bitzi\sboxes.c">
-			</File>
-			<File
-				RelativePath="..\lib\bitzi\tiger.c">
-			</File>
-			<File
-				RelativePath="..\lib\bitzi\tigertree.c">
 			</File>
 		</Filter>
 		<Filter
