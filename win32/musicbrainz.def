@@ -1,0 +1,18 @@
+LIBRARY      "musicbrainz"
+DESCRIPTION  'MusicBrainz Client Library'
+
+EXPORTS
+   mb_New
+   mb_Delete         
+   mb_SetServer      
+   mb_SetProxy       
+   mb_SetDevice      
+   mb_Query          
+   mb_QueryWithArgs  
+   mb_GetWebSubmitURL
+   mb_GetQueryError  
+   mb_Select         
+   mb_GetResultData  
+   mb_GetResultRDF   
+   mb_GetResultRDFLen
+   mb_GetNumItems    
