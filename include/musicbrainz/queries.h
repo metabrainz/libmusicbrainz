@@ -78,8 +78,8 @@
 #define MB_SelectNextSyncEvent    "/rdf:RDF/rdf:Description/MM:SyncEvents/rdf:Description/rdf:Seq/rdf:li[+1]/rdf:Description"
 
 // GUID selectors for queries that return a list of GUIDS
-#define MB_SelectFirstGUID        "/rdf:RDF/rdf:Description/MC:Collection/rdf:Bag/rdf:li[0]/rdf:Description/DC:Identifier/@guid"
-#define MB_SelectNextGUID         "/rdf:RDF/rdf:Description/MC:Collection/rdf:Bag/rdf:li[+1]/rdf:Description/DC:Identifier/@guid"
+#define MB_SelectFirstGUID        "/rdf:RDF/rdf:Description/MC:Collection/rdf:Bag/rdf:li[0]/rdf:Description"
+#define MB_SelectNextGUID         "/rdf:RDF/rdf:Description/MC:Collection/rdf:Bag/rdf:li[+1]/rdf:Description"
 
 // Lookup queries
 #define MB_GetCDInfoFromCDIndexID "<MQ:Query>GetCDInfoFromId</MQ:Query>\n"     \
