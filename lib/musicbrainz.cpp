@@ -35,7 +35,7 @@ const char *localAssociateCD = "@CDINFOASSOCIATECD@";
 const char *defaultServer = "www.musicbrainz.org";
 const short defaultPort = 80;
 const char *rdfHeader = 
-    "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\n"
+    "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?>\n"
     "<rdf:RDF xmlns = \"http://w3.org/TR/1999/PR-rdf-syntax-19990105#\"\n"
     "         xmlns:DC = \"http://purl.org/DC#\"\n"
     "         xmlns:MM = \"http://musicbrainz.org/MM#\"\n"
