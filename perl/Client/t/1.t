@@ -7,7 +7,8 @@
 # change 'tests => 2' to 'tests => last_test_to_print';
 
 use Test::More tests => 2;
-BEGIN { use_ok('MusicBrainz::Client') };
+use strict;
+BEGIN { use_ok('MusicBrainz::Client', qw@:all@) };
 
 
 my $fail = 0;
