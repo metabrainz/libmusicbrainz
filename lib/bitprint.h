@@ -32,6 +32,9 @@ extern "C" {
 #define MB_FIRST20SIZE  41
 #define MB_SHA1SIZE     41
 
+/**
+ * The structure used to return Bitzi bitprint information for a file.
+ */
 typedef struct _BitprintInfo
 {
     char     filename[255];

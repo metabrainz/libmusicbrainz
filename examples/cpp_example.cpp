@@ -53,15 +53,13 @@ int main(void)
     }
 
     // Check to see how many items were returned from the server
-    if (o.DataInt(MBE_AlbumGetNumAlbums) < 1)
+    if (o.DataInt(MBE_GetNumAlbums) < 1)
     {
         printf("This CD was not found.\n");
         return 0;
     }
 
-    // Now start the data extraction process.
-
-    // Select the first item in the list of returned items
+    // Select the first album
     o.Select(MBS_SelectAlbum, 1);
 
     // Get the number of tracks
@@ -75,7 +73,7 @@ int main(void)
 
     for(int i = 1; i <= numTracks; i++)
     {
-        // Print out the artist and then print the titles of the tracks
+        // Print out the artist and then print the title of the tracks
         printf("    Artist: '%s'\n", o.Data(MBE_AlbumGetArtistName, i).c_str());
 
         trackNum = o.DataInt(MBE_AlbumGetTrackNum, i);
