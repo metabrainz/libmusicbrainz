@@ -133,7 +133,7 @@ int mb_UseEncoding(musicbrainz_t o, const char *encoding)
     return 1;
 }
 
-int mb_GetCurrentEncoding(musicbrainz_t o, char *encoding)
+int mb_GetCurrentEncoding(musicbrainz_t o, char **encoding)
 {
     MusicBrainz *obj = (MusicBrainz *)o;
     if (o == NULL) {
@@ -145,7 +145,7 @@ int mb_GetCurrentEncoding(musicbrainz_t o, char *encoding)
       return 0;
     }
     else {
-      encoding = strdup(charSetName.c_str());
+      (*encoding) = strdup(charSetName.c_str());
       return 1;
     }
 }

@@ -186,7 +186,7 @@ int      mb_UseEncoding           (musicbrainz_t o, const char *encoding);
  * @param encoding the character set name string
  * @return returns 1 if the character set name can be retrieved, 0 if an error occurred.
  */
-int mb_GetCurrentEncoding        (musicbrainz_t o, char *encoding);
+int mb_GetCurrentEncoding        (musicbrainz_t o, char **encoding);
 
 /**
  * Gets the available character encodings that can be used. Call mb_GetNumAvailableEncodings()
