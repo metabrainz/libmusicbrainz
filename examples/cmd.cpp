@@ -112,12 +112,15 @@ Queries queries[] =
     { "\0",                     "\0", 0, "", "", "", "" }
 }; 
 
+#ifdef WIN32
+#define strcasecmp stricmp
+#endif
+
 int main(void)
 {
     MusicBrainz    o;
     string         error, data;
-    bool           ret, info;
-    int            numTracks, i;
+    bool           ret;
     Queries        *p;
     char           szLine[256], *szCmd, *ptr, szLast[100];
     string         xml, qarg, query, server;
