@@ -21,4 +21,4 @@
 #
 noinst_LTLIBRARIES = libxmltok.la
 libxmltok_la_SOURCES = Makefile.am asciitab.h iasciitab.h latin1tab.h nametab.h utf8tab.h xmldef.h xmlrole.c xmlrole.h xmltok.c xmltok.h 
-INCLUDES = -I../xmlparse -DXML_NS
+INCLUDES = -I$(srcdir)/../xmlparse -DXML_NS

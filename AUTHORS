@@ -53,4 +53,7 @@ The following people have contributed to this program:
   Erik Gavert <erik@jsdata.se>
   - A small browser launch patch
 
+  Patrick Mauritz <oxygene@studentenbude.ath.cx>
+  - A patch to allow building mb_client from a different directory.
+
 (please send change requests to rob@musicbrainz.org or maintainer)
