@@ -6,7 +6,9 @@ EXPORTS
    mb_New 
    mb_Delete            
    mb_SetServer         
-   mb_SetProxy          
+   mb_SetProxy     
+   mb_SetDebug
+   mb_Authenticate     
    mb_WSAInit           
    mb_WSAStop           
    mb_SetDevice         
@@ -30,6 +32,8 @@ EXPORTS
    mb_SetResultRDF      
    mb_GetIDFromURL      
    mb_CalculateBitprint
+   mb_CalculateSha1
+
    
    ; Functions for the TRM generation  
    trm_New
