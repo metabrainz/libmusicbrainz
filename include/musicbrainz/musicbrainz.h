@@ -56,7 +56,7 @@ class MusicBrainz
        EXPORT void     UseUTF8        (bool bUse) { m_useUTF8 = bUse; };
 
        EXPORT bool     Query          (const string &xmlObject, 
-                                vector<string> *args = NULL);
+                                       vector<string> *args = NULL);
        EXPORT void     GetQueryError  (string &ErrorText);
        EXPORT int      GetNumItems    (void);
        EXPORT bool     GetWebSubmitURL(string &url);
