@@ -1,4 +1,11 @@
-Changes for libmusicbrainz 2.0.0
+Changes for libmusicbrainz 2.0.2
+-------------------------------------
+
+   - Added support for Mac OS X
+   - Improved build system
+   - Added build files for Visual Studio .NET (VC7)
+
+Changes for libmusicbrainz 2.0.1
 -------------------------------------
    - Added patch for pkgconfig
    - Threading handled correctly in python wrapper

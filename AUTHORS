@@ -72,4 +72,7 @@ The following people have contributed to this program:
   Philippe Normand <sweafty@free.fr>
   - Supplied a couple of minor patches to the new build system
 
+  Andreas Rottmann <a.rottmann@gmx.at>
+  - Improve build system and debian support
+
 (please send change requests to rob@musicbrainz.org or maintainer)
