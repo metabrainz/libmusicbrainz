@@ -256,6 +256,10 @@ void MusicBrainz::GenerateSignatureNow(string &strGUID, string &collID)
 {
     DownmixPCM();
 
+//FILE *blah = fopen("/tmp/test.raw", "w+");
+//fwrite(m_downmixBuffer, m_numSamplesWritten, sizeof(unsigned char), blah);
+//fclose(blah);
+
     char *sample = (char *)m_downmixBuffer;  
     bool bLastNeg = false;
     if (*sample <= 0)

@@ -44,5 +44,8 @@ libtool: $(LIBTOOL_DEPS)
 
 install-data-local:
 	mkdir -p $(DESTDIR)$(includedir)/musicbrainz
-	$(INSTALL) -m 0644 lib/musicbrainz.h lib/queries.h lib/errors.h lib/mb_c.h $(DESTDIR)$(includedir)/musicbrainz
+	$(INSTALL) -m 0644 lib/musicbrainz.h $(DESTDIR)$(includedir)/musicbrainz
+	$(INSTALL) -m 0644 lib/queries.h  $(DESTDIR)$(includedir)/musicbrainz
+	$(INSTALL) -m 0644 lib/errors.h $(DESTDIR)$(includedir)/musicbrainz
+	$(INSTALL) -m 0644 lib/mb_c.h $(DESTDIR)$(includedir)/musicbrainz
 
