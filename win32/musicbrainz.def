@@ -7,6 +7,8 @@ EXPORTS
    mb_UseUTF8
    mb_SetServer      
    mb_SetProxy       
+   mb_WSAInit
+   mb_WSAStop
    mb_SetDevice      
    mb_Query          
    mb_QueryWithArgs  

@@ -52,6 +52,7 @@ class MusicBrainz
                                        short serverPort);
        EXPORT bool     SetProxy       (const string &proxyAddr, 
                                        short proxyPort);
+
        EXPORT bool     SetDevice      (const string &device);
        EXPORT void     UseUTF8        (bool bUse) { m_useUTF8 = bUse; };
 
@@ -65,7 +66,7 @@ class MusicBrainz
        EXPORT bool     DoesResultExist(const string &resultName, 
                                        int Index = -1);
        EXPORT bool     GetResultData  (const string &resultName, int Index, 
-                                string &data);
+                                       string &data);
        EXPORT bool     GetResultRDF   (string &RDFObject);
        EXPORT bool     SetResultRDF   (string &RDFObject);
 
@@ -73,16 +74,19 @@ class MusicBrainz
                                        int Index = -1);
        EXPORT int      DataInt        (const string &resultName, 
                                        int Index = -1);
-
+#ifdef WIN32
+       EXPORT void     WSAInit        (void);
+       EXPORT void     WSAStop        (void);
+#endif
     private:
 
        const string EscapeArg(const string &xml);
-       void     SubstituteArgs(string &xml, vector<string> *args);
-       void     SetError(Error ret);
-       int      SplitResponse(const string &inputXml);
+       void         SubstituteArgs(string &xml, vector<string> *args);
+       void         SetError(Error ret);
+       int          SplitResponse(const string &inputXml);
 
-       int      GetNumXMLResults(void);
-       bool     SelectXMLResult(int index);
+       int          GetNumXMLResults(void);
+       bool         SelectXMLResult(int index);
 
        string          m_error, m_empty; 
        string          m_server, m_proxy;

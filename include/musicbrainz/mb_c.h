@@ -40,10 +40,16 @@ typedef void * trm_t;
 /* The interface to the main MusicBrainz object */
 musicbrainz_t mb_New           (void);
 void      mb_Delete            (musicbrainz_t o);
+
 int       mb_SetServer         (musicbrainz_t o, char *serverAddr, 
                                 short serverPort);
 int       mb_SetProxy          (musicbrainz_t o, char *serverAddr, 
                                 short serverPort);
+#ifdef WIN32
+void      mb_WSAInit           (musicbrainz_t o);
+void      mb_WSAStop           (musicbrainz_t o);
+#endif 
+
 int       mb_SetDevice         (musicbrainz_t o, char *device);
 void      mb_UseUTF8           (musicbrainz_t o, int useUTF8);
 
