@@ -143,15 +143,17 @@ int main(int argc, char *argv[])
         else
            break;
     
-        trackNum = mb_GetResultInt1(o, MBE_AlbumGetTrackNum, i);
-        printf("   TrackNum: %d\n", trackNum);
-    
         // Extract the album id from the track. Just use the
         // first album that this track appears on
         if (mb_GetResultData1(o, MBE_AlbumGetTrackId, data, 256, i))
         {
            mb_GetIDFromURL(o, data, temp, 256);
            printf("    TrackId: %s\n", temp);
+
+           // Extract the track number
+           trackNum = mb_GetOrdinalFromList(o, MBE_AlbumGetTrackList, data);
+           if (trackNum > 0 && trackNum < 100)
+               printf("  TrackNum: %d\n", trackNum);
         }
 
         // If its a multple artist album, print out the artist for each track

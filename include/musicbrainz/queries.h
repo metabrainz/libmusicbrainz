@@ -607,25 +607,25 @@
  * Retrieve an artistList from a given Artist id 
  */
 #define MBQ_GetArtistById \
-    "http://@URL@/artist/@1@/@DEPTH@" 
+    "http://@URL@/mm-2.1/artist/@1@/@DEPTH@" 
 
 /** 
  * Retrieve an albumList from a given Album id 
  */
 #define MBQ_GetAlbumById \
-    "http://@URL@/album/@1@/@DEPTH@" 
+    "http://@URL@/mm-2.1/album/@1@/@DEPTH@" 
 
 /** 
  * Retrieve an trackList from a given Track id 
  */
 #define MBQ_GetTrackById \
-    "http://@URL@/track/@1@/@DEPTH@" 
+    "http://@URL@/mm-2.1/track/@1@/@DEPTH@" 
 
 /** 
  * Retrieve an trackList from a given TRM Id 
  */
 #define MBQ_GetTrackByTRMId \
-    "http://@URL@/trmid/@1@/@DEPTH@" 
+    "http://@URL@/mm-2.1/trmid/@1@/@DEPTH@" 
 
 /** 
  * Internal use only.
