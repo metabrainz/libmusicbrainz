@@ -1,0 +1,14 @@
+README for Musicbrainz Client Library Build (libmusicbrainz)
+Using Microsoft Development Studio 7
+
+If you wish to use IBM's ICU Libraries with libmusicbrainz:
+
+Add only the icudata and icuuc libraries to your project.
+You can add them by going to Project->musicbrainz Properties, 
+and then Linker->Input.  Add them into the Additional Dependencies box.
+
+You must then define the USE_ICU preprocessor definition.
+You can add this by going to C/C++ -> Preprocessor, and adding USE_ICU
+at the end of the list.
+
+
