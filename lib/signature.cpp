@@ -354,10 +354,10 @@ int TRM::CountBeats(void)
     return beats;
 }
 
-void TRM::GenerateSignatureNow(string &strGUID, string &collID)
+int TRM::FinalizeSignature(string &strGUID, string &collID)
 {
     if (m_numBytesWritten < 2)
-        return;
+        return -1;
 
     DownmixPCM();
 
@@ -370,7 +370,7 @@ void TRM::GenerateSignatureNow(string &strGUID, string &collID)
     signed short *sample = m_downmixBuffer;  
     bool bLastNeg = false;
     if(!sample)
-	    return;
+	    return -1;
 
     if (*sample <= 0)
           bLastNeg = true;
@@ -696,12 +696,13 @@ void TRM::GenerateSignatureNow(string &strGUID, string &collID)
 
     SigClient *sigClient = new SigClient();
     sigClient->SetAddress("trm.musicbrainz.org", 4446);
+    //sigClient->SetAddress("218.216.240.152", 4446);
     sigClient->SetProxy(m_proxy, m_proxyPort);
 
     if (collID == "")
         collID = "EMPTY_COLLECTION";
 
-    sigClient->GetSignature(signature, strGUID, collID);
+    int ret = sigClient->GetSignature(signature, strGUID, collID);
 
     delete wavelet;
     delete pFFT;
@@ -714,6 +715,8 @@ void TRM::GenerateSignatureNow(string &strGUID, string &collID)
 
     m_downmixBuffer = NULL;
     m_numSamplesWritten = 0;
+
+    return ret;
 }
 
 void TRM::ConvertSigToASCII(char sig[17], char ascii_sig[37])

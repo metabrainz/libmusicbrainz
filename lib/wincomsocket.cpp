@@ -47,28 +47,29 @@ int MBCOMSocket::Connect(const char* pIP, int nPort, int nType, bool bBroadcast)
     if (IsConnected()) 
         Disconnect();
 
-    sockaddr_in addr;
-    //hostent* pServer;
-    unsigned long uAddr = inet_addr(pIP);
-    int nErr = 0;
+    sockaddr_in  addr;
+    hostent     *pServer;
+    int          nErr = 0;
+
     m_nSockType = nType;
     m_nSocket = socket(AF_INET, nType, 0);
-    if (m_nSocket == INVALID_SOCKET) 
+    if (m_nSocket == INVALID_SOCKET)
+	{
         return INVALID_SOCKET;
-    /*
-    pServer = gethostbyname(pIP);
-    if (pServer == NULL)
-    {
-        closesocket(m_nSocket);
-        m_nSocket = INVALID_SOCKET;
-        return INVALID_SOCKET;
-    }
-    */
+	}
+
     memset((char*)&addr, 0, sizeof(addr));
+    pServer = gethostbyname(pIP);
+    if (pServer)
+	{
+        memcpy((char *)&addr.sin_addr.s_addr, (char*)(pServer->h_addr), pServer->h_length);   /* set address */
+	}
+	else
+	{
+        unsigned long uAddr = inet_addr(pIP);
+	}
+    
     addr.sin_family = AF_INET;
-    addr.sin_addr.s_addr = uAddr;
-    //memcpy((char *)&addr.sin_addr.s_addr, (char*)(pServer->h_addr), pServer->h_length);   /* set address */
-    //bcopy((char*)(pServer->h_addr), (char*)&(addr.sin_addr.s_addr), pServer->h_length);
     addr.sin_port = htons(nPort);
 
     nErr = connect(m_nSocket, (sockaddr*)&addr, sizeof(sockaddr_in));
