@@ -759,11 +759,19 @@
  * @param trmid     The TRM Id of the track.
  */
 #define MBQ_SubmitTrackTRMId \
-    "<mq:SubmitTrackTRMId>\n" \
-    "   <mm:trackid>@1@</mm:trackid>\n" \
-    "   <mm:trmid>@2@</mm:trmid>\n" \
-    "   <mq:sessionId>@SESSID@</mq:sessionId>\n" \
-    "   <mq:sessionKey>@SESSKEY@</mq:sessionKey>\n" \
-    "</mq:SubmitTrackTRMId>\n"  \
+    "<mq:SubmitTRMList>\n" \
+    " <mm:trmList>\n" \
+    "  <rdf:Bag>\n" \
+    "   <rdf:li>\n" \
+    "    <mq:trmTrackPair>\n" \
+    "     <mm:trackid>@1@</mm:trackid>\n" \
+    "     <mm:trmid>@2@</mm:trmid>\n" \
+    "    </mq:trmTrackPair>\n" \
+    "   </rdf:li>\n" \
+    "  </rdf:Bag>\n" \
+    " </mm:trmList>\n" \
+    " <mq:sessionId>@SESSID@</mq:sessionId>\n" \
+    " <mq:sessionKey>@SESSKEY@</mq:sessionKey>\n" \
+    "</mq:SubmitTRMList>\n" 
 
 #endif

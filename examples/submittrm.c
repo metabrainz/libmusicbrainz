@@ -33,7 +33,7 @@ int main(int argc, char *argv[])
 
     if (argc < 4)
     {
-        printf("Usage: authtest <user> <passwd> <track id> <trmid>\n");
+        printf("Usage: submittrm <user> <passwd> <track id> <trmid>\n");
         exit(0);
     }
 
@@ -50,7 +50,7 @@ int main(int argc, char *argv[])
     mb_SetDepth(o, 3);
 
     // Set the server you want to use. Defaults to www.musicbrainz.org:80
-    //mb_SetServer(o, "musicbrainz.eorbit.net", 80);
+    mb_SetServer(o, "musicbrainz.eorbit.net", 80);
 
     ret = mb_Authenticate(o, argv[1], argv[2]);
     if (ret == 0)
