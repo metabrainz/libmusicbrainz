@@ -1,24 +1,24 @@
 /*__________________________________________________________________________
 
-  MusicBrainz -- The Internet music metadatabase
+        FreeAmp - The Free MP3 Player
 
-  Portions Copyright (C) 2000 Relatable
+        Portions Copyright (C) 2000 Relatable
 
-   This library is free software; you can redistribute it and/or
-   modify it under the terms of the GNU Lesser General Public
-   License as published by the Free Software Foundation; either
-   version 2.1 of the License, or (at your option) any later version.
-   
-   This library is distributed in the hope that it will be useful,
-   but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-   Lesser General Public License for more details.
-   
-   You should have received a copy of the GNU Lesser General Public
-   License along with this library; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+        This program is free software; you can redistribute it and/or modify
+        it under the terms of the GNU General Public License as published by
+        the Free Software Foundation; either version 2 of the License, or
+        (at your option) any later version.
 
-  $Id$
+        This program is distributed in the hope that it will be useful,
+        but WITHOUT ANY WARRANTY; without even the implied warranty of
+        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+        GNU General Public License for more details.
+
+        You should have received a copy of the GNU General Public License
+        along with this program; if not, Write to the Free Software
+        Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+        
+        $Id$
 ____________________________________________________________________________*/
 
 #include "wincomsocket.h"
@@ -79,7 +79,7 @@ int COMSocket::Connect(const char* pIP, int nPort, int nType, bool bBroadcast)
     }
 
     m_bConnected = true;
-    return 1;
+    return 0;
 }
 
 /** Disconnects the current socket */
@@ -97,7 +97,7 @@ int COMSocket::Disconnect()
     nErr = closesocket(m_nSocket);
     m_nSocket = INVALID_SOCKET;
     m_bConnected = false;
-    return (nErr != SOCKET_ERROR);
+    return (nErr != SOCKET_ERROR) - 1;
 }
 
 /** Checks if there is a current open connection */
@@ -120,7 +120,7 @@ int COMSocket::Read(char* pBuffer, int nLen, int* nBytesWritten)
     {
         *nBytesWritten = nErr;
     }
-    return (nErr != SOCKET_ERROR);
+    return (nErr != SOCKET_ERROR) - 1;
 }
 
 /** Reads in a non blocking fashion (ie, selects and polls) for nTimeout seconds */
@@ -146,9 +146,9 @@ int COMSocket::NBRead(char* pBuffer, int nLen, int* nBytesWritten, int nTimeout)
     }
     else
     {
-        return 0;  // FD_ISSET failed.
+        return -1;  // FD_ISSET failed.
     }
-    return 1;
+    return 0;
 }
 
 /** Writes to a socket, from buffer pBuffer, up to nLen bytes, and returns the number of written bytes in pnBytesWritten. */
@@ -164,5 +164,5 @@ int COMSocket::Write(const char* pBuffer, int nLen, int* pnBytesWritten)
     {
         *pnBytesWritten = nErr;
     }
-    return (nErr != SOCKET_ERROR);
+    return (nErr != SOCKET_ERROR) - 1;
 }
