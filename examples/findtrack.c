@@ -30,7 +30,7 @@ int main(int argc, char *argv[])
     musicbrainz_t o;
     char          error[256], data[1024], temp[256], *args[4];
     char          *rdfdata;
-    int           ret, numTracks, numAlbums, i, j;
+    int           ret, numTracks, i;
 
     if (argc < 2)
     {
@@ -59,7 +59,7 @@ int main(int argc, char *argv[])
     if (getenv("MB_DEPTH"))
         mb_SetDepth(o, atoi(getenv("MB_DEPTH")));
     else
-        mb_SetDepth(o, 2);
+        mb_SetDepth(o, 4);
 
     // Set up the args for the find artist query
     args[0] = argv[1];
@@ -99,6 +99,10 @@ int main(int argc, char *argv[])
         mb_Select1(o, MBS_SelectTrack, i);  
 
         // Extract the artist name from the ith track
+        mb_GetResultData(o, MBE_TrackGetTrackName, data, 256);
+        printf("     Track: '%s'\n", data);
+
+        // Extract the artist name from the ith track
         mb_GetResultData(o, MBE_TrackGetArtistName, data, 256);
         printf("    Artist: '%s'\n", data);
 
@@ -107,26 +111,6 @@ int main(int argc, char *argv[])
         mb_GetIDFromURL(o, data, temp, 256);
         printf("  ArtistId: '%s'\n", temp);
 
-        // Extract the number of albums 
-        numAlbums = mb_GetResultInt(o, MBE_GetNumAlbums);
-        printf("Num Albums: %d\n", numAlbums);
-
-        for(j = 1; j <= numAlbums; j++)
-        {
-            // Select the jth album in the album list
-            mb_Select1(o, MBS_SelectAlbum, j);  
-
-            // Extract the album name 
-            mb_GetResultData(o, MBE_AlbumGetAlbumName, data, 256);
-            printf("     Album: '%s'", data);
-            
-            mb_GetResultData(o, MBE_AlbumGetAlbumId, data, 256);
-            mb_GetIDFromURL(o, data, temp, 256);
-            printf(" (%s)\n", temp);
-        
-            // Back up one level and go back to the artist level 
-            mb_Select(o, MBS_Back);  
-        }
         printf("\n");
     }
 

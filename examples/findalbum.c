@@ -89,17 +89,22 @@ int main(int argc, char *argv[])
         // Start at the top of the query and work our way down
         mb_Select(o, MBS_Rewind);  
 
-        // Select the ith artist
+        // Select the ith album
         mb_Select1(o, MBS_SelectAlbum, i);  
 
-        // Extract the artist name from the ith track
+        // Extract the album name
         mb_GetResultData(o, MBE_AlbumGetAlbumName, data, 256);
         printf("    Album: '%s'\n", data);
 
-        // Extract the artist id from the ith track
+        // Extract the album id from the ith track
         mb_GetResultData(o, MBE_AlbumGetAlbumId, data, 256);
         mb_GetIDFromURL(o, data, temp, 256);
         printf("  AlbumId: '%s'\n", temp);
+
+        // Extract the artist id from the ith track
+        mb_GetResultData(o, MBE_AlbumGetAlbumArtistId, data, 256);
+        mb_GetIDFromURL(o, data, temp, 256);
+        printf(" ArtistId: '%s'\n", temp);
 
         printf("\n");
     }

@@ -219,6 +219,15 @@
         "" // yes, empty! 
 
 /**
+ * Return the Artist ID of the currently selected Album. This may return 
+ * the artist id for the Various Artists' artist, and then you should 
+ * check the artist for each track of the album seperately with MBE_AlbumGetArtistName,
+ * MBE_AlbumGetArtistSortName and MBE_AlbumGetArtistId.
+ */
+#define MBE_AlbumGetAlbumArtistId        \
+        "http://purl.org/dc/elements/1.1/creator"
+
+/**
  * Return the mumber of tracks in the currently selected Album
  */
 #define MBE_AlbumGetNumTracks      \
