@@ -151,8 +151,8 @@
                                   "    <DC:Title>@4@</DC:Title>\n"             \
                                   "  </rdf:Description>\n"                     \
                                   "</DC:Relation>\n"                           \
-                                  "<DC:Relation track=\"@5@\"/>\n"             \
-                                  "<MM:TrackNum>@6@</MM:TrackNum>\n"           \
+                                  "<MM:TrackNum>@5@</MM:TrackNum>\n"           \
+                                  "<DC:Format duration=\"@6@\"/>\n"            \
                                   "<DC:Date issued=\"@7@\"/>\n"                \
                                   "<MM:Genre>@8@</MM:Genre>\n"                 \
                                   "<DC:Description>@9@</DC:Description>\n"
