@@ -29,7 +29,7 @@ int main(void)
     MusicBrainz o;
     string      error, data;
     bool        ret;
-    int         numTracks;
+    int         numTracks, trackNum;
 
     // Set the server you want to use. Defaults to www.musicbrainz.org:80
     o.SetServer(string("www.musicbrainz.org"), 80);
@@ -73,7 +73,11 @@ int main(void)
          o.Select(MB_SelectFirstTrack);
          for(int i = 0; i < numTracks; i++)
          {
-             printf("Track %d: '%s'\n", i+1, o.Data(MB_GetTrackName).c_str());
+             trackNum = o.DataInt(MB_GetTrackNum);
+             printf("Track %d: '%s'\n", 
+                 trackNum, o.Data(MB_GetTrackName).c_str());
+             printf("Track id: '%s'\n", 
+                 o.Data(MB_GetTrackID).c_str());
 
              // Now move on to the next track
              o.Select(MB_SelectNextTrack);
