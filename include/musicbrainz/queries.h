@@ -424,6 +424,18 @@
         "http://musicbrainz.org/mm/mq-1.1#artistName"
 
 /**
+ * Return the sortname of the aritst
+ */
+#define MBE_QuickGetArtistSortName      \
+        "http://musicbrainz.org/mm/mm-2.1#sortName"
+
+/**
+ * Return the id of the artist
+ */
+#define MBE_QuickGetArtistId      \
+        "http://musicbrainz.org/mm/mm-2.1#artistId"
+
+/**
  * Return the name of the aritst
  */
 #define MBE_QuickGetAlbumName      \
