@@ -749,6 +749,7 @@
     " </mm:trmList>\n" \
     " <mq:sessionId>@SESSID@</mq:sessionId>\n" \
     " <mq:sessionKey>@SESSKEY@</mq:sessionKey>\n" \
+    " <mq:clientVersion>@CLIENTVER@</mq:clientVersion>\n" \
     "</mq:SubmitTRMList>\n" 
 
 /** 

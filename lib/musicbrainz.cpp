@@ -71,6 +71,7 @@ MusicBrainz::MusicBrainz(void)
     m_depth = 2;
     m_debug = false;
     m_maxItems = 25;
+    m_versionString = string("mb_client/"VERSION);
 }
 
 MusicBrainz::~MusicBrainz(void)
@@ -663,6 +664,7 @@ void MusicBrainz::SubstituteArgs(string &rdf, vector<string> *args)
     ReplaceArg(rdf, "@SESSID@", m_sessionId);
     ReplaceArg(rdf, "@SESSKEY@", m_sessionKey);
     ReplaceIntArg(rdf, "@MAX_ITEMS@", m_maxItems);
+    ReplaceArg(rdf, "@CLIENTVER@", m_versionString);
 }
 
 void MusicBrainz::ReplaceArg(string &rdf, const string &from, const string &to)
