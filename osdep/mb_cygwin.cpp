@@ -68,7 +68,7 @@ bool DiskId::ReadTOC(MUSICBRAINZ_DEVICE device,
     if (device == NULL) {
         mciOpenParms.lpstrDeviceType = "cdaudio";
 
-        if (mciSendCommand(NULL, 
+        if (mciSendCommand(0, 
                            MCI_OPEN, 
                            MCI_OPEN_TYPE, 
                            (DWORD)(LPVOID) &mciOpenParms))	{
@@ -80,7 +80,7 @@ bool DiskId::ReadTOC(MUSICBRAINZ_DEVICE device,
     else {
         mciOpenParms.lpstrDeviceType = (LPSTR) MAKELONG(MCI_DEVTYPE_CD_AUDIO, atoi(device));
 
-        if (mciSendCommand(NULL, 
+        if (mciSendCommand(0, 
                            MCI_OPEN, 
                            MCI_OPEN_TYPE_ID | MCI_OPEN_TYPE, 
                            (DWORD)(LPVOID) &mciOpenParms)) {
@@ -104,7 +104,7 @@ bool DiskId::ReadTOC(MUSICBRAINZ_DEVICE device,
         mciSendCommand(wDeviceID, 
                        MCI_CLOSE, 
                        0, 
-                       NULL);
+                       0);
         ReportError("Cannot set time format for cd drive.");
         return false;
     }
@@ -119,7 +119,7 @@ bool DiskId::ReadTOC(MUSICBRAINZ_DEVICE device,
         mciSendCommand(wDeviceID, 
                        MCI_CLOSE, 
                        0, 
-                       NULL);		
+                       0);		
         ReportError("Cannot get the cd drive status.");
         return false;
     }
@@ -138,7 +138,7 @@ bool DiskId::ReadTOC(MUSICBRAINZ_DEVICE device,
             mciSendCommand(wDeviceID, 
                            MCI_CLOSE, 
                            0, 
-                           NULL);
+                           0);
             ReportError("Cannot read table of contents.");
             return false;
         }
@@ -158,7 +158,7 @@ bool DiskId::ReadTOC(MUSICBRAINZ_DEVICE device,
         mciSendCommand(wDeviceID, 
                        MCI_CLOSE, 
                        0, 
-                       NULL);
+                       0);
         ReportError("Cannot read table of contents.");
         return false;
     }
@@ -170,7 +170,7 @@ bool DiskId::ReadTOC(MUSICBRAINZ_DEVICE device,
     mciSendCommand(wDeviceID, 
                    MCI_CLOSE, 
                    0, 
-                   NULL);
+                   0);
     return true;
 }
 
