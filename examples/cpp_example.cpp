@@ -34,6 +34,10 @@ int main(void)
     // Set the server you want to use. Defaults to www.musicbrainz.org:80
     //o.SetServer(string("musicbrainz.eorbit.net"), 80);
 
+    // If you need to use a proxy, uncomment/edit the following line
+    // as appropriate
+    //o.SetProxy("proxy.mydomain.com", 80);
+
     // Tell the client library to return data in ISO8859-1 and not UTF-8
     o.UseUTF8(false);
 

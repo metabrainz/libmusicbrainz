@@ -115,6 +115,8 @@
                                   "<MQ:Args id=\"@1@\"/>\n"
 #define MB_GetTrackById           "<MQ:Query>GetTrackById</MQ:Query>\n"        \
                                   "<MQ:Args id=\"@1@\"/>\n"
+#define MB_GetTrackByGUID         "<MQ:Query>GetTrackByGUID</MQ:Query>\n"      \
+                                  "<MQ:Args id=\"@1@\"/>\n"
 #define MB_ExchangeMetadata       "<MQ:Query>ExchangeMetadata</MQ:Query>\n"    \
                                   "<DC:Title>@1@</DC:Title>\n"                 \
                                   "<DC:Identifier guid=\"@2@\"/>\n"            \
