@@ -5,6 +5,7 @@ otherwise noted.
 
 $Id$
 
+	
 	- Added beginnings of a perlish interface
 	  MusicBrainz::Client::Simple [Matthias Friedrich]
 

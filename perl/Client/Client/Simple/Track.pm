@@ -67,8 +67,8 @@ sub create_from_track_query($$$)
 	my $duration = $mb->get_result_data1(MBE_AlbumGetTrackDuration,
 						$tracknum);
 
-	my $artist = MusicBrainz::Artist->create_from_album_query($mb,
-								$tracknum);
+	my $artist = MusicBrainz::Client::Simple::Artist
+				->create_from_album_query($mb, $tracknum);
 
 	my $track = $self->new(
 		id		=> $id,

@@ -13,7 +13,6 @@ use MusicBrainz::Queries qw(:all);
 
 require Exporter;
 require DynaLoader;
-use AutoLoader;
 
 our @ISA = qw(Exporter);
 
@@ -97,7 +96,7 @@ sub create_from_album_query($$)
 					MBE_AlbumGetArtistSortName, 1);
 	}
 
-	my $artist = MusicBrainz::Artist->new(
+	my $artist = MusicBrainz::Client::Simple::Artist->new(
 		id		=> $artist_id,
 		name		=> $artist_name,
 		sortname	=> $artist_sortname,
@@ -110,8 +109,8 @@ sub create_from_album_query($$)
 	my $num_tracks = $mb->get_result_int(MBE_GetNumTracks);
 	my @tracks;
 	foreach my $i ( 1 .. $num_tracks ) {
-		push @tracks,
-			MusicBrainz::Track->create_from_track_query($mb, $i);
+		push @tracks, MusicBrainz::Client::Simple::Track
+					->create_from_track_query($mb, $i);
 	}
 
 	#
@@ -183,20 +182,3 @@ sub has_various_artists($)
 
 
 1;
-
-__END__
-sub AUTOLOAD
-{
-	my $self = shift;
-
-	my $routine = $AUTOLOAD;
-
-	$routine =~ s/.*::get_//;
-
-	unless ( defined $self->{DATA}->{$routine} ) {
-		carp "unknown accessor function $routine"
-		return undef;
-	}
-
-	return $self->{DATA}->{$routine};
-}

@@ -108,7 +108,8 @@ sub _lookup_disc($$)
 		$mb->select(MBS_Rewind);
 		$mb->select1(MBS_SelectAlbum, $i);
 
-		push @albums, MusicBrainz::Album->create_from_album_query($mb);
+		push @albums, MusicBrainz::Client::Simple::Album
+						->create_from_album_query($mb);
 	}
 
 	return @albums;
@@ -175,8 +176,8 @@ sub find_artist_by_name($$)
 		$mb->select(MBS_Rewind);
 		$mb->select1(MBS_SelectArtist, $i);
 
-		push @artists,
-			MusicBrainz::Artist->create_from_artist_query($mb);
+		push @artists, MusicBrainz::Client::Simple::Artist
+					->create_from_artist_query($mb);
 	}
 
 	return @artists;
@@ -235,7 +236,7 @@ If you have a web site set up for your module, mention it here.
 
 =head1 AUTHORS
 
-Matthias Friedrich, E<lt>matthias@mafr.deE<gt>
+Matthias Friedrich, E<lt>matt@mafr.deE<gt>
 Sander van Zoest, E<lt>svanzoest@cpan.orgE<gt>
 
 =head1 COPYRIGHT AND LICENSE
