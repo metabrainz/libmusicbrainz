@@ -184,7 +184,7 @@ void mb_SetPCMDataInfo(musicbrainz_t o, int samplesPerSecond, int numChannels,
 }
 
 int mb_GenerateSignature(musicbrainz_t o, char *data, int size, 
-                         char **signature, char *collectionID)
+                         char signature[17], char *collectionID)
 {
     string strGUID;
     string collID;
@@ -199,16 +199,16 @@ int mb_GenerateSignature(musicbrainz_t o, char *data, int size,
    bool retvalue = obj->GenerateSignature(data, size, strGUID, collID);
 
    if (retvalue) {
-       *signature = (char *)malloc(sizeof(char) * 17);
-       memset(*signature, '\0', 16);
-       strncpy(*signature, strGUID.c_str(), 16);
+       memset(signature, '\0', 16);
+       strncpy(signature, strGUID.c_str(), 16);
 
        return 1; 
    }
    return 0;
 } 
 
-void mb_GenerateSignatureNow(musicbrainz_t o, char **signature, 
+void mb_GenerateSignatureNow(musicbrainz_t o, 
+                             char signature[17], 
                              char *collectionID)
 {
     string strGUID;
@@ -223,9 +223,8 @@ void mb_GenerateSignatureNow(musicbrainz_t o, char **signature,
 
    obj->GenerateSignatureNow(strGUID, collID);
 
-   *signature = (char *)malloc(sizeof(char) * 17);
-   memset(*signature, '\0', 16);
-   strncpy(*signature, strGUID.c_str(), 16);
+   memset(signature, '\0', 16);
+   strncpy(signature, strGUID.c_str(), 16);
 }
 
 }
