@@ -33,6 +33,7 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <assert.h>
+#include <netinet/in.h>
 
 #include "mb.h"
 #include "diskid.h"
