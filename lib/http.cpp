@@ -51,6 +51,10 @@
 #include <arpa/inet.h>
 #endif  
 
+#if defined(sun)      // Solaris headers do not define INADDR_NONE
+#define INADDR_NONE   0xffffffff
+#endif
+
 #include "http.h"
 #include "musicbrainz.h"
 #ifdef WIN32

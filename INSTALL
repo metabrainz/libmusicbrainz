@@ -57,7 +57,7 @@ Platforms
   Solaris:
   --------
 
-    - Untested
+    - Works (Solaris 8/SPARC, Michael Richmond)
 
 
   Win32:
@@ -69,7 +69,6 @@ Platforms
   been listed as unconfirmed above, we would love to hear from you!
 
   If you miss support for your platform please tell us too.
-
 
 
 Contact
