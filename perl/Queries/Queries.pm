@@ -25,10 +25,13 @@ our %EXPORT_TAGS = ( 'all' => [ qw(
 	MBE_AlbumGetAlbumName
 	MBE_AlbumGetAlbumStatus
 	MBE_AlbumGetAlbumType
+	MBE_AlbumGetAmazonAsin
+	MBE_AlbumGetAmazonCoverartURL
 	MBE_AlbumGetArtistId
 	MBE_AlbumGetArtistName
 	MBE_AlbumGetArtistSortName
 	MBE_AlbumGetNumCdindexIds
+	MBE_AlbumGetNumReleaseDates
 	MBE_AlbumGetNumTracks
 	MBE_AlbumGetTrackDuration
 	MBE_AlbumGetTrackId
@@ -49,18 +52,24 @@ our %EXPORT_TAGS = ( 'all' => [ qw(
 	MBE_GetNumTracks
 	MBE_GetNumTrmids
 	MBE_GetStatus
+	MBE_LookupGetAlbumArtistId
 	MBE_LookupGetAlbumId
 	MBE_LookupGetArtistId
 	MBE_LookupGetRelevance
+	MBE_LookupGetTrackArtistId
 	MBE_LookupGetTrackId
 	MBE_LookupGetType
 	MBE_QuerySubject
 	MBE_QuickGetAlbumName
+	MBE_QuickGetArtistId
 	MBE_QuickGetArtistName
+	MBE_QuickGetArtistSortName
 	MBE_QuickGetTrackDuration
 	MBE_QuickGetTrackId
 	MBE_QuickGetTrackName
 	MBE_QuickGetTrackNum
+	MBE_ReleaseGetCountry
+	MBE_ReleaseGetDate
 	MBE_TOCGetCDIndexId
 	MBE_TOCGetFirstTrack
 	MBE_TOCGetLastTrack
@@ -101,6 +110,7 @@ our %EXPORT_TAGS = ( 'all' => [ qw(
 	MBS_SelectLookupResultAlbum
 	MBS_SelectLookupResultArtist
 	MBS_SelectLookupResultTrack
+	MBS_SelectReleaseDate
 	MBS_SelectTrack
 	MBS_SelectTrackAlbum
 	MBS_SelectTrackArtist
@@ -192,6 +202,14 @@ Return the release status of the currently selected Album.
 
 Return the release type of the currently selected Album.
 
+=item MBE_AlbumGetAmazonAsin
+
+Return the Amazon.com ASIN for the currently selected Album.
+
+=item MBE_AlbumGetAmazonCoverartURL
+
+Return the Amazon.com URL for the cover art of the currently selected Album.
+
 =item MBE_AlbumGetArtistId
 
 Return the artist Id of the nth track in the album. Requires a 
@@ -210,6 +228,10 @@ Requires a track index ordinal. 1 for the first track, etc...
 =item  MBE_AlbumGetNumCdindexIds
 
 Return the number of cdindexds returned in this query.
+
+=item  MBE_AlbumGetNumReleaseDates
+
+Return the number of release dates for the currently selected Album
 
 =item  MBE_AlbumGetNumTracks
 
@@ -305,9 +327,13 @@ Values for this include OK or fuzzy. Fuzzy is
 returned when the server made a fuzzy match 
 somewhere while handling the query. 
 
+=item  MBE_LookupGetAlbumArtistId
+
+Return the artist id associated with the album of the lookup result.
+
 =item  MBE_LookupGetAlbumId
 
-Return the artist id of the lookup result.
+Return the album id of the lookup result.
 
 =item  MBE_LookupGetArtistId
 
@@ -316,6 +342,10 @@ Return the artist id of the lookup result.
 =item  MBE_LookupGetRelevance
 
 Return the relevance of the lookup result.
+
+=item  MBE_LookupGetTrackArtistId
+
+Return the artist id associated with the track of the lookup result.
 
 =item  MBE_LookupGetTrackId
 
@@ -333,9 +363,17 @@ Internal use only.
 
 Return the name of the album.
 
+=item  MBE_QuickGetArtistId
+
+Return the id of the artist.
+
 =item  MBE_QuickGetArtistName
 
 Return the name of the artist.
+
+=item  MBE_QuickGetArtistSortName
+
+Return the sort name of the artist.
 
 =item  MBE_QuickGetTrackDuration
 
@@ -352,6 +390,14 @@ Return the name of the track.
 =item  MBE_QuickGetTrackNum
 
 Return the number of the track.
+
+=item  MBE_ReleaseGetCountry
+
+Return the country in which the album was released
+
+=item  MBE_ReleaseGetDate
+
+Return the date the album was released
 
 =item  MBE_TOCGetCDIndexId
 
@@ -599,6 +645,11 @@ used in conjunction with MBQ_FileLookup.
 Use this Select Query to select the track 
 from a lookup result. This select will be 
 used in conjunction with MBQ_FileLookup.
+
+=item  MBS_SelectReleaseDate
+
+Use this Select Query to select a Release 
+date/country from the list.
 
 =item  MBS_SelectTrack
 
