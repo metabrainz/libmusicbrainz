@@ -277,7 +277,7 @@ int mb_Select1(musicbrainz_t o, char *selectQuery, int ordinal)
     return (int)ret;
 }
 
-int mb_SelectWithArgs(musicbrainz_t o, char *selectQuery, int **args)
+int mb_SelectWithArgs(musicbrainz_t o, char *selectQuery, int *args)
 {
     MusicBrainz *obj = (MusicBrainz *)o;
     list<int>                argList;
@@ -287,9 +287,9 @@ int mb_SelectWithArgs(musicbrainz_t o, char *selectQuery, int **args)
     if (o == NULL)
        return 0;
 
-    for(; *args; args++)
+    for(; *args > 0; args++)
     {
-        temp = **args;
+        temp = *args;
         argList.push_back(temp);
     }
     ret = obj->Select(string(selectQuery), &argList);
