@@ -1,12 +1,12 @@
 %define     name     musicbrainz
-%define     version  2.0.0-pre2
+%define     version  2.0.0
 %define     release  1
 %define     prefix   /usr
 
 Name:       %{name}
 Version:    %{version}
 Release:    %{release}
-Summary:    A software library for accesing MusicBrainz servers
+Summary:    A software library for accessing MusicBrainz servers
 Source:     http://www.musicbrainz.org/download/%{name}-%{version}.tar.gz
 URL:        http://www.musicbrainz.org
 Group:      System Environment/Libraries
@@ -51,7 +51,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-, root, root)
-%doc AUTHORS COPYING ChangeLog NEWS README TODO INSTALL
+%doc AUTHORS COPYING ChangeLog README TODO INSTALL
 %{prefix}/lib/*.so.*
 
 %files devel
