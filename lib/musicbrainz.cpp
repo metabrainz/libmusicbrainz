@@ -137,6 +137,44 @@ bool MusicBrainz::GetWebSubmitURL(string &url)
     return true;
 }
 
+const char* protocol = "file://";
+Error URLToFilePath(const char* url, char* path, uint32* length)
+{
+    Error result = kError_InvalidParam;
+
+    assert(path);
+    assert(url);
+    assert(length);
+
+    if(path && url && length && !strncasecmp(url, protocol, strlen(protocol)))
+    {
+        result = kError_BufferTooSmall;
+
+        if(*length >= strlen(url) - strlen(protocol) + 1)
+        {
+            strcpy(path, url + strlen(protocol));
+#ifdef WIN32
+            if(strlen(path) > 1 && path[1] == '|')
+            {
+                path[1] = ':';
+            }
+
+            for(int32 index = strlen(path) - 1; index >=0; index--)
+            {
+                if(path[index] == '/')
+                    path[index] = '\\';
+            }
+#endif
+            result = kError_NoErr;
+        }
+
+        *length = strlen(url) - strlen(protocol) + 1;
+    }
+
+    return result;
+}
+
+const char * magicString = "<MQ:Query>ExchangeMetadata</MQ:Query>";
 bool MusicBrainz::Query(const string &xmlObject, vector<string> *args)
 {
     MBHttp   http;
@@ -144,6 +182,25 @@ bool MusicBrainz::Query(const string &xmlObject, vector<string> *args)
     string xml = xmlObject, url, retXml, firstXml, secondXml, value;
     Error  ret;
     int    numObjs;
+
+    // This is temporary code -- this should be removed for the final
+    // release.
+
+    // This will override anything that the caller sets.
+    SetServer("mbtest.eorbit.net", 80);
+    if (strncmp(xmlObject.c_str(), magicString, strlen(magicString)) == 0 &&
+        args->size() == 10)
+    {
+        char path[1024];
+        uint32 len = 1024;
+        string sha1;
+
+        URLToFilePath((*args)[2].c_str(), path, &len);
+        CalculateSHA1(string(path), sha1);
+        args->push_back(sha1);
+    }
+
+    // END OF TEMPORARY CODE
 
     if (xml == string(localCDInfo) ||
         xml == string(localAssociateCD))
@@ -438,7 +495,7 @@ bool MusicBrainz::SelectXMLResult(int index)
 {
     Error ret;
 
-    if (index > m_xmlList.size() - 1)
+    if ((unsigned int)index > m_xmlList.size() - 1)
         return false;
 
     delete m_xql;
