@@ -21,8 +21,8 @@
      $Id$
 
 ----------------------------------------------------------------------------*/
-#ifndef _BITPRINT_H_
-#define _BITPRINT_H_
+#ifndef _BITPRINTINFO_H_
+#define _BITPRINTINFO_H_
 
 #ifdef __cplusplus
 extern "C" {

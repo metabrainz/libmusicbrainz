@@ -28,7 +28,7 @@
 extern "C"
 {
 
-#include "bitprint.h"
+#include "bitprintinfo.h"
 
 musicbrainz_t mb_New(void)
 {
