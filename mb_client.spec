@@ -1,5 +1,5 @@
 %define     name     musicbrainz
-%define     version  1.1.0
+%define     version  2.0.0-pre1
 %define     release  1
 %define     prefix   /usr
 
