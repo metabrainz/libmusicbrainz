@@ -236,7 +236,6 @@ void MusicBrainz::DownmixPCM(void)
    }
 
    writepos = 0;
-cout << rate_change << endl;
    while ((writepos < maxwrite) &&
           (m_numSamplesWritten < iNumSamplesNeeded))
    {
