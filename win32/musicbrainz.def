@@ -34,6 +34,7 @@ EXPORTS
    mb_SetResultRDF      
    mb_GetIDFromURL      
    mb_CalculateSha1
+   mb_GetMP3Info
 
    
    ; Functions for the TRM generation  
