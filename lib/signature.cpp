@@ -32,6 +32,7 @@ void MusicBrainz::SetPCMDataInfo(int samplesPerSecond, int numChannels,
     m_samples_per_second = samplesPerSecond;
     m_number_of_channels = numChannels;
     m_bits_per_sample = bitsPerSample;
+
     if (m_downmixBuffer) {
         delete [] m_downmixBuffer;
         m_downmixBuffer = NULL;
@@ -49,8 +50,10 @@ bool MusicBrainz::GenerateSignature(char *data, int size, string &strGUID,
        m_downmix_size = size;
        if (m_samples_per_second != 11025)
            m_downmix_size = m_downmix_size * 11025 / m_samples_per_second;
+
        if (m_bits_per_sample != 8)
-           m_bits_per_sample /= 2;
+           m_downmix_size /= 2;
+
        if (m_number_of_channels != 1)
            m_downmix_size /= 2;
 
@@ -121,6 +124,8 @@ bool MusicBrainz::GenerateSignature(char *data, int size, string &strGUID,
                    ls = ((unsigned char *)data)[readpos++];
 
                    m_downmixBuffer[m_numSamplesWritten] = ls;
+                   m_numSamplesWritten++;
+                   writepos++;
                }
            }
        }
@@ -136,25 +141,22 @@ bool MusicBrainz::GenerateSignature(char *data, int size, string &strGUID,
 
 void MusicBrainz::GenerateSignatureNow(string &strGUID, string &collID)
 {
+
     // DC Offset fix
-    int pos = 0, neg = 0;
+    int sum = 0;
     int DCOffsetFix = 0; 
     char *sample = (char *)m_downmixBuffer;  
 
     for (int z = 0; z < m_numSamplesWritten; z++) {
-        if (sample[z] < 0)
-            neg += abs(sample[z]);
-        else
-            pos += sample[z];
+        sum += sample[z];
     }
-    if (pos > neg)
-        DCOffsetFix = -(pos - neg) / m_numSamplesWritten;
-    else
-        DCOffsetFix = (neg - pos) / m_numSamplesWritten;
-
-    if (DCOffsetFix != 0)
-        for (int z = 0; z < m_numSamplesWritten; z++)
-            sample[z] += DCOffsetFix;
+    DCOffsetFix = -(sum / m_numSamplesWritten);
+    
+    if (DCOffsetFix != 0) {
+        cout << "DC offset fix: " << DCOffsetFix << " (" << sum << ")\n";
+        //for (int z = 0; z < m_numSamplesWritten; z++)
+        //    sample[z] += DCOffsetFix;
+    }
  
     bool bLastNeg = false;
     if (*sample <= 0)
@@ -206,6 +208,10 @@ void MusicBrainz::GenerateSignatureNow(string &strGUID, string &collID)
 
     AudioSig *signature = new AudioSig(fEnergy, fAverageZeroCrossing,
                                        fLength, iSpectrum);
+
+cout << fEnergy << endl << fAverageZeroCrossing << endl << fLength << endl;
+for (int q = 0; q < 32; q++)
+  cout << iSpectrum[q] << endl;
 
     SigClient *sigClient = new SigClient();
     sigClient->SetAddress("209.249.187.199", 4445);
