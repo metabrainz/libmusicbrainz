@@ -483,10 +483,24 @@
         "http://musicbrainz.org/mm/mq-1.1#album"
 
 /**
+ * Return the artist id of the lookup result
+ */
+#define MBE_LookupGetAlbumArtistId      \
+        "http://musicbrainz.org/mm/mq-1.1#album" \
+        "http://purl.org/dc/elements/1.1/creator"
+
+/**
  * Return the track id of the lookup result
  */
 #define MBE_LookupGetTrackId      \
         "http://musicbrainz.org/mm/mq-1.1#track"
+
+/**
+ * Return the artist id of the lookup result
+ */
+#define MBE_LookupGetTrackArtistId      \
+        "http://musicbrainz.org/mm/mq-1.1#track " \
+        "http://purl.org/dc/elements/1.1/creator"
 
 /* -------------------------------------------------------------------------
  * Extract queries for the MBQ_GetCDTOC query

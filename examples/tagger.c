@@ -133,7 +133,7 @@ int HandleAlbumList(musicbrainz_t o, Metadata *mdata)
 int HandleAlbumTrackList(musicbrainz_t o, Metadata *mdata)
 {
     int  i, choice, numIds, numTracks, rel;
-    char albumName[256], trackName[256];
+    char albumName[256], trackName[256], artistName[256];
 
     printf("Select the appropriate album/track:\n");
     for(i = 1;; i++)
@@ -167,6 +167,9 @@ int HandleAlbumTrackList(musicbrainz_t o, Metadata *mdata)
     mb_GetIDFromURL(o, albumName, mdata->albumId, 40);
     mb_GetResultData(o, MBE_LookupGetTrackId, trackName, 256);
     mb_GetIDFromURL(o, trackName, mdata->trackId, 40);
+
+    mb_GetResultData(o, MBE_LookupGetTrackArtistId, artistName, 256);
+    mb_GetIDFromURL(o, artistName, mdata->artistId, 40);
 
     return 0;
 }
