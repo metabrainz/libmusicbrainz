@@ -50,7 +50,7 @@ int main(int argc, char *argv[])
     mb_SetDepth(o, 2);
 
     // Set the server you want to use. Defaults to www.musicbrainz.org:80
-    mb_SetServer(o, "musicbrainz.eorbit.net", 80);
+    //mb_SetServer(o, "musicbrainz.eorbit.net", 80);
 
     // Set up the args for the find artist query
     args[0] = argv[1];
