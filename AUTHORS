@@ -47,4 +47,7 @@ The following people have contributed to this program:
   Alexey Zakhlestine <indy@mgupp.ru> 
   - Supplied a patch compile this lib under BeOS
 
+  Brian Reichert <reichert@numachi.com>
+  - Supplied a patch compile this lib under FreeBSD-4.3
+
 (please send change requests to rob@musicbrainz.org or maintainer)
