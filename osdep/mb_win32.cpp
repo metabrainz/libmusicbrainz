@@ -51,15 +51,20 @@ bool DiskId::ReadTOC(MUSICBRAINZ_DEVICE cd_desc, MUSICBRAINZ_CDINFO & disc)
    int       readtracks, ret, numTracks;
    char      mciCommand[128];
    char      mciReturn[128];
-   char      buf[256], alias[128];
+   char      buf[256], alias[128], temp[128];
 
-   if (cd_desc == NULL)
+   if (cd_desc == NULL || strlen(cd_desc) == 0)
       cd_desc = "cdaudio";
+   else
+   {
+	  sprintf(temp, "%s type cdaudio", cd_desc);
+	  cd_desc = temp;
+   }
 
    sprintf(alias, "mb_client_%u_%u", GetTickCount(), GetCurrentThreadId());
 
    memset(&disc, 0, sizeof(disc));
-   sprintf(mciCommand, "sysinfo %s quantity wait", cd_desc);
+   sprintf(mciCommand, "sysinfo cdaudio quantity wait", cd_desc);
    mciSendString(mciCommand, mciReturn, sizeof(mciReturn), NULL);
    if (atoi(mciReturn) <= 0)
       return false;
