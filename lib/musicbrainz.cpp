@@ -634,7 +634,7 @@ bool MusicBrainz::CalculateBitprint(const string &fileName, BitprintInfo *info)
             get_attribute(sub, "tag.file.first20"), MB_FIRST20SIZE);
     info->length = atoi(get_attribute(sub, "tag.file.length"));
 
-    if (get_attribute(sub, "tag.mp3.audio_sha1"));
+    if (get_attribute(sub, "tag.mp3.audio_sha1"))
     {
         strncpy(info->audioSha1, 
             get_attribute(sub, "tag.mp3.audio_sha1"), MB_SHA1SIZE);
