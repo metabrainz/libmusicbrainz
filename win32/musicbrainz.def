@@ -19,6 +19,17 @@ EXPORTS
    mb_SetResultRDF   
    mb_GetResultRDFLen
    mb_GetNumItems    
-   mb_GenerateSignature
-   mb_SetPCMDataInfo
-   mb_GenerateSignatureNow
+   trm_New
+   trm_Delete
+   trm_SetProxy
+   trm_SetPCMDataInfo       
+   trm_GenerateSignature   
+   trm_GenerateSignatureNow
+   trm_ConvertSigToASCII   
+   rg_New
+   rg_Delete
+   rg_Select
+   rg_Insert
+   rg_Generate
+
+
