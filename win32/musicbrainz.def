@@ -12,7 +12,8 @@ EXPORTS
    mb_Authenticate     
    mb_WSAInit           
    mb_WSAStop           
-   mb_SetDevice         
+   mb_SetDevice
+   mb_SetMaxItems         
    mb_UseUTF8           
    mb_SetDepth          
    mb_Query             
@@ -32,7 +33,6 @@ EXPORTS
    mb_GetResultRDFLen   
    mb_SetResultRDF      
    mb_GetIDFromURL      
-   mb_CalculateBitprint
    mb_CalculateSha1
 
    
@@ -45,50 +45,4 @@ EXPORTS
    trm_GenerateSignatureNow
    trm_ConvertSigToASCII   
 
-   ; These are the functions from the bitzi source code
-   bitcollider_init    
-   bitcollider_shutdown
-
-   get_error           
-   get_warning         
-
-   create_submission   
-   delete_submission   
-   set_auto_submit     
-   set_check_as        
-   set_exit
-   analyze_file        
-   submit_submission   
-   print_submission    
-   convert_to_hex      
-   add_attribute       
-   get_attribute       
-   get_agent_string    
-   get_num_bitprints
-   getLongPathName
-   convert_to_hex		
-
-   sha_init
-   sha_update
-   sha_final
-
-   tiger
-
-   tt_init
-   tt_update
-   tt_digest
-
-   check_file_type
-   recurse_dir
-
-   init_gui
-   set_progress_callback
-   win32_progress_callback
-   BitcolliderThread
-
-   create_list
-   add_to_list
-   return_item
-   num_items_in_list
-   delete_list
    
