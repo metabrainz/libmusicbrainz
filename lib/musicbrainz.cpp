@@ -438,23 +438,33 @@ bool MusicBrainz::Select(const string &query, int ordinal)
 
 // The Select function selects a new currentURI. Please check the
 // docs for details on this important function.
-bool MusicBrainz::Select(const string &query, list<int> *ordinalList)
+bool MusicBrainz::Select(const string &queryArg, list<int> *ordinalList)
 {
-    string newURI;
+    string newURI, query = queryArg;
 
     if (m_rdf == NULL)
        return false;
 
-    //if (query == string(MBS_Reset))
-    //{
-    //    m_currentURI = m_baseURI;
-    //    return true;
-    //}
-    
+    if (query == string(MBS_Rewind))
+    {
+        m_currentURI = m_baseURI;
+        return true;
+    }
+    if (query == string(MBS_Back))
+    {
+        if (m_contextHistory.size() == 0)
+            return false;
+
+        m_currentURI = *(m_contextHistory.end() - 1);
+        m_contextHistory.erase(m_contextHistory.end(), m_contextHistory.end());
+        return true;
+    }
+   
     newURI = m_rdf->Extract(m_currentURI, query, ordinalList);
     if (newURI.length() == 0)
         return false;
 
+    m_contextHistory.push_back(m_currentURI);
     m_currentURI = newURI;
     return true;
 }
