@@ -470,8 +470,6 @@ bool MusicBrainz::GetResultRDF(string &RDFObject)
 // then query it using the Extract/Select functions. 
 bool MusicBrainz::SetResultRDF(string &rdf)
 {
-    int ret;
-
     if (m_rdf)
        delete m_rdf;
 

@@ -113,7 +113,7 @@ int RDFExtract::GetNumTriples(void)
     return triples.size();
 }
 
-int RDFExtract::GetTriples(vector<RDFStatement> *triplesArg)
+void RDFExtract::GetTriples(vector<RDFStatement> *triplesArg)
 {
     *triplesArg = triples;
 }
@@ -195,7 +195,7 @@ const string &RDFExtract::Extract(const string &startURI,
               if (predicateList.size() > 0 &&
                   *(predicateList.begin()) == string("[COUNT]"))
               {
-                 int num = 0, dummy;
+                 int num = 0;
                  char temp[10];
 
                  vector<RDFStatement>::iterator j;
