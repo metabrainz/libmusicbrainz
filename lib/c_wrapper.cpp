@@ -111,7 +111,7 @@ void mb_SetMaxItems(musicbrainz_t o, int maxItems)
     if (o == NULL)
        return;
 
-    obj->SetDepth(maxItems);
+    obj->SetMaxItems(maxItems);
 }
 
 void mb_UseUTF8(musicbrainz_t o, int useUTF8)

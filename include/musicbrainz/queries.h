@@ -590,42 +590,32 @@
 #define MBQ_FindArtistByName \
     "<mq:FindArtist>\n" \
     "   <mq:depth>@DEPTH@</mq:depth>\n" \
-    "   <mq:maxItems>@MAX_ITEMS@</mq:maxItems>\n" \
     "   <mq:artistName>@1@</mq:artistName>\n" \
+    "   <mq:maxItems>@MAX_ITEMS@</mq:maxItems>\n" \
     "</mq:FindArtist>\n" 
 
 /**
  * Use this query to find albums by name. This function returns an albumList 
- * for the given album name. An optional artistName may also be given. If 
- * you do not wish to give an Artist name, pass an empty string for the
- * artistName.
- * @param artistName The name of the artist to find.
+ * for the given album name. 
  * @param albumName The name of the album to find.
  */
 #define MBQ_FindAlbumByName \
     "<mq:FindAlbum>\n" \
     "   <mq:depth>@DEPTH@</mq:depth>\n" \
     "   <mq:maxItems>@MAX_ITEMS@</mq:maxItems>\n" \
-    "   <mq:artistName>@1@</mq:artistName>\n" \
-    "   <mq:albumName>@2@</mq:albumName>\n" \
+    "   <mq:albumName>@1@</mq:albumName>\n" \
     "</mq:FindAlbum>\n" 
 
 /**
  * Use this query to find tracks by name. This function returns a trackList 
- * for the given track name. At least one artistName or one albumName or
- * both must also be given. If you leave artistName or albumName blank,
- * pass an empty string in its place.
- * @param artistName The name of the artist to find.
- * @param albumName The name of the album to find.
+ * for the given track name. 
  * @param trackName The name of the track to find.
  */
 #define MBQ_FindTrackByName \
     "<mq:FindTrack>\n" \
     "   <mq:depth>@DEPTH@</mq:depth>\n" \
     "   <mq:maxItems>@MAX_ITEMS@</mq:maxItems>\n" \
-    "   <mq:artistName>@1@</mq:artistName>\n" \
-    "   <mq:albumName>@2@</mq:albumName>\n" \
-    "   <mq:trackName>@3@</mq:trackName>\n" \
+    "   <mq:trackName>@1@</mq:trackName>\n" \
     "</mq:FindTrack>\n" 
 
 /**

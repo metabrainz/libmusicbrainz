@@ -47,12 +47,19 @@ int main(int argc, char *argv[])
     // Tell the client library to return data in ISO8859-1 and not UTF-8
     mb_UseUTF8(o, 0);
 
-    // Tell the client library to print query and response info to stdout 
-    mb_SetDebug(o, 1);
-
     // Set the proper server to use. Defaults to mm.musicbrainz.org:80
     if (getenv("MB_SERVER"))
         mb_SetServer(o, getenv("MB_SERVER"), 80);
+
+    // Check to see if the debug env var has been set 
+    if (getenv("MB_DEBUG"))
+        mb_SetDebug(o, atoi(getenv("MB_DEBUG")));
+
+    // Tell the server to only return 2 levels of data, unless the MB_DEPTH env var is set
+    if (getenv("MB_DEPTH"))
+        mb_SetDepth(o, atoi(getenv("MB_DEPTH")));
+    else
+        mb_SetDepth(o, 2);
 
     // Set up the args for the find artist query
     args[0] = argv[1];
