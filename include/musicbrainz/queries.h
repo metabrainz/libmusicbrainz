@@ -760,12 +760,11 @@
     "</mq:SubmitTrack>\n" 
 
 /** 
- * JOHAN: submission of the Track Global ID, TRMId connection from Tunetagger
- * Allows the addition of signatures without any moderation or insert process.
- * Directly inserts the TRMId in the GUID and GUIDJoin table if trackGID exists
- * and the TRMId is not already attached to different track
- *
- * ToDo: extend it with moderation, voting, from a list of recent additions.
+ * Submit a single TrackId, TRM Id pair to MusicBrainz. This query can
+ * handle only one pair at a time, which is inefficient. The user may wish
+ * to create the query RDF text by hand and provide more than one pair
+ * in the rdf:Bag, since the server can handle up to 1000 pairs in one
+ * query.
  * @param TrackGID  The Global ID field of the track
  * @param trmid     The TRM Id of the track.
  */
