@@ -224,7 +224,7 @@ bool MusicBrainz::Query(const string &rdfObject, vector<string> *args)
             id.GetLastError(m_error);
             return false;
         }
-        printf("%s\n", rdf.c_str());
+        //printf("%s\n", rdf.c_str());
     }
     // If the query is a local TOC query, the client just wants to
     // know about the table of contents of the CD, not about the
@@ -295,8 +295,8 @@ bool MusicBrainz::Query(const string &rdfObject, vector<string> *args)
         url = string("http://") + m_server + string(port) + string(scriptUrl);
     }
 
-    printf("  url: %s\n", url.c_str());
-    printf("query: %s\n\n", rdf.c_str());
+    //printf("  url: %s\n", url.c_str());
+    //printf("query: %s\n\n", rdf.c_str());
 
     // Now use the http module to get/post the request and to download
     // the result.
@@ -306,7 +306,7 @@ bool MusicBrainz::Query(const string &rdfObject, vector<string> *args)
         SetError(ret);
         return false;
     }
-    printf("result: %s\n\n", m_response.c_str());
+    //printf("result: %s\n\n", m_response.c_str());
 
     // Parse the returned RDF
     m_rdf = new RDFExtract(m_response, m_useUTF8);
@@ -662,7 +662,7 @@ bool MusicBrainz::CalculateBitprint(const string &fileName, BitprintInfo *info)
             get_attribute(sub, "tag.file.first20"), MB_FIRST20SIZE);
     info->length = atoi(get_attribute(sub, "tag.file.length"));
 
-    if (info->audioSha1[0])
+    if (get_attribute(sub, "tag.mp3.audio_sha1"));
     {
         strncpy(info->audioSha1, 
             get_attribute(sub, "tag.mp3.audio_sha1"), MB_SHA1SIZE);
