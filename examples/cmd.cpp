@@ -103,8 +103,6 @@ Queries queries[] =
       1, "Track ID", "", "", "" },
     { "GetSyncText",            MB_GetSyncTextById ,
       1, "Track ID", "", "", "" },
-    { "GetLyrics",              MB_GetLyricsById ,
-      1, "Track ID", "", "", "" },
     { "GetCDInfo",              MB_GetCDInfo ,
       0, "", "", "", "" },
     { "GetCDTOC",               MB_GetCDTOC ,
