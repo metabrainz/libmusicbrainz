@@ -23,9 +23,13 @@
 ----------------------------------------------------------------------------*/
 #include <stdio.h>
 #include <stdlib.h>
+#ifdef WIN32
+#include <windows.h>
+#else
 #include <unistd.h>
-#include <string.h>
 #include <sys/stat.h>
+#endif
+#include <string.h>
 #include "mb_c.h"
 
 typedef enum 
@@ -139,6 +143,15 @@ int main(int argc, char *argv[])
 }
 
 /* The following functions are for launching the browser */
+#ifdef WIN32
+
+int launch_browser(const char* url, BrowserEnum browser)
+{
+    int foo = ShellExecute(NULL, "open", url, NULL, NULL, SW_SHOWNORMAL);
+    return 1;
+}
+
+#else
 
 int launch(const char *url, const char *command);
 int launch_using_envvar(const char *url);
@@ -238,3 +251,5 @@ int is_netscape_running(void)
     sprintf(lockfile,"%.200s/.netscape/lock",home);
     return (lstat(lockfile, &sb) != -1);
 }
+
+#endif
