@@ -204,6 +204,10 @@ SOURCE=..\expat\xmltok\xmltok.c
 # PROP Default_Filter ""
 # Begin Source File
 
+SOURCE=..\lib\bitzi\bitprint.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\lib\bitzi\dirsearch.c
 # End Source File
 # Begin Source File
@@ -221,6 +225,10 @@ SOURCE=..\lib\bitzi\list.c
 # Begin Source File
 
 SOURCE=..\lib\bitzi\main.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\lib\bitzi\md5.c
 # End Source File
 # Begin Source File
 
