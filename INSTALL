@@ -12,12 +12,6 @@ Platforms
   following platforms. It might even run on some of them .. :-)
 
 
-  BeOS:
-  -----
-
-    - Untested
-
-
   Cygwin:
   -------
 
@@ -33,23 +27,13 @@ Platforms
 
     - Works (Linux 2.2.x, Linux 2.4.x)
 
-  Irix:
-  -----
-
-    - Untested
-
   NetBSD:
   -------
 
-    - Acepted patch and it shold work
+    - Accepted patch and it shold work
 
   OpenBSD:
   --------
-
-    - Untested
-
-  OS/2:
-  -----
 
     - Untested
 
@@ -59,7 +43,6 @@ Platforms
 
     - Works (Solaris 8/SPARC, Michael Richmond)
     - Works (Solaris 7/SPARC, Jay Jacobs)
-
 
 
   Win32:
