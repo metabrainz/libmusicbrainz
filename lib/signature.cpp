@@ -257,9 +257,9 @@ void MusicBrainz::GenerateSignatureNow(string &strGUID, string &collID)
 {
     DownmixPCM();
 
-FILE *blah = fopen("/tmp/test.raw", "w+");
-fwrite(m_downmixBuffer, m_numSamplesWritten, sizeof(unsigned char), blah);
-fclose(blah);
+//FILE *blah = fopen("/tmp/test.raw", "w+");
+//fwrite(m_downmixBuffer, m_numSamplesWritten, sizeof(unsigned char), blah);
+//fclose(blah);
 
     char *sample = (char *)m_downmixBuffer;  
     bool bLastNeg = false;
@@ -406,11 +406,10 @@ fclose(blah);
     for (int j = 0; j < 32; j++)
         avgspecdiff[j] /= 8;
 
-//    cout << fEnergy << " " << fAverageZeroCrossing << endl;
-//    cout << avgdiff << " " << numsignchanges << endl;
-//    for (int j = 0; j < 32; j++)
-//        cout << iSpectrum[j] << endl;
-//    cout << endl;
+    cout << fEnergy << " " << fAverageZeroCrossing << endl;
+    cout << avgdiff << " " << numsignchanges << endl;
+    for (int j = 0; j < 32; j++)
+        cout << iSpectrum[j] << endl;
 
     AudioSig *signature = new AudioSig(fEnergy, fAverageZeroCrossing,
                                        fLength, iSpectrum, avgdiff, 
