@@ -106,7 +106,7 @@ bool MusicBrainz::GetWebSubmitURL(string &url)
        sprintf(port, ":%d", m_serverPort);
        url += string(port);
     }
-    url += string("/cgi-bin/cdi/submit.pl") + args;
+    url += string("/cdi/submit.html") + args;
 
     return true;
 }
@@ -372,6 +372,14 @@ bool MusicBrainz::GetResultRDF(string &RDFObject)
     RDFObject = m_xmlList[m_xmlIndex];
 
     return false;
+}
+
+void MusicBrainz::SetResultRDF(string &rdf)
+{
+    m_xmlList.clear();
+    m_xmlIndex = 0;
+
+    m_xmlList[m_xmlIndex] = rdf;
 }
 
 int MusicBrainz::GetNumXMLResults(void)

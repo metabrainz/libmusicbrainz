@@ -212,6 +212,22 @@ Error DiskId::GenerateDiskIdQueryRDF(const string &device, string &xml,
           xml += string(" ");
    }
    xml += string("\"/>\n");
+   xml += string("<MQ:Args trackLengths=\"");
+   for (i = cdinfo.FirstTrack; i <= cdinfo.LastTrack; i++)
+   {
+       if (i < cdinfo.LastTrack)
+       {
+          xml += MakeString((cdinfo.FrameOffset[i + 1] -
+                            cdinfo.FrameOffset[i]) / 75);
+          xml += string(" ");
+       }
+       else
+       {
+          xml += MakeString((cdinfo.FrameOffset[0] -
+                            cdinfo.FrameOffset[i]) / 75);
+       }
+   }
+   xml += string("\"/>\n");
 
    return kError_NoErr;
 }
