@@ -277,20 +277,57 @@ void MusicBrainz::GenerateSignatureNow(string &strGUID, string &collID)
     int iSpectrum[iFFTPoints];
     for (j = 0; j < iFFTPoints; j++)
         iSpectrum[j] = 0;
+
+    float energys[9];
+    for (j = 0; j < 9; j++)
+        energys[j] = 0.0;
+
     int iZeroCrossings = 0;
     double dEnergySum = 0.0;
     int iFinishedFFTs = 0;
+
+    int energySub = 0;
+    int energyCounter = 0;
+
+    float specs[9][32];
+    for (j = 0; j < 9; j++)
+        for (int q = 0; q < 32; q++)
+            specs[j][q] = 0.0;
+    int specSub = 0;
+    int specCounter = 0;
 
     for (j = 0; j < iFFTs; j++, iFinishedFFTs++) {
         pFFT->CopyIn(pCurrent, iFFTPoints);
         pFFT->Transform();
 
         for (k = 0; k < iFFTPoints; k++)
-            iSpectrum[k] += (int)pFFT->GetIntensity(k);
-
+        {
+            int tempi = (int)pFFT->GetIntensity(k);
+            iSpectrum[k] += tempi;
+            specs[specSub][k] += tempi;
+        }
+        specCounter++;
+        if (specCounter >= 1000)
+        {
+            for (k = 0; k < iFFTPoints; k++)
+                specs[specSub][k] = specs[specSub][k] / specCounter;
+            specCounter = 0;
+            specSub++;
+        }
+        
         while (pCurrent < pBegin + iFFTPoints)
         {
-            dEnergySum += ((*pCurrent) * (*pCurrent));
+            double energy = ((*pCurrent) * (*pCurrent));
+            dEnergySum += energy;
+            energys[energySub] += energy;
+            energyCounter++;
+            if (energyCounter >= 1000 * iFFTPoints)
+            {
+                energys[energySub] = energys[energySub] / energyCounter;
+                energyCounter = 0;
+                energySub++;
+            }   
+             
             if (bLastNeg && (*pCurrent > 0))
             {
                 bLastNeg = false;
@@ -303,21 +340,83 @@ void MusicBrainz::GenerateSignatureNow(string &strGUID, string &collID)
         pBegin = pCurrent;
     }
 
+    if (energyCounter != 0 && energySub < 9)
+        energys[energySub] = energys[energySub] / energyCounter;
+
+    if (specCounter != 0 && specSub < 9)
+        for (j = 0; j < 32; j++)
+            specs[specSub][j] = specs[specSub][j] / specCounter;
+
     float fLength = m_numSamplesWritten / (float)11025;
     float fAverageZeroCrossing = iZeroCrossings / fLength;
     float fEnergy = dEnergySum / (float)m_numSamplesWritten;
     for (int i = 0; i < iFFTPoints; i++)
         iSpectrum[i] = iSpectrum[i] / iFinishedFFTs;
 
-    AudioSig *signature = new AudioSig(fEnergy, fAverageZeroCrossing,
-                                       fLength, iSpectrum);
+    int energydiffs[8];
+    for (int q = 0; q < 8; q++)
+        energydiffs[q] = 0;
 
-//cout << fEnergy << endl << fAverageZeroCrossing << endl << fLength << endl;
-//for (int q = 0; q < 32; q++)
-//  cout << iSpectrum[q] << endl;
+    for (int q = 0; q < energySub; q++)
+        energydiffs[q] = (int)(energys[q + 1] - energys[q]);
+
+    float avgdiff = 0;
+    int numsignchanges = 0;
+    bool lastdiffneg = (energydiffs[0] < 0);
+
+    for (int q = 0; q < 8; q++)
+    {
+        avgdiff += energydiffs[q];
+        if (lastdiffneg && energydiffs[q] > 0)
+        {
+            numsignchanges++;
+            lastdiffneg = false;
+        }
+        else if (!lastdiffneg && energydiffs[q] <= 0)
+        {
+            lastdiffneg = true;
+            numsignchanges++;
+        }
+    }
+    avgdiff /= 8;
+
+    int specdiffs[8][32];
+    for (int q = 0; q < 8; q++)
+        for (int j = 0; j < 32; j++)
+            specdiffs[q][j] = 0;
+
+    for (int q = 0; q < specSub; q++)
+        for (int j = 0; j < 32; j++)
+            specdiffs[q][j] = (int)(specs[q + 1][j] - specs[q][j]);
+
+    float avgspecdiff[32];
+  
+    for (int j = 0; j < 32; j++)
+        avgspecdiff[j] = 0;
+
+    for (int q = 0; q < 8; q++)
+    {
+        for (int j = 0; j < 32; j++)
+        {
+            avgspecdiff[j] += specdiffs[q][j];
+        }
+    }
+
+    for (int j = 0; j < 32; j++)
+        avgspecdiff[j] /= 8;
+
+//    cout << fEnergy << " " << fAverageZeroCrossing << endl;
+//    cout << avgdiff << " " << numsignchanges << endl;
+//    for (int j = 0; j < 32; j++)
+//        cout << iSpectrum[j] << " " << avgspecdiff[j] << endl;
+//    cout << endl;
+
+    AudioSig *signature = new AudioSig(fEnergy, fAverageZeroCrossing,
+                                       fLength, iSpectrum, avgdiff, 
+                                       numsignchanges, avgspecdiff);
 
     SigClient *sigClient = new SigClient();
-    sigClient->SetAddress("209.249.187.199", 4445);
+    sigClient->SetAddress("209.249.187.199", 4446);
     sigClient->SetProxy(m_proxy, m_proxyPort);
 
     if (collID == "")
