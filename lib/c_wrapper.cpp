@@ -22,6 +22,7 @@
 
 ----------------------------------------------------------------------------*/
 #include "musicbrainz.h"
+#include "rdfgen.h"
 #include "mb_c.h"
 
 extern "C"
@@ -302,6 +303,53 @@ void mb_ConvertSigToASCII(musicbrainz_t o, char sig[17], char ascii_sig[37])
       return;
 
    obj->ConvertSigToASCII(sig, ascii_sig);
+}
+
+rdfgen_t rg_New(void)
+{
+    return (rdfgen_t)new RDFGenerator();
+}
+
+void rg_Delete(rdfgen_t o)
+{
+    delete (RDFGenerator *)o; 
+}
+
+int rg_Select(rdfgen_t o, char *selectQuery)
+{
+    RDFGenerator *obj = (RDFGenerator *)o;
+
+    if (o == NULL)
+       return 0;
+
+    return obj->Select(string(selectQuery));
+}
+
+int rg_Insert(rdfgen_t o, char *key, char *value)
+{
+    RDFGenerator *obj = (RDFGenerator *)o;
+
+    if (o == NULL)
+       return 0;
+
+    return obj->Insert(string(key), string(value));
+}
+
+int rg_Generate(rdfgen_t o, char *RDFtemplate, char *RDF, int maxRDFLen)
+{
+    RDFGenerator *obj = (RDFGenerator *)o;
+    string   RDFString;
+
+    if (o == NULL)
+       return 0;
+
+    if (!obj->Generate(string(RDFtemplate), RDFString))
+       return 0;
+
+    strncpy(RDF, RDFString.c_str(), maxRDFLen);
+    RDF[maxRDFLen - 1] = 0;
+
+    return 1;
 }
 
 }
