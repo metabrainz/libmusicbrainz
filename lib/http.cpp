@@ -320,12 +320,12 @@ Error MBHttp::Download(const string &url, const string &xml, bool fileDownload)
                 kHTTPQuery = "GET %s HTTP/1.1\r\n"
                              "Host: %s\r\n"
                              "Accept: */*\r\n" 
-                             "User-Agent: %s\r\n";
+                             "User-Agent: libmusicbrainz/%s\r\n";
             else
                 kHTTPQuery = "POST %s HTTP/1.1\r\n"
                              "Host: %s\r\n"
                              "Accept: */*\r\n" 
-                             "User-Agent: %s\r\n"
+                             "User-Agent: libmusicbrainz/%s\r\n"
                              "Content-type: text/plain\r\n"
                              "Content-length: %d\r\n";
 
@@ -334,15 +334,15 @@ Error MBHttp::Download(const string &url, const string &xml, bool fileDownload)
             char* query = new char[ strlen(kHTTPQuery) + 
                                     file.length() +
                                     strlen(hostname) +
-                                    strlen(MUSICBRAINZ_VERSION)+
+                                    strlen(VERSION)+
                                     2 + xml.length()];
         
             if (xml.length() == 0)
                sprintf(query, kHTTPQuery, file.c_str(), hostname, 
-                       MUSICBRAINZ_VERSION);
+                       VERSION);
             else
                sprintf(query, kHTTPQuery, file.c_str(), hostname, 
-                       MUSICBRAINZ_VERSION, xml.length());
+                       VERSION, xml.length());
             strcat(query, "\r\n");
 
             if (xml.length())

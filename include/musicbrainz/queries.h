@@ -24,7 +24,9 @@
 #ifndef _QUERIES_H_
 #define _QUERIES_H_
 
-#define MUSICBRAINZ_VERSION "musicbrainz_client/1.0.0-pre2"
+// The following define should match the version number of the MM spec
+// that is implemented by the defines in this file
+#define MM_VERSION                "1.0-pre3"
 
 // local query names
 #define MB_GetCDInfo              "@CDINFO@"
