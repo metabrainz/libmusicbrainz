@@ -120,12 +120,12 @@ int main(void)
     int            numTracks, i;
     Queries        *p;
     char           szLine[256], *szCmd, *ptr, szLast[100];
-    string         xml, qarg, query;
+    string         xml, qarg, query, server;
     vector<string> args;
 
     // Set the server you want to use. Defaults to www.musicbrainz.org:80
-    o.SetServer(string("ww.musicbrainz.org"), 80);
-
+    //server = string("musicbrainz.eorbit.net");
+    //o.SetServer(server, 80);
     for(;;)
     {
         query = "";

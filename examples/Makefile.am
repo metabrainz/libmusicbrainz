@@ -24,13 +24,13 @@ INCLUDES = -I$(top_srcdir)/lib
 
 noinst_PROGRAMS = c_example cpp_example cmd lyric_example
 c_example_SOURCES = c_example.c
-c_example_LDADD = $(top_builddir)/lib/libmusicbrainz.la -lstdc++
+c_example_LDADD = $(top_builddir)/lib/.libs/libmusicbrainz.a -lstdc++
 
 cpp_example_SOURCES = cpp_example.cpp
-cpp_example_LDADD = $(top_builddir)/lib/libmusicbrainz.la
+cpp_example_LDADD = $(top_builddir)/lib/.libs/libmusicbrainz.a
 
 cmd_SOURCES = cmd.cpp
 cmd_LDADD = $(top_builddir)/lib/libmusicbrainz.la
 
 lyric_example_SOURCES = lyric_example.cpp
-lyric_example_LDADD = $(top_builddir)/lib/libmusicbrainz.la
+lyric_example_LDADD = $(top_builddir)/lib/.libs/libmusicbrainz.a

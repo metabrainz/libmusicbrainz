@@ -35,7 +35,7 @@ int main(void)
     o = mb_New();
 
     // Set the server you want to use. Defaults to www.musicbrainz.org:80
-    mb_SetServer(o, "www.musicbrainz.org", 80);
+    //mb_SetServer(o, "musicbrainz.eorbit.net", 80);
 
     // Execute the MB_GetCDInfo query, which pull the TOC from the
     // audio CD in the cd-rom drive, calculate the disk id and the
@@ -55,14 +55,14 @@ int main(void)
         return 0;
     }  
 
-    // Now start the data extraction process.
-    // Select the first item in the list of returned items
-    mb_Select(o, MB_SelectFirstItem);  
-
     // Get the number of tracks
     mb_GetResultData(o, MB_GetNumTracks, data, 256);
     numTracks = atoi(data);
     printf("NumTracks: %d\n", numTracks);
+
+    // Now start the data extraction process.
+    // Select the first item in the list of returned items
+    mb_Select(o, MB_SelectAlbum);  
 
     // Now get and print the title of the cd
     mb_GetResultData(o, MB_GetAlbumName, data, 256);

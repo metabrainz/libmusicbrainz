@@ -32,7 +32,7 @@ int main(void)
     int         numTracks, trackNum;
 
     // Set the server you want to use. Defaults to www.musicbrainz.org:80
-    o.SetServer(string("www.musicbrainz.org"), 80);
+    //o.SetServer(string("musicbrainz.eorbit.net"), 80);
 
     // Execute the GetCDInfo query, which pull the TOC from the 
     // audio CD in the cd-rom drive, calculate the disk id and the
@@ -52,13 +52,13 @@ int main(void)
         return 0;
     }
 
-    // Now start the data extraction process.
-    // Select the first item in the list of returned items
-    o.Select(MB_SelectFirstItem);
-
     // Get the number of tracks
     numTracks = o.DataInt(MB_GetNumTracks);
     printf("NumTracks: %d\n", numTracks);
+
+    // Now start the data extraction process.
+    // Select the first item in the list of returned items
+    o.Select(MB_SelectAlbum);
 
     // Now get and print the title of the cd
     printf("Title: '%s'\n", o.Data(MB_GetAlbumName).c_str());

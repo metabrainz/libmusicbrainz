@@ -42,13 +42,13 @@
 #define MB_GetArtistName          "DC:Creator"
 #define MB_GetArtistID            "DC:Identifier/@artistId"
 
-#define MB_GetAlbumName           "MM:Album"
+#define MB_GetAlbumName           "DC:Title"
 #define MB_GetAlbumID             "DC:Identifier/@albumId"
 
 #define MB_GetTrackID             "DC:Identifier/@trackId"
 #define MB_GetTrackNum            "DC:Relation/@track"
 #define MB_GetTrackName           "DC:Title"
-#define MB_GetNumTracks           "MM:Album/@numTracks"
+#define MB_GetNumTracks           "MM:Collection/@numParts"
 
 #define MB_GetGUID                "DC:Identifier/@guid"
 #define MB_GetFilename            "DC:Identifier/@fileName"
@@ -63,15 +63,16 @@
 #define MB_GetLyricTimestamp      "MM:SyncText/@ts"
 
 // Select the local query 
-#define MB_SelectLocalQuery       "/rdf:RDF/rdf:Description"
+#define MB_SelectTopLevel         "/rdf:RDF/rdf:Description"
 
-// Track selectors for queries that return an album
-#define MB_SelectFirstTrack       "/rdf:RDF/rdf:Description/MC:Collection/rdf:Bag/rdf:li[]/rdf:Description/rdf:Seq/rdf:li[0]/rdf:Description"
-#define MB_SelectNextTrack        "/rdf:RDF/rdf:Description/MC:Collection/rdf:Bag/rdf:li[]/rdf:Description/rdf:Seq/rdf:li[+1]/rdf:Description"
+// Select Album information
+#define MB_SelectAlbum            "/rdf:RDF/rdf:Description/MM:Collection/rdf:Description"
+#define MB_SelectFirstTrack       "/rdf:RDF/rdf:Description/MM:Collection/rdf:Description/rdf:Seq/rdf:li[0]/rdf:Description"
+#define MB_SelectNextTrack        "/rdf:RDF/rdf:Description/MM:Collection/rdf:Description/rdf:Seq/rdf:li[+1]/rdf:Description"
 
 // Item selectors for queries that return a list of items
-#define MB_SelectFirstItem        "/rdf:RDF/rdf:Description/MC:Collection/rdf:Bag/rdf:li[0]/rdf:Description"
-#define MB_SelectNextItem         "/rdf:RDF/rdf:Description/MC:Collection/rdf:Bag/rdf:li[+1]/rdf:Description"
+#define MB_SelectFirstItem        "/rdf:RDF/rdf:Description/MM:Collection/rdf:Bag/rdf:li[0]/rdf:Description"
+#define MB_SelectNextItem         "/rdf:RDF/rdf:Description/MM:Collection/rdf:Bag/rdf:li[+1]/rdf:Description"
 
 // Item selectors for queries that return a list of items
 #define MB_SelectExchangedData    "/rdf:RDF/rdf:Description"
@@ -83,8 +84,8 @@
 #define MB_SelectNextSyncEvent    "/rdf:RDF/rdf:Description/MM:SyncEvents/rdf:Description/rdf:Seq/rdf:li[+1]/rdf:Description"
 
 // GUID selectors for queries that return a list of GUIDS
-#define MB_SelectFirstGUID        "/rdf:RDF/rdf:Description/MC:Collection/rdf:Bag/rdf:li[0]/rdf:Description"
-#define MB_SelectNextGUID         "/rdf:RDF/rdf:Description/MC:Collection/rdf:Bag/rdf:li[+1]/rdf:Description"
+#define MB_SelectFirstGUID        "/rdf:RDF/rdf:Description/MM:Collection/rdf:Bag/rdf:li[0]/rdf:Description"
+#define MB_SelectNextGUID         "/rdf:RDF/rdf:Description/MM:Collection/rdf:Bag/rdf:li[+1]/rdf:Description"
 
 // Lookup queries
 #define MB_GetCDInfoFromCDIndexID "<MQ:Query>GetCDInfoFromId</MQ:Query>\n"     \
