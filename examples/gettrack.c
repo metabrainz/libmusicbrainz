@@ -41,7 +41,7 @@ int main(int argc, char *argv[])
     o = mb_New();
 
 #ifdef WIN32
-	mb_WSAInit(o);
+    mb_WSAInit(o);
 #endif
 
     // Tell the client library to return data in ISO8859-1 and not UTF-8
@@ -99,7 +99,7 @@ int main(int argc, char *argv[])
     mb_Delete(o);
 
 #ifdef WIN32
-	mb_WSAStop(o);
+    mb_WSAStop(o);
 #endif
 
     return 0;

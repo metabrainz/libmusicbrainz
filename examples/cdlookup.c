@@ -65,6 +65,10 @@ int main(int argc, char *argv[])
     // Create the musicbrainz object, which will be needed for subsequent calls
     o = mb_New();
 
+#ifdef WIN32
+    mb_WSAInit(o);
+#endif
+
     // Set the proper server to use. Defaults to mm.musicbrainz.org:80
     if (getenv("MB_SERVER"))
         mb_SetServer(o, getenv("MB_SERVER"), 80);
@@ -123,6 +127,10 @@ int main(int argc, char *argv[])
     }
     else
         printf("Could read CD-ROM parameters. Is there a CD in the drive?\n");
+
+#ifdef WIN32
+    mb_WSAInit(o);
+#endif
 
     // and clean up the musicbrainz object
     mb_Delete(o);

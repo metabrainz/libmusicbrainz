@@ -40,6 +40,10 @@ int main(int argc, char *argv[])
     // Create the musicbrainz object, which will be needed for subsequent calls
     o = mb_New();
 
+#ifdef WIN32
+    mb_WSAInit(o);
+#endif
+
     // Tell the client library to return data in ISO8859-1 and not UTF-8
     mb_UseUTF8(o, 0);
 
@@ -94,6 +98,10 @@ int main(int argc, char *argv[])
     // Extract the sort name
     if (mb_GetResultData(o, MBE_ArtistGetArtistSortName, data, 256))
        printf(" SortName: %s\n", data);    
+
+#ifdef WIN32
+    mb_WSAStop(o);
+#endif
 
     // and clean up the musicbrainz object
     mb_Delete(o);
