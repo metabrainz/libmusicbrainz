@@ -3,6 +3,9 @@ Revision history for Perl extension MusicBrainz::Queries.
 All changes by Sander van Zoest <svanzoest@cpan.org> unless 
 otherwise noted.
 
+0.03
+	- Added documentation for all queries.
+
 0.02  Thu Feb 20 20:56:21 2003
         - First public alpha version
 
