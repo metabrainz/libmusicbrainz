@@ -85,7 +85,7 @@ char *SigXDR::FromSig(AudioSig *sig)
 
 string SigXDR::ToStrGUID(char *buffer, long size)
 {
-    string ret = "";
+    string ret;
 
     m_size = 16 * FIELDSIZE;
     if (size != m_size)
