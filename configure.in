@@ -30,6 +30,7 @@ dnl right now we specialize by linking (subject to change)
 AC_LINK_FILES(osdep/mb_${os}.cpp osdep/mb_${os}.h, lib/mb.cpp lib/mb.h)
 
 dnl Checks for programs.
+AC_PREREQ(2.52)
 AC_PROG_AWK
 AC_PROG_CC
 AM_PROG_LIBTOOL
