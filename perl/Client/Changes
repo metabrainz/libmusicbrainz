@@ -5,6 +5,7 @@ otherwise noted.
 
 $Id$
 
+0.06_01 Sun May  4 01:06:08 2003
 	- Added beginnings of a perlish interface
 	  MusicBrainz::Client::Simple [Matthias Friedrich]
 	- Adjusted version number "require" to "use" with
