@@ -45,7 +45,7 @@ namespace SigClientVars
 
     static const int nGUIDSize = 16;
     static const int nTimeout = 15;
-    static const int nVersion = 1;
+    static const int nVersion = 2;
     static const int nHeaderSize = sizeof(char) + sizeof(int);
 }
 
@@ -76,7 +76,7 @@ int SigClient::GetSignature(AudioSig *sig, string &strGUID,
 
     int nOffSet = sizeof(char) + sizeof(int);
     int nGUIDLen = strCollectionID.size() * sizeof(char) + sizeof(char);
-    int iSigEncodeSize = sizeof(int) + 35 * sizeof(int32) + nGUIDLen;
+    int iSigEncodeSize = sizeof(int) + 70 * sizeof(int32) + nGUIDLen;
     int nTotalSize = nOffSet + iSigEncodeSize;
 
     char* pBuffer = new char[nTotalSize + 1];
@@ -109,6 +109,11 @@ int SigClient::GetSignature(AudioSig *sig, string &strGUID,
     if ((ret != -1) && (nBytes == iGUIDSize)) {
         ret = 0;
         strGUID = converter.ToStrGUID(pBuffer, nBytes);
+        if (strGUID == "") 
+            cerr << "Your MusicBrainz client library is too old to talk to\n"
+                 << "the signature server.  Please go to www.musicbrainz.org\n"
+                 << "and upgrade to the latest version, or upgrade whatever\n"
+                 << "software package your are currently using.\n";
     }
     else {
 	ret = -1;
