@@ -150,11 +150,11 @@
 				RelativePath="..\lib\comhttpsocket.cpp">
 			</File>
 			<File
-				RelativePath="..\lib\debug.cpp">
-			</File>
-			<File
 				RelativePath="..\lib\diskid.cpp">
 			</File>
+                        <File
+                                RelativePath="..\lib\encoder.cpp">
+                        </File>
 			<File
 				RelativePath="..\lib\haar.cpp">
 			</File>
@@ -176,6 +176,9 @@
 			<File
 				RelativePath="..\lib\parse.cpp">
 			</File>
+                        <File
+                                RelativePath="..\lib\proxyhandler.cpp">
+                        </File>
 			<File
 				RelativePath="..\lib\rdfextract.cpp">
 			</File>

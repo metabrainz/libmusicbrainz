@@ -108,6 +108,10 @@ SOURCE=..\lib\diskid.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=..\lib\encoder.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=..\lib\haar.cpp
 # End Source File
 # Begin Source File
@@ -129,6 +133,10 @@ SOURCE=.\musicbrainz.def
 # Begin Source File
 
 SOURCE=..\lib\parse.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\lib\proxyhandler.cpp
 # End Source File
 # Begin Source File
 
