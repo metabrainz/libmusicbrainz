@@ -69,6 +69,16 @@ int main(int argc, char *argv[])
     if (getenv("MB_SERVER"))
         mb_SetServer(o, getenv("MB_SERVER"), 80);
 
+    // Check to see if the debug env var has been set 
+    if (getenv("MB_DEBUG"))
+        mb_SetDebug(o, atoi(getenv("MB_DEBUG")));
+
+    // Tell the server to only return 2 levels of data, unless the MB_DEPTH env var is set
+    if (getenv("MB_DEPTH"))
+        mb_SetDepth(o, atoi(getenv("MB_DEPTH")));
+    else
+        mb_SetDepth(o, 2);
+
     // If a device was specified on the command line, then pass on 
     if (argc > 1)
     {

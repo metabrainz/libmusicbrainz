@@ -33,7 +33,7 @@ int main(int argc, char *argv[])
 
     if (argc < 2)
     {
-        printf("Usage: getartist <artistid> [depth]\n");
+        printf("Usage: getartist <artistid>\n");
         exit(0);
     }
 
@@ -47,15 +47,18 @@ int main(int argc, char *argv[])
     mb_SetDebug(o, 1);
 
     // Set the proper server to use. Defaults to mm.musicbrainz.org:80
-    if (argc == 3)
-        mb_SetDepth(o, atoi(argv[2]));
-    else
-        // Tell the server to return 1 level of data
-        mb_SetDepth(o, 2);
-
-    // Set the proper server to use. Defaults to mm.musicbrainz.org:80
     if (getenv("MB_SERVER"))
         mb_SetServer(o, getenv("MB_SERVER"), 80);
+
+    // Check to see if the debug env var has been set 
+    if (getenv("MB_DEBUG"))
+        mb_SetDebug(o, atoi(getenv("MB_DEBUG")));
+
+    // Tell the server to only return 2 levels of data, unless the MB_DEPTH env var is set
+    if (getenv("MB_DEPTH"))
+        mb_SetDepth(o, atoi(getenv("MB_DEPTH")));
+    else
+        mb_SetDepth(o, 2);
 
     // Set up the args for the find artist query
     args[0] = argv[1];

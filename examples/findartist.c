@@ -29,7 +29,7 @@ int main(int argc, char *argv[])
 {
     musicbrainz_t o;
     char          error[256], data[256], temp[256], *args[2];
-    int           ret, numArtists, numAlbums, i, j;
+    int           ret, numArtists, i;
 
     if (argc < 2)
     {
@@ -43,15 +43,22 @@ int main(int argc, char *argv[])
     // Tell the client library to return data in ISO8859-1 and not UTF-8
     mb_UseUTF8(o, 0);
 
-    // Tell the server to only return 2 levels of data
-    mb_SetDepth(o, 2);
-
     // Tell the server to return max 10 items.
     mb_SetMaxItems(o, 10);
 
     // Set the proper server to use. Defaults to mm.musicbrainz.org:80
     if (getenv("MB_SERVER"))
         mb_SetServer(o, getenv("MB_SERVER"), 80);
+
+    // Check to see if the debug env var has been set 
+    if (getenv("MB_DEBUG"))
+        mb_SetDebug(o, atoi(getenv("MB_DEBUG")));
+
+    // Tell the server to only return 2 levels of data, unless the MB_DEPTH env var is set
+    if (getenv("MB_DEPTH"))
+        mb_SetDepth(o, atoi(getenv("MB_DEPTH")));
+    else
+        mb_SetDepth(o, 2);
 
     // Set up the args for the find artist query
     args[0] = argv[1];
@@ -94,26 +101,6 @@ int main(int argc, char *argv[])
         mb_GetIDFromURL(o, data, temp, 256);
         printf("  ArtistId: '%s'\n", temp);
 
-        // Extract the number of albums 
-        numAlbums = mb_GetResultInt(o, MBE_GetNumAlbums);
-        printf("Num Albums: %d\n", numAlbums);
-
-        for(j = 1; j <= numAlbums; j++)
-        {
-            // Select the jth album in the album list
-            mb_Select1(o, MBS_SelectAlbum, j);  
-
-            // Extract the album name 
-            mb_GetResultData(o, MBE_AlbumGetAlbumName, data, 256);
-            printf("     Album: '%s'", data);
-            
-            mb_GetResultData(o, MBE_AlbumGetAlbumId, data, 256);
-            mb_GetIDFromURL(o, data, temp, 256);
-            printf(" (%s)\n", temp);
-        
-            // Back up one level and go back to the artist level 
-            mb_Select(o, MBS_Back);  
-        }
         printf("\n");
     }
 
