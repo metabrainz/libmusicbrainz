@@ -65,6 +65,8 @@ SigClient::~SigClient()
         delete m_pSocket;
 }
 
+#define REVERSE_LONG_BYTE_ORDER(a_long)  ((a_long & 0xFF000000) >> 24) + ((a_long & 0x00FF0000) >>  8) + ((a_long & 0x0000FF00) << 8) + ((a_long & 0x000000FF) << 24)
+
 int SigClient::GetSignature(AudioSig *sig, string &strGUID, 
                             string strCollectionID)
 {
@@ -82,9 +84,16 @@ int SigClient::GetSignature(AudioSig *sig, string &strGUID,
     char* pBuffer = new char[nTotalSize + 1];
     memset(pBuffer, 0, nTotalSize);
     memcpy(&pBuffer[0], &SigClientVars::cGetGUID, sizeof(char));
+#ifdef WORDS_BIGENDIAN
+    int temp = REVERSE_LONG_BYTE_ORDER(iSigEncodeSize);
+    memcpy(&pBuffer[1], &temp, sizeof(int));
+    temp = REVERSE_LONG_BYTE_ORDER(SigClientVars::nVersion);
+    memcpy(&pBuffer[nOffSet], &temp, sizeof(int));
+#else
     memcpy(&pBuffer[1], &iSigEncodeSize, sizeof(int));
-
     memcpy(&pBuffer[nOffSet], &SigClientVars::nVersion, sizeof(int));
+#endif
+
     nOffSet += sizeof(int);
 
     iSigEncodeSize -= (nGUIDLen + sizeof(int));
