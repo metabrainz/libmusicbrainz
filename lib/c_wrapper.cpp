@@ -40,6 +40,16 @@ void mb_Delete(musicbrainz_t o)
     delete (MusicBrainz *)o; 
 }
 
+void mb_GetVersion(musicbrainz_t o, int *major, int *minor, int *rev)
+{
+    *major = *minor = *rev = 0;
+    MusicBrainz *obj = (MusicBrainz *)o;
+    if (o == NULL)
+       return;
+
+    obj->GetVersion(*major, *minor, *rev);
+}
+
 int mb_SetServer(musicbrainz_t o, char *serverAddr, short serverPort)
 {
     MusicBrainz *obj = (MusicBrainz *)o;

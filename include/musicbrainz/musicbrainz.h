@@ -49,6 +49,7 @@ class MusicBrainz
        EXPORT          MusicBrainz(void);
        EXPORT virtual ~MusicBrainz(void);
 
+       EXPORT void     GetVersion       (int &major, int &minor, int &rev);
        EXPORT bool     SetServer        (const string &serverAddr, 
                                          short serverPort);
        EXPORT bool     SetProxy         (const string &proxyAddr, 

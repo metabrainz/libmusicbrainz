@@ -77,6 +77,12 @@ MusicBrainz::~MusicBrainz(void)
     delete m_rdf; 
 }
 
+// Get the version of the library
+void MusicBrainz::GetVersion(int &major, int &minor, int &rev)
+{
+    sscanf(VERSION, "%d.%d.%d", &major, &minor, &rev);
+}
+
 // Set the URL and port of the musicbrainz server to use.
 bool MusicBrainz::SetServer(const string &serverAddr, short serverPort)
 {
