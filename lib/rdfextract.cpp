@@ -25,7 +25,10 @@
 #include <stdlib.h>
 #include <string.h>
 #include <list>
+#include <string>
 #include "rdfextract.h"
+
+using namespace std;
 
 #undef DEBUG
 
@@ -265,6 +268,25 @@ bool RDFExtract::GetSubjectFromObject(const string &object,
        }
     }
     return false;
+}
+
+int RDFExtract::GetOrdinalFromList(const string &startURI, 
+                                   const string &listQuery,
+                                   const string &id)
+{
+    vector<RDFStatement>::iterator i;
+    string                         listURI;
+
+    listURI = Extract(startURI, listQuery);
+    if (listURI.size() == 0)
+        return -1;
+
+    for(i = triples.begin(); i != triples.end(); i++)
+    {
+       if ((*i).subject == listURI && (*i).object == id)
+           return (*i).ordinal;
+    }
+    return -1;
 }
 
 bool RDFExtract::GetError(string &error)

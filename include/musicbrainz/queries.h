@@ -95,6 +95,14 @@
         "http://purl.org/dc/elements/1.1/creator"
 
 /**
+ * Use this Select Query to select an the corresponding artist from a track 
+ * context. MBE_ArtistXXXXXX queries to extract data after the select.
+ * @param ordinal 
+ */
+#define MBS_SelectTrackAlbum      \
+        "http://musicbrainz.org/mm/mq-1.1#album"
+
+/**
  * Use this Select Query to select a trmid from the list. 
  * @param ordinal This select requires one ordinal argument
  */
@@ -136,14 +144,6 @@
  */
 #define MBE_GetStatus              \
         "http://musicbrainz.org/mm/mq-1.1#status"
-
-/** 
- * Return the matchType for query. The matchtype tells the client
- * what elements the server was able to resolve. Possible values are
- * artist, artist_album, artist_track, artist_album_track.
- */
-#define MBE_GetMatchType      \
-        "http://musicbrainz.org/mm/mq-1.1#matchType"
 
 /* -------------------------------------------------------------------------
  * Queries used to determine the number of items returned
@@ -268,12 +268,20 @@
         "http://musicbrainz.org/mm/mm-2.1#trackList [] "
 
 /**
+ * Return the track list of an album. This extractor should only be used
+ * to specify a list for GetOrdinalFromList().
+ * @see mb_GetOrdinalFromList
+ */
+#define MBE_AlbumGetTrackList        \
+        "http://musicbrainz.org/mm/mm-2.1#trackList"
+
+/**
  * Return the track number of the nth track in the album. Requires a
  * track index ordinal. 1 for the first track, etc...
  * @param ordinal This select requires one ordinal argument to select a track
  */
 #define MBE_AlbumGetTrackNum       \
-        "http://musicbrainz.org/mm/mm-2.1#trackList [] http://musicbrainz.org/mm/mm-2.1#trackNum"
+        "http://musicbrainz.org/mm/mm-2.1#trackList [?] http://musicbrainz.org/mm/mm-2.1#trackNum"
 
 /**
  * Return the track name of the nth track in the album. Requires a
@@ -362,43 +370,6 @@
  */
 #define MBE_TrackGetArtistId      \
         "http://purl.org/dc/elements/1.1/creator"
-
-/**
- * Return the name of the album for this track. Requires an ordinal to
- * select which album to retrieve the name from.
- * @param ordinal This select requires one ordinal argument to select an album 
- */
-#define MBE_TrackGetAlbumName      \
-        "http://purl.org/dc/elements/1.1/creator http://musicbrainz.org/mm/mm-2.1#albumList [] http://purl.org/dc/elements/1.1/title"
-
-/**
- * Return the Id of the album for this track. Requires an ordinal to
- * select which album to retrieve the name from.
- * @param ordinal This select requires one ordinal argument to select an album 
- */
-#define MBE_TrackGetAlbumId      \
-        "http://purl.org/dc/elements/1.1/creator http://musicbrainz.org/mm/mm-2.1#albumList []"
-
-/**
- * Return the release status of the album for this track. Requires an ordinal to
- * select which album to retrieve the name from.
- */
-#define MBE_AlbumGetAlbumStatus        \
-        "http://purl.org/dc/elements/1.1/creator http://musicbrainz.org/mm/mm-2.1#albumList [] http://musicbrainz.org/mm/mm-2.1#releaseStatus"
-
-/**
- * Return the release type of the album for this track. Requires an ordinal to
- * select which album to retrieve the name from.
- */
-#define MBE_AlbumGetAlbumType        \
-        "http://purl.org/dc/elements/1.1/creator http://musicbrainz.org/mm/mm-2.1#albumList [] http://musicbrainz.org/mm/mm-2.1#releaseType"
-
-/**
- * Return the track duration in the currently selected track
- */
-#define MBE_TrackGetTrackDuration      \
-        "http://musicbrainz.org/mm/mm-2.1#duration"
-
 
 /* -------------------------------------------------------------------------
  * Quick track/trm queries

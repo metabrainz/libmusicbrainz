@@ -416,6 +416,18 @@ int       mb_SetResultRDF      (musicbrainz_t o, char *RDF);
  */
 void      mb_GetIDFromURL      (musicbrainz_t o, char *url, char *id, 
                                 int idLen);
+
+/**
+ * Get the ordinal (list position) of an item in a list. This function is
+ * normally used to retrieve the track number out of a list of tracks in
+ * an album. A result list query (usually MBE_AlbumGetTrackList)
+ * @see MBE_AlbumGetTrackList
+ * @param o the musicbrainz_t object returned from mb_New()
+ * @param list selector (usually MBE_AlbumGetTrackList)
+ * @param URI of the item from the list to return.
+ */
+int       mb_GetOrdinalFromList(musicbrainz_t o, char *resultList, char *URI);
+
 /**
  * Calculate the sha1 hash for a given filename. This function is
  * often used in conjunction with an MBQ_ExchangeMetadataLite query,

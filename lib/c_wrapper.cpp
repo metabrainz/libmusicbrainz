@@ -388,6 +388,15 @@ void mb_GetIDFromURL(musicbrainz_t o, char *url, char *idArg, int maxIdLen)
     idArg[maxIdLen - 1] = 0;
 }
 
+int mb_GetOrdinalFromList(musicbrainz_t o, char *resultList, char *id)
+{
+    MusicBrainz *obj = (MusicBrainz *)o;
+    if (o == NULL)
+       return -1;
+
+    return obj->GetOrdinalFromList(string(resultList), string(id));
+}
+
 int mb_CalculateSha1(musicbrainz_t o, char *fileName, char sha1[41])
 {
     MusicBrainz *obj = (MusicBrainz *)o;
