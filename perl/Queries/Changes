@@ -5,7 +5,21 @@ otherwise noted.
 
 $Id$
 
-0.06  Sun May 16 20:27:57 2004
+0.07 Thu Jun 17 20:03:19 2004
+	- actually expose libmusicbrainz 2.1.1 queries.
+	- added the new queries to documentation:
+              MBE_AlbumGetAmazonAsin
+              MBE_AlbumGetAmazonCoverartURL
+              MBE_AlbumGetNumReleaseDates
+              MBE_LookupGetAlbumArtistId
+              MBE_LookupGetTrackArtistId
+              MBE_QuickGetArtistId
+              MBE_QuickGetArtistSortName
+              MBE_ReleaseGetCountry
+              MBE_ReleaseGetDate
+              MBS_SelectReleaseDate
+
+0.06  Sun May 16 20:27:57 2004 (broken, do not use)
 	- Added libmusicbrainz 2.1.1 support, including
 	  Amazon Art Queries
 	- fixed a typo in Makefile.PL
