@@ -421,7 +421,6 @@ void      mb_GetIDFromURL      (musicbrainz_t o, char *url, char *id,
  * often used in conjunction with an MBQ_ExchangeMetadataLite query,
  * to calculate the needed arguments for a metadata exchange with the
  * MusicBrainz server.
- * @see mb_QueryWithArgs
  * @param o the musicbrainz_t object returned from mb_New()
  * @param fileName the file to calculate a sha1 value for
  * @param sha1 a string with space for 41 bytes that will hold the sha1 value
@@ -442,6 +441,29 @@ int       mb_CalculateSha1     (musicbrainz_t o, char *fileName,
  *  */
 int       mb_CalculateBitprint (musicbrainz_t o, char *fileName,
                                 BitprintInfo *info);
+
+/**
+ * This helper function calculates the crucial pieces of information for an MP3
+ * files. This function returns the duration of the MP3 in milliseconds, which
+ * is handy for passing the length of the track to the TRM generation routines.
+ * Beware: The TRM routines are expecting the duratin in SECONDS, so you will
+ *         need to divide the duration returned by this function by 1000 before
+ *         you pass it to the TRM routines.
+ * @param o the musicbrainz_t object returned from mb_New()
+ * @param fileName the file to get mp3 info for
+ * @param duration the duration of the mp3 filein milliseconds.
+ * @param bitrate the bitrate of the mp3 file in kilobits/second
+ * @param stereo true (1) if stereo false (0) otherwise.
+ * @param samplerate the sample rate for this MP3 file.
+ * @return true if the mp3 was successfully examined, false otherwise.
+ *  */
+int       mb_GetMP3Info        (musicbrainz_t  o, 
+                                char          *fileName, 
+                                int           *duration,
+                                int           *bitrate,
+                                int           *stereo,
+                                int           *samplerate);
+
 
 /* The interface to the Relatable TRM signature generator */
 
