@@ -360,6 +360,21 @@ void mb_GetIDFromURL(musicbrainz_t o, char *url, char *idArg, int maxIdLen)
     idArg[maxIdLen - 1] = 0;
 }
 
+int mb_CalculateSha1(musicbrainz_t o, char *fileName, char sha1[41])
+{
+    MusicBrainz *obj = (MusicBrainz *)o;
+    string       sha1_str;
+    bool         ret;
+
+    if (o == NULL)
+       return 0;
+
+    ret = obj->CalculateSha1(string(fileName), sha1_str);
+    strncpy(sha1, sha1_str.c_str(), 41);
+
+    return (int)ret;
+}
+
 int mb_CalculateBitprint(musicbrainz_t o, char *fileName, BitprintInfo *info)
 {
     MusicBrainz *obj = (MusicBrainz *)o;

@@ -33,7 +33,7 @@ int main(int argc, char *argv[])
 
     if (argc < 2)
     {
-        printf("Usage: gettrack <trackid>\n");
+        printf("Usage: gettrack <trmid>\n");
         exit(0);
     }
 
@@ -50,14 +50,14 @@ int main(int argc, char *argv[])
     mb_SetDepth(o, 3);
 
     // Set the server you want to use. Defaults to www.musicbrainz.org:80
-    //mb_SetServer(o, "musicbrainz.eorbit.net", 80);
+    mb_SetServer(o, "musicbrainz.eorbit.net", 80);
 
     // Set up the args for the find artist query
     args[0] = argv[1];
     args[1] = NULL;
 
     // Execute the MB_GetTrackById query
-    ret = mb_QueryWithArgs(o, MBQ_GetTrackById, args);
+    ret = mb_QueryWithArgs(o, MBQ_GetTrackByTRMId, args);
     if (!ret)
     {
         mb_GetQueryError(o, error, 256);
@@ -70,7 +70,7 @@ int main(int argc, char *argv[])
     numTracks = mb_GetResultInt(o, MBE_GetNumTracks);
     if (numTracks < 1)
     {
-        printf("Tracks not found.\n");
+        printf("Track not found.\n");
         mb_Delete(o);
         return 0;
     }  

@@ -628,7 +628,33 @@ void MusicBrainz::SetError(Error ret)
     }
 }
 
-// Calculate a Bitzi bitprint and submit it to musicbrainz. The
+// Calculate a sha1 hash for a given file. This sha1 value will be used
+// in the MusicBrainz data acceptance process.
+bool MusicBrainz::CalculateSha1(const string &fileName, string &sha1)
+{
+    FILE *fp;
+    unsigned char  digest[20];
+    SHA_INFO       sha_info;
+    char           temp[3];
+
+    fp = fopen(fileName.c_str(), "rb");
+    if (fp == NULL)
+       return false;
+
+    sha_stream(digest, &sha_info, fp);
+    fclose(fp);
+
+    sha1 = string("");
+    for(int i = 0; i < 20; i++)
+    {
+        sprintf(temp, "%02X", digest[i] & 0xFF);
+        sha1 += string(temp);
+    }
+
+    return true;
+}
+
+// Calculate a Bitzi bitprint given a file. The
 // bitprint will be used in the musicbrainz metadata acceptance 
 // process. The completed bitzi bitprints will be submitted to the
 // Bitizi community metadatabase.
