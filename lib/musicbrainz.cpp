@@ -188,7 +188,7 @@ bool MusicBrainz::Query(const string &xmlObject, vector<string> *args)
     // release.
 
     // This will override anything that the caller sets.
-    SetServer("cranky.eorbit.net", 80);
+    SetServer("cranky.eorbit.net", 8080);
     if (strncmp(xmlObject.c_str(), magicString, strlen(magicString)) == 0 &&
         args->size() == 10)
     {
