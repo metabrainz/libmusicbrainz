@@ -40,12 +40,12 @@ void BeginElement(void *data, const XML_Char *el, const XML_Char **attr)
     for(; *attr;)
         oMap[string((char *)*(attr++))] = string((char *)*(attr++));
 
-    ((Parse *)data)->BeginElement(string(el), oMap);
+    ((MBParse *)data)->BeginElement(string(el), oMap);
 }
 
 void EndElement(void *data, const XML_Char *el)
 {
-    ((Parse *)data)->EndElement(string(el));
+    ((MBParse *)data)->EndElement(string(el));
 }
 
 void PCData(void *data, const XML_Char *charData, int len)
@@ -55,11 +55,11 @@ void PCData(void *data, const XML_Char *charData, int len)
     temp = new char[len + 1];
     strncpy(temp, (char *)charData, len);
     temp[len] = 0;
-    ((Parse *)data)->PCData(string(temp));
+    ((MBParse *)data)->PCData(string(temp));
     delete temp;
 }
 
-Parse::Parse(void)
+MBParse::MBParse(void)
 {
     m_pParser = (XML_Parser *)XML_ParserCreate(NULL);
     XML_SetUserData(m_pParser, this);
@@ -67,29 +67,29 @@ Parse::Parse(void)
     XML_SetCharacterDataHandler(m_pParser, ::PCData);
 }
 
-Parse::~Parse(void)
+MBParse::~MBParse(void)
 {
     XML_ParserFree(m_pParser);
 }
 
-Error Parse::ParseFile(const string &oFile)
+Error MBParse::ParseFile(const string &oFile)
 {
     assert(0); 
     return kError_NoErr;
 }
 
-Error Parse::ParseString(const string &oXML)
+Error MBParse::ParseString(const string &oXML)
 {
     return XML_Parse(m_pParser, oXML.c_str(), oXML.length(), 1) ? 
            kError_NoErr : kError_ParseError;
 }
 
-void Parse::GetErrorString(string &oError)
+void MBParse::GetErrorString(string &oError)
 {
     oError = string(XML_ErrorString(XML_GetErrorCode(m_pParser)));
 }
 
-int Parse::GetErrorLine(void)
+int MBParse::GetErrorLine(void)
 {
     return XML_GetCurrentLineNumber(m_pParser);
 }
