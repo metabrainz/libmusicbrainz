@@ -27,6 +27,11 @@
 #include "errors.h"
 #include "queries.h"
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
 typedef void * musicbrainz_t;
 
 musicbrainz_t mb_New           (void);
@@ -56,4 +61,9 @@ int       mb_GenerateSignature (musicbrainz_t o, char *data, int size,
 		                char **signature, char *collectionID);
 void      mb_GenerateSignatureNow(musicbrainz_t o, char **signature,
 		                  char *collectionID);
+
+#ifdef __cplusplus
+}
+#endif
+
 #endif
