@@ -27,6 +27,8 @@
 #include <list>
 #include "rdfextract.h"
 
+#include "debug.h"
+
 #undef DEBUG
 
 void statement_handler(void*           user_data,
@@ -300,7 +302,13 @@ const string RDFExtract::ConvertToISO(const char *UTF8)
             *out = 0;
           else
           {
-            *out = (((*in) & 0x1F) << 6) | (0x3F & (*(++in)));
+			// The following used to be in one block, but the math would end up 
+		    // wrong if compiled with MSVC++ in release mode. Using the left and right
+			// intermediates fixes the problem. Gotta love M$ crap.
+			unsigned char left, right;
+            left = (((*in) & 0x1F) << 6); 
+			right = (0x3F & (*(++in)));
+            *out = right | left;
           }
        }
        else
