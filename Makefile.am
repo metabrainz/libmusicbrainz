@@ -22,7 +22,7 @@
 AUTOMAKE_OPTIONS = foreign
 
 SUBDIRS = @MAYBE_EXPAT@ include lib osdep examples 
-DIST_SUBDIRS = expat osdep lib examples perl python
+DIST_SUBDIRS = expat osdep include lib examples perl 
 
 cvsclean: distclean
 	@echo "additonal cleanup for cvs commits"
