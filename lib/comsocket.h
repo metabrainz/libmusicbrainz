@@ -71,8 +71,6 @@ public:
 	int Read(char* pBuffer, int nLen, int* nBytesWritten);
 	/** Reads in a non blocking fashion (ie, selects and polls) for nTimeout seconds */
 	int NBRead(char* pBuffer, int nLen, int* nBytesWritten, int nTimeout);
-	/** Polls the socket for nMSec milliseconds and returns true if data is available */
-	bool Poll(int nMSec, bool bType = true);
 	/** Writes to a socket, from buffer pBuffer, up to nLen bytes, and returns the number of written bytes in pnBytesWritten. */
 	int Write(const char* pBuffer, int nLen, int* pnBytesWritten);
 	/** Sets TCPNODELAY to nFlag */
