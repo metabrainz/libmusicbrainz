@@ -46,7 +46,10 @@ int mb_SetServer(musicbrainz_t o, char *serverAddr, short serverPort)
 int mb_SetProxy(musicbrainz_t o,char *proxyAddr, short proxyPort)
 {
     MusicBrainz *obj = (MusicBrainz *)o;
-    return (int)obj->SetServer(string(proxyAddr), proxyPort);
+    string addr = "";
+    if (proxyAddr) 
+        addr = proxyAddr;
+    return (int)obj->SetProxy(addr, proxyPort);
 }
 
 int mb_SetDevice(musicbrainz_t o, char *device)

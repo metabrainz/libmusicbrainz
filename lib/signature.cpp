@@ -314,6 +314,7 @@ void MusicBrainz::GenerateSignatureNow(string &strGUID, string &collID)
 
     SigClient *sigClient = new SigClient();
     sigClient->SetAddress("209.249.187.199", 4445);
+    sigClient->SetProxy(m_proxy, m_proxyPort);
 
     if (collID == "")
         collID = "EMPTY_COLLECTION";
