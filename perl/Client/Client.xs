@@ -377,9 +377,11 @@ char*
 mb_calculate_sha1(musicbrainz_t mb, char* filename)
 PROTOTYPE: $$
 PREINIT:
-int status;
+  char sha1[MB_SHA1_LENGTH];
+  int status;
 CODE:
-  status = mb_CalculateSha1(mb,filename,RETVAL);
+  status = mb_CalculateSha1(mb,filename,sha1);
+  RETVAL = sha1;
 OUTPUT:
   RETVAL
 CLEANUP:
