@@ -21,6 +21,7 @@
      $Id$
 
 ----------------------------------------------------------------------------*/
+#include "config.h"
 #include <stdio.h>
 #include <string.h>
 #include <assert.h>
@@ -49,6 +50,7 @@ const char *localAssociateCD = "@CDINFOASSOCIATECD@";
 const char *defaultServer = "mm.musicbrainz.org";
 const short defaultPort = 80;
 const char *rdfUTF8Encoding = "<?xml version=\"1.0\"?>\n";
+const char *rdfISOEncoding = "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?>\n";
 
 const char *rdfHeader = 
     "<rdf:RDF xmlns:rdf = \"http://www.w3.org/1999/02/22-rdf-syntax-ns#\"\n"
@@ -268,10 +270,24 @@ bool MusicBrainz::GetWebSubmitURL(string &url)
 // a valid RDF query
 void MusicBrainz::MakeRDFQuery(string &rdf)
 {
-    rdf = (string(rdfUTF8Encoding)) +
+string xmlHeader;
+#ifdef USE_ICU
+    xmlHeader = (string(rdfUTF8Encoding));
+#else
+    string encoding;
+    m_encoder.GetCurrentEncoding(encoding);
+    if (encoding == "ISO-8859-1") {
+       xmlHeader = (string(rdfISOEncoding));
+    }
+    else {
+       xmlHeader = (string(rdfUTF8Encoding));
+    }
+#endif
+    rdf =  xmlHeader + 
            string(rdfHeader) + 
            rdf + 
            string(rdfFooter);
+
 }
 
 // The main Query function. This query builds a valid RDF query,
