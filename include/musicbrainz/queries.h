@@ -409,6 +409,12 @@
 #define MBE_QuickGetTrackNum       \
         "http://musicbrainz.org/mm/mm-2.0#trackNum"
 
+/**
+ * Return the MB track id
+ */
+#define MBE_QuickGetTrackId       \
+        "http://musicbrainz.org/mm/mm-2.0#trackid"
+
 /* -------------------------------------------------------------------------
  * Extract queries for the MBQ_GetCDTOC query
  * -------------------------------------------------------------------------
