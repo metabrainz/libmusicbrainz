@@ -37,10 +37,11 @@
  */
 
 /**
- * The MusicBrainz id used to indicate that an album is a various artist
+ * The MusicBrainz artist id used to indicate that an album is a various artist
  * album.
  */
-#define MBI_VARIOUS_ARTIST_ID "89ad4ac3-39f7-470e-963a-56509c546377"
+#define MBI_VARIOUS_ARTIST_ID \
+        "89ad4ac3-39f7-470e-963a-56509c546377"
 
 /**
  * Use this query to reset the current context back to the top level of
@@ -516,13 +517,15 @@
  * return the Session Id from the Auth Query. This query will be used 
  * internally by the client library.
  */
-#define MBE_AuthGetSessionId  "http://musicbrainz.org/mm/mq-1.0#sessionId"
+#define MBE_AuthGetSessionId  \
+        "http://musicbrainz.org/mm/mq-1.0#sessionId"
 
 /**
  * return the Auth Challenge data from the Auth Query This query will be used 
  * internally by the client library.
  */
-#define MBE_AuthGetChallenge  "http://musicbrainz.org/mm/mq-1.0#authChallenge"
+#define MBE_AuthGetChallenge  \
+        "http://musicbrainz.org/mm/mq-1.0#authChallenge"
 
 /* -------------------------------------------------------------------------
  * Local queries (queries are automatically generated)
@@ -769,6 +772,8 @@
  *                   if the ArtistName, AlbumName or TrackName fields are blank. 
  * @param ArtistId   The AritstId resolved from an earlier call. 
  * @param AlbumId    The AlbumId resolved from an earlier call. 
+ * @param MaxItems   The maximum number of items to return if the server cannot
+ *                   determine an exact match.
  */
 #define MBQ_FileInfoLookup \
     "<mq:FileInfoLookup>\n" \
