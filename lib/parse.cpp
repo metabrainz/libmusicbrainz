@@ -35,10 +35,15 @@
 
 void BeginElement(void *data, const XML_Char *el, const XML_Char **attr)
 {
-    map<string, string> oMap;
+	map<string, string> oMap;
+	string key, value;
 
     for(; *attr;)
-        oMap[string((char *)*(attr++))] = string((char *)*(attr++));
+	{
+        key = string((char *)*(attr++));
+	    value = string((char *)*(attr++));
+        oMap[key] = value;
+	}
 
     ((MBParse *)data)->BeginElement(string(el), oMap);
 }

@@ -3,7 +3,7 @@
    MusicBrainz -- The Internet music metadatabase
 
    Copyright (C) 2000 Robert Kaye
-   Copyright (C) 1998 Jukka Poikolainen
+   Portions Copyright (C) 2000 Emusic.com
    
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
@@ -48,13 +48,15 @@ ReadTOCEntry(int fd, int track, int &lba)
 
 bool DiskId::ReadTOC(MUSICBRAINZ_DEVICE cd_desc, MUSICBRAINZ_CDINFO & disc)
 {
-   int       readtracks, pos, ret, numTracks;
+   int       readtracks, ret, numTracks;
    char      mciCommand[128];
    char      mciReturn[128];
-   char      buf[256];
+   char      buf[256], alias[128];
 
    if (cd_desc == NULL)
       cd_desc = "cdaudio";
+
+   sprintf(alias, "mb_client_%u_%u", GetTickCount(), GetCurrentThreadId());
 
    memset(&disc, 0, sizeof(disc));
    sprintf(mciCommand, "sysinfo %s quantity wait", cd_desc);
@@ -62,32 +64,42 @@ bool DiskId::ReadTOC(MUSICBRAINZ_DEVICE cd_desc, MUSICBRAINZ_CDINFO & disc)
    if (atoi(mciReturn) <= 0)
       return false;
 
-   sprintf(mciCommand, "open %s shareable alias %s wait", cd_desc);
+   sprintf(mciCommand, "open %s shareable alias %s wait", cd_desc, alias);
    ret = mciSendString(mciCommand, mciReturn, sizeof(mciReturn), NULL);
    if (ret != 0)
       return false;
 
+   cd_desc = alias;
    sprintf(mciCommand, "status %s number of tracks wait", cd_desc);
    ret = mciSendString(mciCommand, mciReturn, sizeof(mciReturn), NULL);
    mciGetErrorString(ret, buf, sizeof(buf));
+   if (ret != 0)
+      return false;
 
    numTracks = atoi(mciReturn);
    disc.FirstTrack = 1;
    disc.LastTrack = numTracks;
 
-   for (readtracks = 0; readtracks < disc.LastTrack; readtracks++)
+   sprintf(mciCommand, "set %s time format msf wait", cd_desc);
+   mciSendString(mciCommand, mciReturn, sizeof(mciReturn), NULL);
+   for (readtracks = 1; readtracks <= disc.LastTrack; readtracks++)
    {
-      sprintf(mciCommand, "set %s time format msf wait", cd_desc);
-      mciSendString(mciCommand, mciReturn, sizeof(mciReturn), NULL);
       sprintf(mciCommand, "status %s position track %d wait",
-              cd_desc, readtracks + 1);
+              cd_desc, readtracks);
       mciSendString(mciCommand, mciReturn, sizeof(mciReturn), NULL);
 
-      pos = cd_msf_to_frames(atoi(mciReturn) * 4500, 
-                             atoi(mciReturn + 3) * 75, 
-                             atoi(mciReturn + 6););
-      disc.FrameOffset[readtracks] = pos;
+      disc.FrameOffset[readtracks] = atoi(mciReturn) * 4500 +  
+                                     atoi(mciReturn + 3) * 75 + 
+                                     atoi(mciReturn + 6);
    }
+   sprintf(mciCommand, "status %s length track %d wait",
+           cd_desc, disc.LastTrack);
+   mciSendString(mciCommand, mciReturn, sizeof(mciReturn), NULL);
+
+   disc.FrameOffset[0] = atoi(mciReturn) * 4500 +  
+                         atoi(mciReturn + 3) * 75 + 
+                         atoi(mciReturn + 6) +
+                         disc.FrameOffset[disc.LastTrack] + 1;
 
    sprintf(mciCommand, "close %s wait", cd_desc);
    mciSendString(mciCommand, mciReturn, sizeof(mciReturn), NULL);

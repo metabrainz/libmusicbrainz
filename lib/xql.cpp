@@ -63,9 +63,6 @@ Error XQL::BeginElement(const string &oElement, AttrMap &oAttrMap)
 
     for(i = oAttrMap.begin(); i != oAttrMap.end(); i++)
     {
-        //printf("first: '%s' second: '%s'\n",
-        //    (*i).first.c_str(),
-        //    (*i).second.c_str());
         oKey = m_oPath + string("/@") + (*i).first; 
         m_oList[oKey] = (*i).second;
         //printf("parse: %s ==> '%s'\n", oKey.c_str(), (*i).second.c_str());
