@@ -55,29 +55,32 @@ class MusicBrainz
                                          short proxyPort);
 
        EXPORT bool     SetDevice        (const string &device);
+       EXPORT bool     SetDepth         (int depth);
        EXPORT void     UseUTF8          (bool bUse) { m_useUTF8 = bUse; };
 
        EXPORT bool     Query            (const string &rdfObject, 
                                          vector<string> *args = NULL);
        EXPORT void     GetQueryError    (string &ErrorText);
-       EXPORT int      GetNumItems      (void);
        EXPORT bool     GetWebSubmitURL  (string &url);
   
        EXPORT bool     Select           (const string &selectQuery,
                                          int           ordinal = 0);
        EXPORT bool     Select           (const string &selectQuery,
                                          list<int>    *ordinalList);
+
        EXPORT bool     DoesResultExist  (const string &resultName, 
-                                         int Index = -1);
-       EXPORT bool     GetResultData    (const string &resultName, int Index, 
+                                         int Index = 0);
+       EXPORT bool     GetResultData    (const string &resultName, 
+                                         int Index, 
                                          string &data);
+       EXPORT const string &Data        (const string &resultName, 
+                                         int Index = 0);
+       EXPORT int      DataInt          (const string &resultName, 
+                                         int Index = 0);
+
        EXPORT bool     GetResultRDF     (string &RDFObject);
        EXPORT bool     SetResultRDF     (string &RDFObject);
 
-       EXPORT const string &Data        (const string &resultName, 
-                                         int Index = -1);
-       EXPORT int      DataInt          (const string &resultName, 
-                                         int Index = -1);
        EXPORT void     GetIDFromURL     (const string &url, string &id);
        EXPORT bool     CalculateBitprint(const string &fileName,
                                          BitprintInfo *info);
@@ -96,9 +99,9 @@ class MusicBrainz
        string          m_server, m_proxy;
        short           m_serverPort, m_proxyPort;
        string          m_device, m_currentURI, m_baseURI, m_response; 
-       int             m_numItems;
        RDFExtract     *m_rdf;
        bool            m_useUTF8;
+       int             m_depth;
 };
 
 #endif

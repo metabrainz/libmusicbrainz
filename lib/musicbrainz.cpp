@@ -68,6 +68,7 @@ MusicBrainz::MusicBrainz(void)
     m_serverPort = defaultPort;
     m_proxy = "";
     m_useUTF8 = true;
+    m_depth = 2;
 }
 
 MusicBrainz::~MusicBrainz(void)
@@ -98,6 +99,14 @@ bool MusicBrainz::SetProxy(const string &proxyAddr, short proxyPort)
 bool MusicBrainz::SetDevice(const string &device)
 {
     m_device = device;
+    return true;
+}
+
+// Set the depth for the queries. The depth of a query determines the
+// number of levels of information are returned from the server.
+bool MusicBrainz::SetDepth(int depth)
+{
+    m_depth = depth;
     return true;
 }
 
@@ -347,16 +356,7 @@ bool MusicBrainz::Query(const string &rdfObject, vector<string> *args)
         return false;
     }
 
-    // Finally, extract the number of items returned.
-//    value = m_rdf->Extract(m_currentURI, string(MBE_NumItems)); 
-//    if (value.length() == 0)
-//    {    
-//        m_error = string("Could not determine the number of items returned");
-//        return false;
-//    }
-    m_numItems = 1; //atoi(value.c_str());
-
-    // We're done bail. The user can now use Select/Extract to retrieve
+    // We're done -- bail. The user can now use Select/Extract to retrieve
     // data from the RDF
     return true;
 }
@@ -365,12 +365,6 @@ bool MusicBrainz::Query(const string &rdfObject, vector<string> *args)
 void MusicBrainz::GetQueryError(string &ErrorText)
 {
     ErrorText = m_error;
-}
-
-// returns the number of items in the query
-int MusicBrainz::GetNumItems(void)
-{
-    return m_numItems;
 }
 
 // A shortcut function to retrieve a string value from the RDF result.
@@ -585,6 +579,20 @@ void MusicBrainz::SubstituteArgs(string &rdf, vector<string> *args)
         if (pos != string::npos)
         {
             rdf.replace(pos, strlen(replace), "");
+        }
+        else
+            break;
+    }
+
+    // Replace any depth place holders with the current dept value
+    for(;;)
+    {
+        sprintf(replace, "@DEPTH@", j); 
+        pos = rdf.find(string(replace), 0);
+        if (pos != string::npos)
+        {
+            sprintf(replace, "%d", m_depth);
+            rdf.replace(pos, 7, string(replace));
         }
         else
             break;

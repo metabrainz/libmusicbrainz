@@ -230,6 +230,7 @@ Error DiskId::GenerateDiskIdQueryRDF(const string &device, string &xml,
    else
        xml = string("  <mq:GetCDInfo>\n");
 
+   xml += string("  <mq:depth>@DEPTH@</mq:depth>\n");
    xml += string("    <mm:cdindexId>") + string(id) + 
           string("</mm:cdindexId>\n");
    if (associateCD)

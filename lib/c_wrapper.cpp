@@ -70,6 +70,15 @@ int mb_SetDevice(musicbrainz_t o, char *device)
     return (int)obj->SetDevice(string(device));
 }
 
+void mb_SetDepth(musicbrainz_t o, int depth)
+{
+    MusicBrainz *obj = (MusicBrainz *)o;
+    if (o == NULL)
+       return;
+
+    obj->SetDepth(depth);
+}
+
 void mb_UseUTF8(musicbrainz_t o, int useUTF8)
 {
     MusicBrainz *obj = (MusicBrainz *)o;
@@ -183,6 +192,25 @@ int mb_GetResultData(musicbrainz_t o, char *resultName,
     return 1;
 }
 
+int mb_GetResultData1(musicbrainz_t o, char *resultName, 
+                      char *data, int maxDataLen, int ordinal)
+{
+    MusicBrainz *obj = (MusicBrainz *)o;
+    string   value;
+
+    if (o == NULL)
+       return 0;
+
+    value = obj->Data(string(resultName), ordinal);
+    if (value.length() == 0)
+       return 0;
+
+    strncpy(data, value.c_str(), maxDataLen);
+    data[maxDataLen - 1] = 0;
+
+    return 1;
+}
+
 int mb_GetResultInt(musicbrainz_t o, char *resultName)
 {
     MusicBrainz *obj = (MusicBrainz *)o;
@@ -193,38 +221,14 @@ int mb_GetResultInt(musicbrainz_t o, char *resultName)
     return obj->DataInt(string(resultName));
 }
 
-int mb_Select(musicbrainz_t o, char *selectQuery)
+int mb_GetResultInt1(musicbrainz_t o, char *resultName, int ordinal)
 {
     MusicBrainz *obj = (MusicBrainz *)o;
 
     if (o == NULL)
        return 0;
 
-    return obj->Select(string(selectQuery));
-}
-
-int mb_SelectWithArgs(musicbrainz_t o, char *RDFObject, int **args)
-{
-    MusicBrainz *obj = (MusicBrainz *)o;
-    list<int>                *argList;
-    int                       temp;
-    bool                      ret;
-
-    if (o == NULL)
-       return 0;
-
-    argList = new list<int>;
-    for(; *args; args++)
-    {
-        temp = **args;
-        argList->push_back(temp);
-    }
-        
-    ret = obj->Select(string(RDFObject), argList);
-
-    delete argList;
-
-    return (int)ret;
+    return obj->DataInt(string(resultName), ordinal);
 }
 
 int mb_DoesResultExist(musicbrainz_t o, char *resultName)
@@ -237,7 +241,62 @@ int mb_DoesResultExist(musicbrainz_t o, char *resultName)
     return obj->DoesResultExist(string(resultName));
 }
 
-int mb_GetResultRDF(musicbrainz_t o,char *RDF, int maxXMLLen)
+int mb_DoesResultExist1(musicbrainz_t o, char *resultName, int ordinal)
+{
+    MusicBrainz *obj = (MusicBrainz *)o;
+
+    if (o == NULL)
+       return 0;
+
+    return obj->DoesResultExist(string(resultName), ordinal);
+}
+
+
+int mb_Select(musicbrainz_t o, char *selectQuery)
+{
+    MusicBrainz *obj = (MusicBrainz *)o;
+
+    if (o == NULL)
+       return 0;
+
+    return obj->Select(string(selectQuery));
+}
+
+int mb_Select1(musicbrainz_t o, char *selectQuery, int ordinal)
+{
+    MusicBrainz *obj = (MusicBrainz *)o;
+    list<int>                 argList;
+    bool                      ret;
+
+    if (o == NULL)
+       return 0;
+
+    argList.push_back(ordinal);
+    ret = obj->Select(string(selectQuery), &argList);
+
+    return (int)ret;
+}
+
+int mb_SelectWithArgs(musicbrainz_t o, char *selectQuery, int **args)
+{
+    MusicBrainz *obj = (MusicBrainz *)o;
+    list<int>                argList;
+    int                      temp;
+    bool                     ret;
+
+    if (o == NULL)
+       return 0;
+
+    for(; *args; args++)
+    {
+        temp = **args;
+        argList.push_back(temp);
+    }
+    ret = obj->Select(string(selectQuery), &argList);
+    return (int)ret;
+}
+
+int mb_GetResultRDF(musicbrainz_t o,char *RDF, int maxRdfLen)
 {
     MusicBrainz *obj = (MusicBrainz *)o;
     string   RDFString;
@@ -248,8 +307,8 @@ int mb_GetResultRDF(musicbrainz_t o,char *RDF, int maxXMLLen)
     if (!obj->GetResultRDF(RDFString))
        return 0;
 
-    strncpy(RDF, RDFString.c_str(), maxXMLLen);
-    RDF[maxXMLLen - 1] = 0;
+    strncpy(RDF, RDFString.c_str(), maxRdfLen);
+    RDF[maxRdfLen - 1] = 0;
 
     return 1;
 }
@@ -279,14 +338,15 @@ int mb_SetResultRDF(musicbrainz_t o,char *RDF)
     return obj->SetResultRDF(RDFString);
 }
 
-int mb_GetNumItems(musicbrainz_t o)
+void mb_GetIDFromURL(musicbrainz_t o, char *url, char *idArg, int maxIdLen)
 {
+    string id;
+
     MusicBrainz *obj = (MusicBrainz *)o;
 
-    if (o == NULL)
-       return 0;
-
-    return obj->GetNumItems();
+    obj->GetIDFromURL(string(url), id);
+    strncpy(idArg, id.c_str(), maxIdLen);
+    idArg[maxIdLen - 1] = 0;
 }
 
 int mb_CalculateBitprint(musicbrainz_t o, char *fileName, BitprintInfo *info)

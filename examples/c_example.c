@@ -27,20 +27,18 @@
 
 int main(void)
 {
-}
-#if 0
     musicbrainz_t o;
-    char          error[256], data[256];
+    char          error[256], data[256], temp[256];
     int           ret, numTracks, i;
 
-    // Create the cdi object, which will be needed for subsequent calls
+    // Create the musicbrainz object, which will be needed for subsequent calls
     o = mb_New();
 
     // Tell the client library to return data in ISO8859-1 and not UTF-8
-    //mb_UseUTF8(o, 0);
+    mb_UseUTF8(o, 0);
 
     // Set the server you want to use. Defaults to www.musicbrainz.org:80
-    //mb_SetServer(o, "musicbrainz.eorbit.net", 80);
+    mb_SetServer(o, "musicbrainz.eorbit.net", 80);
 
     // If you need to use a proxy, uncomment/edit the following line
     // as appropriate
@@ -49,7 +47,7 @@ int main(void)
     // Execute the MB_GetCDInfo query, which pull the TOC from the
     // audio CD in the cd-rom drive, calculate the disk id and the
     // request the data from the server
-    ret = mb_Query(o, MB_GetCDInfo);
+    ret = mb_Query(o, MBQ_GetCDInfo);
     if (!ret)
     {
          mb_GetQueryError(o, error, 256);
@@ -58,7 +56,7 @@ int main(void)
     }
 
     // Check to see how many items were returned from the server
-    if (mb_GetNumItems(o) == 0)
+    if (mb_GetResultInt(o, MBE_GetNumAlbums) < 1)
     {
         printf("This CD was not found.\n");
         return 0;
@@ -67,59 +65,36 @@ int main(void)
     // Now start the data extraction process.
 
     // Select the top level (default context)
-    mb_SelectWithArg(o, MBS_SelectAlbum, 1);  
+    mb_Select1(o, MBS_SelectAlbum, 1);  
 
     // Get the number of tracks
-    numTracks = mb_GetResultInt(o, MBE_GetNumTracks, data, 256);
-    printf("NumTracks: %d\n", numTracks);
+    numTracks = mb_GetResultInt(o, MBE_GetNumTracks);
+    printf(" NumTracks: %d\n", numTracks);
 
     // Now get and print the title of the cd
     mb_GetResultData(o, MBE_GetAlbumName, data, 256);
     printf("Album Name: '%s'\n", data);
-    mb_GetResultData(o, MBE_GetAlbumID, data, 256);
-    printf("   AlbumId: '%s'\n", data);
+    mb_GetResultData(o, MBE_GetAlbumId, data, 256);
+    mb_GetIDFromURL(o, data, temp, 256);
+    printf("   AlbumId: '%s'\n\n", temp);
 
-    // Check to see if the GetArtist field exits. If it does, the returned
-    // CD is a single artist CD. If it does not, the CD is a multiple
-    // artist CD.
-    if (mb_DoesResultExist(o, MB_GetArtistName))
+    for(i = 1; i <= numTracks; i++)
     {
-        // Print out the artist and then print the titles of the tracks 
-        mb_GetResultData(o, MB_GetArtistName, data, 256);
-        printf("Artist: '%s'\n", data);
+        mb_GetResultData1(o, MBE_GetArtistName, data, 256, i);
+        printf("    Artist: '%s'\n", data);
 
-        // Select the first track and then get info for this track
-        mb_Select(o, MB_SelectFirstTrack);
-        for(i = 0; i < numTracks; i++)
-        {
-            mb_GetResultData(o, MB_GetTrackName, data, 256);
-            printf("Track %d: '%s'\n", i+1, data);
+        mb_GetResultData1(o, MBE_GetTrackName, data, 256, i);
+        printf("  Track %2d: '%s'\n", mb_GetResultInt1(o, 
+               MBE_GetTrackNum, i), data);
 
-            // Done with this track, move on to next
-            mb_Select(o, MB_SelectNextTrack);
-        }
-    }
-    else
-    {
-        // Select the first track and then get info for this track
-        mb_Select(o, MB_SelectFirstTrack);
-
-        // For each track print out the artist and title
-        for(i = 0; i < numTracks; i++)
-        {
-            mb_GetResultData(o, MB_GetArtistName, data, 256);
-            printf("Artist %d: '%s'\n", i+1, data);
-            mb_GetResultData(o, MB_GetTrackName, data, 256);
-            printf(" Track %d: '%s'\n", i+1, data);
-
-            // Done with this track, move on to next
-            mb_Select(o, MB_SelectNextTrack);
-        }
+        mb_GetResultData1(o, MBE_GetTrackId, data, 256, i);
+        mb_GetIDFromURL(o, data, temp, 256);
+        printf("   TrackId: '%s'\n\n", temp);
+            
     }
 
-    // and clean up the cdi object
+    // and clean up the musicbrainz object
     mb_Delete(o);
 
     return 0;
 }
-#endif

@@ -57,14 +57,15 @@
 #define MBE_NumItems               "http://musicbrainz.org/mm/mq-1.0#numItems"
 
 // mm:albumList queries
+#define MBE_GetNumAlbums           "http://musicbrainz.org/mm/mm-2.0#albumList [COUNT]"
 #define MBE_GetAlbumName           "http://purl.org/dc/elements/1.1/title"
-#define MBE_GetAlbumID             "" // yes, empty! 
+#define MBE_GetAlbumId             "" // yes, empty! 
 #define MBE_GetNumTracks           "http://musicbrainz.org/mm/mm-2.0#trackList [COUNT]"
-#define MBE_GetTrackID             "http://musicbrainz.org/mm/mm-2.0#trackList [] "
+#define MBE_GetTrackId             "http://musicbrainz.org/mm/mm-2.0#trackList [] "
 #define MBE_GetTrackNum            "http://musicbrainz.org/mm/mm-2.0#trackList [] http://musicbrainz.org/mm/mm-2.0#trackNum"
 #define MBE_GetTrackName           "http://musicbrainz.org/mm/mm-2.0#trackList [] http://purl.org/dc/elements/1.1/title"
 #define MBE_GetArtistName          "http://musicbrainz.org/mm/mm-2.0#trackList [] http://purl.org/dc/elements/1.1/creator http://purl.org/dc/elements/1.1/title"
-#define MBE_GetArtistID            "http://musicbrainz.org/mm/mm-2.0#trackList [] http://purl.org/dc/elements/1.1/creator"
+#define MBE_GetArtistId            "http://musicbrainz.org/mm/mm-2.0#trackList [] http://purl.org/dc/elements/1.1/creator"
 
 #define MBE_GetGUID                ""
 #define MBE_GetFilename            ""
@@ -91,66 +92,64 @@
 #define MBQ_AssociateCD            "@CDINFOASSOCIATECD@"
 
 // server queries
-#define MBQ_GetCDInfoFromCDIndexID \
-    "<mq:GetCDInfoFromId>" \
+#define MBQ_GetCDInfoFromCDIndexId \
+    "<mq:GetCDInfo>" \
+    "   <mq:depth>@DEPTH@</mq:depth>" \
     "   <mm:cdindexId>@1@</mm:cdindexId>" \
-    "</mq:GetCDInfoFromId>" 
+    "</mq:GetCDInfo>" 
 
-#define MB_FindArtistByName \
-    "<mq:FindArtistByName>" \
-    "   <mm:artist>@1@</mm:artist>" \
-    "</mq:FindArtistByName>" 
+#define MBQ_FindArtistByName \
+    "<mq:FindArtist>" \
+    "   <mq:depth>@DEPTH@</mq:depth>" \
+    "   <mq:artistName>@1@</mq:artistName>" \
+    "</mq:FindArtist>" 
 
-#define MB_FindAlbumByName \
-    "<mq:FindAlbumByName>" \
-    "   <mm:album>@1@</mm:album>" \
-    "</mq:FindAlbumByName>" 
+#define MBQ_FindAlbumByName \
+    "<mq:FindAlbum>" \
+    "   <mq:depth>@DEPTH@</mq:depth>" \
+    "   <mq:artistName>@1@</mq:artistName>" \
+    "   <mq:albumName>@2@</mq:albumName>" \
+    "</mq:FindAlbum>" 
 
-#define MB_FindAlbumsByArtistName \
-    "<mq:FindAlbumsByArtistName>" \
-    "   <mm:artist>@1@</mm:artist>" \
-    "</mq:FindAlbumsByArtistName>" 
+#define MBQ_FindTrackByName \
+    "<mq:FindTrack>" \
+    "   <mq:depth>@DEPTH@</mq:depth>" \
+    "   <mq:artistName>@1@</mq:artistName>" \
+    "   <mq:albumName>@2@</mq:albumName>" \
+    "   <mq:trackName>@3@</mq:trackName>" \
+    "</mq:FindTrack>" 
 
-#define MB_FindTrackByName \
-    "<mq:FindTrackByName>" \
-    "   <mm:artist>@1@</mm:artist>" \
-    "   <mm:album>@2@</mm:album>" \
-    "   <mm:track>@3@</mm:track>" \
-    "</mq:FindTrackByName>" 
+#define MBQ_FindDistinctTRMId \
+    "<mq:FindDistinctTRMID>" \
+    "   <mq:depth>@DEPTH@</mq:depth>" \
+    "   <mq:artistName>@1@</mq:artistName>" \
+    "   <mq:trackName>@2@</mq:trackName>" \
+    "</mq:FindDistinctTRMID>" 
 
-#define MB_FindDistinctGUID \
-    "<mq:FindDistinctGUID>" \
-    "   <mm:artist>@1@</mm:artist>" \
-    "   <mm:track>@2@</mm:track>" \
-    "</mq:FindDistinctGUID>" 
+#define MBQ_GetArtistById \
+    "http://@URL@/artist/@1@" 
 
-#define MB_GetArtistById \
-    "http://@URL@/rdf?artist=@1@" 
+#define MBQ_GetAlbumById \
+    "http://@URL@/album/@1@" 
 
-#define MB_GetAlbumById \
-    "http://@URL@/rdf?album=@1@" 
+#define MBQ_GetTrackById \
+    "http://@URL@/track/@1@" 
 
-#define MB_GetTrackById \
-    "http://@URL@/rdf?track=@1@" 
+#define MBQ_GetTrackByTRMId \
+    "http://@URL@/trmid/@1@" 
 
-#define MB_GetAlbumsByArtistId \
-    "http://@URL@/rdf?albumsbyartist=@1@" 
+#define MBQ_GetSyncTextById \
+    "http://@URL@/synctext/@1@" 
 
-#define MB_GetTrackByGUID \
-    "http://@URL@/rdf?guid=@1@" 
-
-#define MB_GetSyncTextById \
-    "http://@URL@/rdf?synctext=@1@" 
-
-#define MB_ExchangeMetadata \
+#define MBQ_ExchangeMetadata \
     "<mq:ExchangeMetadata>" \
-    "   <dc:title>@1@</dc:title>" \
-    "   <mm:artist>@2@</mm:artist>" \
-    "   <mm:album>@3@</mm:album>" \
+    "   <mq:artistName>@1@</mq:artistName>" \
+    "   <mq:albumName>@2@</mq:albumName>" \
+    "   <mq:trackName>@3@</mq:trackName>" \
     "   <mm:trackNum>@4@</mm:trackNum>" \
-    "   <mm:guid>@5@</mm:guid>" \
+    "   <mm:trmid>@5@</mm:trmid>" \
     "   <mm:fileName>@6@</mm:fileName>" \
-    "   <dc:date>@7@</dc:date>" \
+    "   <mm:issued>@7@</mm:issued>" \
     "   <mm:genre>@8@</mm:genre>" \
     "   <dc:description>@9@</dc:description>" \
     "   <mm:bitprint>@10@</mm:bitprint>" \
@@ -164,17 +163,18 @@
     "   <mm:vbr>@18@</mm:vbr>" \
     "</mq:ExchangeMetadata>" 
 
-#define MB_SubmitTrack \
+#define MBQ_SubmitTrack \
     "<mq:SubmitTrack>" \
-    "   <dc:Title>@1@</dc:Title>" \
-    "   <mm:guid>@2@</mm:guid>" \
-    "   <dc:creator>@3@</dc:creator>" \
-    "   <mm:album>@4@</mm:Title>" \
+    "   <mq:artistName>@1@</mq:artistName>" \
+    "   <mq:albumName>@2@</mq:albumName>" \
+    "   <mq:trackName>@3@</mq:trackName>" \
+    "   <mm:trmid>@4@</mm:trmid>" \
     "   <mm:trackNum>@5@</mm:trackNum>" \
     "   <mm:duration>@6@</mm:duration>" \
-    "   <dc:date>@7@</dc:date>" \
+    "   <mm:issued>@7@</mm:issued>" \
     "   <mm:genre>@8@</mm:genre>" \
     "   <dc:description>@9@</dc:description>" \
+    "   <mm:link>@10@</mm:link>" \
     "</mq:SubmitTrack>" 
 
 #endif
