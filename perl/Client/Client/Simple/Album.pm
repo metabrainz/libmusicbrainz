@@ -66,13 +66,19 @@ sub create_from_album_query($$)
 
 	my $album_name = $mb->get_result_data(MBE_AlbumGetAlbumName);
 
-	my $album_type = '';
+	my $album_type = undef;
 	$buf = $mb->get_result_data(MBE_AlbumGetAlbumType);
-	$album_type = $mb->get_fragment_from_url($buf) if $buf;
+	if ( $buf ) {
+		$album_type = $mb->get_fragment_from_url($buf);
+		$album_type =~ s/^Type//;
+	}
 
-	my $album_status = '';
+	my $album_status = undef;
 	$buf = $mb->get_result_data(MBE_AlbumGetAlbumStatus);
-	$album_status = $mb->get_fragment_from_url($buf) if $buf;
+	if ( $buf ) {
+		$album_status = $mb->get_fragment_from_url($buf);
+		$album_status =~ s/^Status//;
+	}
 
 	#
 	# Get the album's artist.
@@ -147,14 +153,14 @@ sub get_name($)
 	return $self->{DATA}->{name};
 }
 
-sub get_status($)
+sub get_release_status($)
 {
 	my $self = shift;
 
 	return $self->{DATA}->{status};
 }
 
-sub get_type($)
+sub get_release_type($)
 {
 	my $self = shift;
 
@@ -227,13 +233,13 @@ Returns the I<AlbumID> that uniquely identifies this album at MusicBrainz.
 Returns the album's name.
 
 
-=item get_status()
+=item get_release_status()
 
 Returns the release status of this album. Possible values are "Official",
-"Promotion" and "Bootleg". If this information is not available, the empty
-string is returned.
+"Promotion" and "Bootleg". If this information is not available, C<undef>
+is returned.
 
-See also: L<get_type>
+See also: L<get_release_type>
 
 =item get_tracks()
 
@@ -241,15 +247,15 @@ Returns a list of I<MusicBrainz::Client::Simple::Track> objects, one for
 each track on this album.
 
 
-=item get_type()
+=item get_release_type()
 
 Returns the release type of this album. Possible values are "Album",
 "Single", "EP", "Compilation", "Soundtrack", "Spokenword", "Interview",
 "Audiobook", "Live", "Remix" and "Other". If this information is not
 available (not all albums in the MusicBrainz database have a release
-type yet), the empty string is returned.
+type yet), C<undef> is returned.
 
-See also: L<get_status>
+See also: L<get_release_status>
 
 
 =item has_various_artists()

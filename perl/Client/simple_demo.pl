@@ -34,8 +34,8 @@ foreach my $album ( @result ) {
 	#
 	print $album->get_id, ' ', $album->get_name, "\n";
 
-	printf "Status: %s\n", $album->get_status;
-	printf "Type: %s\n", $album->get_type;
+	printf "Status: %s\n", $album->get_release_status;
+	printf "Type: %s\n", $album->get_release_type;
 
 	printf "%s; %s; %s\n", $album->get_artist()->get_name(),
 				$album->get_artist()->get_sortname(),
