@@ -249,6 +249,14 @@
         "http://musicbrainz.org/mm/mm-2.0#trackList [] http://purl.org/dc/elements/1.1/title"
 
 /**
+ * Return the track duration of the nth track in the album. Requires a
+ * track index ordinal. 1 for the first track, etc...
+ * @param ordinal This select requires one ordinal argument to select a track
+ */
+#define MBE_AlbumGetTrackDuration       \
+        "http://musicbrainz.org/mm/mm-2.0#trackList [] http://musicbrainz.org/mm/mm-2.0#duration"
+
+/**
  * Return the artist name of the nth track in the album. Requires a
  * track index ordinal. 1 for the first track, etc...
  * @param ordinal This select requires one ordinal argument to select a track
@@ -329,6 +337,13 @@
  */
 #define MBE_TrackGetAlbumId      \
         "http://purl.org/dc/elements/1.1/creator http://musicbrainz.org/mm/mm-2.0#albumList []"
+
+/**
+ * Return the track duration in the currently selected track
+ */
+#define MBE_TrackGetTrackDuration      \
+        "http://musicbrainz.org/mm/mm-2.0#duration"
+
 
 /* -------------------------------------------------------------------------
  * ExchangeMetadata queries
@@ -414,6 +429,12 @@
  */
 #define MBE_QuickGetTrackId       \
         "http://musicbrainz.org/mm/mm-2.0#trackid"
+
+/**
+ * Return the track duration
+ */
+#define MBE_QuickGetTrackDuration       \
+        "http://musicbrainz.org/mm/mm-2.0#duration"
 
 /* -------------------------------------------------------------------------
  * Extract queries for the MBQ_GetCDTOC query
