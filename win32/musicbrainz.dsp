@@ -133,6 +133,10 @@ SOURCE=..\lib\parse.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=..\lib\rdfgen.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=..\lib\sha_func.c
 # ADD CPP /I ".." /D "NOMINMAX"
 # End Source File
