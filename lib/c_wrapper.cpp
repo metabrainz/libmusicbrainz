@@ -198,7 +198,7 @@ int mb_GenerateSignature(musicbrainz_t o, char *data, int size,
    bool retvalue = obj->GenerateSignature(data, size, strGUID, collID);
 
    if (retvalue) {
-       memset(signature, '\0', 16);
+       memset(signature, '\0', 17);
        strncpy(signature, strGUID.c_str(), 16);
 
        return 1; 
@@ -222,7 +222,7 @@ void mb_GenerateSignatureNow(musicbrainz_t o,
 
    obj->GenerateSignatureNow(strGUID, collID);
 
-   memset(signature, '\0', 16);
+   memset(signature, '\0', 17);
    strncpy(signature, strGUID.c_str(), 16);
 }
 
