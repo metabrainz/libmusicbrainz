@@ -124,4 +124,4 @@ AC_DEFINE_UNQUOTED([ACCEPT_ARG2],,"Argument 2 to accept()")
 AC_DEFINE_UNQUOTED([ACCEPT_ARG3],,"Argument 3 to accept()")
 AC_DEFINE_UNQUOTED(PREFIX, "${prefix}", [Application install prefix])
 
-AC_OUTPUT(Makefile lib/Makefile expat/Makefile expat/xmltok/Makefile expat/xmlparse/Makefile lib/bitzi/Makefile examples/Makefile, echo timestamp > stamp-h)
+AC_OUTPUT(Makefile lib/Makefile expat/Makefile expat/xmltok/Makefile expat/xmlparse/Makefile lib/bitzi/Makefile examples/Makefile libmusicbrainz.pc, echo timestamp > stamp-h)
