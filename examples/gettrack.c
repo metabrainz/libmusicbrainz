@@ -25,8 +25,6 @@
 #include <stdlib.h>
 #include "mb_c.h"
 
-#include "debug.h"
-
 int main(int argc, char *argv[])
 {
     musicbrainz_t o;
