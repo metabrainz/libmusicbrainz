@@ -501,6 +501,8 @@ void TRM::GenerateSignatureNow(string &strGUID, string &collID)
 
     if (energyCounter != 0 && energySub < 9)
         energys[energySub] = energys[energySub] / energyCounter;
+    if (energySub >= 9)
+        energySub = 8;
 
     float fLength = m_numSamplesWritten / (float)11025;
     float fAverageZeroCrossing = iZeroCrossings / fLength;
