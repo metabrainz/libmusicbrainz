@@ -99,7 +99,7 @@ Error MBHttp::DownloadToString(const string &url,
 
     eRet = Download(url, xml, false);
     if (IsntError(eRet))
-        page = string((char *)m_buffer);
+        page = string((char *)m_buffer, m_bytesInBuffer);
 
     if (m_buffer)
     {
@@ -316,6 +316,7 @@ Error MBHttp::Download(const string &url, const string &xml, bool fileDownload)
             int count;
 
             err = Send(s, query, strlen(query), 0, count);
+            printf("Send: '%s'(%d sent %d size)\n", query, count, strlen(query));
             if (IsError(err))
                 result = kError_UserCancel; 
             //count = send(s, query, strlen(query), 0);
