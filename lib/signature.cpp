@@ -87,13 +87,7 @@ void MusicBrainz::DownmixPCM(void)
    signed short lsample, rsample;
    unsigned char ls, rs;
    int readpos = 0;
-    
-char filename[1024];
-sprintf(filename, "/tmp/1-%d.out", time(NULL));
-FILE *outfile = fopen(filename, "w");
-fwrite(m_storeBuffer, sizeof(signed short), m_numRealSamplesWritten / 2, outfile);
-fclose(outfile);
-
+   
    if (m_bits_per_sample == 16) {
        if (m_number_of_channels == 2) {
            while (readpos < (m_numRealSamplesWritten / 2)) {
@@ -187,11 +181,6 @@ fclose(outfile);
        }
     }
 
-sprintf(filename, "/tmp/2-%d.out", time(NULL));
-outfile = fopen(filename, "w");
-fwrite(m_storeBuffer, sizeof(signed short), m_numRealSamplesWritten / 2, outfile);
-fclose(outfile);
-
    if (!m_downmixBuffer)
        m_downmixBuffer = new unsigned char[iNumSamplesNeeded];
 
@@ -212,68 +201,61 @@ fclose(outfile);
    int rate_change = m_samples_per_second / 11025;
 
    if (m_bits_per_sample == 16) {
-       if (m_number_of_channels == 2) {
-           while ((writepos < maxwrite) && 
-                  (m_numSamplesWritten < iNumSamplesNeeded)) 
-           {
-               readpos = writepos * rate_change;
-               readpos *= 2;
+       unsigned char *tempbuf = new unsigned char[m_numRealSamplesWritten / 2];
+       readpos = 0;
+       while (readpos < m_numRealSamplesWritten / 2) {
+          long int samp = ((signed short *)m_storeBuffer)[readpos];
 
-               lsample = ((signed short *)m_storeBuffer)[readpos++];
-               rsample = ((signed short *)m_storeBuffer)[readpos++];
+          samp /= 256;
 
-               lsample /= 256; lsample += 127;
-               rsample /= 256; rsample += 127;
+          if (samp >= CHAR_MAX)
+              samp = CHAR_MAX;
+          else if (samp <= CHAR_MIN)
+              samp = CHAR_MIN;
 
-               m_downmixBuffer[m_numSamplesWritten] = (lsample + rsample) / 2;
-               m_numSamplesWritten++;
-               writepos++;
-           }
-       }
-       else {
-           while ((writepos < maxwrite) &&
-                  (m_numSamplesWritten < iNumSamplesNeeded))
-           {
-               readpos = writepos * rate_change;
+          samp ^= 128;
 
-               lsample = ((signed short *)m_storeBuffer)[readpos++];
-               lsample /= 256; lsample += 127;
+          tempbuf[readpos] = samp;
+          readpos++;
+      }
+ 
+      delete [] m_storeBuffer;
+      m_numRealSamplesWritten /= 2;
+      m_storeBuffer = (char *)tempbuf;
 
-               m_downmixBuffer[m_numSamplesWritten] = lsample;
-               m_numSamplesWritten++;
-               writepos++;
-           }
-       }
+      m_bits_per_sample = 8;
    }
-   else {
-       if (m_number_of_channels == 2) {
-           while ((writepos < maxwrite) &&  
-                  (m_numSamplesWritten < iNumSamplesNeeded))
-           {
-               readpos = writepos * rate_change;
-               readpos /= 2;
 
-               ls = ((unsigned char *)m_storeBuffer)[readpos++];
-               rs = ((unsigned char *)m_storeBuffer)[readpos++];
+   if (m_number_of_channels == 2) {
+       unsigned char *tempbuf = new unsigned char[m_numRealSamplesWritten / 2];
+       readpos = 0;
+       writepos = 0;
+       while (writepos < m_numRealSamplesWritten / 2) {
+          unsigned char ls = ((unsigned char *)m_storeBuffer)[readpos++];
+          unsigned char rs = ((unsigned char *)m_storeBuffer)[readpos++];
 
-               m_downmixBuffer[m_numSamplesWritten] = (ls + rs) / 2;
-               m_numSamplesWritten++;
-               writepos++;
-           }
-       }
-       else {
-           while ((writepos < maxwrite) &&
-                  (m_numSamplesWritten < iNumSamplesNeeded))
-           {
-               readpos = writepos * rate_change;
-               
-               ls = ((unsigned char *)m_storeBuffer)[readpos++];
+          tempbuf[writepos] = (ls + rs) / 2;
+          writepos++;
+      }
 
-               m_downmixBuffer[m_numSamplesWritten] = ls;
-               m_numSamplesWritten++;
-               writepos++;
-           }
-       }
+      delete [] m_storeBuffer;
+      m_numRealSamplesWritten /= 2;
+      m_storeBuffer = (char *)tempbuf;
+
+      m_number_of_channels = 1;
+   }
+
+   writepos = 0;
+   while ((writepos < maxwrite) &&
+          (m_numSamplesWritten < iNumSamplesNeeded))
+   {
+       readpos = writepos * rate_change;
+       
+       ls = ((unsigned char *)m_storeBuffer)[readpos++];
+
+       m_downmixBuffer[m_numSamplesWritten] = ls;
+       m_numSamplesWritten++;
+       writepos++;
    }
 
    delete [] m_storeBuffer;
@@ -283,12 +265,6 @@ fclose(outfile);
 void MusicBrainz::GenerateSignatureNow(string &strGUID, string &collID)
 {
     DownmixPCM();
-
-char filename[1024];
-sprintf(filename, "/tmp/3-%d.out", time(NULL));
-FILE *outfile = fopen(filename, "w");
-fwrite(m_downmixBuffer, sizeof(unsigned char), m_numSamplesWritten, outfile);
-fclose(outfile);
 
     char *sample = (char *)m_downmixBuffer;  
     bool bLastNeg = false;
