@@ -116,6 +116,14 @@
 #define MBS_SelectCdindexid           \
         "http://musicbrainz.org/mm/mm-2.1#cdindexidList []"
 
+/**
+ * Use this Select Query to select a result from a lookupResultList.
+ * This select will be used in conjunction with MBQ_FileLookup.
+ * @param ordinal This select requires one ordinal argument
+ */
+#define MBS_SelectLookupResult            \
+        "http://musicbrainz.org/mm/mq-1.1#lookupResultList []"
+
 /* -------------------------------------------------------------------------
  * General top level queries -- Internal use only.
  * -------------------------------------------------------------------------
@@ -173,6 +181,12 @@
  */
 #define MBE_GetNumTrmids      \
         "http://musicbrainz.org/mm/mm-2.1#trmidList [COUNT]"
+
+/**
+ * Return the number of lookup results returned in this query.
+ */
+#define MBE_GetNumLookupResults      \
+        "http://musicbrainz.org/mm/mm-2.1#lookupResultList [COUNT]"
 
 /* -------------------------------------------------------------------------
  * artistList queries
@@ -411,6 +425,17 @@
  */
 #define MBE_QuickGetTrackDuration       \
         "http://musicbrainz.org/mm/mm-2.1#duration"
+
+/* -------------------------------------------------------------------------
+ * FileLookup queries
+ * -------------------------------------------------------------------------
+ */
+
+/**
+ * Return the type of the lookup result
+ */
+#define MBE_LookupGetType      \
+        "http://www.w3.org/1999/02/22-rdf-syntax-ns#type"
 
 /* -------------------------------------------------------------------------
  * Extract queries for the MBQ_GetCDTOC query
@@ -698,14 +723,16 @@
  */
 #define MBQ_FileInfoLookup \
     "<mq:FileInfoLookup>\n" \
-    "   <mq:artistName>@1@</mq:artistName>\n" \
-    "   <mq:albumName>@2@</mq:albumName>\n" \
-    "   <mq:trackName>@3@</mq:trackName>\n" \
-    "   <mm:trackNum>@4@</mm:trackNum>\n" \
-    "   <mm:duration>@5@</mm:duration>\n" \
-    "   <mq:fileName>@6@</mq:fileName>\n" \
-    "   <mm:artistid>@7@</mm:artistid>\n" \
-    "   <mm:albumid>@8@</mm:albumid>\n" \
+    "   <mm:trmid>@1@</mm:trmid>\n" \
+    "   <mq:artistName>@2@</mq:artistName>\n" \
+    "   <mq:albumName>@3@</mq:albumName>\n" \
+    "   <mq:trackName>@4@</mq:trackName>\n" \
+    "   <mm:trackNum>@5@</mm:trackNum>\n" \
+    "   <mm:duration>@6@</mm:duration>\n" \
+    "   <mq:fileName>@7@</mq:fileName>\n" \
+    "   <mm:artistid>@8@</mm:artistid>\n" \
+    "   <mm:albumid>@9@</mm:albumid>\n" \
+    "   <mm:trackid>@10@</mm:trackid>\n" \
     "   <mq:maxItems>@MAX_ITEMS@</mq:maxItems>\n" \
     "</mq:FileInfoLookup>\n" 
 

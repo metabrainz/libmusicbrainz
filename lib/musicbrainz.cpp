@@ -574,6 +574,21 @@ void MusicBrainz::GetIDFromURL(const string &url, string &id)
     id.erase(0, pos); 
 }
 
+// some Get???ID queries return complete URLs that indicate the type
+// of some data in the result. This function can be used to extract that
+// type from the URL.
+void MusicBrainz::GetFragmentFromURL(const string &url, string &fragment)
+{
+    string::size_type pos;
+
+    fragment = url;
+    pos = fragment.rfind("#", string::npos); 
+    if (pos != string::npos)
+       pos++;
+
+    fragment.erase(0, pos); 
+}
+
 // track numbers are usually expressed in terms of ordinals in a list. This
 // query assists in getting the ordinal number from a list. A list context
 // selector needs to be specified and an id to be plucked from the list as well.
