@@ -141,7 +141,6 @@ int MBCOMSocket::NBRead(char* pBuffer, int nLen, int* nBytesWritten, int nTimeou
     {
         if ((nErr = Read(pBuffer, nLen, nBytesWritten)) == 0)
         {
-            //cout << "ERROR: Server terminated prematurely" << endl;
             return 0;
         }
     }

@@ -165,13 +165,11 @@ int MBCOMSocket::Connect(const char* pIP, int nPort, int nType, bool
 	if (nType == SOCK_STREAM)
 	{
 		nErr = setsockopt(m_nSocket, SOL_TCP, TCP_NODELAY, &nflag, sizeof(int));
-		//if (nErr == -1) cout << "failed TCP_NODELAY " << endl;
 	}
 	if (bBroadcast)
 	{
 		nErr = setsockopt(m_nSocket, SOL_SOCKET, SO_BROADCAST,
 			&nflag, sizeof(int));
-		//if (nErr == -1) cout << "failed SO_BROADCAST " << endl;
 	}
 	
 	nErr = connect(m_nSocket, (sockaddr*)&addr, sizeof(sockaddr_in));
@@ -219,10 +217,6 @@ int MBCOMSocket::Read(char* pBuffer, int nLen, int* nBytesWritten)
 	{
 		*nBytesWritten = nErr;
 	}
-	else
-	{
-		//cout << "error with read " << endl;
-	}
 	return ((nErr != -1) - 1);
 }
 
@@ -238,17 +232,12 @@ int MBCOMSocket::Write(const char* pBuffer, int nLen, int* pnBytesWritten)
 		bRepeat = false;
 		if ((nErr == -1) && (errno == EINTR))
 		{
-			//cout << "EINTR" << endl;
 			bRepeat = true;
 		}
 	}
 	if ((nErr != -1) && (pnBytesWritten != NULL))
 	{
 		*pnBytesWritten = nErr;
-	}
-	else
-	{
-		//cout << "error with write" << endl;
 	}
 	return ((nErr != -1) - 1);
 }
@@ -260,7 +249,6 @@ int MBCOMSocket::SetNoDelay(int nFlag)
 	if (m_nSockType == SOCK_STREAM)
 	{
 		nErr = setsockopt(m_nSocket, SOL_TCP, TCP_NODELAY, &nFlag, sizeof(int));
-		//if (nErr == -1) cout << "failed TCP_NODELAY " << endl;
 	}
   return nErr;
 }
@@ -329,10 +317,8 @@ int MBCOMSocket::NBConnect(const char* pIP, int nPort, int nType, int nTimeout)
 	if (nType == SOCK_STREAM)
 	{
 		nErr = setsockopt(m_nSocket, SOL_TCP, TCP_NODELAY, &nflag, sizeof(int));
-		//if (nErr == -1) cout << "failed TCP_NODELAY " << endl;
 	}
 	nErr = this->SetNonBlocking(true);
-	//cout << "Set Nonblocking " << nErr << endl;
 
 	nErr = connect(m_nSocket, (sockaddr*)&addr, sizeof(sockaddr_in));
 	
@@ -364,7 +350,6 @@ int MBCOMSocket::NBConnect(const char* pIP, int nPort, int nType, int nTimeout)
 			errno = ETIMEDOUT;
 			close(m_nSocket);
 			m_nSocket = -1;
-			//cout << "error after select " << endl;
 			return -1;
 		}
 		if (FD_ISSET(m_nSocket, &rset) || FD_ISSET(m_nSocket,
@@ -379,7 +364,6 @@ int MBCOMSocket::NBConnect(const char* pIP, int nPort, int nType, int nTimeout)
 		errno = ETIMEDOUT;
 			close(m_nSocket);
 			m_nSocket = -1;
-			//cout << "error after FD_ISSET " << endl;
 			return -1;
 		}
 		}
@@ -387,7 +371,6 @@ int MBCOMSocket::NBConnect(const char* pIP, int nPort, int nType, int nTimeout)
 		
 	m_bConnected = true;
 	this->SetNonBlocking(false);
-	//cout << "successful connect " << endl;
 	return 1;
 }
 
@@ -406,7 +389,6 @@ int MBCOMSocket::SetMCastInterface(const char* pNIC)
 		mReq.imr_ifindex = if_nametoindex(pNIC);
 		nErr = setsockopt(m_nSocket, SOL_IP, IP_MULTICAST_IF,
 				&mReq, sizeof(ip_mreqn));
-		//if (nErr == -1) cout << "failed IP_MULTICAST_IF " << endl;
 	}
 	return ((nErr != -1) - 1);
 #endif
