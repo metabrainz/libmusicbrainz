@@ -110,10 +110,10 @@ int SigClient::GetSignature(AudioSig *sig, string &strGUID,
         ret = 0;
         strGUID = converter.ToStrGUID(pBuffer, nBytes);
         if (strGUID == "") 
-            cerr << "Your MusicBrainz client library is too old to talk to\n"
-                 << "the signature server.  Please go to www.musicbrainz.org\n"
-                 << "and upgrade to the latest version, or upgrade whatever\n"
-                 << "software package your are currently using.\n";
+            printf("Your MusicBrainz client library is too old to talk to\n"
+                   "the signature server.  Please go to www.musicbrainz.org\n"
+                   "and upgrade to the latest version, or upgrade whatever\n"
+                   "software package your are currently using.\n");
     }
     else {
 	ret = -1;

@@ -35,7 +35,6 @@ void HaarWavelet::Transform(double* pBuf)
 		m_pTape[i+2] *= m_dRoot2;
 		m_pTape[i+3] *= m_dRoot2;
 	}
-	//cout << 1 / m_dRoot2 << endl;
 	//Print();
 	if (m_nLevel > 1)
 	{
@@ -46,7 +45,6 @@ void HaarWavelet::Transform(double* pBuf)
 		{
 			nStop = nMidPoint;
 			nMidPoint /= 2;
-			//cout << "mid: " << nMidPoint << " stop: " << nStop << endl;
 			memcpy(dTemp, m_pTape, sizeof(double)*nStop);
 			j = 0;
 			for (i = 0; i < nStop; i+=2)
@@ -63,7 +61,6 @@ void HaarWavelet::Transform(double* pBuf)
 				m_pTape[i+1] *= m_dRoot2;
 			}
 			nLevel++;
-			//cout << "Level: " << nLevel << endl;
 			//Print();
 		}
 		delete [] dTemp;
