@@ -37,8 +37,9 @@ int main(void)
     // Tell the client library to return data in ISO8859-1 and not UTF-8
     mb_UseUTF8(o, 0);
 
-    // Set the server you want to use. Defaults to www.musicbrainz.org:80
-    //mb_SetServer(o, "www.musicbrainz.org", 80);
+    // Set the proper server to use. Defaults to www.musicbrainz.org:80
+    if (getenv("MB_SERVER"))
+        mb_SetServer(o, getenv("MB_SERVER"), 80);
 
     // If you need to use a proxy, uncomment/edit the following line
     // as appropriate

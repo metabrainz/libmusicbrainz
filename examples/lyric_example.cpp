@@ -22,6 +22,7 @@
 
 ----------------------------------------------------------------------------*/
 #include <stdio.h>
+#include <stdlib.h>
 #include "musicbrainz.h"
 
 int main(void)
@@ -31,8 +32,9 @@ int main(void)
     bool           ret;
     vector<string> args;
 
-    // Set the server you want to use. Defaults to www.musicbrainz.org:80
-    //o.SetServer(string("localhost"), 80);
+    // Set the proper server to use. Defaults to www.musicbrainz.org:80
+    if (getenv("MB_SERVER"))
+        mb_SetServer(o, getenv("MB_SERVER"), 80);
 
     // Tell the client library to return data in ISO8859-1 and not UTF-8
     o.UseUTF8(false);
