@@ -25,6 +25,8 @@
 #include <stdlib.h>
 #include "mb_c.h"
 
+#include "debug.h"
+
 int main(int argc, char *argv[])
 {
     musicbrainz_t o;
@@ -39,6 +41,10 @@ int main(int argc, char *argv[])
 
     // Create the musicbrainz object, which will be needed for subsequent calls
     o = mb_New();
+
+#ifdef WIN32
+	mb_WSAInit(o);
+#endif
 
     // Tell the client library to return data in ISO8859-1 and not UTF-8
     mb_UseUTF8(o, 0);
@@ -69,7 +75,10 @@ int main(int argc, char *argv[])
 
     // Extract the artist name from the track
     if (mb_GetResultData(o, MBE_QuickGetArtistName, data, 256))
+	{
        printf("    Artist: '%s'\n", data);
+	   Debug_v("artist: %s", data);
+    }
 
     // Extract the album name from the track
     if (mb_GetResultData(o, MBE_QuickGetAlbumName, data, 256))
@@ -86,6 +95,10 @@ int main(int argc, char *argv[])
 
     // and clean up the musicbrainz object
     mb_Delete(o);
+
+#ifdef WIN32
+	mb_WSAStop(o);
+#endif
 
     return 0;
 }
