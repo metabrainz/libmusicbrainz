@@ -477,6 +477,17 @@
     "   <mm:vbr>@18@</mm:vbr>\n" \
     "</mq:ExchangeMetadata>\n" 
 
+/**
+ * Look up a track using only a TRM ID. This query returns the same
+ * information as the ExchangeMetadata query, but no metadata is sent
+ * to the server.
+ * @param trmid The TRM Id of the track.
+ */
+#define MBQ_LookupMetadata \
+    "<mq:LookupMetadata>\n" \
+    "   <mm:trmid>@1@</mm:trmid>\n" \
+    "</mq:LookupMetadata>\n" 
+
 /** 
  * Internal use only.
  */
