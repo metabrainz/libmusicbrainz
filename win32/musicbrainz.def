@@ -42,7 +42,7 @@ EXPORTS
    trm_SetProxy
    trm_SetPCMDataInfo       
    trm_GenerateSignature   
-   trm_GenerateSignatureNow
+   trm_FinalizeSignature
    trm_ConvertSigToASCII   
 
    

@@ -446,13 +446,13 @@ int trm_GenerateSignature(trm_t o, char *data, int size)
    return (int)retvalue;
 } 
 
-void trm_FinalizeSignature(trm_t o, char signature[17], char *collectionID)
+int trm_FinalizeSignature(trm_t o, char signature[17], char *collectionID)
 {
    string strGUID;
    string collID;
 
    if (o == NULL)
-      return;
+      return -1;
 
    if (!collectionID)
        collID = "EMPTY_COLLECTION";
@@ -461,10 +461,12 @@ void trm_FinalizeSignature(trm_t o, char signature[17], char *collectionID)
 
    TRM *obj = (TRM *)o;
 
-   obj->GenerateSignatureNow(strGUID, collID);
+   int ret = obj->FinalizeSignature(strGUID, collID);
 
    memset(signature, '\0', 17);
    strncpy(signature, strGUID.c_str(), 16);
+
+   return ret;
 }
 
 void trm_ConvertSigToASCII(trm_t o, char sig[17], char ascii_sig[37])

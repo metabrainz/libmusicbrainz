@@ -70,7 +70,9 @@ int SigClient::GetSignature(AudioSig *sig, string &strGUID,
 {
     int nConRes = this->Connect(m_strIP, m_nPort);
     if (nConRes != 0) 
+	{
         return -1;
+	}
 
     SigXDR converter;
 
@@ -110,13 +112,16 @@ int SigClient::GetSignature(AudioSig *sig, string &strGUID,
         ret = 0;
         strGUID = converter.ToStrGUID(pBuffer, nBytes);
         if (strGUID == "") 
+		{
             printf("Your MusicBrainz client library is too old to talk to\n"
                    "the signature server.  Please go to www.musicbrainz.org\n"
                    "and upgrade to the latest version, or upgrade whatever\n"
                    "software package your are currently using.\n");
+		}
     }
-    else {
-	ret = -1;
+    else 
+	{
+	    ret = -1;
         strGUID = "";
     }
     this->Disconnect();

@@ -506,8 +506,9 @@ int   trm_GenerateSignature   (trm_t o, char *data, int size);
  * @param collectionID an optional 16-byte string to associate the signature
  * with a particular collection in the Relatable Engine.  Generally, pass in 
  * NULL.
+ * @return Returns 0 on success, -1 on failure
  */
-void  trm_FinalizeSignature   (trm_t o, char signature[17], char *collectionID);
+int  trm_FinalizeSignature   (trm_t o, char signature[17], char *collectionID);
 
 /**
  * This translates the 16 character raw signature into a 36 character 
