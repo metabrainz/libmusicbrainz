@@ -45,6 +45,8 @@ if test "$GXX" = yes; then
   CXXFLAGS="$CXXFLAGS -Wall"
 fi
 
+AM_MAINTAINER_MODE
+
 dnl Checks for libraries.
 
 dnl libexpat check
@@ -151,7 +153,10 @@ expat/xmltok/Makefile
 expat/xmlparse/Makefile 
 osdep/Makefile
 lib/bitzi/Makefile 
-examples/Makefile 
+examples/Makefile
+perl/Makefile
+python/Makefile
+debian/Makefile
 libmusicbrainz.pc], 
 echo timestamp > stamp-h)
 

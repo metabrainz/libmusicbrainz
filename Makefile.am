@@ -22,7 +22,7 @@
 AUTOMAKE_OPTIONS = foreign
 
 SUBDIRS = @MAYBE_EXPAT@ osdep lib examples
-DIST_SUBDIRS = expat osdep lib examples
+DIST_SUBDIRS = expat osdep lib examples debian perl python
 
 cvsclean: distclean
 	@echo "additonal cleanup for cvs commits"
@@ -33,7 +33,6 @@ cvsclean: distclean
 pcdir = $(libdir)/pkgconfig
 pc_DATA = libmusicbrainz.pc
 
-EXTRA_DIST = libmusicbrainz.pc.in
+EXTRA_DIST = libmusicbrainz.pc.in 
 
 CLEANFILES = stamp-h
-
