@@ -109,93 +109,7 @@ our %EXPORT_TAGS = ( 'all' => [ qw(
 
 our @EXPORT_OK = ( @{ $EXPORT_TAGS{'all'} } );
 
-our @EXPORT = qw(
-	MBE_AlbumGetAlbumArtistId
-	MBE_AlbumGetAlbumId
-	MBE_AlbumGetAlbumName
-	MBE_AlbumGetAlbumStatus
-	MBE_AlbumGetAlbumType
-	MBE_AlbumGetArtistId
-	MBE_AlbumGetArtistName
-	MBE_AlbumGetArtistSortName
-	MBE_AlbumGetNumCdindexIds
-	MBE_AlbumGetNumTracks
-	MBE_AlbumGetTrackDuration
-	MBE_AlbumGetTrackId
-	MBE_AlbumGetTrackList
-	MBE_AlbumGetTrackName
-	MBE_AlbumGetTrackNum
-	MBE_ArtistGetAlbumId
-	MBE_ArtistGetAlbumName
-	MBE_ArtistGetArtistId
-	MBE_ArtistGetArtistName
-	MBE_ArtistGetArtistSortName
-	MBE_AuthGetChallenge
-	MBE_AuthGetSessionId
-	MBE_GetError
-	MBE_GetNumAlbums
-	MBE_GetNumArtists
-	MBE_GetNumLookupResults
-	MBE_GetNumTracks
-	MBE_GetNumTrmids
-	MBE_GetStatus
-	MBE_LookupGetAlbumId
-	MBE_LookupGetArtistId
-	MBE_LookupGetRelevance
-	MBE_LookupGetTrackId
-	MBE_LookupGetType
-	MBE_QuerySubject
-	MBE_QuickGetAlbumName
-	MBE_QuickGetArtistName
-	MBE_QuickGetTrackDuration
-	MBE_QuickGetTrackId
-	MBE_QuickGetTrackName
-	MBE_QuickGetTrackNum
-	MBE_TOCGetCDIndexId
-	MBE_TOCGetFirstTrack
-	MBE_TOCGetLastTrack
-	MBE_TOCGetTrackNumSectors
-	MBE_TOCGetTrackSectorOffset
-	MBE_TrackGetArtistId
-	MBE_TrackGetArtistName
-	MBE_TrackGetArtistSortName
-	MBE_TrackGetTrackDuration
-	MBE_TrackGetTrackId
-	MBE_TrackGetTrackName
-	MBE_TrackGetTrackNum
-	MBI_VARIOUS_ARTIST_ID
-	MBQ_AssociateCD
-	MBQ_Authenticate
-	MBQ_FileInfoLookup
-	MBQ_FindAlbumByName
-	MBQ_FindArtistByName
-	MBQ_FindDistinctTRMId
-	MBQ_FindTrackByName
-	MBQ_GetAlbumById
-	MBQ_GetArtistById
-	MBQ_GetCDInfo
-	MBQ_GetCDInfoFromCDIndexId
-	MBQ_GetCDTOC
-	MBQ_GetTrackById
-	MBQ_GetTrackByTRMId
-	MBQ_QuickTrackInfoFromTrackId
-	MBQ_SubmitTrack
-	MBQ_SubmitTrackTRMId
-	MBQ_TrackInfoFromTRMId
-	MBS_Back
-	MBS_Rewind
-	MBS_SelectAlbum
-	MBS_SelectArtist
-	MBS_SelectCdindexid
-	MBS_SelectLookupResult
-	MBS_SelectLookupResultAlbum
-	MBS_SelectLookupResultArtist
-	MBS_SelectLookupResultTrack
-	MBS_SelectTrack
-	MBS_SelectTrackAlbum
-	MBS_SelectTrackArtist
-	MBS_SelectTrmid
-);
+our @EXPORT = qw();
 
 our $VERSION = do { my @r = (q$Revision$ =~ /\d+/g); $r[0]--;sprintf "%d."."%02d" x $#r, @r }; # must be all one line, for MakeMaker  
 
@@ -278,7 +192,7 @@ Return the release status of the currently selected Album.
 
 Return the release type of the currently selected Album.
 
-=item=item  MBE_AlbumGetArtistId
+=item MBE_AlbumGetArtistId
 
 Return the artist Id of the nth track in the album. Requires a 
 track index ordinal. 1 for the first track, etc...

@@ -5,8 +5,11 @@ otherwise noted.
 
 $Id$
 
-0.04
+0.05  Mon Feb 24 23:40:49 2003
 	- Fixed some POD typos
+	- Switched to Test::More
+	- Fixed 1.t tests [Sander van Zoest, Tom Heady]
+	- Don't export constants by default.
 
 0.03  Sat Feb 22 08:47:24 2003
 	- Added documentation for all queries.
