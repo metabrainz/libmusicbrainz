@@ -44,7 +44,7 @@ int main(int argc, char *argv[])
     mb_UseUTF8(o, 0);
 
     // Tell the client library to print query and response info to stdout 
-    mb_SetDebug(o, 0);
+    mb_SetDebug(o, 1);
 
     // Tell the server to return 4 levels of data
     mb_SetDepth(o, 3);
