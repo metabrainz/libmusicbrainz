@@ -21,7 +21,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories="..\osdep,..,..\expat\xmlparse,..\expat\xmltok,..\include\musicbrainz,..\lib"
+				AdditionalIncludeDirectories="..\osdep,..,..\..\expat\Source\lib,..\include\musicbrainz,..\lib"
 				PreprocessorDefinitions="NDEBUG;WIN32;_WINDOWS;_USRDLL;MB_CLIENT_EXPORTS;NOMINMAX"
 				StringPooling="TRUE"
 				RuntimeLibrary="0"
@@ -39,7 +39,8 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="/MACHINE:I386"
-				AdditionalDependencies="winmm.lib odbc32.lib odbccp32.lib wsock32.lib comctl32.lib"
+                                AdditionalLibraryDirectories="..\..\expat\Libs"
+				AdditionalDependencies="winmm.lib odbc32.lib odbccp32.lib wsock32.lib comctl32.lib libexpat.lib"
 				OutputFile=".\Release/musicbrainz.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
@@ -83,7 +84,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\osdep,..,..\expat\xmlparse,..\expat\xmltok,..\include\musicbrainz,..\lib"
+				AdditionalIncludeDirectories="..\osdep,..,..\..\expat\Source\Lib,..\include\musicbrainz,..\lib"
 				PreprocessorDefinitions="_DEBUG;WIN32;_WINDOWS;_USRDLL;MB_CLIENT_EXPORTS;NOMINMAX"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
@@ -101,7 +102,8 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="/MACHINE:I386"
-				AdditionalDependencies="winmm.lib odbc32.lib odbccp32.lib wsock32.lib comctl32.lib"
+                                AdditionalLibraryDirectories="..\..\expat\Libs"
+				AdditionalDependencies="winmm.lib odbc32.lib odbccp32.lib wsock32.lib comctl32.lib libexpat.lib"
 				OutputFile=".\Debug/musicbrainz.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
@@ -171,9 +173,6 @@
 				RelativePath=".\musicbrainz.def">
 			</File>
 			<File
-				RelativePath="..\lib\parse.cpp">
-			</File>
-			<File
 				RelativePath="..\lib\rdfextract.cpp">
 			</File>
 			<File
@@ -199,22 +198,6 @@
 			</File>
 			<File
 				RelativePath="..\lib\wincomsocket.cpp">
-			</File>
-		</Filter>
-		<Filter
-			Name="Expat Files"
-			Filter="">
-			<File
-				RelativePath="..\expat\xmlparse\hashtable.c">
-			</File>
-			<File
-				RelativePath="..\expat\xmlparse\xmlparse.c">
-			</File>
-			<File
-				RelativePath="..\expat\xmltok\xmlrole.c">
-			</File>
-			<File
-				RelativePath="..\expat\xmltok\xmltok.c">
 			</File>
 		</Filter>
 		<Filter
