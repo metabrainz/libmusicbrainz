@@ -53,7 +53,7 @@ int       mb_GetResultData     (musicbrainz_t o, char *resultName,
 int       mb_GetResultInt      (musicbrainz_t o, char *resultName);
 int       mb_GetResultRDF      (musicbrainz_t o, char *xml, int maxXMLLen);
 int       mb_GetResultRDFLen   (musicbrainz_t o);
-void      mb_SetResultRDF      (musicbrainz_t o, char *xml);
+int       mb_SetResultRDF      (musicbrainz_t o, char *xml);
 int       mb_GetNumItems       (musicbrainz_t o);
 
 void      mb_SetPCMDataInfo    (musicbrainz_t o, int samplesPerSecond, 

@@ -59,7 +59,7 @@ class MusicBrainz
        bool     GetResultData  (const string &resultName, int Index, 
                                 string &data);
        bool     GetResultRDF   (string &RDFObject);
-       void     SetResultRDF   (string &RDFObject);
+       bool     SetResultRDF   (string &RDFObject);
 
        const string &Data      (const string &resultName, int Index = -1);
        int           DataInt   (const string &resultName, int Index = -1);
