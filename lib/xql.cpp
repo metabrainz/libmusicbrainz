@@ -89,7 +89,7 @@ Error XQL::EndElement(const string &oElement)
 Error XQL::PCData(const string &oData)
 {
     //printf("parse: %s ==> '%s'\n", m_oPath.c_str(), oData.c_str());
-    m_oList[m_oPath] = oData;
+    m_oList[m_oPath] += oData;
 
     return kError_NoErr;
 }
