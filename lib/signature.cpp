@@ -26,6 +26,9 @@
 #include "sigfft.h"
 #include "sigclient.h"
 
+#include <stdio.h>
+#include <stdlib.h>
+
 void MusicBrainz::SetPCMDataInfo(int samplesPerSecond, int numChannels,
                                  int bitsPerSample)
 {
@@ -37,127 +40,257 @@ void MusicBrainz::SetPCMDataInfo(int samplesPerSecond, int numChannels,
         delete [] m_downmixBuffer;
         m_downmixBuffer = NULL;
     }
+    if (m_storeBuffer) {
+        delete [] m_storeBuffer;
+        m_storeBuffer = NULL;
+    }
     m_numSamplesWritten = 0;
+
+    float mult = (float)m_samples_per_second / 11025.0;
+    mult *= (m_bits_per_sample / 8);
+    mult *= (m_number_of_channels);
+    mult = ceil(mult);
+
+cout << m_samples_per_second << " " << m_bits_per_sample << " " << m_number_of_channels << endl;
+    m_numRealSamplesWritten = 0;
+    m_numRealSamplesNeeded = iNumSamplesNeeded * (int)mult;
+    m_storeBuffer = new char[m_numRealSamplesNeeded + 20];
 }
 
 bool MusicBrainz::GenerateSignature(char *data, int size, string &strGUID,
                                     string &collID)
 {
-   if (m_numSamplesWritten < iNumSamplesNeeded) {
-       if (!m_downmixBuffer)
-           m_downmixBuffer = new unsigned char[iNumSamplesNeeded];
-
-       m_downmix_size = size;
-       if (m_samples_per_second != 11025)
-           m_downmix_size = m_downmix_size * 11025 / m_samples_per_second;
-
-       if (m_bits_per_sample != 8)
-           m_downmix_size /= 2;
-
-       if (m_number_of_channels != 1)
-           m_downmix_size /= 2;
-
-       int maxwrite = m_downmix_size;
-       int readpos = 0;
-       int writepos = 0;
-       int rate_change = m_samples_per_second / 11025;
-       signed short lsample, rsample;
-       unsigned char ls, rs;
-
-       if (m_bits_per_sample == 16) {
-           if (m_number_of_channels == 2) {
-               while ((writepos < maxwrite) && 
-                      (m_numSamplesWritten < iNumSamplesNeeded)) 
-               {
-                   readpos = writepos * rate_change;
-                   readpos *= 2;
-
-                   lsample = ((signed short *)data)[readpos++];
-                   rsample = ((signed short *)data)[readpos++];
-
-                   lsample /= 256; lsample += 127;
-                   rsample /= 256; rsample += 127;
- 
-                   m_downmixBuffer[m_numSamplesWritten] = 
-                                                       (lsample + rsample) / 2;
-                   m_numSamplesWritten++;
-                   writepos++;
-               }
-           }
-           else {
-               while ((writepos < maxwrite) &&
-                      (m_numSamplesWritten < iNumSamplesNeeded))
-               {
-                   readpos = writepos * rate_change;
-
-                   lsample = ((signed short *)data)[readpos++];
-                   lsample /= 256; lsample += 127;
-
-                   m_downmixBuffer[m_numSamplesWritten] = lsample;
-                   m_numSamplesWritten++;
-                   writepos++;
-               }
-           }
-       }
-       else {
-           if (m_number_of_channels == 2) {
-               while ((writepos < maxwrite) &&  
-                      (m_numSamplesWritten < iNumSamplesNeeded))
-               {
-                   readpos = writepos * rate_change;
-                   readpos /= 2;
-
-                   ls = ((unsigned char *)data)[readpos++];
-                   rs = ((unsigned char *)data)[readpos++];
-
-                   m_downmixBuffer[m_numSamplesWritten] = (ls + rs) / 2;
-                   m_numSamplesWritten++;
-                   writepos++;
-               }
-           }
-           else {
-               while ((writepos < maxwrite) &&
-                      (m_numSamplesWritten < iNumSamplesNeeded))
-               {
-                   readpos = writepos * rate_change;
-                   
-                   ls = ((unsigned char *)data)[readpos++];
-
-                   m_downmixBuffer[m_numSamplesWritten] = ls;
-                   m_numSamplesWritten++;
-                   writepos++;
-               }
-           }
+   if (m_numRealSamplesWritten < m_numRealSamplesNeeded) {
+       int i = 0;
+       while (i < size && m_numRealSamplesWritten < m_numRealSamplesNeeded) {
+           m_storeBuffer[m_numRealSamplesWritten] = data[i];
+           m_numRealSamplesWritten++;
+           i++;
        }
    }
 
-   if (m_numSamplesWritten < iNumSamplesNeeded)
+   if (m_numRealSamplesWritten < m_numRealSamplesNeeded)
        return false;
 
    GenerateSignatureNow(strGUID, collID);
 
    return true;
+
+}
+
+void MusicBrainz::DownmixPCM(void)
+{
+   // DC Offset fix
+   long int lsum = 0, rsum = 0;
+   long int numsamps = 0;
+   int lDC = 0, rDC = 0;
+   signed short lsample, rsample;
+   unsigned char ls, rs;
+   int readpos = 0;
+    
+char filename[1024];
+sprintf(filename, "/tmp/1-%d.out", time(NULL));
+FILE *outfile = fopen(filename, "w");
+fwrite(m_storeBuffer, sizeof(signed short), m_numRealSamplesWritten / 2, outfile);
+fclose(outfile);
+
+   if (m_bits_per_sample == 16) {
+       if (m_number_of_channels == 2) {
+           while (readpos < (m_numRealSamplesWritten / 2)) {
+               lsample = ((signed short *)m_storeBuffer)[readpos++];
+               rsample = ((signed short *)m_storeBuffer)[readpos++];
+               
+               lsum += lsample; 
+               rsum += rsample;
+               numsamps++;
+           }
+           lDC = -(lsum / numsamps);
+           rDC = -(rsum / numsamps);
+
+           cout << "left offset " << lDC << endl;
+           cout << "right offset " << rDC << endl;
+
+           readpos = 0;
+           while (readpos < (m_numRealSamplesWritten / 2)) {
+               ((signed short *)m_storeBuffer)[readpos] = 
+                    ((signed short *)m_storeBuffer)[readpos] + lDC;
+               readpos++;
+               ((signed short *)m_storeBuffer)[readpos] =
+                    ((signed short *)m_storeBuffer)[readpos] + rDC;
+               readpos++;
+           }
+       }
+       else {
+           while (readpos < m_numRealSamplesWritten / 2) {
+               lsample = ((signed short *)m_storeBuffer)[readpos++];
+               
+               lsum += lsample;
+               numsamps++;
+           }
+
+           lDC = -(lsum / numsamps);
+ 
+           cout << "offset " << lDC << endl;
+
+           readpos = 0;
+           while (readpos < m_numRealSamplesWritten / 2) {
+               ((signed short *)m_storeBuffer)[readpos] =
+                    ((signed short *)m_storeBuffer)[readpos] + lDC;
+               readpos++;
+           }
+       }
+    }
+    else {
+       if (m_number_of_channels == 2) {
+           while (readpos < (m_numRealSamplesWritten)) {
+               lsample = ((char *)m_storeBuffer)[readpos++];
+               rsample = ((char *)m_storeBuffer)[readpos++];
+
+               lsum += lsample;
+               rsum += rsample;
+               numsamps++;
+           }
+           lDC = -(lsum / numsamps);
+           rDC = -(rsum / numsamps);
+
+           cout << "left offset " << lDC << endl;
+           cout << "right offset " << rDC << endl;
+
+           readpos = 0;
+           while (readpos < (m_numRealSamplesWritten)) {
+               ((char *)m_storeBuffer)[readpos] =
+                    ((char *)m_storeBuffer)[readpos] + lDC;
+               readpos++;
+               ((char *)m_storeBuffer)[readpos] =
+                    ((char *)m_storeBuffer)[readpos] + rDC;
+               readpos++;
+           }
+       }
+       else {
+           while (readpos < m_numRealSamplesWritten / 2) {
+               lsample = ((char *)m_storeBuffer)[readpos++];
+
+               lsum += lsample;
+               numsamps++;
+           }
+
+           lDC = -(lsum / numsamps);
+
+           cout << "offset " << lDC << endl;
+
+           readpos = 0;
+           while (readpos < m_numRealSamplesWritten / 2) {
+               ((char *)m_storeBuffer)[readpos] =
+                    ((char *)m_storeBuffer)[readpos] + lDC;
+               readpos++;
+           }
+       }
+    }
+
+sprintf(filename, "/tmp/2-%d.out", time(NULL));
+outfile = fopen(filename, "w");
+fwrite(m_storeBuffer, sizeof(signed short), m_numRealSamplesWritten / 2, outfile);
+fclose(outfile);
+
+   if (!m_downmixBuffer)
+       m_downmixBuffer = new unsigned char[iNumSamplesNeeded];
+
+   m_downmix_size = m_numRealSamplesWritten;
+
+   if (m_samples_per_second != 11025)
+       m_downmix_size = (int)((float)m_downmix_size * 
+                            (11025.0 / (float)m_samples_per_second));
+
+   if (m_bits_per_sample != 8)
+       m_downmix_size /= 2;
+
+   if (m_number_of_channels != 1)
+       m_downmix_size /= 2;
+
+   int maxwrite = m_downmix_size;
+   int writepos = 0;
+   int rate_change = m_samples_per_second / 11025;
+
+   if (m_bits_per_sample == 16) {
+       if (m_number_of_channels == 2) {
+           while ((writepos < maxwrite) && 
+                  (m_numSamplesWritten < iNumSamplesNeeded)) 
+           {
+               readpos = writepos * rate_change;
+               readpos *= 2;
+
+               lsample = ((signed short *)m_storeBuffer)[readpos++];
+               rsample = ((signed short *)m_storeBuffer)[readpos++];
+
+               lsample /= 256; lsample += 127;
+               rsample /= 256; rsample += 127;
+
+               m_downmixBuffer[m_numSamplesWritten] = (lsample + rsample) / 2;
+               m_numSamplesWritten++;
+               writepos++;
+           }
+       }
+       else {
+           while ((writepos < maxwrite) &&
+                  (m_numSamplesWritten < iNumSamplesNeeded))
+           {
+               readpos = writepos * rate_change;
+
+               lsample = ((signed short *)m_storeBuffer)[readpos++];
+               lsample /= 256; lsample += 127;
+
+               m_downmixBuffer[m_numSamplesWritten] = lsample;
+               m_numSamplesWritten++;
+               writepos++;
+           }
+       }
+   }
+   else {
+       if (m_number_of_channels == 2) {
+           while ((writepos < maxwrite) &&  
+                  (m_numSamplesWritten < iNumSamplesNeeded))
+           {
+               readpos = writepos * rate_change;
+               readpos /= 2;
+
+               ls = ((unsigned char *)m_storeBuffer)[readpos++];
+               rs = ((unsigned char *)m_storeBuffer)[readpos++];
+
+               m_downmixBuffer[m_numSamplesWritten] = (ls + rs) / 2;
+               m_numSamplesWritten++;
+               writepos++;
+           }
+       }
+       else {
+           while ((writepos < maxwrite) &&
+                  (m_numSamplesWritten < iNumSamplesNeeded))
+           {
+               readpos = writepos * rate_change;
+               
+               ls = ((unsigned char *)m_storeBuffer)[readpos++];
+
+               m_downmixBuffer[m_numSamplesWritten] = ls;
+               m_numSamplesWritten++;
+               writepos++;
+           }
+       }
+   }
+
+   delete [] m_storeBuffer;
+   m_storeBuffer = NULL;
 }
 
 void MusicBrainz::GenerateSignatureNow(string &strGUID, string &collID)
 {
+    DownmixPCM();
 
-    // DC Offset fix
-    long int sum = 0;
-    int DCOffsetFix = 0; 
+char filename[1024];
+sprintf(filename, "/tmp/3-%d.out", time(NULL));
+FILE *outfile = fopen(filename, "w");
+fwrite(m_downmixBuffer, sizeof(unsigned char), m_numSamplesWritten, outfile);
+fclose(outfile);
+
     char *sample = (char *)m_downmixBuffer;  
-
-    for (int z = 0; z < m_numSamplesWritten; z++) {
-        sum += sample[z];
-    }
-    DCOffsetFix = -(sum / m_numSamplesWritten) / 2;
-    
-    if (DCOffsetFix != 0) {
-        cout << "DC offset fix: " << DCOffsetFix << " (" << sum << ")\n";
-//        for (int z = 0; z < m_numSamplesWritten; z++)
-//            sample[z] += DCOffsetFix;
-    }
- 
     bool bLastNeg = false;
     if (*sample <= 0)
           bLastNeg = true;

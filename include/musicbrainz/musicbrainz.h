@@ -79,6 +79,8 @@ class MusicBrainz
        int      GetNumXMLResults(void);
        bool     SelectXMLResult(int index);
 
+       void     DownmixPCM(void);
+
        string          m_error, m_empty; 
        string          m_server, m_proxy;
        short           m_serverPort, m_proxyPort;
@@ -91,10 +93,13 @@ class MusicBrainz
        int             m_bits_per_sample;
        int             m_samples_per_second;
        int             m_number_of_channels;
-       int             m_downmix_size;
+       long            m_downmix_size;
        int             m_finishedFFTs;
        unsigned char  *m_downmixBuffer;
-       int             m_numSamplesWritten;
+       char           *m_storeBuffer;
+       long            m_numRealSamplesNeeded;
+       long            m_numRealSamplesWritten;
+       long            m_numSamplesWritten;
 };
 
 #endif
