@@ -66,7 +66,7 @@ The following people have contributed to this program:
   Matthias Friedrich <mfriedrich@users.sourceforge.net>
   - Provided a patch for fixing NetBSD cdrom TOC code
 
-  Sander von Zoest <sander@vanZoest.com>
+  Sander van Zoest <sander@vanZoest.com>
   - Wrote the perl bindings
 
 (please send change requests to rob@musicbrainz.org or maintainer)
