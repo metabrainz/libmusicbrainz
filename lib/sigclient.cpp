@@ -40,7 +40,7 @@ email                : ijr@relatable.com
 
 namespace SigClientVars
 {
-    static const char cGetGUID = 'N';
+    static const char cGetGUID = 'L';
     static const char cDisconnect = 'E';
 
     static const int nGUIDSize = 16;
@@ -65,7 +65,7 @@ SigClient::~SigClient()
         delete m_pSocket;
 }
 
-int SigClient::GetSignature(AudioSig *sig, string &strGUID, 
+int SigClient::GetSignature(vector<AudioSig *> *sigs, string &strGUID, 
                             string strCollectionID)
 {
     int nConRes = this->Connect(m_strIP, m_nPort);
@@ -76,7 +76,8 @@ int SigClient::GetSignature(AudioSig *sig, string &strGUID,
 
     int nOffSet = sizeof(char) + sizeof(int);
     int nGUIDLen = strCollectionID.size() * sizeof(char) + sizeof(char);
-    int iSigEncodeSize = sizeof(int) + 69 * sizeof(int32) + nGUIDLen;
+    int iSigEncodeSize = 2 * sizeof(int) + 69 * sizeof(int32) * sigs->size() +
+                         nGUIDLen;
     int nTotalSize = nOffSet + iSigEncodeSize;
 
     char* pBuffer = new char[nTotalSize + 1];
@@ -87,14 +88,25 @@ int SigClient::GetSignature(AudioSig *sig, string &strGUID,
     memcpy(&pBuffer[nOffSet], &SigClientVars::nVersion, sizeof(int));
     nOffSet += sizeof(int);
 
-    iSigEncodeSize -= (nGUIDLen + sizeof(int));
+    int tempi = sigs->size();
+    memcpy(&pBuffer[nOffSet], &tempi, sizeof(int));
+    nOffSet += sizeof(int);
 
-    char *sigencode = converter.FromSig(sig);
-    memcpy(&pBuffer[nOffSet], sigencode, iSigEncodeSize);
+    iSigEncodeSize = 69 * sizeof(int32);
 
-    memcpy(&pBuffer[nOffSet + iSigEncodeSize], strCollectionID.c_str(),
-           nGUIDLen - sizeof(char));
-    pBuffer[nOffSet + iSigEncodeSize + nGUIDLen - sizeof(char)] = '\0';
+    vector<AudioSig *>::iterator sig = sigs->begin();
+    for (; sig != sigs->end(); sig++)
+    {
+        char *sigencode = converter.FromSig(*sig);
+        memcpy(&pBuffer[nOffSet], sigencode, iSigEncodeSize);
+        nOffSet += iSigEncodeSize;
+
+        delete [] sigencode;
+    }
+
+    memcpy(&pBuffer[nOffSet], strCollectionID.c_str(), nGUIDLen - sizeof(char));
+    nOffSet += (nGUIDLen - sizeof(char));
+    pBuffer[nOffSet] = '\0';
 
     int nBytes = 0;
     int ret = m_pSocket->Write(pBuffer, nTotalSize, &nBytes);
@@ -117,7 +129,6 @@ int SigClient::GetSignature(AudioSig *sig, string &strGUID,
     this->Disconnect();
 
     delete [] pBuffer;
-    delete [] sigencode;
 
     return ret;
 }
@@ -129,7 +140,7 @@ int SigClient::Connect(string& strIP, int nPort)
 
     if (m_proxyAddr.empty())
     {
-        m_pSocket->SetProxy(NULL);
+       m_pSocket->SetProxy(NULL);
     }
     else {
         char *proxyurl = new char[m_proxyAddr.size() + 128];
@@ -143,6 +154,7 @@ int SigClient::Connect(string& strIP, int nPort)
     sprintf(url, "http://%s/cgi-bin/gateway/gateway?%d", strIP.c_str(), nPort);
     //sprintf(url, "http://209.249.187.200/cgi-bin/gateway?%d", nPort);
     int nErr = m_pSocket->Connect(url);
+    //int nErr = m_pSocket->Connect(strIP.c_str(), nPort, SOCK_STREAM);
 
     delete [] url;
 

@@ -91,12 +91,12 @@ string SigXDR::ToStrGUID(char *buffer, long size)
     if (size != m_size)
         return ret;
   
-    char c;
+    int c;
  
     m_position = m_buffer = buffer;
     for (int i = 0; i < 16; i++) {
         GetInt32((int32 *)&c);
-        ret.append(1, c);
+        ret.append(1, (char)c);
     }
 
     return ret;

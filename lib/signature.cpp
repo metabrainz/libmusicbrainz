@@ -30,6 +30,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+const int iFFTPoints = 32;
+const int iNumSamplesNeeded = 1152000;
+
 void MusicBrainz::SetPCMDataInfo(int samplesPerSecond, int numChannels,
                                  int bitsPerSample)
 {
@@ -260,7 +263,61 @@ void MusicBrainz::GenerateSignatureNow(string &strGUID, string &collID)
 //fwrite(m_downmixBuffer, m_numSamplesWritten, sizeof(unsigned char), blah);
 //fclose(blah);
 
-    char *sample = (char *)m_downmixBuffer;  
+    vector<AudioSig *> *sigs = new vector<AudioSig *>;
+
+    int i;
+    int numsigs = 130;
+
+    char *NumSigEnv = getenv("NUMSIGS");
+
+    if (NumSigEnv)
+        numsigs = atoi(NumSigEnv);
+
+    for (i = 0; i < numsigs; i++)
+    {
+        string blah;
+        if (!GenSig(i * (11025.0 / 2.0), m_numSamplesWritten, sigs))
+            break;
+    }
+
+    SigClient *sigClient = new SigClient();
+    sigClient->SetAddress("127.0.0.1", 4447);
+    sigClient->SetProxy(m_proxy, m_proxyPort);
+
+    if (collID == "")
+        collID = "EMPTY_COLLECTION";
+
+    sigClient->GetSignature(sigs, strGUID, collID);
+    
+    delete [] m_downmixBuffer;
+    m_downmixBuffer = 0;
+    m_numSamplesWritten = 0;
+}
+
+bool MusicBrainz::GenSig(int offset, int maxlen, vector<AudioSig *> *sigs)
+{
+    char *sOffset = getenv("OFFSET");
+   
+    int userOffset = 0;
+    if (sOffset)
+        userOffset = atof(sOffset) * 11025.0;        
+
+    offset += userOffset;
+    int numsamps = 32000;
+
+    if (offset + numsamps > maxlen)
+    {
+        cerr << "cutting sample short" << endl;
+        numsamps = maxlen - offset;
+    }
+
+    if (numsamps <= 0)
+        return false;
+
+    char *sample = (char *)m_downmixBuffer; 
+
+    sample += offset;
+ 
     bool bLastNeg = false;
     if (*sample <= 0)
           bLastNeg = true;
@@ -270,8 +327,11 @@ void MusicBrainz::GenerateSignatureNow(string &strGUID, string &collID)
     pFFT->Transform();
 
     char *pCurrent = (char *)m_downmixBuffer;
+
+    pCurrent += offset;
+
     char *pBegin = pCurrent;
-    int iFFTs = m_numSamplesWritten / iFFTPoints;
+    int iFFTs = numsamps / iFFTPoints;
     int j, k;
 
     int iSpectrum[iFFTPoints];
@@ -347,9 +407,9 @@ void MusicBrainz::GenerateSignatureNow(string &strGUID, string &collID)
         for (j = 0; j < 32; j++)
             specs[specSub][j] = specs[specSub][j] / specCounter;
 
-    float fLength = m_numSamplesWritten / (float)11025;
+    float fLength = numsamps / (float)11025;
     float fAverageZeroCrossing = iZeroCrossings / fLength;
-    float fEnergy = dEnergySum / (float)m_numSamplesWritten;
+    float fEnergy = dEnergySum / (float)numsamps;
     for (int i = 0; i < iFFTPoints; i++)
         iSpectrum[i] = iSpectrum[i] / iFinishedFFTs;
 
@@ -405,31 +465,20 @@ void MusicBrainz::GenerateSignatureNow(string &strGUID, string &collID)
     for (int j = 0; j < 32; j++)
         avgspecdiff[j] /= 8;
 
-    cout << fEnergy << " " << fAverageZeroCrossing << endl;
-    cout << avgdiff << " " << numsignchanges << endl;
-    for (int j = 0; j < 32; j++)
-        cout << iSpectrum[j] << endl;
+//   cout << fEnergy << " " << fAverageZeroCrossing << endl;
+//   cout << avgdiff << " " << numsignchanges << endl;
+//    for (int j = 0; j < 32; j++)
+//        cout << iSpectrum[j] << endl;
 
     AudioSig *signature = new AudioSig(fEnergy, fAverageZeroCrossing,
                                        fLength, iSpectrum, avgdiff, 
                                        numsignchanges, avgspecdiff);
 
-    SigClient *sigClient = new SigClient();
-    sigClient->SetAddress("209.249.187.199", 4446);
-    sigClient->SetProxy(m_proxy, m_proxyPort);
-
-    if (collID == "")
-        collID = "EMPTY_COLLECTION";
-
-    sigClient->GetSignature(signature, strGUID, collID);
+    sigs->push_back(signature);
 
     delete pFFT;
-    delete signature;
-    delete sigClient;
 
-    delete [] m_downmixBuffer;
-    m_downmixBuffer = 0;
-    m_numSamplesWritten = 0;
+    return true;
 }
 
 void MusicBrainz::ConvertSigToASCII(char sig[17], char ascii_sig[37])

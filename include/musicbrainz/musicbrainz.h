@@ -32,11 +32,9 @@
 
 using namespace std;
 
-const int iFFTPoints = 32;
-const int iNumSamplesNeeded = 288000;
-const int iMaxFFTs = 9000;
-
 class XQL;
+class AudioSig;
+
 class MusicBrainz
 {
     public:
@@ -82,7 +80,8 @@ class MusicBrainz
        bool     SelectXMLResult(int index);
 
        void     DownmixPCM(void);
-       
+       bool     GenSig(int offset, int maxlen, vector<AudioSig *> *sigs);
+        
        string          m_error, m_empty; 
        string          m_server, m_proxy;
        short           m_serverPort, m_proxyPort;
