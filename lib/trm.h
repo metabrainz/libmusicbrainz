@@ -48,19 +48,28 @@ class TRM
         
     private:
 
-       void     DownmixPCM(void);
-       
+       void DownmixPCM(void);
+       int  CountBeats(void); 
+
        int             m_bits_per_sample;
        int             m_samples_per_second;
        int             m_number_of_channels;
        long            m_downmix_size;
        int             m_finishedFFTs;
-       unsigned char  *m_downmixBuffer;
+       signed short   *m_downmixBuffer;
        char           *m_storeBuffer;
-       long            m_numRealSamplesNeeded;
-       long            m_numRealSamplesWritten;
+       long            m_numBytesNeeded;
+       long            m_numBytesWritten;
        long            m_numSamplesWritten;
 
+       double          fWin[64];
+       double          fftBuffer[64];
+       double          fftBuffer2[64];
+       double          freqs[32];
+       float           fLastFFT[32];
+       float          *beatStore;
+       int             beatindex;
+       
        string          m_proxy;
        short           m_proxyPort;
 };

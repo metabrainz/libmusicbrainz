@@ -22,14 +22,24 @@
 
 ----------------------------------------------------------------------------*/
 #include <stdio.h>
+#include <string.h>
+#include <assert.h>
 #ifdef WIN32
 #include <winsock.h>
+#include "config_win32.h"
 #endif
 #include "musicbrainz.h"
 #include "http.h"
 #include "errors.h"
 #include "diskid.h"
 #include "xql.h"
+
+extern "C"
+{
+   #include "sha1.h"
+   #include "base64.h"
+   #include "bitcollider.h"
+}
 
 const char *scriptUrl = "/cgi-bin/rquery.pl";
 const char *localCDInfo = "@CDINFO@";
@@ -131,6 +141,43 @@ bool MusicBrainz::GetWebSubmitURL(string &url)
     return true;
 }
 
+static const char* protocol = "file://";
+static Error URLToFilePath(const char* url, char* path, uint32* length)
+{
+    Error result = kError_InvalidParam;
+
+    assert(path);
+    assert(url);
+    assert(length);
+
+    if(path && url && length && !strncasecmp(url, protocol, strlen(protocol)))
+    {
+        result = kError_BufferTooSmall;
+
+        if(*length >= strlen(url) - strlen(protocol) + 1)
+        {
+            strcpy(path, url + strlen(protocol));
+#ifdef WIN32
+            if(strlen(path) > 1 && path[1] == '|')
+            {
+                path[1] = ':';
+            }
+
+            for(int32 index = strlen(path) - 1; index >=0; index--)
+            {
+                if(path[index] == '/')
+                    path[index] = '\\';
+            }
+#endif
+            result = kError_NoErr;
+        }
+
+        *length = strlen(url) - strlen(protocol) + 1;
+    }
+
+    return result;
+}
+
 bool MusicBrainz::Query(const string &xmlObject, vector<string> *args)
 {
     MBHttp   http;
@@ -192,7 +239,7 @@ bool MusicBrainz::Query(const string &xmlObject, vector<string> *args)
           string("</MQ:Version>\n") +
           string(rdfFooter);
 
-    //printf("query: %s\n\n", xml.c_str());
+    printf("query: %s\n\n", xml.c_str());
 
     if (m_proxy.length() > 0)
     {
@@ -432,7 +479,7 @@ bool MusicBrainz::SelectXMLResult(int index)
 {
     Error ret;
 
-    if (index > m_xmlList.size() - 1)
+    if ((unsigned int)index > m_xmlList.size() - 1)
         return false;
 
     delete m_xql;
@@ -587,4 +634,41 @@ int MusicBrainz::SplitResponse(const string &inXML)
     }
 
     return 0;
+}
+
+bool MusicBrainz::CalculateBitprint(const string &fileName, BitprintInfo *info) 
+{
+    BitcolliderSubmission *sub;
+    char                  *ptr;
+
+    sub = create_submission();
+    if (sub == NULL)
+       return false;
+
+    ptr = strrchr(fileName.c_str(), '.');
+    if (ptr && strcasecmp(ptr, ".mp3") == 0)
+       set_mp3_check(sub, 1);
+
+    if (!analyze_file(sub, fileName.c_str()))
+       return false;
+
+    strncpy(info->filename, fileName.c_str(), 255);
+    strncpy(info->bitprint, get_attribute(sub, "bitprint"), MB_BITPRINTSIZE);
+    strncpy(info->first20, 
+            get_attribute(sub, "tag.file.first20"), MB_FIRST20SIZE);
+    strncpy(info->audioSha1, 
+            get_attribute(sub, "tag.mp3.audio_sha1"), MB_SHA1SIZE);
+    info->length = atoi(get_attribute(sub, "tag.file.length"));
+    info->duration = atoi(get_attribute(sub, "tag.mp3.duration"));
+    info->samplerate = atoi(get_attribute(sub, "tag.mp3.samplerate"));
+    info->bitrate = atoi(get_attribute(sub, "tag.mp3.bitrate"));
+    info->stereo = strcmp(get_attribute(sub, "tag.mp3.stereo"), "y") == 0;
+    if (get_attribute(sub, "tag.mp3.vbr"))
+       info->vbr = strcmp(get_attribute(sub, "tag.mp3.vbr"), "y") == 0;
+    else
+       info->vbr = 0;
+
+    delete_submission(sub);
+
+    return true;
 }

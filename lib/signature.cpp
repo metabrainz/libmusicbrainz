@@ -26,12 +26,23 @@
 #include "sigfft.h"
 #include "sigclient.h"
 #include "uuid.h"
+#include "haar.h"
 
 #include <stdio.h>
 #include <stdlib.h>
 
-const int iFFTPoints = 32;
+#include <stack>
+#include <queue>
+using namespace std;
+
+const int iFFTPoints = 64;
 const int iNumSamplesNeeded = 288000;
+
+#ifdef WIN32
+   typedef __int64 llong;
+#else
+   typedef long long llong;
+#endif
 
 TRM::TRM(void)
 {
@@ -75,30 +86,30 @@ void TRM::SetPCMDataInfo(int samplesPerSecond, int numChannels,
     mult *= (m_number_of_channels);
     mult = ceil(mult);
 
-    m_numRealSamplesWritten = 0;
-    m_numRealSamplesNeeded = iNumSamplesNeeded * (int)mult;
-    m_storeBuffer = new char[m_numRealSamplesNeeded + 20];
+    m_numBytesWritten = 0;
+    m_numBytesNeeded = iNumSamplesNeeded * (int)mult;
+    m_storeBuffer = new char[m_numBytesNeeded + 20];
 }
 
 bool TRM::GenerateSignature(char *data, int size, string &strGUID,
                             string &collID)
 {
-   if (m_numRealSamplesWritten < m_numRealSamplesNeeded) {
+   if (m_numBytesWritten < m_numBytesNeeded) {
        int i = 0;
-       while (i < size && m_numRealSamplesWritten < m_numRealSamplesNeeded) {
-           if (m_numRealSamplesWritten == 0 && (abs(data[i]) == 0))
+       while (i < size && m_numBytesWritten < m_numBytesNeeded) {
+           if (m_numBytesWritten == 0 && (abs(data[i]) == 0))
            {
            }
            else
            {
-               m_storeBuffer[m_numRealSamplesWritten] = data[i];
-               m_numRealSamplesWritten++;
+               m_storeBuffer[m_numBytesWritten] = data[i];
+               m_numBytesWritten++;
            }
            i++;
        }
    }
 
-   if (m_numRealSamplesWritten < m_numRealSamplesNeeded)
+   if (m_numBytesWritten < m_numBytesNeeded)
        return false;
 
    GenerateSignatureNow(strGUID, collID);
@@ -114,12 +125,11 @@ void TRM::DownmixPCM(void)
    long int numsamps = 0;
    int lDC = 0, rDC = 0;
    signed short lsample, rsample;
-   unsigned char ls;
    int readpos = 0;
    
    if (m_bits_per_sample == 16) {
        if (m_number_of_channels == 2) {
-           while (readpos < (m_numRealSamplesWritten / 2)) {
+           while (readpos < (m_numBytesWritten / 2)) {
                lsample = ((signed short *)m_storeBuffer)[readpos++];
                rsample = ((signed short *)m_storeBuffer)[readpos++];
                
@@ -131,7 +141,7 @@ void TRM::DownmixPCM(void)
            rDC = -(rsum / numsamps);
 
            readpos = 0;
-           while (readpos < (m_numRealSamplesWritten / 2)) {
+           while (readpos < (m_numBytesWritten / 2)) {
                ((signed short *)m_storeBuffer)[readpos] = 
                     ((signed short *)m_storeBuffer)[readpos] + lDC;
                readpos++;
@@ -141,7 +151,7 @@ void TRM::DownmixPCM(void)
            }
        }
        else {
-           while (readpos < m_numRealSamplesWritten / 2) {
+           while (readpos < m_numBytesWritten / 2) {
                lsample = ((signed short *)m_storeBuffer)[readpos++];
                
                lsum += lsample;
@@ -151,7 +161,7 @@ void TRM::DownmixPCM(void)
            lDC = -(lsum / numsamps);
  
            readpos = 0;
-           while (readpos < m_numRealSamplesWritten / 2) {
+           while (readpos < m_numBytesWritten / 2) {
                ((signed short *)m_storeBuffer)[readpos] =
                     ((signed short *)m_storeBuffer)[readpos] + lDC;
                readpos++;
@@ -160,7 +170,7 @@ void TRM::DownmixPCM(void)
     }
     else {
        if (m_number_of_channels == 2) {
-           while (readpos < (m_numRealSamplesWritten)) {
+           while (readpos < (m_numBytesWritten)) {
                lsample = ((char *)m_storeBuffer)[readpos++];
                rsample = ((char *)m_storeBuffer)[readpos++];
 
@@ -172,7 +182,7 @@ void TRM::DownmixPCM(void)
            rDC = -(rsum / numsamps);
 
            readpos = 0;
-           while (readpos < (m_numRealSamplesWritten)) {
+           while (readpos < (m_numBytesWritten)) {
                ((char *)m_storeBuffer)[readpos] =
                     ((char *)m_storeBuffer)[readpos] + lDC;
                readpos++;
@@ -182,7 +192,7 @@ void TRM::DownmixPCM(void)
            }
        }
        else {
-           while (readpos < m_numRealSamplesWritten / 2) {
+           while (readpos < m_numBytesWritten) {
                lsample = ((char *)m_storeBuffer)[readpos++];
 
                lsum += lsample;
@@ -192,7 +202,7 @@ void TRM::DownmixPCM(void)
            lDC = -(lsum / numsamps);
 
            readpos = 0;
-           while (readpos < m_numRealSamplesWritten / 2) {
+           while (readpos < m_numBytesWritten) {
                ((char *)m_storeBuffer)[readpos] =
                     ((char *)m_storeBuffer)[readpos] + lDC;
                readpos++;
@@ -201,15 +211,15 @@ void TRM::DownmixPCM(void)
     }
 
    if (!m_downmixBuffer)
-       m_downmixBuffer = new unsigned char[iNumSamplesNeeded];
+       m_downmixBuffer = new signed short[iNumSamplesNeeded];
 
-   m_downmix_size = m_numRealSamplesWritten;
+   m_downmix_size = m_numBytesWritten;
 
    if (m_samples_per_second != 11025)
        m_downmix_size = (int)((float)m_downmix_size * 
                             (11025.0 / (float)m_samples_per_second));
 
-   if (m_bits_per_sample != 8)
+   if (m_bits_per_sample == 16)
        m_downmix_size /= 2;
 
    if (m_number_of_channels != 1)
@@ -219,46 +229,44 @@ void TRM::DownmixPCM(void)
    int writepos = 0;
    float rate_change = m_samples_per_second / 11025.0;
 
-   if (m_bits_per_sample == 16) {
-       unsigned char *tempbuf = new unsigned char[m_numRealSamplesWritten / 2];
+   if (m_bits_per_sample == 8) {
+       signed short *tempbuf = new signed short[m_numBytesWritten];
        readpos = 0;
-       while (readpos < m_numRealSamplesWritten / 2) {
-          long int samp = ((signed short *)m_storeBuffer)[readpos];
+       while (readpos < m_numBytesWritten) {
+          long int samp = ((unsigned char *)m_storeBuffer)[readpos];
 
-          samp /= 256;
+          samp = (samp - 128) * 256;
 
-          if (samp >= CHAR_MAX)
-              samp = CHAR_MAX;
-          else if (samp <= CHAR_MIN)
-              samp = CHAR_MIN;
-
-          samp ^= 128;
+          if (samp >= SHRT_MAX)
+              samp = SHRT_MAX;
+          else if (samp <= SHRT_MIN)
+              samp = SHRT_MIN;
 
           tempbuf[readpos] = samp;
           readpos++;
       }
  
       delete [] m_storeBuffer;
-      m_numRealSamplesWritten /= 2;
+      m_numBytesWritten *= 2;
       m_storeBuffer = (char *)tempbuf;
 
-      m_bits_per_sample = 8;
+      m_bits_per_sample = 16;
    }
 
    if (m_number_of_channels == 2) {
-       unsigned char *tempbuf = new unsigned char[m_numRealSamplesWritten / 2];
+       signed short *tempbuf = new signed short[m_numBytesWritten / 4];
        readpos = 0;
        writepos = 0;
-       while (writepos < m_numRealSamplesWritten / 2) {
-          unsigned char ls = ((unsigned char *)m_storeBuffer)[readpos++];
-          unsigned char rs = ((unsigned char *)m_storeBuffer)[readpos++];
+       while (writepos < m_numBytesWritten / 4) {
+          long ls = ((signed short *)m_storeBuffer)[readpos++];
+          long rs = ((signed short *)m_storeBuffer)[readpos++];
 
           tempbuf[writepos] = (ls + rs) / 2;
           writepos++;
       }
 
       delete [] m_storeBuffer;
-      m_numRealSamplesWritten /= 2;
+      m_numBytesWritten /= 2;
       m_storeBuffer = (char *)tempbuf;
 
       m_number_of_channels = 1;
@@ -270,7 +278,7 @@ void TRM::DownmixPCM(void)
    {
        readpos = (int)((float)writepos * rate_change);
        
-       ls = ((unsigned char *)m_storeBuffer)[readpos++];
+       long ls = ((signed short *)m_storeBuffer)[readpos++];
 
        m_downmixBuffer[m_numSamplesWritten] = ls;
        m_numSamplesWritten++;
@@ -279,6 +287,53 @@ void TRM::DownmixPCM(void)
 
    delete [] m_storeBuffer;
    m_storeBuffer = NULL;
+}
+
+int TRM::CountBeats(void)
+{
+    int i, j;
+    float maxpeak = 0;
+    float minimum = 99999;
+    bool isbeat;
+    int lastbeat = 0;
+
+    for (i = 0; i < beatindex; i++)
+        if (beatStore[i] < minimum)
+            minimum = beatStore[i];
+
+    for (i = 0; i < beatindex; i++)
+        beatStore[i] -= minimum;
+
+    for (i = 0; i < beatindex; i++)
+        if (beatStore[i] > maxpeak)
+            maxpeak = beatStore[i];
+
+    int beats = 0;
+    maxpeak *= (float)0.80;
+
+    for (i = 3; i < (beatindex - 4); i++)
+    {
+        if (beatStore[i] > maxpeak)
+        {
+            if (i > lastbeat + 14)
+            {
+                isbeat = true;
+                for  (j = i - 3; j < i; j++)
+                    if (beatStore[j] > beatStore[i])
+                       isbeat = false;
+                for (j = i + 1; j < i + 4; j++)
+                    if (beatStore[j] > beatStore[i])
+                       isbeat = false;
+
+                if (isbeat)
+                {
+                    beats++;
+                    lastbeat = i;
+                }
+            }
+        }
+    }
+    return beats;
 }
 
 void TRM::GenerateSignatureNow(string &strGUID, string &collID)
@@ -291,84 +346,147 @@ void TRM::GenerateSignatureNow(string &strGUID, string &collID)
     fclose(blah);
 #endif
 
-    char *sample = (char *)m_downmixBuffer;  
+    signed short *sample = m_downmixBuffer;  
     bool bLastNeg = false;
     if (*sample <= 0)
           bLastNeg = true;
 
     FFT *pFFT = new FFT(iFFTPoints, 11025);
-    pFFT->CopyIn((char *)m_downmixBuffer, iFFTPoints);
-    pFFT->Transform();
 
-    char *pCurrent = (char *)m_downmixBuffer;
-    char *pBegin = pCurrent;
-    int iFFTs = m_numSamplesWritten / iFFTPoints;
+    signed short *pCurrent = m_downmixBuffer;
+    signed short *pBegin = pCurrent;
+    int iFFTs = (m_numSamplesWritten / 32) - 2;
     int j, k, q;
 
-    int iSpectrum[iFFTPoints];
-    for (j = 0; j < iFFTPoints; j++)
-        iSpectrum[j] = 0;
+    float fSpectrum[32];
+    float fAvgFFTDelta[32];
+    for (j = 0; j < 32; j++)
+        fSpectrum[j] = fAvgFFTDelta[j] = 0;
 
     int iZeroCrossings = 0;
-    double dEnergySum = 0.0;
+    llong sum = 0, sumsquared = 0;
     int iFinishedFFTs = 0;
 
-    float *energys = new float[9];
+    float *energys = new float[10];
     for (j = 0; j < 9; j++)
         energys[j] = 0.0;
 
     int energySub = 0;
     int energyCounter = 0;
 
-    float *specs[9];
-    for (j = 0; j < 9; j++)
+    for (j = 0; j < 64; j++)
     {
-        specs[j] = new float[32];
-        for (q = 0; q < 32; q++)
-            specs[j][q] = 0.0;
+        double mult = 3.141592627 * j / 64;
+        fWin[j] = 0.355768 - 0.487396 * cos(2 * mult) + 
+                  0.144232 * cos(4 * mult) - 0.012604 * cos(6 * mult);
     }
 
-    int specSub = 0;
-    int specCounter = 0;
+    double mag = 0;
+    double tempf = 0;
+    float bandDelta = 0;
+    float beatavg = 0;
 
-    float lastbeat = 0, avgspecenergy = 0;
-    int beats = 0;   
+    beatStore = new float[iFFTs + 2];
+    beatindex = 0;
 
-    for (j = 0; j < iFFTs; j++, iFinishedFFTs++) {
-        pFFT->CopyIn(pCurrent, iFFTPoints);
-        pFFT->Transform();
+    float haar[iFFTPoints];
+    for (k = 0; k < iFFTPoints; k++)
+        haar[k] = 0;
+    HaarWavelet *wavelet = new HaarWavelet(64, 6);
 
-        avgspecenergy = 0;
+    for (j = 0; j < iFFTs; j++) 
+    {
         for (k = 0; k < iFFTPoints; k++)
         {
-            int tempi = (int)pFFT->GetIntensity(k);
-            iSpectrum[k] += tempi;
-            specs[specSub][k] += tempi;
-            if (k > 0 && k < 5)
-                avgspecenergy += tempi;
+            fftBuffer[k] = (pCurrent[k]);
+            fftBuffer2[k] = (pCurrent[k + 32]);
         }
 
-        avgspecenergy /= 4;
-        if (avgspecenergy > lastbeat + 120)
-            beats++;
-        lastbeat = avgspecenergy;
-
-        specCounter++;
-        if (specCounter >= 1000)
+        wavelet->Transform(fftBuffer);
+        for (k = 0; k < 64; k++)
         {
-            for (k = 0; k < iFFTPoints; k++)
-                specs[specSub][k] = specs[specSub][k] / specCounter;
-            specCounter = 0;
-            specSub++;
+            haar[k] += (wavelet->GetCoef(k));
         }
-        
+
+        wavelet->Transform(fftBuffer2);
+        for (k = 0; k < 64; k++)
+        {
+            haar[k] += (wavelet->GetCoef(k));
+        }
+
+        for (k = 0; k < iFFTPoints; k++)
+        {
+            fftBuffer[k] = pCurrent[k] * fWin[k];
+            fftBuffer2[k] = pCurrent[k + 32] * fWin[k];
+        }
+
+        pFFT->CopyIn2(fftBuffer, fftBuffer2, iFFTPoints);
+        pFFT->Transform();
+
+        for (k = 0; k < 32; k++)
+        {
+            mag = pFFT->GetPower1(k);
+            if (mag <= 0)
+                freqs[k] = 0;
+            else 
+                freqs[k] = log10(mag / 4096) + 6;
+            freqs[k] = freqs[k] * 6;
+        }
+       
+        for (k = 0; k < 32; k++)
+        {
+            tempf = freqs[k];
+            bandDelta = fabs(freqs[k] - fLastFFT[k]);
+            if (k == 2)
+            {
+                beatavg = (tempf + freqs[k - 1]) * 5;
+                beatStore[beatindex] = beatavg;
+                beatindex++;
+            }
+            fSpectrum[k] += tempf;
+            fAvgFFTDelta[k] += bandDelta;
+            fLastFFT[k] = freqs[k];
+        }
+
+        j++;
+
+        for (k = 0; k < 32; k++)
+        {
+            mag = pFFT->GetPower2(k);
+            if (mag <= 0)
+                freqs[k] = 0;
+            else
+                freqs[k] = log10(mag / 4096) + 6;
+            freqs[k] = freqs[k] * 6;
+        }
+
+        for (k = 0; k < 32; k++)
+        {
+            tempf = freqs[k];
+            bandDelta = fabs(freqs[k] - fLastFFT[k]);
+            if (k == 2)
+            {
+                beatavg = (tempf + freqs[k - 1]) * 5;
+                beatStore[beatindex] = beatavg;
+                beatindex++;
+            }
+            fSpectrum[k] += tempf;
+            fAvgFFTDelta[k] += bandDelta;
+            fLastFFT[k] = freqs[k];
+        }
+
+        iFinishedFFTs += 2;
+
         while (pCurrent < pBegin + iFFTPoints)
         {
-            double energy = ((*pCurrent) * (*pCurrent));
-            dEnergySum += energy;
+            signed short value = *pCurrent;
+            double energy = (value * value);
+            sum += abs(value);
+            sumsquared += (long)energy;
+
             energys[energySub] += energy;
             energyCounter++;
-            if (energyCounter >= 1000 * iFFTPoints)
+            if (energyCounter >= 1000 * 32)
             {
                 energys[energySub] = energys[energySub] / energyCounter;
                 energyCounter = 0;
@@ -389,31 +507,68 @@ void TRM::GenerateSignatureNow(string &strGUID, string &collID)
 
     if (energyCounter != 0 && energySub < 9)
         energys[energySub] = energys[energySub] / energyCounter;
-
-    if (specCounter != 0 && specSub < 9)
-        for (j = 0; j < 32; j++)
-            specs[specSub][j] = specs[specSub][j] / specCounter;
-
-    if (specSub >= 9)
-        specSub = 8;
+    if (energySub >= 9)
+        energySub = 8;
 
     float fLength = m_numSamplesWritten / (float)11025;
     float fAverageZeroCrossing = iZeroCrossings / fLength;
-    float fEnergy = dEnergySum / (float)m_numSamplesWritten;
-    for (int i = 0; i < iFFTPoints; i++)
-        iSpectrum[i] = iSpectrum[i] / iFinishedFFTs;
 
-    float estBPM = beats / fLength * 60.0;
+    float smallest = 9999;
+    for (j = 0; j < 32; j++)
+    {
+        fSpectrum[j] = fSpectrum[j] / iFinishedFFTs;
+        if (fSpectrum[j] < smallest)
+            smallest = fSpectrum[j];
+    }
+
+    for (j = 0; j < 32; j++)
+        fSpectrum[j] = fSpectrum[j] - smallest;
+
+    smallest = 9999;
+    priority_queue<float, deque<float>, greater<float> > m_haarList;
+    for (j = 0; j < 64; j++)
+    {
+        haar[j] = haar[j] / iFinishedFFTs;
+        if (fabs(haar[j]) < smallest)
+            smallest = fabs(haar[j]);
+    }
+
+    for (j = 0; j < 64; j++)
+    {
+        if (haar[j] > 0)
+            haar[j] = haar[j] - smallest;
+        else
+            haar[j] = haar[j] + smallest;
+        if (fabs(haar[j]) < 1)
+            haar[j] = 0;
+        else
+            haar[j] = 20 * log10(fabs(haar[j]));
+        m_haarList.push(haar[j]);
+    }
+
+    for (j = 0; j < 64; j++)
+    {
+        haar[j] = m_haarList.top();
+        m_haarList.pop();
+    }
+
+    double RMS = sqrt((float)sumsquared / (float)m_numSamplesWritten);
+    double avg = (float)sum / (float)m_numSamplesWritten;
+    float msratio = avg / RMS;
+
+    float specsum = 0;
+    for (j = 0; j < 31; j++)
+        specsum += fabs(fSpectrum[j + 1] - fSpectrum[j]);
+    
+    for (j = 0; j < 32; j++)
+        fAvgFFTDelta[j] = fAvgFFTDelta[j] / (iFinishedFFTs - 1);
 
     int *energydiffs = new int[8];
     for (q = 0; q < 8; q++)
         energydiffs[q] = 0;
 
     for (q = 0; q < energySub; q++)
-    {
         energydiffs[q] = (int)(energys[q + 1] - energys[q]);
-        //cout << energydiffs[q] << endl;
-    }
 
     float avgdiff = 0;
     int numsignchanges = 0;
@@ -421,7 +576,7 @@ void TRM::GenerateSignatureNow(string &strGUID, string &collID)
 
     for (q = 0; q < 8; q++)
     {
-        avgdiff += (energydiffs[q] * energydiffs[q]);
+        avgdiff += energydiffs[q];
         if (lastdiffneg && energydiffs[q] > 0)
         {
             switch (q)
@@ -442,51 +597,32 @@ void TRM::GenerateSignatureNow(string &strGUID, string &collID)
             lastdiffneg = true;
         }
     }
-    avgdiff = sqrt(avgdiff);
     avgdiff /= 8;
 
-    int *specdiffs[8];
-    for (q = 0; q < 8; q++)
-    {
-        specdiffs[q] = new int[32];
-        for (j = 0; j < 32; j++)
-            specdiffs[q][j] = 0;
-    }
-
-    for (q = 0; q < specSub; q++)
-        for (j = 0; j < 32; j++)
-            specdiffs[q][j] = (int)(specs[q + 1][j] - specs[q][j]);
-
-    float *avgspecdiff = new float[32];
-  
-    for (j = 0; j < 32; j++)
-        avgspecdiff[j] = 0;
-
-    for (q = 0; q < 8; q++)
-    {
-        for (j = 0; j < 32; j++)
-        {
-            avgspecdiff[j] += specdiffs[q][j];
-        }
-    }
-
-    for (j = 0; j < 32; j++)
-        avgspecdiff[j] /= 8;
+    int beats = CountBeats();
+    float estBPM = beats;
 
 #ifdef TRM_DEBUG
-    cout << fEnergy << " " << fAverageZeroCrossing << endl;
-    cout << estBPM << endl;
-    cout << avgdiff << " " << numsignchanges << endl;
-    for (int j = 0; j < 32; j++)
-        cout << iSpectrum[j] << "\t" << avgspecdiff[j] << endl;
+    cout << fLength << " " << msratio << " " << fAverageZeroCrossing << " ";
+    cout << estBPM << " " << avgdiff << " " << numsignchanges << " : ";
+    for (j = 0; j < 32; j++)
+        cout << fSpectrum[j] << " ";
+    cout << ": ";
+    for (j = 0; j < 32; j++)
+        cout << fAvgFFTDelta[j] << " ";
+    cout << ": " << specsum << " : ";
+    for (j = 0; j < 64; j++)
+        cout << haar[j] << " ";
+    cout << endl;
 #endif
 
-    AudioSig *signature = new AudioSig(fEnergy, fAverageZeroCrossing,
-                                       fLength, iSpectrum, estBPM, avgdiff, 
-                                       numsignchanges, avgspecdiff);
+    AudioSig *signature = new AudioSig(msratio, fAverageZeroCrossing,
+                                       fSpectrum, specsum, estBPM, 
+                                       fAvgFFTDelta, haar, 
+                                       avgdiff, numsignchanges);
 
     SigClient *sigClient = new SigClient();
-    sigClient->SetAddress("209.249.187.199", 4445);
+    sigClient->SetAddress("209.249.187.199", 4446);
     sigClient->SetProxy(m_proxy, m_proxyPort);
 
     if (collID == "")
@@ -494,23 +630,16 @@ void TRM::GenerateSignatureNow(string &strGUID, string &collID)
 
     sigClient->GetSignature(signature, strGUID, collID);
 
+    delete wavelet;
     delete pFFT;
     delete signature;
     delete sigClient;
-
     delete [] m_downmixBuffer;
-
     delete [] energys;
-    for (j = 0; j < 8; j++)
-    {
-        delete [] specdiffs[j];
-        delete [] specs[j];
-    }
-    delete [] specs[8];
     delete [] energydiffs;
-    delete [] avgspecdiff;
+    delete [] beatStore;
 
-    m_downmixBuffer = 0;
+    m_downmixBuffer = NULL;
     m_numSamplesWritten = 0;
 }
 

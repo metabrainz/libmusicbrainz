@@ -60,6 +60,7 @@ public:
             return Complex (-_re, -_im);
     }
     double Mod () const { return sqrt (_re * _re + _im * _im); }
+    double Conjugate () const { return (_re * _re + _im * _im); }
 private:
     double _re;
     double _im;

@@ -29,6 +29,8 @@
 extern "C"
 {
 
+#include "bitprint.h"
+
 musicbrainz_t mb_New(void)
 {
     return (musicbrainz_t)new MusicBrainz();
@@ -262,6 +264,16 @@ int mb_GetNumItems(musicbrainz_t o)
        return 0;
 
     return obj->GetNumItems();
+}
+
+int mb_CalculateBitprint(musicbrainz_t o, char *fileName, BitprintInfo *info)
+{
+    MusicBrainz *obj = (MusicBrainz *)o;
+
+    if (o == NULL)
+       return 0;
+
+    return obj->CalculateBitprint(string(fileName), info);
 }
 
 trm_t trm_New(void)

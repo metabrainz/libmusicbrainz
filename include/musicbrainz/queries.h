@@ -26,7 +26,7 @@
 
 // The following define should match the version number of the MM spec
 // that is implemented by the defines in this file
-#define MM_VERSION                "1.0-pre3"
+#define MM_VERSION                "1.0-pre4"
 
 // local query names
 #define MB_GetCDInfo              "@CDINFO@"
@@ -119,23 +119,29 @@
                                   "<MQ:Args id=\"@1@\"/>\n"
 #define MB_ExchangeMetadata       "<MQ:Query>ExchangeMetadata</MQ:Query>\n"    \
                                   "<DC:Title>@1@</DC:Title>\n"                 \
-                                  "<DC:Identifier guid=\"@2@\"/>\n"            \
-                                  "<MQ:Filename>@3@</MQ:Filename>\n"           \
-                                  "<DC:Creator>@4@</DC:Creator>\n"             \
+                                  "<DC:Creator>@2@</DC:Creator>\n"             \
                                   "<DC:Relation>\n"                            \
                                   "  <rdf:Description>\n"                      \
-                                  "    <DC:Title>@5@</DC:Title>\n"             \
+                                  "    <DC:Title>@3@</DC:Title>\n"             \
                                   "  </rdf:Description>\n"                     \
                                   "</DC:Relation>\n"                           \
-                                  "<MM:TrackNum>@6@</MM:TrackNum>\n"           \
-                                  "<DC:Format duration=\"@7@\"/>\n"            \
-                                  "<DC:Date issued=\"@8@\"/>\n"                \
-                                  "<MM:Genre>@9@</MM:Genre>\n"                 \
-                                  "<DC:Description>@10@</DC:Description>\n"
+                                  "<MM:TrackNum>@4@</MM:TrackNum>\n"           \
+                                  "<DC:Identifier guid=\"@5@\"/>\n"            \
+                                  "<MQ:Filename>@6@</MQ:Filename>\n"           \
+                                  "<DC:Date issued=\"@7@\"/>\n"                \
+                                  "<MM:Genre>@8@</MM:Genre>\n"                 \
+                                  "<DC:Description>@9@</DC:Description>\n"     \
+                                  "<DC:Identifier bitprint=\"@10@\"/>\n"       \
+                                  "<DC:Identifier first20=\"@11@\"/>\n"        \
+                                  "<DC:Format length=\"@12@\"/>\n"             \
+                                  "<DC:Identifier audioSha1=\"@13@\"/>\n"      \
+                                  "<DC:Format duration=\"@14@\"/>\n"           \
+                                  "<DC:Format sampleRate=\"@15@\"/>\n"         \
+                                  "<DC:Format bitRate=\"@16@\"/>\n"            \
+                                  "<DC:Format stereo=\"@17@\"/>\n"             \
+                                  "<DC:Format vbr=\"@18@\"/>\n"            
 #define MB_GetSyncTextById        "<MQ:Query>GetSyncTextById</MQ:Query>\n"     \
                                   "<MQ:Args id=\"@1@\"/>\n"
-//#define MB_GetLyricsById          "<MQ:Query>GetLyricsById</MQ:Query>\n"       \
-//                                  "<MQ:Args id=\"@1@\"/>\n"
 #define MB_SubmitTrack            "<MQ:Query>SubmitTrack</MQ:Query>\n"         \
                                   "<DC:Title>@1@</DC:Title>\n"                 \
                                   "<DC:Identifier guid=\"@2@\"/>\n"            \

@@ -67,14 +67,13 @@
 #include <ctype.h>
 #include <stdio.h>
 #include <time.h>
-//#include <malloc.h>
 #include <stdlib.h>
 
 
-// NOTE: This is not true RFC822 anymore. The use of the characters
-// '/', '+', and '=' is no bueno when the ID will be used as part of a URL.
-// '_', '.', and '-' have been used instead
-
+/* NOTE: This is not true RFC822 anymore. The use of the characters
+   '/', '+', and '=' is no bueno when the ID will be used as part of a URL.
+   '_', '.', and '-' have been used instead
+*/
 
 /* Convert binary contents to BASE64
  * Accepts: source

@@ -61,7 +61,7 @@ FFT::FFT (int Points, long sampleRate)
     }
 
     _aBitRev = new int [_Points];
-    _test = new Complex[_Points];
+    _Bleh = new Complex[_Points];
     _W = new Complex* [_logPoints+1];
     // Precompute complex exponentials
     int _2_l = 2;
@@ -105,11 +105,11 @@ FFT::~FFT()
         delete []_W[l];
     }
     delete []_W;
-    delete []_test;
+    delete []_Bleh;
 }
 
 //void Fft::CopyIn (SampleIter& iter)
-void FFT::CopyIn(char* pBuffer, int nNumSamples)
+void FFT::CopyIn(double* pBuffer, int nNumSamples)
 {
     if (nNumSamples > _Points)
         return;
@@ -123,11 +123,23 @@ void FFT::CopyIn(char* pBuffer, int nNumSamples)
     int i = 0;
     for (i = 0; i < nNumSamples; i++)
     {
-        _aTape [i + iTail] = (double) pBuffer[i];
+        _aTape [i + iTail] = pBuffer[i];
     }
     // Initialize the FFT buffer
     for (i = 0; i < _Points; i++)
         PutAt (i, _aTape[i]);
+}
+
+void FFT::CopyIn2(double* pBuf, double* pBuf2, int nNumSamples)
+{
+    if (nNumSamples > _Points)
+        return;
+
+    int i = 0;
+
+    // Initialize the FFT buffer
+    for (i = 0; i < _Points; i++)
+        PutAt2 (i, pBuf[i], pBuf2[i]);
 }
 
 //
@@ -167,10 +179,10 @@ void FFT::Transform ()
             {
                 // butterfly
                 Complex T = U;
-                T *= _test [i+step];
-                _test [i+step] = _test [i];
-                _test [i+step] -= T;
-                _test [i] += T;
+                T *= _Bleh[i+step];
+                _Bleh[i+step] = _Bleh[i];
+                _Bleh[i+step] -= T;
+                _Bleh[i] += T;
             }
         }
         step *= 2;

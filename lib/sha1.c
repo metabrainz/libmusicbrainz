@@ -1,38 +1,20 @@
-/* --------------------------------------------------------------------------
-
-   MusicBrainz -- The Internet music metadatabase
-
-   Copyright (C) 2000 Robert Kaye
-   
-   This library is free software; you can redistribute it and/or
-   modify it under the terms of the GNU Lesser General Public
-   License as published by the Free Software Foundation; either
-   version 2.1 of the License, or (at your option) any later version.
-   
-   This library is distributed in the hope that it will be useful,
-   but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-   Lesser General Public License for more details.
-   
-   You should have received a copy of the GNU Lesser General Public
-   License along with this library; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-
-     $Id$
-
-----------------------------------------------------------------------------*/
-
-/* NIST Secure Hash Algorithm */
-
-/* heavily modified by Uwe Hollerbach <uh@alumni.caltech edu> */
-/* from Peter C. Gutmann's implementation as found in */
-/* Applied Cryptography by Bruce Schneier */
-/* Further modifications to include the "UNRAVEL" stuff, below */
-
-/* This code is in the public domain */
+/* (PD) 2001 The Bitzi Corporation
+ * Please see file COPYING or http://bitzi.com/publicdomain 
+ * for more info.
+ *
+ * NIST Secure Hash Algorithm 
+ * heavily modified by Uwe Hollerbach <uh@alumni.caltech edu> 
+ * from Peter C. Gutmann's implementation as found in 
+ * Applied Cryptography by Bruce Schneier 
+ * Further modifications to include the "UNRAVEL" stuff, below 
+ *
+ * This code is in the public domain 
+ *
+ * $Id$
+ */
 
 #include <string.h>
-#include "sha.h"
+#include "sha1.h"
 
 /* UNRAVEL should be fastest & biggest */
 /* UNROLL_LOOPS should be just as big, but slightly slower */
@@ -305,8 +287,6 @@ void sha_final(unsigned char digest[20], SHA_INFO *sha_info)
     digest[19] = (unsigned char) ((sha_info->digest[4]      ) & 0xff);
 }
 
-#ifdef SHA_FOR_C
-
 /* compute the SHA digest of a FILE stream */
 
 #define BLOCK_SIZE	8192
@@ -347,4 +327,3 @@ char *sha_version(void)
     return(version);
 }
 
-#endif /* SHA_FOR_C */
