@@ -137,6 +137,8 @@ void TRM::DownmixPCM(void)
                rsum += rsample;
                numsamps++;
            }
+           if(!numsamps)
+              return;
            lDC = -(lsum / numsamps);
            rDC = -(rsum / numsamps);
 
@@ -158,6 +160,9 @@ void TRM::DownmixPCM(void)
                numsamps++;
            }
 
+           if(!numsamps)
+              return;
+
            lDC = -(lsum / numsamps);
  
            readpos = 0;
@@ -178,6 +183,10 @@ void TRM::DownmixPCM(void)
                rsum += rsample;
                numsamps++;
            }
+
+           if(!numsamps)
+              return;
+
            lDC = -(lsum / numsamps);
            rDC = -(rsum / numsamps);
 
@@ -198,6 +207,9 @@ void TRM::DownmixPCM(void)
                lsum += lsample;
                numsamps++;
            }
+
+           if(!numsamps)
+              return;
 
            lDC = -(lsum / numsamps);
 
@@ -348,6 +360,9 @@ void TRM::GenerateSignatureNow(string &strGUID, string &collID)
 
     signed short *sample = m_downmixBuffer;  
     bool bLastNeg = false;
+    if(!sample)
+	    return;
+
     if (*sample <= 0)
           bLastNeg = true;
 
