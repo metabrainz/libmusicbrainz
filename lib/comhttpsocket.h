@@ -14,7 +14,7 @@
 
 using namespace std;
 
-class COMSocket;
+class MBCOMSocket;
 /**Wraps the OS specifics of an http based proxiable client socket.
   *@author Sean Ward
   */
@@ -44,7 +44,7 @@ protected:
 
 private: // Private attributes
 	/** socket used for transport */
-	COMSocket* m_pSock;
+	MBCOMSocket* m_pSock;
 	/** URL of proxy */
 	string m_strProxyAddr;
 	/** URL of current connection */

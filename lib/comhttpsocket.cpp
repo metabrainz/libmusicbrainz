@@ -10,7 +10,6 @@
 #pragma warning(disable:4786)
 #endif
 
-
 #include "comhttpsocket.h"
 #ifdef WIN32
 #include "wincomsocket.h"
@@ -24,7 +23,7 @@ const char* g_strCOMVer = "Freeamp_2.1.1.0";
 
 MBCOMHTTPSocket::MBCOMHTTPSocket()
 {
-	m_pSock = new COMSocket;
+	m_pSock = new MBCOMSocket;
 	m_pTempBuf = NULL;
 	m_nBufLen = 0;
 	memset(m_hostname, 0x00, 65);
