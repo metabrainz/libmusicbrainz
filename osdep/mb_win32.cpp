@@ -53,7 +53,7 @@ bool DiskId::ReadTOC(MUSICBRAINZ_DEVICE cd_desc, MUSICBRAINZ_CDINFO & disc)
    char      mciReturn[128];
    char      buf[256], alias[128], temp[128];
 
-   if (cd_desc == NULL || strlen(cd_desc) == 0)
+   if (cd_desc == NULL || strlen(cd_desc) == 0 || strcmp(cd_desc, "cdaudio") == 0)
       cd_desc = "cdaudio";
    else
    {
