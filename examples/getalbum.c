@@ -30,7 +30,7 @@ int main(int argc, char *argv[])
 {
     musicbrainz_t o;
     char          error[256], data[256], temp[256], *args[2];
-    int           ret, numTracks, trackNum, i, isMultipleArtist = 0, numDates;
+    int           ret, numTracks, trackNum, i, isMultipleArtist = 0, numDates, albumNum;
 
     if (argc < 2)
     {
@@ -81,125 +81,131 @@ int main(int argc, char *argv[])
         return 0;
     }
 
-    // Select the first album
-    mb_Select1(o, MBS_SelectAlbum, 1);  
-
-    // Pull back the album id to see if we got the album
-    if (!mb_GetResultData(o, MBE_AlbumGetAlbumId, data, 256))
+    for(albumNum = 1;; albumNum++)
     {
-        printf("Album not found.\n");
-        mb_Delete(o);
-        return 0;
-    }  
-    mb_GetIDFromURL(o, data, temp, 256);
-    printf("    AlbumId: %s\n", temp);
-
-    // Extract the album name
-    if (mb_GetResultData(o, MBE_AlbumGetAlbumName, data, 256))
-       printf("       Name: %s\n", data);
-
-    // Extract the number of tracks
-    numTracks = mb_GetResultInt(o, MBE_AlbumGetNumTracks);
-    if (numTracks > 0 && numTracks < 100)
-       printf("  NumTracks: %d\n", numTracks);
-
-    // Check to see if there is more than one artist for this album
-    for(i = 1; i <= numTracks; i++)
-    {
-        if (!mb_GetResultData1(o, MBE_AlbumGetArtistId, data, 256, i))
+        // Select the first album
+        if (!mb_Select1(o, MBS_SelectAlbum, albumNum))
             break;
 
-        if (i == 1)
-           strcpy(temp, data);
-
-        if (strcmp(temp, data))
+        // Pull back the album id to see if we got the album
+        if (!mb_GetResultData(o, MBE_AlbumGetAlbumId, data, 256))
         {
-           isMultipleArtist = 1;
-           break;
-        }
-    }
-
-    if (!isMultipleArtist)
-    {
-        // Extract the artist name from the album
-        if (mb_GetResultData1(o, MBE_AlbumGetArtistName, data, 256, 1))
-           printf("AlbumArtist: %s\n", data);
-    
-        // Extract the artist id from the album
-        if (mb_GetResultData1(o, MBE_AlbumGetArtistId, data, 256, 1))
-        {
-           mb_GetIDFromURL(o, data, temp, 256);
-           printf("   ArtistId: %s\n", temp);
-        }
-    }
-
-    // Extract the amazon asin, if any
-    if (mb_GetResultData(o, MBE_AlbumGetAmazonAsin, data, 256))
-       printf("Amazon Asin: %s\n", data);
-
-    // Extract the amazon coverart, if any
-    if (mb_GetResultData(o, MBE_AlbumGetAmazonCoverartURL, data, 256))
-       printf("CoverartURL: %s\n", data);
-
-    numDates = mb_GetResultInt(o, MBE_AlbumGetNumReleaseDates);
-    for(i = 1; i <= numDates; i++)
-    {
-        // Select the first release date
-        if (mb_Select1(o, MBS_SelectReleaseDate, i))
-        {
-            // Pull back the release date and release country
-            if (mb_GetResultData(o, MBE_ReleaseGetDate, data, 256))
-            {
-                printf("   Released: %s", data);
-            }  
-            if (mb_GetResultData(o, MBE_ReleaseGetCountry, data, 256))
-            {
-                printf(" (%s)", data);
-            }  
-            printf("\n");
-            mb_Select(o, MBS_Back);  
-        }
-        else
+            printf("Album not found.\n");
             break;
-    }
-    printf("\n");
+        }  
+        printf("Match #: %d\n-------------------------------------------------\n", albumNum);
+        mb_GetIDFromURL(o, data, temp, 256);
+        printf("    AlbumId: %s\n", temp);
 
-    for(i = 1; i <= numTracks; i++)
-    {
-        // Extract the track name from the album.
-        if (mb_GetResultData1(o, MBE_AlbumGetTrackName, data, 256, i))
-           printf("      Track: %s\n", data);
-        else
-           break;
-    
-        // Extract the album id from the track. Just use the
-        // first album that this track appears on
-        if (mb_GetResultData1(o, MBE_AlbumGetTrackId, data, 256, i))
+        // Extract the album name
+        if (mb_GetResultData(o, MBE_AlbumGetAlbumName, data, 256))
+           printf("       Name: %s\n", data);
+
+        // Extract the number of tracks
+        numTracks = mb_GetResultInt(o, MBE_AlbumGetNumTracks);
+        if (numTracks > 0 && numTracks < 100)
+           printf("  NumTracks: %d\n", numTracks);
+
+        // Check to see if there is more than one artist for this album
+        for(i = 1; i <= numTracks; i++)
         {
-           mb_GetIDFromURL(o, data, temp, 256);
-           printf("    TrackId: %s\n", temp);
+            if (!mb_GetResultData1(o, MBE_AlbumGetArtistId, data, 256, i))
+                break;
 
-           // Extract the track number
-           trackNum = mb_GetOrdinalFromList(o, MBE_AlbumGetTrackList, data);
-           if (trackNum > 0 && trackNum < 100)
-               printf("  TrackNum: %d\n", trackNum);
+            if (i == 1)
+               strcpy(temp, data);
+
+            if (strcmp(temp, data))
+            {
+                isMultipleArtist = 1;
+                break;
+            }
         }
 
-        // If its a multple artist album, print out the artist for each track
-        if (isMultipleArtist)
+        if (!isMultipleArtist)
         {
-           // Extract the artist name from this track
-           if (mb_GetResultData1(o, MBE_AlbumGetArtistName, data, 256, i))
-              printf("TrackArtist: %s\n", data);
-       
-           // Extract the artist id from this track
-           if (mb_GetResultData1(o, MBE_AlbumGetArtistId, data, 256, i))
-           {
-              mb_GetIDFromURL(o, data, temp, 256);
-              printf("   ArtistId: %s\n", temp);
-           }
+            // Extract the artist name from the album
+            if (mb_GetResultData1(o, MBE_AlbumGetArtistName, data, 256, 1))
+               printf("AlbumArtist: %s\n", data);
+        
+            // Extract the artist id from the album
+            if (mb_GetResultData1(o, MBE_AlbumGetArtistId, data, 256, 1))
+            {
+               mb_GetIDFromURL(o, data, temp, 256);
+               printf("   ArtistId: %s\n", temp);
+            }
+        }
+
+        // Extract the amazon asin, if any
+        if (mb_GetResultData(o, MBE_AlbumGetAmazonAsin, data, 256))
+           printf("Amazon Asin: %s\n", data);
+
+        // Extract the amazon coverart, if any
+        if (mb_GetResultData(o, MBE_AlbumGetAmazonCoverartURL, data, 256))
+           printf("CoverartURL: %s\n", data);
+
+        numDates = mb_GetResultInt(o, MBE_AlbumGetNumReleaseDates);
+        for(i = 1; i <= numDates; i++)
+        {
+            // Select the first release date
+            if (mb_Select1(o, MBS_SelectReleaseDate, i))
+            {
+                // Pull back the release date and release country
+                if (mb_GetResultData(o, MBE_ReleaseGetDate, data, 256))
+                {
+                    printf("   Released: %s", data);
+                }  
+                if (mb_GetResultData(o, MBE_ReleaseGetCountry, data, 256))
+                {
+                    printf(" (%s)", data);
+                }  
+                printf("\n");
+                mb_Select(o, MBS_Back);  
+            }
+            else
+                break;
         }
         printf("\n");
+
+        for(i = 1; i <= numTracks; i++)
+        {
+            // Extract the track name from the album.
+            if (mb_GetResultData1(o, MBE_AlbumGetTrackName, data, 256, i))
+               printf("      Track: %s\n", data);
+            else
+               break;
+        
+            // Extract the album id from the track. Just use the
+            // first album that this track appears on
+            if (mb_GetResultData1(o, MBE_AlbumGetTrackId, data, 256, i))
+            {
+               mb_GetIDFromURL(o, data, temp, 256);
+               printf("    TrackId: %s\n", temp);
+
+               // Extract the track number
+               trackNum = mb_GetOrdinalFromList(o, MBE_AlbumGetTrackList, data);
+               if (trackNum > 0 && trackNum < 100)
+                   printf("   TrackNum: %d\n", trackNum);
+            }
+
+            // If its a multple artist album, print out the artist for each track
+            if (isMultipleArtist)
+            {
+               // Extract the artist name from this track
+               if (mb_GetResultData1(o, MBE_AlbumGetArtistName, data, 256, i))
+                  printf("TrackArtist: %s\n", data);
+           
+               // Extract the artist id from this track
+               if (mb_GetResultData1(o, MBE_AlbumGetArtistId, data, 256, i))
+               {
+                  mb_GetIDFromURL(o, data, temp, 256);
+                  printf("   ArtistId: %s\n", temp);
+               }
+            }
+            printf("\n");
+        }
+        mb_Select(o, MBS_Back);
+        printf("\n\n");
     }
 
 #ifdef WIN32

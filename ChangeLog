@@ -1,3 +1,20 @@
+Changes for libmusicbrainz 2.1.2
+-------------------------------------
+
+   - Since expat is now installed on most systems we removed our internal copy
+     and now rely on the system installed version.
+   - Juergen Kreileder Supplied minimal patch for making sure that mb_client still works
+     when CDO_CHECK_TYPE is defined
+   - Fixed a C++ style variable declaration inside the album.c C module
+   - On linux the cdrom drive is now opened in non-blocking mode
+   - Fixed bug #834541: Tagger setting track no. is 0 - possibly due to trm mixup?
+
+   The included perl bindings had the following changes:
+      - Updated bindings to match up to 2.1.1
+      - Fixed int size cast warning
+      - Fixed #6431: unmatched bootstrap parameter
+      - Updated req for MusicBrainz::Queries to 0.07
+
 Changes for libmusicbrainz 2.1.1
 -------------------------------------
 
