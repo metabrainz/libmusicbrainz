@@ -46,19 +46,17 @@ const char *localTOCInfo = "@LOCALCDINFO@";
 const char *localAssociateCD = "@CDINFOASSOCIATECD@";
 const char *defaultServer = "www.musicbrainz.org";
 const short defaultPort = 80;
-const char *rdfUTF8Encoding = "<?rdf version=\"1.0\"?>\n";
+const char *rdfUTF8Encoding = "<?xml version=\"1.0\"?>\n";
 const char *rdfISOEncoding = 
-    "<?rdf version=\"1.0\" encoding=\"iso-8859-1\"?>\n";
+    "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?>\n";
 
 const char *rdfHeader = 
-    "<rdf:RDF rdfns:rdf = \"http://www.w3.org/1999/02/22-rdf-syntax-ns#\"\n"
-    "         rdfns:dc  = \"http://purl.org/dc/elements/1.1/\"\n"
-    "         rdfns:mq  = \"http://musicbrainz.org/mm/mq-1.0#\"\n"
-    "         rdfns:mm  = \"http://musicbrainz.org/mm/mm-2.0#\">\n"
-    "<rdf:Description>\n";
+    "<rdf:RDF xmlns:rdf = \"http://www.w3.org/1999/02/22-rdf-syntax-ns#\"\n"
+    "         xmlns:dc  = \"http://purl.org/dc/elements/1.1/\"\n"
+    "         xmlns:mq  = \"http://musicbrainz.org/mm/mq-1.0#\"\n"
+    "         xmlns:mm  = \"http://musicbrainz.org/mm/mm-2.0#\">\n";
 
 const char *rdfFooter = 
-    "</rdf:Description>\n" 
     "</rdf:RDF>\n";
 
 #define DB printf("%s:%d\n",  __FILE__, __LINE__);
@@ -214,7 +212,7 @@ bool MusicBrainz::Query(const string &rdfObject, vector<string> *args)
         // Generate the local query and then keep trucking
         ret = id.GenerateDiskIdQueryRDF(m_device, rdf, 
                         rdf == string(localAssociateCD));
-        //printf("%s\n", rdf.c_str());
+        printf("%s\n", rdf.c_str());
         if (IsError(ret))
         {
             id.GetLastError(m_error);

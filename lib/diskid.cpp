@@ -160,10 +160,14 @@ Error DiskId::GenerateDiskIdRDF(const string &device, string &xml)
 
    GenerateId(&cdinfo, id);
 
-   xml = string("<MQ:TOC first=\"") + MakeString(cdinfo.FirstTrack);
-   xml += string("\" last=\"") + MakeString(cdinfo.LastTrack);
-   xml += string("\"/>\n");
-   xml += string("<MQ:Offset num=\"0\">") + MakeString(cdinfo.FrameOffset[0]);
+   xml = string("<mq:result>\n");
+   xml += string("<mq:status>OK</mq:status>\n");
+   xml += string("<mq:numItems>1</mq:numItems>\n");
+   xml += string("<mq:firstTrack>") + MakeString(cdinfo.FirstTrack);
+   xml += string("</mq:firstTrack>\n<mq:lastTrack>");
+   xml += MakeString(cdinfo.LastTrack);
+   xml += string("</mq:lastTrack>\n");
+   xml += string("<mq:Offset num=\"0\">") + MakeString(cdinfo.FrameOffset[0]);
    xml += string("</MQ:Offset>\n");
 
    for (i = cdinfo.FirstTrack; i <= cdinfo.LastTrack; i++)
@@ -173,6 +177,7 @@ Error DiskId::GenerateDiskIdRDF(const string &device, string &xml)
        xml += string("\">") + MakeString(cdinfo.FrameOffset[i]);
        xml += string("</MQ:Offset>\n");
    }
+   xml += string("</mq:result>\n");
 
    return kError_NoErr;
 }
@@ -192,16 +197,20 @@ Error DiskId::GenerateDiskIdQueryRDF(const string &device, string &xml,
    GenerateId(&cdinfo, id);
 
    if (associateCD)
-       xml = string("<mq:AssociateCDFromAlbumId>\n");
+       xml = string("<mq:AssociateCD>\n");
    else
-       xml = string("<mq:GetCDInfoFromCDIndexId>\n");
+       xml = string("<mq:GetCDInfo>\n");
 
-   xml += string("<dc:Identifier id=\"") + string(id) + string("\"/>\n");
+   xml += string("<mm:cdindexId>") + string(id) + string("</mm:cdindexId>\n");
    if (associateCD)
-      xml += string("<MQ:Args associate=\"@1@\"/>\n");
-   xml += string("<MQ:Args first=\"") + MakeString(cdinfo.FirstTrack);
-   xml += string("\" last=\"") + MakeString(cdinfo.LastTrack);
-   xml += string("\" toc=\"");
+      xml += string("<mq:associate>@1@</mq:associate>\n");
+   xml += string("<mm:firstTrack>") + 
+          MakeString(cdinfo.FirstTrack) +
+          string("</mm:firstTrack>\n");
+   xml += string("<mm:lastTrack>") + 
+          MakeString(cdinfo.LastTrack) +
+          string("</mm:lastTrack>\n");
+   xml += string("<mm:toc>");
    xml += MakeString(cdinfo.FirstTrack) + string(" ");
    xml += MakeString(cdinfo.LastTrack) + string(" ");
    xml += MakeString(cdinfo.FrameOffset[0]) + string(" ");
@@ -212,8 +221,7 @@ Error DiskId::GenerateDiskIdQueryRDF(const string &device, string &xml,
        if (i < cdinfo.LastTrack)
           xml += string(" ");
    }
-   xml += string("\"/>\n");
-   xml += string("<MQ:Args trackLengths=\"");
+   xml += string("</mm:toc>\n<mm:trackLengths>");
    for (i = cdinfo.FirstTrack; i <= cdinfo.LastTrack; i++)
    {
        if (i < cdinfo.LastTrack)
@@ -228,7 +236,12 @@ Error DiskId::GenerateDiskIdQueryRDF(const string &device, string &xml,
                             cdinfo.FrameOffset[i]) / 75);
        }
    }
-   xml += string("\"/>\n");
+   xml += string("</mm:trackLengths>\n");
+
+   if (associateCD)
+       xml += string("</mq:AssociateCD>\n");
+   else
+       xml += string("</mq:GetCDInfo>\n");
 
    return kError_NoErr;
 }

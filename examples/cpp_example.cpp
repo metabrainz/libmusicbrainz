@@ -91,11 +91,7 @@ int main(void)
     // Execute the GetCDInfo query, which pull the TOC from the 
     // audio CD in the cd-rom drive, calculate the disk id and the
     // request the data from the server
-
-vector<string> foo;
-foo.push_back(string("ipe"));
-
-    ret = o.Query(string(MB_GetArtistById), &foo);
+    ret = o.Query(string(MBQ_GetCDInfo));
     //ret = o.Query(string(sampleRDF));
     if (!ret)
     {
