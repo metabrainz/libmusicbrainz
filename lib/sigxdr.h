@@ -24,7 +24,12 @@ ____________________________________________________________________________*/
 #ifndef _SIGXDR_H_
 #define _SIGXDR_H_
 
+#ifdef WIN32
+#include "config_win32.h"
+#else
 #include "config.h"
+#endif
+
 #include "audiosig.h"
 #include <limits.h>
 

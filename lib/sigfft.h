@@ -30,7 +30,11 @@ ____________________________________________________________________________*/
 //  portions (c) Reliable Software, 1996
 //------------------------------------
 
+#ifdef WIN32
+#include "config_win32.h"
+#else
 #include "config.h"
+#endif
 
 #include "sigcomplex.h"
 #include <assert.h>

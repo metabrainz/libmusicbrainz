@@ -95,47 +95,72 @@ LINK32=link.exe
 # Begin Source File
 
 SOURCE=..\lib\base64.c
-# ADD CPP /D "NOMINMAX"
+# ADD CPP /I ".." /D "NOMINMAX"
 # End Source File
 # Begin Source File
 
 SOURCE=..\lib\c_wrapper.cpp
-# ADD CPP /D "NOMINMAX"
+# ADD CPP /I ".." /D "NOMINMAX"
 # End Source File
 # Begin Source File
 
 SOURCE=..\lib\diskid.cpp
-# ADD CPP /D "NOMINMAX"
+# ADD CPP /I ".." /D "NOMINMAX"
 # End Source File
 # Begin Source File
 
 SOURCE=..\lib\http.cpp
-# ADD CPP /D "NOMINMAX"
+# ADD CPP /I ".." /D "NOMINMAX"
 # End Source File
 # Begin Source File
 
 SOURCE=..\osdep\mb_win32.cpp
-# ADD CPP /D "NOMINMAX"
+# ADD CPP /I ".." /D "NOMINMAX"
 # End Source File
 # Begin Source File
 
 SOURCE=..\lib\musicbrainz.cpp
-# ADD CPP /D "NOMINMAX"
+# ADD CPP /I ".." /D "NOMINMAX"
 # End Source File
 # Begin Source File
 
 SOURCE=..\lib\parse.cpp
-# ADD CPP /D "NOMINMAX"
+# ADD CPP /I ".." /D "NOMINMAX"
 # End Source File
 # Begin Source File
 
 SOURCE=..\lib\sha_func.c
-# ADD CPP /D "NOMINMAX"
+# ADD CPP /I ".." /D "NOMINMAX"
+# End Source File
+# Begin Source File
+
+SOURCE=..\lib\sigclient.cpp
+# ADD CPP /I ".."
+# End Source File
+# Begin Source File
+
+SOURCE=..\lib\sigfft.cpp
+# ADD CPP /I ".."
+# End Source File
+# Begin Source File
+
+SOURCE=..\lib\signature.cpp
+# ADD CPP /I ".."
+# End Source File
+# Begin Source File
+
+SOURCE=..\lib\sigxdr.cpp
+# ADD CPP /I ".."
+# End Source File
+# Begin Source File
+
+SOURCE=..\lib\wincomsocket.cpp
+# ADD CPP /I ".."
 # End Source File
 # Begin Source File
 
 SOURCE=..\lib\xql.cpp
-# ADD CPP /D "NOMINMAX"
+# ADD CPP /I ".." /D "NOMINMAX"
 # End Source File
 # End Group
 # Begin Group "Header Files"

@@ -21,7 +21,12 @@
   $Id$
 ____________________________________________________________________________*/
 
+#ifdef WIN32
+#include "config_win32.h"
+#else
 #include "config.h"
+#endif
+
 #include "sigxdr.h"
 
 #ifdef WIN32
