@@ -30,7 +30,7 @@
 
 #include "errors.h"
 #include "queries.h"
-#include "bitprint.h"
+#include "bitprintinfo.h"
 #include "rdfextract.h"
 
 using namespace std;

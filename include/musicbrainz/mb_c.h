@@ -26,7 +26,7 @@
 
 #include "errors.h"
 #include "queries.h"
-#include "bitprint.h"
+#include "bitprintinfo.h"
 
 #ifdef __cplusplus
 extern "C"
