@@ -13,3 +13,5 @@ t/findtrack.t
 t/getalbum.t
 t/getartist.t
 typemap
+fallback/const-c.inc
+fallback/const-xs.inc
