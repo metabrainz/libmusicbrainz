@@ -16,6 +16,7 @@ EXPORTS
    mb_GetResultData  
    mb_GetResultInt  
    mb_GetResultRDF   
+   mb_SetResultRDF   
    mb_GetResultRDFLen
    mb_GetNumItems    
    mb_GenerateSignature
