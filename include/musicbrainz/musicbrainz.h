@@ -30,6 +30,7 @@
 #include <list>
 
 #include "errors.h"
+#include "bitprintinfo.h"
 #include "queries.h"
 
 using namespace std;
@@ -87,6 +88,8 @@ class MusicBrainz
 
        EXPORT void     GetIDFromURL     (const string &url, string &id);
        EXPORT bool     CalculateSha1    (const string &fileName, string &sha1);
+       EXPORT bool     CalculateBitprint(const string &fileName,
+                                         BitprintInfo *info);
 
 #ifdef WIN32
        EXPORT void     WSAInit          (void);

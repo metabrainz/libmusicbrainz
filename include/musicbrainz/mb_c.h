@@ -26,6 +26,7 @@
 
 #include "errors.h"
 #include "queries.h"
+#include "bitprintinfo.h"
 
 #ifdef __cplusplus
 extern "C"
@@ -428,6 +429,20 @@ void      mb_GetIDFromURL      (musicbrainz_t o, char *url, char *id,
  */
 int       mb_CalculateSha1     (musicbrainz_t o, char *fileName, 
                                 char sha1[41]);
+
+/**
+ * Calculate Bitzi bitprint info for a given filename. This function is
+ * often used in conjunction with an MBQ_ExchangeMetadata query,
+ * to calculate the needed arguments for a metadata exchange with the
+ * MusicBrainz server.
+ * @see mb_QueryWithArgs
+ * @param o the musicbrainz_t object returned from mb_New()
+ * @param fileName the file to calculate a bitprint for
+ * @param info the structure to be filled out with bitprint information.
+ * @return true if the bitprint was successfully calculated, false otherwise.
+ *  */
+int       mb_CalculateBitprint (musicbrainz_t o, char *fileName,
+                                BitprintInfo *info);
 
 /* The interface to the Relatable TRM signature generator */
 

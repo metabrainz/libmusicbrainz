@@ -3,7 +3,8 @@ Changes from version 1.1.0 to version 2.0.0-pre1
 
    - Added authentication support
    - Added new queries
-   - Added support for submitting client version to the server during TRM submits
+   - Added support for submitting client version to the server 
+     during TRM submits
    - Updated client code for TRM B#er
 
 Changes from version 1.0.1 to version 1.1.0
