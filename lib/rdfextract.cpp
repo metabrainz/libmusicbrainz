@@ -286,21 +286,16 @@ bool RDFExtract::GetFirstSubject(string &subject)
 }
 
 int RDFExtract::GetOrdinalFromList(const string &startURI, 
-                                   const string &listQuery,
+                                   const string &listType,
                                    const string &id)
 {
-    vector<RDFStatement>::iterator i;
-    string                         listURI;
-
-    listURI = Extract(startURI, listQuery);
-    if (listURI.size() == 0)
-        return -1;
+    vector<RDFStatement>::iterator i, j;
 
     for(i = triples.begin(); i != triples.end(); i++)
-    {
-        if ((*i).subject == listURI && (*i).object == id)
-            return (*i).ordinal;
-    }
+        if ((*i).subject == startURI && (*i).predicate == listType)
+            for(j = triples.begin(); j != triples.end(); j++)
+                if ((*i).object == (*j).subject && (*j).object == id)
+                    return (*j).ordinal;
     return -1;
 }
 
