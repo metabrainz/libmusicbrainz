@@ -45,7 +45,7 @@ namespace SigClientVars
 
     static const int nGUIDSize = 16;
     static const int nTimeout = 15;
-    static const int nVersion = 2;
+    static const int nVersion = 3;
     static const int nHeaderSize = sizeof(char) + sizeof(int);
 }
 

@@ -48,12 +48,58 @@ public:
     ~FFT ();
     int  Points () const { return _Points; }
     void Transform ();
-    void CopyIn(char* pBuffer, int nNumSamples);
+    void CopyIn(double* pBuffer, int nNumSamples);
+    void CopyIn2(double* pBuf, double* pBuf2, int nNumSamples);
 
     double  GetIntensity (int i) const
     { 
         assert (i < _Points);
-        return _test[i].Mod()/_sqrtPoints; 
+        return _X[i].Conjugate(); 
+    }
+
+    double GetPower1(int i) const
+    {
+        assert (i < _Points);
+        if ((i == 0) || (i == _Points / 2)) // special cases
+	        {
+		            return _X[i].Re() * _X[i].Re();
+		            }
+
+        double dTemp = 0;
+        double dA = (_X[_Points - i].Re() + _X[i].Re()) / 2;
+        double dB = (_X[_Points - i].Im() - _X[i].Im()) / 2;
+        dTemp = dA * dA + dB * dB;
+
+        return dTemp;
+    }
+
+    double GetPower2(int i) const
+    {
+        assert ( i < _Points);
+
+        if ((i == 0) || (i == _Points / 2)) // special cases
+        {
+            return _X[i].Im() * _X[i].Im();
+        }
+
+        double dTemp = 0;
+        double dA = (_X[_Points - i].Im() + _X[i].Im()) / 2;
+        double dB = (_X[_Points - i].Re() - _X[i].Re()) / 2;
+        dTemp = dA * dA + dB * dB;
+
+        return dTemp;
+    }
+
+    double GetRealPart(int i) const
+    {
+       assert( i < _Points);
+       return _X[i].Re();
+    }
+
+    double GetIMPart(int i) const
+    {
+       assert( i < _Points);
+       return _X[i].Im();
     }
 
     int     GetFrequency (int point) const
@@ -81,15 +127,20 @@ private:
 
     void PutAt ( int i, double val )
     {
-        _test [_aBitRev[i]] = Complex (val);
+        _X [_aBitRev[i]] = Complex (val);
     }
 
+    void PutAt2 ( int i, double val, double val2 )
+    {
+        _X [_aBitRev[i]] = Complex(val, val2);
+    }
+    
     int        _Points;
     long       _sampleRate;
     int	       _logPoints;
     double     _sqrtPoints;
     int	      *_aBitRev;       // bit reverse vector
-    Complex   *_test;          // in-place fft array
+    Complex   *_X;             // in-place fft array
     Complex  **_W;             // exponentials
     double    *_aTape;         // recording tape
 };
