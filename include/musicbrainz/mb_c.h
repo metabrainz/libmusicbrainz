@@ -33,52 +33,301 @@ extern "C"
 {
 #endif
 
-/* Basic C abstraction types for the interfaces */
+/**
+ * Basic C abstraction for the MusicBrainz Object 
+ */
 typedef void * musicbrainz_t;
+/**
+ * Basic C abstraction for the TRM Object 
+ */
 typedef void * trm_t;
 
-/* The interface to the main MusicBrainz object */
+/**
+ * Create a new handle (a C abstraction) to the MusicBrainz object.
+ * Call mb_Delete() when done with the handle.
+ * @see mb_Delete()
+ * @return the musicbrainz_t type is used in subsequent musicbrainz functions.
+ */
 musicbrainz_t mb_New           (void);
+
+/**
+ * The destructor for the MusicBrainz class.
+ * @see mb_New()
+ * @param o the musicbrainz_t object to delete
+ */
 void      mb_Delete            (musicbrainz_t o);
 
+/**
+ * Set the name and the port of the MusicBrainz server to use. If this
+ * function is not called, the default www.musicbrainz.org server on port
+ * 80 will be used.
+ * @see mb_SetProxy
+ * @param o the musicbrainz_t object returned from mb_New
+ * @param serverAddr the name of the musicbrainz server to use 
+ *                   e.g. www.musicbrainz.org
+ * @param serverPort the port number to use. e.g. 80
+ */
 int       mb_SetServer         (musicbrainz_t o, char *serverAddr, 
                                 short serverPort);
+/**
+ * Set the name of the HTTP Proxy to use. This function must be called anytime
+ * the client library must communicate via a proxy firewall. 
+ * @see  mb_SetServer
+ * @param o the musicbrainz_t object returned from mb_New
+ * @param serverAddr the name of the proxy server to use 
+ *                   e.g. proxy.mydomain.com
+ * @param serverPort the port number to use. e.g. 8080
+ */
 int       mb_SetProxy          (musicbrainz_t o, char *serverAddr, 
                                 short serverPort);
 #ifdef WIN32
+/**
+ * WINDOWS ONLY: This function must be called to initialize the WinSock
+ * TCP/IP stack in windows. If your application does not utilize any
+ * WinSock functions, you must call this function before you can call
+ * mb_Query. Before your application shuts down, you must call mb_WSAStop.
+ * If you already call WSAInit from your own application,
+ * you do not need to call this function.
+ * @see mb_WSAStop.
+ * @param o the musicbrainz_t object returned from mb_New
+ */
 void      mb_WSAInit           (musicbrainz_t o);
+
+/**
+ * WINDOWS ONLY: Call this function when your application shuts down. Only
+ * call this function if you called mb_WSAInit.
+ * @see mb_WSAInit
+ * @param o the musicbrainz_t object returned from mb_New
+ * @param
+ */
 void      mb_WSAStop           (musicbrainz_t o);
 #endif 
 
+/**
+ * Call this function to set the CD-ROM drive device if you plan to use
+ * the client library to identify and look up CD-ROMs using MusicBrainz.
+ * @a Unix: specify a device such as /dev/cdrom. Defaults to /dev/cdrom
+ * @a Windows: specify a drive letter of a CD-ROM drive. e.g. E: 
+ * @param o the musicbrainz_t object returned from mb_New
+ * @param
+ * @return always returns true. :-)
+ */
 int       mb_SetDevice         (musicbrainz_t o, char *device);
+
+/**
+ * Use this function to set the output returned by the Get function. The
+ * Get functions can return data in ISO-8859-1 encoding or in UTF-8. Currently
+ * MusicBrainz only supports ISO-8895-1 (standard linux and windows for
+ * western european and northern american languages). Defaults to ISO-8859-1.
+ * @see 
+ * @param o the musicbrainz_t object returned from mb_New
+ * @param useUTF8 if set to a non-zero value, UTF-8 will be used.
+ */
 void      mb_UseUTF8           (musicbrainz_t o, int useUTF8);
+
+/**
+ * Set the search depth of the query. Please refer to the MusicBrainz HOWTO
+ * for an explanation of this value. Defaults to 2.
+ * @see mb_Query
+ * @param o the musicbrainz_t object returned from mb_New
+ * @param depth an integer value from zero or greater
+ */
 void      mb_SetDepth          (musicbrainz_t o, int depth);
 
+/**
+ * Query the MusicBrainz server. Use this function if your query requires no
+ * arguments other than the query itself. Please refer to the HOWTO for
+ * the documentation on the available queries.
+ * @see mb_GetQueryError mb_QueryWithArgs
+ * @param o the musicbrainz_t object returned from mb_New
+ * @param rdfObject the query to execute. See the HOWTO for details.
+ * @return true if the query succeeded (even if no items are returned) and
+ *         false if the query failed. Call mb_GetQueryError for details
+ *         on the error that occurred.
+ */
 int       mb_Query             (musicbrainz_t o, char *rdfObject);
+
+/**
+ * Query the MusicBrainz server. Use this function if your query requires one 
+ * or more arguments. The arguments are specified via a pointer to an array
+ * of char *. To pass two arguments to the mb_QueryWithArgs call, do this
+ * <PRE> 
+ *    char *args[3];
+ *    args[0] = "Portishead";
+ *    args[1] = "Dummy";
+ *    args[3] = NULL;
+ *    mb_QueryWithArgs(MBQ_AlbumFindAlbum, args);
+ * </PRE>
+ * Note that the last element in the args array must point to NULL, to prevent
+ * the client library from crashing should an incorrect number of arguments
+ * be specified for the given query. Please refer to the HOWTO for the 
+ * documentation on the available queries and the number of required arguments
+ * @see mb_GetQueryError mb_Query
+ * @param o the musicbrainz_t object returned from mb_New
+ * @param rdfObject the query to execute. See the HOWTO for details.
+ * @param args The array of character pointers that contain the arguments.
+ * @return true if the query succeeded (even if no items are returned) and
+ *         false if the query failed. Call mb_GetQueryError for details
+ *         on the error that occurred.
+ */
 int       mb_QueryWithArgs     (musicbrainz_t o, char *rdfObject, char **args);
+
+/**
+ * Use this function to query the current CD-ROM and to calculate the
+ * web submit URL that can be opened in a browser in order to start
+ * the web based CD-ROM Submission to MusicBrainz. The CD-ROM in the CD-ROM 
+ * drive set by mb_SetDevice will be queried.
+ * @see mb_SetDevice
+ * @param o the musicbrainz_t object returned from mb_New
+ * @param url the location where the url will be stored.
+ * @param urlLen the length of the url field.
+ * @return true if the url was successfully generated, false if an error 
+ *         occurred.
+ */
 int       mb_GetWebSubmitURL   (musicbrainz_t o, char *url, int urlLen);
-void      mb_GetQueryError     (musicbrainz_t o, char *error, int maxErrorLen);
 
+/**
+ * Retrieve the error message that was generated during the last call to
+ * mb_Query or mb_QueryWithArgs.
+ * @see mb_Query mb_QueryWithArgs
+ * @param o the musicbrainz_t object returned from mb_New
+ * @param error the location where the error message will be written
+ * @param errorLen the length of the error location
+ */
+void      mb_GetQueryError     (musicbrainz_t o, char *error, int errorLen);
+
+/**
+ * Select a context in the result query. Use this function if your Select
+ * requires no ordinal arguments. Please refer to the MusicBrainz HOWTO
+ * for more details on why you need to do a Select and what types of Selects
+ * are available.
+ * @see mb_Select1, mb_SelectWithArgs
+ * @param o the musicbrainz_t object returned from mb_New
+ * @param selectQuery The select query as outlined in the MusicBrainz HOWTO.
+ * @return true if the select succeeded, false otherwise.
+ */
 int       mb_Select            (musicbrainz_t o, char *selectQuery);
-int       mb_Select1           (musicbrainz_t o, char *selectQuery, int ord);
-int       mb_SelectWithArgs    (musicbrainz_t o, char *selectQuery, int **args);
 
+/**
+ * Select a context in the result query. Use this function if your Select
+ * requires one ordinal argument. Please refer to the MusicBrainz HOWTO
+ * for more details on why you need to do a Select and what types of Selects
+ * are available.
+ * @see mb_Select, mb_SelectWithArgs
+ * @param o the musicbrainz_t object returned from mb_New
+ * @param selectQuery The select query as outlined in the MusicBrainz HOWTO.
+ * @param arg
+ * @return true if the select succeeded, false otherwise.
+ */
+int       mb_Select1           (musicbrainz_t o, char *selectQuery, int ord);
+
+/**
+ * Select a context in the result query. Use this function if your Select
+ * requires more than one ordinal argument. The ordinal arguments are passed
+ * in an array of ints, with the last int being a zero:
+ * <PRE> 
+ *    int ordinals[3];
+ *    ordinals[0] = 2;
+ *    ordinals[1] = 3;
+ *    ordinals[3] = 0;
+ *    mb_QueryWithArgs(MBQ_AlbumFindAlbum, ordinals);
+ * </PRE>
+ * Note that the last element in the ordinals array must be 0.
+ * be specified for the given query. Please refer to the HOWTO for the 
+ * Please refer to the MusicBrainz HOWTO for more details on why you need to 
+ * do a Select and what types of Selects are available.
+ * @see mb_QueryWithArgs, mb_Select, mb_Select1
+ * @param o the musicbrainz_t object returned from mb_New
+ * @param selectQuery The select query as outlined in the MusicBrainz HOWTO.
+ * @param args The array of character pointers that contain the arguments.
+ * @return true if the select succeeded, false otherwise.
+ */
+int       mb_SelectWithArgs    (musicbrainz_t o, char *selectQuery, 
+                                int *ordinals);
+
+/**
+ * 
+ * @see 
+ * @param o the musicbrainz_t object returned from mb_New
+ * @param
+ */
 int       mb_DoesResultExist   (musicbrainz_t o, char *resultName);
+/**
+ * 
+ * @see 
+ * @param o the musicbrainz_t object returned from mb_New
+ * @param
+ */
 int       mb_DoesResultExist1  (musicbrainz_t o, char *resultName, int ordinal);
+/**
+ * 
+ * @see 
+ * @param o the musicbrainz_t object returned from mb_New
+ * @param
+ */
 int       mb_GetResultData     (musicbrainz_t o, char *resultName, 
                                 char *data, int maxDataLen);
+/**
+ * 
+ * @see 
+ * @param o the musicbrainz_t object returned from mb_New
+ * @param
+ */
 int       mb_GetResultData1    (musicbrainz_t o, char *resultName, 
                                 char *data, int maxDataLen, int ordinal);
+/**
+ * 
+ * @see 
+ * @param o the musicbrainz_t object returned from mb_New
+ * @param
+ */
 int       mb_GetResultInt      (musicbrainz_t o, char *resultName);
+/**
+ * 
+ * @see 
+ * @param o the musicbrainz_t object returned from mb_New
+ * @param
+ */
 int       mb_GetResultInt1     (musicbrainz_t o, char *resultName, int ordinal);
 
+/**
+ * 
+ * @see 
+ * @param o the musicbrainz_t object returned from mb_New
+ * @param
+ */
 int       mb_GetResultRDF      (musicbrainz_t o, char *RDF, int maxRDFLen);
+/**
+ * 
+ * @see 
+ * @param o the musicbrainz_t object returned from mb_New
+ * @param
+ */
 int       mb_GetResultRDFLen   (musicbrainz_t o);
+/**
+ * 
+ * @see 
+ * @param o the musicbrainz_t object returned from mb_New
+ * @param
+ */
 int       mb_SetResultRDF      (musicbrainz_t o, char *RDF);
+/**
+ * 
+ * @see 
+ * @param o the musicbrainz_t object returned from mb_New
+ * @param
+ */
 void      mb_GetIDFromURL      (musicbrainz_t o, char *url, char *id, 
                                 int maxIdLen);
+/**
+ * 
+ * @see 
+ * @param o the musicbrainz_t object returned from mb_New
+ * @param
+ */
 int       mb_CalculateBitprint (musicbrainz_t o, char *fileName, 
                                 BitprintInfo *info);
+
 
 /* The interface to the Relatable TRM signature generator */
 
