@@ -35,7 +35,7 @@ int main(void)
     o = mb_New();
 
     // Tell the client library to return data in ISO8859-1 and not UTF-8
-    mb_UseUTF8(o, 0);
+    //mb_UseUTF8(o, 0);
 
     // Set the server you want to use. Defaults to www.musicbrainz.org:80
     //mb_SetServer(o, "musicbrainz.eorbit.net", 80);
@@ -58,13 +58,16 @@ int main(void)
         return 0;
     }  
 
+    // Select the top level (default context)
+    mb_Select(o, MB_SelectTopLevel);  
+
     // Get the number of tracks
     mb_GetResultData(o, MB_GetNumTracks, data, 256);
     numTracks = atoi(data);
     printf("NumTracks: %d\n", numTracks);
 
     // Now start the data extraction process.
-    // Select the first item in the list of returned items
+    // Select the album context first
     mb_Select(o, MB_SelectAlbum);  
 
     // Now get and print the title of the cd
