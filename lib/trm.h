@@ -39,7 +39,7 @@ class TRM
 
        bool  SetProxy          (const string &proxyAddr, short proxyPort);
 	
-       void  SetPCMDataInfo    (int samplesPerSecond, int numChannels,
+       bool  SetPCMDataInfo    (int samplesPerSecond, int numChannels,
 		                int bitsPerSample);
        bool  GenerateSignature (char *data, int size);
        int   FinalizeSignature(string &strGUID, string &collID);

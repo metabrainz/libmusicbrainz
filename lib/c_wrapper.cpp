@@ -479,15 +479,17 @@ int trm_SetProxy(trm_t o,char *proxyAddr, short proxyPort)
     return (int)obj->SetProxy(addr, proxyPort);
 }
 
-void trm_SetPCMDataInfo(trm_t o, int samplesPerSecond, int numChannels,
+int trm_SetPCMDataInfo(trm_t o, int samplesPerSecond, int numChannels,
                         int bitsPerSample)
 {
     TRM *obj = (TRM *)o;
      
     if (o == NULL)
-       return;
-
-    obj->SetPCMDataInfo(samplesPerSecond, numChannels, bitsPerSample);
+	return 0;
+    
+    if (obj->SetPCMDataInfo(samplesPerSecond, numChannels, bitsPerSample))
+	return 1;
+    return 0;
 }
 
 void trm_SetSongLength(trm_t o, long int seconds)

@@ -34,7 +34,22 @@ dist_libmusicbrainz_la_SOURCES = \
   sigxdr.cpp sigclient.cpp sigfft.cpp \
   rdfparse.c rdfextract.cpp uuid.cpp 
 nodist_libmusicbrainz_la_SOURCES = mb.cpp
-libmusicbrainz_la_LDFLAGS = -version-info 2:1:0
+
+# Here are a set of rules to help you update your library version information:
+#  Scheme: current:revsion:age
+#  1. Start with version information of `0:0:0' for each libtool library.
+#  2. Update the version information only immediately before a public release 
+#     of your software. More frequent updates are unnecessary, and only 
+#     guarantee that the current interface number gets larger faster.
+#  3. If the library source code has changed at all since the last update, 
+#     then increment revision (`c:r:a' becomes `c:r+1:a').
+#  4. If any interfaces have been added, removed, or changed since the last 
+#     update, increment current, and set revision to 0.
+#  5. If any interfaces have been added since the last public release, then 
+#     increment age.
+#  6. If any interfaces have been removed since the last public release, then 
+#     set age to 0. 
+libmusicbrainz_la_LDFLAGS = -version-info 3:0:0
 
 if DARWIN
 libmusicbrainz_la_LIBADD = @EXPAT_LIBS@ bitzi/bitprint.lo bitzi/id3.lo bitzi/md5.lo bitzi/sboxes.lo bitzi/browser.lo bitzi/list.lo bitzi/mp3.lo bitzi/tiger.lo bitzi/dirsearch.lo bitzi/main.lo bitzi/plugin_man.lo bitzi/tigertree.lo 
