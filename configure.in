@@ -9,7 +9,7 @@ case "${host_cpu}-${host_os}" in
   *-beos*)    os=beos; LIBS='-lbe -lroot' ;;
   *-cygwin*)  os=cygwin; LIBS='-lwinmm' ;;
   *-freebsd*) os=freebsd ;;
-  *-irix*)    os=irix; CFLAGS="$CFLAGS -fsquangle"; 
+  *-irix*)    os=irix; CXXFLAGS="$CFLAGS -fsquangle"; 
                        LIBS='-lcdaudio -lmediad -lds' ;; 
   *-linux*)   os=linux ;;
   *-netbsd*)  os=netbsd ;;
