@@ -48,7 +48,7 @@
 #define MB_GetAlbumID             "DC:Identifier/@albumId"
 
 #define MB_GetTrackID             "DC:Identifier/@trackId"
-#define MB_GetTrackNum            "DC:Relation/@track"
+#define MB_GetTrackNum            "MM:TrackNum"
 #define MB_GetTrackName           "DC:Title"
 #define MB_GetNumTracks           "MM:Collection/@numParts"
 
