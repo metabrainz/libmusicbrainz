@@ -84,8 +84,14 @@ bool TRM::GenerateSignature(char *data, int size, string &strGUID,
    if (m_numRealSamplesWritten < m_numRealSamplesNeeded) {
        int i = 0;
        while (i < size && m_numRealSamplesWritten < m_numRealSamplesNeeded) {
-           m_storeBuffer[m_numRealSamplesWritten] = data[i];
-           m_numRealSamplesWritten++;
+           if (m_numRealSamplesWritten == 0 && (abs(data[i]) == 0))
+           {
+           }
+           else
+           {
+               m_storeBuffer[m_numRealSamplesWritten] = data[i];
+               m_numRealSamplesWritten++;
+           }
            i++;
        }
    }
@@ -295,7 +301,7 @@ void TRM::GenerateSignatureNow(string &strGUID, string &collID)
     char *pCurrent = (char *)m_downmixBuffer;
     char *pBegin = pCurrent;
     int iFFTs = m_numSamplesWritten / iFFTPoints;
-    int j, k;
+    int j, k, q;
 
     int iSpectrum[iFFTPoints];
     for (j = 0; j < iFFTPoints; j++)
@@ -305,17 +311,68 @@ void TRM::GenerateSignatureNow(string &strGUID, string &collID)
     double dEnergySum = 0.0;
     int iFinishedFFTs = 0;
 
+    float *energys = new float[9];
+    for (j = 0; j < 9; j++)
+        energys[j] = 0.0;
+
+    int energySub = 0;
+    int energyCounter = 0;
+
+    float *specs[9];
+    for (j = 0; j < 9; j++)
+    {
+        specs[j] = new float[32];
+        for (int q = 0; q < 32; q++)
+            specs[j][q] = 0.0;
+    }
+
+    int specSub = 0;
+    int specCounter = 0;
+
+    float lastbeat = 0, avgspecenergy = 0;
+    int beats = 0;   
+
     for (j = 0; j < iFFTs; j++, iFinishedFFTs++) {
         pFFT->CopyIn(pCurrent, iFFTPoints);
         pFFT->Transform();
 
+        avgspecenergy = 0;
         for (k = 0; k < iFFTPoints; k++)
-            iSpectrum[k] += (int)pFFT->GetIntensity(k);
+        {
+            int tempi = (int)pFFT->GetIntensity(k);
+            iSpectrum[k] += tempi;
+            specs[specSub][k] += tempi;
+            if (k > 0 && k < 5)
+                avgspecenergy += tempi;
+        }
+
+        avgspecenergy /= 4;
+        if (avgspecenergy > lastbeat + 120)
+            beats++;
+        lastbeat = avgspecenergy;
+
+        specCounter++;
+        if (specCounter >= 1000)
+        {
+            for (k = 0; k < iFFTPoints; k++)
+                specs[specSub][k] = specs[specSub][k] / specCounter;
+            specCounter = 0;
+            specSub++;
+        }
         
         while (pCurrent < pBegin + iFFTPoints)
         {
-            dEnergySum += ((*pCurrent) * (*pCurrent));
-             
+            double energy = ((*pCurrent) * (*pCurrent));
+            dEnergySum += energy;
+            energys[energySub] += energy;
+            energyCounter++;
+            if (energyCounter >= 1000 * iFFTPoints)
+            {
+                energys[energySub] = energys[energySub] / energyCounter;
+                energyCounter = 0;
+                energySub++;
+            }   
+
             if (bLastNeg && (*pCurrent > 0))
             {
                 bLastNeg = false;
@@ -328,20 +385,103 @@ void TRM::GenerateSignatureNow(string &strGUID, string &collID)
         pBegin = pCurrent;
     }
 
+    if (energyCounter != 0 && energySub < 9)
+        energys[energySub] = energys[energySub] / energyCounter;
+
+    if (specCounter != 0 && specSub < 9)
+        for (j = 0; j < 32; j++)
+            specs[specSub][j] = specs[specSub][j] / specCounter;
+
+    if (specSub >= 9)
+        specSub = 8;
+
     float fLength = m_numSamplesWritten / (float)11025;
     float fAverageZeroCrossing = iZeroCrossings / fLength;
     float fEnergy = dEnergySum / (float)m_numSamplesWritten;
     for (int i = 0; i < iFFTPoints; i++)
         iSpectrum[i] = iSpectrum[i] / iFinishedFFTs;
 
+    float estBPM = beats / fLength * 60.0;
+
+    int *energydiffs = new int[8];
+    for (int q = 0; q < 8; q++)
+        energydiffs[q] = 0;
+
+    for (int q = 0; q < energySub; q++)
+    {
+        energydiffs[q] = (int)(energys[q + 1] - energys[q]);
+        //cout << energydiffs[q] << endl;
+    }
+
+    float avgdiff = 0;
+    int numsignchanges = 0;
+    bool lastdiffneg = (energydiffs[0] < 0);
+
+    for (int q = 0; q < 8; q++)
+    {
+        avgdiff += (energydiffs[q] * energydiffs[q]);
+        if (lastdiffneg && energydiffs[q] > 0)
+        {
+            switch (q)
+            {
+                case 0:
+                case 1:  numsignchanges |= (1 << 0); break;
+                case 2:
+                case 3:  numsignchanges |= (1 << 1); break;
+                case 4:
+                case 5:  numsignchanges |= (1 << 2); break;
+                case 6:  numsignchanges |= (1 << 3); break;
+                default: numsignchanges |= (1 << 4); break;
+            }
+            lastdiffneg = false;
+        }
+        else if (!lastdiffneg && energydiffs[q] <= 0)
+        {
+            lastdiffneg = true;
+        }
+    }
+    avgdiff = sqrt(avgdiff);
+    avgdiff /= 8;
+
+    int *specdiffs[8];
+    for (q = 0; q < 8; q++)
+    {
+        specdiffs[q] = new int[32];
+        for (j = 0; j < 32; j++)
+            specdiffs[q][j] = 0;
+    }
+
+    for (q = 0; q < specSub; q++)
+        for (j = 0; j < 32; j++)
+            specdiffs[q][j] = (int)(specs[q + 1][j] - specs[q][j]);
+
+    float *avgspecdiff = new float[32];
+  
+    for (j = 0; j < 32; j++)
+        avgspecdiff[j] = 0;
+
+    for (q = 0; q < 8; q++)
+    {
+        for (j = 0; j < 32; j++)
+        {
+            avgspecdiff[j] += specdiffs[q][j];
+        }
+    }
+
+    for (j = 0; j < 32; j++)
+        avgspecdiff[j] /= 8;
+
 #ifdef TRM_DEBUG
     cout << fEnergy << " " << fAverageZeroCrossing << endl;
+    cout << estBPM << endl;
+    cout << avgdiff << " " << numsignchanges << endl;
     for (int j = 0; j < 32; j++)
-        cout << iSpectrum[j] << endl;
+        cout << iSpectrum[j] << "\t" << avgspecdiff[j] << endl;
 #endif
 
     AudioSig *signature = new AudioSig(fEnergy, fAverageZeroCrossing,
-                                       fLength, iSpectrum); 
+                                       fLength, iSpectrum, estBPM, avgdiff, 
+                                       numsignchanges, avgspecdiff);
 
     SigClient *sigClient = new SigClient();
     sigClient->SetAddress("209.249.187.199", 4445);
@@ -357,6 +497,17 @@ void TRM::GenerateSignatureNow(string &strGUID, string &collID)
     delete sigClient;
 
     delete [] m_downmixBuffer;
+
+    delete [] energys;
+    for (j = 0; j < 8; j++)
+    {
+        delete [] specdiffs[j];
+        delete [] specs[j];
+    }
+    delete [] specs[8];
+    delete [] energydiffs;
+    delete [] avgspecdiff;
+
     m_downmixBuffer = 0;
     m_numSamplesWritten = 0;
 }

@@ -54,6 +54,7 @@ char *SigXDR::FromSig(AudioSig *sig)
     m_position = m_buffer;
 
     float temp;
+    int   tempi;
 
     temp = sig->Energy();
     PutFloat(&temp);
@@ -66,6 +67,21 @@ char *SigXDR::FromSig(AudioSig *sig)
 
     for (int i = 0; i < 32; i++)  
         PutInt32(&sig->Spectrum()[i]);
+
+    temp = sig->EstimatedBPM();
+    PutFloat(&temp);
+
+    temp = sig->EnergyDiff();
+    PutFloat(&temp);
+
+    tempi = sig->EnergyZC();
+    PutInt32(&tempi);
+
+    for (int i = 0; i < 32; i++)
+    {
+        temp = sig->SpectrumDiffs()[i];
+        PutFloat(&temp);
+    }
 
     return m_buffer;
 }

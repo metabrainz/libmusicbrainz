@@ -24,14 +24,22 @@
 #ifndef AUDIOSIG_H
 #define AUDIOSIG_H
 
-#define NUMSIGFIELDS 35 
+#define NUMSIGFIELDS 70 
 
 class AudioSig
 {
 public:
-    AudioSig(float energy, float zxing, float length, int *spectrum)
+    AudioSig(float energy, float zxing, float length, int *spectrum,
+             float estBPM, float energydiff, int energyzc, 
+	     float *spectrumdiffs)
     { m_fEnergy = energy; m_fZXing = zxing; m_fLength = length;
-      for (int i = 0; i < 32; i++) m_iSpectrum[i] = spectrum[i]; 
+      for (int i = 0; i < 32; i++) 
+      {
+          m_iSpectrum[i] = spectrum[i]; 
+          m_fSpectrumDiffs[i] = spectrumdiffs[i];
+      }
+      m_fEnergyDiff = energydiff; m_iEnergyZC = energyzc;
+      m_fEstimatedBPM = estBPM;
     }
    ~AudioSig() {}
 
@@ -40,11 +48,25 @@ public:
     float Length()   { return m_fLength; }
     int  *Spectrum() { return m_iSpectrum; }
 
+    float EstimatedBPM() { return m_fEstimatedBPM; }
+    
+    float EnergyDiff() { return m_fEnergyDiff; }
+    short EnergyZC()   { return m_iEnergyZC; }
+
+    float *SpectrumDiffs() { return m_fSpectrumDiffs; }
+    
 private:
     float m_fEnergy;
     float m_fZXing;
     float m_fLength;
     int   m_iSpectrum[32];
+
+    float m_fEstimatedBPM;
+
+    float m_fEnergyDiff;
+    int   m_iEnergyZC;
+   
+    float m_fSpectrumDiffs[32];
 };
 
 #endif /* AUDIOSIG_H */
