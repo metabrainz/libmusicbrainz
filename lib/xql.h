@@ -37,7 +37,7 @@
 
 using namespace std;
 
-#include "xmlparse.h"
+#include "parse.h"
 
 class XQL : public Parse
 {

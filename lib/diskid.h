@@ -28,12 +28,14 @@
 
 #include <string>
 
+using namespace std;
+
 //
 //  platform specific stuff
 //
 
 #if defined(_WIN32) && !defined(__CYGWIN__)
-#include "mb_win32.h"  // MSVC++ (not Cygwin!)
+#include "../osdep/mb_win32.h"  // MSVC++ (not Cygwin!)
 #else
 #include "mb.h"        // platforms using configure script
 #endif
