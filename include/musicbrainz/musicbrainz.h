@@ -25,12 +25,13 @@
 #ifndef _MUSICBRAINZ_H_
 #define _MUSICBRAINZ_H_
 
+#include <string>
+#include <vector>
+
 #include "errors.h"
 #include "queries.h"
 #include "bitprint.h"
-
-#include <string>
-#include <vector>
+#include "rdfextract.h"
 
 using namespace std;
 
@@ -44,8 +45,7 @@ class XQL;
 
 class MusicBrainz
 {
-    public:
-
+    public: 
        EXPORT          MusicBrainz(void);
        EXPORT virtual ~MusicBrainz(void);
 
@@ -55,26 +55,33 @@ class MusicBrainz
                                          short proxyPort);
 
        EXPORT bool     SetDevice        (const string &device);
+       EXPORT bool     SetDepth         (int depth);
        EXPORT void     UseUTF8          (bool bUse) { m_useUTF8 = bUse; };
 
-       EXPORT bool     Query            (const string &xmlObject, 
+       EXPORT bool     Query            (const string &rdfObject, 
                                          vector<string> *args = NULL);
        EXPORT void     GetQueryError    (string &ErrorText);
-       EXPORT int      GetNumItems      (void);
        EXPORT bool     GetWebSubmitURL  (string &url);
   
-       EXPORT bool     Select           (const string &selectQuery);
+       EXPORT bool     Select           (const string &selectQuery,
+                                         int           ordinal = 0);
+       EXPORT bool     Select           (const string &selectQuery,
+                                         list<int>    *ordinalList);
+
        EXPORT bool     DoesResultExist  (const string &resultName, 
-                                         int Index = -1);
-       EXPORT bool     GetResultData    (const string &resultName, int Index, 
+                                         int Index = 0);
+       EXPORT bool     GetResultData    (const string &resultName, 
+                                         int Index, 
                                          string &data);
+       EXPORT const string &Data        (const string &resultName, 
+                                         int Index = 0);
+       EXPORT int      DataInt          (const string &resultName, 
+                                         int Index = 0);
+
        EXPORT bool     GetResultRDF     (string &RDFObject);
        EXPORT bool     SetResultRDF     (string &RDFObject);
 
-       EXPORT const string &Data        (const string &resultName, 
-                                         int Index = -1);
-       EXPORT int      DataInt          (const string &resultName, 
-                                         int Index = -1);
+       EXPORT void     GetIDFromURL     (const string &url, string &id);
        EXPORT bool     CalculateBitprint(const string &fileName,
                                          BitprintInfo *info);
 #ifdef WIN32
@@ -86,20 +93,15 @@ class MusicBrainz
        const string EscapeArg(const string &xml);
        void         SubstituteArgs(string &xml, vector<string> *args);
        void         SetError(Error ret);
-       int          SplitResponse(const string &inputXml);
-
-       int          GetNumXMLResults(void);
-       bool         SelectXMLResult(int index);
+       void         MakeRDFQuery(string &rdf);
 
        string          m_error, m_empty; 
        string          m_server, m_proxy;
        short           m_serverPort, m_proxyPort;
-       string          m_device, m_selectQuery; 
-       vector<string>  m_xmlList;
-       int             m_xmlIndex, m_numItems;
-       XQL            *m_xql;
-       vector<int>     m_indexes;
+       string          m_device, m_currentURI, m_baseURI, m_response; 
+       RDFExtract     *m_rdf;
        bool            m_useUTF8;
+       int             m_depth;
 };
 
 #endif

@@ -32,84 +32,35 @@ struct Queries
     char *arg1, *arg2, *arg3, *arg4;
 };
 
-const char *SUBMIT_LYRICS_QUERY=
-"   <MQ:Query>SubmitTrack</MQ:Query>\n"
-"    <DC:Title>Big Time TWO</DC:Title>\n"
-"    <DC:Creator>Peter another Gabriel</DC:Creator>\n"
-"    <MM:Album>So des ca</MM:Album>\n"
-"    <DC:Relation track=\"9\"/>\n"
-"    <MM:SyncEvents>\n"
-//"       <rdf:Description about=\"http://usenet4free.com?grp=alt.music.lyrics&art=26819\">\n"
-"       <rdf:Description>\n"
-"         <DC:Contributor>Red Hot Lyrics Man</DC:Contributor>\n"
-"         <DC:Type type=\"lyrics\"/>\n"
-"         <DC:Date>2000-07-27</DC:Date>\n"
-"         <rdf:Seq>\n"
-"            <rdf:li>\n"
-"               <rdf:Description>\n"
-"                  <MM:SyncText ts=\"00:02.451\">Hello World</MM:SyncText>\n"
-"               </rdf:Description>\n"
-"            </rdf:li>\n"
-"            <rdf:li>\n"
-"               <rdf:Description>\n"
-"                  <MM:SyncText ts=\"00:06.882\">Sing along</MM:SyncText>\n"
-"               </rdf:Description>\n"
-"            </rdf:li>\n"
-"            <rdf:li>\n"
-"               <rdf:Description>\n"
-"                  <MM:SyncText ts=\"01:03.096\">Make</MM:SyncText>\n"
-"               </rdf:Description>\n"
-"            </rdf:li>\n"
-"            <rdf:li>\n"
-"               <rdf:Description>\n"
-"                  <MM:SyncText ts=\"01:09.478\">it</MM:SyncText>\n"
-"               </rdf:Description>\n"
-"            </rdf:li>\n"
-"            <rdf:li>\n"
-"               <rdf:Description>\n"
-"                  <MM:SyncText ts=\"01:13.516\">all</MM:SyncText>\n"
-"               </rdf:Description>\n"
-"            </rdf:li>\n"
-"            <rdf:li>\n"
-"               <rdf:Description>\n"
-"                  <MM:SyncText ts=\"01:41.744\">clear.</MM:SyncText>\n"
-"               </rdf:Description>\n"
-"            </rdf:li>\n"
-"         </rdf:Seq>\n"
-"       </rdf:Description>\n"
-"    </MM:SyncEvents>\n";
+const char *SUBMIT_LYRICS_QUERY= "";
 
 Queries queries[] = 
 {
-    { "GetCDInfoFromCDIndexId", MB_GetCDInfoFromCDIndexID, 
+    { "GetCDInfoFromCDIndexId", MBQ_GetCDInfoFromCDIndexId, 
       1, "CD Index ID", "", "", "" }, 
-    { "FindArtist",             MB_FindArtistByName,
+    { "FindArtist",             MBQ_FindArtistByName,
       1, "Artist Name", "", "", "" },
-    { "FindTrack",              MB_FindTrackByName,
-      3, "Track Name", "Album Name", "Artist Name", "" },
-    { "FindAlbumsByArtist",     MB_FindAlbumsByArtistName,
-      1, "Artist Name", "", "", "" },
-    { "FindAlbum",              MB_FindAlbumByName,
-      1, "Album Name", "", "", "" },
-    { "FindDistinctGUID",       MB_FindDistinctGUID,
-      2, "Track Name", "Artist Name", "", "" },
-    { "GetArtist",              MB_GetArtistById ,
+    { "FindTrack",              MBQ_FindTrackByName,
+      3, "Artist Name", "Album Name", "Track Name", "" },
+    { "FindAlbum",              MBQ_FindAlbumByName,
+      1, "Artist Name", "Album name", "", "" },
+    { "FindDistinctGUID",       MBQ_FindDistinctTRMId,
+      2, "Artist Name", "Track Name", "", "" },
+    { "GetArtist",              MBQ_GetArtistById ,
       1, "Artist ID", "", "", "" },
-    { "GetAlbum",               MB_GetAlbumById ,
+    { "GetAlbum",               MBQ_GetAlbumById ,
       1, "Album ID", "", "", "" },
-    { "GetAlbumsByArtist",      MB_GetAlbumsByArtistId ,
-      1, "Artist ID", "", "", "" },
-    { "GetTrack",               MB_GetTrackById ,
+    { "GetTrack",               MBQ_GetTrackById ,
       1, "Track ID", "", "", "" },
-    { "GetTrackGUID",           MB_GetTrackByGUID ,
-      1, "Track GUID", "", "", "" },
-    { "GetSyncText",            MB_GetSyncTextById ,
+    { "GetTrackTRMId",           MBQ_GetTrackByTRMId ,
+      1, "Track TRM Id", "", "", "" },
+    { "GetSyncText",            MBQ_GetSyncTextById ,
       1, "Track ID", "", "", "" },
-    { "GetCDInfo",              MB_GetCDInfo ,
+    { "GetCDInfo",              MBQ_GetCDInfo ,
       0, "", "", "", "" },
-    { "GetCDTOC",               MB_GetCDTOC ,
+    { "GetCDTOC",               MBQ_GetCDTOC ,
       0, "", "", "", "" },
-    { "AssociateCD",            MB_AssociateCD ,
+    { "AssociateCD",            MBQ_AssociateCD ,
       0, "", "", "", "" },
     { "\0",                     "\0", 0, "", "", "", "" }
 }; 
@@ -303,7 +254,7 @@ int main(void)
              printf("Query failed: %s\n", error.c_str());
              continue; 
         }
-        printf("Query ok. Items returned: %d\n", o.GetNumItems());
+        printf("Query ok.\n");
 
         o.GetResultRDF(xml);
         printf("Returned RDF object:\n\n%s\n", xml.c_str());

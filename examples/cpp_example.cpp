@@ -32,7 +32,7 @@ int main(void)
     int         numTracks, trackNum;
  
     // Set the server you want to use. Defaults to www.musicbrainz.org:80
-    //o.SetServer(string("musicbrainz.eorbit.net"), 80);
+    o.SetServer(string("musicbrainz.eorbit.net"), 80);
 
     // If you need to use a proxy, uncomment/edit the following line
     // as appropriate
@@ -44,7 +44,7 @@ int main(void)
     // Execute the GetCDInfo query, which pull the TOC from the 
     // audio CD in the cd-rom drive, calculate the disk id and the
     // request the data from the server
-    ret = o.Query(string(MB_GetCDInfo));
+    ret = o.Query(string(MBQ_GetCDInfo));
     if (!ret)
     {
          o.GetQueryError(error);
@@ -53,59 +53,37 @@ int main(void)
     }
 
     // Check to see how many items were returned from the server
-    if (o.GetNumItems() == 0)
+    if (o.DataInt(MBE_AlbumGetNumAlbums) < 1)
     {
         printf("This CD was not found.\n");
         return 0;
     }
 
-    // Get the number of tracks
-    numTracks = o.DataInt(MB_GetNumTracks);
-    printf("NumTracks: %d\n", numTracks);
-
     // Now start the data extraction process.
+
     // Select the first item in the list of returned items
-    o.Select(MB_SelectAlbum);
+    o.Select(MBS_SelectAlbum, 1);
+
+    // Get the number of tracks
+    numTracks = o.DataInt(MBE_AlbumGetNumTracks);
+    printf(" NumTracks: %d\n", numTracks);
 
     // Now get and print the title of the cd
-    printf("Title: '%s'\n", o.Data(MB_GetAlbumName).c_str());
+    printf("Album Name: '%s'\n", o.Data(MBE_AlbumGetAlbumName).c_str());
+    o.GetIDFromURL(o.Data(MBE_AlbumGetAlbumId), data);
+    printf("   AlbumId: '%s'\n\n", data.c_str());
 
-    // Check to see if the GetArtist field exits. If it does, the returned
-    // CD is a single artist CD. If it does not, the CD is a multiple
-    // artist CD.
-    if (o.DoesResultExist(MB_GetArtistName))
+    for(int i = 1; i <= numTracks; i++)
     {
-         // Print out the artist and then print the titles of the tracks
-         printf("Artist: '%s'\n", o.Data(MB_GetArtistName).c_str());
-         o.Select(MB_SelectFirstTrack);
-         for(int i = 0; i < numTracks; i++)
-         {
-             trackNum = o.DataInt(MB_GetTrackNum);
-             printf("Track %d: '%s'\n", 
-                 trackNum, o.Data(MB_GetTrackName).c_str());
-             printf("Track id: '%s'\n", 
-                 o.Data(MB_GetTrackID).c_str());
+        // Print out the artist and then print the titles of the tracks
+        printf("    Artist: '%s'\n", o.Data(MBE_AlbumGetArtistName, i).c_str());
 
-             // Now move on to the next track
-             o.Select(MB_SelectNextTrack);
-         }
-    }
-    else
-    {
-         // Now select the first track
-         o.Select(MB_SelectFirstTrack);
-
-         // For each track print out the artist and title
-         for(int i = 0; i < numTracks; i++)
-         {
-             printf("Artist %d: '%s'\n", i+1, 
-                    o.Data(MB_GetArtistName).c_str());
-             printf(" Track %d: '%s'\n", i+1, 
-                    o.Data(MB_GetTrackName).c_str());
-
-             // Now move on to the next track
-             o.Select(MB_SelectNextTrack);
-         }
+        trackNum = o.DataInt(MBE_AlbumGetTrackNum, i);
+        printf("  Track %2d: '%s'\n", 
+            trackNum, o.Data(MBE_AlbumGetTrackName, i).c_str());
+        o.GetIDFromURL(o.Data(MBE_AlbumGetTrackId, i), data);
+        printf("   TrackId: '%s'\n\n", data.c_str());
     }
     return 0;
 }
+
