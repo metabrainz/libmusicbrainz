@@ -47,13 +47,9 @@ bool DiskId::ReadTOC(MUSICBRAINZ_DEVICE device,
                      MUSICBRAINZ_CDINFO& cdinfo)
 {
    int fd;
-   int first;
-   int last;
    int i;
-   dk_cd_read_disc_info_t  discInfo;
-   dk_cd_read_track_info_t trackInfo;
-   CDTrackInfo toc[100];
-   CDDiscInfo hdr;
+   dk_cd_read_toc_t toc;
+   CDTOC *cdToc;
 
    if (device == NULL)
    {
@@ -71,61 +67,36 @@ bool DiskId::ReadTOC(MUSICBRAINZ_DEVICE device,
        return false;
    }
 
-   // Initialize cdinfo to all zeroes.
-   memset(&cdinfo, 0, sizeof(MUSICBRAINZ_CDINFO));
-   memset(&discInfo, 0, sizeof(discInfo));
-
-   discInfo.buffer = &hdr;
-   discInfo.bufferLength = sizeof(hdr);
-   if (ioctl(fd, DKIOCCDREADDISCINFO, &discInfo) < 0
-           || discInfo.bufferLength != sizeof(hdr)) 
+   memset(&toc, 0, sizeof(toc));
+   toc.format = kCDTOCFormatTOC;
+   toc.formatAsTime = 0;
+   toc.buffer = new char[1024];
+   toc.bufferLength = 1024;
+   if (ioctl(fd, DKIOCCDREADTOC, &toc) < 0 )
    {
-      ReportError("Reading CD-ROM table of contents failed.");
-      close(fd);	
-      return false;
+       delete [] (char *)toc.buffer;
+       return false;
+   }
+   if ( toc.bufferLength < sizeof(CDTOC) )
+   {
+       delete [] (char *)toc.buffer;
+       return false;
    }
 
-   first = hdr.numberOfFirstTrack;
-   last = hdr.lastTrackNumberInLastSessionLSB; 
+   cdToc = (CDTOC *)toc.buffer;
+   int numTracks = CDTOCGetDescriptorCount(cdToc);
 
-   // Do some basic error checking.
-   if (last==0)
-   {
-      ReportError("This disk has no tracks.");
-      close(fd);	
-      return false;
-   }
+   for(i = 3; i < numTracks; i++)
+        cdinfo.FrameOffset[i-2] = CDConvertMSFToLBA(cdToc->descriptors[i].p) + 150; 
 
-   memset(&trackInfo, 0, sizeof(trackInfo));
-   trackInfo.addressType = kCDTrackInfoAddressTypeTrackNumber;
-   trackInfo.bufferLength = sizeof(*toc);
-   
-   for (i = 0; i <= last; i++) 
-   {
-       trackInfo.address = i;
-       trackInfo.buffer = &toc[i];
+   cdinfo.FrameOffset[0] = CDConvertMSFToLBA(cdToc->descriptors[2].p) + 150; 
 
-       if (ioctl(fd, DKIOCCDREADTRACKINFO, &trackInfo) < 0) 
-       {
-           ReportError("Reading CD-ROM table of contents failed.");
-           close(fd);	
-           return false;
-       }
-   }
-
-   cdinfo.FrameOffset[0] = toc[last].lastRecordedAddress + 151;
-   cdinfo.FrameOffset[1] = toc[0].lastRecordedAddress + 150;
-
-   // Now, for every track, find out the block address where it starts.
-   for (i = 1; i < last; i++)
-   {
-      cdinfo.FrameOffset[i + 1] = toc[i].lastRecordedAddress + 151;
-   }
-
-   cdinfo.FirstTrack = first;
-   cdinfo.LastTrack = last;
+   cdinfo.FirstTrack = 1;
+   cdinfo.LastTrack = numTracks - 3;
 
    close(fd);
+
+   delete [] (char *)toc.buffer;
 
    return true;
 }
