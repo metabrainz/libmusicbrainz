@@ -49,7 +49,6 @@ bool DiskId::ReadTOC(MUSICBRAINZ_DEVICE device,
    int fd;
    int first;
    int last;
-   int lba;
    int i;
    dk_cd_read_disc_info_t  discInfo;
    dk_cd_read_track_info_t trackInfo;
@@ -112,7 +111,6 @@ bool DiskId::ReadTOC(MUSICBRAINZ_DEVICE device,
            close(fd);	
            return false;
        }
-       printf("toc[%d]: %d\n", i, toc[i].lastRecordedAddress + 151);
    }
 
    cdinfo.FrameOffset[0] = toc[last].lastRecordedAddress + 151;
