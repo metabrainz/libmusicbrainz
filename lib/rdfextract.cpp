@@ -348,7 +348,7 @@ const string RDFExtract::ConvertToISO(const char *UTF8)
    }
    *out = 0x00; /* append null */
    ret = string((char *)buf);
-   delete buf;
+   delete[] buf;
 
    return ret;
 }
