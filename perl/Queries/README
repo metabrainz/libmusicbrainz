@@ -1,5 +1,5 @@
-MusicBrainz::Queries version 0.01
-================================
+MusicBrainz::Queries
+====================
 
 This module provides access to the Music Brainz RDF Query Constants from
 perl.
@@ -29,10 +29,11 @@ This module requires these other modules and libraries:
    perl 5.6.1 or later
 
 
-COPYRIGHT AND LICENCE
+COPYRIGHT AND LICENSE
 
 Copyright (C) 2003 Alexander van Zoest
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself. 
 
+$Id$
