@@ -32,6 +32,7 @@ WriteMakefile(
        AUTHOR     => 'Sander van Zoest <svanzoest@cpan.org>') : ()),
     'LIBS'		=> ['-L/usr/local/lib -lstdc++ -lm -lmusicbrainz'], 
     'DEFINE'		=> '', # e.g., '-DHAVE_SOMETHING'
+    'CCFLAGS'           => '-Wall',
 	# Insert -I. if you add *.h files later:
     'INC'		=> '-I/usr/local/include -I.',
     'dist'              => {

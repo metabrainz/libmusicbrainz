@@ -12,6 +12,10 @@
 #  include <musicbrainz/mb_c.h>
 #endif
 
+/* define some string lengths */
+#define MB_SIG_LENGTH		17
+#define MB_SIG_ASCII_LENGTH 	37
+
 /* Help perl find the deconstructor */
 #define trm_DESTROY(mb)          trm_Delete(mb)
 
@@ -34,8 +38,11 @@ PROTOTYPE: $
 int
 trm_set_proxy(trm_t trm, char* serverAddr, short serverPort)
 PROTOTYPE: $$$
+PREINIT:
 CODE:
-  trm_SetProxy(trm,serverAddr,serverPort);
+  RETVAL = trm_SetProxy(trm,serverAddr,serverPort);
+OUTPUT:
+  RETVAL
 
 void
 trm_set_pcm_data_info(trm_t o, int samplesPerSecond, int numChannels, int bitsPerSample)
@@ -62,7 +69,7 @@ char*
 trm_finalize_signature(trm_t o, char* collectionId = NULL)
 PROTOTYPE: $;$
 PREINIT:
-  char signature[17];
+  char signature[MB_SIG_LENGTH];
   int success;
 CODE:
   success = trm_FinalizeSignature(o,signature,collectionId);
@@ -78,13 +85,16 @@ char*
 trm_convert_sig_to_ascii(trm_t o, char* signature)
 PROTOTYPE: $$
 PREINIT:
+  char ascii_sig[MB_SIG_ASCII_LENGTH];
 CODE:
-  trm_ConvertSigToASCII(o,signature, RETVAL);
+  trm_ConvertSigToASCII(o,signature, ascii_sig);
+  RETVAL = ascii_sig;
 OUTPUT:
   RETVAL
 CLEANUP:
-  if(strlen(signature) > 17) {
-    warn("MusicBrainz::TRM::convert_sig_to_ascii: signature is larger then allowed 17 chars");
+  if(strlen(signature) > MB_SIG_ASCII_LENGTH) {
+    warn("MusicBrainz::TRM::convert_sig_to_ascii: signature is larger then allowed ", 
+         MB_SIG_ASCII_LENGTH, " chars");
     XSRETURN_UNDEF;
   }
 
