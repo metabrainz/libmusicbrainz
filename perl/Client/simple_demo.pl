@@ -1,7 +1,6 @@
-#! /usr/pkg/bin/perl -w
-# Please correct the 'use lib' setting!
+#
 # $Id$
-use lib qw(/tmp/mb/lib/perl5/site_perl);
+#
 use MusicBrainz::Client::Simple;
 use strict;
 
