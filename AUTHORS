@@ -63,4 +63,7 @@ The following people have contributed to this program:
   - Added track duration queries to queries.h
   - Added all the python and debian support
 
+  Matthias Friedrich <mfriedrich@users.sourceforge.net>
+  - Provided a patch for fixing NetBSD cdrom TOC code
+
 (please send change requests to rob@musicbrainz.org or maintainer)

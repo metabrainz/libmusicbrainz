@@ -39,7 +39,7 @@
 #include "config.h"
 
 
-MUSICBRAINZ_DEVICE DEFAULT_DEVICE = "/dev/cd0c";
+MUSICBRAINZ_DEVICE DEFAULT_DEVICE = "/dev/cdrom";
 
 
 int ReadTOCHeader(int fd, 
@@ -69,8 +69,7 @@ int ReadTOCEntry(int fd,
     struct ioc_read_toc_entry te;
 
     te.starting_track = (u_char) track;
-    te.address_format = CD_LBA_FORMAT;   // experiment and cdio.h say 
-                                         // lbas are given in network order!
+    te.address_format = CD_LBA_FORMAT;
     
     struct cd_toc_entry cte;
 
@@ -84,7 +83,7 @@ int ReadTOCEntry(int fd,
     if (!ret) {
         assert(te.address_format == CD_LBA_FORMAT);
 
-        lba = ntohl(te.data->addr.lba);  // network to host order (long)
+        lba = te.data->addr.lba;
     }
 
     return ret;
@@ -146,7 +145,7 @@ bool DiskId::ReadTOC(MUSICBRAINZ_DEVICE device,
    // The "LEADOUT" track is the track beyond the final audio track
    // so we're looking for the block address of the LEADOUT track.
 
-   int CDROM_LEADOUT = last + 1;
+   int CDROM_LEADOUT = 0xAA;	// 170!
    ReadTOCEntry(fd, CDROM_LEADOUT, lba);
    cdinfo.FrameOffset[0] = lba + 150;
 
