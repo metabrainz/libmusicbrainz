@@ -433,12 +433,12 @@ bool MusicBrainz::DoesResultExist(const string &resultName, int Index)
 // This is a shorthand version of the Select, which allows passing
 // one ordinal. The default value for the ordinal is 0. See 
 // the function below and the docs for more details on this function.
-void MusicBrainz::Select(const string &query, int ordinal)
+bool MusicBrainz::Select(const string &query, int ordinal)
 {
     list<int> ordinalList;
 
     if (m_rdf == NULL)
-       return;
+       return false;
 
     ordinalList.push_back(ordinal);
     return Select(query, &ordinalList);
@@ -446,18 +446,25 @@ void MusicBrainz::Select(const string &query, int ordinal)
 
 // The Select function selects a new currentURI. Please check the
 // docs for details on this important function.
-void MusicBrainz::Select(const string &query, list<int> *ordinalList)
+bool MusicBrainz::Select(const string &query, list<int> *ordinalList)
 {
+    string newURI;
+
     if (m_rdf == NULL)
-       return;
+       return false;
 
     if (query == string(MBS_Reset))
     {
         m_currentURI = m_baseURI;
-        return;
+        return true;
     }
     
-    m_currentURI = m_rdf->Extract(m_currentURI, query, ordinalList);
+    newURI = m_rdf->Extract(m_currentURI, query, ordinalList);
+    if (newURI.length() == 0)
+        return false;
+
+    m_currentURI = newURI;
+    return true;
 }
 
 // Return the RDF document that the server returned to us.

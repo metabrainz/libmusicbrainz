@@ -64,21 +64,20 @@ int main(void)
         return 0;
     }  
 
+    // Now start the data extraction process.
+
     // Select the top level (default context)
-    mb_Select(o, MB_SelectTopLevel);  
+    mb_SelectWithArg(o, MBS_SelectAlbum, 1);  
 
     // Get the number of tracks
-    mb_GetResultData(o, MB_GetNumTracks, data, 256);
-    numTracks = atoi(data);
+    numTracks = mb_GetResultInt(o, MBE_GetNumTracks, data, 256);
     printf("NumTracks: %d\n", numTracks);
 
-    // Now start the data extraction process.
-    // Select the album context first
-    mb_Select(o, MB_SelectAlbum);  
-
     // Now get and print the title of the cd
-    mb_GetResultData(o, MB_GetAlbumName, data, 256);
-    printf("Title: '%s'\n", data);
+    mb_GetResultData(o, MBE_GetAlbumName, data, 256);
+    printf("Album Name: '%s'\n", data);
+    mb_GetResultData(o, MBE_GetAlbumID, data, 256);
+    printf("   AlbumId: '%s'\n", data);
 
     // Check to see if the GetArtist field exits. If it does, the returned
     // CD is a single artist CD. If it does not, the CD is a multiple

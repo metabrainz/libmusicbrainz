@@ -53,18 +53,20 @@ void      mb_WSAStop           (musicbrainz_t o);
 int       mb_SetDevice         (musicbrainz_t o, char *device);
 void      mb_UseUTF8           (musicbrainz_t o, int useUTF8);
 
-int       mb_Query             (musicbrainz_t o, char *xmlObject);
-int       mb_QueryWithArgs     (musicbrainz_t o, char *xmlObject, char **args);
+int       mb_Query             (musicbrainz_t o, char *rdfObject);
+int       mb_QueryWithArgs     (musicbrainz_t o, char *rdfObject, char **args);
 int       mb_GetWebSubmitURL   (musicbrainz_t o, char *url, int urlLen);
 void      mb_GetQueryError     (musicbrainz_t o, char *error, int maxErrorLen);
+
 int       mb_Select            (musicbrainz_t o, char *selectQuery);
+int       mb_SelectWithArgs    (musicbrainz_t o, char *selectQuery, int **args);
 int       mb_DoesResultExist   (musicbrainz_t o, char *resultName);
 int       mb_GetResultData     (musicbrainz_t o, char *resultName, 
                                 char *data, int maxDataLen);
 int       mb_GetResultInt      (musicbrainz_t o, char *resultName);
-int       mb_GetResultRDF      (musicbrainz_t o, char *xml, int maxXMLLen);
+int       mb_GetResultRDF      (musicbrainz_t o, char *RDF, int maxRDFLen);
 int       mb_GetResultRDFLen   (musicbrainz_t o);
-int       mb_SetResultRDF      (musicbrainz_t o, char *xml);
+int       mb_SetResultRDF      (musicbrainz_t o, char *RDF);
 int       mb_GetNumItems       (musicbrainz_t o);
 int       mb_CalculateBitprint (musicbrainz_t o, char *fileName, 
                                 BitprintInfo *info);

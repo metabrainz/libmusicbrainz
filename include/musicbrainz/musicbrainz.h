@@ -57,15 +57,15 @@ class MusicBrainz
        EXPORT bool     SetDevice        (const string &device);
        EXPORT void     UseUTF8          (bool bUse) { m_useUTF8 = bUse; };
 
-       EXPORT bool     Query            (const string &xmlObject, 
+       EXPORT bool     Query            (const string &rdfObject, 
                                          vector<string> *args = NULL);
        EXPORT void     GetQueryError    (string &ErrorText);
        EXPORT int      GetNumItems      (void);
        EXPORT bool     GetWebSubmitURL  (string &url);
   
-       EXPORT void     Select           (const string &selectQuery,
+       EXPORT bool     Select           (const string &selectQuery,
                                          int           ordinal = 0);
-       EXPORT void     Select           (const string &selectQuery,
+       EXPORT bool     Select           (const string &selectQuery,
                                          list<int>    *ordinalList);
        EXPORT bool     DoesResultExist  (const string &resultName, 
                                          int Index = -1);
