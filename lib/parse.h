@@ -1,6 +1,6 @@
 /* --------------------------------------------------------------------------
 
-   MusicBrainz -- The Intenet music metadatabase
+   MusicBrainz -- The Internet music metadatabase
 
    Copyright (C) 2000 Emusic.com
    

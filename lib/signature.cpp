@@ -1,6 +1,6 @@
 /* --------------------------------------------------------------------------
 
-   MusicBrainz -- The Intenet music metadatabase
+   MusicBrainz -- The Internet music metadatabase
 
    Portions Copyright (C) 2000 Relatable
    
