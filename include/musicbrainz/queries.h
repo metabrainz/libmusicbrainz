@@ -32,9 +32,11 @@
 #define MB_AssociateCD            "@CDINFOASSOCIATECD@"
 
 // local query xql queries
-#define MB_LocalGetId             "/rdf:RDF/MQ:Args/@id"
-#define MB_LocalGetLastTrack      "/rdf:RDF/MQ:Args/@last"
-#define MB_LocalGetFirstTrack     "/rdf:RDF/MQ:Args/@first"
+#define MB_LocalGetId             "MQ:Args/@id"
+#define MB_LocalGetLastTrack      "MQ:Args[1]/@last"
+#define MB_LocalGetFirstTrack     "MQ:Args[1]/@first"
+#define MB_LocalGetTOC            "MQ:Args[1]/@toc"
+#define MB_LocalGetTrackLengths   "MQ:Args[2]/@trackLengths"
 
 // description context queries
 #define MB_GetArtistName          "DC:Creator"
@@ -59,6 +61,9 @@
 #define MB_GetLyricType           "DC:Type/@type"
 #define MB_GetLyricText           "MM:SyncText"
 #define MB_GetLyricTimestamp      "MM:SyncText/@ts"
+
+// Select the local query 
+#define MB_SelectLocalQuery       "/rdf:RDF/rdf:Description"
 
 // Track selectors for queries that return an album
 #define MB_SelectFirstTrack       "/rdf:RDF/rdf:Description/MC:Collection/rdf:Bag/rdf:li[]/rdf:Description/rdf:Seq/rdf:li[0]/rdf:Description"
