@@ -39,6 +39,9 @@ make
 %install
 rm -rf $RPM_BUILD_ROOT
 make prefix=$RPM_BUILD_ROOT%{prefix} install
+strip $RPM_BUILD_ROOT%{prefix}/lib/*.so.*
+strip $RPM_BUILD_ROOT%{prefix}/lib/*.a
+strip $RPM_BUILD_ROOT%{prefix}/lib/*.so
 
 %clean
 rm -rf $RPM_BUILD_ROOT
