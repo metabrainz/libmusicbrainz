@@ -35,6 +35,7 @@ Encoder::Encoder() {
 #ifdef USE_ICU
   m_converter = 0;
   m_errorCode = U_ZERO_ERROR;
+  m_utf8Converter = 0;
 #else
   m_encoding = "ISO-8859-1";
   m_errorCode = "";
@@ -46,6 +47,7 @@ Encoder::~Encoder() {
 #ifdef USE_ICU
   if (m_converter != 0) {
     ucnv_close(m_converter);
+    ucnv_close(m_utf8Converter);
     ucnv_flushCache();
   }
 #endif
@@ -64,9 +66,7 @@ bool Encoder::SetEncoding(const char *charSetName) {
      m_converter = ucnv_open(charSetName, &m_errorCode);
   }
 
-  if (U_FAILURE(m_errorCode)) {
-    return false;
-  }
+  m_utf8Converter = ucnv_open("utf-8", &m_errorCode);
   m_encoding = GetAlias(ucnv_getName(m_converter, &m_errorCode));
   if (U_FAILURE(m_errorCode)) {
     return false;
@@ -110,7 +110,7 @@ bool Encoder::SetEncoding(const char *charSetName) {
 
 bool Encoder::ConvertData(string& dest, const string &src) {
   // If the encoding to convert to is UTF-8 just return the original data
-  if (m_useUTF8) {
+  if (m_useUTF8 || !src.length()) {
     dest = src;
     return true;
   }
@@ -121,12 +121,22 @@ bool Encoder::ConvertData(string& dest, const string &src) {
     if (SetEncoding(0) == false) { return 0; }
   }
   
-  UnicodeString ucString(src.c_str(), "UTF-8");
-  int32_t outputLength = UCNV_GET_MAX_BYTES_FOR_STRING(ucString.length(), ucnv_getMaxCharSize(m_converter));
-  char* output = new char[outputLength];
-  ucnv_fromUChars(m_converter, output, outputLength, ucString.getBuffer(), ucString.length(), &m_errorCode);
+  int outputSize = src.size() + 1;
+  char* output = new char[outputSize];
+  memset(output, 0, sizeof(output));
+
+  int length = ucnv_fromAlgorithmic(m_converter, UCNV_UTF8,
+                                    output, outputSize,
+                                    src.c_str(), src.length(),
+                                    &m_errorCode);
+
   if (U_FAILURE(m_errorCode)) {
+    delete[] output;
     return false;
+  }
+ 
+  if (length + 1 < outputSize) {
+    output[length + 1] = '\0';
   }
   dest = output;
   delete[] output;
@@ -137,7 +147,7 @@ bool Encoder::ConvertData(string& dest, const string &src) {
 }
 
 bool Encoder::ConvertToUTF8(string &dest, const string &src) {
-  if (m_useUTF8) {
+  if (m_useUTF8 || !src.length()) {
     dest = src;
     return true;
   }
@@ -147,26 +157,46 @@ bool Encoder::ConvertToUTF8(string &dest, const string &src) {
     // Set the encoding to use the default encoding
     if (SetEncoding(0) == false) { return 0; }
   }  
-
-  UnicodeString ucString(src.c_str(), m_encoding.c_str());
-  UConverter *utfConverter = ucnv_open("UTF-8", &m_errorCode);
+  
+  
   if (U_FAILURE(m_errorCode)) {
     return false;
   }
-  int32_t outputLength = UCNV_GET_MAX_BYTES_FOR_STRING(ucString.length(), ucnv_getMaxCharSize(utfConverter));
-  char* output = new char[outputLength];
-  ucnv_fromUChars(utfConverter, output, outputLength, ucString.getBuffer(), ucString.length(), &m_errorCode);
+  int outputSize = src.size() * 2 + 1;
+  char* output = new char[outputSize];
+  memset(output, 0, sizeof(output));
+  int length =  ucnv_toAlgorithmic(UCNV_UTF8, m_converter,
+                                   output, outputSize,
+		                   src.c_str(), src.length(),
+                                   &m_errorCode);
   if (U_FAILURE(m_errorCode)) {
     delete[] output;
-    ucnv_close(utfConverter);
     return false;
+  }
+  
+  if (length + 1 < outputSize) {
+    output[length + 1] = '\0';
   }
   dest = output;
   delete[] output;
-  ucnv_close(utfConverter);
 #else 
   // Don't know if this is right...
-  dest = src;    
+  char* d = new char[src.length() * 2];
+  unsigned int y = 0;
+  for (unsigned int x = 0; x < src.length(); x++) {
+    if (src[x] < 0x80) { 
+       d[y] = src[x];
+       y++;
+    }
+    else {
+       d[y] = 0xc0 | (src[x] >> 6);
+       d[y+1] = 0x80 | (0x3F & src[x]);
+       y = y + 2;
+    }
+  }
+  dest = d;
+  delete[] d;
+  printf("After encoding: %s\n", dest.c_str()); 
 #endif
   return true;
 }
