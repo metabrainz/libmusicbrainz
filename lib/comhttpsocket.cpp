@@ -289,6 +289,25 @@ int MBCOMHTTPSocket::Read(char* pBuffer, int nLen, int* nBytesWritten)
                 m_nBufLen = 0;
             }
             return 0;   // success from bit bucket
+    
+        }
+        else // bit bucket doesn't store it all
+        {
+            memcpy(pBuffer, m_pTempBuf, m_nBufLen);
+            nOffset = m_nBufLen;
+            *nBytesWritten = nOffset;
+            
+            delete [] m_pTempBuf;
+            m_pTempBuf = NULL;
+            m_bUseProxy = true;
+            m_nBufLen = 0;
+        }
+    }
+    
+    // general case: more bits are needed
+    nRes = m_pSock->Read(pBuffer + nOffset, nLen - nOffset, nBytesWritten);
+    *nBytesWritten += nOffset;
+    
     // Not sure if this is where this goes....
     if (m_bUseProxy && !m_bProxyCredsUsed)  
     {
@@ -311,25 +330,6 @@ int MBCOMHTTPSocket::Read(char* pBuffer, int nLen, int* nBytesWritten)
           }
        }
     }
-    
-        }
-        else // bit bucket doesn't store it all
-        {
-            memcpy(pBuffer, m_pTempBuf, m_nBufLen);
-            nOffset = m_nBufLen;
-            *nBytesWritten = nOffset;
-            
-            delete [] m_pTempBuf;
-            m_pTempBuf = NULL;
-    m_bUseProxy = true;
-            m_nBufLen = 0;
-        }
-    }
-    
-    // general case: more bits are needed
-    nRes = m_pSock->Read(pBuffer + nOffset, nLen - nOffset, nBytesWritten);
-    *nBytesWritten += nOffset;
-    
     return nRes;
 }
 

@@ -153,9 +153,6 @@ int SigClient::GetSignature(AudioSig *sig, string &strGUID,
 
     delete [] pBuffer;
     delete [] pBlank;
-        if (!m_strProxyUID.empty()) {
-            m_pSocket->SetProxyCreds(m_strProxyUID, m_strProxyPWD);
-        }
     delete [] sigencode;
 
     return ret;
@@ -170,10 +167,15 @@ int SigClient::Connect(string& strIP, int nPort)
     {
         m_pSocket->SetProxy(NULL);
     }
-    else {
+    else 
+    {
         char *proxyurl = new char[m_proxyAddr.size() + 128];
         sprintf(proxyurl, "http://%s:%d", m_proxyAddr.c_str(), m_proxyPort);
         m_pSocket->SetProxy(proxyurl);
+        if (!m_strProxyUID.empty()) 
+        {
+            m_pSocket->SetProxyCreds(m_strProxyUID, m_strProxyPWD);
+        }
 
         delete [] proxyurl;
     }
