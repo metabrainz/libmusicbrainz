@@ -54,6 +54,8 @@ public:
     { m_strIP = strIP; m_nPort = nPort; }
     void SetProxy(string strAddr, int nPort)
     { m_proxyAddr = strAddr; m_proxyPort = nPort; }
+    void SetProxyCreds(const string &strUID, const string &strPWD) 
+    { m_strProxyUID = strUID; m_strProxyPWD = strPWD; }
 
 protected:
     int Connect(string& strIP, int nPort);
@@ -66,6 +68,8 @@ private:
     int m_nPort;
     string m_proxyAddr;
     int m_proxyPort;
+    string m_strProxyUID;
+    string m_strProxyPWD;
     int m_nNumFailures;
 };
 

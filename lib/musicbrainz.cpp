@@ -105,6 +105,15 @@ bool MusicBrainz::SetProxy(const string &proxyAddr, short proxyPort)
     return true;
 }
 
+// Set the HTTP proxy server credentials if needed.
+bool MusicBrainz::SetProxyCreds(const string &proxyUsername, const string &proxyPassword)
+{
+    m_proxyUid = proxyUsername;
+    m_proxyPwd = proxyPassword;
+
+    return true;
+}
+
 // Set the cdrom device used for cd lookups. In windows, this would
 // be a drive specification.
 bool MusicBrainz::SetDevice(const string &device)
@@ -314,6 +323,14 @@ bool MusicBrainz::Query(const string &rdfObject, vector<string> *args)
     {
         sprintf(port, ":%d", m_proxyPort);
         http.SetProxyURL(string("http://") + m_proxy + string(port));
+        if (m_proxyUid.length() > 0) {
+            ret = http.SetProxyCreds(m_proxyUid, m_proxyPwd);
+            if (IsError(ret)) 
+            { 
+                SetError(ret);
+                return false;
+            }
+        }
     }
 
     // Is this a GET or POST query? GET queries start with an http
@@ -758,6 +775,13 @@ void MusicBrainz::SetError(Error ret)
        case kError_UnknownServerError:
           m_error = string("The server encountered an error processing this "
                            "query.");
+          break;
+       case kError_ProxyAuthRequired: 
+          m_error = string("Proxy Authentication Required. Invalid proxy username or password?");
+          break;
+       case kError_InvalidProxyCreds:
+          m_error = string("Invalid Proxy Credentials. Check if username and "
+                           "password are empty and username does not contain a colon ':'");
           break;
        default:
           char num[10];

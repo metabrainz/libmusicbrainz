@@ -38,6 +38,7 @@ class TRM
        virtual ~TRM(void);
 
        bool  SetProxy          (const string &proxyAddr, short proxyPort);
+       bool  SetProxyCreds     (const string &proxyUID, const string &proxyPWD);
 	
        bool  SetPCMDataInfo    (int samplesPerSecond, int numChannels,
 		                int bitsPerSample);
@@ -73,6 +74,8 @@ class TRM
        
        string          m_proxy;
        short           m_proxyPort;
+       string          m_proxyUID;
+       string          m_proxyPWD;
 
 #ifdef WIN32
        __int64         m_song_samples;

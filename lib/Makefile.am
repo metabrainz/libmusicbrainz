@@ -29,7 +29,7 @@ dist_libmusicbrainz_la_SOURCES = \
   diskid.cpp haar.cpp http.cpp \
   musicbrainz.cpp sha1.c signature.cpp \
   sigxdr.cpp sigclient.cpp sigfft.cpp \
-  rdfparse.c rdfextract.cpp uuid.cpp mp3.cpp
+  rdfparse.c rdfextract.cpp uuid.cpp mp3.cpp md5.c
 nodist_libmusicbrainz_la_SOURCES = mb.cpp
 
 # Here are a set of rules to help you update your library version information:
@@ -53,6 +53,6 @@ noinst_HEADERS = \
   audiosig.h base64.h comhttpsocket.h comsocket.h \
   diskid.h haar.h http.h parse.h \
   sha1.h sigfft.h sigclient.h sigcomplex.h sigxdr.h \
-  rdfparse.h rdfextract.h types.h trm.h uuid.h mp3.h
+  rdfparse.h rdfextract.h types.h trm.h uuid.h mp3.h md5.h
 
 EXTRA_DIST = wincomsocket.cpp wincomsocket.h apsmetadata.h apsutility.h

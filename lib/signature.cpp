@@ -51,6 +51,8 @@ char silenceTRM[] = { 0x7d, 0x15, 0x4f, 0x52, 0xb5, 0x36, 0x4f, 0xae,
 TRM::TRM(void)
 {
     m_downmixBuffer = NULL;
+    m_proxyUID = "";
+    m_proxyPWD = "";
     m_storeBuffer = NULL;
     m_proxy = "";
     m_proxyPort = 80;
@@ -74,6 +76,14 @@ bool TRM::SetProxy(const string &proxyAddr, short proxyPort)
 {
     m_proxy = proxyAddr;
     m_proxyPort = proxyPort;
+
+    return true;
+}
+
+bool TRM::SetProxyCreds(const string &proxyUID, const string &proxyPWD)
+{
+    m_proxyUID = proxyUID;
+    m_proxyPWD = proxyPWD;
 
     return true;
 }

@@ -78,6 +78,15 @@ int mb_SetProxy(musicbrainz_t o,char *proxyAddr, short proxyPort)
     return (int)obj->SetProxy(addr, proxyPort);
 }
 
+int mb_SetProxyCreds(musicbrainz_t o, char *username, char *password)
+{
+    MusicBrainz *obj = (MusicBrainz *)o;
+    if (o == NULL)
+       return 0;
+
+    return (int)obj->SetProxyCreds(username, password);
+}
+
 int mb_Authenticate(musicbrainz_t o, char *userName, char *password)
 {
     MusicBrainz *obj = (MusicBrainz *)o;
@@ -450,6 +459,20 @@ int trm_SetProxy(trm_t o,char *proxyAddr, short proxyPort)
     if (proxyAddr)
         addr = proxyAddr;
     return (int)obj->SetProxy(addr, proxyPort);
+}
+
+int trm_SetProxyCreds(trm_t o, char *proxyUID, char *proxyPWD)
+{
+    TRM *obj = (TRM *) o;
+    if (o == NULL)
+        return 0;
+
+    string uid = "", pwd = "";
+    if (proxyUID)
+        uid = proxyUID;
+    if (proxyPWD)
+        pwd = proxyPWD;
+    return (int)obj->SetProxyCreds(uid, pwd);
 }
 
 int trm_SetPCMDataInfo(trm_t o, int samplesPerSecond, int numChannels,

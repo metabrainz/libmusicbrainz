@@ -64,6 +64,9 @@ typedef enum _Error
     kError_ReadFile             = 58,
     kError_InvalidVersion       = 59,
     kError_Timeout              = 60,
+    kError_InvalidProxyCreds    = 61,
+    kError_ProxyAuthRequired    = 62,
+    kError_UnknownProxyAuth     = 63,
     kError_LastError            = 9999
 } Error;
 

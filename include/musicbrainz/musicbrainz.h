@@ -53,7 +53,8 @@ class MusicBrainz
                                          short serverPort);
        EXPORT bool     SetProxy         (const string &proxyAddr, 
                                          short proxyPort);
-
+       EXPORT bool     SetProxyCreds    (const string &proxyUsername, 
+                                         const string &proxyPassword);
        EXPORT bool     Authenticate     (const string &userName,
                                          const string &password);
 
@@ -115,7 +116,7 @@ class MusicBrainz
 
        vector<string>  m_contextHistory;
        string          m_error, m_empty; 
-       string          m_server, m_proxy;
+       string          m_server, m_proxy, m_proxyUid, m_proxyPwd;
        string          m_sessionKey, m_sessionId, m_versionString;
        short           m_serverPort, m_proxyPort;
        string          m_device, m_currentURI, m_baseURI, m_response; 

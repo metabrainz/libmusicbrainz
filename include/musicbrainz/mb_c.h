@@ -108,6 +108,16 @@ void       mb_SetDebug         (musicbrainz_t o, int debug);
  */
 int       mb_SetProxy          (musicbrainz_t o, char *serverAddr, 
                                 short serverPort);
+
+/**
+ * Set the username and password for authorization with the HTTP Proxy.
+ * @see mb_SetProxy
+ * @param o the musicbrainz_t object returns from mb_New()
+ * @param username the username
+ * @param password the password
+ */
+int       mb_SetProxyCreds     (musicbrainz_t o, char *username,
+                                char *password);
 #ifdef WIN32
 /**
  * WINDOWS ONLY: This function must be called to initialize the WinSock
@@ -486,6 +496,15 @@ void  trm_Delete              (trm_t o);
  * @return 1 on success, 0 on failure
  */
 int   trm_SetProxy            (trm_t o, char *proxyAddr, short proxyPort);
+
+/**
+ * Called to set the credentials used for the proxy server.
+ * @param o the trm_t object returned by trm_New()
+ * @param proxyUID the username
+ * @param proxyPWD the password
+ * @return 1 on success, 0 on failure
+ */
+int   trm_SetProxyCreds      (trm_t o, char *proxyUID, char *proxyPWD);
 
 /**
  * Called to set the type of audio being sent to be signatured.

@@ -153,6 +153,9 @@ int SigClient::GetSignature(AudioSig *sig, string &strGUID,
 
     delete [] pBuffer;
     delete [] pBlank;
+        if (!m_strProxyUID.empty()) {
+            m_pSocket->SetProxyCreds(m_strProxyUID, m_strProxyPWD);
+        }
     delete [] sigencode;
 
     return ret;
