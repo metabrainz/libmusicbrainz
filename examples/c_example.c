@@ -44,9 +44,9 @@ int main(void)
     // as appropriate
     //mb_SetProxy("proxy.mydomain.com", 80);
 
-    // Execute the MB_GetCDInfo query, which pull the TOC from the
-    // audio CD in the cd-rom drive, calculate the disk id and the
-    // request the data from the server
+    // Execute the MB_GetCDInfo query, which pulls the TOC from the
+    // audio CD in the cd-rom drive, calculates the disk id and
+    // requests the CD info from the server
     ret = mb_Query(o, MBQ_GetCDInfo);
     if (!ret)
     {

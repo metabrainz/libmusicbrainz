@@ -29,11 +29,11 @@ int main(int argc, char *argv[])
 {
     musicbrainz_t o;
     char          error[256], data[256], temp[256], *args[2];
-    int           ret, numArtists, numAlbums, i, j;
+    int           ret, numTracks, trackNum, i;
 
     if (argc < 2)
     {
-        printf("Usage: findartist <artist name>\n");
+        printf("Usage: gettrack <trackid>\n");
         exit(0);
     }
 
@@ -44,7 +44,7 @@ int main(int argc, char *argv[])
     mb_UseUTF8(o, 0);
 
     // Tell the server to only return 2 levels of data
-    mb_SetDepth(o, 2);
+    mb_SetDepth(o, 4);
 
     // Set the server you want to use. Defaults to www.musicbrainz.org:80
     //mb_SetServer(o, "www.musicbrainz.org", 80);
@@ -53,8 +53,8 @@ int main(int argc, char *argv[])
     args[0] = argv[1];
     args[1] = NULL;
 
-    // Execute the MB_FindArtistByName query
-    ret = mb_QueryWithArgs(o, MBQ_FindArtistByName, args);
+    // Execute the MB_GetTrackById query
+    ret = mb_QueryWithArgs(o, MBQ_GetTrackById, args);
     if (!ret)
     {
         mb_GetQueryError(o, error, 256);
@@ -64,54 +64,49 @@ int main(int argc, char *argv[])
     }
 
     // Check to see how many items were returned from the server
-    numArtists = mb_GetResultInt(o, MBE_GetNumArtists);
-    if (numArtists < 1)
+    numTracks = mb_GetResultInt(o, MBE_GetNumTracks);
+    if (numTracks < 1)
     {
-        printf("No artists found.\n");
+        printf("Tracks not found.\n");
         mb_Delete(o);
         return 0;
     }  
-    printf("Found %d artists.\n\n", numArtists);
 
-    for(i = 1; i <= numArtists; i++)
-    {
-        // Start at the top of the query and work our way down
-        mb_Select(o, MBS_Rewind);  
+    // Select the first track
+    mb_Select1(o, MBS_SelectTrack, 1);  
 
-        // Select the ith artist
-        mb_Select1(o, MBS_SelectArtist, i);  
+    // Extract the track name
+    mb_GetResultData(o, MBE_TrackGetTrackName, data, 256);
+    printf("     Track: '%s'\n", data);
 
-        // Extract the artist name from the ith track
-        mb_GetResultData(o, MBE_ArtistGetArtistName, data, 256);
-        printf("    Artist: '%s'\n", data);
+    // Extract the track id
+    mb_GetResultData(o, MBE_TrackGetTrackId, data, 256);
+    mb_GetIDFromURL(o, data, temp, 256);
+    printf("   TrackId: '%s'\n", temp);
 
-        // Extract the artist id from the ith track
-        mb_GetResultData(o, MBE_ArtistGetArtistId, data, 256);
-        mb_GetIDFromURL(o, data, temp, 256);
-        printf("  ArtistId: '%s'\n", temp);
+    // Extract the track number
+    trackNum = mb_GetResultInt(o, MBE_TrackGetTrackNum);
+    printf("  TrackNum: %d\n", trackNum);
 
-        // Extract the number of albums 
-        numAlbums = mb_GetResultInt(o, MBE_GetNumAlbums);
-        printf("Num Albums: %d\n", numAlbums);
+    // Extract the artist name from the track
+    mb_GetResultData(o, MBE_TrackGetArtistName, data, 256);
+    printf("    Artist: '%s'\n", data);
 
-        for(j = 1; j <= numAlbums; j++)
-        {
-            // Select the jth album in the album list
-            mb_Select1(o, MBS_SelectAlbum, j);  
+    // Extract the artist id from the track
+    mb_GetResultData(o, MBE_TrackGetArtistId, data, 256);
+    mb_GetIDFromURL(o, data, temp, 256);
+    printf("  ArtistId: '%s'\n", temp);
 
-            // Extract the album name 
-            mb_GetResultData(o, MBE_AlbumGetAlbumName, data, 256);
-            printf("     Album: '%s'", data);
-            
-            mb_GetResultData(o, MBE_AlbumGetAlbumId, data, 256);
-            mb_GetIDFromURL(o, data, temp, 256);
-            printf(" (%s)\n", temp);
-        
-            // Back up one level and go back to the artist level 
-            mb_Select(o, MBS_Back);  
-        }
-        printf("\n");
-    }
+    // Extract the album name from the track. Just use the
+    // first album that this track appears on
+    mb_GetResultData1(o, MBE_TrackGetAlbumName, data, 256, 1);
+    printf("     Album: '%s'\n", temp);
+
+    // Extract the album id from the track. Just use the
+    // first album that this track appears on
+    mb_GetResultData1(o, MBE_TrackGetAlbumId, data, 256, 1);
+    mb_GetIDFromURL(o, data, temp, 256);
+    printf("   AlbumId: '%s'\n", temp);
 
     // and clean up the musicbrainz object
     mb_Delete(o);

@@ -32,7 +32,7 @@ int main(void)
     int         numTracks, trackNum;
  
     // Set the server you want to use. Defaults to www.musicbrainz.org:80
-    //o.SetServer(string("musicbrainz.eorbit.net"), 80);
+    //o.SetServer(string("www.musicbrainz.org"), 80);
 
     // If you need to use a proxy, uncomment/edit the following line
     // as appropriate
@@ -41,9 +41,9 @@ int main(void)
     // Tell the client library to return data in ISO8859-1 and not UTF-8
     o.UseUTF8(false);
 
-    // Execute the GetCDInfo query, which pull the TOC from the 
-    // audio CD in the cd-rom drive, calculate the disk id and the
-    // request the data from the server
+    // Execute the GetCDInfo query, which pulls the TOC from the 
+    // audio CD in the cd-rom drive, calculates the disk id and 
+    // requests the data from the server
     ret = o.Query(string(MBQ_GetCDInfo));
     if (!ret)
     {
