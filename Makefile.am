@@ -21,16 +21,8 @@
 #
 AUTOMAKE_OPTIONS = foreign
 
-SUBDIRS = expat lib examples
-
-SYM_LINKS = \
-	mb.cpp \
-	mb.h
-
-FEATHERS = $(filter-out $(SYM_LINKS), $(mbndex_SOURCES) $(DOCS) $(OTHERFILES))
-
-snapshot: $(FEATHERS)
-	tar -cf - $(FEATHERS) | gzip > $(PACKAGE)-$(VERSION).tar.gz
+SUBDIRS = @MAYBE_EXPAT@ osdep lib examples
+DIST_SUBDIRS = expat osdep lib examples debian perl python
 
 cvsclean: distclean
 	@echo "additonal cleanup for cvs commits"
@@ -38,17 +30,9 @@ cvsclean: distclean
 	rm -f mb.h cdi.cpp
 	rm -f $(PACKAGE)-$(VERSION).tar.gz
 
-install-data-local:
-	mkdir -p $(DESTDIR)$(includedir)/musicbrainz
-	mkdir -p $(DESTDIR)$(includedir)/musicbrainz/bitzi
-	$(INSTALL) -m 0644 $(srcdir)/lib/queries.h  $(DESTDIR)$(includedir)/musicbrainz
-	$(INSTALL) -m 0644 $(srcdir)/lib/errors.h $(DESTDIR)$(includedir)/musicbrainz
-	$(INSTALL) -m 0644 $(srcdir)/lib/mb_c.h $(DESTDIR)$(includedir)/musicbrainz
-	$(INSTALL) -m 0644 $(srcdir)/lib/musicbrainz.h $(DESTDIR)$(includedir)/musicbrainz
-	$(INSTALL) -m 0644 $(srcdir)/lib/browser.h $(DESTDIR)$(includedir)/musicbrainz
-	$(INSTALL) -m 0644 $(srcdir)/lib/bitprintinfo.h $(DESTDIR)$(includedir)/musicbrainz
-	$(INSTALL) -m 0644 $(srcdir)/lib/bitzi/bitcollider.h $(DESTDIR)$(includedir)/musicbrainz/bitzi
-	$(INSTALL) -m 0644 $(srcdir)/lib/bitzi/gui_win32.h $(DESTDIR)$(includedir)/musicbrainz/bitzi
-	$(INSTALL) -m 0644 $(srcdir)/lib/bitzi/list.h $(DESTDIR)$(includedir)/musicbrainz/bitzi
-	$(INSTALL) -m 0644 $(srcdir)/lib/bitzi/plugin.h $(DESTDIR)$(includedir)/musicbrainz/bitzi
-	$(INSTALL) -m 0644 $(srcdir)/libmusicbrainz.pc $(DESTDIR)$(libdir)/pkgconfig/libmusicbrainz.pc
+pcdir = $(libdir)/pkgconfig
+pc_DATA = libmusicbrainz.pc
+
+EXTRA_DIST = libmusicbrainz.pc.in 
+
+CLEANFILES = stamp-h
