@@ -1,7 +1,15 @@
-Changes for libmusicbrainz 2.2.0
+Changes for libmusicbrainz 2.1.1
 -------------------------------------
 
-   - For silent files, return the silence TRM
+   - Return special TRMs for special conditions for TRM generation:
+     c457a4a8-b342-4ec9-8f13-b6bd26c0e400  -- Sigserver busy and overloaded
+     f9809ab1-2b0f-4d78-8862-fb425ade8ab9  -- Source file is too short to calculate TRM
+     7d154f52-b536-4fae-b58b-0666826c2bac  -- File is slience
+
+   - If the TRM signature server becomes overloaded, it will now start
+     returning HTTP 503 error codes and the TRM generator will catch that
+     and return the Sigserver busy TRM shown above.
+
 
 Changes for libmusicbrainz 2.1.0
 -------------------------------------
