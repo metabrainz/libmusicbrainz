@@ -75,4 +75,7 @@ The following people have contributed to this program:
   Andreas Rottmann <a.rottmann@gmx.at>
   - Improve build system and debian support
 
+  Tim Van Holder <tim.van.holder@pandora.be>
+  - Supplied a patch to fix some compile issues under cygwin
+
 (please send change requests to rob@musicbrainz.org or maintainer)
