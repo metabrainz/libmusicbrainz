@@ -21,4 +21,4 @@
 #
 noinst_LTLIBRARIES = libxmlparse.la
 libxmlparse_la_SOURCES = hashtable.c hashtable.h xmlparse.c xmlparse.h
-INCLUDES = -I../xmltok -DXML_NS
+INCLUDES = -I$(srcdir)/../xmltok -DXML_NS

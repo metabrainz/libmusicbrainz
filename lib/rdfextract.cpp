@@ -27,8 +27,6 @@
 #include <list>
 #include "rdfextract.h"
 
-#include "debug.h"
-
 #undef DEBUG
 
 void statement_handler(void*           user_data,
