@@ -40,7 +40,12 @@ cvsclean: distclean
 
 install-data-local:
 	mkdir -p $(DESTDIR)$(includedir)/musicbrainz
+	mkdir -p $(DESTDIR)$(includedir)/musicbrainz/bitzi
 	$(INSTALL) -m 0644 $(srcdir)/lib/queries.h  $(DESTDIR)$(includedir)/musicbrainz
 	$(INSTALL) -m 0644 $(srcdir)/lib/errors.h $(DESTDIR)$(includedir)/musicbrainz
 	$(INSTALL) -m 0644 $(srcdir)/lib/mb_c.h $(DESTDIR)$(includedir)/musicbrainz
 	$(INSTALL) -m 0644 $(srcdir)/lib/musicbrainz.h $(DESTDIR)$(includedir)/musicbrainz
+	$(INSTALL) -m 0644 $(srcdir)/lib/bitzi/bitcollider.h $(DESTDIR)$(includedir)/musicbrainz/bitzi
+	$(INSTALL) -m 0644 $(srcdir)/lib/bitzi/gui_win32.h $(DESTDIR)$(includedir)/musicbrainz/bitzi
+	$(INSTALL) -m 0644 $(srcdir)/lib/bitzi/list.h $(DESTDIR)$(includedir)/musicbrainz/bitzi
+	$(INSTALL) -m 0644 $(srcdir)/lib/bitzi/plugin.h $(DESTDIR)$(includedir)/musicbrainz/bitzi

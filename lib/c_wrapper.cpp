@@ -28,6 +28,8 @@
 extern "C"
 {
 
+#include "bitprintinfo.h"
+
 musicbrainz_t mb_New(void)
 {
     return (musicbrainz_t)new MusicBrainz();
@@ -399,6 +401,16 @@ int mb_CalculateSha1(musicbrainz_t o, char *fileName, char sha1[41])
     strncpy(sha1, sha1_str.c_str(), 41);
 
     return (int)ret;
+}
+
+int mb_CalculateBitprint(musicbrainz_t o, char *fileName, BitprintInfo *info)
+{
+    MusicBrainz *obj = (MusicBrainz *)o;
+
+    if (o == NULL)
+        return 0;
+
+    return obj->CalculateBitprint(string(fileName), info);
 }
 
 trm_t trm_New(void)
