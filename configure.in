@@ -15,6 +15,7 @@ case "${host_cpu}-${host_os}" in
   *-openbsd*) os=openbsd ;;
   *-os2_emx*) os=os2 ;;
   *-solaris*) os=solaris ;;
+  *-qnx*)     os=qnx; LIBS='-lsocket' ;;
   *)          AC_MSG_RESULT([WARNING: unknown system]) ;;
 esac
 

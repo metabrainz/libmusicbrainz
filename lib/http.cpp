@@ -59,6 +59,10 @@
 #include "config.h"
 #endif
 
+#ifdef __QNX__
+#include <strings.h>
+#endif
+
 using namespace std;
 
 const unsigned short kHttpPort = 80;
