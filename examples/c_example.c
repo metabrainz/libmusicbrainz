@@ -30,7 +30,6 @@ int main(void)
     musicbrainz_t o;
     char          error[256], data[256];
     int           ret, numTracks, i;
-    char sha1[33];
 
     // Create the cdi object, which will be needed for subsequent calls
     o = mb_New();

@@ -29,7 +29,6 @@ int main(void)
     MusicBrainz    o;
     string         error, data;
     bool           ret;
-    int            numTracks;
     vector<string> args;
 
     // Set the server you want to use. Defaults to www.musicbrainz.org:80

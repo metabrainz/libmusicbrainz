@@ -672,7 +672,8 @@ Error MBHttp::Recv(int hHandle, char *pBuffer, int iSize,
 {
     fd_set              sSet; 
     struct timeval      sTv;
-    int                 iRet, iCount;
+    int                 iRet;
+    unsigned int        iCount;
 
     iRead = 0;
     for(iCount = 0; !m_exit && iCount < iSleepCount; )
@@ -708,7 +709,8 @@ Error MBHttp::Send(int hHandle, char *pBuffer, int iSize,
 {
     fd_set              sSet; 
     struct timeval      sTv;
-    int                 iRet, iCount;
+    int                 iRet;
+    unsigned int        iCount;
 
     iRead = 0;
     for(iCount = 0; !m_exit && iCount < iSleepCount; )
@@ -764,7 +766,7 @@ int32 MBHttp::GetContentLengthFromHeader(const char* buffer)
 {
     int32 result = -1;
 
-    char* cp = strstr(buffer, "Content-Length:");
+    const char* cp = strstr(buffer, "Content-Length:");
     if(cp)
     {
         cp += strlen("Content-Length:") + 1;
