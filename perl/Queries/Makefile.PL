@@ -33,7 +33,7 @@ WriteMakefile(
        AUTHOR     => 'Sander van Zoest <svanzoest@cpan.org>') : ()),
     'LIBS'		=> [''], # e.g., '-lm'
     'DEFINE'		=> '', # e.g., '-DHAVE_SOMETHING'
-    'CCFLAGS'           => '-Wall',
+    'CCFLAGS'           => '',
     'INC'		=> '-I/usr/local/include -I.', # e.g., '-I. -I/usr/include/other'
     'dist'              => {
         COMPRESS        => 'gzip -9f',
