@@ -8,6 +8,10 @@ Changes for libmusicbrainz 2.1.0
      smaller and the mp3 duration checking faster.
    - Due to the bitzi code being removed, the SHA1 and Bitprint
      related functions have been removed.
+   - Added query items for Release Dates/Countries, Amazon Asins and Amazon cover art URLs
+   - Move include files into include/musicbrainz so that the example
+     files will compile outside of the libmusicbrainz client 
+     source tree.
 
 Changes for libmusicbrainz 2.0.2
 -------------------------------------

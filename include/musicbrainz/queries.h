@@ -117,6 +117,13 @@
         "http://musicbrainz.org/mm/mm-2.1#cdindexidList []"
 
 /**
+ * Use this Select Query to select a Release date/country from the list. 
+ * @param ordinal This select requires one ordinal argument
+ */
+#define MBS_SelectReleaseDate           \
+        "http://musicbrainz.org/mm/mm-2.1#releaseDateList []"
+
+/**
  * Use this Select Query to select a result from a lookupResultList.
  * This select will be used in conjunction with MBQ_FileLookup.
  * @param ordinal This select requires one ordinal argument
@@ -280,10 +287,28 @@
         "http://musicbrainz.org/mm/mm-2.1#releaseType"
 
 /**
+ * Return the amazon asin for the selected Album.
+ */
+#define MBE_AlbumGetAmazonAsin        \
+        "http://www.amazon.com/gp/aws/landing.html#Asin"
+
+/**
+ * Return the amazon cover art URL for the selected Album.
+ */
+#define MBE_AlbumGetAmazonCoverartURL        \
+        "http://musicbrainz.org/mm/mm-2.1#coverart"
+
+/**
  * Return the number of cdindexds returned in this query.
  */
 #define MBE_AlbumGetNumCdindexIds    \
         "http://musicbrainz.org/mm/mm-2.1#cdindexidList [COUNT]"
+
+/**
+ * Return the number of release dates returned in this query.
+ */
+#define MBE_AlbumGetNumReleaseDates    \
+        "http://musicbrainz.org/mm/mm-2.1#releaseDateList [COUNT]"
 
 /**
  * Return the Artist ID of the currently selected Album. This may return 
@@ -464,6 +489,23 @@
  */
 #define MBE_QuickGetTrackDuration       \
         "http://musicbrainz.org/mm/mm-2.1#duration"
+
+/* -------------------------------------------------------------------------
+ * Release date / country queries
+ * -------------------------------------------------------------------------
+ */
+
+/**
+ * Return the release date
+ */
+#define MBE_ReleaseGetDate       \
+        "http://purl.org/dc/elements/1.1/date"
+
+/**
+ * Return the release country
+ */
+#define MBE_ReleaseGetCountry       \
+        "http://musicbrainz.org/mm/mm-2.1#country"
 
 /* -------------------------------------------------------------------------
  * FileLookup queries

@@ -133,6 +133,35 @@ int main(int argc, char *argv[])
         }
     }
 
+    // Extract the amazon asin, if any
+    if (mb_GetResultData(o, MBE_AlbumGetAmazonAsin, data, 256))
+       printf("Amazon Asin: %s\n", data);
+
+    // Extract the amazon coverart, if any
+    if (mb_GetResultData(o, MBE_AlbumGetAmazonCoverartURL, data, 256))
+       printf("CoverartURL: %s\n", data);
+
+    int numDates = mb_GetResultInt(o, MBE_AlbumGetNumReleaseDates);
+    for(i = 1; i <= numDates; i++)
+    {
+        // Select the first release date
+        if (mb_Select1(o, MBS_SelectReleaseDate, i))
+        {
+            // Pull back the release date and release country
+            if (mb_GetResultData(o, MBE_ReleaseGetDate, data, 256))
+            {
+                printf("   Released: %s", data);
+            }  
+            if (mb_GetResultData(o, MBE_ReleaseGetCountry, data, 256))
+            {
+                printf(" (%s)", data);
+            }  
+            printf("\n");
+            mb_Select(o, MBS_Back);  
+        }
+        else
+            break;
+    }
     printf("\n");
 
     for(i = 1; i <= numTracks; i++)
