@@ -34,6 +34,9 @@ int main(void)
     // Create the cdi object, which will be needed for subsequent calls
     o = mb_New();
 
+    // Tell the client library to return data in ISO8859-1 and not UTF-8
+    mb_UseUTF8(o, 0);
+
     // Set the server you want to use. Defaults to www.musicbrainz.org:80
     //mb_SetServer(o, "musicbrainz.eorbit.net", 80);
 

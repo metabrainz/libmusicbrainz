@@ -117,12 +117,12 @@ int MBParse::GetErrorLine(void)
 
 const string ConvertToISO(const char *utf8)
 {
-   unsigned char *in;
+   unsigned char *in, *buf;
    unsigned char *out, *end;
    string               ret;
 
    in = (unsigned char *)utf8;
-   out = new unsigned char[strlen(utf8) + 1];
+   buf = out = new unsigned char[strlen(utf8) + 1];
    end = in + strlen(utf8);
    for(;*in != 0x00 && in <= end; in++, out++)
    {
@@ -138,11 +138,12 @@ const string ConvertToISO(const char *utf8)
        else
        if (*in & 0xC0)
        { /* parse upper 7-bits */
-          in++;
-          if (in <= end)
+          if (in >= end)
             *out = 0;
           else
-            *out = (*in) & 0x3F + 0x80;
+          {
+            *out = (((*in) & 0x1F) << 6) | (0x3F & (*(++in))); 
+          }
        }
        else
        {
@@ -150,10 +151,8 @@ const string ConvertToISO(const char *utf8)
        }
    }
    *out = 0x00; /* append null */
-
-   ret = string((char *)out);
-
-   delete out;
+   ret = string((char *)buf);
+   delete buf;
 
    return ret;
 }
