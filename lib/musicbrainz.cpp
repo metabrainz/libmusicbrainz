@@ -370,15 +370,26 @@ bool MusicBrainz::GetResultRDF(string &RDFObject)
 
     RDFObject = m_xmlList[m_xmlIndex];
 
-    return false;
+    return true;
 }
 
-void MusicBrainz::SetResultRDF(string &rdf)
+bool MusicBrainz::SetResultRDF(string &rdf)
 {
-    m_xmlList.clear();
-    m_xmlIndex = 0;
+    int ret;
 
-    m_xmlList[m_xmlIndex] = rdf;
+    if (m_xql)
+       delete m_xql;
+
+    m_xql = new XQL();
+    ret = m_xql->ParseString(rdf);
+    if (!IsError(ret))
+    {
+        m_xmlList.clear();
+        m_xmlIndex = 0;
+        m_xmlList[m_xmlIndex] = rdf;
+        return true;
+    }
+    return false;
 }
 
 int MusicBrainz::GetNumXMLResults(void)
