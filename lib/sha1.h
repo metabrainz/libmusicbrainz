@@ -12,21 +12,21 @@
 #include <stdio.h>
 
 /* Useful defines & typedefs */
-typedef unsigned char BYTE;	/* 8-bit quantity */
-typedef unsigned long LONG;	/* 32-or-more-bit quantity */
+typedef unsigned char SHA_BYTE;	/* 8-bit quantity */
+typedef unsigned long SHA_LONG;	/* 32-or-more-bit quantity */
 
 #define SHA_BLOCKSIZE		64
 #define SHA_DIGESTSIZE		20
 
 typedef struct {
-    LONG digest[5];		/* message digest */
-    LONG count_lo, count_hi;	/* 64-bit bit count */
-    BYTE data[SHA_BLOCKSIZE];	/* SHA data buffer */
+    SHA_LONG digest[5];		/* message digest */
+    SHA_LONG count_lo, count_hi;	/* 64-bit bit count */
+    SHA_BYTE data[SHA_BLOCKSIZE];	/* SHA data buffer */
     int local;			/* unprocessed amount in data */
 } SHA_INFO;
 
 void sha_init(SHA_INFO *);
-void sha_update(SHA_INFO *, BYTE *, int);
+void sha_update(SHA_INFO *, SHA_BYTE *, int);
 void sha_final(unsigned char [20], SHA_INFO *);
 
 void sha_stream(unsigned char [20], SHA_INFO *, FILE *);
@@ -40,22 +40,22 @@ char *sha_version(void);
 
 
 #ifdef WORDS_BIGENDIAN
-#  if SIZEOF_LONG == 4
-#    define SHA_BYTE_ORDER  4321
-#  elif SIZEOF_LONG == 8
-#    define SHA_BYTE_ORDER  87654321
+#  if SIZEOF_SHA_LONG == 4
+#    define SHA_SHA_BYTE_ORDER  4321
+#  elif SIZEOF_SHA_LONG == 8
+#    define SHA_SHA_BYTE_ORDER  87654321
 #  endif
 #else
-#  if SIZEOF_LONG == 4
-#    define SHA_BYTE_ORDER  1234
-#  elif SIZEOF_LONG == 8
-#    define SHA_BYTE_ORDER  12345678
+#  if SIZEOF_SHA_LONG == 4
+#    define SHA_SHA_BYTE_ORDER  1234
+#  elif SIZEOF_SHA_LONG == 8
+#    define SHA_SHA_BYTE_ORDER  12345678
 #  endif
 #endif
 
 #else
 
-#define SHA_BYTE_ORDER 1234
+#define SHA_SHA_BYTE_ORDER 1234
 
 #endif
 

@@ -21,7 +21,9 @@ EXPORTS
    mb_GetResultRDF   
    mb_SetResultRDF   
    mb_GetResultRDFLen
-   mb_GetNumItems    
+   mb_GetNumItems 
+   mb_CalculateBitprint 
+     
    trm_New
    trm_Delete
    trm_SetProxy

@@ -43,7 +43,7 @@ RSC=rc.exe
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MT /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "MB_CLIENT_EXPORTS" /YX /FD /c
-# ADD CPP /nologo /MT /W3 /GX /O2 /I "..\osdep" /I ".." /I "..\expat\xmlparse" /I "..\expat\xmltok" /I "..\lib" /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "MB_CLIENT_EXPORTS" /D "NOMINMAX" /YX /FD /c
+# ADD CPP /nologo /MT /W3 /GX /O2 /I "..\osdep" /I ".." /I "..\expat\xmlparse" /I "..\expat\xmltok" /I "..\lib" /I "..\lib\bitzi" /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "MB_CLIENT_EXPORTS" /D "NOMINMAX" /YX /FD /c
 # ADD BASE MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD BASE RSC /l 0x409 /d "NDEBUG"
@@ -69,7 +69,7 @@ LINK32=link.exe
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MTd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "MB_CLIENT_EXPORTS" /YX /FD /GZ /c
-# ADD CPP /nologo /MTd /W3 /Gm /GX /ZI /Od /I "..\osdep" /I ".." /I "..\expat\xmlparse" /I "..\expat\xmltok" /I "..\lib" /D "_DEBUG" /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "MB_CLIENT_EXPORTS" /D "NOMINMAX" /YX /FD /GZ /c
+# ADD CPP /nologo /MTd /W3 /Gm /GX /ZI /Od /I "..\osdep" /I ".." /I "..\expat\xmlparse" /I "..\expat\xmltok" /I "..\lib" /I "..\lib\bitzi" /D "_DEBUG" /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "MB_CLIENT_EXPORTS" /D "NOMINMAX" /YX /FD /GZ /c
 # ADD BASE MTL /nologo /D "_DEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "_DEBUG" /mktyplib203 /win32
 # ADD BASE RSC /l 0x409 /d "_DEBUG"
@@ -136,7 +136,7 @@ SOURCE=..\lib\rdfgen.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\lib\sha_func.c
+SOURCE=..\lib\sha1.c
 # End Source File
 # Begin Source File
 
@@ -193,6 +193,34 @@ SOURCE=..\expat\xmltok\xmlrole.c
 # Begin Source File
 
 SOURCE=..\expat\xmltok\xmltok.c
+# End Source File
+# End Group
+# Begin Group "Bitzi Source Files"
+
+# PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=..\lib\bitzi\id3.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\lib\bitzi\main.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\lib\bitzi\mp3.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\lib\bitzi\sboxes.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\lib\bitzi\tiger.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\lib\bitzi\tigertree.c
 # End Source File
 # End Group
 # End Target
