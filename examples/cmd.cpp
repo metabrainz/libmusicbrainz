@@ -85,7 +85,7 @@ int main(void)
     string         xml, qarg, query, server;
     vector<string> args;
 
-    // Set the proper server to use. Defaults to www.musicbrainz.org:80
+    // Set the proper server to use. Defaults to mm.musicbrainz.org:80
     if (getenv("MB_SERVER"))
         o.SetServer(string(getenv("MB_SERVER")), 80);
 

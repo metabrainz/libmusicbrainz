@@ -30,11 +30,11 @@ int main(int argc, char *argv[])
     musicbrainz_t o;
     char          error[256], data[1024], temp[256], *args[4];
     char          *rdfdata;
-    int           ret, numArtists, numAlbums, i, j;
+    int           ret, numTracks, numAlbums, i, j;
 
-    if (argc < 2)
+    if (argc < 3)
     {
-        printf("Usage: findartist <artist name>\n");
+        printf("Usage: findtrack <artist name> <track name> [album name]\n");
         exit(0);
     }
 
@@ -47,16 +47,20 @@ int main(int argc, char *argv[])
     // Tell the server to only return 2 levels of data
     mb_SetDepth(o, 2);
 
-    // Set the server you want to use. Defaults to www.musicbrainz.org:80
-    mb_SetServer(o, "musicbrainz", 80);
+    // Tell the server to return max 10 items.
+    mb_SetMaxItems(o, 10);
+
+    // Set the proper server to use. Defaults to mm.musicbrainz.org:80
+    if (getenv("MB_SERVER"))
+          mb_SetServer(o, getenv("MB_SERVER"), 80);
 
     // Set up the args for the find artist query
-    args[0] = "";
-    args[1] = "";
-    args[2] = argv[1];
+    args[0] = argv[1];
+    args[1] = (argc == 4) ? argv[3] : ""; 
+    args[2] = argv[2];
     args[3] = NULL;
 
-    // Execute the MB_FindArtistByName query
+    // Execute the MB_FindTrackByName query
     ret = mb_QueryWithArgs(o, MBQ_FindTrackByName, args);
     if (!ret)
     {
@@ -69,33 +73,30 @@ int main(int argc, char *argv[])
     rdfdata = malloc(mb_GetResultRDFLen(o));
     mb_GetResultRDF(o, rdfdata, mb_GetResultRDFLen(o));
     
-    printf("%s", rdfdata);
-    
-/*    
     // Check to see how many items were returned from the server
-    numArtists = mb_GetResultInt(o, MBE_GetNumArtists);
-    if (numArtists < 1)
+    numTracks = mb_GetResultInt(o, MBE_GetNumTracks);
+    if (numTracks < 1)
     {
-        printf("No artists found.\n");
+        printf("No tracks found.\n");
         mb_Delete(o);
         return 0;
     }  
-    printf("Found %d artists.\n\n", numArtists);
+    printf("Found %d tracks.\n\n", numTracks);
 
-    for(i = 1; i <= numArtists; i++)
+    for(i = 1; i <= numTracks; i++)
     {
         // Start at the top of the query and work our way down
         mb_Select(o, MBS_Rewind);  
 
         // Select the ith artist
-        mb_Select1(o, MBS_SelectArtist, i);  
+        mb_Select1(o, MBS_SelectTrack, i);  
 
         // Extract the artist name from the ith track
-        mb_GetResultData(o, MBE_ArtistGetArtistName, data, 256);
+        mb_GetResultData(o, MBE_TrackGetArtistName, data, 256);
         printf("    Artist: '%s'\n", data);
 
         // Extract the artist id from the ith track
-        mb_GetResultData(o, MBE_ArtistGetArtistId, data, 256);
+        mb_GetResultData(o, MBE_TrackGetArtistId, data, 256);
         mb_GetIDFromURL(o, data, temp, 256);
         printf("  ArtistId: '%s'\n", temp);
 
@@ -121,7 +122,6 @@ int main(int argc, char *argv[])
         }
         printf("\n");
     }
-*/
 
     // and clean up the musicbrainz object
     mb_Delete(o);

@@ -32,12 +32,12 @@
 #include "http.h"
 #include "errors.h"
 #include "diskid.h"
+#include "rdfextract.h"
 
 extern "C"
 {
    #include "sha1.h"
    #include "base64.h"
-   #include "bitcollider.h"
 }
 
 const char *scriptUrl = "/cgi-bin/mq.pl";
@@ -70,6 +70,7 @@ MusicBrainz::MusicBrainz(void)
     m_useUTF8 = true;
     m_depth = 2;
     m_debug = false;
+    m_maxItems = 25;
 }
 
 MusicBrainz::~MusicBrainz(void)
@@ -176,6 +177,14 @@ bool MusicBrainz::Authenticate(const string &userName, const string &password)
 bool MusicBrainz::SetDepth(int depth)
 {
     m_depth = depth;
+    return true;
+}
+
+// Set the search ceiling for the maxiumum number of items to return
+// to the client. Defaults to 25.
+bool MusicBrainz::SetMaxItems(int maxItems)
+{
+    m_maxItems = maxItems;
     return true;
 }
 
@@ -322,6 +331,12 @@ bool MusicBrainz::Query(const string &rdfObject, vector<string> *args)
         {
             sprintf(port, "%d", m_depth);   
             rdf.replace(pos, 7, string(port));
+        }
+        pos = rdf.find("@MAX_ITEMS@", pos);
+        if (pos != string::npos)
+        {
+            sprintf(port, "%d", m_maxItems);   
+            rdf.replace(pos, 11, string(port));
         }
         url = rdf;
         rdf = string("");
@@ -647,6 +662,7 @@ void MusicBrainz::SubstituteArgs(string &rdf, vector<string> *args)
     ReplaceIntArg(rdf, "@DEPTH@", m_depth);
     ReplaceArg(rdf, "@SESSID@", m_sessionId);
     ReplaceArg(rdf, "@SESSKEY@", m_sessionKey);
+    ReplaceIntArg(rdf, "@MAX_ITEMS@", m_maxItems);
 }
 
 void MusicBrainz::ReplaceArg(string &rdf, const string &from, const string &to)
@@ -744,47 +760,3 @@ bool MusicBrainz::CalculateSha1(const string &fileName, string &sha1)
     return true;
 }
 
-// Calculate a Bitzi bitprint given a file. The
-// bitprint will be used in the musicbrainz metadata acceptance 
-// process. The completed bitzi bitprints will be submitted to the
-// Bitizi community metadatabase.
-bool MusicBrainz::CalculateBitprint(const string &fileName, BitprintInfo *info) 
-{
-    Bitcollider           *bc;
-    BitcolliderSubmission *sub;
-
-    bc = bitcollider_init(0);
-    if (!bc)
-        return false;
-
-    sub = create_submission(bc);
-    if (sub == NULL)
-       return false;
-
-    if (!analyze_file(sub, fileName.c_str(), false))
-       return false;
-
-    strncpy(info->filename, fileName.c_str(), 255);
-    strncpy(info->bitprint, get_attribute(sub, "bitprint"), MB_BITPRINTSIZE);
-    strncpy(info->first20, 
-            get_attribute(sub, "tag.file.first20"), MB_FIRST20SIZE);
-    info->length = atoi(get_attribute(sub, "tag.file.length"));
-
-    if (get_attribute(sub, "tag.mp3.audio_sha1"))
-    {
-        strncpy(info->audioSha1, 
-            get_attribute(sub, "tag.mp3.audio_sha1"), MB_SHA1SIZE);
-        info->duration = atoi(get_attribute(sub, "tag.mp3.duration"));
-        info->samplerate = atoi(get_attribute(sub, "tag.mp3.samplerate"));
-        info->bitrate = atoi(get_attribute(sub, "tag.mp3.bitrate"));
-        info->stereo = strcmp(get_attribute(sub, "tag.mp3.stereo"), "y") == 0;
-        if (get_attribute(sub, "tag.mp3.vbr"))
-           info->vbr = strcmp(get_attribute(sub, "tag.mp3.vbr"), "y") == 0;
-        else
-           info->vbr = 0;
-    }
-    delete_submission(sub);
-    bitcollider_shutdown(bc);
-
-    return true;
-}

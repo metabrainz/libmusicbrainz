@@ -29,7 +29,7 @@ int main(int argc, char *argv[])
 {
     musicbrainz_t o;
     int           ret;
-    char          error[256], data[256], *args[3];
+    char          error[256], *args[3];
 
     if (argc < 4)
     {
@@ -46,10 +46,10 @@ int main(int argc, char *argv[])
     // Tell the client library to print query and response info to stdout 
     mb_SetDebug(o, 0);
 
-    // Tell the server to return 4 levels of data
+    // Tell the server to return 3 levels of data
     mb_SetDepth(o, 3);
 
-    // Set the proper server to use. Defaults to www.musicbrainz.org:80
+    // Set the proper server to use. Defaults to mm.musicbrainz.org:80
     if (getenv("MB_SERVER"))
         mb_SetServer(o, getenv("MB_SERVER"), 80);
 

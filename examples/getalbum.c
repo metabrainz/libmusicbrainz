@@ -23,6 +23,7 @@
 ----------------------------------------------------------------------------*/
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "mb_c.h"
 
 int main(int argc, char *argv[])
@@ -33,7 +34,7 @@ int main(int argc, char *argv[])
 
     if (argc < 2)
     {
-        printf("Usage: getalbum <albumid>\n");
+        printf("Usage: getalbum <albumid> [depth]\n");
         exit(0);
     }
 
@@ -46,14 +47,18 @@ int main(int argc, char *argv[])
     // Tell the client library to print query and response info to stdout 
     mb_SetDebug(o, 1);
 
-    // Tell the server to return 4 levels of data
-    mb_SetDepth(o, 2);
+    // Set the proper search depth to use
+    if (argc == 3)
+        mb_SetDepth(o, atoi(argv[2]));
+    else
+        // Tell the server to return 1 level of data
+        mb_SetDepth(o, 4);
 
-    // Set the proper server to use. Defaults to www.musicbrainz.org:80
+    // Set the proper server to use. Defaults to mm.musicbrainz.org:80
     if (getenv("MB_SERVER"))
         mb_SetServer(o, getenv("MB_SERVER"), 80);
 
-    // Set up the args for the find artist query
+    // Set up the args for the find album query
     args[0] = argv[1];
     args[1] = NULL;
 

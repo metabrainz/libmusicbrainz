@@ -46,10 +46,10 @@ int main(int argc, char *argv[])
     // Tell the client library to print query and response info to stdout 
     mb_SetDebug(o, 1);
 
-    // Tell the server to return 4 levels of data
+    // Tell the server to return 3 levels of data
     mb_SetDepth(o, 3);
 
-    // Set the proper server to use. Defaults to www.musicbrainz.org:80
+    // Set the proper server to use. Defaults to mm.musicbrainz.org:80
     if (getenv("MB_SERVER"))
         mb_SetServer(o, getenv("MB_SERVER"), 80);
 
@@ -57,7 +57,7 @@ int main(int argc, char *argv[])
     args[0] = argv[1];
     args[1] = NULL;
 
-    // Execute the MB_GetTrackById query
+    // Execute the MBQ_QuickTrackInfoFromTRMId query
     ret = mb_QueryWithArgs(o, MBQ_QuickTrackInfoFromTRMId, args);
     if (!ret)
     {

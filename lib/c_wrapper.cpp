@@ -28,8 +28,6 @@
 extern "C"
 {
 
-#include "bitprintinfo.h"
-
 musicbrainz_t mb_New(void)
 {
     return (musicbrainz_t)new MusicBrainz();
@@ -105,6 +103,15 @@ void mb_SetDepth(musicbrainz_t o, int depth)
        return;
 
     obj->SetDepth(depth);
+}
+
+void mb_SetMaxItems(musicbrainz_t o, int maxItems)
+{
+    MusicBrainz *obj = (MusicBrainz *)o;
+    if (o == NULL)
+       return;
+
+    obj->SetDepth(maxItems);
 }
 
 void mb_UseUTF8(musicbrainz_t o, int useUTF8)
@@ -392,16 +399,6 @@ int mb_CalculateSha1(musicbrainz_t o, char *fileName, char sha1[41])
     strncpy(sha1, sha1_str.c_str(), 41);
 
     return (int)ret;
-}
-
-int mb_CalculateBitprint(musicbrainz_t o, char *fileName, BitprintInfo *info)
-{
-    MusicBrainz *obj = (MusicBrainz *)o;
-
-    if (o == NULL)
-       return 0;
-
-    return obj->CalculateBitprint(string(fileName), info);
 }
 
 trm_t trm_New(void)
