@@ -43,7 +43,7 @@ int main(void)
     // Execute the GetCDInfo query, which pull the TOC from the 
     // audio CD in the cd-rom drive, calculate the disk id and the
     // request the data from the server
-    ret = o.Query(string(GetLyricsById), &args);
+    ret = o.Query(string(MB_GetLyricsById), &args);
     if (!ret)
     {
          o.GetQueryError(error);
@@ -59,33 +59,33 @@ int main(void)
     }
 
     // Now start the data extraction process.
-    o.Select(SelectTrackInfo);
+    o.Select(MB_SelectTrackInfo);
 
     // Print out the artist and then print the title of this track
-    printf("Artist: '%s'\n", o.Data(GetArtistName).c_str());
-    printf("Title: '%s'\n", o.Data(GetTrackName).c_str());
+    printf("Artist: '%s'\n", o.Data(MB_GetArtistName).c_str());
+    printf("Title: '%s'\n", o.Data(MB_GetTrackName).c_str());
 
     // Now select the lyric information
-    o.Select(SelectLyricInfo);
+    o.Select(MB_SelectLyricInfo);
 
     // Now get and print the title of the cd
-    printf("Submitted By: '%s'\n", o.Data(GetLyricSubmittor).c_str());
-    printf("Submitted Date: '%s'\n", o.Data(GetLyricSubmitDate).c_str());
-    printf("Submitted Type: '%s'\n", o.Data(GetLyricType).c_str());
+    printf("Submitted By: '%s'\n", o.Data(MB_GetLyricSubmittor).c_str());
+    printf("Submitted Date: '%s'\n", o.Data(MB_GetLyricSubmitDate).c_str());
+    printf("Submitted Type: '%s'\n", o.Data(MB_GetLyricType).c_str());
 
     // Now select the first sync event data item
-    o.Select(SelectFirstSyncEvent);
+    o.Select(MB_SelectFirstSyncEvent);
     while(1)
     {
-         if (!o.DoesResultExist(GetLyricText))
+         if (!o.DoesResultExist(MB_GetLyricText))
             break;
 
          printf("@ %d: '%s'\n", 
-             o.DataInt(GetLyricTimestamp),
-             o.Data(GetLyricText).c_str());
+             o.DataInt(MB_GetLyricTimestamp),
+             o.Data(MB_GetLyricText).c_str());
 
          // Now move on to the next track
-         o.Select(SelectNextSyncEvent);
+         o.Select(MB_SelectNextSyncEvent);
     }
     return 0;
 }

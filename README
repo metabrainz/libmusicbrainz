@@ -1,5 +1,12 @@
 MusicBrainz Client Library
 --------------------------
 
-[this file is still incomplete]
+Compiling the Client Library Under Window using Visual C++ 6.0:
+===============================================================
+
+Due to numerous bugs/mistakes in microsofts implementation of the STL,
+we switched to using the SGI STL for windows builds.
+
+You can get a MSVC compatible copy here:
+    http://www.sirius.com/~ouchida/
 
