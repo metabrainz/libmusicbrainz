@@ -58,6 +58,16 @@ musicbrainz_t mb_New           (void);
 void      mb_Delete            (musicbrainz_t o);
 
 /**
+ * Get the version number of this library
+ * @param o the musicbrainz_t object returned from mb_New
+ * @param major an int pointer that will receive the major number of the version
+ * @param minor an int pointer that will receive the minor number
+ * @param rev   an int pointer that will receive the rev number
+ */
+void      mb_GetVersion        (musicbrainz_t o, int *major, int *minor,
+                                int *rev);
+
+/**
  * Set the name and the port of the MusicBrainz server to use. If this
  * function is not called, the default www.musicbrainz.org server on port
  * 80 will be used.

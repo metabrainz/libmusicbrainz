@@ -5,6 +5,7 @@ EXPORTS
    ; Functions for the queries against a MusicBrainz server  
    mb_New 
    mb_Delete            
+   mb_GetVersion         
    mb_SetServer         
    mb_SetProxy     
    mb_SetDebug
