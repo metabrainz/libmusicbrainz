@@ -119,13 +119,13 @@ AC_PROTOTYPE(accept,
 AC_PROTOTYPE_ACCEPT
 
 dnl Checks for library functions.
-AC_CHECK_LIB(ogg, ogg_stream_flush,[AC_DEFINE(HAVE_OGG)],[],)
-AC_CHECK_LIB(vorbis, vorbis_synthesis_init,[AC_DEFINE(HAVE_VORBIS)],[],)
-AC_CHECK_LIB(vorbisfile, ov_open,
-   [ AC_DEFINE(HAVE_VORBISFILE) 
-     VMM="vmm"
-     AC_SUBST(VMM)
-   ],[],-lvorbis)
+dnl AC_CHECK_LIB(ogg, ogg_stream_flush,[AC_DEFINE(HAVE_OGG)],[],)
+dnl AC_CHECK_LIB(vorbis, vorbis_synthesis_init,[AC_DEFINE(HAVE_VORBIS)],[],)
+dnl AC_CHECK_LIB(vorbisfile, ov_open,
+dnl    [ AC_DEFINE(HAVE_VORBISFILE) 
+dnl      VMM="vmm"
+dnl      AC_SUBST(VMM)
+dnl    ],[],-lvorbis)
 
 AC_DEFINE_UNQUOTED(PREFIX, "${prefix}")
 AC_OUTPUT(Makefile lib/Makefile lib/bitzi/Makefile expat/Makefile expat/xmltok/Makefile expat/xmlparse/Makefile examples/Makefile, echo timestamp > stamp-h)
