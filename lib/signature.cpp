@@ -137,8 +137,6 @@ void TRM::DownmixPCM(void)
                rsum += rsample;
                numsamps++;
            }
-           if(!numsamps)
-              return;
            lDC = -(lsum / numsamps);
            rDC = -(rsum / numsamps);
 
@@ -159,9 +157,6 @@ void TRM::DownmixPCM(void)
                lsum += lsample;
                numsamps++;
            }
-
-           if(!numsamps)
-              return;
 
            lDC = -(lsum / numsamps);
  
@@ -184,9 +179,6 @@ void TRM::DownmixPCM(void)
                numsamps++;
            }
 
-           if(!numsamps)
-              return;
-
            lDC = -(lsum / numsamps);
            rDC = -(rsum / numsamps);
 
@@ -207,9 +199,6 @@ void TRM::DownmixPCM(void)
                lsum += lsample;
                numsamps++;
            }
-
-           if(!numsamps)
-              return;
 
            lDC = -(lsum / numsamps);
 
@@ -350,6 +339,9 @@ int TRM::CountBeats(void)
 
 void TRM::GenerateSignatureNow(string &strGUID, string &collID)
 {
+    if (m_numBytesWritten < 2)
+        return;
+
     DownmixPCM();
 
 #ifdef TRM_DEBUG
