@@ -63,6 +63,7 @@ typedef enum _Error
     kError_WriteFile            = 57,
     kError_ReadFile             = 58,
     kError_InvalidVersion       = 59,
+    kError_Timeout              = 60,
     kError_LastError            = 9999
 } Error;
 
