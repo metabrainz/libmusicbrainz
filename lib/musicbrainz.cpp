@@ -260,7 +260,6 @@ const string &MusicBrainz::Data(const string &resultName, int Index)
     string query;
 
     query = m_selectQuery + string("/") + resultName;
-    //printf("Query: '%s'\n", query.c_str());
     if (!m_xql)
     {
        m_error = string("The server returned no valid data");
