@@ -24,7 +24,7 @@
 #ifndef _QUERIES_H_
 #define _QUERIES_H_
 
-#define MUSICBRAINZ_VERSION "musicbrainz_client/1.0.0-pre1"
+#define MUSICBRAINZ_VERSION "musicbrainz_client/1.0.0-pre2"
 
 // local query names
 #define MB_GetCDInfo              "@CDINFO@"
