@@ -335,12 +335,12 @@ Error MBHttp::Download(const string &url, const string &xml, bool fileDownload)
             const char* kHTTPQuery;
 
             if (xml.length() == 0)
-                kHTTPQuery = "GET %s HTTP/1.1\r\n"
+                kHTTPQuery = "GET %s HTTP/1.0\r\n"
                              "Host: %s\r\n"
                              "Accept: */*\r\n" 
                              "User-Agent: libmusicbrainz/%s\r\n";
             else
-                kHTTPQuery = "POST %s HTTP/1.1\r\n"
+                kHTTPQuery = "POST %s HTTP/1.0\r\n"
                              "Host: %s\r\n"
                              "Accept: */*\r\n" 
                              "User-Agent: libmusicbrainz/%s\r\n"
