@@ -5,3 +5,4 @@ MusicBrainz Client Library TODO List:
    It still needs to be compiled and tested under:
      
        Win32/cygwin, FreeBSD, IRIX, NetBSD, OpenBSD, OS/2, Solaris
+
