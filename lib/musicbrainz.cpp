@@ -185,6 +185,7 @@ bool MusicBrainz::Query(const string &xmlObject, vector<string> *args)
     }
 
     m_xql = new XQL();
+    m_xmlIndex = 0;
     ret = m_xql->ParseString(m_xmlList[0]);
     if (IsError(ret))
     {
@@ -239,8 +240,6 @@ bool MusicBrainz::Query(const string &xmlObject, vector<string> *args)
         }
         m_xmlIndex = 1;
     }
-    else
-        m_xmlIndex = 0;
 
     return true;
 }
