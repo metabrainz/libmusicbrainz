@@ -1,6 +1,7 @@
 Changes from version 1.0.0 to version 1.0.1
 -------------------------------------------
 
+   - Added support for setting the depth of a query via GET methods.
    - Added SetDebug() function that allows the caller to set the
      debug mode. In debug mode the library will print the server
      URL, query and responses to stdout.

@@ -515,34 +515,34 @@
  * Retrieve an artistList from a given Artist id 
  */
 #define MBQ_GetArtistById \
-    "http://@URL@/artist/@1@?depth=@DEPTH@" 
+    "http://@URL@/artist/@1@/@DEPTH@" 
 
 /** 
  * Retrieve an albumList from a given Album id 
  */
 #define MBQ_GetAlbumById \
-    "http://@URL@/album/@1@?depth=@DEPTH@" 
+    "http://@URL@/album/@1@/@DEPTH@" 
 
 /** 
  * Retrieve an trackList from a given Track id 
  */
 #define MBQ_GetTrackById \
-    "http://@URL@/track/@1@?depth=@DEPTH@" 
+    "http://@URL@/track/@1@/@DEPTH@" 
 
 /** 
  * Retrieve an trackList from a given TRM Id 
  */
 #define MBQ_GetTrackByTRMId \
-    "http://@URL@/trmid/@1@?depth=@DEPTH@" 
+    "http://@URL@/trmid/@1@/@DEPTH@" 
 
 /** 
  * Retrieve an lyricList from a given Track Id
  */
 #define MBQ_GetSyncTextById \
-    "http://@URL@/synctext/@1@?depth=@DEPTH@" 
+    "http://@URL@/synctext/@1@/@DEPTH@" 
 
 /**
- * Do a Metadata exchange with the MusicBrainz server. The user
+ * Do a full Metadata exchange with the MusicBrainz server. The user
  * must fill out as many of the fields as possible. All of the
  * fields but fileName, issued, genre, description are required.
  * If not all required fields are present, the server will not
@@ -591,6 +591,43 @@
     "   <mm:channels>@17@</mm:channels>\n" \
     "   <mm:vbr>@18@</mm:vbr>\n" \
     "</mq:ExchangeMetadata>\n" 
+
+/**
+ * Do a lite (without Bitzi data) Metadata exchange with the MusicBrainz 
+ * server. The user  must fill out as many of the fields as possible. All 
+ * of the
+ * fields but fileName, issued, genre, description are required.
+ * If not all required fields are present, the server will not
+ * accept the metadata into its Pending Table. However, the
+ * server will attempt to look up any known information about
+ * the track from the TRM ID, and return this data to the
+ * user. The user may extract the information returned by the
+ * server by using the MBE_MEXXXXXXX functions.
+ * @param artistName The name of the artist for the given track. 
+ * @param albumName The name of the album for the given track.
+ * @param trackName The name of the track.
+ * @param trmid The TRM Id of the track.
+ * @param fileName The complete filename of the track.
+ * @param issued The year the track was released
+ * @param genre The genre that this track is classified as.
+ * @param description A description associated with this track.
+ * @param duration The length of the track in milliseconds.
+ * @param sha1 The sha1 hash value calculated for the entire file
+ */
+#define MBQ_ExchangeMetadataLite \
+    "<mq:ExchangeMetadataLite>\n" \
+    "   <mq:artistName>@1@</mq:artistName>\n" \
+    "   <mq:albumName>@2@</mq:albumName>\n" \
+    "   <mq:trackName>@3@</mq:trackName>\n" \
+    "   <mm:trackNum>@4@</mm:trackNum>\n" \
+    "   <mm:trmid>@5@</mm:trmid>\n" \
+    "   <mm:fileName>@6@</mm:fileName>\n" \
+    "   <mm:issued>@7@</mm:issued>\n" \
+    "   <mm:genre>@8@</mm:genre>\n" \
+    "   <dc:description>@9@</dc:description>\n" \
+    "   <mm:sha1>@10@</mm:sha1>\n" \
+    "   <mm:duration>@11@</mm:duration>\n" \
+    "</mq:ExchangeMetadataLite>\n" 
 
 /**
  * Look up a track using only a TRM ID. This query returns the same
