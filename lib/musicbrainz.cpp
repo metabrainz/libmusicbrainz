@@ -112,7 +112,7 @@ bool MusicBrainz::GetWebSubmitURL(string &url)
 
 bool MusicBrainz::Query(const string &xmlObject, vector<string> *args)
 {
-    Http   http;
+    MBHttp   http;
     char   port[20];
     string xml = xmlObject, url, retXml, firstXml, secondXml, value;
     Error  ret;

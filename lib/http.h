@@ -30,13 +30,13 @@
 
 using namespace std;
 
-class Http
+class MBHttp
 {
 
     public:
      
-               Http(void);
-      virtual ~Http(void);
+               MBHttp(void);
+      virtual ~MBHttp(void);
 
       Error        DownloadToFile(const string &url, 
                                   const string &xml,
