@@ -41,9 +41,6 @@
 #include <sys/socket.h>
 #include <netdb.h>
 #include <unistd.h>
-#endif
-
-#if defined(unix) || defined(__BEOS__)
 #define SOCKET int
 #define closesocket(x) close(x)
 #include <arpa/inet.h>

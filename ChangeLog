@@ -1,6 +1,12 @@
 Changes from version 1.0.0 to version 1.0.1
 -------------------------------------------
 
+   - Fixed an OpenBSD 3.0 compile problem
+   - Updated libtool version to 1.4.2 in hopes to get it to build on OSX.
+
+Changes from version 1.0.0 to version 1.0.1
+-------------------------------------------
+
    - Fixed the multi drive support under windows.
    - Added support for setting the depth of a query via GET methods.
    - Added SetDebug() function that allows the caller to set the
