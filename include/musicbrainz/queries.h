@@ -124,6 +124,27 @@
 #define MBS_SelectLookupResult            \
         "http://musicbrainz.org/mm/mq-1.1#lookupResultList []"
 
+/**
+ * Use this Select Query to select the artist from a lookup result.
+ * This select will be used in conjunction with MBQ_FileLookup.
+ */
+#define MBS_SelectLookupResultArtist            \
+        "http://musicbrainz.org/mm/mq-1.1#artist"
+
+/**
+ * Use this Select Query to select the album from a lookup result.
+ * This select will be used in conjunction with MBQ_FileLookup.
+ */
+#define MBS_SelectLookupResultAlbum            \
+        "http://musicbrainz.org/mm/mq-1.1#album"
+
+/**
+ * Use this Select Query to select the track from a lookup result.
+ * This select will be used in conjunction with MBQ_FileLookup.
+ */
+#define MBS_SelectLookupResultTrack            \
+        "http://musicbrainz.org/mm/mq-1.1#track"
+
 /* -------------------------------------------------------------------------
  * General top level queries -- Internal use only.
  * -------------------------------------------------------------------------
@@ -259,6 +280,12 @@
         "http://musicbrainz.org/mm/mm-2.1#releaseType"
 
 /**
+ * Return the number of cdindexds returned in this query.
+ */
+#define MBE_AlbumGetNumCdindexIds    \
+        "http://musicbrainz.org/mm/mm-2.1#cdindexidList [COUNT]"
+
+/**
  * Return the Artist ID of the currently selected Album. This may return 
  * the artist id for the Various Artists' artist, and then you should 
  * check the artist for each track of the album seperately with MBE_AlbumGetArtistName,
@@ -386,7 +413,7 @@
         "http://purl.org/dc/elements/1.1/creator"
 
 /* -------------------------------------------------------------------------
- * Quick track/trm queries
+ * Quick track queries
  * -------------------------------------------------------------------------
  */
 
@@ -436,6 +463,30 @@
  */
 #define MBE_LookupGetType      \
         "http://www.w3.org/1999/02/22-rdf-syntax-ns#type"
+
+/**
+ * Return the relevance of the lookup result
+ */
+#define MBE_LookupGetRelevance      \
+        "http://musicbrainz.org/mm/mq-1.1#relevance"
+
+/**
+ * Return the artist id of the lookup result
+ */
+#define MBE_LookupGetArtistId      \
+        "http://musicbrainz.org/mm/mq-1.1#artist"
+
+/**
+ * Return the artist id of the lookup result
+ */
+#define MBE_LookupGetAlbumId      \
+        "http://musicbrainz.org/mm/mq-1.1#album"
+
+/**
+ * Return the track id of the lookup result
+ */
+#define MBE_LookupGetTrackId      \
+        "http://musicbrainz.org/mm/mq-1.1#track"
 
 /* -------------------------------------------------------------------------
  * Extract queries for the MBQ_GetCDTOC query

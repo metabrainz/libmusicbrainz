@@ -283,8 +283,8 @@ int RDFExtract::GetOrdinalFromList(const string &startURI,
 
     for(i = triples.begin(); i != triples.end(); i++)
     {
-       if ((*i).subject == listURI && (*i).object == id)
-           return (*i).ordinal;
+        if ((*i).subject == listURI && (*i).object == id)
+            return (*i).ordinal;
     }
     return -1;
 }
