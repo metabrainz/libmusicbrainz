@@ -10,6 +10,29 @@
 # even the implied warranty of MERCHANTABILITY or FITNESS FOR A
 # PARTICULAR PURPOSE.
 
+#
+#  MusicBrainz -- The Intenet music metadatabase
+#
+#  Copyright (C) 2000 Robert Kaye
+#  
+#  This library is free software; you can redistribute it and/or
+#  modify it under the terms of the GNU Lesser General Public
+#  License as published by the Free Software Foundation; either
+#  version 2.1 of the License, or (at your option) any later version.
+#  
+#  This library is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+#  Lesser General Public License for more details.
+#  
+#  You should have received a copy of the GNU Lesser General Public
+#  License along with this library; if not, write to the Free Software
+#  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+#
+#    $Id$
+#
+
+
 SHELL = @SHELL@
 
 srcdir = @srcdir@
@@ -77,29 +100,6 @@ PACKAGE = @PACKAGE@
 RANLIB = @RANLIB@
 VERSION = @VERSION@
 
-#
-#  MusicBrainz -- The Intenet music metadatabase
-#
-#  Copyright (C) 2000 Robert Kaye
-#  
-#  This library is free software; you can redistribute it and/or
-#  modify it under the terms of the GNU Lesser General Public
-#  License as published by the Free Software Foundation; either
-#  version 2.1 of the License, or (at your option) any later version.
-#  
-#  This library is distributed in the hope that it will be useful,
-#  but WITHOUT ANY WARRANTY; without even the implied warranty of
-#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-#  Lesser General Public License for more details.
-#  
-#  You should have received a copy of the GNU Lesser General Public
-#  License along with this library; if not, write to the Free Software
-#  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-#
-#    $Id$
-#
-
-
 INCLUDES = -I$(top_srcdir)/lib
 
 noinst_PROGRAMS = c_example cpp_example cmd lyric_example
@@ -124,49 +124,44 @@ DEFS = @DEFS@ -I. -I$(srcdir) -I..
 CPPFLAGS = @CPPFLAGS@
 LDFLAGS = @LDFLAGS@
 LIBS = @LIBS@
-am_c_example_OBJECTS =  c_example.o
-c_example_OBJECTS =  $(am_c_example_OBJECTS)
+c_example_OBJECTS =  c_example.o
 c_example_DEPENDENCIES =  $(top_builddir)/lib/libmusicbrainz.la
 c_example_LDFLAGS = 
-am_cmd_OBJECTS =  cmd.o
-cmd_OBJECTS =  $(am_cmd_OBJECTS)
-cmd_DEPENDENCIES =  $(top_builddir)/lib/libmusicbrainz.la
-cmd_LDFLAGS = 
-am_cpp_example_OBJECTS =  cpp_example.o
-cpp_example_OBJECTS =  $(am_cpp_example_OBJECTS)
+cpp_example_OBJECTS =  cpp_example.o
 cpp_example_DEPENDENCIES =  $(top_builddir)/lib/libmusicbrainz.la
 cpp_example_LDFLAGS = 
-am_lyric_example_OBJECTS =  lyric_example.o
-lyric_example_OBJECTS =  $(am_lyric_example_OBJECTS)
+cmd_OBJECTS =  cmd.o
+cmd_DEPENDENCIES =  $(top_builddir)/lib/libmusicbrainz.la
+cmd_LDFLAGS = 
+lyric_example_OBJECTS =  lyric_example.o
 lyric_example_DEPENDENCIES =  $(top_builddir)/lib/libmusicbrainz.la
 lyric_example_LDFLAGS = 
 CXXFLAGS = @CXXFLAGS@
 CXXCOMPILE = $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 LTCXXCOMPILE = $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 CXXLD = $(CXX)
-CXXLINK = $(LIBTOOL) --mode=link $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
+CXXLINK = $(LIBTOOL) --mode=link $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) $(LDFLAGS) -o $@
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 LTCOMPILE = $(LIBTOOL) --mode=compile $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
-LINK = $(LIBTOOL) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
-DIST_SOURCES =  $(c_example_SOURCES) $(cmd_SOURCES) \
-$(cpp_example_SOURCES) $(lyric_example_SOURCES)
+LINK = $(LIBTOOL) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(LDFLAGS) -o $@
 DIST_COMMON =  Makefile.am Makefile.in
 
 
-DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
+DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 
+TAR = gtar
 GZIP_ENV = --best
 DEP_FILES =  .deps/c_example.P .deps/cmd.P .deps/cpp_example.P \
 .deps/lyric_example.P
-SOURCES = $(c_example_SOURCES) $(cmd_SOURCES) $(cpp_example_SOURCES) $(lyric_example_SOURCES)
-OBJECTS = $(am_c_example_OBJECTS) $(am_cmd_OBJECTS) $(am_cpp_example_OBJECTS) $(am_lyric_example_OBJECTS)
+SOURCES = $(c_example_SOURCES) $(cpp_example_SOURCES) $(cmd_SOURCES) $(lyric_example_SOURCES)
+OBJECTS = $(c_example_OBJECTS) $(cpp_example_OBJECTS) $(cmd_OBJECTS) $(lyric_example_OBJECTS)
 
 all: all-redirect
 .SUFFIXES:
-.SUFFIXES: .c .cpp .lo .o
-$(srcdir)/Makefile.in: Makefile.am $(top_srcdir)/$(altdir)configure.in $(ACLOCAL_M4) 
+.SUFFIXES: .S .c .cpp .lo .o .s
+$(srcdir)/Makefile.in: Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4) 
 	cd $(top_srcdir) && $(AUTOMAKE) --gnu examples/Makefile
 
 Makefile: $(srcdir)/Makefile.in  $(top_builddir)/config.status $(BUILT_SOURCES)
@@ -183,6 +178,12 @@ distclean-noinstPROGRAMS:
 
 maintainer-clean-noinstPROGRAMS:
 
+.s.o:
+	$(COMPILE) -c $<
+
+.S.o:
+	$(COMPILE) -c $<
+
 mostlyclean-compile:
 	-rm -f *.o core *.core
 
@@ -193,6 +194,12 @@ distclean-compile:
 
 maintainer-clean-compile:
 
+.s.lo:
+	$(LIBTOOL) --mode=compile $(COMPILE) -c $<
+
+.S.lo:
+	$(LIBTOOL) --mode=compile $(COMPILE) -c $<
+
 mostlyclean-libtool:
 	-rm -f *.lo
 
@@ -202,30 +209,26 @@ clean-libtool:
 distclean-libtool:
 
 maintainer-clean-libtool:
-c_example.o:
 
 c_example: $(c_example_OBJECTS) $(c_example_DEPENDENCIES)
 	@rm -f c_example
 	$(LINK) $(c_example_LDFLAGS) $(c_example_OBJECTS) $(c_example_LDADD) $(LIBS)
-cmd.o:
-
-cmd: $(cmd_OBJECTS) $(cmd_DEPENDENCIES)
-	@rm -f cmd
-	$(CXXLINK) $(cmd_LDFLAGS) $(cmd_OBJECTS) $(cmd_LDADD) $(LIBS)
-cpp_example.o:
 
 cpp_example: $(cpp_example_OBJECTS) $(cpp_example_DEPENDENCIES)
 	@rm -f cpp_example
 	$(CXXLINK) $(cpp_example_LDFLAGS) $(cpp_example_OBJECTS) $(cpp_example_LDADD) $(LIBS)
-lyric_example.o:
+
+cmd: $(cmd_OBJECTS) $(cmd_DEPENDENCIES)
+	@rm -f cmd
+	$(CXXLINK) $(cmd_LDFLAGS) $(cmd_OBJECTS) $(cmd_LDADD) $(LIBS)
 
 lyric_example: $(lyric_example_OBJECTS) $(lyric_example_DEPENDENCIES)
 	@rm -f lyric_example
 	$(CXXLINK) $(lyric_example_LDFLAGS) $(lyric_example_OBJECTS) $(lyric_example_LDADD) $(LIBS)
 .cpp.o:
-	$(CXXCOMPILE) -c -o $@ $<
+	$(CXXCOMPILE) -c $<
 .cpp.lo:
-	$(LTCXXCOMPILE) -c -o $@ $<
+	$(LTCXXCOMPILE) -c $<
 
 tags: TAGS
 
@@ -292,41 +295,41 @@ maintainer-clean-depend:
 
 %.o: %.c
 	@echo '$(COMPILE) -c $<'; \
-	$(COMPILE) -Wp,-MD,.deps/$(*D)/$(*F).pp -c $<
-	@-cp .deps/$(*D)/$(*F).pp .deps/$(*D)/$(*F).P; \
-	tr ' ' '\012' < .deps/$(*D)/$(*F).pp \
+	$(COMPILE) -Wp,-MD,.deps/$(*F).pp -c $<
+	@-cp .deps/$(*F).pp .deps/$(*F).P; \
+	tr ' ' '\012' < .deps/$(*F).pp \
 	  | sed -e 's/^\\$$//' -e '/^$$/ d' -e '/:$$/ d' -e 's/$$/ :/' \
-	    >> .deps/$(*D)/$(*F).P; \
-	rm .deps/$(*D)/$(*F).pp
+	    >> .deps/$(*F).P; \
+	rm .deps/$(*F).pp
 
 %.lo: %.c
 	@echo '$(LTCOMPILE) -c $<'; \
-	$(LTCOMPILE) -Wp,-MD,.deps/$(*D)/$(*F).pp -c $<
+	$(LTCOMPILE) -Wp,-MD,.deps/$(*F).pp -c $<
 	@-sed -e 's/^\([^:]*\)\.o[ 	]*:/\1.lo \1.o :/' \
-	  < .deps/$(*D)/$(*F).pp > .deps/$(*D)/$(*F).P; \
-	tr ' ' '\012' < .deps/$(*D)/$(*F).pp \
+	  < .deps/$(*F).pp > .deps/$(*F).P; \
+	tr ' ' '\012' < .deps/$(*F).pp \
 	  | sed -e 's/^\\$$//' -e '/^$$/ d' -e '/:$$/ d' -e 's/$$/ :/' \
-	    >> .deps/$(*D)/$(*F).P; \
-	rm -f .deps/$(*D)/$(*F).pp
+	    >> .deps/$(*F).P; \
+	rm -f .deps/$(*F).pp
 
 %.o: %.cpp
 	@echo '$(CXXCOMPILE) -c $<'; \
-	$(CXXCOMPILE) -Wp,-MD,.deps/$(*D)/$(*F).pp -c $<
-	@-cp .deps/$(*D)/$(*F).pp .deps/$(*D)/$(*F).P; \
-	tr ' ' '\012' < .deps/$(*D)/$(*F).pp \
+	$(CXXCOMPILE) -Wp,-MD,.deps/$(*F).pp -c $<
+	@-cp .deps/$(*F).pp .deps/$(*F).P; \
+	tr ' ' '\012' < .deps/$(*F).pp \
 	  | sed -e 's/^\\$$//' -e '/^$$/ d' -e '/:$$/ d' -e 's/$$/ :/' \
-	    >> .deps/$(*D)/$(*F).P; \
-	rm .deps/$(*D)/$(*F).pp
+	    >> .deps/$(*F).P; \
+	rm .deps/$(*F).pp
 
 %.lo: %.cpp
 	@echo '$(LTCXXCOMPILE) -c $<'; \
-	$(LTCXXCOMPILE) -Wp,-MD,.deps/$(*D)/$(*F).pp -c $<
+	$(LTCXXCOMPILE) -Wp,-MD,.deps/$(*F).pp -c $<
 	@-sed -e 's/^\([^:]*\)\.o[ 	]*:/\1.lo \1.o :/' \
-	  < .deps/$(*D)/$(*F).pp > .deps/$(*D)/$(*F).P; \
-	tr ' ' '\012' < .deps/$(*D)/$(*F).pp \
+	  < .deps/$(*F).pp > .deps/$(*F).P; \
+	tr ' ' '\012' < .deps/$(*F).pp \
 	  | sed -e 's/^\\$$//' -e '/^$$/ d' -e '/:$$/ d' -e 's/$$/ :/' \
-	    >> .deps/$(*D)/$(*F).P; \
-	rm -f .deps/$(*D)/$(*F).pp
+	    >> .deps/$(*F).P; \
+	rm -f .deps/$(*F).pp
 info-am:
 info: info-am
 dvi-am:
@@ -399,7 +402,7 @@ mostlyclean-depend distclean-depend clean-depend \
 maintainer-clean-depend info-am info dvi-am dvi check check-am \
 installcheck-am installcheck install-exec-am install-exec \
 install-data-am install-data install-am install uninstall-am uninstall \
-all-redirect all-am all install-strip installdirs mostlyclean-generic \
+all-redirect all-am all installdirs mostlyclean-generic \
 distclean-generic clean-generic maintainer-clean-generic clean \
 mostlyclean distclean maintainer-clean
 

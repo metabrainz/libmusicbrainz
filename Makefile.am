@@ -23,57 +23,11 @@ AUTOMAKE_OPTIONS = foreign
 
 SUBDIRS = expat lib examples
 
-EXTRA_DIST = \
-	AUTHORS \
-	BUGS \
-	COPYING \
-	ChangeLog \
-	INSTALL \
-	NEWS \
-	README
-
-OTHERFILES = \
-   osdep/cdi_beos.cpp \
-   osdep/cdi_beos.h \
-   osdep/cdi_cygwin.cpp \
-   osdep/cdi_cygwin.h \
-   osdep/cdi_freebsd.cpp \
-   osdep/cdi_freebsd.h \
-   osdep/cdi_irix.cpp \
-   osdep/cdi_irix.h \
-   osdep/cdi_linux.cpp \
-   osdep/cdi_linux.h \
-   osdep/cdi_netbsd.cpp \
-   osdep/cdi_netbsd.h \
-   osdep/cdi_openbsd.cpp \
-   osdep/cdi_openbsd.h \
-   osdep/cdi_os2.cpp \
-   osdep/cdi_os2.h \
-   osdep/cdi_solaris.cpp \
-   osdep/cdi_solaris.h \
-   osdep/cdi_win32.cpp \
-	osdep/cdi_win32.h \
-	Makefile.am \
-	Makefile.in \
-	acconfig.h \
-	aclocal.m4 \
-	lib/cdindex.dsp \
-	lib/cdindex.dsw \
-   config.guess \
-	config.h.in \
-	config.sub \
-	configure \
-	configure.in \
-	install-sh \
-	missing \
-	mkinstalldirs \
-	stamp-h.in
-
 SYM_LINKS = \
-	cdi.cpp \
-	cdi.h
+	mb.cpp \
+	mb.h
 
-FEATHERS = $(filter-out $(SYM_LINKS), $(cdindex_SOURCES) $(DOCS) $(OTHERFILES))
+FEATHERS = $(filter-out $(SYM_LINKS), $(mbndex_SOURCES) $(DOCS) $(OTHERFILES))
 
 snapshot: $(FEATHERS)
 	tar -cf - $(FEATHERS) | gzip > $(PACKAGE)-$(VERSION).tar.gz
@@ -81,7 +35,7 @@ snapshot: $(FEATHERS)
 cvsclean: distclean
 	@echo "additonal cleanup for cvs commits"
 	rm -f *~ *.exe
-	rm -f cdi.h cdi.cpp
+	rm -f mb.h cdi.cpp
 	rm -f $(PACKAGE)-$(VERSION).tar.gz
 
 $(OBJECTS): libtool
