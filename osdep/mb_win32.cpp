@@ -24,148 +24,73 @@
 ----------------------------------------------------------------------------*/
 #include <windows.h>
 #include <stdio.h>
-#include <memory.h>
-#include <shellapi.h>
+#include <conio.h>
+#include <windows.h>
+#include "mmsystem.h"
 
-#include "mb_win32.h"     // can't assume symlink mb.h to cdi_win32.h
+#include "mb_win32.h"           // can't assume symlink mb.h to cdi_win32.h
 #include "diskid.h"
-#include "../config_win32.h"  // a copy of a Cygwin generated config.h
-
+#include "../config_win32.h"    // a copy of a Cygwin generated config.h
 
 MUSICBRAINZ_DEVICE DEFAULT_DEVICE = "0";
 
-
-int ReadTOCHeader(int fd, 
-                  int& first, 
-                  int& last)
+int
+ReadTOCHeader(int fd, int &first, int &last)
 {
-    return 0;
+   return 0;
 }
 
-
-int ReadTOCEntry(int fd, 
-                 int track, 
-                 int& lba)
+int
+ReadTOCEntry(int fd, int track, int &lba)
 {
-    return 0;
+   return 0;
 }
 
-
-bool DiskId::ReadTOC(MUSICBRAINZ_DEVICE device, 
-                     MUSICBRAINZ_CDINFO& cdinfo)
+bool DiskId::ReadTOC(MUSICBRAINZ_DEVICE cd_desc, MUSICBRAINZ_CDINFO & disc)
 {
-    UINT wDeviceID;
-    DWORD i;
-    MCI_OPEN_PARMS mciOpenParms;
-    MCI_SET_PARMS mciSetParms;
+   int       readtracks, pos, ret, numTracks;
+   char      mciCommand[128];
+   char      mciReturn[128];
+   char      buf[256];
 
-    MCI_STATUS_PARMS mciStatusParms;
+   if (cd_desc == NULL)
+      cd_desc = "cdaudio";
 
-    memset(&cdinfo, 0, sizeof(cdinfo));
+   memset(&disc, 0, sizeof(disc));
+   sprintf(mciCommand, "sysinfo %s quantity wait", cd_desc);
+   mciSendString(mciCommand, mciReturn, sizeof(mciReturn), NULL);
+   if (atoi(mciReturn) <= 0)
+      return false;
 
-    if (device == NULL) {
-        mciOpenParms.lpstrDeviceType = "cdaudio";
+   sprintf(mciCommand, "open %s shareable alias %s wait", cd_desc);
+   ret = mciSendString(mciCommand, mciReturn, sizeof(mciReturn), NULL);
+   if (ret != 0)
+      return false;
 
-        if (mciSendCommand(NULL, 
-                           MCI_OPEN, 
-                           MCI_OPEN_TYPE, 
-                           (DWORD)(LPVOID) &mciOpenParms))	
-            ReportError("Cannot open cdaudio device.");
-            return false;    
-    }
-    else {
-        mciOpenParms.lpstrDeviceType = (LPSTR) MAKELONG(MCI_DEVTYPE_CD_AUDIO, atoi(device));
+   sprintf(mciCommand, "status %s number of tracks wait", cd_desc);
+   ret = mciSendString(mciCommand, mciReturn, sizeof(mciReturn), NULL);
+   mciGetErrorString(ret, buf, sizeof(buf));
 
-        if (mciSendCommand(NULL, 
-                           MCI_OPEN, 
-                           MCI_OPEN_TYPE_ID | MCI_OPEN_TYPE, 
-                           (DWORD)(LPVOID) &mciOpenParms)) {
-            char err[256];
+   numTracks = atoi(mciReturn);
+   disc.FirstTrack = 1;
+   disc.LastTrack = numTracks;
 
-            sprintf(err, "Cannot open device id %d.", atoi(device));
-            ReportError(err);  
+   for (readtracks = 0; readtracks < disc.LastTrack; readtracks++)
+   {
+      sprintf(mciCommand, "set %s time format msf wait", cd_desc);
+      mciSendString(mciCommand, mciReturn, sizeof(mciReturn), NULL);
+      sprintf(mciCommand, "status %s position track %d wait",
+              cd_desc, readtracks + 1);
+      mciSendString(mciCommand, mciReturn, sizeof(mciReturn), NULL);
 
-            return false;    
-        }
-    }
+      pos = cd_msf_to_frames(atoi(mciReturn) * 4500, 
+                             atoi(mciReturn + 3) * 75, 
+                             atoi(mciReturn + 6););
+      disc.FrameOffset[readtracks] = pos;
+   }
 
-    wDeviceID = mciOpenParms.wDeviceID;
+   sprintf(mciCommand, "close %s wait", cd_desc);
+   mciSendString(mciCommand, mciReturn, sizeof(mciReturn), NULL);
 
-    mciSetParms.dwTimeFormat = MCI_FORMAT_MSF;
-
-    if (mciSendCommand(wDeviceID, 
-                       MCI_SET, 
-                       MCI_SET_TIME_FORMAT, 
-                       (DWORD)(LPVOID) &mciSetParms)) {
-        mciSendCommand(wDeviceID, 
-                       MCI_CLOSE, 
-                       0, 
-                       NULL);
-        ReportError("Cannot set time format for cd drive.");
-        return false;
-    }
-    
-    mciStatusParms.dwItem = MCI_STATUS_NUMBER_OF_TRACKS;
-
-    if (mciSendCommand(wDeviceID, 
-                       MCI_STATUS, 
-                       MCI_STATUS_ITEM, 
-                       (DWORD)(LPVOID) &mciStatusParms)) {        
-
-        mciSendCommand(wDeviceID, 
-                       MCI_CLOSE, 
-                       0, 
-                       NULL);		
-        ReportError("Cannot get the cd drive status.");
-        return false;
-    }
-
-    cdinfo.FirstTrack = 1;
-    cdinfo.LastTrack = (BYTE) mciStatusParms.dwReturn;    	
- 
-    for(i = 1; i <= cdinfo.LastTrack; i++) {
-        mciStatusParms.dwItem = MCI_STATUS_POSITION;
-        mciStatusParms.dwTrack = i;
-        
-        if (mciSendCommand(wDeviceID, 
-                           MCI_STATUS, 
-                           MCI_STATUS_ITEM | MCI_TRACK, 
-                           (DWORD)(LPVOID) &mciStatusParms)) {
-            mciSendCommand(wDeviceID, 
-                           MCI_CLOSE, 
-                           0, 
-                           NULL);
-            ReportError("Cannot read table of contents.");
-            return false;
-        }
-
-        cdinfo.FrameOffset[i] = (DWORD) MCI_MSF_MINUTE(mciStatusParms.dwReturn) * 4500 +
-                                (DWORD) MCI_MSF_SECOND(mciStatusParms.dwReturn) * 75 +
-				(DWORD) MCI_MSF_FRAME(mciStatusParms.dwReturn);
-    }   
-	
-    mciStatusParms.dwItem = MCI_STATUS_LENGTH;
-    mciStatusParms.dwTrack = cdinfo.LastTrack;
-
-    if (mciSendCommand(wDeviceID, 
-                       MCI_STATUS, 
-                       MCI_STATUS_ITEM | MCI_TRACK, 
-                       (DWORD) (LPVOID) &mciStatusParms)) {
-        mciSendCommand(wDeviceID, 
-                       MCI_CLOSE, 
-                       0, 
-                       NULL);
-        ReportError("Cannot read table of contents.");               
-        return false;
-    }
-
-    cdinfo.FrameOffset[0] = cdinfo.FrameOffset[cdinfo.LastTrack] + 
-                            (DWORD) MCI_MSF_MINUTE(mciStatusParms.dwReturn) * 4500 +
-                            (DWORD) MCI_MSF_SECOND(mciStatusParms.dwReturn) * 75 +
-                            (DWORD) MCI_MSF_FRAME(mciStatusParms.dwReturn) + 1;				
-    mciSendCommand(wDeviceID, 
-                   MCI_CLOSE, 
-                   0, 
-                   NULL);
-    return true;
+   return true;
 }
