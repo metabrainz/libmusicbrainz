@@ -257,6 +257,14 @@
         "http://musicbrainz.org/mm/mm-2.0#trackList [] http://purl.org/dc/elements/1.1/creator http://purl.org/dc/elements/1.1/title"
 
 /**
+ * Return the artist sortname of the nth track in the album. Requires a
+ * track index ordinal. 1 for the first track, etc...
+ * @param ordinal This select requires one ordinal argument to select a track
+ */
+#define MBE_AlbumGetArtistSortName \
+        "http://musicbrainz.org/mm/mm-2.0#trackList [] http://purl.org/dc/elements/1.1/creator http://musicbrainz.org/mm/mm-2.0#sortName"
+
+/**
  * Return the artist Id of the nth track in the album. Requires a
  * track index ordinal. 1 for the first track, etc...
  * @param ordinal This select requires one ordinal argument to select a track
@@ -293,6 +301,12 @@
  */
 #define MBE_TrackGetArtistName      \
         "http://purl.org/dc/elements/1.1/creator http://purl.org/dc/elements/1.1/title"
+
+/**
+ * Return the sortname of the artist for this track. 
+ */
+#define MBE_TrackGetArtistSortName      \
+        "http://purl.org/dc/elements/1.1/creator http://musicbrainz.org/mm/mm-2.0#sortName"
 
 /**
  * Return the Id of the artist for this track. 
