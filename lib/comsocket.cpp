@@ -390,7 +390,7 @@ int COMSocket::NBConnect(const char* pIP, int nPort, int nType, int nTimeout)
 /** Sets multicast packets to only go through the NIC labeled pNIC */
 int COMSocket::SetMCastInterface(const char* pNIC)
 {
-#if defined(__FreeBSD__) || defined(__QNX__)
+#ifndef __linux__
 #warning WARNING COMSocket::SetMCastInterface is NOT IMPLEMENTED
     return -1;
 #else
