@@ -137,8 +137,8 @@ bool MusicBrainz::GetWebSubmitURL(string &url)
     return true;
 }
 
-const char* protocol = "file://";
-Error URLToFilePath(const char* url, char* path, uint32* length)
+static const char* protocol = "file://";
+static Error URLToFilePath(const char* url, char* path, uint32* length)
 {
     Error result = kError_InvalidParam;
 

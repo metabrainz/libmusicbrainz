@@ -26,9 +26,14 @@
 #include "sigfft.h"
 #include "sigclient.h"
 #include "uuid.h"
+#include "haar.h"
 
 #include <stdio.h>
 #include <stdlib.h>
+
+#include <stack>
+#include <queue>
+using namespace std;
 
 const int iFFTPoints = 64;
 const int iNumSamplesNeeded = 288000;
@@ -114,7 +119,6 @@ void TRM::DownmixPCM(void)
    long int numsamps = 0;
    int lDC = 0, rDC = 0;
    signed short lsample, rsample;
-   unsigned char ls;
    int readpos = 0;
    
    if (m_bits_per_sample == 16) {
@@ -379,8 +383,31 @@ void TRM::GenerateSignatureNow(string &strGUID, string &collID)
     beatStore = new float[iFFTs + 2];
     beatindex = 0;
 
+    float haar[iFFTPoints];
+    for (k = 0; k < iFFTPoints; k++)
+        haar[k] = 0;
+    HaarWavelet *wavelet = new HaarWavelet(64, 6);
+
     for (j = 0; j < iFFTs; j++) 
     {
+        for (k = 0; k < iFFTPoints; k++)
+        {
+            fftBuffer[k] = (pCurrent[k]);
+            fftBuffer2[k] = (pCurrent[k + 32]);
+        }
+
+        wavelet->Transform(fftBuffer);
+        for (k = 0; k < 64; k++)
+        {
+            haar[k] += (wavelet->GetCoef(k));
+        }
+
+        wavelet->Transform(fftBuffer2);
+        for (k = 0; k < 64; k++)
+        {
+            haar[k] += (wavelet->GetCoef(k));
+        }
+
         for (k = 0; k < iFFTPoints; k++)
         {
             fftBuffer[k] = pCurrent[k] * fWin[k];
@@ -489,6 +516,34 @@ void TRM::GenerateSignatureNow(string &strGUID, string &collID)
     for (j = 0; j < 32; j++)
         fSpectrum[j] = fSpectrum[j] - smallest;
 
+    smallest = 9999;
+    priority_queue<float, deque<float>, greater<float> > m_haarList;
+    for (j = 0; j < 64; j++)
+    {
+        haar[j] = haar[j] / iFinishedFFTs;
+        if (fabs(haar[j]) < smallest)
+            smallest = fabs(haar[j]);
+    }
+
+    for (j = 0; j < 64; j++)
+    {
+        if (haar[j] > 0)
+            haar[j] = haar[j] - smallest;
+        else
+            haar[j] = haar[j] + smallest;
+        if (fabs(haar[j]) < 1)
+            haar[j] = 0;
+        else
+            haar[j] = 20 * log10(fabs(haar[j]));
+        m_haarList.push(haar[j]);
+    }
+
+    for (j = 0; j < 64; j++)
+    {
+        haar[j] = m_haarList.top();
+        m_haarList.pop();
+    }
+
     double RMS = sqrt((float)sumsquared / (float)m_numSamplesWritten);
     double avg = (float)sum / (float)m_numSamplesWritten;
     float msratio = avg / RMS;
@@ -547,13 +602,16 @@ void TRM::GenerateSignatureNow(string &strGUID, string &collID)
     cout << ": ";
     for (j = 0; j < 32; j++)
         cout << fAvgFFTDelta[j] << " ";
-    cout << ": " << specsum << endl;
+    cout << ": " << specsum << " : ";
+    for (j = 0; j < 64; j++)
+        cout << haar[j] << " ";
+    cout << endl;
 #endif
-
 
     AudioSig *signature = new AudioSig(msratio, fAverageZeroCrossing,
                                        fSpectrum, specsum, estBPM, 
-                                       fAvgFFTDelta, avgdiff, numsignchanges);
+                                       fAvgFFTDelta, haar, 
+                                       avgdiff, numsignchanges);
 
     SigClient *sigClient = new SigClient();
     sigClient->SetAddress("209.249.187.199", 4446);
@@ -564,6 +622,7 @@ void TRM::GenerateSignatureNow(string &strGUID, string &collID)
 
     sigClient->GetSignature(signature, strGUID, collID);
 
+    delete wavelet;
     delete pFFT;
     delete signature;
     delete sigClient;

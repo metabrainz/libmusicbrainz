@@ -24,19 +24,23 @@
 #ifndef AUDIOSIG_H
 #define AUDIOSIG_H
 
-#define NUMSIGFIELDS 70
+#define NUMSIGFIELDS 134
 
 class AudioSig
 {
 public:
     AudioSig(float meansquareratio, float zxing, float *spectrum,
              float spectraldiffsum, float beatimpulses, float *avgfftdelta,
-	     float energydiff, int energyzc) 
+	     float *haar, float energydiff, int energyzc) 
     { m_fMeanSquare = meansquareratio; m_fZXing = zxing; 
       for (int i = 0; i < 32; i++) 
       {
           m_fSpectrum[i] = spectrum[i]; 
           m_fAvgFFTDelta[i] = avgfftdelta[i];
+      }
+      for (int j = 0; j < 64; j++)
+      {
+          m_fHaar[j] = haar[j];
       }
       m_fEnergyDiff = energydiff; m_iEnergyZC = energyzc;
       m_fSpectralSum = spectraldiffsum, m_fBeats = beatimpulses;
@@ -48,7 +52,8 @@ public:
     float *Spectrum()    { return m_fSpectrum; }
     float  SpectralSum() { return m_fSpectralSum; }
     float  Beats()       { return m_fBeats; }
-    float *AvgFFTDelta() { return m_fAvgFFTDelta; }	 
+    float *AvgFFTDelta() { return m_fAvgFFTDelta; }
+    float *Haar()        { return m_fHaar; }
     float  EnergyDiff()  { return m_fEnergyDiff; }
     short  EnergyZC()    { return m_iEnergyZC; }
     
@@ -59,6 +64,7 @@ private:
     float m_fSpectralSum;
     float m_fBeats;
     float m_fAvgFFTDelta[32];
+    float m_fHaar[64];
     float m_fEnergyDiff;
     int   m_iEnergyZC;
 };

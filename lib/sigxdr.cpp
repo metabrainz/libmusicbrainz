@@ -74,6 +74,9 @@ char *SigXDR::FromSig(AudioSig *sig)
     for (i = 0; i < 32; i++)
         PutFloat(&sig->AvgFFTDelta()[i]);
 
+    for (i = 0; i < 64; i++)
+        PutFloat(&sig->Haar()[i]);
+
     temp = sig->EnergyDiff();
     PutFloat(&temp);
 
