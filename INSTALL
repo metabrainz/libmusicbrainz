@@ -76,10 +76,9 @@ Platforms
 Contact
 =======
 
-  Please submit bug reports to the MusicBrainz Bugzilla bug tracking
-  system:
+  Please submit bug reports to the MusicBrainz bug tracking system:
    
-      http://www.freeamp.org/bugzilla
+      http://sourceforge.net/tracker/?func=add&group_id=19506&atid=119506
 
   You can find out more about the MusicBrainz project by visiting its
   site on the world wide web:
@@ -218,6 +217,22 @@ you can set and what kinds of files go in them.
 with an extra prefix or suffix on their names by giving `configure' the
 option `--program-prefix=PREFIX' or `--program-suffix=SUFFIX'.
 
+
+A word of warning: on some systems (e.g. RedHat 7.2) the ./configure 
+process for other applications fails to find the MusicBrainz Client 
+library even when it is installed.  It breaks at the following line:
+
+    checking for version 2.0.0 in -lmusicbrainz... no
+
+Should this happen, you may need to edit the /etc/ld.so.conf to add 
+/usr/local/lib.  Make sure to run `ldconfig' as root afterwards.
+Alternatively, you can install the client library into /usr by
+invoking configure with the prefix argument:
+
+    configure --prefix=/usr
+
+This will install the library into a location that RedHat can readily
+use it.
 
 Optional Features
 =================
