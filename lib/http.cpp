@@ -69,6 +69,8 @@ const unsigned short kHttpPort = 80;
 const unsigned int kMaxHostNameLen = 64;
 const unsigned int kMaxURLLen = 1024;
 const unsigned int kBufferSize=8192;
+const unsigned int iSleepTime = 10000; // time to sleep between selects in usec
+const unsigned int iSleepCount = 3000; // how many sleep times before timing out
 
 #define DB printf("%s:%d\n", __FILE__, __LINE__);
 
@@ -604,17 +606,18 @@ Error MBHttp::Recv(int hHandle, char *pBuffer, int iSize,
 {
     fd_set              sSet; 
     struct timeval      sTv;
-    int                 iRet;
+    int                 iRet, iCount;
 
     iRead = 0;
-    for(; !m_exit;)
+    for(iCount = 0; !m_exit && iCount < iSleepCount; )
     {
         sTv.tv_sec = 0; sTv.tv_usec = 0;
         FD_ZERO(&sSet); FD_SET(hHandle, &sSet);
         iRet = select(hHandle + 1, &sSet, NULL, NULL, &sTv);
         if (!iRet)
         {
-           usleep(10000);
+           iCount++;
+           usleep(iSleepTime);
            continue;
         }
         iRead = recv(hHandle, pBuffer, iSize, iFlags);
@@ -628,6 +631,9 @@ Error MBHttp::Recv(int hHandle, char *pBuffer, int iSize,
     if (m_exit)
        return kError_Interrupt;
        
+    if (iCount >= iSleepCount)
+       return kError_Timeout;
+       
     return kError_NoErr;
 }                            
 
@@ -636,17 +642,18 @@ Error MBHttp::Send(int hHandle, char *pBuffer, int iSize,
 {
     fd_set              sSet; 
     struct timeval      sTv;
-    int                 iRet;
+    int                 iRet, iCount;
 
     iRead = 0;
-    for(; !m_exit;)
+    for(iCount = 0; !m_exit && iCount < iSleepCount; )
     {
         sTv.tv_sec = 0; sTv.tv_usec = 0;
         FD_ZERO(&sSet); FD_SET(hHandle, &sSet);
         iRet = select(hHandle + 1, NULL, &sSet, NULL, &sTv);
         if (!iRet)
         {
-		   usleep(10000);
+           iCount++;
+           usleep(iSleepTime);
            continue;
         }
         iRead = send(hHandle, pBuffer, iSize, iFlags);
@@ -659,6 +666,9 @@ Error MBHttp::Send(int hHandle, char *pBuffer, int iSize,
 
     if (m_exit)
        return kError_Interrupt;
+      
+    if (iCount >= iSleepCount)
+       return kError_Timeout;
        
     return kError_NoErr;
 }                            
