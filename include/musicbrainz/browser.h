@@ -24,6 +24,15 @@
 #ifndef BROWSER_H
 #define BROWSER_H
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
 int LaunchBrowser(const char* url, const char *browser);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif
