@@ -188,6 +188,16 @@ void EncodeURI(string & URI)
       string    hex = "%";
       char      num[8];
 
+      // Do not replace %## sequences -- they are already encoded and
+      // ready to roll
+      if (URI[convert] == '%' && URI.length() - convert > 2 &&
+          isdigit(URI[convert + 1]) && 
+          isdigit(URI[convert + 2]))  
+      {
+          convert++;
+          continue;
+      }
+
       sprintf(num, "%02x", URI[convert] & 0xFF);
       hex += num;
 
