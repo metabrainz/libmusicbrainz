@@ -1,0 +1,53 @@
+Changes from 1.2.1 to MusicBrainz 1.0.0-pre1:
+
+- Changed everything. :-)
+- The CD detection code still lives around, but all of the server 
+  interaction code is new.
+
+
+Changes from version 1.2.0 to 1.2.1:
+
+- Added time to debug track listing
+
+
+Changes from version 1.1.0 to 1.2.0:
+
+- BeOS support
+- Option '-d' produces a track listing for debugging
+- Solaris support works now
+
+
+Changes from version 1.0.0 to 1.1.0:
+
+- Source distribution by CVS. 
+  This has several advantages, among them recovering old revisions
+  of the client.
+
+- Added support for new platforms. 
+  Next to Win32/MSVC++ and Linux we now support FreeBSD, SGI Irix 
+  and Win32/Cygwin - if you got something else, contact us, we
+  want to support your exotic stuff too!
+  
+
+Changes from version 0.4.0 to 1.1.0:
+
+- see below :)
+
+
+Changes from version 0.3.0 to 0.4.0:
+
+- ask Robert.. :)
+
+	
+Changes from version 0.2.0 to 0.3.0:
+
+- Added support for autoconf (thanks to Johnny Tevessen)
+- Improved netscape support (thanks to Mark A Mankins)
+
+
+Changes from version 0.1.0 to 0.2.0:
+
+- Leadout is no longer used. Where leadout was previously used,
+  the value 0 should be used.
+- Support for 2.2 linux kernel
+- Added -l command line
