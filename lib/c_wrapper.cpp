@@ -124,6 +124,12 @@ int mb_GetResultData(musicbrainz_t o, char *resultName,
     return 1;
 }
 
+int mb_GetResultInt(musicbrainz_t o, char *resultName)
+{
+    MusicBrainz *obj = (MusicBrainz *)o;
+    return obj->DataInt(string(resultName));
+}
+
 int mb_Select(musicbrainz_t o, char *selectQuery)
 {
     MusicBrainz *obj = (MusicBrainz *)o;

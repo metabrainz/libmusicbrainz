@@ -12,7 +12,9 @@ EXPORTS
    mb_GetWebSubmitURL
    mb_GetQueryError  
    mb_Select         
+   mb_DoesResultExist  
    mb_GetResultData  
+   mb_GetResultInt  
    mb_GetResultRDF   
    mb_GetResultRDFLen
    mb_GetNumItems    
