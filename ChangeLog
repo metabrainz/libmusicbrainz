@@ -1,8 +1,11 @@
-Changes from version 1.0.0 to version 1.0.1
+Changes from version 1.0.1 to version 1.1.0
 -------------------------------------------
 
    - Fixed an OpenBSD 3.0 compile problem
    - Updated libtool version to 1.4.2 in hopes to get it to build on OSX.
+   - Added MBQ_Quick queries to support the MB Tagger
+   - Fixed a bug in the TRM generation that caused different TRMs to be
+     generated for subsequent runs on the same file.
 
 Changes from version 1.0.0 to version 1.0.1
 -------------------------------------------
