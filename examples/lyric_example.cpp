@@ -35,6 +35,9 @@ int main(void)
     // Set the server you want to use. Defaults to www.musicbrainz.org:80
     o.SetServer(string("www.musicbrainz.org"), 80);
 
+    // Tell the client library to return data in ISO8859-1 and not UTF-8
+    o.UseUTF8(false);
+
     // The string below needs to be a valid track id for this example
     // to work!
     args.push_back("00000003@fuss@39A6F490");

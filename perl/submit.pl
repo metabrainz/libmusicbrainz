@@ -6,10 +6,10 @@ use MusicBrainzClient;
 my %data;
 my ($ret, $error);
 
-$data{title} = "Te\"t";
+$data{title} = "Test";
 $data{guid} = "";
-$data{artist} = "Blüm'hen";
-$data{album} = "Te\"st";
+$data{artist} = "Blümchen";
+$data{album} = "Test";
 $data{tracknum} = "1";
 $data{duration} = "";
 $data{size} = "";
