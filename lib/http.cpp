@@ -183,7 +183,7 @@ void EncodeURI(string & URI)
    string::size_type convert = 0;
    const char *legalCharacters =
 
-      "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/?.";
+      "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/?.=";
 
    if (strncmp(URI.c_str(), "http://", 7) == 0)
        convert = URI.find(string("/"), 7);
