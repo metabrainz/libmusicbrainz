@@ -1,3 +1,18 @@
+Changes for libmusicbrainz 2.0.0-pre4
+-------------------------------------
+
+   - Two new functions have been added:
+       mb_GetFragmentFromURL - Retrieve a fragment from a URI
+       mb_GetOrdinalFromList - Retrieve a list ordinal from a given list -- this is
+                               sometimes needed to determine the location of an item in
+                               a list. (e.g. a track in an album in order to find the
+                               track number)
+   - The TRM code has been updated for TRM B#er.
+   - New queries have been added to queries.h in order to support the improved
+     FileLookupInterface.
+   - The client library now uses the mm-2.1 and mq-1.1 namespaces.
+   - The client library will now be referred to as libmusicbrainz
+
 Changes from version 1.1.0 to version 2.0.0-pre1
 ------------------------------------------------
 
