@@ -1,0 +1,6 @@
+# $Id$
+Makefile
+blib
+pm_to_blib
+CVS
+MANIFEST.SKIP
