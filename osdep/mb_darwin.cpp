@@ -101,9 +101,9 @@ bool DiskId::ReadTOC(MUSICBRAINZ_DEVICE device,
    trackInfo.addressType = kCDTrackInfoAddressTypeTrackNumber;
    trackInfo.bufferLength = sizeof(*toc);
    
-   for (i = 0; i < last; i++) 
+   for (i = 0; i <= last; i++) 
    {
-       trackInfo.address = i + 1;
+       trackInfo.address = i;
        trackInfo.buffer = &toc[i];
 
        if (ioctl(fd, DKIOCCDREADTRACKINFO, &trackInfo) < 0) 
@@ -112,14 +112,16 @@ bool DiskId::ReadTOC(MUSICBRAINZ_DEVICE device,
            close(fd);	
            return false;
        }
+       printf("toc[%d]: %d\n", i, toc[i].lastRecordedAddress + 151);
    }
 
-   cdinfo.FrameOffset[0] = toc[last-1].lastRecordedAddress + 1;
+   cdinfo.FrameOffset[0] = toc[last].lastRecordedAddress + 151;
+   cdinfo.FrameOffset[1] = toc[0].lastRecordedAddress + 150;
 
    // Now, for every track, find out the block address where it starts.
-   for (i = first; i <= last; i++)
+   for (i = 1; i < last; i++)
    {
-      cdinfo.FrameOffset[i] = lba + 150;
+      cdinfo.FrameOffset[i + 1] = toc[i].lastRecordedAddress + 151;
    }
 
    cdinfo.FirstTrack = first;
