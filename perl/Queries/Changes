@@ -6,6 +6,9 @@ otherwise noted.
 $Id$
 
 0.06
+	- Adjusted version number use statement to
+	  the more backwards compatibile zero padded syntax.
+	  [Matthias Friedrich, Sander van Zoest]
 
 0.05  Mon Feb 24 23:40:49 2003
 	- Fixed some POD typos
