@@ -131,7 +131,7 @@ int SigClient::Connect(string& strIP, int nPort)
         m_pSocket->SetProxy(NULL);
     else {
         char *proxyurl = new char[m_proxyAddr.size() + 128];
-        sprintf(proxyurl, "http://%s:%d", m_proxyAddr.c_str(), m_proxyPort);
+        sprintf(proxyurl, "%s:%d", m_proxyAddr.c_str(), m_proxyPort);
         m_pSocket->SetProxy(proxyurl);
         delete [] proxyurl;
     }
