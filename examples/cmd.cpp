@@ -101,6 +101,8 @@ Queries queries[] =
       1, "Artist ID", "", "", "" },
     { "GetTrack",               MB_GetTrackById ,
       1, "Track ID", "", "", "" },
+    { "GetTrackGUID",           MB_GetTrackByGUID ,
+      1, "Track GUID", "", "", "" },
     { "GetSyncText",            MB_GetSyncTextById ,
       1, "Track ID", "", "", "" },
     { "GetCDInfo",              MB_GetCDInfo ,
@@ -127,11 +129,15 @@ int main(void)
     vector<string> args;
 
     // Set the server you want to use. Defaults to www.musicbrainz.org:80
-    server = string("localhost");
+    server = string("musicbrainz.eorbit.net");
     o.SetServer(server, 80);
 
     // Tell the client library to return data in ISO8859-1 and not UTF-8
     o.UseUTF8(0);
+
+    // If you need to use a proxy, uncomment/edit the following line
+    // as appropriate
+    //o.SetProxy("proxy.mydomain.com", 80);
 
     for(;;)
     {

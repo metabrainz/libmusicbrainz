@@ -40,6 +40,10 @@ int main(void)
     // Set the server you want to use. Defaults to www.musicbrainz.org:80
     //mb_SetServer(o, "musicbrainz.eorbit.net", 80);
 
+    // If you need to use a proxy, uncomment/edit the following line
+    // as appropriate
+    //mb_SetProxy("proxy.mydomain.com", 80);
+
     // Execute the MB_GetCDInfo query, which pull the TOC from the
     // audio CD in the cd-rom drive, calculate the disk id and the
     // request the data from the server
