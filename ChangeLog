@@ -1,5 +1,6 @@
 Changes for CVS verison
-   - Added patch for pkgconfig on *BSD
+-------------------------------------
+   - Added patch for pkgconfig
    - Threading handled correctly in python wrapper
    - New perl wrappers
    
