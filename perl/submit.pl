@@ -79,8 +79,13 @@ sub SolveXQL
 sub CheckReturnContent
 {
     my ($xml) = @_;
-    my ($parser, $doc, $value);
+    my ($parser, $doc, $value, $len);
 
+    if ($xml =~ m/^Content-Length: (\d+)$/m)
+    {
+       $len = $1;
+       $xml = substr($xml, length($xml) - $len);
+    }
     $parser = new XML::DOM::Parser;
     eval
     {
@@ -88,18 +93,21 @@ sub CheckReturnContent
     };
     if ($@)
     {
-        print "Parse failed.\n";
-        return 0;
+        return (0, "Server resonse parse failed: $@");
     }
     $value = SolveXQL($doc, "/rdf:RDF/rdf:Description/MQ:Status");
+    if (!defined $value)
+    {
+        $value = SolveXQL($doc, "/rdf:RDF/rdf:Description/MQ:Error");
+    }
 
-    return $value eq 'OK';
+    return ($value eq 'OK', $value);
 }  
 
 sub SubmitMetadata
 {
     my ($m) = @_;
-    my ($query, $ua, $url, $request, $ret);
+    my ($query, $ua, $url, $request, $ret, $status);
 
     $query = SubstituteArgs(MB_SubmitTrack, 
                 $m->{title}, $m->{guid}, $m->{artist}, $m->{album},
@@ -118,13 +126,13 @@ sub SubmitMetadata
     }
     else
     {
-       return 0;  
+       return (0, "HTTP POST failed");  
     }
 }
 
 # Sample test driver
 my %data;
-my $ret;
+my ($ret, $error);
 
 $data{title} = "title";
 $data{guid} = "guid";
@@ -136,12 +144,12 @@ $data{size} = "size";
 $data{genre} = "genre";
 $data{comment} = "comment";
 
-$ret = SubmitMetadata(\%data);
+($ret, $error) = SubmitMetadata(\%data);
 if ($ret)
 {
     print "Submission ok.\n";
 }
 else
 {
-    print "Submission failed.\n";
+    print "Submission failed: $error\n";
 }
