@@ -60,6 +60,7 @@ class RDFExtract
                                          list<int>    *ordinalList);
         bool     GetSubjectFromObject   (const string &object,
                                          string       &subject);
+        bool     GetFirstSubject        (string &subject);
         int      GetOrdinalFromList     (const string &startURI, 
                                          const string &listQuery,
                                          const string &id);
