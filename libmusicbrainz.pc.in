@@ -7,5 +7,5 @@ Name: libmusicbrainz
 Description: The Musicbrainz Client Library.
 Version: @VERSION@
 Requires: 
-Libs: -L${libdir} -lmusicbrainz -lstdc++ -lm
+Libs: -L${libdir} -lmusicbrainz
 Cflags: -I${includedir}
