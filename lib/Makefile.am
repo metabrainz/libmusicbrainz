@@ -26,6 +26,6 @@ libmusicbrainz_la_SOURCES = base64.c base64.h musicbrainz.cpp musicbrainz.h disk
 libmusicbrainz_la_LDFLAGS = -version-info 1:0:0
 libmusicbrainz_la_LIBADD = ../expat/xmlparse/libxmlparse.la ../expat/xmltok/libxmltok.la @EXTRA_CPP_LIBS@
 
-noinst_HEADERS = audiosig.h base64.h musicbrainz.h diskid.h errors.h http.h sha.h sigfft.h sigcomplex.h types.h parse.h xql.h mb_c.h uuid.h
+noinst_HEADERS = audiosig.h base64.h diskid.h http.h sha.h sigfft.h sigcomplex.h types.h parse.h xql.h uuid.h
 
 EXTRA_DIST = wincomsocket.cpp wincomsocket.h
