@@ -21,7 +21,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories="..\osdep,..,..\expat\xmlparse,..\expat\xmltok,..\lib,..\lib\bitzi"
+				AdditionalIncludeDirectories="..\osdep,..,..\expat\xmlparse,..\expat\xmltok,..\include\musicbrainz,..\lib"
 				PreprocessorDefinitions="NDEBUG;WIN32;_WINDOWS;_USRDLL;MB_CLIENT_EXPORTS;NOMINMAX"
 				StringPooling="TRUE"
 				RuntimeLibrary="0"
@@ -83,10 +83,10 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\osdep,..,..\expat\xmlparse,..\expat\xmltok,..\lib,..\lib\bitzi"
+				AdditionalIncludeDirectories="..\osdep,..,..\expat\xmlparse,..\expat\xmltok,..\include\musicbrainz,..\lib"
 				PreprocessorDefinitions="_DEBUG;WIN32;_WINDOWS;_USRDLL;MB_CLIENT_EXPORTS;NOMINMAX"
 				BasicRuntimeChecks="3"
-				RuntimeLibrary="0"
+				RuntimeLibrary="1"
 				UsePrecompiledHeader="2"
 				PrecompiledHeaderFile=".\Debug/musicbrainz.pch"
 				AssemblerListingLocation=".\Debug/"
