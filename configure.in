@@ -3,6 +3,8 @@ AC_INIT(lib/musicbrainz.h)
 AM_CONFIG_HEADER(config.h)
 AM_INIT_AUTOMAKE(libmusicbrainz, 2.0.1)
 
+AM_MAINTAINER_MODE
+
 dnl Canonicalize host.
 AC_CANONICAL_HOST
 case "${host_cpu}-${host_os}" in
