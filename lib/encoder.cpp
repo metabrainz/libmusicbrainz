@@ -35,7 +35,6 @@ Encoder::Encoder() {
 #ifdef USE_ICU
   m_converter = 0;
   m_errorCode = U_ZERO_ERROR;
-  m_utf8Converter = 0;
 #else
   m_encoding = "ISO-8859-1";
   m_errorCode = "";
@@ -47,7 +46,6 @@ Encoder::~Encoder() {
 #ifdef USE_ICU
   if (m_converter != 0) {
     ucnv_close(m_converter);
-    ucnv_close(m_utf8Converter);
     ucnv_flushCache();
   }
 #endif
@@ -66,20 +64,20 @@ bool Encoder::SetEncoding(const char *charSetName) {
      m_converter = ucnv_open(charSetName, &m_errorCode);
   }
 
-  m_utf8Converter = ucnv_open("utf-8", &m_errorCode);
   m_encoding = GetAlias(ucnv_getName(m_converter, &m_errorCode));
   if (U_FAILURE(m_errorCode)) {
     return false;
   }
 #else
-  string csName; 
-  int length = strlen(charSetName);
-  if (length < 0) { 
-    m_errorCode = "Invalid character set name.";
-    return false; 
+  string csName;
+  if (charSetName != 0) { 
+     int length = strlen(charSetName);
+     for (int x = 0; x < length; x++) {
+        csName += tolower(charSetName[x]);
+     }
   }
-  for (int x = 0; x < length; x++) {
-    csName += tolower(charSetName[x]);
+  else {
+     csName = "iso-8859-1";
   }
 
   // Check to see if the character set is UTF-8 or ISO-8859-1
@@ -181,7 +179,8 @@ bool Encoder::ConvertToUTF8(string &dest, const string &src) {
   delete[] output;
 #else 
   // Don't know if this is right...
-  char* d = new char[src.length() * 2];
+  char* d = new char[src.length() * 2 + 1];
+  memset(d, 0, sizeof(d));
   unsigned int y = 0;
   for (unsigned int x = 0; x < src.length(); x++) {
     if (src[x] < 0x80) { 
@@ -194,9 +193,11 @@ bool Encoder::ConvertToUTF8(string &dest, const string &src) {
        y = y + 2;
     }
   }
+  if (y < src.length() * 2 + 1) {
+    d[y] = '\0';
+  }
   dest = d;
-  delete[] d;
-  printf("After encoding: %s\n", dest.c_str()); 
+  delete[] d; 
 #endif
   return true;
 }
