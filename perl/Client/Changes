@@ -5,11 +5,10 @@ otherwise noted.
 
 $Id$
 
-	
 	- Added beginnings of a perlish interface
 	  MusicBrainz::Client::Simple [Matthias Friedrich]
-	- Adjusted version number require to use with
-	  the more backwards compatibile zero padded syntax.
+	- Adjusted version number "require" to "use" with
+	  the more backwards compatible zero padded syntax.
 	  [Matthias Friedrich, Sander van Zoest]
 
 0.06   Sat Mar  1 01:16:40 2003
