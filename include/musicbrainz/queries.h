@@ -37,6 +37,19 @@
  */
 
 /**
+ * Use this query to reset the current context back to the top level of
+ * the response.
+ */
+#define MBS_Rewind           \
+        "[REWIND]"
+
+/**
+ * Use this query to change the current context back one level.
+ */
+#define MBS_Back           \
+        "[BACK]"
+
+/**
  * Use this Select Query to select an artist from an query that returns
  * a list of artists. Giving the argument 1 for the ordinal selects 
  * the first artist in the list, 2 the second and so on. Use 
@@ -121,6 +134,24 @@
  */
 #define MBE_GetNumLyrics      \
         "http://musicbrainz.org/mm/mm-2.0#trackList [COUNT]"
+
+/* -------------------------------------------------------------------------
+ * artistList queries
+ * -------------------------------------------------------------------------
+ */
+
+/**
+ * Return the name of the currently selected Album
+ */
+#define MBE_ArtistGetArtistName      \
+        "http://purl.org/dc/elements/1.1/title"
+
+/**
+ * Return the ID of the currently selected Album. The value of this
+ * query is indeed empty!
+ */
+#define MBE_ArtistGetArtistId        \
+        "" // yes, empty! 
 
 /* -------------------------------------------------------------------------
  * albumList queries

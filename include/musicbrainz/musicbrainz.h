@@ -95,6 +95,7 @@ class MusicBrainz
        void         SetError(Error ret);
        void         MakeRDFQuery(string &rdf);
 
+       vector<string>  m_contextHistory;
        string          m_error, m_empty; 
        string          m_server, m_proxy;
        short           m_serverPort, m_proxyPort;

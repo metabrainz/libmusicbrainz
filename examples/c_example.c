@@ -38,7 +38,7 @@ int main(void)
     mb_UseUTF8(o, 0);
 
     // Set the server you want to use. Defaults to www.musicbrainz.org:80
-    mb_SetServer(o, "musicbrainz.eorbit.net", 80);
+    //mb_SetServer(o, "www.musicbrainz.org", 80);
 
     // If you need to use a proxy, uncomment/edit the following line
     // as appropriate
