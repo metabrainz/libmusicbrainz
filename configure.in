@@ -67,6 +67,29 @@ fi
 AC_SUBST(EXPAT_LIBS)
 AC_SUBST(MAYBE_EXPAT)
 
+dnl icu check
+AC_CHECK_HEADER(unicode/ucnv.h, [
+  AC_CACHE_CHECK([for icu libraries],
+    [g_cv_icu], [
+    normal_LIBS="$LIBS"
+    LIBS="-licuuc -licudata $LIBS"
+    AC_TRY_LINK([
+      #include <unicode/ucnv.h>],
+      [ucnv_countAvailable();],
+      [g_cv_icu=yes],[g_cv_icu=no])
+    LIBS="$normal_LIBS"
+  ])
+])
+
+if test "$g_cv_icu" = yes; then
+  ICU_LIBS="-licuuc -licudata"
+  AC_DEFINE([USE_ICU], [1], [Specifies whether the ICU libraries are available to be used])
+  AC_MSG_NOTICE([configuring to use ICU])
+else
+  AC_MSG_NOTICE([configuring not to use ICU])
+fi
+AC_SUBST(ICU_LIBS)
+
 dnl Checks for header files.
 
 dnl Checks for typedefs, structures, and compiler characteristics.
