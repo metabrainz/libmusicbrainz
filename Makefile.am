@@ -33,6 +33,8 @@ cvsclean: distclean
 pcdir = $(libdir)/pkgconfig
 pc_DATA = libmusicbrainz.pc
 
-EXTRA_DIST = libmusicbrainz.pc.in 
+EXTRA_DIST = libmusicbrainz.pc.in README.win32 config_win32.h \
+	     mb_client.doxy mb_client.spec
+	     docs/mb_howto.txt
 
 CLEANFILES = stamp-h

@@ -20,3 +20,5 @@
 #    $Id$
 #
 SUBDIRS = xmltok xmlparse
+
+EXTRA_DIST = MPL-1.1.txt
