@@ -690,6 +690,11 @@ int TRM::FinalizeSignature(string &strGUID, string &collID)
     int beats = CountBeats();
     float estBPM = beats;
 
+    if (m_song_seconds == -1)
+        m_song_seconds = (int)(ceil((m_song_samples * 1.0 / 
+                                    m_number_of_channels) / 
+                                    m_samples_per_second));
+
 #ifdef TRM_DEBUG
     cout << fLength << " " << msratio << " " << fAverageZeroCrossing << " ";
     cout << estBPM << " " << avgdiff << " " << numsignchanges << " : ";
