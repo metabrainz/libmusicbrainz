@@ -54,22 +54,27 @@ if  (eval {require ExtUtils::Constant; 1}) {
   # changes.
   my @names = (qw(MBE_AlbumGetAlbumArtistId MBE_AlbumGetAlbumId
 		 MBE_AlbumGetAlbumName MBE_AlbumGetAlbumStatus
-		 MBE_AlbumGetAlbumType MBE_AlbumGetArtistId
+		 MBE_AlbumGetAlbumType MBE_AlbumGetAmazonAsin
+		 MBE_AlbumGetAmazonCoverartURL MBE_AlbumGetArtistId
 		 MBE_AlbumGetArtistName MBE_AlbumGetArtistSortName
-		 MBE_AlbumGetNumCdindexIds MBE_AlbumGetNumTracks
-		 MBE_AlbumGetTrackDuration MBE_AlbumGetTrackId
-		 MBE_AlbumGetTrackList MBE_AlbumGetTrackName
-		 MBE_AlbumGetTrackNum MBE_ArtistGetAlbumId
-		 MBE_ArtistGetAlbumName MBE_ArtistGetArtistId
-		 MBE_ArtistGetArtistName MBE_ArtistGetArtistSortName
-		 MBE_AuthGetChallenge MBE_AuthGetSessionId MBE_GetError
-		 MBE_GetNumAlbums MBE_GetNumArtists MBE_GetNumLookupResults
-		 MBE_GetNumTracks MBE_GetNumTrmids MBE_GetStatus
+		 MBE_AlbumGetNumCdindexIds MBE_AlbumGetNumReleaseDates
+		 MBE_AlbumGetNumTracks MBE_AlbumGetTrackDuration
+		 MBE_AlbumGetTrackId MBE_AlbumGetTrackList
+		 MBE_AlbumGetTrackName MBE_AlbumGetTrackNum
+		 MBE_ArtistGetAlbumId MBE_ArtistGetAlbumName
+		 MBE_ArtistGetArtistId MBE_ArtistGetArtistName
+		 MBE_ArtistGetArtistSortName MBE_AuthGetChallenge
+		 MBE_AuthGetSessionId MBE_GetError MBE_GetNumAlbums
+		 MBE_GetNumArtists MBE_GetNumLookupResults MBE_GetNumTracks
+		 MBE_GetNumTrmids MBE_GetStatus MBE_LookupGetAlbumArtistId
 		 MBE_LookupGetAlbumId MBE_LookupGetArtistId
-		 MBE_LookupGetRelevance MBE_LookupGetTrackId MBE_LookupGetType
-		 MBE_QuerySubject MBE_QuickGetAlbumName MBE_QuickGetArtistName
+		 MBE_LookupGetRelevance MBE_LookupGetTrackArtistId
+		 MBE_LookupGetTrackId MBE_LookupGetType MBE_QuerySubject
+		 MBE_QuickGetAlbumName MBE_QuickGetArtistId
+		 MBE_QuickGetArtistName MBE_QuickGetArtistSortName
 		 MBE_QuickGetTrackDuration MBE_QuickGetTrackId
-		 MBE_QuickGetTrackName MBE_QuickGetTrackNum MBE_TOCGetCDIndexId
+		 MBE_QuickGetTrackName MBE_QuickGetTrackNum
+		 MBE_ReleaseGetCountry MBE_ReleaseGetDate MBE_TOCGetCDIndexId
 		 MBE_TOCGetFirstTrack MBE_TOCGetLastTrack
 		 MBE_TOCGetTrackNumSectors MBE_TOCGetTrackSectorOffset
 		 MBE_TrackGetArtistId MBE_TrackGetArtistName
@@ -85,10 +90,11 @@ if  (eval {require ExtUtils::Constant; 1}) {
 		 MBS_Rewind MBS_SelectAlbum MBS_SelectArtist
 		 MBS_SelectCdindexid MBS_SelectLookupResult
 		 MBS_SelectLookupResultAlbum MBS_SelectLookupResultArtist
-		 MBS_SelectLookupResultTrack MBS_SelectTrack
-		 MBS_SelectTrackAlbum MBS_SelectTrackArtist MBS_SelectTrmid));
+		 MBS_SelectLookupResultTrack MBS_SelectReleaseDate
+		 MBS_SelectTrack MBS_SelectTrackAlbum MBS_SelectTrackArtist
+		 MBS_SelectTrmid));
   ExtUtils::Constant::WriteConstants(
-                                     NAME         => 'SusicBrainz::Queries',
+                                     NAME         => 'MusicBrainz::Queries',
                                      NAMES        => \@names,
                                      DEFAULT_TYPE => 'PV',
                                      C_FILE       => 'const-c.inc',

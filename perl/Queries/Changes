@@ -6,6 +6,9 @@ otherwise noted.
 $Id$
 
 0.06
+	- Added libmusicbrainz 2.1.1 support, including
+	  Amazon Art Queries
+	- fixed a typo in Makefile.PL
 	- Adjusted version number use statement to
 	  the more backwards compatibile zero padded syntax.
 	  [Matthias Friedrich, Sander van Zoest]
