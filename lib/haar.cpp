@@ -1,3 +1,4 @@
+#include <string.h>
 #include "haar.h"
 
 HaarWavelet::HaarWavelet(int nNumPoints, int nLevel)
