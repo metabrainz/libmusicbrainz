@@ -118,3 +118,83 @@ sub get_artist($)
 }
 
 1;
+__END__
+
+=head1 NAME
+
+MusicBrainz::Client::Simple::Track - MusicBrainz Track Information
+
+=head1 SYNOPSIS
+
+
+=head1 DESCRIPTION
+
+I<MusicBrainz::Client::Simple::Track> is a class providing access to
+track information.
+
+
+=head1 CONSTRUCTOR
+
+Users of this class need no constructor. Instances are made available
+through I<MusicBrainz::Client::Simple>.
+
+
+=head1 METHODS
+
+=over 4
+
+=item get_artist()
+
+Returns a MusicBrainz::Client::Simple::Artist object describing the artist
+of this track.
+
+
+=item get_duration()
+
+Returns the duration of this track in milliseconds.
+
+
+=item get_id()
+
+Returns the I<TrackID> that uniquely identifies this track at MusicBrainz.
+
+
+=item get_name()
+
+Returns the track's name.
+
+
+=item get_num()
+
+Returns the number of this track on the album.
+
+
+=head1 EXPORT
+
+None by default.
+
+
+=head1 SEE ALSO
+
+ MusicBrainz::Client::Simple
+ MusicBrainz::Client::Simple::Album
+ MusicBrainz::Client::Simple::Artist
+ MusicBrainz::Client
+ http://www.musicbrainz.org
+ perl(1)
+
+
+=head1 AUTHORS
+
+ Matthias Friedrich, <matt@mafr.de>
+ Sander van Zoest, <svanzoest@cpan.org>
+
+
+=head1 COPYRIGHT AND LICENSE
+
+Copyright 2003 by Matthias Friedrich E<lt>matt@mafr.deE<gt>
+
+This library is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself. 
+
+=cut

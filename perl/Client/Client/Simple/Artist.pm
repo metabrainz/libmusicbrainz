@@ -115,3 +115,73 @@ sub get_sortname($)
 }
 
 1;
+__END__
+
+=head1 NAME
+
+MusicBrainz::Client::Simple::Artist - MusicBrainz Artist Information
+
+=head1 SYNOPSIS
+
+
+=head1 DESCRIPTION
+
+I<MusicBrainz::Client::Simple::Artist> is a class providing access to
+artist information.
+
+
+=head1 CONSTRUCTOR
+
+Users of this class need no constructor. Instances are made available
+through I<MusicBrainz::Client::Simple>.
+
+
+=head1 METHODS
+
+=over 4
+
+=item get_id()
+
+Returns the I<ArtistID> that uniquely identifies this artist at MusicBrainz.
+
+
+=item get_name()
+
+Returns the artist's name.
+
+
+=item get_sortname()
+
+Returns the artist's name in a way suitable for sorting. E. g for
+"Tori Amos", "Amos, Tori" is returned.
+
+
+=head1 EXPORT
+
+None by default.
+
+
+=head1 SEE ALSO
+
+ MusicBrainz::Client::Simple
+ MusicBrainz::Client::Simple::Album
+ MusicBrainz::Client::Simple::Track
+ MusicBrainz::Client
+ http://www.musicbrainz.org
+ perl(1)
+
+
+=head1 AUTHORS
+
+ Matthias Friedrich, <matt@mafr.de>
+ Sander van Zoest, <svanzoest@cpan.org>
+
+
+=head1 COPYRIGHT AND LICENSE
+
+Copyright 2003 by Matthias Friedrich E<lt>matt@mafr.deE<gt>
+
+This library is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself. 
+
+=cut

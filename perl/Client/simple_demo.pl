@@ -4,7 +4,7 @@
 use MusicBrainz::Client::Simple;
 use strict;
 
-my $mb = new MusicBrainz::Client::Simple->new( debug => 0, utf8 => 0 );
+my $mb = MusicBrainz::Client::Simple->new( debug => 0, utf8 => 0 );
 
 #
 # For this query a CD in the CDROM drive is needed.

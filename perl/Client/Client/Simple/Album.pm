@@ -66,11 +66,13 @@ sub create_from_album_query($$)
 
 	my $album_name = $mb->get_result_data(MBE_AlbumGetAlbumName);
 
+	my $album_type = '';
 	$buf = $mb->get_result_data(MBE_AlbumGetAlbumType);
-	my $album_type = $mb->get_fragment_from_url($buf);
+	$album_type = $mb->get_fragment_from_url($buf) if $buf;
 
+	my $album_status = '';
 	$buf = $mb->get_result_data(MBE_AlbumGetAlbumStatus);
-	my $album_status = $mb->get_fragment_from_url($buf);
+	$album_status = $mb->get_fragment_from_url($buf) if $buf;
 
 	#
 	# Get the album's artist.
@@ -182,3 +184,105 @@ sub has_various_artists($)
 
 
 1;
+__END__
+
+=head1 NAME
+
+MusicBrainz::Client::Simple::Album - MusicBrainz Album Information
+
+=head1 SYNOPSIS
+
+
+=head1 DESCRIPTION
+
+I<MusicBrainz::Client::Simple::Album> is a class providing access to
+album information.
+
+
+=head1 CONSTRUCTOR
+
+Users of this class need no constructor. Instances are made available
+through I<MusicBrainz::Client::Simple>.
+
+
+=head1 METHODS
+
+=over 4
+
+=item get_artist()
+
+Returns a I<MusicBrainz::Client::Simple::Artist> object that contains
+artist information for this album.
+
+See also: L<has_various_artists>
+
+
+=item get_id()
+
+Returns the I<AlbumID> that uniquely identifies this album at MusicBrainz.
+
+
+=item get_name()
+
+Returns the album's name.
+
+
+=item get_status()
+
+Returns the release status of this album. Possible values are "Official",
+"Promotion" and "Bootleg". If this information is not available, the empty
+string is returned.
+
+See also: L<get_type>
+
+=item get_tracks()
+
+Returns a list of I<MusicBrainz::Client::Simple::Track> objects, one for
+each track on this album.
+
+
+=item get_type()
+
+Returns the release type of this album. Possible values are "Album",
+"Single", "EP", "Compilation", "Soundtrack", "Spokenword", "Interview",
+"Audiobook", "Live", "Remix" and "Other". If this information is not
+available (not all albums in the MusicBrainz database have a release
+type yet), the empty string is returned.
+
+See also: L<get_status>
+
+
+=item has_various_artists()
+
+Returns I<true> if this is a various artists album and I<false> otherwise.
+
+
+=head1 EXPORT
+
+None by default.
+
+
+=head1 SEE ALSO
+
+ MusicBrainz::Client::Simple
+ MusicBrainz::Client::Simple::Artist
+ MusicBrainz::Client::Simple::Track
+ MusicBrainz::Client
+ http://www.musicbrainz.org
+ perl(1)
+
+
+=head1 AUTHORS
+
+ Matthias Friedrich, <matt@mafr.de>
+ Sander van Zoest, <svanzoest@cpan.org>
+
+
+=head1 COPYRIGHT AND LICENSE
+
+Copyright 2003 by Matthias Friedrich E<lt>matt@mafr.deE<gt>
+
+This library is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself. 
+
+=cut

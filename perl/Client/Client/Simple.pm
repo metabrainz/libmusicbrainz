@@ -195,6 +195,8 @@ MusicBrainz::Client::Simple - Perlish Interface to MusicBrainz Client API
 
   use MusicBrainz::Client::Simple;
 
+  my $mb = MusicBrainz::Client::Simple->new( debug => 1, utf8 => 0 );
+
   my @result = $mb->lookup_cd;
   die "error: " . $mb->get_error unless $mb->success;
 
@@ -202,46 +204,109 @@ MusicBrainz::Client::Simple - Perlish Interface to MusicBrainz Client API
       print $album->get_name, "\n";
   }
 
-=head1 ABSTRACT
-
-  This should be the abstract for MusicBrainz::Client::Simple.
-  The abstract is used when making PPD (Perl Package Description) files.
-  If you don't want an ABSTRACT you should also edit Makefile.PL to
-  remove the ABSTRACT_FROM option.
 
 =head1 DESCRIPTION
 
-Stub documentation for MusicBrainz::Client::Simple, created by h2xs. It looks like the
-author of the extension was negligent enough to leave the stub
-unedited.
+I<MusicBrainz::Client::Simple> is a class providing access to the meta
+data of L<http://www.musicbrainz.org>. This class aims to be as easy to
+use as possible while still offering the most important functionality.
+If you need a more powerful interface, try I<MusicBrainz::Client>
+instead.
 
-Blah blah blah.
 
-=head2 EXPORT
+=head1 CONSTRUCTOR
+
+=over 4
+
+=item new( [ OPTIONS ] )
+
+The constructor for a new MusicBrainz::Client::Simple object. To adjust
+the object's behaviour, you can pass options in a hash like style as
+illustrated in the above example. The following options are possible:
+
+B<device> - The device name of your CD-ROM/DVD-ROM drive. (default: depends
+on libmusicbrainz installation)
+
+B<debug> - Print the client's query and the server's response on standard
+output. (default: 0)
+
+B<utf8> - If set, strings are in UTF-8 instead of ISO-8859-1 (latin1).
+(default: 0)
+
+B<max_items> - The maximum number of records (Artists, Albums, Tracks
+etc.) the server returns for one query. (default: 25)
+
+B<proxy_host> - The hostname of a HTTP proxy server. (default: unused)
+
+B<proxy_port> - The port number of a HTTP proxy server. (default: unused)
+
+=back
+
+=head1 METHODS
+
+=over 4
+
+=item lookup_cd()
+
+Queries the CD-ROM/DVD-ROM drive to calculate a I<CDIndexID>. The ID is
+then sent to the musicbrainz server. C<lookup_cd> returns a list of
+MusicBrainz::Client::Simple::Album objects which contain various
+information about album, artist and tracks of your CD.
+
+The reason why you might get I<multiple> Album objects under some rare
+circumstances is the following: A I<CDIndexID> is not necessarily
+unique, so there is a small probability that two or more albums have
+the same I<CDIndexID>.
+
+After L<lookup_cd>, the L<success> method should be called. In case of
+an error, L<success> returns false. You can then use L<get_error> to get
+a printable error message.
+
+
+=item lookup_by_cdindex( CDINDEXID )
+
+This method does the same as L<lookup_cd> except for the difference that
+you have to pass a valid C<CDIndexID> as an argument. The CD-ROM/DVD-ROM
+drive is not used.
+
+
+=item success()
+
+Returns a I<true> value if the previous operation was successful and
+I<false> otherwise.
+
+
+=item get_error()
+
+Returns a printable string describing the last error that occurred. This
+method should only be used if the L<success> method returned I<false>.
+
+=back
+
+=head1 EXPORT
 
 None by default.
 
 
-
 =head1 SEE ALSO
 
-Mention other useful documentation such as the documentation of
-related modules or operating system documentation (such as man pages
-in UNIX), or any relevant external documentation such as RFCs or
-standards.
+ MusicBrainz::Client::Simple::Album
+ MusicBrainz::Client::Simple::Artist
+ MusicBrainz::Client::Simple::Track
+ MusicBrainz::Client
+ http://www.musicbrainz.org
+ perl(1)
 
-If you have a mailing list set up for your module, mention it here.
-
-If you have a web site set up for your module, mention it here.
 
 =head1 AUTHORS
 
-Matthias Friedrich, E<lt>matt@mafr.deE<gt>
-Sander van Zoest, E<lt>svanzoest@cpan.orgE<gt>
+ Matthias Friedrich, <matt@mafr.de>
+ Sander van Zoest, <svanzoest@cpan.org>
+
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright 2003 by Matthias Friedrich
+Copyright 2003 by Matthias Friedrich E<lt>matt@mafr.deE<gt>
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself. 
