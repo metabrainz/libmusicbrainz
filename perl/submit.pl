@@ -7,14 +7,14 @@ my %data;
 my ($ret, $error);
 
 $data{title} = "Test";
-$data{guid} = "";
+$data{guid} = "[test]";
 $data{artist} = "Blümchen";
 $data{album} = "Test";
 $data{tracknum} = "1";
-$data{duration} = "";
-$data{size} = "";
-$data{genre} = "";
-$data{comment} = "";
+$data{duration} = "123";
+$data{size} = "123";
+$data{genre} = "genre";
+$data{comment} = "comment";
 
 ($ret, $error) = MusicBrainzClient::SubmitMetadata(\%data);
 if ($ret)
