@@ -192,16 +192,7 @@ int SigClient::Connect(string& strIP, int nPort)
 
 int SigClient::Disconnect()
 {
-    if (m_pSocket->IsConnected())
-    {
-        char cBuffer[566];
-        memset(cBuffer, 0, 566);
-        cBuffer[0] = SigClientVars::cDisconnect;
-
-        int nBytes = 0;
-        m_pSocket->Write(cBuffer, 566, &nBytes);
-        m_pSocket->Disconnect();	
-    }
+    m_pSocket->Disconnect();	
 	
     return 0;
 }
