@@ -54,20 +54,20 @@ public:
     double  GetIntensity (int i) const
     { 
         assert (i < _Points);
-        return _X[i].Conjugate(); 
+        return _Bleh[i].Conjugate(); 
     }
 
     double GetPower1(int i) const
     {
         assert (i < _Points);
         if ((i == 0) || (i == _Points / 2)) // special cases
-	        {
-		            return _X[i].Re() * _X[i].Re();
-		            }
+        {
+            return _Bleh[i].Re() * _Bleh[i].Re();
+        }
 
         double dTemp = 0;
-        double dA = (_X[_Points - i].Re() + _X[i].Re()) / 2;
-        double dB = (_X[_Points - i].Im() - _X[i].Im()) / 2;
+        double dA = (_Bleh[_Points - i].Re() + _Bleh[i].Re()) / 2;
+        double dB = (_Bleh[_Points - i].Im() - _Bleh[i].Im()) / 2;
         dTemp = dA * dA + dB * dB;
 
         return dTemp;
@@ -79,12 +79,12 @@ public:
 
         if ((i == 0) || (i == _Points / 2)) // special cases
         {
-            return _X[i].Im() * _X[i].Im();
+            return _Bleh[i].Im() * _Bleh[i].Im();
         }
 
         double dTemp = 0;
-        double dA = (_X[_Points - i].Im() + _X[i].Im()) / 2;
-        double dB = (_X[_Points - i].Re() - _X[i].Re()) / 2;
+        double dA = (_Bleh[_Points - i].Im() + _Bleh[i].Im()) / 2;
+        double dB = (_Bleh[_Points - i].Re() - _Bleh[i].Re()) / 2;
         dTemp = dA * dA + dB * dB;
 
         return dTemp;
@@ -93,13 +93,13 @@ public:
     double GetRealPart(int i) const
     {
        assert( i < _Points);
-       return _X[i].Re();
+       return _Bleh[i].Re();
     }
 
     double GetIMPart(int i) const
     {
        assert( i < _Points);
-       return _X[i].Im();
+       return _Bleh[i].Im();
     }
 
     int     GetFrequency (int point) const
@@ -127,12 +127,12 @@ private:
 
     void PutAt ( int i, double val )
     {
-        _X [_aBitRev[i]] = Complex (val);
+        _Bleh[_aBitRev[i]] = Complex (val);
     }
 
     void PutAt2 ( int i, double val, double val2 )
     {
-        _X [_aBitRev[i]] = Complex(val, val2);
+        _Bleh[_aBitRev[i]] = Complex(val, val2);
     }
     
     int        _Points;
@@ -140,7 +140,7 @@ private:
     int	       _logPoints;
     double     _sqrtPoints;
     int	      *_aBitRev;       // bit reverse vector
-    Complex   *_X;             // in-place fft array
+    Complex   *_Bleh;          // in-place fft array
     Complex  **_W;             // exponentials
     double    *_aTape;         // recording tape
 };
