@@ -41,7 +41,7 @@ Platforms
   NetBSD:
   -------
 
-    - Untested
+    - Acepted patch and it shold work
 
   OpenBSD:
   --------
@@ -99,6 +99,16 @@ Running 'configure' Scripts
   Note that the generated makefiles are intended for use with the
   GNU version of `make' (BSD or IRIX make won't digest it). On some
   systems it is installed as `gmake'.
+
+  CVS USERS ONLY:
+
+  If you are pulling the source code from CVS, you will need to
+  create the configure scripts since they are not checked into CVS.
+  Run:
+
+     ./autogen.sh
+
+  And the configure scripts will get created for you. 
 
 
 Basic Installation
