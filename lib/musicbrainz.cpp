@@ -645,7 +645,7 @@ bool MusicBrainz::CalculateBitprint(const string &fileName, BitprintInfo *info)
 
     if (!analyze_file(sub, fileName.c_str()))
        return false;
-#if 0
+
     strncpy(info->filename, fileName.c_str(), 255);
     strncpy(info->bitprint, get_attribute(sub, "bitprint"), MB_BITPRINTSIZE);
     strncpy(info->first20, 
@@ -661,7 +661,7 @@ bool MusicBrainz::CalculateBitprint(const string &fileName, BitprintInfo *info)
        info->vbr = strcmp(get_attribute(sub, "tag.mp3.vbr"), "y") == 0;
     else
        info->vbr = 0;
-#endif
+
     delete_submission(sub);
 
     return true;
