@@ -10,6 +10,7 @@
 #pragma warning(disable:4786)
 #endif
 
+#include "../config.h"
 #include "comhttpsocket.h"
 #ifdef WIN32
 #include "wincomsocket.h"
@@ -19,7 +20,7 @@
 #include <stdlib.h>
 #include <assert.h>
 
-const char* g_strCOMVer = "Freeamp_2.1.1.0";
+const char* g_strCOMVer = "libmusicbrainz/"VERSION;
 
 MBCOMHTTPSocket::MBCOMHTTPSocket()
 {
