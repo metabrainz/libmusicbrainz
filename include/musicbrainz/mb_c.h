@@ -35,6 +35,7 @@ extern "C"
 /* Basic C abstraction types for the interfaces */
 typedef void * musicbrainz_t;
 typedef void * rdfgen_t;
+typedef void * trm_t;
 
 /* The interface to the main MusicBrainz object */
 musicbrainz_t mb_New           (void);
@@ -60,16 +61,18 @@ int       mb_GetResultRDFLen   (musicbrainz_t o);
 int       mb_SetResultRDF      (musicbrainz_t o, char *xml);
 int       mb_GetNumItems       (musicbrainz_t o);
 
-/* These signature functions should really be broken out of the MusicBrainz
-   object and referenced with a different type */
-void      mb_SetPCMDataInfo    (musicbrainz_t o, int samplesPerSecond, 
-                                int numChannels, int bitsPerSample);
-int       mb_GenerateSignature (musicbrainz_t o, char *data, int size,
-                                char signature[17], char *collectionID);
-void      mb_GenerateSignatureNow(musicbrainz_t o, char signature[17],
-                                char *collectionID);
-void      mb_ConvertSigToASCII (musicbrainz_t o, char sig[17], 
-                                char ascii_sig[37]);
+/* The interface to the Relatable TRM signature generator */
+trm_t trm_New                 (void);
+void  trm_Delete              (trm_t o);
+int   trm_SetProxy            (trm_t o, char *proxyAddr, short proxyPort);
+void  trm_SetPCMDataInfo      (trm_t o, int samplesPerSecond, 
+                               int numChannels, int bitsPerSample);
+int   trm_GenerateSignature   (trm_t o, char *data, int size,
+                               char signature[17], char *collectionID);
+void  trm_GenerateSignatureNow(trm_t o, char signature[17],
+                               char *collectionID);
+void  trm_ConvertSigToASCII   (trm_t o, char sig[17], 
+                               char ascii_sig[37]);
 
 /* An interface to the very simplistic rdf generator */
 rdfgen_t rg_New           (void);

@@ -23,6 +23,7 @@
 ----------------------------------------------------------------------------*/
 #include "musicbrainz.h"
 #include "rdfgen.h"
+#include "trm.h"
 #include "mb_c.h"
 
 extern "C"
@@ -243,10 +244,32 @@ int mb_GetNumItems(musicbrainz_t o)
     return obj->GetNumItems();
 }
 
-void mb_SetPCMDataInfo(musicbrainz_t o, int samplesPerSecond, int numChannels,
-                   int bitsPerSample)
+trm_t trm_New(void)
 {
-    MusicBrainz *obj = (MusicBrainz *)o;
+    return (trm_t)new TRM();
+}
+
+void trm_Delete(trm_t o)
+{
+    delete (TRM *)o;
+}
+
+int trm_SetProxy(trm_t o,char *proxyAddr, short proxyPort)
+{
+    TRM *obj = (TRM *)o;
+    if (o == NULL)
+       return 0;
+
+    string addr = "";
+    if (proxyAddr)
+        addr = proxyAddr;
+    return (int)obj->SetProxy(addr, proxyPort);
+}
+
+void trm_SetPCMDataInfo(trm_t o, int samplesPerSecond, int numChannels,
+                        int bitsPerSample)
+{
+    TRM *obj = (TRM *)o;
      
     if (o == NULL)
        return;
@@ -254,8 +277,8 @@ void mb_SetPCMDataInfo(musicbrainz_t o, int samplesPerSecond, int numChannels,
     obj->SetPCMDataInfo(samplesPerSecond, numChannels, bitsPerSample);
 }
 
-int mb_GenerateSignature(musicbrainz_t o, char *data, int size, 
-                         char signature[17], char *collectionID)
+int trm_GenerateSignature(trm_t o, char *data, int size, 
+                          char signature[17], char *collectionID)
 {
    string strGUID;
    string collID;
@@ -268,7 +291,7 @@ int mb_GenerateSignature(musicbrainz_t o, char *data, int size,
    else
         collID = string(collectionID, 16);
 
-   MusicBrainz *obj = (MusicBrainz *)o;
+   TRM *obj = (TRM *)o;
    
    bool retvalue = obj->GenerateSignature(data, size, strGUID, collID);
 
@@ -281,9 +304,7 @@ int mb_GenerateSignature(musicbrainz_t o, char *data, int size,
    return 0;
 } 
 
-void mb_GenerateSignatureNow(musicbrainz_t o, 
-                             char signature[17], 
-                             char *collectionID)
+void trm_GenerateSignatureNow(trm_t o, char signature[17], char *collectionID)
 {
    string strGUID;
    string collID;
@@ -296,7 +317,7 @@ void mb_GenerateSignatureNow(musicbrainz_t o,
    else
        collID = string(collectionID, 16);
 
-   MusicBrainz *obj = (MusicBrainz *)o;
+   TRM *obj = (TRM *)o;
 
    obj->GenerateSignatureNow(strGUID, collID);
 
@@ -304,9 +325,9 @@ void mb_GenerateSignatureNow(musicbrainz_t o,
    strncpy(signature, strGUID.c_str(), 16);
 }
 
-void mb_ConvertSigToASCII(musicbrainz_t o, char sig[17], char ascii_sig[37])
+void trm_ConvertSigToASCII(trm_t o, char sig[17], char ascii_sig[37])
 {
-   MusicBrainz *obj = (MusicBrainz *)o;
+   TRM *obj = (TRM *)o;
 
    if (o == NULL)
       return;
