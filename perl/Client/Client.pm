@@ -78,12 +78,84 @@ MusicBrainz::Client - Perl extension for MusicBrainz Client Library
 =head1 SYNOPSIS
 
   use MusicBrainz::Client;
+  use MusicBrainz::Queries qw(:all);
+
+  my $mb = MusicBrainz::Client->new(); 
+  if(! $mb->query_with_args( MBQ_FindArtistByName, [ "Pink Floyd" ]) ) {
+    die("Query failed: ", $mb->get_query_error(), "\n");
+  }
+  print "Found ", $mb->get_result_int(MBE_GetNumArtists), " artists\n";
+    
 
 =head1 DESCRIPTION
 
-This exposes the musicbrainz client library to perl using an OO interface.
-For examples on how to use this API please see the test scripts and the
-C client library documentation at http://www.musicbrainz.org/
+This module provides access to the musicbrainz client API using a perl-ish
+OO interface.
+
+=head2 Methods
+
+$mb->new()
+
+($major, $minor, $revision) = $mb->get_version()
+
+$success = $mb->set_server($serverAddr, $serverPort)
+
+$mb->set_debug($debug)
+ 
+$success = $mb->set_proxy($serverAddr, $serverPort)
+
+$success = $mb->authenticate($userName, $password) 
+
+$success = $mb->set_device($device)
+
+$mb->use_utf8($useUTF8)
+
+$mb->set_depth($depth)
+
+$mb->set_max_items($maxItems)
+
+$success = $mb->query($rdfObject)
+
+$sucess = $mb->query_with_args($rdfObject, \@args)
+
+$url = $mb->get_web_submit_url()
+
+$error = $mb->get_query_error()
+
+$success = $mb->select($selectQuery)
+ 
+$success = j$mb->select1($selectQuery, $ord)
+
+$data =  $mb->get_result_data($resultName)
+
+$data1 = $mb->get_result_data1($resultName, $ordinal)
+
+$success = $mb->does_result_exist($resultName)
+
+$success $mb->does_result_exist1($resultName, $ordinal)
+
+$result = $mb->get_result_int($resultName)
+
+$result = $mb->get_result_int1($resultName, $ordinal)
+
+$rdfstr = $mb->get_result_rdf()
+
+$success = $mb->set_result_rdf($rdfstr)
+
+$id = $mb->get_id_from_url($url)
+
+$fragment = $mb->get_fragment_from_url($url)
+
+$ord = $mb->get_ordinal_from_list($resultList, $URI)
+
+$sha1 = $mb->calculate_sha1($filename)
+
+($duration, $bitrate, $stereo, $samplerate) =  $mb->get_mp3_info($filename)
+
+=head2 Examples
+
+For examples on how to use this API please see the test scripts provided and the
+C client library documentation at http://www.musicbrainz.org/client_howto.html
 
 =head2 EXPORT
 
