@@ -30,6 +30,7 @@ int main(int argc, char *argv[])
     musicbrainz_t o;
     char          error[256], data[256],*args[2], trackURI[256];
     int           ret, trackNum, index, duration;
+    char          *currentEncoding;
 
     if (argc < 2)
     {
@@ -44,8 +45,9 @@ int main(int argc, char *argv[])
     mb_WSAInit(o);
 #endif
 
-    // Tell the client library to return data in ISO8859-1 and not UTF-8
-    mb_UseUTF8(o, 0);
+    mb_GetCurrentEncoding(o, &currentEncoding);
+    printf("Current Encoding: %s\n", currentEncoding);
+    free(currentEncoding); // This is important!
 
     // Set the proper server to use. Defaults to mm.musicbrainz.org:80
     if (getenv("MB_SERVER"))

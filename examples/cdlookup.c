@@ -38,6 +38,7 @@ int main(int argc, char *argv[])
     musicbrainz_t o;
     char          url[1025], *browser = NULL;
     int           argIndex = 1;
+    char          *currentEncoding;
 
     if (argc > 1 && strcmp(argv[1], "--help") == 0)
     {
@@ -62,6 +63,11 @@ int main(int argc, char *argv[])
 #ifdef WIN32
     mb_WSAInit(o);
 #endif
+
+    // Display the current encoding being used
+    mb_GetCurrentEncoding(o, &currentEncoding);
+    printf("Current Encoding: %s\n", currentEncoding);
+    free(currentEncoding); // This is important!
 
     // Set the proper server to use. Defaults to mm.musicbrainz.org:80
     if (getenv("MB_SERVER"))
@@ -115,9 +121,7 @@ int main(int argc, char *argv[])
         } 
     } 
 
-    // Tell the client library to return data in ISO8859-1 and not UTF-8
-    mb_UseUTF8(o, 0);
-
+    
     // Now get the web submit url
     if (mb_GetWebSubmitURL(o, url, 1024))
     {

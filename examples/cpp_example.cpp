@@ -42,9 +42,10 @@ int main(void)
         o.SetServer(server, 80);
     }
 
-    // If you need to use a proxy, uncomment/edit the following line
+    // If you need to use a proxy, uncomment/edit the following lines
     // as appropriate
-    //o.SetProxy("proxy.mydomain.com", 80);
+    //o.SetProxy("proxy.server.goes.here", 80);
+    //o.SetProxyCreds("username", "password");
     
     int numEncodings = o.GetNumAvailableEncodings();
     string encoding;
