@@ -150,9 +150,6 @@
 				RelativePath="..\lib\comhttpsocket.cpp">
 			</File>
 			<File
-				RelativePath="..\lib\debug.cpp">
-			</File>
-			<File
 				RelativePath="..\lib\diskid.cpp">
 			</File>
 			<File
