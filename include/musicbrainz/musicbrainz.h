@@ -75,6 +75,7 @@ class MusicBrainz
         
     private:
 
+       const string EscapeArg(const string &xml);
        void     SubstituteArgs(string &xml, vector<string> *args);
        void     SetError(Error ret);
        int      SplitResponse(const string &inputXml);
