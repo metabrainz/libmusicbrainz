@@ -78,4 +78,7 @@ The following people have contributed to this program:
   Tim Van Holder <tim.van.holder@pandora.be>
   - Supplied a patch to fix some compile issues under cygwin
 
+  Clayton O'Neill <coneill@oneill.net>
+  - Improved the mp3 sanity checking code in the lib/bitzi/mp3.c
+
 (please send change requests to rob@musicbrainz.org or maintainer)
