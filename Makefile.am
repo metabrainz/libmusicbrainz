@@ -44,4 +44,3 @@ install-data-local:
 	$(INSTALL) -m 0644 $(srcdir)/lib/errors.h $(DESTDIR)$(includedir)/musicbrainz
 	$(INSTALL) -m 0644 $(srcdir)/lib/mb_c.h $(DESTDIR)$(includedir)/musicbrainz
 	$(INSTALL) -m 0644 $(srcdir)/lib/musicbrainz.h $(DESTDIR)$(includedir)/musicbrainz
-	$(INSTALL) -m 0644 $(srcdir)/lib/browser.h $(DESTDIR)$(includedir)/musicbrainz
