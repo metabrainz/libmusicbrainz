@@ -37,6 +37,8 @@ TRM::TRM(void)
 {
     m_downmixBuffer = NULL;
     m_storeBuffer = NULL;
+    m_proxy = "";
+    m_proxyPort = 80;
 }
 
 TRM::~TRM(void)

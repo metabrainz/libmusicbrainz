@@ -147,6 +147,7 @@ int SigClient::Connect(string& strIP, int nPort)
     char *url = new char[strIP.size() + 128]; // ample space..
     sprintf(url, "http://%s/cgi-bin/gateway/gateway?%d", strIP.c_str(), nPort);
     //sprintf(url, "http://209.249.187.200/cgi-bin/gateway?%d", nPort);
+    //int nErr = m_pSocket->Connect(strIP.c_str(), nPort, SOCK_STREAM);
     int nErr = m_pSocket->Connect(url);
 
     delete [] url;

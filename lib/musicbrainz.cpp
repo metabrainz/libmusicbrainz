@@ -59,6 +59,7 @@ MusicBrainz::MusicBrainz(void)
     m_xql = NULL;
     m_server = string(defaultServer);
     m_serverPort = defaultPort;
+    m_proxy = "";
     m_xmlIndex = -1;
     m_numItems = 0;
     for(int i = 0; i < 50; i++)
