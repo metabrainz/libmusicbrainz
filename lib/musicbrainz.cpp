@@ -34,8 +34,10 @@ const char *localTOCInfo = "@LOCALCDINFO@";
 const char *localAssociateCD = "@CDINFOASSOCIATECD@";
 const char *defaultServer = "www.musicbrainz.org";
 const short defaultPort = 80;
+const char *rdfUTF8Encoding = "<?xml version=\"1.0\"?>\n";
+const char *rdfISOEncoding = 
+    "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?>\n";
 const char *rdfHeader = 
-    "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?>\n"
     "<rdf:RDF xmlns = \"http://w3.org/TR/1999/PR-rdf-syntax-19990105#\"\n"
     "         xmlns:DC = \"http://purl.org/DC#\"\n"
     "         xmlns:MM = \"http://musicbrainz.org/MM#\"\n"
@@ -142,7 +144,8 @@ bool MusicBrainz::Query(const string &xmlObject, vector<string> *args)
             id.GetLastError(m_error);
             return false;
         }
-        xml = string(rdfHeader) + 
+        xml = (m_useUTF8 ? string(rdfUTF8Encoding) : string(rdfISOEncoding)) +
+              string(rdfHeader) + 
               xml + 
               string("<MQ:Version>") + 
               string(MM_VERSION) + 
@@ -163,12 +166,13 @@ bool MusicBrainz::Query(const string &xmlObject, vector<string> *args)
     }
 
     SubstituteArgs(xml, args);
-    xml = string(rdfHeader) + 
-                 xml + 
-                 string("<MQ:Version>") + 
-                 string(MM_VERSION) + 
-                 string("</MQ:Version>\n") +
-                 string(rdfFooter);
+    xml = (m_useUTF8 ? string(rdfUTF8Encoding) : string(rdfISOEncoding)) +
+          string(rdfHeader) + 
+          xml + 
+          string("<MQ:Version>") + 
+          string(MM_VERSION) + 
+          string("</MQ:Version>\n") +
+          string(rdfFooter);
 
     //printf("query: %s\n\n", xml.c_str());
 
