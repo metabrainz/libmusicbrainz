@@ -154,6 +154,10 @@ SOURCE=..\lib\sigxdr.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=..\lib\uuid.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=..\lib\wincomsocket.cpp
 # ADD CPP /I ".."
 # End Source File
