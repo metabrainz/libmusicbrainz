@@ -231,7 +231,7 @@
  * query is indeed empty!
  */
 #define MBE_ArtistGetArtistId        \
-        "" // yes, empty! 
+        "" /* yes, empty! */
 
 /**
  * Return the name of the nth album. Requires an ordinal argument to select
@@ -265,7 +265,7 @@
  * query is indeed empty!
  */
 #define MBE_AlbumGetAlbumId        \
-        "" // yes, empty! 
+        "" /* yes, empty!  */
 
 /**
  * Return the release status of the currently selected Album.
@@ -380,7 +380,7 @@
  * query is indeed empty!
  */
 #define MBE_TrackGetTrackId        \
-        "" // yes, empty! 
+        "" /* yes, empty! */
 
 /**
  * Return the track number in the currently selected track
