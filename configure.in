@@ -1,12 +1,7 @@
 dnl Process this file with autoconf to produce a configure script.
 AC_INIT(lib/musicbrainz.h)
 AM_CONFIG_HEADER(config.h)
-VERSION="2.0.1"
-AM_INIT_AUTOMAKE(musicbrainz, "$VERSION")
-dnl AC_DEFINE_UNQUOTED(VERSION, "$VERSION")
-
-CFLAGS="-Wall -O2"
-CPPFLAGS="-Wall -O2"
+AM_INIT_AUTOMAKE(libmusicbrainz, 2.0.1)
 
 dnl Canonicalize host.
 AC_CANONICAL_HOST
@@ -41,7 +36,29 @@ AC_PROG_LN_S
 AC_C_BIGENDIAN
 AC_CHECK_SIZEOF(long)
 
+if test "$GCC" = yes; then
+  CFLAGS="$CFLAGS -Wall"
+fi
+if test "$GXX" = yes; then
+  CXXFLAGS="$CXXFLAGS -Wall"
+fi
+
 dnl Checks for libraries.
+
+dnl libexpat check
+have_expat=false
+AC_CHECK_HEADER(expat.h, [
+  AC_CHECK_LIB(expat, XML_ExpatVersionInfo, [have_expat=true])])
+
+if test "$have_expat" = true; then
+  EXPAT_LIBS="-lexpat"
+  MAYBE_EXPAT=""
+else
+  EXPAT_LIBS='$(top_builddir)/expat/xmlparse/libxmlparse.la $(top_builddir)/expat/xmltok/libxmltok.la'
+  MAYBE_EXPAT=expat
+fi
+AC_SUBST(EXPAT_LIBS)
+AC_SUBST(MAYBE_EXPAT)
 
 dnl Checks for header files.
 
@@ -124,4 +141,14 @@ AC_DEFINE_UNQUOTED([ACCEPT_ARG2],,"Argument 2 to accept()")
 AC_DEFINE_UNQUOTED([ACCEPT_ARG3],,"Argument 3 to accept()")
 AC_DEFINE_UNQUOTED(PREFIX, "${prefix}", [Application install prefix])
 
-AC_OUTPUT(Makefile lib/Makefile expat/Makefile expat/xmltok/Makefile expat/xmlparse/Makefile lib/bitzi/Makefile examples/Makefile libmusicbrainz.pc, echo timestamp > stamp-h)
+AC_OUTPUT([
+Makefile 
+lib/Makefile 
+expat/Makefile 
+expat/xmltok/Makefile 
+expat/xmlparse/Makefile 
+osdep/Makefile
+lib/bitzi/Makefile 
+examples/Makefile 
+libmusicbrainz.pc], 
+echo timestamp > stamp-h)
