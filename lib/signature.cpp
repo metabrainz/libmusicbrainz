@@ -188,7 +188,7 @@ void MusicBrainz::DownmixPCM(void)
 
    int maxwrite = m_downmix_size;
    int writepos = 0;
-   int rate_change = m_samples_per_second / 11025;
+   float rate_change = m_samples_per_second / 11025.0;
 
    if (m_bits_per_sample == 16) {
        unsigned char *tempbuf = new unsigned char[m_numRealSamplesWritten / 2];
@@ -236,10 +236,11 @@ void MusicBrainz::DownmixPCM(void)
    }
 
    writepos = 0;
+cout << rate_change << endl;
    while ((writepos < maxwrite) &&
           (m_numSamplesWritten < iNumSamplesNeeded))
    {
-       readpos = writepos * rate_change;
+       readpos = (int)((float)writepos * rate_change);
        
        ls = ((unsigned char *)m_storeBuffer)[readpos++];
 
@@ -256,9 +257,9 @@ void MusicBrainz::GenerateSignatureNow(string &strGUID, string &collID)
 {
     DownmixPCM();
 
-//FILE *blah = fopen("/tmp/test.raw", "w+");
-//fwrite(m_downmixBuffer, m_numSamplesWritten, sizeof(unsigned char), blah);
-//fclose(blah);
+FILE *blah = fopen("/tmp/test.raw", "w+");
+fwrite(m_downmixBuffer, m_numSamplesWritten, sizeof(unsigned char), blah);
+fclose(blah);
 
     char *sample = (char *)m_downmixBuffer;  
     bool bLastNeg = false;
@@ -408,7 +409,7 @@ void MusicBrainz::GenerateSignatureNow(string &strGUID, string &collID)
 //    cout << fEnergy << " " << fAverageZeroCrossing << endl;
 //    cout << avgdiff << " " << numsignchanges << endl;
 //    for (int j = 0; j < 32; j++)
-//        cout << iSpectrum[j] << " " << avgspecdiff[j] << endl;
+//        cout << iSpectrum[j] << endl;
 //    cout << endl;
 
     AudioSig *signature = new AudioSig(fEnergy, fAverageZeroCrossing,
