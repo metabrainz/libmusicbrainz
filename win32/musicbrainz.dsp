@@ -104,10 +104,6 @@ SOURCE=..\lib\comhttpsocket.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\lib\debug.cpp
-# End Source File
-# Begin Source File
-
 SOURCE=..\lib\diskid.cpp
 # End Source File
 # Begin Source File
