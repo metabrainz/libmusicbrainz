@@ -5,8 +5,8 @@ VERSION="1.0.0-pre7"
 AM_INIT_AUTOMAKE(musicbrainz, "$VERSION")
 dnl AC_DEFINE_UNQUOTED(VERSION, "$VERSION")
 
-CFLAGS=-Wall
-CPPFLAGS=-Wall
+CFLAGS=-Wall -O3
+CPPFLAGS=-Wall -O3
 
 dnl Canonicalize host.
 AC_CANONICAL_HOST
