@@ -89,7 +89,7 @@ nether regions of the anatomy...
 */
 #undef SWAP_DONE
 
-#if (SHA_SHA_BYTE_ORDER == 1234)
+#if (SHA_BYTE_ORDER == 1234)
 #define SWAP_DONE
     for (i = 0; i < 16; ++i) {
 	T = *((SHA_LONG *) dp);
@@ -97,18 +97,18 @@ nether regions of the anatomy...
 	W[i] =  ((T << 24) & 0xff000000) | ((T <<  8) & 0x00ff0000) |
 		((T >>  8) & 0x0000ff00) | ((T >> 24) & 0x000000ff);
     }
-#endif /* SHA_SHA_BYTE_ORDER == 1234 */
+#endif /* SHA_BYTE_ORDER == 1234 */
 
-#if (SHA_SHA_BYTE_ORDER == 4321)
+#if (SHA_BYTE_ORDER == 4321)
 #define SWAP_DONE
     for (i = 0; i < 16; ++i) {
 	T = *((SHA_LONG *) dp);
 	dp += 4;
 	W[i] = T32(T);
     }
-#endif /* SHA_SHA_BYTE_ORDER == 4321 */
+#endif /* SHA_BYTE_ORDER == 4321 */
 
-#if (SHA_SHA_BYTE_ORDER == 12345678)
+#if (SHA_BYTE_ORDER == 12345678)
 #define SWAP_DONE
     for (i = 0; i < 16; i += 2) {
 	T = *((SHA_LONG *) dp);
@@ -119,9 +119,9 @@ nether regions of the anatomy...
 	W[i+1] = ((T << 24) & 0xff000000) | ((T <<  8) & 0x00ff0000) |
 		 ((T >>  8) & 0x0000ff00) | ((T >> 24) & 0x000000ff);
     }
-#endif /* SHA_SHA_BYTE_ORDER == 12345678 */
+#endif /* SHA_BYTE_ORDER == 12345678 */
 
-#if (SHA_SHA_BYTE_ORDER == 87654321)
+#if (SHA_BYTE_ORDER == 87654321)
 #define SWAP_DONE
     for (i = 0; i < 16; i += 2) {
 	T = *((SHA_LONG *) dp);
@@ -129,7 +129,7 @@ nether regions of the anatomy...
 	W[i] = T32(T >> 32);
 	W[i+1] = T32(T);
     }
-#endif /* SHA_SHA_BYTE_ORDER == 87654321 */
+#endif /* SHA_BYTE_ORDER == 87654321 */
 
 #ifndef SWAP_DONE
 #error Unknown byte order -- you need to add code here
