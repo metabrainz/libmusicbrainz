@@ -33,7 +33,6 @@
 #include "errors.h"
 #include "diskid.h"
 #include "rdfextract.h"
-#include "debug.h"
 
 extern "C"
 {
