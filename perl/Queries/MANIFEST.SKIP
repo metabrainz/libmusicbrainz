@@ -1,0 +1,13 @@
+# $Id$
+pm_to_blib
+blib
+Makefile
+Makefile.old
+.cvsignore
+MANIFEST.SKIP
+const-c.inc
+const-xs.inc
+Queries.bs 
+Queries.c
+Queries.o
+.cvsignore

@@ -1,0 +1,6 @@
+Revision history for Perl extension MusicBrainz::Client.
+
+0.01  Sun May 26 01:27:03 2002
+	- original version; created by h2xs 1.20 with options
+		-n MusicBrainz::Client /usr/local/musicbrainz/mb_c.h -L /usr/local/lib/ -lmusicbrainz
+

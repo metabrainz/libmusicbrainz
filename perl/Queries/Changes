@@ -1,0 +1,6 @@
+Revision history for Perl extension MusicBrainz::Queries.
+
+0.01  Sun Feb 16 20:36:21 2003
+	- original version; created by h2xs 1.22 with options
+		-n MusicBrainz::Queries -b 5.6.1 /usr/local/include/musicbrainz/queries.h
+
