@@ -42,44 +42,54 @@ typedef struct _Metadata
     char trackId[40];
 } Metadata;
 
+int GetChoice(int maxChoice)
+{
+    char buffer[20];
+    int  choice, ret;
+
+    for(;;)
+    {
+        printf("> ");
+        fflush(stdout);
+        fgets(buffer, 20, stdin);
+        ret = sscanf(buffer, " %d", &choice);
+        if (ret < 1 || choice < 0 || choice > maxChoice)
+            printf("\nInvalid choice.\n");
+        else
+            break;
+    }
+    return choice;
+}
+
 int HandleArtistList(musicbrainz_t o, Metadata *mdata)
 {
-    int  i, choice;
+    int  i, choice, rel;
     char artistName[256], sortName[256];
 
-    printf("Select the correct artist:\n");
+    printf("Select the appropriate artist:\n");
     for(i = 1;; i++)
     {
         mb_Select(o, MBS_Rewind);
         if (!mb_Select1(o, MBS_SelectLookupResult, i))
             break;
+        rel = mb_GetResultInt(o, MBE_LookupGetRelevance);
 
-        mb_GetResultData(o, "http://musicbrainz.org/mm/mq-1.1#artist "
-                            "http://purl.org/dc/elements/1.1/title", artistName, 256);
-        mb_GetResultData(o, "http://musicbrainz.org/mm/mq-1.1#artist "
-                            "http://musicbrainz.org/mm/mm-2.1#sortName", sortName, 256);
+        mb_Select(o, MBS_SelectLookupResultArtist);
+        mb_GetResultData(o, MBE_ArtistGetArtistName, artistName, 256);
+        mb_GetResultData(o, MBE_ArtistGetArtistSortName, sortName, 256);
 
-        printf("%2d. %s (%s)\n", i, artistName, sortName);
+        printf("%2d. %s (%d%% relevance, Sortname: %s)\n", i, artistName, rel, sortName);
     }
 
     printf("\n 0. (to stop and exit)\n");
-    for(;;)
-    {
-        printf("> ");
-        fflush(stdout);
-        scanf(" %d", &choice);
-        if (choice < 0 || choice > i)
-            printf("\nInvalid choice.\n");
-        else
-            break;
-    }
+    choice = GetChoice(i);
     if (choice == 0)
        return 1;
 
     mb_Select(o, MBS_Rewind);
     mb_Select1(o, MBS_SelectLookupResult, choice);
 
-    mb_GetResultData(o, "http://musicbrainz.org/mm/mq-1.1#artist", artistName, 256);
+    mb_GetResultData(o, MBE_LookupGetArtistId, artistName, 256);
     mb_GetIDFromURL(o, artistName, mdata->artistId, 40);
 
     return 0;
@@ -87,40 +97,34 @@ int HandleArtistList(musicbrainz_t o, Metadata *mdata)
 
 int HandleAlbumList(musicbrainz_t o, Metadata *mdata)
 {
-    int  i, choice;
+    int  i, choice, numIds, rel, numTracks;
     char albumName[256];
 
-    printf("Select the correct album:\n");
+    printf("Select the appropriate album:\n");
     for(i = 1;; i++)
     {
         mb_Select(o, MBS_Rewind);
         if (!mb_Select1(o, MBS_SelectLookupResult, i))
             break;
+        rel = mb_GetResultInt(o, MBE_LookupGetRelevance);
 
-        mb_GetResultData(o, "http://musicbrainz.org/mm/mq-1.1#album "
-                            "http://purl.org/dc/elements/1.1/title", albumName, 256);
-
-        printf("%2d. %s\n", i, albumName);
+        mb_Select(o, MBS_SelectLookupResultAlbum);
+        mb_GetResultData(o, MBE_AlbumGetAlbumName, albumName, 256);
+        numIds = mb_GetResultInt(o, MBE_AlbumGetNumCdindexIds);
+        numTracks = mb_GetResultInt(o, MBE_AlbumGetNumTracks);
+        printf("%2d. %s (%d%% relevance, %d tracks, %d cdindex ids)\n", 
+                  i, albumName, rel, numTracks, numIds);
     }
 
     printf("\n 0. (to stop and exit)\n");
-    for(;;)
-    {
-        printf("> ");
-        fflush(stdout);
-        scanf(" %d", &choice);
-        if (choice < 0 || choice > i)
-            printf("\nInvalid choice.\n");
-        else
-            break;
-    }
+    choice = GetChoice(i);
     if (choice == 0)
        return 1;
 
     mb_Select(o, MBS_Rewind);
     mb_Select1(o, MBS_SelectLookupResult, choice);
 
-    mb_GetResultData(o, "http://musicbrainz.org/mm/mq-1.1#album", albumName, 256);
+    mb_GetResultData(o, MBE_LookupGetAlbumId, albumName, 256);
     mb_GetIDFromURL(o, albumName, mdata->albumId, 40);
 
     return 0;
@@ -128,9 +132,93 @@ int HandleAlbumList(musicbrainz_t o, Metadata *mdata)
 
 int HandleAlbumTrackList(musicbrainz_t o, Metadata *mdata)
 {
-    printf("AlbumTrack result\n");
+    int  i, choice, numIds, numTracks, rel;
+    char albumName[256], trackName[256];
 
-    return 1;
+    printf("Select the appropriate album/track:\n");
+    for(i = 1;; i++)
+    {
+        mb_Select(o, MBS_Rewind);
+        if (!mb_Select1(o, MBS_SelectLookupResult, i))
+            break;
+        rel = mb_GetResultInt(o, MBE_LookupGetRelevance);
+
+        mb_Select(o, MBS_SelectLookupResultTrack);
+        mb_GetResultData(o, MBE_TrackGetTrackName, trackName, 256);
+
+        mb_Select(o, MBS_Back);
+        mb_Select(o, MBS_SelectLookupResultAlbum);
+        mb_GetResultData(o, MBE_AlbumGetAlbumName, albumName, 256);
+        numIds = mb_GetResultInt(o, MBE_AlbumGetNumCdindexIds);
+        numTracks = mb_GetResultInt(o, MBE_AlbumGetNumTracks);
+        printf("%2d. %s on %s (%d%% relevance, %d tracks, %d cdindex ids)\n", 
+                  i, trackName, albumName, rel, numTracks, numIds);
+    }
+
+    printf("\n 0. (to stop and exit)\n");
+    choice = GetChoice(i);
+    if (choice == 0)
+       return 1;
+
+    mb_Select(o, MBS_Rewind);
+    mb_Select1(o, MBS_SelectLookupResult, choice);
+
+    mb_GetResultData(o, MBE_LookupGetAlbumId, albumName, 256);
+    mb_GetIDFromURL(o, albumName, mdata->albumId, 40);
+    mb_GetResultData(o, MBE_LookupGetTrackId, trackName, 256);
+    mb_GetIDFromURL(o, trackName, mdata->trackId, 40);
+
+    return 0;
+}
+
+void PrintResult(musicbrainz_t o)
+{
+    char name[256], id[40], trackURI[256];
+    int trackNum, duration;
+
+    mb_Select(o, MBS_Rewind);
+    if (mb_DoesResultExist(o, MBE_LookupGetArtistId))
+    {
+        mb_Select(o, MBS_SelectLookupResultArtist);
+        mb_GetResultData(o, MBE_ArtistGetArtistName, name, 256);
+        printf("    Artist: %s ", name);
+        mb_GetResultData(o, MBE_ArtistGetArtistSortName, name, 256);
+        printf("(%s)\n", name);
+        mb_GetResultData(o, MBE_ArtistGetArtistId, name, 256);
+        mb_GetIDFromURL(o, name, id, 40);
+        printf("  ArtistId: %s\n", id);
+    }
+    mb_Select(o, MBS_Rewind);
+    if (mb_DoesResultExist(o, MBE_LookupGetTrackId))
+    {
+        mb_Select(o, MBS_SelectLookupResultTrack);
+        mb_GetResultData(o, MBE_TrackGetTrackName, name, 256);
+        printf("     Track: %s\n", name);
+        mb_GetResultData(o, MBE_TrackGetTrackId, name, 256);
+        strcpy(trackURI, name);
+        mb_GetIDFromURL(o, name, id, 40);
+        printf("   TrackId: %s\n", id);
+        duration = mb_GetResultInt(o, MBE_TrackGetTrackDuration);
+        if (duration > 0)
+            printf("  Duration: %d ms\n", duration);
+            
+    }
+    mb_Select(o, MBS_Rewind);
+    if (mb_DoesResultExist(o, MBE_LookupGetAlbumId))
+    {
+        mb_Select(o, MBS_SelectLookupResultAlbum);
+        mb_GetResultData(o, MBE_AlbumGetAlbumId, name, 256);
+        mb_GetIDFromURL(o, name, id, 40);
+        mb_GetResultData(o, MBE_AlbumGetAlbumName, name, 256);
+
+        // Extract the track number
+        trackNum = mb_GetOrdinalFromList(o, MBE_AlbumGetTrackList, trackURI);
+        if (trackNum > 0 && trackNum < 100)
+           printf("  TrackNum: %d\n", trackNum);
+
+        printf("     Album: %s\n", name);
+        printf("   AlbumId: %s\n", id);
+    }
 }
 
 int main(int argc, char *argv[])
@@ -139,7 +227,7 @@ int main(int argc, char *argv[])
     Metadata      mdata;
     FILE         *p;
     char          error[256], data[256], temp[256], *args[11], cmd[256], trmdata[6][256];
-    int           ret, numTracks, trackNum, i, isMultipleArtist = 0, isDone = 0;
+    int           ret, isDone = 0, i;
 
     if (argc < 2)
     {
@@ -148,8 +236,8 @@ int main(int argc, char *argv[])
     }
 
     memset(&mdata, 0, sizeof(Metadata));
-#if 0
-    // Here we cheap -- big time. We require that the trm program be installed
+
+    // Here we cheat -- big time. We require that the trm program be installed
     // and thus we call it to generate the TRM and extract the id3 data.
     sprintf(cmd, "trm -i %s", argv[1]);
     p = popen(cmd, "r");
@@ -165,7 +253,6 @@ int main(int argc, char *argv[])
     {
         fgets(trmdata[i], 255, p);
         trmdata[i][strlen(trmdata[i]) - 1] = 0;
-        printf("data[%d]: %s\n", i, trmdata[i]);
     }
     pclose(p);
 
@@ -176,15 +263,15 @@ int main(int argc, char *argv[])
     strcpy(mdata.trackNum, trmdata[4]);
     strcpy(mdata.duration, trmdata[5]);
     strcpy(mdata.fileName, argv[1]);
-#endif
 
-    strcpy(mdata.trmid, "");
-    strcpy(mdata.artistName, "portishead");
-    strcpy(mdata.albumName, "flummy");
-    strcpy(mdata.trackName, "");
-    strcpy(mdata.trackNum, "");
-    strcpy(mdata.duration, "");
-    strcpy(mdata.fileName, "");
+    // For debug only
+    //strcpy(mdata.trmid, "");
+    //strcpy(mdata.artistName, "guns");
+    //strcpy(mdata.albumName, "gnr lies");
+    //strcpy(mdata.trackName, "used to love hir");
+    //strcpy(mdata.trackNum, "");
+    //strcpy(mdata.duration, "");
+    //strcpy(mdata.fileName, "");
 
     // Create the musicbrainz object, which will be needed for subsequent calls
     o = mb_New();
@@ -231,8 +318,7 @@ int main(int argc, char *argv[])
 
         if (!mb_Select1(o, MBS_SelectLookupResult, 1))
         {
-            printf("Lookup returned no matches. Lookup might be done.\n");
-            // PrintResult();
+            PrintResult(o);
             isDone = 1;
             break;
         }
