@@ -6,7 +6,6 @@ otherwise noted.
 $Id$
 
 0.02
-	- Added -Wall to CCFLAGS
 	- Fixed a compile time warning [Tom Heady]
 
 0.01  Fri Feb 21 16:21:40 2003
