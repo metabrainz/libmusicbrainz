@@ -7,6 +7,9 @@
 #ifndef MP3_H
 #define MP3_H
 
+#include <string>
+using namespace std;
+
 class MP3Info
 {
     public:
@@ -16,17 +19,18 @@ class MP3Info
 
          bool analyze(const string &fileName);
 
-         int  getBitrate(void) { return bitrate; };
-         int  getSamplerate(void) { return samplerate; };
-         int  getStereo(void) { return stereo; };
-         int  getDuration(void) { return duration; };
-         int  getFrames(void) { return frames; };
-         int  getMpegVer(void) { return mpegVer; };
-         int  getAvgBitrate(void) { return avgBitrate; };
+         int  getBitrate(void) { return m_bitrate; };
+         int  getSamplerate(void) { return m_samplerate; };
+         int  getStereo(void) { return m_stereo; };
+         int  getDuration(void) { return m_duration; };
+         int  getFrames(void) { return m_frames; };
+         int  getMpegVer(void) { return m_mpegver; };
+         int  getAvgBitrate(void) { return m_avgbitrate; };
 
     private:
 
-         int   findStart(FILE *fp);
+         int   findStart(FILE *fp, unsigned offset);
+         bool  scanFile(FILE *fp);
 
          int   framesync(const unsigned char *header);
          int   padding(const unsigned char *header);
@@ -36,12 +40,12 @@ class MP3Info
          int   samplerate(const unsigned char *header);
          int   bitrate(const unsigned char *header);
 
-         bool  isFrame(char *ptr, int &layer, int &sampleRate, 
+         bool  isFrame(unsigned char *ptr, int &layer, int &sampleRate, 
                        int &mpegVer, int &bitRate, int &frameSize);
 
-         int   goodBytes, badBytes;
-         int   bitrate, samplerate, stereo, duration, 
-               frames, mpegVer, avgBitrate;
+         int   m_goodBytes, m_badBytes;
+         int   m_bitrate, m_samplerate, m_stereo, m_duration, 
+               m_frames, m_mpegver, m_avgbitrate;
 };
 
 #define MP3_HEADER_SIZE 4

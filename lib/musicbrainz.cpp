@@ -33,12 +33,12 @@
 #include "errors.h"
 #include "diskid.h"
 #include "rdfextract.h"
+#include "mp3.h"
 
 extern "C"
 {
    #include "sha1.h"
    #include "base64.h"
-   #include "bitcollider.h"
    #include "mp3.h"
 }
 
@@ -767,76 +767,6 @@ void MusicBrainz::SetError(Error ret)
     }
 }
 
-// Calculate a sha1 hash for a given file. This sha1 value will be used
-// in the MusicBrainz data acceptance process.
-bool MusicBrainz::CalculateSha1(const string &fileName, string &sha1)
-{
-    FILE *fp;
-    unsigned char  digest[20];
-    SHA_INFO       sha_info;
-    char           temp[3];
-
-    fp = fopen(fileName.c_str(), "rb");
-    if (fp == NULL)
-       return false;
-
-    sha_stream(digest, &sha_info, fp);
-    fclose(fp);
-
-    sha1 = string("");
-    for(int i = 0; i < 20; i++)
-    {
-        sprintf(temp, "%02X", digest[i] & 0xFF);
-        sha1 += string(temp);
-    }
-
-    return true;
-}
-
-// Calculate a Bitzi bitprint given a file. The
-// bitprint will be used in the musicbrainz metadata acceptance 
-// process. The completed bitzi bitprints will be submitted to the
-// Bitizi community metadatabase.
-bool MusicBrainz::CalculateBitprint(const string &fileName, BitprintInfo *info) 
-{
-    Bitcollider           *bc;
-    BitcolliderSubmission *sub;
-
-    bc = bitcollider_init(0);
-    if (!bc)
-        return false;
-
-    sub = create_submission(bc);
-    if (sub == NULL)
-       return false;
-
-    if (!analyze_file(sub, fileName.c_str(), false))
-       return false;
-
-    strncpy(info->filename, fileName.c_str(), 255);
-    strncpy(info->bitprint, get_attribute(sub, "bitprint"), MB_BITPRINTSIZE);
-    strncpy(info->first20,
-            get_attribute(sub, "tag.file.first20"), MB_FIRST20SIZE);
-    info->length = atoi(get_attribute(sub, "tag.file.length"));
-
-    if (get_attribute(sub, "tag.mp3.audio_sha1"))
-    {
-        strncpy(info->audioSha1,
-            get_attribute(sub, "tag.mp3.audio_sha1"), MB_SHA1SIZE);
-        info->duration = atoi(get_attribute(sub, "tag.mp3.duration"));
-        info->samplerate = atoi(get_attribute(sub, "tag.mp3.samplerate"));
-        info->bitrate = atoi(get_attribute(sub, "tag.mp3.bitrate"));
-        info->stereo = strcmp(get_attribute(sub, "tag.mp3.stereo"), "y") == 0;        if (get_attribute(sub, "tag.mp3.vbr"))
-           info->vbr = strcmp(get_attribute(sub, "tag.mp3.vbr"), "y") == 0;
-        else
-           info->vbr = 0;
-    }
-    delete_submission(sub);
-    bitcollider_shutdown(bc);
-
-    return true;
-}
-
 const int bufferSize = 8192;
 
 // Get MP3 information. This function calls the bitzi code to compute the
@@ -849,7 +779,7 @@ bool MusicBrainz::GetMP3Info(const string &fileName,
 {
     MP3Info info;
 
-    if (!info.analyze())
+    if (!info.analyze(fileName))
         return false;
 
     if (info.getDuration() == 0)
