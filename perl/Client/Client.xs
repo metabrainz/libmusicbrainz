@@ -377,7 +377,7 @@ PROTOTYPE: $$
 PREINIT:
 int status;
 CODE:
-  mb_CalculateSha1(mb,filename,RETVAL);
+  status = mb_CalculateSha1(mb,filename,RETVAL);
 OUTPUT:
   RETVAL
 CLEANUP:
