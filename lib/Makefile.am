@@ -26,10 +26,10 @@ INCLUDES = -I$(top_srcdir)/include/musicbrainz
 
 dist_libmusicbrainz_la_SOURCES = \
   base64.c browser.c c_wrapper.cpp comhttpsocket.cpp comsocket.cpp \
-  diskid.cpp haar.cpp http.cpp \
-  musicbrainz.cpp sha1.c signature.cpp \
+  diskid.cpp encoder.cpp haar.cpp http.cpp \
+  musicbrainz.cpp proxyhandler.cpp sha1.c signature.cpp \
   sigxdr.cpp sigclient.cpp sigfft.cpp \
-  rdfparse.c rdfextract.cpp uuid.cpp mp3.cpp md5.c encoder.cpp
+  rdfparse.c rdfextract.cpp uuid.cpp mp3.cpp md5.c
 nodist_libmusicbrainz_la_SOURCES = mb.cpp
 
 # Here are a set of rules to help you update your library version information:
@@ -51,7 +51,7 @@ libmusicbrainz_la_LIBADD = @EXPAT_LIBS@ @ICU_LIBS@
 
 noinst_HEADERS = \
   audiosig.h base64.h comhttpsocket.h comsocket.h \
-  diskid.h haar.h http.h parse.h \
+  diskid.h haar.h http.h parse.h proxyhandler.h \
   sha1.h sigfft.h sigclient.h sigcomplex.h sigxdr.h \
   rdfparse.h rdfextract.h types.h trm.h uuid.h mp3.h md5.h
 
