@@ -75,7 +75,6 @@ int main(int argc, char *argv[])
     if (mb_GetResultData(o, MBE_QuickGetArtistName, data, 256))
 	{
        printf("    Artist: '%s'\n", data);
-	   Debug_v("artist: %s", data);
     }
 
     // Extract the album name from the track
