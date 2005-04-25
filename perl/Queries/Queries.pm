@@ -26,7 +26,6 @@ our %EXPORT_TAGS = ( 'all' => [ qw(
 	MBE_AlbumGetAlbumStatus
 	MBE_AlbumGetAlbumType
 	MBE_AlbumGetAmazonAsin
-	MBE_AlbumGetAmazonCoverartURL
 	MBE_AlbumGetArtistId
 	MBE_AlbumGetArtistName
 	MBE_AlbumGetArtistSortName
@@ -205,10 +204,6 @@ Return the release type of the currently selected Album.
 =item MBE_AlbumGetAmazonAsin
 
 Return the Amazon.com ASIN for the currently selected Album.
-
-=item MBE_AlbumGetAmazonCoverartURL
-
-Return the Amazon.com URL for the cover art of the currently selected Album.
 
 =item MBE_AlbumGetArtistId
 
@@ -695,7 +690,7 @@ Sander van Zoest, E<lt>svanzoest@cpan.orgE<gt>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright 2003 by Alexander van Zoest
+Copyright 2003-2005 by Alexander van Zoest
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself. 
