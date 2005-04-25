@@ -53,6 +53,11 @@ sub new
 
 	my $mb = MusicBrainz::Client->new;
 
+	if($^O eq "MSWin32")
+        {
+	   $mb->WSAInit();
+        }
+
 	$mb->set_device($args{device}) if defined $args{device};
 	$mb->set_debug($args{debug}) if defined $args{debug};
 	$mb->use_utf8($args{utf8}) if defined $args{utf8};
@@ -71,6 +76,15 @@ sub new
 	return $self;
 }
 
+sub DESTROY
+{
+	my $self = shift;
+
+	if($self->{MB_SUCCESS} &&  $^O eq "MSWin32" )
+	{
+		$self->{MB_HANDLE}->WSAStop();
+	}
+}
 
 sub get_error($)
 {
@@ -239,6 +253,10 @@ etc.) the server returns for one query. (default: 25)
 B<proxy_host> - The hostname of a HTTP proxy server. (default: unused)
 
 B<proxy_port> - The port number of a HTTP proxy server. (default: unused)
+
+On the Windows platform, the constructor calls WSAInit() and WSAStop() on
+MusicBrainz::Client. 
+
 
 =back
 

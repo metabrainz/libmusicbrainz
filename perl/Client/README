@@ -26,7 +26,7 @@ DEPENDENCIES
 
 This module requires these other modules and libraries:
 
-   MusicBrainz::Queries 0.06 or later 
+   MusicBrainz::Queries 0.7 or later 
    libmusicbrainz 2.1 or later from http://www.musicbrainz.org/
    perl 5.6.1 or later
 
