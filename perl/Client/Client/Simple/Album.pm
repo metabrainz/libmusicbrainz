@@ -112,6 +112,27 @@ sub create_from_album_query($$)
 
 
 	#
+	# Amazon shop IDs (ASIN)
+	#
+	my $amazon_asin = $mb->get_result_data(MBE_AlbumGetAmazonAsin);
+
+	#
+	# Read all release dates.
+	#
+	my $num_dates = $mb->get_result_int(MBE_AlbumGetNumReleaseDates);
+	my %release_dates;
+	foreach my $i ( 1 .. $num_dates ) {
+		$mb->select1(MBS_SelectReleaseDate, $i) or last;
+
+		my $date = $mb->get_result_data(MBE_ReleaseGetDate);
+		my $country = $mb->get_result_data(MBE_ReleaseGetCountry);
+
+		$release_dates{$country} = $date;
+
+		$mb->select(MBS_Back);
+	}
+
+	#
 	# Compile a list of all tracks.
 	#
 	my $num_tracks = $mb->get_result_int(MBE_GetNumTracks);
@@ -132,7 +153,9 @@ sub create_from_album_query($$)
 
 		artist			=> $artist,
 		has_various_artists	=> $has_various_artists,
-		tracks			=> [ @tracks ]
+		tracks			=> [ @tracks ],
+		release_dates		=> \%release_dates,
+		amazon_asin		=> $amazon_asin,
 	);
 
 	return $album;
@@ -167,11 +190,25 @@ sub get_release_type($)
 	return $self->{DATA}->{type};
 }
 
+sub get_release_dates($)
+{
+	my $self = shift;
+
+	return %{ $self->{DATA}->{release_dates} };
+}
+
 sub get_artist($)
 {
 	my $self = shift;
 
 	return $self->{DATA}->{artist};
+}
+
+sub get_amazon_asin($)
+{
+	my $self = shift;
+
+	return $self->{DATA}->{amazon_asin};
 }
 
 sub get_tracks($)
@@ -241,6 +278,14 @@ is returned.
 
 See also: L<get_release_type>
 
+
+=item get_release_dates()
+
+Returns a hash with release dates. Keys are two-letter country codes,
+values are dates as strings. A date string can be of the format
+"YYYY-MM-DD", "YYYY-MM" or "YYYY".
+
+
 =item get_tracks()
 
 Returns a list of I<MusicBrainz::Client::Simple::Track> objects, one for
@@ -261,6 +306,12 @@ See also: L<get_release_status>
 =item has_various_artists()
 
 Returns I<true> if this is a various artists album and I<false> otherwise.
+
+
+=item get_amazon_asin()
+
+Returns the Amazon.com shop identifier (ASIN) for this album. If there
+is none, C<undef> is returned.
 
 
 =head1 EXPORT

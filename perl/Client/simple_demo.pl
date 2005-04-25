@@ -15,7 +15,8 @@ my $mb = MusicBrainz::Client::Simple->new( debug => 0, utf8 => 0 );
 # This query needs a CDIndexId as it's argument.
 #
 #my @result = $mb->lookup_by_cdindex('ejdrdtX1ZyvCb0g6vfJejVaLIK8-');
-my @result = $mb->lookup_by_cdindex('kbOKXociW89enol.uRCowqenx7s-');
+#my @result = $mb->lookup_by_cdindex('kbOKXociW89enol.uRCowqenx7s-');
+my @result = $mb->lookup_by_cdindex('W89_F6v9WxNnv7MoLNaYOXHCv8s-');
 
 #
 # Check if there was an error.
@@ -34,8 +35,8 @@ foreach my $album ( @result ) {
 	#
 	print $album->get_id, ' ', $album->get_name, "\n";
 
-	printf "Status: %s\n", $album->get_release_status;
-	printf "Type: %s\n", $album->get_release_type;
+	printf "Status: %s\n", $album->get_release_status || '';
+	printf "Type: %s\n", $album->get_release_type || '';
 
 	printf "%s; %s; %s\n", $album->get_artist()->get_name(),
 				$album->get_artist()->get_sortname(),
@@ -55,6 +56,20 @@ foreach my $album ( @result ) {
 		}
 
 		printf "%s (%d)\n", $track->get_name, $track->get_duration;
+	}
+
+	#
+	# Amazon shop identifier
+	#
+	printf "ASIN: %s\n", $album->get_amazon_asin() || '';
+
+	#
+	# Release dates
+	#
+	my %release_dates = $album->get_release_dates();
+	print "Released:\n";
+	while ( my ($country, $date) = each %release_dates ) {
+		print "\t$date ($country)\n";
 	}
 }
 
