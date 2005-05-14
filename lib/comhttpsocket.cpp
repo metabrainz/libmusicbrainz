@@ -194,7 +194,7 @@ int MBCOMHTTPSocket::NBRead(char* pBuffer, int nLen, int* nBytesWritten, int nTi
 	// advance to the data now, if there is any in this first buffer. 
 	char* pData = strstr(HeaderBuffer, "\r\n\r\n");
 	if (pData) pData += 4;
-	int nOffset = (int)pData - (int)HeaderBuffer;
+	int nOffset = pData - HeaderBuffer;
 	if (nTotal - nOffset >= nLen) // case 1: entire requested read is in header chunk
 	{
 		memcpy(pBuffer, pData, nLen);
