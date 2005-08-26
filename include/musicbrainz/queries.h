@@ -214,7 +214,7 @@
  * Return the number of lookup results returned in this query.
  */
 #define MBE_GetNumLookupResults      \
-        "http://musicbrainz.org/mm/mm-2.1#lookupResultList [COUNT]"
+        "http://musicbrainz.org/mm/mq-1.1#lookupResultList [COUNT]"
 
 /* -------------------------------------------------------------------------
  * artistList queries
