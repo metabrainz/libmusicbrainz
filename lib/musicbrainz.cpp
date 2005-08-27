@@ -392,6 +392,7 @@ bool MusicBrainz::Query(const string &rdfObject, vector<string> *args)
 
     // Use the baseURI as the starting point in the RDF graph.
     m_currentURI = m_baseURI;
+    m_contextHistory.clear();
 
     // See if an error occured. If so, extract the error message and return 
     value = m_rdf->Extract(m_currentURI, string(MBE_GetError));
@@ -510,15 +511,16 @@ bool MusicBrainz::Select(const string &queryArg, list<int> *ordinalList)
     if (query == string(MBS_Rewind))
     {
         m_currentURI = m_baseURI;
+        m_contextHistory.clear();
         return true;
     }
     if (query == string(MBS_Back))
     {
-        if (m_contextHistory.size() == 0)
+        if (m_contextHistory.empty())
             return false;
 
-        m_currentURI = *(m_contextHistory.end() - 1);
-        m_contextHistory.erase(m_contextHistory.end(), m_contextHistory.end());
+        m_currentURI = m_contextHistory.back();
+        m_contextHistory.pop_back();
         return true;
     }
    
@@ -555,6 +557,7 @@ bool MusicBrainz::SetResultRDF(string &rdf)
             m_rdf->GetFirstSubject(m_baseURI);
         
         m_currentURI = m_baseURI;
+        m_contextHistory.clear();
 
         return true;
     }
