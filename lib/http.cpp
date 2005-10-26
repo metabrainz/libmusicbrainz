@@ -366,13 +366,20 @@ Error MBHttp::Download(const string &url, const string &xml, bool fileDownload)
             if (xml.length())
                 strcat(query, xml.c_str());
 
-            int count;
-
-            err = Send(s, query, strlen(query), 0, count);
-            if (IsError(err))
-                result = kError_UserCancel; 
-            //count = send(s, query, strlen(query), 0);
-            if(count != (int)strlen(query))
+            int count, sent = 0;
+            int total = strlen(query);
+            while(total > 0)
+            {
+                err = Send(s, query + sent, strlen(query) - sent, 0, count);
+                if (IsError(err))
+                {
+                    result = kError_UserCancel; 
+                    break;
+                }
+                total -= count;
+                sent += count;
+            }
+            if (total != 0)
             {
                 result = kError_IOError;
             }
