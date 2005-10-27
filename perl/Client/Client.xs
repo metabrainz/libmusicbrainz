@@ -365,10 +365,10 @@ OUTPUT:
   RETVAL
 
 int
-mb_get_ordinal_from_list(musicbrainz_t mb, char* resultList, char* URI)
+mb_get_ordinal_from_list(musicbrainz_t mb, char* listType, char* URI)
 PROTOTYPE: $$$
 CODE:
-  RETVAL = mb_GetOrdinalFromList(mb,resultList,URI);
+  RETVAL = mb_GetOrdinalFromList(mb,listType,URI);
 OUTPUT:
   RETVAL
 

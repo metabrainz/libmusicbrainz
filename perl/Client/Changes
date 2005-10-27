@@ -5,6 +5,10 @@ otherwise noted.
 
 $Id$
 
+0.10	TBA
+	- Updated to libmusicbrainz 2.2
+	- Updated req for MusicBrainz::Queries to 0.09
+
 0.09 	Mon Apr 25 10:42:42 2005
 	- Added $mb->WSAInit(), $mb->WSAStop() calls to Simple.pm
           (Sourceforge #1157446)
