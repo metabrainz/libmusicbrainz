@@ -140,10 +140,6 @@ int main(int argc, char *argv[])
         if (mb_GetResultData(o, MBE_AlbumGetAmazonAsin, data, 256))
            printf("Amazon Asin: %s\n", data);
 
-        // Extract the amazon coverart, if any
-        if (mb_GetResultData(o, MBE_AlbumGetAmazonCoverartURL, data, 256))
-           printf("CoverartURL: %s\n", data);
-
         numDates = mb_GetResultInt(o, MBE_AlbumGetNumReleaseDates);
         for(i = 1; i <= numDates; i++)
         {
