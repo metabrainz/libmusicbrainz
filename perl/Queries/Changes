@@ -5,6 +5,23 @@ otherwise noted.
 
 $Id$
 
+0.09 TBA
+        - updated to the latest libmusicbrainz
+        - added new relationship queries:
+  	      MBS_SelectRelationship
+  	      MBE_GetRelationshipType
+  	      MBE_GetRelationshipDirection
+              MBE_GetRelationshipArtistId
+              MBE_GetRelationshipArtistName
+              MBE_GetRelationshipAlbumId
+              MBE_GetRelationshipAlbumName
+              MBE_GetRelationshipTrackId
+              MBE_GetRelationshipTrackName
+              MBE_GetRelationshipURL
+              MBQ_GetArtistRelationsById
+              MBQ_GetAlbumRelationsById
+              MBQ_GetTrackRelationsById
+
 0.08 Mon Apr 25 10:25:34 2005
 	- removed query no longer available. [Matthias Friedrich]
               MBE_AlbumGetAmazonCoverartURL

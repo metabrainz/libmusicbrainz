@@ -34,7 +34,7 @@ WriteMakefile(
     'LIBS'		=> [''], # e.g., '-lm'
     'DEFINE'		=> '', # e.g., '-DHAVE_SOMETHING'
     'CCFLAGS'           => '',
-    'INC'		=> '-I/usr/local/include -I.', # e.g., '-I. -I/usr/include/other'
+    'INC'		=> '-I../../include -I/usr/local/include -I.', # e.g., '-I. -I/usr/include/other'
     'dist'              => {
         COMPRESS        => 'gzip -9f',
         SUFFIX          => 'gz',
@@ -55,7 +55,7 @@ if  (eval {require ExtUtils::Constant; 1}) {
   my @names = (qw(MBE_AlbumGetAlbumArtistId MBE_AlbumGetAlbumId
 		 MBE_AlbumGetAlbumName MBE_AlbumGetAlbumStatus
 		 MBE_AlbumGetAlbumType MBE_AlbumGetAmazonAsin
-		 MBE_AlbumGetAmazonCoverartURL MBE_AlbumGetArtistId
+		 MBE_AlbumGetArtistId
 		 MBE_AlbumGetArtistName MBE_AlbumGetArtistSortName
 		 MBE_AlbumGetNumCdindexIds MBE_AlbumGetNumReleaseDates
 		 MBE_AlbumGetNumTracks MBE_AlbumGetTrackDuration
@@ -80,19 +80,25 @@ if  (eval {require ExtUtils::Constant; 1}) {
 		 MBE_TrackGetArtistId MBE_TrackGetArtistName
 		 MBE_TrackGetArtistSortName MBE_TrackGetTrackDuration
 		 MBE_TrackGetTrackId MBE_TrackGetTrackName MBE_TrackGetTrackNum
+		 MBE_GetRelationshipType MBE_GetRelationshipDirection MBE_GetRelationshipArtistId
+  		 MBE_GetRelationshipArtistName MBE_GetRelationshipAlbumId
+		 MBE_GetRelationshipAlbumName MBE_GetRelationshipTrackId
+		 MBE_GetRelationshipTrackName MBE_GetRelationshipURL
 		 MBI_VARIOUS_ARTIST_ID MBQ_AssociateCD MBQ_Authenticate
 		 MBQ_FileInfoLookup MBQ_FindAlbumByName MBQ_FindArtistByName
 		 MBQ_FindDistinctTRMId MBQ_FindTrackByName MBQ_GetAlbumById
 		 MBQ_GetArtistById MBQ_GetCDInfo MBQ_GetCDInfoFromCDIndexId
 		 MBQ_GetCDTOC MBQ_GetTrackById MBQ_GetTrackByTRMId
 		 MBQ_QuickTrackInfoFromTrackId MBQ_SubmitTrack
-		 MBQ_SubmitTrackTRMId MBQ_TrackInfoFromTRMId MBS_Back
-		 MBS_Rewind MBS_SelectAlbum MBS_SelectArtist
+		 MBQ_SubmitTrackTRMId MBQ_TrackInfoFromTRMId 
+		 MBQ_GetArtistRelationsById MBQ_GetAlbumRelationsById
+		 MBQ_GetTrackRelationsById MBS_Back MBS_Rewind 
+		 MBS_SelectAlbum MBS_SelectArtist
 		 MBS_SelectCdindexid MBS_SelectLookupResult
 		 MBS_SelectLookupResultAlbum MBS_SelectLookupResultArtist
 		 MBS_SelectLookupResultTrack MBS_SelectReleaseDate
-		 MBS_SelectTrack MBS_SelectTrackAlbum MBS_SelectTrackArtist
-		 MBS_SelectTrmid));
+		 MBS_SelectRelationship MBS_SelectTrack 
+		 MBS_SelectTrackAlbum MBS_SelectTrackArtist MBS_SelectTrmid));
   ExtUtils::Constant::WriteConstants(
                                      NAME         => 'MusicBrainz::Queries',
                                      NAMES        => \@names,
