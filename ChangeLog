@@ -10,12 +10,21 @@ Changes for libmusicbrainz 2.1.2
    - Fixed bug #834541: Tagger setting track no. is 0 - possibly due to trm mixup?
    - Added support for parsing AdvancedRelationship date. Also added new
      getrels.c example program.
+   - Re-added the python bindings and changed the binding's version number to
+     match the version of this lib.
+   - Fixed bug # 1224562: libmusicbrainz fails to post large RDF. This fixes
+     problems looking up CDs with large numbers of tracks. (This was also  
+     bug # 725701 ignores blank tracks)
 
    The included perl bindings had the following changes:
       - Updated bindings to match up to 2.1.1
       - Fixed int size cast warning
       - Fixed #6431: unmatched bootstrap parameter
       - Updated req for MusicBrainz::Queries to 0.07
+
+   The included python bindings had the following changes:
+      - Fixed #957393: Python Bindings type bug
+      - Fixed #1206514: Python bindings to select release not up-to-date
 
 Changes for libmusicbrainz 2.1.1
 -------------------------------------
