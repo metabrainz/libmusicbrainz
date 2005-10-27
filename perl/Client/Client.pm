@@ -413,11 +413,11 @@ will return 'ArtistResult'
 =item get_ordinal_from_list
 
 
-$ord = $mb->get_ordinal_from_list($resultList, $URI);
+$ord = $mb->get_ordinal_from_list($listType, $URI);
 
 Get the ordinal (list position) of an item in a list. 
 This function is normally used to retrieve the track number out 
-of a list of tracks in an album. A result list query (usually MBE_AlbumGetTrackList)
+of a list of tracks in an album using a list query (usually MBE_AlbumGetTrackList)
 
 See also: MBE_AlbumGetTrackList in MusicBrainz::Queries
 
