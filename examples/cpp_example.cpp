@@ -39,6 +39,10 @@ int main(void)
         o.SetServer(server, 80);
     }
 
+    // Check to see if the debug env var has been set 
+    if (getenv("MB_DEBUG"))
+        o.SetDebug(atoi(getenv("MB_DEBUG")));
+
     // If you need to use a proxy, uncomment/edit the following line
     // as appropriate
     //o.SetProxy("proxy.mydomain.com", 80);

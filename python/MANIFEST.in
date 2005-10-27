@@ -1,0 +1,3 @@
+include README
+recursive-include examples *.py
+recursive-include tests *
