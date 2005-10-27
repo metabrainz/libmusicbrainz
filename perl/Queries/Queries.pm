@@ -81,6 +81,15 @@ our %EXPORT_TAGS = ( 'all' => [ qw(
 	MBE_TrackGetTrackId
 	MBE_TrackGetTrackName
 	MBE_TrackGetTrackNum
+	MBE_GetRelationshipType
+	MBE_GetRelationshipDirection
+	MBE_GetRelationshipArtistId
+	MBE_GetRelationshipArtistName
+	MBE_GetRelationshipAlbumId
+	MBE_GetRelationshipAlbumName
+	MBE_GetRelationshipTrackId
+	MBE_GetRelationshipTrackName
+	MBE_GetRelationshipURL
 	MBI_VARIOUS_ARTIST_ID
 	MBQ_AssociateCD
 	MBQ_Authenticate
@@ -100,10 +109,14 @@ our %EXPORT_TAGS = ( 'all' => [ qw(
 	MBQ_SubmitTrack
 	MBQ_SubmitTrackTRMId
 	MBQ_TrackInfoFromTRMId
+	MBQ_GetArtistRelationsById
+	MBQ_GetAlbumRelationsById
+	MBQ_GetTrackRelationsById
 	MBS_Back
 	MBS_Rewind
 	MBS_SelectAlbum
 	MBS_SelectArtist
+	MBS_SelectRelationship
 	MBS_SelectCdindexid
 	MBS_SelectLookupResult
 	MBS_SelectLookupResultAlbum
@@ -449,6 +462,46 @@ Return the name of the currently selected track.
 
 Return the track number in the currently selected track.
 
+=item  MBE_GetRelationshipType
+
+Get the type of an advanced relationships ilnk. Pleaes note that
+these relatnship types can change over time!
+
+=item  MBE_GetRelationshipDirection
+
+Get the direction of a link between two like entities. This
+data element will only be present for links between like types
+(eg artist-artist links) and IFF the link direction is reversed of what the
+RDF implies.
+
+=item  MBE_GetRelationshipArtistId
+
+Get the artist id that this link points to.
+
+=item  MBE_GetRelationshipArtistName
+
+Get the artist name that this link points to.
+
+=item  MBE_GetRelationshipAlbumId
+
+Get the album id that this link points to.
+
+=item  MBE_GetRelationshipAlbumName
+
+Get the album name that this link points to.
+
+=item  MBE_GetRelationshipTrackId
+
+Get the track id that this link points to.
+
+=item  MBE_GetRelationshipTrackName
+
+Get the track name that this link points to.
+
+=item  MBE_GetRelationshipURL
+
+Get the URL that this link points to.
+
 =item  MBI_VARIOUS_ARTIST_ID
 
 The MusicBrainz artist id used to indicate that an 
@@ -584,6 +637,18 @@ function will return more than on track.
 The user (or tagging app) must decide 
 which track information is correct.
 
+=item  MBQ_GetArtistRelationsById
+
+Retrieve an artistList with advanced relationships from a given artist id
+
+=item  MBQ_GetAlbumRelationsById
+
+Retrieve an albumList with advanced relationships from a given album id
+
+=item  MBQ_GetTrackRelationsById
+
+Retrieve a trackList with advanced relationships from a give track id
+
 =item  MBS_Back
 
 Use this query to change the current 
@@ -674,6 +739,11 @@ extract data after the select.
 
 Use this Select Query to select a 
 trmid from the list.
+
+=item  MBS_SelectRelationship
+
+Use this Select Query to select a relationship from a list 
+advanced relationships. 
 
 =back
 
