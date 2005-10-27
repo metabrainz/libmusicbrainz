@@ -152,6 +152,14 @@
 #define MBS_SelectLookupResultTrack            \
         "http://musicbrainz.org/mm/mq-1.1#track"
 
+/**
+ * Use this Select Query to select a relationship from a list
+ * of advanced relationships.
+ * @param ordinal This select requires one ordinal argument
+ */
+#define MBS_SelectRelationship           \
+        "http://musicbrainz.org/ar/ar-1.0#relationshipList []"
+
 /* -------------------------------------------------------------------------
  * General top level queries -- Internal use only.
  * -------------------------------------------------------------------------
@@ -291,12 +299,6 @@
  */
 #define MBE_AlbumGetAmazonAsin        \
         "http://www.amazon.com/gp/aws/landing.html#Asin"
-
-/**
- * Return the amazon cover art URL for the selected Album.
- */
-#define MBE_AlbumGetAmazonCoverartURL        \
-        "http://musicbrainz.org/mm/mm-2.1#coverart"
 
 /**
  * Return the number of cdindexds returned in this query.
@@ -557,6 +559,69 @@
         "http://purl.org/dc/elements/1.1/creator"
 
 /* -------------------------------------------------------------------------
+ * Extract queries for the MBQ_GetXXXXXRelationsById queries
+ * -------------------------------------------------------------------------
+ */
+
+/**
+ * Get the type of an advanced relationships link. Please note that these
+ * relationship types can change over time!
+ */
+#define MBE_GetRelationshipType \
+        "http://www.w3.org/1999/02/22-rdf-syntax-ns#type"
+
+/**
+ * Get the direction of a link between two like entities. This
+ * data element will only be present for links between like types
+ * (eg artist-artist links) and IFF the link direction is 
+ * reverse of what the RDF implies.
+ */
+#define MBE_GetRelationshipDirection \
+        "http://musicbrainz.org/ar/ar-1.0#direction"
+
+/**
+ * Get the artist id that this link points to.
+ */
+#define MBE_GetRelationshipArtistId \
+        "http://musicbrainz.org/ar/ar-1.0#toArtist"
+
+/**
+ * Get the artist name that this link points to.
+ */
+#define MBE_GetRelationshipArtistName \
+        "http://musicbrainz.org/ar/ar-1.0#toArtist http://purl.org/dc/elements/1.1/title"
+
+/**
+ * Get the album id that this link points to.
+ */
+#define MBE_GetRelationshipAlbumId \
+        "http://musicbrainz.org/ar/ar-1.0#toArtist"
+
+/**
+ * Get the album name that this link points to.
+ */
+#define MBE_GetRelationshipAlbumName \
+        "http://musicbrainz.org/ar/ar-1.0#toAlbum http://purl.org/dc/elements/1.1/title"
+
+/**
+ * Get the track id that this link points to.
+ */
+#define MBE_GetRelationshipTrackId \
+        "http://musicbrainz.org/ar/ar-1.0#toTrack"
+
+/**
+ * Get the track name that this link points to.
+ */
+#define MBE_GetRelationshipTrackName \
+        "http://musicbrainz.org/ar/ar-1.0#toTrack http://purl.org/dc/elements/1.1/title"
+
+/**
+ * Get the URL that this link points to.
+ */
+#define MBE_GetRelationshipURL \
+        "http://musicbrainz.org/ar/ar-1.0#toUrl"
+
+/* -------------------------------------------------------------------------
  * Extract queries for the MBQ_GetCDTOC query
  * -------------------------------------------------------------------------
  */
@@ -773,6 +838,24 @@
  */
 #define MBQ_GetTrackByTRMId \
     "http://@URL@/mm-2.1/trmid/@1@/@DEPTH@" 
+
+/** 
+ * Retrieve an artistList with advanced relationships from a given artist id
+ */
+#define MBQ_GetArtistRelationsById \
+    "http://@URL@/mm-2.1/artistrel/@1@" 
+
+/** 
+ * Retrieve an albumList with advanced relationships from a given album id
+ */
+#define MBQ_GetAlbumRelationsById \
+    "http://@URL@/mm-2.1/albumrel/@1@" 
+
+/** 
+ * Retrieve a trackList with advanced relationships from a given track id
+ */
+#define MBQ_GetTrackRelationsById \
+    "http://@URL@/mm-2.1/trackrel/@1@" 
 
 /** 
  * Internal use only.
