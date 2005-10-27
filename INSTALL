@@ -11,7 +11,6 @@ Platforms
   The MusicBrainz client is expected to configure and compile under the 
   following platforms. It might even run on some of them .. :-)
 
-
   Cygwin:
   -------
 
@@ -20,7 +19,7 @@ Platforms
   FreeBSD:
   --------
 
-    - Untested
+    - Works
 
   Linux:
   ------
@@ -37,7 +36,6 @@ Platforms
 
     - Untested
 
-
   Solaris:
   --------
 
@@ -47,6 +45,11 @@ Platforms
 
   Win32:
   ------
+
+    - Works
+
+  Mac OS X
+  --------
 
     - Works
 
