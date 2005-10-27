@@ -6,7 +6,7 @@ otherwise noted.
 $Id$
 
 0.09 TBA
-        - updated to the latest libmusicbrainz
+        - updated to libmusicbrainz 2.1.2
         - added new relationship queries:
   	      MBS_SelectRelationship
   	      MBE_GetRelationshipType
