@@ -8,6 +8,8 @@ Changes for libmusicbrainz 2.1.2
    - Fixed a C++ style variable declaration inside the album.c C module
    - On linux the cdrom drive is now opened in non-blocking mode
    - Fixed bug #834541: Tagger setting track no. is 0 - possibly due to trm mixup?
+   - Added support for parsing AdvancedRelationship date. Also added new
+     getrels.c example program.
 
    The included perl bindings had the following changes:
       - Updated bindings to match up to 2.1.1
