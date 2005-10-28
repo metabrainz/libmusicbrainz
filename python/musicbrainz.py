@@ -490,7 +490,7 @@ MBE_GetRelationshipArtistName = """\
 http://musicbrainz.org/ar/ar-1.0#toArtist http://purl.org/dc/elements/1.1/title"""
 
 MBE_GetRelationshipAlbumId = """\
-http://musicbrainz.org/ar/ar-1.0#toArtist"""
+http://musicbrainz.org/ar/ar-1.0#toAlbum"""
 
 MBE_GetRelationshipAlbumName = """\
 http://musicbrainz.org/ar/ar-1.0#toAlbum http://purl.org/dc/elements/1.1/title"""

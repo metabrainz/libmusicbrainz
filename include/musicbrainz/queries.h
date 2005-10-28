@@ -595,7 +595,7 @@
  * Get the album id that this link points to.
  */
 #define MBE_GetRelationshipAlbumId \
-        "http://musicbrainz.org/ar/ar-1.0#toArtist"
+        "http://musicbrainz.org/ar/ar-1.0#toAlbum"
 
 /**
  * Get the album name that this link points to.
