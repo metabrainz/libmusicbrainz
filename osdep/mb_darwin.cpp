@@ -84,24 +84,24 @@ bool DiskId::ReadTOC(MUSICBRAINZ_DEVICE device,
    }
 
    cdToc = (CDTOC *)toc.buffer;
-   int numTracks = CDTOCGetDescriptorCount(cdToc);
-   cdinfo.FrameOffset[0] = CDConvertMSFToLBA(cdToc->descriptors[2].p) + 150; 
+   int numDesc = CDTOCGetDescriptorCount(cdToc);
 
-   int tracksToSkip = 0;
-   for(i = 3; i < numTracks; i++)
+   int numTracks = 0;
+   for(i = 0; i < numDesc; i++)
    {
-       cdinfo.FrameOffset[i-2] = CDConvertMSFToLBA(cdToc->descriptors[i].p) + 150; 
-       if (cdToc->descriptors[i].session > 1 || cdinfo.FrameOffset[i-2] > cdinfo.FrameOffset[0])
-       {
-           cdinfo.FrameOffset[i-2] = 0;
-           tracksToSkip++;
-           continue;
-       }
-   }
-   numTracks -= tracksToSkip;
+       CDTOCDescriptor *desc = &cdToc->descriptors[i];
 
+       if (desc->session > 1)
+           continue;
+
+       if (desc->point == 0xA2 && desc->adr == 1)
+            cdinfo.FrameOffset[0] = CDConvertMSFToLBA(desc->p) + 150; 
+
+       if (desc->point <= 99 && desc->adr == 1)
+            cdinfo.FrameOffset[1 + numTracks++] = CDConvertMSFToLBA(desc->p) + 150; 
+   }
    cdinfo.FirstTrack = 1;
-   cdinfo.LastTrack = numTracks - 3;
+   cdinfo.LastTrack = numTracks;
 
    close(fd);
 
