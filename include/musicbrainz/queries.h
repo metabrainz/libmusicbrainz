@@ -621,6 +621,12 @@
 #define MBE_GetRelationshipURL \
         "http://musicbrainz.org/ar/ar-1.0#toUrl"
 
+/**
+ * Get the vocal/instrument attributes. Must pass an ordinal to indicate which attribute to get.
+ */
+#define MBE_GetRelationshipAttribute \
+        "http://musicbrainz.org/ar/ar-1.0#attributeList []"
+
 /* -------------------------------------------------------------------------
  * Extract queries for the MBQ_GetCDTOC query
  * -------------------------------------------------------------------------
