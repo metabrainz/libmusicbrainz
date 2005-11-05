@@ -30,7 +30,7 @@ int main(int argc, char *argv[])
 {
     musicbrainz_t o;
     char          error[256], data[256], temp[256], *args[2];
-    int           ret, relNum;
+    int           ret, relNum, attrNum;
 
     if (argc < 3)
     {
@@ -152,6 +152,16 @@ int main(int argc, char *argv[])
         {
             mb_GetFragmentFromURL(o, data, temp, 255);
             printf("  Direction: %s\n", temp);
+        }
+        for(attrNum = 1;; attrNum++)
+        {
+            if (mb_GetResultData1(o, MBE_GetRelationshipAttribute, data, 256, attrNum))
+            {
+                mb_GetFragmentFromURL(o, data, temp, 255);
+                printf("  Attribute: %s\n", temp);
+            }
+            else
+                break;
         }
 
         printf("\n");

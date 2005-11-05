@@ -504,6 +504,9 @@ http://musicbrainz.org/ar/ar-1.0#toTrack http://purl.org/dc/elements/1.1/title""
 MBE_GetRelationshipURL = """\
 http://musicbrainz.org/ar/ar-1.0#toUrl"""
 
+MBE_GetRelationshipAttribute = """\
+http://musicbrainz.org/ar/ar-1.0#attributeList []"""
+
 MBI_VARIOUS_ARTIST_ID = """\
 89ad4ac3-39f7-470e-963a-56509c546377"""
 
