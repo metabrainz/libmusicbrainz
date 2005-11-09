@@ -31,6 +31,7 @@ int main(int argc, char *argv[])
     musicbrainz_t o;
     char          error[256], data[256], temp[256], *args[2];
     int           ret, relNum, attrNum;
+    char         *squery = NULL;
 
     if (argc < 3)
     {
@@ -38,31 +39,31 @@ int main(int argc, char *argv[])
         exit(0);
     }
 
-    // Create the musicbrainz object, which will be needed for subsequent calls
+    /* Create the musicbrainz object, which will be needed for subsequent calls */
     o = mb_New();
 
 #ifdef WIN32
     mb_WSAInit(o);
 #endif
 
-    // Tell the client library to return data in ISO8859-1 and not UTF-8
+    /* Tell the client library to return data in ISO8859-1 and not UTF-8 */
     mb_UseUTF8(o, 0);
 
-    // Set the proper server to use. Defaults to mm.musicbrainz.org:80
+    /* Set the proper server to use. Defaults to mm.musicbrainz.org:80 */
     if (getenv("MB_SERVER"))
         mb_SetServer(o, getenv("MB_SERVER"), 80);
 
-    // Check to see if the debug env var has been set 
+    /* Check to see if the debug env var has been set */
     if (getenv("MB_DEBUG"))
         mb_SetDebug(o, atoi(getenv("MB_DEBUG")));
 
-    // Tell the server to only return 2 levels of data, unless the MB_DEPTH env var is set
+    /* Tell the server to only return 2 levels of data, unless the MB_DEPTH env var is set */
     if (getenv("MB_DEPTH"))
         mb_SetDepth(o, atoi(getenv("MB_DEPTH")));
     else
         mb_SetDepth(o, 4);
 
-    // Set up the args for the find album query
+    /* Set up the args for the find album query */
     args[0] = argv[2];
     args[1] = NULL;
 
@@ -88,8 +89,7 @@ int main(int argc, char *argv[])
         return 0;
     }
 
-    char *squery = NULL;
-    // Select the first item in the list
+    /* Select the first item in the list */
     if (strcmp(argv[1], "artist") == 0)
         squery = MBS_SelectArtist;
     else
@@ -105,7 +105,7 @@ int main(int argc, char *argv[])
         mb_Delete(o);
         return 0;
     }
-    // Pull back the item id to see if we got the album
+    /* Pull back the item id to see if we got the album */
     if (!mb_GetResultData(o, "", data, 256))
     {
         printf("Album not found.\n");
@@ -172,7 +172,7 @@ int main(int argc, char *argv[])
     mb_WSAStop(o);
 #endif
 
-    // and clean up the musicbrainz object
+    /* and clean up the musicbrainz object */
     mb_Delete(o);
 
     return 0;
