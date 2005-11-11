@@ -5,7 +5,7 @@ otherwise noted.
 
 $Id$
 
-0.10	TBA
+0.10 	Fri Nov 11 08:58:46 2005
 	- Updated to libmusicbrainz 2.1.2
 	- Updated req for MusicBrainz::Queries to 0.09
 
