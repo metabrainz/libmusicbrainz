@@ -14,7 +14,7 @@ cvs_export :
 	cvs export -r$(NAME_SYM)_$(VERSION_SYM) -d$(DISTVNAME) $(CVS_PACKAGE)
 
 cvs_tag :
-	cvs tag $(NAME_SYM)_$(VERSION_SYM) .
+	cvs tag cpan_$(NAME_SYM)_$(VERSION_SYM) .
 	@echo tagged all files with $(NAME_SYM)_$(VERSION_SYM)
 
 EOT
