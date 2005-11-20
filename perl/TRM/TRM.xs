@@ -77,7 +77,7 @@ CODE:
 OUTPUT:
   RETVAL
 CLEANUP:
-  if( success == 0 )
+  if(success != 0)
     XSRETURN_UNDEF;
   
   

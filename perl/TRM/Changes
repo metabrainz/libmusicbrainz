@@ -5,7 +5,9 @@ otherwise noted.
 
 $Id$
 
-0.02
+0.02  Sun Nov 20 03:54:19 2005
+	- Fixed integer size issue when perl is compiled with -Duse64bitint
+	- Fixed return on finalize_signature() [Peter Winton]
 	- Fixed a compile time warning [Tom Heady]
 
 0.01  Fri Feb 21 16:21:40 2003

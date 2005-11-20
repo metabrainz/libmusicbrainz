@@ -11,7 +11,7 @@ ck_version :
 	@perl -MExtUtils::MakeMaker -le 'print "Version: " . MM->parse_version(shift)' $(VERSION_FROM)
 
 cvs_export :
-	cvs export -r$(NAME_SYM)_$(VERSION_SYM) -d$(DISTVNAME) $(CVS_PACKAGE)
+	cvs export -rcpan_$(NAME_SYM)_$(VERSION_SYM) -d$(DISTVNAME) $(CVS_PACKAGE)
   
 cvs_tag :
 	cvs tag cpan_$(NAME_SYM)_$(VERSION_SYM) .
