@@ -149,5 +149,8 @@ lib/Makefile
 osdep/Makefile
 examples/Makefile
 perl/Makefile
+python/Makefile
+python/examples/Makefile
+python/test/Makefile
 libmusicbrainz.pc], 
 echo timestamp > stamp-h)

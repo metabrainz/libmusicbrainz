@@ -21,19 +21,7 @@
 #
 AUTOMAKE_OPTIONS = foreign
 
-SUBDIRS = include lib osdep examples 
-DIST_SUBDIRS = osdep include lib examples perl python
+SUBDIRS = examples test
+DIST_SUBDIRS = examples test
 
-cvsclean: distclean
-	@echo "additonal cleanup for cvs commits"
-	rm -f *~ *.exe
-	rm -f mb.h cdi.cpp
-	rm -f $(PACKAGE)-$(VERSION).tar.gz
-
-pcdir = $(libdir)/pkgconfig
-pc_DATA = libmusicbrainz.pc
-
-EXTRA_DIST = libmusicbrainz.pc.in README.win32 config_win32.h \
-	     mb_client.doxy mb_client.spec docs/mb_howto.txt
-
-CLEANFILES = stamp-h
+EXTRA_DIST = Makefile.am musicbrainz.py README COPYING setup.py
