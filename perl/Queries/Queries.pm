@@ -752,7 +752,7 @@ advanced relationships.
 
 MusicBrainz::Client
 
-http://www.musicbrainz.org/docs/mb_client/queries_h.html
+http://www.musicbrainz.org/docs/mb_client/queries_8h.html
 
 =head1 AUTHOR
 

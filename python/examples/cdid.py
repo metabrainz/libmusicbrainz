@@ -15,7 +15,12 @@ def main():
         print "Insert CD and hit enter..."
         choice = sys.stdin.readline().strip()
         
-        mb.Query(q.MBQ_GetCDTOC)
+        try:
+            mb.Query(q.MBQ_GetCDTOC)
+        except musicbrainz.MusicBrainzError, e:
+            print "The following error occurred: %s" % e
+            print "Please make sure there is a CD in your CD drive."
+            continue
 
         cdid = mb.GetResultData(q.MBE_TOCGetCDIndexId)
         
@@ -35,8 +40,8 @@ def main():
                 dura = "%d:%02d" % divmod(int(dura / 1000), 60)
                 
                 print "\t%02d - %s (%s)" % (track, name, dura) 
-            os.system('eject')
             print "Ejecting cd..."
+            os.system('eject')
             continue
         
         url = mb.GetWebSubmitURL()
