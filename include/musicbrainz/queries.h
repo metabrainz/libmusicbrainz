@@ -77,6 +77,13 @@
         "http://musicbrainz.org/mm/mm-2.1#albumList []"
 
 /**
+ * Use this Select Query to select an the corresponding artist from an album 
+ * context. MBE_ArtistXXXXXX queries to extract data after the select.
+ */
+#define MBS_SelectAlbumArtist      \
+        "http://purl.org/dc/elements/1.1/creator"
+
+/**
  * Use this Select Query to select a track from an query that returns
  * a list of tracks. Giving the argument 1 for the ordinal selects 
  * the first track in the list, 2 the second and so on. Use
@@ -89,7 +96,6 @@
 /**
  * Use this Select Query to select an the corresponding artist from a track 
  * context. MBE_ArtistXXXXXX queries to extract data after the select.
- * @param ordinal 
  */
 #define MBS_SelectTrackArtist      \
         "http://purl.org/dc/elements/1.1/creator"
@@ -97,7 +103,6 @@
 /**
  * Use this Select Query to select an the corresponding artist from a track 
  * context. MBE_ArtistXXXXXX queries to extract data after the select.
- * @param ordinal 
  */
 #define MBS_SelectTrackAlbum      \
         "http://musicbrainz.org/mm/mq-1.1#album"
@@ -321,6 +326,18 @@
 #define MBE_AlbumGetAlbumArtistId        \
         "http://purl.org/dc/elements/1.1/creator"
 
+/**
+ * Return the name of the artist for this album.
+ */
+#define MBE_AlbumGetAlbumArtistName      \
+        "http://purl.org/dc/elements/1.1/creator http://purl.org/dc/elements/1.1/title"
+
+/**
+ * Return the sortname of the artist for this album.
+ */
+#define MBE_AlbumGetAlbumArtistSortName      \
+        "http://purl.org/dc/elements/1.1/creator http://musicbrainz.org/mm/mm-2.1#sortName"         
+        
 /**
  * Return the mumber of tracks in the currently selected Album
  */
