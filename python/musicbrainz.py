@@ -45,6 +45,14 @@ def findLibrary():
     if os.access(path, os.F_OK):
        return path;
 
+    try:
+        for path in os.environ['LD_LIBRARY_PATH'].split(':'):
+            path = path + lib
+            if os.access(path, os.F_OK):
+                return path
+    except:
+        pass
+       
     raise MusicBrainzError, "Cannot find MusicBrainz share library: " + lib
 
 if sys.platform == "win32":
@@ -296,6 +304,12 @@ class trm:
 # auto generated.  run ./setup.py build_queries to update
 MBE_AlbumGetAlbumArtistId = """\
 http://purl.org/dc/elements/1.1/creator"""
+
+MBE_AlbumGetAlbumArtistName = """\
+http://purl.org/dc/elements/1.1/creator http://purl.org/dc/elements/1.1/title"""
+
+MBE_AlbumGetAlbumArtistSortName = """\
+http://purl.org/dc/elements/1.1/creator http://musicbrainz.org/mm/mm-2.1#sortName"""
 
 MBE_AlbumGetAlbumId = """\
 """
@@ -652,6 +666,9 @@ MBS_Rewind = """\
 
 MBS_SelectAlbum = """\
 http://musicbrainz.org/mm/mm-2.1#albumList []"""
+
+MBS_SelectAlbumArtist = """\
+http://purl.org/dc/elements/1.1/creator"""
 
 MBS_SelectArtist = """\
 http://musicbrainz.org/mm/mm-2.1#artistList []"""
