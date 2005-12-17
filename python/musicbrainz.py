@@ -45,14 +45,6 @@ def findLibrary():
     if os.access(path, os.F_OK):
        return path;
 
-    try:
-        for path in os.environ['LD_LIBRARY_PATH'].split(':'):
-            path = path + lib
-            if os.access(path, os.F_OK):
-                return path
-    except:
-        pass
-       
     raise MusicBrainzError, "Cannot find MusicBrainz share library: " + lib
 
 if sys.platform == "win32":
