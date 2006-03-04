@@ -36,11 +36,11 @@
 
 int LaunchBrowser(const char* url, const char *browser)
 {
-    int foo = ShellExecute(NULL, "open", url, NULL, NULL, SW_SHOWNORMAL);
+    int foo = (int)ShellExecute(NULL, "open", url, NULL, NULL, SW_SHOWNORMAL);
     return 1;
 }
 
-#endif
+#else
 
 #ifdef __APPLE__
 
@@ -142,5 +142,7 @@ int IsNetscapeRunning(void)
     sprintf(lockfile,"%.200s/.netscape/lock",home);
     return (lstat(lockfile, &sb) != -1);
 }
+
+#endif
 
 #endif
