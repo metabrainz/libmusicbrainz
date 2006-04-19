@@ -27,32 +27,64 @@ class MusicBrainzError(Exception):
     pass
 Error = MusicBrainzError
 
-def findLibrary():
-    
-    if sys.platform == "darwin":
-        lib = "libmusicbrainz.4.dylib"
+def _openLibrary(libName, version):
+    """Opens a library using the ctypes cdll loader.
+
+    The dynamic linker (ld.so on Un*x systems) is used to load the library,
+    so it has to be in the linker search path. On some systems, such as
+    Linux, the search path can be influenced using the C{LD_LIBRARY_PATH}
+    environement variable.
+
+    @param libName: library name without 'lib' prefix or version number
+    @param version: a string containing a version number
+
+    @return: a C{ctypes.CDLL} object, representing the opened library
+
+    @raise NotImplementedError: if the library can't be opened
+    """
+    # This only works for ctypes >= 0.9.9.3. Any library with the given
+    # name and version number is found, no matter how it's called on this
+    # platform.
+    try:
+        if hasattr(cdll, 'load_version'):
+            if sys.platform == 'win32':
+                lib = cdll.load('lib%s' % (libName,))
+            else:
+                lib = cdll.load_version(libName, version)
+            return lib
+    except OSError, e:
+        raise NotImplementedError('Error opening library: ' + str(e))
+
+    # For compatibility with ctypes < 0.9.9.3 try to figure out the library
+    # name without the help of ctypes. We use cdll.LoadLibrary() below,
+    # which isn't available for ctypes == 0.9.9.3.
+    #
+    if sys.platform == 'linux2':
+        fullName = 'lib%s.so.%s' % (libName, version)
+    elif sys.platform == 'darwin':
+        fullName = 'lib%s.%s.dylib' % (libName, version)
+    elif sys.platform == 'win32':
+        fullName = 'lib%s.dll' % (libName,)
     else:
-        if sys.platform == "linux2":
-           lib = "libmusicbrainz.so.4"
-        else:
-           raise MusicBrainzError, "Unknown platform: " + sys.platform 
-  
-    path = "/usr/lib/" + lib
-    if os.access(path, os.F_OK):
-       return path;
+        # This should at least work for Un*x-style operating systems
+        fullName = 'lib%s.so.%s' % (libName, version)
 
-    path = "/usr/local/lib/" + lib
-    if os.access(path, os.F_OK):
-       return path;
+    try:
+        lib = cdll.LoadLibrary(fullName)
+        return lib
+    except OSError, e:
+        raise NotImplementedError('Error opening library: ' + str(e))
 
-    raise MusicBrainzError, "Cannot find MusicBrainz share library: " + lib
+    assert False # not reached
 
-if sys.platform == "win32":
-    mbdll = cdll.LoadLibrary("libmusicbrainz.dll")
+try:
+    mbdll = _openLibrary('musicbrainz', '4')
+except NotImplementedError, e:
+    raise MusicBrainzError(str(e))
+
+if sys.platform == 'win32':
     mbdll.mb_WSAInit.argtypes = [c_int]
-    mbdll.mb_WSAStop.argtypes = [c_int]
-else:
-    mbdll = cdll.LoadLibrary(findLibrary())
+    mbdll.mb_WSAStop.argtypes = [c_int]     
 
 class mb:
     mbdll.mb_New.argtypes = []
