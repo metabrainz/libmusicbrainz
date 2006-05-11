@@ -208,23 +208,23 @@ bool MBCOMSocket::IsConnected()
 }
 
 /** Reads from a socket, into pbuffer, up to a max of nLen byte, and writes how many were actually written to nBytesWritten. */
-int MBCOMSocket::Read(char* pBuffer, int nLen, int* nBytesWritten)
+int MBCOMSocket::Read(char* pBuffer, size_t nLen, size_t* nBytesWritten)
 {
 	if (!IsConnected()) return -1;	// no connection
-	int nErr = 0;
+	ssize_t nErr = 0;
 	nErr = recv(m_nSocket, (void*)pBuffer, nLen, 0);
-	if ((nErr != -1) && (nBytesWritten != NULL))
+	if ((nErr >= 0) && (nBytesWritten != NULL))
 	{
-		*nBytesWritten = nErr;
+		*nBytesWritten = (size_t) nErr;
 	}
-	return ((nErr != -1) - 1);
+	return ((nErr >= 0) - 1);
 }
 
 /** Writes to a socket, from buffer pBuffer, up to nLen bytes, and returns the number of written bytes in pnBytesWritten. */
-int MBCOMSocket::Write(const char* pBuffer, int nLen, int* pnBytesWritten)
+int MBCOMSocket::Write(const char* pBuffer, size_t nLen, size_t* pnBytesWritten)
 {
 	if (!IsConnected()) return -1; // no connection
-	int nErr = 0;
+	ssize_t nErr = 0;
 	bool bRepeat = true;
 	while (bRepeat)
 	{
@@ -235,11 +235,11 @@ int MBCOMSocket::Write(const char* pBuffer, int nLen, int* pnBytesWritten)
 			bRepeat = true;
 		}
 	}
-	if ((nErr != -1) && (pnBytesWritten != NULL))
+	if ((nErr >= 0) && (pnBytesWritten != NULL))
 	{
-		*pnBytesWritten = nErr;
+		*pnBytesWritten = (size_t) nErr;
 	}
-	return ((nErr != -1) - 1);
+	return ((nErr >= 0) - 1);
 }
 /** Sets TCPNODELAY to nFlag */
 int MBCOMSocket::SetNoDelay(int nFlag)
@@ -254,7 +254,7 @@ int MBCOMSocket::SetNoDelay(int nFlag)
 }
 
 /** Reads in a non blocking fashion (ie, selects and polls) for nTimeout seconds */
-int MBCOMSocket::NBRead(char* pBuffer, int nLen, int* nBytesWritten, int nTimeout)
+int MBCOMSocket::NBRead(char* pBuffer, size_t nLen, size_t* nBytesWritten, int nTimeout)
 {
 	struct pollfd pfd;
 	pfd.fd = m_nSocket;

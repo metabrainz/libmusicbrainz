@@ -104,7 +104,7 @@ bool MBCOMHTTPSocket::IsConnected()
 }
 
 /** Writes to a socket, from buffer pBuffer, up to nLen bytes, and returns the number of written bytes in pnBytesWritten. */
-int MBCOMHTTPSocket::Write(const char* pBuffer, int nLen, int* pnBytesWritten)
+int MBCOMHTTPSocket::Write(const char* pBuffer, size_t nLen, size_t* pnBytesWritten)
 {
 	if (!m_pSock->IsConnected()) return -1; // no connection
 	const char* pRequest = "POST %s HTTP/1.0\r\n"
@@ -114,7 +114,7 @@ int MBCOMHTTPSocket::Write(const char* pBuffer, int nLen, int* pnBytesWritten)
                                 "Content-type: application/octet-stream\r\n"
                                 "Content-length: %d\r\n";
 	
-	int nReqLen = strlen(pRequest) + strlen(m_pFile)
+	size_t nReqLen = strlen(pRequest) + strlen(m_pFile)
 			+ strlen(m_hostname)
 			+ strlen(g_strCOMVer)
 			+ nLen + 2;
@@ -127,7 +127,7 @@ int MBCOMHTTPSocket::Write(const char* pBuffer, int nLen, int* pnBytesWritten)
 	strcat(pReq, "\r\n");
 	
 	memcpy(pReq + strlen(pReq), pBuffer, nLen);
-	int nBytes = 0;
+	size_t nBytes = 0;
 	int nRes = m_pSock->Write(pReq, nReqLen, &nBytes);
 	delete [] pReq;
 	
@@ -143,14 +143,14 @@ int MBCOMHTTPSocket::Write(const char* pBuffer, int nLen, int* pnBytesWritten)
 }
 
 /** Reads in a non blocking fashion (ie, selects and polls) for nTimeout seconds */
-int MBCOMHTTPSocket::NBRead(char* pBuffer, int nLen, int* nBytesWritten, int nTimeout)
+int MBCOMHTTPSocket::NBRead(char* pBuffer, size_t nLen, size_t* nBytesWritten, int nTimeout)
 {
 	if (!m_pSock->IsConnected()) return -1; // no connection
 	
 	char HeaderBuffer[1024];	// read up to 1024 bytes for the header
 	memset(HeaderBuffer, 0x00, 1024);
-	int nBytes = 0;
-	int nTotal = 0;
+	size_t nBytes = 0;
+	size_t nTotal = 0;
 	
 	int nRes = m_pSock->NBRead(HeaderBuffer, 1023, &nBytes, nTimeout);
 	if (nRes != 0) return -1;	// error reading from socket. server crash?
@@ -194,7 +194,7 @@ int MBCOMHTTPSocket::NBRead(char* pBuffer, int nLen, int* nBytesWritten, int nTi
 	// advance to the data now, if there is any in this first buffer. 
 	char* pData = strstr(HeaderBuffer, "\r\n\r\n");
 	if (pData) pData += 4;
-	int nOffset = pData - HeaderBuffer;
+	size_t nOffset = pData - HeaderBuffer;
 	if (nTotal - nOffset >= nLen) // case 1: entire requested read is in header chunk
 	{
 		memcpy(pBuffer, pData, nLen);
@@ -224,10 +224,10 @@ int MBCOMHTTPSocket::NBRead(char* pBuffer, int nLen, int* nBytesWritten, int nTi
 }
 
 /** Reads from a socket, into pbuffer, up to a max of nLen byte, and writes how many were actually written to nBytesWritten. */
-int MBCOMHTTPSocket::Read(char* pBuffer, int nLen, int* nBytesWritten)
+int MBCOMHTTPSocket::Read(char* pBuffer, size_t nLen, size_t* nBytesWritten)
 {
 	if (!m_pSock->IsConnected()) return -1; // no connection
-	int nOffset = 0;
+	size_t nOffset = 0;
 	int nRes = 0;
 
 	if (m_pTempBuf != NULL) // case 1: leftover bits from header stripping
