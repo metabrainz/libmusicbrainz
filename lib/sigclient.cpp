@@ -81,7 +81,7 @@ int SigClient::GetSignature(AudioSig *sig, string &strGUID,
 
     SigXDR converter;
 
-    int nOffSet = sizeof(char) + sizeof(int);
+    size_t nOffSet = sizeof(char) + sizeof(int);
     int nGUIDLen = strCollectionID.size() * sizeof(char) + sizeof(char);
     int iSigEncodeSize = sizeof(int) + NUMSIGFIELDS * sizeof(int32) + nGUIDLen;
     int nTotalSize = nOffSet + iSigEncodeSize;
@@ -111,12 +111,12 @@ int SigClient::GetSignature(AudioSig *sig, string &strGUID,
            nGUIDLen - sizeof(char));
     pBuffer[nOffSet + iSigEncodeSize + nGUIDLen - sizeof(char)] = '\0';
 
-    int nBytes = 0;
+    size_t nBytes = 0;
     int ret = m_pSocket->Write(pBuffer, nTotalSize, &nBytes);
 
     memset(pBuffer, 0, nTotalSize);
     memset(pBlank, 0, nTotalSize);
-    int iGUIDSize = 16 * sizeof(int32);
+    size_t iGUIDSize = 16 * sizeof(int32);
 
     ret = m_pSocket->NBRead(pBuffer, iGUIDSize, &nBytes, 
                             SigClientVars::nTimeout);

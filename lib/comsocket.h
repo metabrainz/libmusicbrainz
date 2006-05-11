@@ -68,11 +68,11 @@ public:
 	/** Disconnects the current socket */
 	int Disconnect();
 	/** Reads from a socket, into pbuffer, up to a max of nLen byte, and writes how many were actually written to nBytesWritten. */
-	int Read(char* pBuffer, int nLen, int* nBytesWritten);
+	int Read(char* pBuffer, size_t nLen, size_t* nBytesWritten);
 	/** Reads in a non blocking fashion (ie, selects and polls) for nTimeout seconds */
-	int NBRead(char* pBuffer, int nLen, int* nBytesWritten, int nTimeout);
+	int NBRead(char* pBuffer, size_t nLen, size_t* nBytesWritten, int nTimeout);
 	/** Writes to a socket, from buffer pBuffer, up to nLen bytes, and returns the number of written bytes in pnBytesWritten. */
-	int Write(const char* pBuffer, int nLen, int* pnBytesWritten);
+	int Write(const char* pBuffer, size_t nLen, size_t* pnBytesWritten);
 	/** Sets TCPNODELAY to nFlag */
 	int SetNoDelay(int nFlag);
 	/** Sets NonBlocking status */ 
