@@ -5,15 +5,12 @@ __revision__ = "$Id$"
 from distutils.core import setup, Extension, Command
 import distutils.command.build_ext
 
-import musicbrainz 
-
 import sys, os, string
 
 cmdclass = {}
 
 setup_args = { 
     'name': 'python-musicbrainz',
-    'version': musicbrainz.__version__,
     'description': 'A wrapper for the MusicBrainz libraries',
     'long_description': """\
 The MusicBrainz client library is a development library geared towards
@@ -47,6 +44,12 @@ The client library includes the following features:
 
     'py_modules': ['musicbrainz',],
 }
+
+try:
+    import musicbrainz
+    setup_args['version'] = musicbrainz.__version__
+except:
+    pass
 
 # patch distutils if it can't cope with the 'classifiers' or
 # 'download_url' keywords
