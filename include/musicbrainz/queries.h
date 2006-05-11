@@ -312,6 +312,14 @@
         "http://musicbrainz.org/mm/mm-2.1#cdindexidList [COUNT]"
 
 /**
+ * Return the nth cdindex of the album. Requires a index
+ * ordinal. 1 for the first cdindex, etc...
+ * @param ordinal This select requires one ordinal argument to select a cdindex
+ */
+#define MBE_AlbumGetCdindexId    \
+        "http://musicbrainz.org/mm/mm-2.1#cdindexidList []"         
+        
+/**
  * Return the number of release dates returned in this query.
  */
 #define MBE_AlbumGetNumReleaseDates    \
