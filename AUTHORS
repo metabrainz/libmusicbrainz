@@ -88,4 +88,8 @@ The following people have contributed to this program:
   Martin Michlmayr <tbm@cyrius.com>
   - Supplied a number of patches that fixed minor issues with the reintegrated python bindings
 
+  Ryan McCabe <ryan@numb.org>
+  - Supplied a patch to fix pointer issues in comhttpsocket.cpp and
+    comsocket.cpp on 64-bit architectures.
+  
 (please send change requests to rob@musicbrainz.org or maintainer)
