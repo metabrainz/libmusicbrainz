@@ -362,6 +362,9 @@ http://musicbrainz.org/mm/mm-2.1#trackList [] http://purl.org/dc/elements/1.1/cr
 MBE_AlbumGetNumCdindexIds = """\
 http://musicbrainz.org/mm/mm-2.1#cdindexidList [COUNT]"""
 
+MBE_AlbumGetCdindexId = """\
+http://musicbrainz.org/mm/mm-2.1#cdindexidList []"""
+
 MBE_AlbumGetNumReleaseDates = """\
 http://musicbrainz.org/mm/mm-2.1#releaseDateList [COUNT]"""
 
