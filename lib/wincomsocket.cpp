@@ -110,7 +110,7 @@ bool MBCOMSocket::IsConnected()
 
 /** Reads from a socket, into pbuffer, up to a max of nLen byte, and writes 
   * how many were actually written to nBytesWritten. */
-int MBCOMSocket::Read(char* pBuffer, int nLen, int* nBytesWritten)
+int MBCOMSocket::Read(char* pBuffer, size_t nLen, size_t* nBytesWritten)
 {
     if (!IsConnected()) 
         return SOCKET_ERROR;  // no connection
@@ -120,13 +120,13 @@ int MBCOMSocket::Read(char* pBuffer, int nLen, int* nBytesWritten)
     //nErr = recv(m_nSocket, (void*)pBuffer, nLen, 0);
     if ((nErr != SOCKET_ERROR) && (nBytesWritten != NULL))
     {
-        *nBytesWritten = nErr;
+        *nBytesWritten = (size_t) nErr;
     }
     return (nErr != SOCKET_ERROR) - 1;
 }
 
 /** Reads in a non blocking fashion (ie, selects and polls) for nTimeout seconds */
-int MBCOMSocket::NBRead(char* pBuffer, int nLen, int* nBytesWritten, int nTimeout)
+int MBCOMSocket::NBRead(char* pBuffer, size_t nLen, size_t* nBytesWritten, int nTimeout)
 {
     timeval tval;
     tval.tv_sec = nTimeout;
@@ -153,7 +153,7 @@ int MBCOMSocket::NBRead(char* pBuffer, int nLen, int* nBytesWritten, int nTimeou
 }
 
 /** Writes to a socket, from buffer pBuffer, up to nLen bytes, and returns the number of written bytes in pnBytesWritten. */
-int MBCOMSocket::Write(const char* pBuffer, int nLen, int* pnBytesWritten)
+int MBCOMSocket::Write(const char* pBuffer, size_t nLen, size_t* pnBytesWritten)
 {
     if (!IsConnected()) 
         return SOCKET_ERROR; // no connection
@@ -163,7 +163,7 @@ int MBCOMSocket::Write(const char* pBuffer, int nLen, int* pnBytesWritten)
     //nErr = send(m_nSocket, (void*)pBuffer, nLen, 0);
     if ((nErr != SOCKET_ERROR) && (pnBytesWritten != NULL))
     {
-        *pnBytesWritten = nErr;
+        *pnBytesWritten = (size_t) nErr;
     }
     return (nErr != SOCKET_ERROR) - 1;
 }
