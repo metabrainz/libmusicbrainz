@@ -1,0 +1,40 @@
+import sys
+
+Import('env') 
+
+sources = [
+    'artist.cpp',
+    'artistalias.cpp',
+    'entity.cpp',
+    'disc.cpp',
+    'mbxmlparser.cpp',
+    'metadata.cpp',
+    'relation.cpp',
+    'release.cpp',
+    'releaseevent.cpp',
+    'results.cpp',
+    'track.cpp',
+    'user.cpp',
+    'webservice.cpp',
+    'http/comhttpsocket.cpp',
+    'http/http.cpp',
+    'xmlParser/xmlParser.cpp',
+    ]
+
+LIBS = []
+CPPPATH = env['CPPPATH'] + ['#lib', '#lib/http', '#include/musicbrainz3']
+CPPDEFINES = env['CPPDEFINES'] + ['MB_API_EXPORTS']
+    
+if sys.platform == 'win32':
+    sources.append('http/wincomsocket.cpp')
+    LIBS += ['wsock32', 'advapi32']
+else:
+    sources.append('http/comsocket.cpp')
+
+musicbrainz3 = env.SharedLibrary('musicbrainz3',
+                                 sources,
+                                 CPPPATH=CPPPATH,
+                                 CPPDEFINES=CPPDEFINES,
+                                 LIBS=LIBS)
+
+

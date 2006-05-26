@@ -1,0 +1,20 @@
+Import('env')
+
+sources = [
+    'main.cpp',
+    'test_first.cpp',
+    'test_model.cpp',
+    'test_parser.cpp',
+    'test_parser_artist.cpp',
+    'test_parser_release.cpp',
+    'test_parser_track.cpp',
+    'test_parser_user.cpp',
+    ]
+    
+test = env.Program('test',
+                   sources,
+                   LIBPATH=['#lib'],
+                   LIBS=['musicbrainz3', 'cppunit'])
+
+env.AddPostAction(test, "cd lib && %s && cd .." % (test[0].abspath,))
+
