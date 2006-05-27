@@ -24,6 +24,24 @@
 using namespace std;
 using namespace MusicBrainz;
 
+const string Release::TYPE_NONE = NS_MMD_1 + "None";
+	
+const string Release::TYPE_ALBUM = NS_MMD_1 + "Album";
+const string Release::TYPE_SINGLE = NS_MMD_1 + "Single";
+const string Release::TYPE_EP = NS_MMD_1 + "EP";
+const string Release::TYPE_COMPILATION = NS_MMD_1 + "Compilation";	
+const string Release::TYPE_SOUNDTRACK = NS_MMD_1 + "Soundtrack";
+const string Release::TYPE_SPOKENWORD = NS_MMD_1 + "Spokenword";
+const string Release::TYPE_INTERVIEW = NS_MMD_1 + "Interview";
+const string Release::TYPE_AUDIOBOOK = NS_MMD_1 + "Audiobook";
+const string Release::TYPE_LIVE = NS_MMD_1 + "Live";
+const string Release::TYPE_REMIX = NS_MMD_1 + "Remix";	
+const string Release::TYPE_OTHER = NS_MMD_1 + "Other";
+
+const string Release::TYPE_OFFICIAL = NS_MMD_1 + "Official";
+const string Release::TYPE_PROMOTION = NS_MMD_1 + "Promotion";
+const string Release::TYPE_BOOTLEG = NS_MMD_1 + "Bootleg"; 	
+
 Release::Release(const string &id, const string &title)
     : Entity(id), artist(0)
 {
