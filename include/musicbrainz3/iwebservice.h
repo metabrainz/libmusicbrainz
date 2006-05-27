@@ -23,6 +23,8 @@
 
 #include <string>
 #include <musicbrainz3/musicbrainz.h> 
+#include <musicbrainz3/includes.h> 
+#include <musicbrainz3/filters.h> 
 
 namespace MusicBrainz
 {
@@ -59,9 +61,13 @@ namespace MusicBrainz
 		 * 
 		 * @return a string contaning the returned data
 		 *
-		 * @raise WebServiceError: in case of errors 
+		 * @throw WebServiceError: in case of errors 
 		 */
-		 virtual std::string get(std::string entity, std::string id, std::string version) = 0;
+		 virtual std::string get(const std::string &entity,
+								 const std::string &id,
+								 const IIncludes::IncludeList &include,
+								 const IFilter::ParameterList &filter,
+								 const std::string &version) = 0;
 		 
 		 /**
 		  * Submit data to the web service.
@@ -71,9 +77,12 @@ namespace MusicBrainz
 		  * @param data a string containing the data to post
 		  * @param version a string containing the web service version to use
 		  * 
-		  * @raise WebServiceError in case of errors 
+		  * @throw WebServiceError in case of errors 
 		  */
-		 //void post(std::string entity, std::string id, std::stingdata, version) = 0;
+		 virtual void post(const std::string &entity,
+						   const std::string &id,
+						   const std::string &data,
+						   const std::string &version) = 0;
 	};
 	
 }
