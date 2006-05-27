@@ -18,8 +18,8 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA	 02111-1307	 USA
  */
  
-#ifndef __MUSICBRAINZ3_LISTS_H__
-#define __MUSICBRAINZ3_LISTS_H__
+#ifndef __MUSICBRAINZ3_INCLUDES_H__
+#define __MUSICBRAINZ3_INCLUDES_H__
 
 #include <string>
 #include <vector>
@@ -58,7 +58,10 @@ namespace MusicBrainz
 	public:
 		//! Include aliases.
 		ArtistIncludes &aliases();
-		// TODO: releases(), vaReleases()
+		//! Include releases of speficied type.
+		ArtistIncludes &releases(const std::string &type);
+		//! Include VA releases of speficied type.
+		ArtistIncludes &vaReleases(const std::string &type);
 		//! Include artist relations.
 		ArtistIncludes &artistRelations();	
 		//! Include release relations.

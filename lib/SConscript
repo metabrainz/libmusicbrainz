@@ -16,6 +16,7 @@ sources = [
     'results.cpp',
     'track.cpp',
     'user.cpp',
+    'utils.cpp',
     'webservice.cpp',
     'http/comhttpsocket.cpp',
     'http/http.cpp',

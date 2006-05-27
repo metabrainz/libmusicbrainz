@@ -18,6 +18,8 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA	 02111-1307	 USA
  */
  
+#include <string>
+#include <musicbrainz3/utils.h>
 #include <musicbrainz3/includes.h>
 
 using namespace std;
@@ -73,3 +75,16 @@ ArtistIncludes::createIncludeTags()
 	return includes;
 }
 
+ArtistIncludes &
+ArtistIncludes::releases(const string &type)
+{
+	includes.push_back(string("sa-") + extractFragment(type));
+	return *this;
+}
+
+ArtistIncludes &
+ArtistIncludes::vaReleases(const string &type)
+{
+	includes.push_back(string("va-") + extractFragment(type));
+	return *this;
+}
