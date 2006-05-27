@@ -53,7 +53,7 @@ namespace MusicBrainz
         /**
          * Constructor. 
          */
-        MbXmlParser(IFactory &factory = DefaultFactory());
+        MbXmlParser(/*IFactory factory = DefaultFactory()*/);
 		
         /**
          * Destructor. 

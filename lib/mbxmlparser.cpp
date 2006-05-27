@@ -35,7 +35,7 @@ namespace MusicBrainz {
 class MbXmlParserPrivate
 {
 public:
-	MbXmlParserPrivate(IFactory &factory) : factory(factory)
+	MbXmlParserPrivate(/*IFactory *factory*/)/* : factory(factory)*/
 	{}
 	
 	void addArtistsToList(XMLNode listNode, ArtistList &resultList);
@@ -61,7 +61,7 @@ public:
 	Track *createTrack(XMLNode releaseNode);
 	User *createUser(XMLNode releaseNode);
 
-	IFactory &factory;
+	DefaultFactory factory;
 };
 }
 
@@ -347,9 +347,9 @@ MbXmlParserPrivate::addUsersToList(XMLNode listNode, UserList &resultList)
 	addToList<User, UserList>(listNode, resultList, &MbXmlParserPrivate::createUser);
 }
 
-MbXmlParser::MbXmlParser(IFactory &factory)
+MbXmlParser::MbXmlParser(/*IFactory &factory*/)
 {
-	priv = new MbXmlParserPrivate(factory);
+	priv = new MbXmlParserPrivate();
 }
 
 MbXmlParser::~MbXmlParser()
