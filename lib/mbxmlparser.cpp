@@ -66,6 +66,25 @@ getInt(XMLNode node, int def = 0)
 	return text.empty() ? def : atoi(text.c_str());
 } 
 
+static vector<string>
+getUriListAttr(XMLNode node, string name, string ns = NS_MMD_1)
+{
+	vector<string> uriList;
+	string text = getTextAttribute(node, name);
+	if (text.empty())
+		return uriList;
+	string::size_type pos = 0;
+	while (pos < text.size()) {
+		string::size_type end = text.find(' ', pos);
+		if (pos == end) 
+			break;
+		string word = text.substr(pos, end);
+		uriList.push_back(ns + word);
+		pos = text.find_first_not_of(' ', end);
+	}
+	return uriList;
+}
+
 static void addArtistsToList(XMLNode listNode, ArtistList &resultList);
 static void addDiscsToList(XMLNode listNode, DiscList &resultList);
 static void addReleasesToList(XMLNode listNode, ReleaseList &resultList);
@@ -165,6 +184,9 @@ static User *
 createUser(XMLNode userNode)
 {
 	User *user = new User();
+	vector<string> typeList = getUriListAttr(userNode, "type", NS_EXT_1);
+	for (vector<string>::iterator i = typeList.begin(); i != typeList.end(); i++) 
+		user->addType(*i);
 	for (int i = 0; i < userNode.nChildNode(); i++) {
 		XMLNode node = userNode.getChildNode(i);
 		string name = node.getName();

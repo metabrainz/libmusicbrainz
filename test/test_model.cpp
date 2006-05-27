@@ -13,6 +13,7 @@ class ModelTest : public CppUnit::TestFixture
 	CPPUNIT_TEST(testTrackProperties);
 	CPPUNIT_TEST(testReleaseEventProperties);
 	CPPUNIT_TEST(testArtistAliasProperties);
+	CPPUNIT_TEST(testUserTypes);
 	CPPUNIT_TEST(testAddRelation);
 	CPPUNIT_TEST_SUITE_END();
 	
@@ -110,6 +111,16 @@ protected:
 		CPPUNIT_ASSERT_EQUAL(rel->getBeginDate(), rel2->getBeginDate());
 		CPPUNIT_ASSERT_EQUAL(rel->getEndDate(), rel2->getEndDate());
 	}
+	
+	void testUserTypes()
+	{
+		User a;
+		a.addType(NS_MMD_1 + "AutoEditor");
+		a.addType(NS_MMD_1 + "NotNaggable");
+		CPPUNIT_ASSERT_EQUAL(2, int(a.getTypes().size()));
+		CPPUNIT_ASSERT_EQUAL(NS_MMD_1 + "NotNaggable", a.getTypes()[1]);
+	}	
+	
 };
 
 CPPUNIT_TEST_SUITE_REGISTRATION(ModelTest); 
