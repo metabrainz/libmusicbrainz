@@ -35,6 +35,17 @@ Artist::Artist(const string &id, const string &type, const string &name, const s
     setSortName(sortName);
 }
 
+Artist::~Artist()
+{
+	for (ReleaseList::iterator i = releases.begin(); i != releases.end(); i++) 
+		delete *i;
+	releases.clear();
+ 	
+	for (ArtistAliasList::iterator i = aliases.begin(); i != aliases.end(); i++) 
+		delete *i;
+	aliases.clear(); 	
+}
+
 string
 Artist::getType() const
 {
@@ -117,5 +128,17 @@ void
 Artist::addRelease(Release *release)
 {
     releases.push_back(release);
+}
+
+ArtistAliasList &
+Artist::getAliases()
+{
+    return aliases;
+}
+
+void
+Artist::addAlias(ArtistAlias *alias)
+{
+    aliases.push_back(alias);
 }
 
