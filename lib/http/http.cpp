@@ -56,9 +56,8 @@
 #endif
 
 #include "http.h"
-#include "musicbrainz.h"
 #ifdef WIN32
-#include "../config_win32.h"
+#include "config_win32.h"
 #else
 #include "config.h"
 #endif

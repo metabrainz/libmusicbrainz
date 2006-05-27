@@ -30,7 +30,25 @@ ____________________________________________________________________________*/
 //#include "mutex.h"
 #include <stdio.h>
 #include <string>
-#include "apsutility.h"
+
+#ifdef WIN32
+#include <winsock.h>
+#include <time.h>
+#else
+#define INVALID_SOCKET -1
+#define SOCKET_ERROR -1
+#include <sys/time.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#ifndef __BEOS__
+#include <arpa/inet.h>
+#include <unistd.h>
+#define Sleep(x) usleep(x*1000)
+#else
+#include <be/kernel/OS.h>
+#define Sleep(x) snooze(x*1000)
+#endif
+#endif
 
 //class COMServerSocket;
 
