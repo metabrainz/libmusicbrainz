@@ -23,6 +23,7 @@
 
 #include <exception>
 #include <musicbrainz3/musicbrainz.h>
+#include <musicbrainz3/factory.h>
 #include <musicbrainz3/metadata.h>
 
 namespace MusicBrainz
@@ -37,6 +38,8 @@ namespace MusicBrainz
 		ParseError(const std::string &msg = std::string()) : Exception(msg) {}
     };
     
+	class MbXmlParserPrivate;
+	
     /**
      * A parser for the Music Metadata XML format.
      *
@@ -50,7 +53,12 @@ namespace MusicBrainz
         /**
          * Constructor. 
          */
-        MbXmlParser();
+        MbXmlParser(IFactory &factory = DefaultFactory());
+		
+        /**
+         * Destructor. 
+         */
+		virtual ~MbXmlParser();
         
         /**
          * Parses the MusicBrainz web service XML.
@@ -65,7 +73,9 @@ namespace MusicBrainz
          * @throw ParseError if the document is not valid
          */
         Metadata *parse(const std::string &data);
-        
+       
+	private:
+		MbXmlParserPrivate *priv;
     };
     
 }

@@ -26,11 +26,11 @@ protected:
 		Artist *artist = md->getArtist();
 		
 		CPPUNIT_ASSERT(artist);
-		CPPUNIT_ASSERT_EQUAL(artist->getId(), string("c0b2500e-0cef-4130-869d-732b23ed9df5"));
-		CPPUNIT_ASSERT_EQUAL(artist->getName(), string("Tori Amos"));
-		CPPUNIT_ASSERT_EQUAL(artist->getSortName(), string("Amos, Tori"));
-		CPPUNIT_ASSERT_EQUAL(artist->getBeginDate(), string("1963-08-22"));
-		CPPUNIT_ASSERT_EQUAL(int(artist->getReleases().size()), 0);
+		CPPUNIT_ASSERT_EQUAL(string("http://musicbrainz.org/artist/c0b2500e-0cef-4130-869d-732b23ed9df5"), artist->getId());
+		CPPUNIT_ASSERT_EQUAL(string("Tori Amos"), artist->getName());
+		CPPUNIT_ASSERT_EQUAL(string("Amos, Tori"), artist->getSortName());
+		CPPUNIT_ASSERT_EQUAL(string("1963-08-22"), artist->getBeginDate());
+		CPPUNIT_ASSERT_EQUAL(0, int(artist->getReleases().size()));
 	}
 	
 	void testArtistAliases()
