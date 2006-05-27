@@ -5,8 +5,9 @@ Import('env')
 sources = [
     'artist.cpp',
     'artistalias.cpp',
-    'entity.cpp',
     'disc.cpp',
+    'entity.cpp',
+    'includes.cpp',
     'mbxmlparser.cpp',
     'metadata.cpp',
     'relation.cpp',
