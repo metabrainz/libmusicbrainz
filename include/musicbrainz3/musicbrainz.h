@@ -21,6 +21,8 @@
 #ifndef __MUSICBRAINZ3_MUSICBRAINZ_H__
 #define __MUSICBRAINZ3_MUSICBRAINZ_H__
 
+#include <exception>
+
 #ifdef WIN32
   #ifdef MB_API_EXPORTS
     #define MB_API __declspec(dllexport)
@@ -44,6 +46,21 @@
 namespace MusicBrainz
 { 
     
+	class MB_API Exception : public std::exception
+	{
+	public:
+		Exception(const std::string &msg = std::string()) : msg(msg) {}
+		const char *what() const { return msg.c_str(); }
+	private:
+		std::string msg;
+	};
+	
+	class MB_API ValueError : public Exception
+	{
+	public:
+		ValueError(const std::string &msg = std::string()) : Exception(msg) {}
+	};
+	
     /**
      * MusicBrainz ID for "Various Artists" 
      */    
