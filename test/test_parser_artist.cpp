@@ -15,6 +15,7 @@ class ParseArtistTest : public CppUnit::TestFixture
 {
 	CPPUNIT_TEST_SUITE(ParseArtistTest);
 	CPPUNIT_TEST(testArtistBasic);
+	CPPUNIT_TEST(testArtistAliases);
 	CPPUNIT_TEST_SUITE_END();
 	
 protected:
@@ -30,6 +31,17 @@ protected:
 		CPPUNIT_ASSERT_EQUAL(artist->getSortName(), string("Amos, Tori"));
 		CPPUNIT_ASSERT_EQUAL(artist->getBeginDate(), string("1963-08-22"));
 		CPPUNIT_ASSERT_EQUAL(int(artist->getReleases().size()), 0);
+	}
+	
+	void testArtistAliases()
+	{
+		Metadata *md = MbXmlParser().parse(get_file_contents("../test-data/valid/artist/Tori_Amos_4.xml"));
+		const ArtistAliasList &al = md->getArtist()->getAliases();
+		
+		CPPUNIT_ASSERT_EQUAL(3, int(al.size()));
+		CPPUNIT_ASSERT_EQUAL(string("Myra Ellen Amos"), al[0]->getValue());
+		CPPUNIT_ASSERT_EQUAL(string("Latn"), al[2]->getScript());
+		CPPUNIT_ASSERT_EQUAL(string(NS_MMD_1 + "Misspelling"), al[2]->getType());
 	}
 	
 };

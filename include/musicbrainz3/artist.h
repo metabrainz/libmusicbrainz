@@ -60,6 +60,11 @@ namespace MusicBrainz
 			   const std::string &name = "", const std::string &sortName = "");
 		
 		/**
+		 * Destructor.
+		 */
+		~Artist();
+		
+		/**
 		 * Returns the artist's type.
 		 *
 		 * @return a string containing an absolute URI	
@@ -119,8 +124,11 @@ namespace MusicBrainz
 		const ReleaseList &getReleases() const;
 		void addRelease(Release *release);
 		
-	private:
+		ArtistAliasList &getAliases();
+		void addAlias(ArtistAlias *alias);
 		
+	private:
+
 		std::string type;
 		std::string name;
 		std::string sortName;
@@ -128,6 +136,7 @@ namespace MusicBrainz
 		std::string beginDate;
 		std::string endDate;
 		ReleaseList releases;
+		ArtistAliasList aliases;
 		
 	};
 	

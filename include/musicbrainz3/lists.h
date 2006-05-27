@@ -27,6 +27,7 @@ namespace MusicBrainz
 {
 	
 	class Artist;
+	class ArtistAlias;
 	class ArtistResult;
 	class Disc;
 	class Relation;
@@ -38,6 +39,7 @@ namespace MusicBrainz
 	class User;
 	
 	typedef std::vector<Artist *> ArtistList;
+	typedef std::vector<ArtistAlias *> ArtistAliasList;
 	typedef std::vector<ArtistResult *> ArtistResultList;
 	typedef std::vector<Disc *> DiscList;
 	typedef std::vector<Relation *> RelationList;

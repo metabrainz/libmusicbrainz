@@ -23,6 +23,7 @@
 #include <string>
 #include <iostream>
 #include <string.h>
+#include <musicbrainz3/utils.h>
 #include <musicbrainz3/mbxmlparser.h>
 #include "xmlParser/xmlParser.h"
 
@@ -66,6 +67,15 @@ getInt(XMLNode node, int def = 0)
 	return text.empty() ? def : atoi(text.c_str());
 } 
 
+static string
+getUriAttr(XMLNode node, string name, string ns = NS_MMD_1)
+{
+	string text = getTextAttribute(node, name);
+	if (text.empty())
+		return text;
+	return ns + extractFragment(text);
+}
+
 static vector<string>
 getUriListAttr(XMLNode node, string name, string ns = NS_MMD_1)
 {
@@ -86,6 +96,7 @@ getUriListAttr(XMLNode node, string name, string ns = NS_MMD_1)
 }
 
 static void addArtistsToList(XMLNode listNode, ArtistList &resultList);
+static void addArtistAliasesToList(XMLNode listNode, ArtistAliasList &resultList);
 static void addDiscsToList(XMLNode listNode, DiscList &resultList);
 static void addReleasesToList(XMLNode listNode, ReleaseList &resultList);
 static void addReleaseEventsToList(XMLNode listNode, ReleaseEventList &resultList);
@@ -118,8 +129,21 @@ createArtist(XMLNode artistNode)
 			if (end)
 				artist->setEndDate(string(end));
 		}
+		else if (name == "alias-list") {
+			addArtistAliasesToList(node, artist->getAliases());
+		}
 	}
 	return artist; 
+}
+
+static ArtistAlias *
+createArtistAlias(XMLNode node)
+{
+	ArtistAlias *alias = new ArtistAlias();
+	alias->setType(getUriAttr(node, "type"));
+	alias->setScript(getTextAttribute(node, "script"));
+	alias->setValue(getText(node));
+	return alias;
 }
 
 static Release *
@@ -245,6 +269,12 @@ static void
 addArtistsToList(XMLNode listNode, ArtistList &resultList)
 {
 	addToList<Artist, ArtistList>(listNode, resultList, &createArtist);
+}
+
+static void
+addArtistAliasesToList(XMLNode listNode, ArtistAliasList &resultList)
+{
+	addToList<ArtistAlias, ArtistAliasList>(listNode, resultList, &createArtistAlias);
 }
 
 static void
