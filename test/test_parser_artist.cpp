@@ -17,6 +17,7 @@ class ParseArtistTest : public CppUnit::TestFixture
 	CPPUNIT_TEST(testArtistBasic);
 	CPPUNIT_TEST(testArtistAliases);
 	CPPUNIT_TEST(testArtistReleases);
+	CPPUNIT_TEST(testArtistRelations);
 	CPPUNIT_TEST(testSearchResults);
 	CPPUNIT_TEST_SUITE_END();
 	
@@ -64,6 +65,21 @@ protected:
 		CPPUNIT_ASSERT_EQUAL(3, int(results.size()));
 		CPPUNIT_ASSERT_EQUAL(100, results[0]->getScore());
 		CPPUNIT_ASSERT_EQUAL(string("Tori Amos"), results[0]->getArtist()->getName());
+	}
+	
+	void testArtistRelations()
+	{
+		Metadata *md = MbXmlParser().parse(get_file_contents("../test-data/valid/artist/Tori_Amos_3.xml"));
+		const RelationList &re = md->getArtist()->getRelations();
+		
+		CPPUNIT_ASSERT_EQUAL(3, int(re.size()));
+		CPPUNIT_ASSERT_EQUAL(NS_REL_1 + "Married", re[0]->getType());
+		CPPUNIT_ASSERT_EQUAL(NS_REL_1 + "Discography", re[1]->getType());
+		CPPUNIT_ASSERT_EQUAL(string("1998"), re[0]->getBeginDate());
+		
+		Artist *ar = static_cast<Artist *>(re[0]->getTarget());
+		CPPUNIT_ASSERT_EQUAL(string("Mark Hawley"), ar->getName());
+		//CPPUNIT_ASSERT_EQUAL(string("http://www.yessaid.com/albums.html"), re[1]->getTargetId());
 	}
 	
 };
