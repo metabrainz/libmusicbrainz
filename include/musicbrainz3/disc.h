@@ -59,7 +59,7 @@ namespace MusicBrainz
 		/**
 		 * Constructor.
 		 *
-		 * @param id a string containing a 28-character DiscID  
+		 * @param id a string containing a 28-character DiscID	
 		 */
 		Disc(const std::string &id = std::string());
 
@@ -81,20 +81,70 @@ namespace MusicBrainz
 		 * @param value a string containing a 28-character DiscID 
 		 */
 		void setId(const std::string &value);
-
+		
+		/**
+		 * Returns the length of the disc in sectors.
+		 *
+		 * @return the length in sectors as an integer
+		 */
 		int getSectors() const;
+		
+		/**
+		 * Sets the length of the disc in sectors.
+		 *
+		 * @param sectors the length in sectors as an integer 
+		 */
 		void setSectors(const int sectors);
 		
+		/**
+		 * Returns the number of the first track on this disc.
+		 *
+		 * @return an int containing the track number
+		 */
 		int getFirstTrackNum() const;
+		
+		/** 
+		 * Sets the number of the first track on this disc.
+		 *
+		 * @param trackNum an int containing the track number
+		 */
 		void setFirstTrackNum(const int trackNum);
 		
+		/**
+		 * Returns the number of the last track on this disc.
+		 *
+		 * @return an int containing the track number
+		 */
 		int getLastTrackNum() const;
+		
+		/**
+		 * Sets the number of the last track on this disc.
+		 *
+		 * @param trackNum an int containing the track number
+		 */
 		void setLastTrackNum(const int trackNum);
 		
+		/**
+		 * Returns the sector offset and length of this disc.
+		 *
+		 * This method returns a list of tuples containing the track
+		 * offset and length in sectors for all tracks on this disc.
+		 * The track offset is measured from the beginning of the disc,
+		 * the length is relative to the track's offset. Note that the
+		 * leadout track is \e not included.
+		 * 
+		 * @return a vector of (offset, length) pairs (values are ints)
+		 */
 		const Disc::TrackList &getTracks() const;
 		
 		/**
 		 * Adds a track to the list.
+		 *
+		 * This method adds an (offset, length) pair to the list of
+		 * tracks. The leadout track must \e not be added. The total
+		 * length of the disc can be set using setSectors.
+		 *
+		 * @param track an (offset, length) pair (values are ints)
 		 *
 		 * @see getTracks 
 		 */
@@ -112,3 +162,4 @@ namespace MusicBrainz
 }
 
 #endif
+
