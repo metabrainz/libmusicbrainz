@@ -21,8 +21,6 @@
 #ifndef __MUSICBRAINZ3_MODEL_H__
 #define __MUSICBRAINZ3_MODEL_H__
 
-#include <vector>
-
 #include <musicbrainz3/entity.h> 
 #include <musicbrainz3/lists.h> 
 #include <musicbrainz3/artist.h> 
@@ -35,3 +33,4 @@
 #include <musicbrainz3/user.h> 
 
 #endif
+

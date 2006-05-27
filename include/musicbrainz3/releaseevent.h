@@ -26,28 +26,29 @@
 
 namespace MusicBrainz
 {
-    
-    /**
-     * A release event, indicating where and when a release took place.
+	
+	/**
+	 * A release event, indicating where and when a release took place.
 	 *
-	 * All country codes used must be valid ISO-3166 country codes (i.e. 'DE',
-	 * 'UK' or 'FR'). The dates are strings and must have the format 'YYYY',
-	 * 'YYYY-MM' or 'YYYY-MM-DD'. 
-     */
-    class MB_API ReleaseEvent
-    {
-    public:
-    
-        /**
-         * Constructor.
-         *
-         * @param country a string containing an ISO-3166 country code 
-         * @param dateStr a string containing a date string 
-         */
-        ReleaseEvent(const std::string &country = std::string(), const std::string &dateStr = std::string());
-        
-        /**
-         * Returns the country a release took place.
+	 * All country codes used must be valid ISO-3166 country codes (i.e. "DE",
+	 * "UK" or "FR"). The dates are strings and must have the format "YYYY",
+	 * "YYYY-MM" or "YYYY-MM-DD". 
+	 */
+	class MB_API ReleaseEvent
+	{
+	public:
+	
+		/**
+		 * Constructor.
+		 *
+		 * @param country a string containing an ISO-3166 country code 
+		 * @param dateStr a string containing a date string 
+		 */
+		ReleaseEvent(const std::string &country = std::string(),
+					 const std::string &dateStr = std::string());
+		
+		/**
+		 * Returns the country a release took place.
 		 *
 		 * @note Due to a server limitation, the web service does not
 		 * return country IDs for release collection queries. This only
@@ -56,36 +57,37 @@ namespace MusicBrainz
 		 * @return a string containing an ISO-3166 country code
 		 *
 		 * @see getCountryName 
-         */
-        std::string getCountry() const;
-        
-        /**
-         * Sets the country a release took place.
+		 */
+		std::string getCountry() const;
+		
+		/**
+		 * Sets the country a release took place.
 		 *
 		 * @param country a string containing an ISO-3166 country code 
-         */
-        void setCountry(const std::string &country);
+		 */
+		void setCountry(const std::string &country);
 		
-        /**
-         * Returns the date a release took place.
+		/**
+		 * Returns the date a release took place.
 		 *
 		 * @return a string containing a date 
-         */
-        std::string getDate() const;
-        
-        /**
-         * Sets the date a release took place.
+		 */
+		std::string getDate() const;
+		
+		/**
+		 * Sets the date a release took place.
 		 *
 		 * @param dateStr a string containing a date  
-         */
-        void setDate(const std::string &dateStr);
+		 */
+		void setDate(const std::string &dateStr);
 		
-    private:
-        
-        std::string country;
+	private:
+		
+		std::string country;
 		std::string dateStr;
-    };
-    
+	};
+	
 }
 
 #endif
+
