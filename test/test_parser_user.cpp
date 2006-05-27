@@ -27,8 +27,6 @@ protected:
 		CPPUNIT_ASSERT_EQUAL(1, int(ul.size()));
 		CPPUNIT_ASSERT_EQUAL(string("matt"), ul[0]->getName());
 		CPPUNIT_ASSERT_EQUAL(false, ul[0]->getShowNag());
-		CPPUNIT_ASSERT_EQUAL(string(NS_EXT_1 + "AutoEditor"), ul[0]->getTypes()[0]);
-		CPPUNIT_ASSERT_EQUAL(string(NS_EXT_1 + "RelationshipEditor"), ul[0]->getTypes()[1]);
 	}
 	
 	void testUserTypes()
