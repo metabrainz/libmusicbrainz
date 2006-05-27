@@ -118,8 +118,8 @@ Artist::setEndDate(const string &value)
     endDate = value;
 } 
 
-const ReleaseList &
-Artist::getReleases() const
+ReleaseList &
+Artist::getReleases()
 {
     return releases;
 }

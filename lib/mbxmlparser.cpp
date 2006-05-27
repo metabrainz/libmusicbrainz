@@ -167,6 +167,9 @@ MbXmlParserPrivate::createArtist(XMLNode artistNode)
 		else if (name == "alias-list") {
 			addArtistAliasesToList(node, artist->getAliases());
 		}
+		else if (name == "release-list") {
+			addReleasesToList(node, artist->getReleases());
+		}
 	}
 	return artist; 
 }

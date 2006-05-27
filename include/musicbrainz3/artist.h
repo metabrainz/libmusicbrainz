@@ -121,7 +121,7 @@ namespace MusicBrainz
 		std::string getEndDate() const;
 		void setEndDate(const std::string &value);
 		
-		const ReleaseList &getReleases() const;
+		ReleaseList &getReleases();
 		void addRelease(Release *release);
 		
 		ArtistAliasList &getAliases();
