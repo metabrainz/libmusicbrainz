@@ -22,7 +22,9 @@
  
 #include <string>
 #include <iostream>
-#include <string.h>
+#include <cctype>
+#include <algorithm>
+#include <cstring>
 #include <musicbrainz3/utils.h>
 #include <musicbrainz3/factory.h>
 #include <musicbrainz3/mbxmlparser.h>
@@ -36,6 +38,9 @@ class MbXmlParserPrivate
 {
 public:
 	MbXmlParserPrivate(/*IFactory *factory*/)/* : factory(factory)*/ {}
+
+	Relation *createRelation(XMLNode node, const string &targetType);
+	void addRelationsToEntity(XMLNode listNode, Entity *entity);
 	
 	template<typename T, typename TL>
 	void addToList(XMLNode listNode, TL &resultList, T *(MbXmlParserPrivate::*creator)(XMLNode));
@@ -101,7 +106,9 @@ getUriAttr(XMLNode node, string name, string ns = NS_MMD_1)
 static string
 getIdAttr(XMLNode node, string name, string typeName)
 {
-	return "http://musicbrainz.org/" + typeName + "/" + getTextAttr(node, name); 
+	string uriStr = getTextAttr(node, name);
+	string prefix = "http://musicbrainz.org/" + typeName + "/"; 
+	return prefix + uriStr; 
 }
 
 static vector<string>
@@ -172,6 +179,9 @@ MbXmlParserPrivate::createArtist(XMLNode artistNode)
 		else if (name == "release-list") {
 			addReleasesToList(node, artist->getReleases());
 		}
+		else if (name == "relation-list") {
+			addRelationsToEntity(node, artist);
+		}
 	}
 	return artist; 
 }
@@ -185,6 +195,76 @@ MbXmlParserPrivate::createArtistAlias(XMLNode node)
 	alias->setValue(getText(node));
 	return alias;
 }
+
+
+string
+getResourceType(const string &type)
+{
+	string resType = extractFragment(type);
+	transform(resType.begin(), resType.end(), resType.begin(), (int(*)(int))tolower);
+	return resType;
+}
+
+Relation *
+MbXmlParserPrivate::createRelation(XMLNode node, const string &targetType)
+{
+	Relation *relation = factory.newRelation();
+	
+	relation->setType(getUriAttr(node, "type", NS_REL_1));
+	relation->setTargetType(targetType);
+	if (targetType == Relation::TO_URL)
+		relation->setTargetId(getTextAttr(node, "target"));
+	else
+		relation->setTargetId(getIdAttr(node, "target", getResourceType(targetType)));
+
+	Relation::Direction direction = Relation::DIR_BOTH; 
+	string dirStr = getTextAttr(node, "direction");
+	if (dirStr == "forward")
+		direction = Relation::DIR_FORWARD;
+	if (dirStr == "backward")
+		direction = Relation::DIR_BACKWARD;
+	relation->setDirection(direction);
+
+	relation->setBeginDate(getTextAttr(node, "begin"));
+	relation->setEndDate(getTextAttr(node, "end"));
+	
+	vector<string> attributes = getUriListAttr(node, "attributes", NS_REL_1);
+	for (vector<string>::iterator i = attributes.begin(); i != attributes.end(); i++) 
+		relation->addAttribute(*i);
+
+	Entity *target = NULL;
+	if (node.nChildNode() > 0) {
+		XMLNode childNode = node.getChildNode(0);
+		if (string(childNode.getName()) == string("artist")) 
+			target = createArtist(childNode);
+		else if (string(childNode.getName()) == string("release"))  
+			target = createRelease(childNode);
+		else if (string(childNode.getName()) == string("track")) 
+			target = createTrack(childNode);
+	}
+	relation->setTarget(target);
+	
+	return relation;
+}
+
+void
+MbXmlParserPrivate::addRelationsToEntity(XMLNode node, Entity *entity)
+{
+	string targetType = getUriAttr(node, "target-type");
+	if (targetType.empty())
+		return;
+	
+	for (int i = 0; i < node.nChildNode(); i++) {
+		XMLNode childNode = node.getChildNode(i);
+		if (string(childNode.getName()) == string("relation")) {
+			Relation *relation = createRelation(childNode, targetType);
+			if (relation)
+				entity->addRelation(relation);
+		}
+	}
+}
+
+
 
 Release *
 MbXmlParserPrivate::createRelease(XMLNode releaseNode)
@@ -217,9 +297,9 @@ MbXmlParserPrivate::createRelease(XMLNode releaseNode)
 			release->setTracksOffset(getIntAttr(node, "offset"));
 			addTracksToList(node, release->getTracks());
 		}
-/*		else if (name == "relation-list") {
-			release->setTitle(getText(node));
-		}*/
+		else if (name == "relation-list") {
+			addRelationsToEntity(node, release);
+		}
 	}
 	return release;
 }
@@ -240,6 +320,9 @@ MbXmlParserPrivate::createTrack(XMLNode trackNode)
 		}
 		else if (name == "duration") {
 			track->setDuration(getInt(node));
+		}
+		else if (name == "relation-list") {
+			addRelationsToEntity(node, track);
 		}
 	}
 	return track;

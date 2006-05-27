@@ -19,124 +19,135 @@
  */
  
 #include <string>
-#include "relation.h"
+#include <musicbrainz3/relation.h>
 
 using namespace std;
 using namespace MusicBrainz;
 
+const string Relation::TO_ARTIST = NS_MMD_1 + "Artist"; 
+const string Relation::TO_RELEASE = NS_MMD_1 + "Release"; 
+const string Relation::TO_TRACK = NS_MMD_1 + "Track"; 
+const string Relation::TO_URL = NS_MMD_1 + "Url"; 
+
 Relation::Relation(const std::string &relationType,
-                   const TargetType targetType,
-                   const std::string &targetId,
-                   const Direction direction,
-                   const std::vector<std::string> &attributes,
-                   const std::string beginDate,
-                   const std::string endDate,
-                   Entity *target)
+				   const std::string &targetType,
+				   const std::string &targetId,
+				   const Direction direction,
+				   const std::vector<std::string> &attributes,
+				   const std::string &beginDate,
+				   const std::string &endDate,
+				   Entity *target)
+	: type(relationType),
+	  targetType(targetType),
+	  targetId(targetId),
+	  direction(direction),
+	  attributes(attributes),
+	  beginDate(beginDate),
+	  endDate(endDate),
+	  target(target)
 {
-    setType(relationType);
-    setTargetType(targetType);
-    setTargetId(targetId);
-    setDirection(direction);
-    this->attributes = attributes;
-    setBeginDate(beginDate);
-    setEndDate(endDate);
-    setTarget(target);
+}
+
+Relation::~Relation()
+{
+	if (target)
+		delete target;
 }
 
 string
 Relation::getType() const
 {
-    return type;
+	return type;
 }
 
 void
 Relation::setType(const string &value)
 {
-    type = value;
+	type = value;
 }
 
 string
 Relation::getTargetId() const
 {
-    return targetId;
+	return targetId;
 }
 
 void
 Relation::setTargetId(const string &value)
 {
-    targetId = value;
+	targetId = value;
 }
 
 Relation::Direction
 Relation::getDirection() const
 {
-    return direction;
+	return direction;
 }
 
 void
 Relation::setDirection(const Relation::Direction value)
 {
-    direction = value;
+	direction = value;
 }
 
-Relation::TargetType
+string
 Relation::getTargetType() const
 {
-    return targetType;
+	return targetType;
 }
 
 void
-Relation::setTargetType(const Relation::TargetType value)
+Relation::setTargetType(const string &value)
 {
-    targetType = value;
+	targetType = value;
 }
 
 Entity *
 Relation::getTarget() const
 {
-    return target;
+	return target;
 }
 
 void
 Relation::setTarget(Entity *value)
 {
-    target = value;
+	target = value;
 }
 
 const Relation::Attributes &
 Relation::getAttributes() const
 {
-    return attributes;
+	return attributes;
 }
 
 void
 Relation::addAttribute(const string &value)
 {
-    attributes.push_back(value);
+	attributes.push_back(value);
 }
 
 string
 Relation::getBeginDate() const
 {
-    return beginDate;
+	return beginDate;
 }
 
 void
 Relation::setBeginDate(const string &value)
 {
-    beginDate = value;
+	beginDate = value;
 }
 
 string
 Relation::getEndDate() const
 {
-    return endDate;
+	return endDate;
 }
 
 void
 Relation::setEndDate(const string &value)
 {
-    endDate = value;
+	endDate = value;
 } 
 
 

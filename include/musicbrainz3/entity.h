@@ -96,12 +96,12 @@ namespace MusicBrainz
 		void addRelation(Relation *relation);
 		
 	private:
-	
+
 		std::string id;
 		RelationList relations;
-		
 	};
 	
 }
 
 #endif
+
