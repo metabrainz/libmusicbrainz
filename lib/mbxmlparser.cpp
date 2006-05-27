@@ -35,8 +35,10 @@ namespace MusicBrainz {
 class MbXmlParserPrivate
 {
 public:
-	MbXmlParserPrivate(/*IFactory *factory*/)/* : factory(factory)*/
-	{}
+	MbXmlParserPrivate(/*IFactory *factory*/)/* : factory(factory)*/ {}
+	
+	template<typename T, typename TL>
+	void addToList(XMLNode listNode, TL &resultList, T *(MbXmlParserPrivate::*creator)(XMLNode));
 	
 	void addArtistsToList(XMLNode listNode, ArtistList &resultList);
 	void addArtistAliasesToList(XMLNode listNode, ArtistAliasList &resultList);
@@ -46,12 +48,12 @@ public:
 	void addTracksToList(XMLNode listNode, TrackList &resultList);
 	void addUsersToList(XMLNode listNode, UserList &resultList);
 
+	template<typename T, typename TL, typename TR>
+	void addResults(XMLNode listNode, TL &resultList, T *(MbXmlParserPrivate::*creator)(XMLNode));
+	
 	void addArtistResults(XMLNode listNode, ArtistResultList &resultList);
 	void addReleaseResults(XMLNode listNode, ReleaseResultList &resultList);
 	void addTrackResults(XMLNode listNode, TrackResultList &resultList);
-	
-	template<typename T, typename TL>
-	void addToList(XMLNode listNode, TL &resultList, T *(MbXmlParserPrivate::*creator)(XMLNode));
 	
 	Artist *createArtist(XMLNode artistNode);
 	ArtistAlias *createArtistAlias(XMLNode artistAliasNode);
@@ -280,19 +282,34 @@ MbXmlParserPrivate::createReleaseEvent(XMLNode releaseEventNode)
 	return releaseEvent;
 }
 
+template<typename T, typename TL, typename TR>
+void
+MbXmlParserPrivate::addResults(XMLNode listNode, TL &resultList, T *(MbXmlParserPrivate::*creator)(XMLNode))
+{
+	for (int i = 0; i < listNode.nChildNode(); i++) {
+		XMLNode node = listNode.getChildNode(i);
+		T *entity = (this->*creator)(node);
+		int score = getIntAttr(node, "ext:score");
+		resultList.push_back(new TR(entity, score));
+	}
+}
+
 void
 MbXmlParserPrivate::addArtistResults(XMLNode listNode, ArtistResultList &resultList)
 {
+	addResults<Artist, ArtistResultList, ArtistResult>(listNode, resultList, &MbXmlParserPrivate::createArtist);
 }
 
 void
 MbXmlParserPrivate::addReleaseResults(XMLNode listNode, ReleaseResultList &resultList)
 {
+	addResults<Release, ReleaseResultList, ReleaseResult>(listNode, resultList, &MbXmlParserPrivate::createRelease);
 }
 
 void
 MbXmlParserPrivate::addTrackResults(XMLNode listNode, TrackResultList &resultList)
 {
+	addResults<Track, TrackResultList, TrackResult>(listNode, resultList, &MbXmlParserPrivate::createTrack);
 }
 
 template<typename T, typename TL>

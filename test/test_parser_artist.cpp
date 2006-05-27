@@ -17,6 +17,7 @@ class ParseArtistTest : public CppUnit::TestFixture
 	CPPUNIT_TEST(testArtistBasic);
 	CPPUNIT_TEST(testArtistAliases);
 	CPPUNIT_TEST(testArtistReleases);
+	CPPUNIT_TEST(testSearchResults);
 	CPPUNIT_TEST_SUITE_END();
 	
 protected:
@@ -54,6 +55,15 @@ protected:
 		CPPUNIT_ASSERT_EQUAL(string("To Venus and Back (disc 1: Orbiting)"), re[1]->getTitle());
 		CPPUNIT_ASSERT_EQUAL(3, int(re[1]->getReleaseEvents().size()));
 		CPPUNIT_ASSERT_EQUAL(string("DE"), re[2]->getReleaseEvents()[0]->getCountry());
+	}
+	
+	void testSearchResults()
+	{
+		Metadata *md = MbXmlParser().parse(get_file_contents("../test-data/valid/artist/search_result_1.xml"));
+		ArtistResultList &results = md->getArtistResults();
+		CPPUNIT_ASSERT_EQUAL(3, int(results.size()));
+		CPPUNIT_ASSERT_EQUAL(100, results[0]->getScore());
+		CPPUNIT_ASSERT_EQUAL(string("Tori Amos"), results[0]->getArtist()->getName());
 	}
 	
 };
