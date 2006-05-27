@@ -15,6 +15,7 @@ SConscript([
     ])  
 
 docs = env.Command('docs/index.html', '', 'doxygen')
+env.AlwaysBuild('docs/index.html')
 env.Alias('docs', docs)
 
 env.Default('lib', 'test')
