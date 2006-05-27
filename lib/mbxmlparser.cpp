@@ -31,24 +31,54 @@ using namespace std;
 using namespace MusicBrainz;
 
 static bool
-getBoolAttribute(XMLNode node, string name)
+getBoolAttr(XMLNode node, string name)
 {
 	const char *value = node.getAttribute(name.c_str());
 	return value ? value == "true" : false;
 }
 
 static int
-getIntAttribute(XMLNode node, string name, int def = 0)
+getIntAttr(XMLNode node, string name, int def = 0)
 {
 	const char *value = node.getAttribute(name.c_str());
 	return value ? atoi(value) : def;
 }
 
 static string
-getTextAttribute(XMLNode node, string name, string def = "")
+getTextAttr(XMLNode node, string name, string def = "")
 {
 	const char *value = node.getAttribute(name.c_str());
 	return value ? string(value) : string(def);
+}
+
+static string
+getUriAttr(XMLNode node, string name, string ns = NS_MMD_1)
+{
+	const char *value = node.getAttribute(name.c_str());
+	if (!value)
+		return string();
+	string text = string(value);
+	return ns + extractFragment(text);
+}
+
+static vector<string>
+getUriListAttr(XMLNode node, string name, string ns = NS_MMD_1)
+{
+	vector<string> uriList;
+	const char *value = node.getAttribute(name.c_str());
+	if (!value)
+		return uriList;
+	string text = string(value);
+	string::size_type pos = 0;
+	while (pos < text.size()) {
+		string::size_type end = text.find(' ', pos);
+		if (pos == end) 
+			break;
+		string word = extractFragment(text.substr(pos, end));
+		uriList.push_back(ns + word);
+		pos = text.find_first_not_of(' ', end);
+	}
+	return uriList;
 }
 
 static string
@@ -67,34 +97,6 @@ getInt(XMLNode node, int def = 0)
 	return text.empty() ? def : atoi(text.c_str());
 } 
 
-static string
-getUriAttr(XMLNode node, string name, string ns = NS_MMD_1)
-{
-	string text = getTextAttribute(node, name);
-	if (text.empty())
-		return text;
-	return ns + extractFragment(text);
-}
-
-static vector<string>
-getUriListAttr(XMLNode node, string name, string ns = NS_MMD_1)
-{
-	vector<string> uriList;
-	string text = getTextAttribute(node, name);
-	if (text.empty())
-		return uriList;
-	string::size_type pos = 0;
-	while (pos < text.size()) {
-		string::size_type end = text.find(' ', pos);
-		if (pos == end) 
-			break;
-		string word = text.substr(pos, end);
-		uriList.push_back(ns + word);
-		pos = text.find_first_not_of(' ', end);
-	}
-	return uriList;
-}
-
 static void addArtistsToList(XMLNode listNode, ArtistList &resultList);
 static void addArtistAliasesToList(XMLNode listNode, ArtistAliasList &resultList);
 static void addDiscsToList(XMLNode listNode, DiscList &resultList);
@@ -105,10 +107,8 @@ static void addTracksToList(XMLNode listNode, TrackList &resultList);
 static Artist *
 createArtist(XMLNode artistNode)
 {
-	Artist *artist = new Artist(getTextAttribute(artistNode, "id"));
-	string type = getTextAttribute(artistNode, "type");
-	if (!type.empty()) 
-		artist->setType(NS_MMD_1 + type);
+	Artist *artist = new Artist(getTextAttr(artistNode, "id"));
+	artist->setType(getUriAttr(artistNode, "type"));
 	for (int i = 0; i < artistNode.nChildNode(); i++) {
 		XMLNode node = artistNode.getChildNode(i);
 		string name = node.getName(); 
@@ -141,7 +141,7 @@ createArtistAlias(XMLNode node)
 {
 	ArtistAlias *alias = new ArtistAlias();
 	alias->setType(getUriAttr(node, "type"));
-	alias->setScript(getTextAttribute(node, "script"));
+	alias->setScript(getTextAttr(node, "script"));
 	alias->setValue(getText(node));
 	return alias;
 }
@@ -149,7 +149,7 @@ createArtistAlias(XMLNode node)
 static Release *
 createRelease(XMLNode releaseNode)
 {
-	Release *release = new Release(getTextAttribute(releaseNode, "id"));
+	Release *release = new Release(getTextAttr(releaseNode, "id"));
 	for (int i = 0; i < releaseNode.nChildNode(); i++) {
 		XMLNode node = releaseNode.getChildNode(i);
 		string name = node.getName(); 
@@ -157,8 +157,8 @@ createRelease(XMLNode releaseNode)
 			release->setTitle(getText(node));
 		}
 		else if (name == "text-representation") {
-			release->setTextLanguage(getTextAttribute(node, "language"));
-			release->setTextScript(getTextAttribute(node, "script"));
+			release->setTextLanguage(getTextAttr(node, "language"));
+			release->setTextScript(getTextAttr(node, "script"));
 		}
 		else if (name == "asin") {
 			release->setAsin(getText(node));
@@ -173,7 +173,7 @@ createRelease(XMLNode releaseNode)
 			addDiscsToList(node, release->getDiscs());
 		}
 		else if (name == "track-list") {
-			release->setTracksOffset(getIntAttribute(node, "offset"));
+			release->setTracksOffset(getIntAttr(node, "offset"));
 			addTracksToList(node, release->getTracks());
 		}
 /*		else if (name == "relation-list") {
@@ -218,7 +218,7 @@ createUser(XMLNode userNode)
 			user->setName(getText(node));
 		}
 		else if (name == "ext:nag") {
-			user->setShowNag(getBoolAttribute(node, "show"));
+			user->setShowNag(getBoolAttr(node, "show"));
 		}
 	}
 	return user;
@@ -227,7 +227,7 @@ createUser(XMLNode userNode)
 static Disc *
 createDisc(XMLNode discNode)
 {
-	Disc *disc = new Disc(getTextAttribute(discNode, "id"));
+	Disc *disc = new Disc(getTextAttr(discNode, "id"));
 	return disc;
 }
 
@@ -235,8 +235,8 @@ static ReleaseEvent *
 createReleaseEvent(XMLNode releaseEventNode)
 {
 	ReleaseEvent *releaseEvent = 
-		new ReleaseEvent(getTextAttribute(releaseEventNode, "country"),
-						 getTextAttribute(releaseEventNode, "date"));
+		new ReleaseEvent(getTextAttr(releaseEventNode, "country"),
+						 getTextAttr(releaseEventNode, "date"));
 	return releaseEvent;
 }
 
