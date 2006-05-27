@@ -31,8 +31,10 @@ namespace MusicBrainz
     /**
      * Exception to be thrown if a parse error occurs. 
      */
-    class MB_API ParseError : public std::exception
+    class MB_API ParseError : public Exception
     {
+	public:
+		ParseError(const std::string &msg = std::string()) : Exception(msg) {}
     };
     
     /**
