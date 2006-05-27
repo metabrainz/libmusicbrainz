@@ -25,9 +25,9 @@ protected:
 		Track *track = md->getTrack();
 		
 		CPPUNIT_ASSERT(track);
-		CPPUNIT_ASSERT_EQUAL(string("d6118046-407d-4e06-a1ba-49c399a4c42f"), track->getId());
+		CPPUNIT_ASSERT_EQUAL(string("http://musicbrainz.org/track/d6118046-407d-4e06-a1ba-49c399a4c42f"), track->getId());
 		CPPUNIT_ASSERT_EQUAL(string("Silent All These Years"), track->getTitle());
-		//CPPUNIT_ASSERT_EQUAL(253466, track->getDuration());
+		CPPUNIT_ASSERT_EQUAL(253466, track->getDuration());
 	}
 	
 };

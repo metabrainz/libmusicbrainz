@@ -29,7 +29,7 @@ protected:
 		Metadata *md = MbXmlParser().parse(get_file_contents("../test-data/valid/release/Under_the_Pink_1.xml"));
 		Release *release = md->getRelease();
 		CPPUNIT_ASSERT(release);
-		CPPUNIT_ASSERT_EQUAL(string("290e10c5-7efc-4f60-ba2c-0dfc0208fbf5"), release->getId());
+		CPPUNIT_ASSERT_EQUAL(string("http://musicbrainz.org/release/290e10c5-7efc-4f60-ba2c-0dfc0208fbf5"), release->getId());
 		CPPUNIT_ASSERT_EQUAL(string("Under the Pink"), release->getTitle());
 		CPPUNIT_ASSERT_EQUAL(string("B000002IXU"), release->getAsin());
 		CPPUNIT_ASSERT_EQUAL(string("ENG"), release->getTextLanguage());
@@ -44,7 +44,7 @@ protected:
 		CPPUNIT_ASSERT(release);
 		Artist *artist = release->getArtist();
 		CPPUNIT_ASSERT(artist);
-		CPPUNIT_ASSERT_EQUAL(string("c0b2500e-0cef-4130-869d-732b23ed9df5"), artist->getId());
+		CPPUNIT_ASSERT_EQUAL(string("http://musicbrainz.org/artist/c0b2500e-0cef-4130-869d-732b23ed9df5"), artist->getId());
 		CPPUNIT_ASSERT_EQUAL(string("Tori Amos"), artist->getName());
 	}
 	
@@ -78,7 +78,7 @@ protected:
 		CPPUNIT_ASSERT_EQUAL(9, int(tracks.size()));
 		CPPUNIT_ASSERT_EQUAL(373333, tracks[0]->getDuration());
 		CPPUNIT_ASSERT_EQUAL(string("Tombstone Blues"), tracks[1]->getTitle());
-		CPPUNIT_ASSERT_EQUAL(string("525dc658-e6cb-4923-80d9-a77e93ef4d33"), tracks[2]->getId());
+		CPPUNIT_ASSERT_EQUAL(string("http://musicbrainz.org/track/525dc658-e6cb-4923-80d9-a77e93ef4d33"), tracks[2]->getId());
 	}
 	
 	void testReleaseTracksVA()
