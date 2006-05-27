@@ -49,20 +49,27 @@ WebService::cleanup()
 #endif
 }
 
-WebService::WebService(const std::string host, const int port, const std::string pathPrefix,
-                       const std::string username, const std::string password,
-                       const std::string realm)
+WebService::WebService(const std::string &host,
+					   const int port,
+					   const std::string &pathPrefix,
+                       const std::string &username,
+					   const std::string &password,
+                       const std::string &realm)
+	: host(host),
+	  port(port),
+	  pathPrefix(pathPrefix),
+	  username(username),
+	  password(password),
+	  realm(realm)
 {
-    this->host = host;
-    this->port = port;
-    this->pathPrefix = pathPrefix;
-    this->username = username;
-    this->password = password;
-    this->realm = realm;
 }
 
 string
-WebService::get(string entity, string id, string version)
+WebService::get(const std::string &entity,
+				const std::string &id,
+				const IIncludes::IncludeList &include,
+				const IFilter::ParameterList &filter,
+				const std::string &version)
 {
     MBHttp http;
     
@@ -98,5 +105,13 @@ WebService::get(string entity, string id, string version)
 #endif
     
     return response; 
+}
+
+void
+WebService::post(const std::string &entity,
+			     const std::string &id,
+				 const std::string &data,
+				 const std::string &version)
+{
 }
 

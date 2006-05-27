@@ -34,13 +34,14 @@ namespace MusicBrainz
 	class MB_API IIncludes
 	{
 	public:
+		typedef std::vector<std::string> IncludeList;
 		/**
 		 * Returns a list of strings containing include parameters for
 		 * the WebService.
 		 *
 		 * @return a list of strings
 		 */
-		virtual std::vector<std::string> createIncludeTags() = 0;
+		virtual IncludeList createIncludeTags() = 0;
 	};
 	
 	/**
@@ -70,9 +71,9 @@ namespace MusicBrainz
 		ArtistIncludes &trackRelations();	
 		//! Include URL relations.
 		ArtistIncludes &urlRelations();
-		std::vector<std::string> createIncludeTags();
+		IncludeList createIncludeTags();
 	private:
-		std::vector<std::string> includes;
+		IncludeList includes;
 	};
 	
 	/**
@@ -106,9 +107,9 @@ namespace MusicBrainz
 		ReleaseIncludes &trackRelations();	
 		//! Include URL relations.
 		ReleaseIncludes &urlRelations();
-		std::vector<std::string> createIncludeTags();
+		IncludeList createIncludeTags();
 	private:
-		std::vector<std::string> includes;
+		IncludeList includes;
 	};
 	
 	/**
@@ -138,9 +139,9 @@ namespace MusicBrainz
 		TrackIncludes &trackRelations();	
 		//! Include URL relations.
 		TrackIncludes &urlRelations();
-		std::vector<std::string> createIncludeTags();
+		IncludeList createIncludeTags();
 	private:
-		std::vector<std::string> includes;
+		IncludeList includes;
 	};
 	
 }

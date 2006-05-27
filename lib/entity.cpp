@@ -26,37 +26,37 @@ using namespace MusicBrainz;
 
 Entity::Entity(const string &id)
 {
-    setId(id);
+	setId(id);
 }
 
 Entity::~Entity()
 {
-    for (RelationList::iterator i = relations.begin(); i != relations.end(); i++) 
-        delete *i;
-    relations.clear();
+	for (RelationList::iterator i = relations.begin(); i != relations.end(); i++) 
+		delete *i;
+	relations.clear();
 }
 
 string
 Entity::getId() const
 {
-    return id;
+	return id;
 }
 
 void
 Entity::setId(const string &id)
 {
-    this->id = id;
+	this->id = id;
 }
 
 const RelationList &
 Entity::getRelations() const
 {
-    return relations;
+	return relations;
 }
 
 void
 Entity::addRelation(Relation *relation)
 {
-    relations.push_back(relation);
+	relations.push_back(relation);
 }
 

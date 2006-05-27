@@ -41,7 +41,7 @@ INCLUDES_METHOD(Track, releaseRelations, release-rels)
 INCLUDES_METHOD(Track, trackRelations, track-rels)
 INCLUDES_METHOD(Track, urlRelations, url-rels)
 
-vector<string>
+TrackIncludes::IncludeList
 TrackIncludes::createIncludeTags()
 {
 	return includes;
@@ -57,7 +57,7 @@ INCLUDES_METHOD(Release, releaseRelations, release-rels)
 INCLUDES_METHOD(Release, trackRelations, track-rels)
 INCLUDES_METHOD(Release, urlRelations, url-rels)
 
-vector<string>
+ReleaseIncludes::IncludeList
 ReleaseIncludes::createIncludeTags()
 {
 	return includes;
@@ -69,7 +69,7 @@ INCLUDES_METHOD(Artist, releaseRelations, release-rels)
 INCLUDES_METHOD(Artist, trackRelations, track-rels)
 INCLUDES_METHOD(Artist, urlRelations, url-rels)
 
-vector<string>
+ArtistIncludes::IncludeList
 ArtistIncludes::createIncludeTags()
 {
 	return includes;
