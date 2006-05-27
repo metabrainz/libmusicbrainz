@@ -9,6 +9,7 @@ sources = [
     'test_parser_release.cpp',
     'test_parser_track.cpp',
     'test_parser_user.cpp',
+    'test_utils.cpp',
     'test_ws_filters.cpp',
     'test_ws_includes.cpp',
     ]

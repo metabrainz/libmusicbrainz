@@ -36,8 +36,17 @@ namespace MusicBrainz
 	 *
 	 * @return a string containing the fragment
 	 */
-	MB_API std::string extractFragment(const std::string &uri);    
-    
+	MB_API std::string extractFragment(const std::string &uriStr);    
+
+	/**
+	 * Extract the UUID part from a MusicBrainz identifier.
+	 *
+	 * This function takes a MusicBrainz ID (an absolute URI) as the input
+	 * and returns the UUID part of the URI, thus turning it into a relative
+	 * URI. If \a uriStr is empty or a relative URI, then it is returned
+	 * unchanged.
+	 */
+	MB_API std::string extractUuid(const std::string &uriStr);    
 }
 
 #endif
