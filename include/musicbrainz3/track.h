@@ -58,6 +58,11 @@ namespace MusicBrainz
 		 */
 		Track(const std::string &id = std::string(),
 			  const std::string &title = std::string());
+
+		/**
+		 * Destructor.
+		 */
+		virtual ~Track();
 		
 		/**
 		 * Returns the track's title.

@@ -2,7 +2,7 @@
  * MusicBrainz -- The Internet music metadatabase
  *
  * Copyright (C) 2006 Lukas Lalinsky
- *  
+ *	
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -10,7 +10,7 @@
  * 
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.	 See the GNU
  * Lesser General Public License for more details.
  * 
  * You should have received a copy of the GNU Lesser General Public
@@ -40,63 +40,66 @@ const string Release::TYPE_OTHER = NS_MMD_1 + "Other";
 
 const string Release::TYPE_OFFICIAL = NS_MMD_1 + "Official";
 const string Release::TYPE_PROMOTION = NS_MMD_1 + "Promotion";
-const string Release::TYPE_BOOTLEG = NS_MMD_1 + "Bootleg"; 	
+const string Release::TYPE_BOOTLEG = NS_MMD_1 + "Bootleg";	
 
 Release::Release(const string &id, const string &title)
-    : Entity(id), artist(0)
+	: Entity(id), artist(0)
 {
-    setTitle(title);
+	setTitle(title);
 }
 
 Release::~Release()
 {
-    for (TrackList::iterator i = tracks.begin(); i != tracks.end(); i++) 
-        delete *i;
-    tracks.clear();
+	if (artist)
+		delete artist;
 	
-    for (DiscList::iterator i = discs.begin(); i != discs.end(); i++) 
-        delete *i;
-    discs.clear();
+	for (TrackList::iterator i = tracks.begin(); i != tracks.end(); i++) 
+		delete *i;
+	tracks.clear();
 	
-    for (ReleaseEventList::iterator i = releaseEvents.begin(); i != releaseEvents.end(); i++) 
-        delete *i;
-    releaseEvents.clear();
+	for (DiscList::iterator i = discs.begin(); i != discs.end(); i++) 
+		delete *i;
+	discs.clear();
+	
+	for (ReleaseEventList::iterator i = releaseEvents.begin(); i != releaseEvents.end(); i++) 
+		delete *i;
+	releaseEvents.clear();
 }
 
 string
 Release::getTitle() const
 {
-    return title;
+	return title;
 }
 
 void
 Release::setTitle(const string &value)
 {
-    title = value;
+	title = value;
 }
 
 string
 Release::getTextLanguage() const
 {
-    return textLanguage;
+	return textLanguage;
 }
 
 void
 Release::setTextLanguage(const string &value)
 {
-    textLanguage = value;
+	textLanguage = value;
 }
 
 string
 Release::getTextScript() const
 {
-    return textScript;
+	return textScript;
 }
 
 void
 Release::setTextScript(const string &value)
 {
-    textScript = value;
+	textScript = value;
 }
 
 Artist *
@@ -114,13 +117,13 @@ Release::setArtist(Artist *value)
 string
 Release::getAsin() const
 {
-    return asin;
+	return asin;
 }
 
 void
 Release::setAsin(const string &value)
 {
-    asin = value;
+	asin = value;
 }
 
 TrackList &
@@ -132,13 +135,13 @@ Release::getTracks()
 int
 Release::getTracksOffset() const
 {
-    return tracksOffset;
+	return tracksOffset;
 }
 
 void
 Release::setTracksOffset(const int value)
 {
-    tracksOffset = value;
+	tracksOffset = value;
 }
 
 DiscList &

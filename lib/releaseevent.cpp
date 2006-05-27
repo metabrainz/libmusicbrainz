@@ -25,31 +25,31 @@ using namespace std;
 using namespace MusicBrainz;
 
 ReleaseEvent::ReleaseEvent(const string &country, const string &dateStr)
-    : country(country), dateStr(dateStr)
+	: country(country), dateStr(dateStr)
 {
 }
 
 string
 ReleaseEvent::getCountry() const
 {
-    return country;
+	return country;
 }
 
 void
 ReleaseEvent::setCountry(const string &value)
 {
-    country = value;
+	country = value;
 }
 
 string
 ReleaseEvent::getDate() const
 {
-    return dateStr;
+	return dateStr;
 }
 
 void
 ReleaseEvent::setDate(const string &value)
 {
-    dateStr = value;
+	dateStr = value;
 }
 

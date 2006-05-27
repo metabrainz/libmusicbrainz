@@ -44,6 +44,12 @@ ArtistResult::ArtistResult(Artist *artist, int score)
 {
 }
 
+ArtistResult::~ArtistResult()
+{
+	if (artist)
+		delete artist;
+}
+
 Artist *
 ArtistResult::getArtist()
 {
@@ -59,6 +65,12 @@ ArtistResult::setArtist(Artist *value)
 ReleaseResult::ReleaseResult(Release *release, int score)
 	: Result(score), release(release)
 {
+}
+
+ReleaseResult::~ReleaseResult()
+{
+	if (release)
+		delete release;
 }
 
 Release *
@@ -78,6 +90,12 @@ TrackResult::TrackResult(Track *track, int score)
 {
 }
 
+TrackResult::~TrackResult()
+{
+	if (track)
+		delete track;
+}
+
 Track *
 TrackResult::getTrack()
 {
@@ -89,4 +107,5 @@ TrackResult::setTrack(Track *value)
 {
 	track = value;
 }
+
 

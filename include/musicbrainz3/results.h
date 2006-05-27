@@ -38,6 +38,11 @@ namespace MusicBrainz
 		Result(int score);
 	
 		/**
+		 * Destructor.
+		 */
+		 virtual ~Result() {};
+		
+		/**
 		 * Returns the result score.
 		 *
 		 * The score indicates how good this result matches the search
@@ -76,6 +81,11 @@ namespace MusicBrainz
 		ArtistResult(Artist *artist, int score);
 		
 		/**
+		 * Destructor.
+		 */
+		~ArtistResult();
+		
+		/**
 		 * Returns the artist.
 		 *
 		 * @return a pointer to an Artist object
@@ -111,6 +121,11 @@ namespace MusicBrainz
 		ReleaseResult(Release *release, int score);
 		
 		/**
+		 * Destructor.
+		 */
+		~ReleaseResult();
+		
+		/**
 		 * Returns the release.
 		 *
 		 * @return a pointer to a Release object
@@ -144,6 +159,11 @@ namespace MusicBrainz
 		 * Constructor.
 		 */
 		TrackResult(Track *track, int score);
+		
+		/**
+		 * Destructor.
+		 */
+		~TrackResult();
 		
 		/**
 		 * Returns the track.
