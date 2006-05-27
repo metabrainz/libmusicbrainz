@@ -2,7 +2,7 @@
  * MusicBrainz -- The Internet music metadatabase
  *
  * Copyright (C) 2006 Lukas Lalinsky
- *	
+ *  
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -10,14 +10,14 @@
  * 
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.	 See the GNU
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  * 
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA	 02111-1307	 USA
- */
-  
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ */ 
+
 #ifndef __MUSICBRAINZ3_RELEASE_H__
 #define __MUSICBRAINZ3_RELEASE_H__
 
@@ -105,7 +105,7 @@ namespace MusicBrainz
 		 *
 		 * To represent the language, the ISO-639-2/T standard is used,
 		 * which provides three-letter terminological language codes like
-		 * 'ENG', 'DEU', 'JPN', 'KOR', 'ZHO' or 'YID'.
+		 * "ENG", "DEU", "JPN", "KOR", "ZHO" or "YID".
 		 *
 		 * Note that this refers to release and track \e titles, not
 		 * lyrics.
@@ -129,7 +129,7 @@ namespace MusicBrainz
 		 * Returns the script used in release and track titles.
 		 *
 		 * To represent the script, ISO-15924 script codes are used.
-		 * Valid codes are, among others: 'Latn', 'Cyrl', 'Hans', 'Hebr'
+		 * Valid codes are, among others: "Latn", "Cyrl", "Hans", "Hebr"
 		 * 
 		 * Note that this refers to release and track \e titles, not
 		 * lyrics.
@@ -252,3 +252,4 @@ namespace MusicBrainz
 }
 
 #endif
+

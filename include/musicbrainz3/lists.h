@@ -21,6 +21,8 @@
 #ifndef __MUSICBRAINZ3_LISTS_H__
 #define __MUSICBRAINZ3_LISTS_H__
 
+#include <vector>
+
 namespace MusicBrainz
 {
 	

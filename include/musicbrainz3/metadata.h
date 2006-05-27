@@ -55,7 +55,7 @@ namespace MusicBrainz
 		/**
 		 * Sets the artist.
 		 *
-		 * @param track a pointer to Artist object, or NULL
+		 * @param artist a pointer to Artist object, or NULL
 		 */
 		void setArtist(Artist *artist);
 		
@@ -69,7 +69,7 @@ namespace MusicBrainz
 		/**
 		 * Sets the release.
 		 *
-		 * @param track a pointer to Release object, or NULL
+		 * @param release a pointer to Release object, or NULL
 		 */
 		void setRelease(Release *release);
 		
