@@ -29,6 +29,15 @@ Metadata::Metadata()
 
 Metadata::~Metadata()
 {
+	if (artist)
+		delete artist;
+	
+	if (track)
+		delete track;
+	
+	if (release)
+		delete release;
+	
 	for (UserList::iterator i = userList.begin(); i != userList.end(); i++) 
 		delete *i;
 	userList.clear();

@@ -30,6 +30,12 @@ Track::Track(const string &id, const string &title)
     setTitle(title);
 }
 
+Track::~Track()
+{
+	if (artist)
+		delete artist;
+}
+
 string
 Track::getTitle() const
 {
