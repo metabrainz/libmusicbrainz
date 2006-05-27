@@ -42,6 +42,8 @@ namespace MusicBrainz
     public:
     
         Metadata();
+		
+		virtual ~Metadata();
         
         Artist *getArtist() const;
         void setArtist(Artist *artist);

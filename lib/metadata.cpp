@@ -27,6 +27,25 @@ Metadata::Metadata()
 {
 }
 
+Metadata::~Metadata()
+{
+	for (UserList::iterator i = userList.begin(); i != userList.end(); i++) 
+		delete *i;
+	userList.clear();
+	
+	for (ArtistResultList::iterator i = artistResults.begin(); i != artistResults.end(); i++) 
+		delete *i;
+	artistResults.clear();
+	
+	for (ReleaseResultList::iterator i = releaseResults.begin(); i != releaseResults.end(); i++) 
+		delete *i;
+	releaseResults.clear();
+	
+	for (TrackResultList::iterator i = trackResults.begin(); i != trackResults.end(); i++) 
+		delete *i;
+	trackResults.clear();
+}
+
 void 
 Metadata::setArtist(Artist *value)
 {
