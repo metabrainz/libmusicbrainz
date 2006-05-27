@@ -23,7 +23,6 @@
 
 #include <string>
 #include <musicbrainz3/musicbrainz.h>
-#include <musicbrainz3/entity.h>
 
 namespace MusicBrainz
 {
@@ -31,11 +30,11 @@ namespace MusicBrainz
 	/**
 	 * Represents an artist alias.
 	 *
-	 * An alias (the \a value) is a different representation of an
+	 * An alias (the \a alias \a value) is a different representation of an
 	 * artist's name. This may be a common misspelling or a transliteration
-	 * (the \a type).
+	 * (the \a alias \a type).
 	 *
-	 * The \a script is interesting mostly for transliterations and
+	 * The \a alias \a script is interesting mostly for transliterations and
 	 * indicates which script is used for the alias value. To represent the
 	 * script, ISO-15924 script codes like 'Latn', 'Cyrl', or 'Hebr' are used. 
 	 */
@@ -85,7 +84,7 @@ namespace MusicBrainz
 		/**
 		 * Returns the alias script.  
 		 *
-		 * @return a string containing an ISO-15924 script code 
+		 * @return a string containing an ISO-15924 script code
 		 */
 		std::string getScript() const;
 		
@@ -101,7 +100,6 @@ namespace MusicBrainz
 		std::string value;
 		std::string type;
 		std::string script;
-		
 	};
 	
 }
