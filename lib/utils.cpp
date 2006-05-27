@@ -24,7 +24,7 @@ using namespace std;
 using namespace MusicBrainz;
 
 std::string
-MusicBrainz::extractFragment(const std::string &uri)
+MusicBrainz::extractFragment(const string &uri)
 {
 	// FIXME: proper URI parsing
 	string::size_type pos = uri.find_last_of('#');
@@ -32,5 +32,26 @@ MusicBrainz::extractFragment(const std::string &uri)
 		return uri;
 	else
 		return uri.substr(pos + 1);
+}
+
+std::string
+MusicBrainz::extractUuid(const string &uri)
+{
+	if (uri.empty())
+		return uri;
+	string types[] = {"artist/", "release/", "track/"};
+	for (int i = 0; i < 3; i++) {
+		string::size_type pos = uri.find(types[0]);
+		if (pos != string::npos) {
+			pos += types[i].size() + 1;
+			if (pos + 36 <= uri.size()) {
+				return uri.substr(pos, 36);
+			}
+		}
+	}
+	// FIXME: ugh...
+	if (uri.size() == 36)
+		return uri;
+	throw ValueError(uri + "is not a valid MusicBrainz ID.");
 }
 
