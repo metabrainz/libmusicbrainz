@@ -26,5 +26,5 @@ SUBDIRS = lib include test
 pcdir = $(libdir)/pkgconfig
 pc_DATA = libmusicbrainz.pc
 
-EXTRA_DIST = test-data libmusicbrainz.pc.in  Doxyfile.in mb_client.spec \
+EXTRA_DIST = test-data libmusicbrainz.pc.in Doxyfile.in \
 	README.win32 config_win32.h.in SConstruct scons
