@@ -1,68 +1,6 @@
-dnl Process this file with autoconf to produce a configure script.
-AC_INIT(lib/musicbrainz.cpp)
-AM_CONFIG_HEADER(config.h)
-AM_INIT_AUTOMAKE(libmusicbrainz, 2.1.2)
-
-AM_MAINTAINER_MODE
-
-dnl Canonicalize host.
-AC_CANONICAL_HOST
-case "${host_cpu}-${host_os}" in
-  *-beos*)    os=beos; LIBS='-lbe -lroot' ;;
-  *-cygwin*)  os=cygwin; LIBS='-lwinmm' ;;
-  *-freebsd*) os=freebsd ;;
-  *-darwin*)  os=darwin ;;
-  *-irix*)    os=irix; CXXFLAGS="$CFLAGS -fsquangle"; 
-                       LIBS='-lcdaudio -lmediad -lds' ;; 
-  *-linux*)   os=linux ;;
-  *-netbsd*)  os=netbsd ;;
-  *-openbsd*) os=openbsd ;;
-  *-os2_emx*) os=os2 ;;
-  *-solaris*) os=solaris; LIBS='-lsocket -lnsl' ;;
-  *-qnx*)     os=qnx; LIBS='-lsocket' ;;
-  *)          AC_MSG_RESULT([WARNING: unknown system]) ;;
-esac
-AM_CONDITIONAL(DARWIN, test x$os = xdarwin)
-
-dnl right now we specialize by linking (subject to change)
-AC_LINK_FILES(osdep/mb_${os}.cpp osdep/mb_${os}.h, lib/mb.cpp lib/mb.h)
-
-dnl Checks for programs.
-AC_PREREQ(2.52)
-AC_PROG_AWK
-AC_PROG_CC
-AM_PROG_LIBTOOL
-AC_SUBST(LIBTOOL_DEPS)  
-AC_PROG_CXX
-AC_PROG_INSTALL
-AC_PROG_LN_S
-AC_C_BIGENDIAN
-AC_CHECK_SIZEOF(long)
-
-if test "$GCC" = yes; then
-  CFLAGS="$CFLAGS -Wall -O2"
-fi
-if test "$GXX" = yes; then
-  CXXFLAGS="$CXXFLAGS -Wall -O2"
-fi
-
-dnl Checks for libraries.
-
-dnl libexpat check
-AC_CHECK_LIB(expat, XML_ExpatVersion,
-	[EXPAT_LIBS="-lexpat"], [
-	echo "*"
-	echo "*  expat is needed to build this library. It is either not"
-	echo "*  installed on your system or it is too old."
-	echo "*  Please download it from http://expat.sourceforge.net."
-	echo "*"
-	AC_MSG_ERROR("Cannot build. Stop.")], -lexpat)
-
-AC_SUBST(EXPAT_LIBS)
-
-dnl Checks for header files.
-
-dnl Checks for typedefs, structures, and compiler characteristics.
+dnl Believe it or not, all these functions are needed to determine the type of
+dnl accept()'s third parameter.
+dnl I will take care of this code soon ...
 
 AC_DEFUN([AC_PROTOTYPE],[
  pushdef([function],translit([$1], [a-z], [A-Z]))
@@ -135,22 +73,3 @@ AC_PROTOTYPE(accept,
  ARG3, [socklen_t, size_t, int, unsigned int, long unsigned int])
 ])
 
-AC_PROTOTYPE_ACCEPT
-
-AC_DEFINE_UNQUOTED([ACCEPT_ARG2],,"Argument 2 to accept()")
-AC_DEFINE_UNQUOTED([ACCEPT_ARG3],,"Argument 3 to accept()")
-AC_DEFINE_UNQUOTED(PREFIX, "${prefix}", [Application install prefix])
-
-AC_OUTPUT([
-Makefile 
-include/Makefile 
-include/musicbrainz/Makefile 
-lib/Makefile 
-osdep/Makefile
-examples/Makefile
-perl/Makefile
-python/Makefile
-python/examples/Makefile
-python/test/Makefile
-libmusicbrainz.pc], 
-echo timestamp > stamp-h)

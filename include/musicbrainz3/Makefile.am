@@ -19,12 +19,10 @@
 #
 #    $Id$
 #
-AUTOMAKE_OPTIONS = foreign
 
-SUBDIRS = lib include test
-
-pcdir = $(libdir)/pkgconfig
-pc_DATA = libmusicbrainz.pc
-
-EXTRA_DIST = libmusicbrainz.pc.in README.win32 config_win32.h \
-	     Doxyfile.in
+mb_incdir = $(includedir)/musicbrainz3
+mb_inc_HEADERS = \
+	artist.h artistalias.h disc.h entity.h factory.h filters.h includes.h \
+	iwebservice.h lists.h mbxmlparser.h metadata.h model.h musicbrainz.h \
+	relation.h release.h releaseevent.h results.h track.h user.h utils.h \
+	webservice.h
