@@ -259,10 +259,10 @@ namespace MusicBrainz
 		std::string targetType;
 		std::string targetId;
 		Direction direction;
-		Entity *target;
+		Attributes attributes;
 		std::string beginDate;
 		std::string endDate;
-		Attributes attributes;
+		Entity *target;
 	};
 	
 }

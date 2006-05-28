@@ -19,7 +19,7 @@
  */
  
 #include <string>
-#include "release.h"
+#include <musicbrainz3/model.h>
 
 using namespace std;
 using namespace MusicBrainz;

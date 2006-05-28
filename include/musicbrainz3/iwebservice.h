@@ -39,6 +39,8 @@ namespace MusicBrainz
 	{
 	public:
 	
+		virtual ~IWebService() {};
+	
 		/**
 		 * Query the web service.
 		 *

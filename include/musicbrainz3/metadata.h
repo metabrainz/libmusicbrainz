@@ -120,8 +120,8 @@ namespace MusicBrainz
 	private:
 	
 		Artist *artist;
-		Release *release;
 		Track *track;
+		Release *release;
 		UserList userList;
 		ArtistResultList artistResults;
 		TrackResultList trackResults;

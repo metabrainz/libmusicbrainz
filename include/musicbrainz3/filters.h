@@ -40,6 +40,8 @@ namespace MusicBrainz
 		
 		typedef std::vector<std::pair<std::string, std::string> > ParameterList;
 	
+		virtual ~IFilter() {};
+	
 		/**
 		 * Create a map of query parameters.
 		 *

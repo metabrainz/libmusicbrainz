@@ -35,6 +35,9 @@ namespace MusicBrainz
 	{
 	public:
 		typedef std::vector<std::string> IncludeList;
+		
+		virtual ~IIncludes() {};
+		
 		/**
 		 * Returns a list of strings containing include parameters for
 		 * the WebService.

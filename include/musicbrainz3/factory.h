@@ -32,6 +32,7 @@ namespace MusicBrainz
     class MB_API IFactory 
     {
     public:
+	virtual ~IFactory() {};
     	virtual Artist *newArtist() = 0;
     	virtual ArtistAlias *newArtistAlias() = 0;
     	virtual Disc *newDisc() = 0;

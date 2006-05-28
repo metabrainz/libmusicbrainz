@@ -25,8 +25,8 @@ sources = [
     ]
 
 LIBS = []
-CPPPATH = env['CPPPATH'] + ['#lib', '#lib/http', '#include/musicbrainz3']
-CPPDEFINES = env['CPPDEFINES'] + ['MB_API_EXPORTS']
+CPPPATH = env.get('CPPPATH', []) + ['#lib', '#lib/http', '#include/musicbrainz3']
+CPPDEFINES = env.get('CPPDEFINES', []) + ['MB_API_EXPORTS']
     
 if sys.platform == 'win32':
     sources.append('http/wincomsocket.cpp')

@@ -1,11 +1,16 @@
-import os, os.path
+import os
+import os.path
+import sys
 
 env = Environment(ENV = os.environ)
-env.Tool('msvc') 
 env.Append(CPPPATH = [ '#.', '#lib', '#include', '#include/musicbrainz3' ])
-env.Append(CPPDEFINES = [ 'WIN32', 'DEBUG' ]) 
-env.Append(CCFLAGS = [ '/EHsc', '/Zi', '/MDd' ]) 
-env.Append(LINKFLAGS = [ '/NODEFAULTLIB:LIBC' ]) 
+if sys.platform == 'win32':
+    if 'msvc' in env.get('TOOLS', []):
+	env.Append(CCFLAGS = [ '/EHsc', '/Zi', '/MDd' ]) 
+        env.Append(LINKFLAGS = [ '/NODEFAULTLIB:LIBC' ]) 
+    env.Append(CPPDEFINES = [ 'WIN32', 'DEBUG' ]) 
+if 'gcc' in env.get('TOOLS', []):
+    env.Append(CCFLAGS = [ '-Wall', '-pedantic' ]) 
 
 Export('env') 
 

@@ -1,3 +1,5 @@
+import sys
+import os.path
 Import('env')
 
 sources = [
@@ -19,5 +21,7 @@ test = env.Program('test',
                    LIBPATH=['#lib'],
                    LIBS=['musicbrainz3', 'cppunit'])
 
-env.AddPostAction(test, "cd lib && %s && cd .." % (test[0].abspath,))
-
+if sys.platform == 'win32':
+    env.AddPostAction(test, "cd lib && %s && cd .." % (test[0].abspath,))
+else:
+    env.AddPostAction(test, "cd test && LD_LIBRARY_PATH=../lib %s && cd .." % (test[0].abspath,))
