@@ -51,4 +51,4 @@ libmusicbrainz_la_LDFLAGS = -version-info 4:0:0 -no-undefined
 libmusicbrainz_la_LIBADD = -lstdc++ -lm \
 	http/libhttp.la xmlParser/libxmlParser.la
 
-EXTRA_DIST = types.h
+EXTRA_DIST = types.h SConscript
