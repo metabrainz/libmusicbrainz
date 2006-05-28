@@ -1,5 +1,6 @@
 dnl Process this file with autoconf to produce a configure script.
 AC_INIT(libmusicbrainz, 3.0.0dev)
+AC_CONFIG_SRCDIR(lib/artist.cpp)
 AM_INIT_AUTOMAKE
 AC_CONFIG_HEADERS(config.h)
 
@@ -32,11 +33,20 @@ AC_SUBST(LIBTOOL_DEPS)
 AC_PROG_CXX
 AC_PROG_INSTALL
 
+
+dnl Checks for libraries
+
+dnl Check for cppunit. This is only necessary for building the test suite.
+dnl If found, this sets CPPUNIT_CFLAGS and CPPUNIT_LIBS.
+AM_PATH_CPPUNIT(1.10.0, , 
+	AC_MSG_WARN([[No recent cppunit found, test suite will not work.]])
+)
+
+
 AC_PROTOTYPE_ACCEPT
 
 AC_DEFINE_UNQUOTED([ACCEPT_ARG2],,"Argument 2 to accept()")
 AC_DEFINE_UNQUOTED([ACCEPT_ARG3],,"Argument 3 to accept()")
-AC_DEFINE_UNQUOTED(PREFIX, "${prefix}", [Application install prefix])
 
 
 if test "$GCC" = yes; then
@@ -55,5 +65,6 @@ lib/xmlParser/Makefile
 include/Makefile
 include/musicbrainz3/Makefile
 test/Makefile
-libmusicbrainz.pc], 
+libmusicbrainz.pc
+Doxyfile], 
 echo timestamp > stamp-h)
