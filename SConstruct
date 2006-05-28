@@ -63,7 +63,6 @@ dist_files = [
     'SConstruct',
     'TODO',
     'config_win32.h.in',
-    'mb_client.spec',
     'libmusicbrainz.pc.in',
     ]
 dist_files += glob.glob('scons/*.py')
