@@ -1,8 +1,8 @@
 #ifndef _CONFIG_WIN32_H_
 #define _CONFIG_WIN32_H_
 
-#define PACKAGE "musicbrainz"
-#define VERSION "3.0.0-dev"
+#define PACKAGE "@PACKAGE@"
+#define VERSION "@VERSION@"
 
 #define SIZEOF_LONG 4
 
@@ -12,3 +12,4 @@
 typedef int socklen_t;
 
 #endif 
+

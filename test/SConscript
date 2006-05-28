@@ -2,8 +2,10 @@ import sys
 import os.path
 Import('env')
 
-sources = [
+dist_files = [
+    'SConscript',
     'main.cpp',
+    'read_file.h',
     'test_first.cpp',
     'test_model.cpp',
     'test_parser.cpp',
@@ -16,6 +18,8 @@ sources = [
     'test_ws_includes.cpp',
     ]
     
+sources = filter(lambda src: src.endswith('.cpp'), dist_files)
+
 test = env.Program('test',
                    sources,
                    LIBPATH=['#lib'],
@@ -25,3 +29,6 @@ if sys.platform == 'win32':
     env.AddPostAction(test, "cd lib && %s && cd .." % (test[0].abspath,))
 else:
     env.AddPostAction(test, "cd test && LD_LIBRARY_PATH=../lib %s && cd .." % (test[0].abspath,))
+    
+env.DistFiles(dist_files)
+
