@@ -1800,7 +1800,7 @@ void XMLNode::deleteAttribute(int i)
     if (p->lpszValue) free((void*)p->lpszValue);
     memmove(p,p+1,(d->nAttribute-i)*sizeof(XMLAttribute));
     removeOrderElement(d,eNodeAttribute,i);
-};
+}
 
 void XMLNode::deleteAttribute(LPCTSTR lpszName)
 {
@@ -1826,7 +1826,7 @@ void XMLNode::deleteText(int i)
     free((void*)*p);
     memmove(p,p+1,(d->nText-i)*sizeof(LPCTSTR));
     removeOrderElement(d,eNodeText,i);
-};
+}
 
 void XMLNode::deleteText(LPCTSTR lpszValue)
 {

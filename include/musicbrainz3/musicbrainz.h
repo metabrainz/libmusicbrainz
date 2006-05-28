@@ -50,7 +50,8 @@ namespace MusicBrainz
 	{
 	public:
 		Exception(const std::string &msg = std::string()) : msg(msg) {}
-		const char *what() const { return msg.c_str(); }
+		virtual ~Exception() throw() {}
+		const char *what() const throw() { return msg.c_str(); }
 	private:
 		std::string msg;
 	};

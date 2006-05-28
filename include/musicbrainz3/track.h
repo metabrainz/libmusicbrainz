@@ -117,8 +117,8 @@ namespace MusicBrainz
 	private:
 		
 		std::string title;
-		int duration;
 		Artist *artist;
+		int duration;
 	};
 	
 }
