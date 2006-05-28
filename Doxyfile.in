@@ -1,5 +1,5 @@
-PROJECT_NAME        = "musicbrainz"
-PROJECT_NUMBER      = 3.0.0-dev
+PROJECT_NAME        = "$PACKAGE"
+PROJECT_NUMBER      = $VERSION
 HTML_OUTPUT         = docs
 GENERATE_LATEX      = NO
 GENERATE_MAN        = NO
