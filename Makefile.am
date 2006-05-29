@@ -24,7 +24,7 @@ AUTOMAKE_OPTIONS = foreign
 SUBDIRS = src include test
 
 pcdir = $(libdir)/pkgconfig
-pc_DATA = libmusicbrainz.pc
+pc_DATA = libmusicbrainz3.pc
 
-EXTRA_DIST = test-data libmusicbrainz.pc.in Doxyfile.in \
+EXTRA_DIST = test-data libmusicbrainz3.pc.in Doxyfile.in \
 	README.win32 config_win32.h.in SConstruct scons

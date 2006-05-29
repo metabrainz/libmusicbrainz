@@ -22,8 +22,8 @@
 
 SUBDIRS = http xmlParser
 
-src_LTLIBRARIES = libmusicbrainz.la
-INCLUDES = -I$(top_srcdir)/include -DMB_API_EXPORTS
+lib_LTLIBRARIES = libmusicbrainz.la
+AM_CPPFLAGS = -I$(top_srcdir)/include -DMB_API_EXPORTS
 
 libmusicbrainz_la_SOURCES = \
 	artist.cpp artistalias.cpp disc.cpp entity.cpp filters.cpp \
@@ -46,8 +46,7 @@ libmusicbrainz_la_SOURCES = \
 #  6. If any interfaces have been removed since the last public release, then 
 #     set age to 0. 
 #libmusicbrainz_la_LDFLAGS = -version-info 5:0:0 -no-undefined
-libmusicbrainz_la_LDFLAGS = -version-info 4:0:0 -no-undefined
-libmusicbrainz_la_LIBADD = -lstdc++ -lm \
-	http/libhttp.la xmlParser/libxmlParser.la
+libmusicbrainz_la_LDFLAGS = -version-info 4:0:0 -no-undefined -lstdc++ -lm
+libmusicbrainz_la_LIBADD = http/libhttp.la xmlParser/libxmlParser.la
 
 EXTRA_DIST = types.h SConscript

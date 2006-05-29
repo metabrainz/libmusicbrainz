@@ -1,4 +1,10 @@
 dnl Process this file with autoconf to produce a configure script.
+dnl
+dnl NOTE: Each time a release is made, the version number below and the
+dnl       libtool version number in src/Makefile.am have to be incremented.
+dnl       The libtool version number has to be changed ALWAYS, no matter how
+dnl       small the change to the source code was!
+dnl
 AC_INIT(libmusicbrainz, 3.0.0dev)
 AC_CONFIG_SRCDIR(src/artist.cpp)
 AM_INIT_AUTOMAKE
@@ -65,6 +71,6 @@ src/xmlParser/Makefile
 include/Makefile
 include/musicbrainz3/Makefile
 test/Makefile
-libmusicbrainz.pc
+libmusicbrainz3.pc
 Doxyfile], 
 echo timestamp > stamp-h)
