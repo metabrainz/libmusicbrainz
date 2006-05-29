@@ -3,7 +3,7 @@ import os.path
 import sys
 import glob
 
-version = '3.0.0-dev'
+version = '3.0.0dev'
 
 env = Environment(ENV=os.environ,
                   PACKAGE='libmusicbrainz',
@@ -26,7 +26,7 @@ if 'gcc' in env.get('TOOLS', []):
 Export('env') 
 
 SConscript([
-    'lib/SConscript',           
+    'src/SConscript',           
     'test/SConscript',           
     ])  
 
@@ -48,7 +48,7 @@ env.Alias('install', env.Install('$pkgconfigdir',
                                                   'libmusicbrainz.pc.in')))
 
 # Default targets
-env.Default('lib', 'test')
+env.Default('src')
 
 #env.Install(dir = '/usr/local/bin', source = ['foo', 'bar'])
 

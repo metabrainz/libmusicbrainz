@@ -22,9 +22,8 @@
 
 SUBDIRS = http xmlParser
 
-lib_LTLIBRARIES = libmusicbrainz.la
-INCLUDES = -I$(top_srcdir)/include -I$(top_srcdir)/include/musicbrainz3
-# TODO: remove the latter
+src_LTLIBRARIES = libmusicbrainz.la
+INCLUDES = -I$(top_srcdir)/include -DMB_API_EXPORTS
 
 libmusicbrainz_la_SOURCES = \
 	artist.cpp artistalias.cpp disc.cpp entity.cpp filters.cpp \

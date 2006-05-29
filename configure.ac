@@ -1,6 +1,6 @@
 dnl Process this file with autoconf to produce a configure script.
 AC_INIT(libmusicbrainz, 3.0.0dev)
-AC_CONFIG_SRCDIR(lib/artist.cpp)
+AC_CONFIG_SRCDIR(src/artist.cpp)
 AM_INIT_AUTOMAKE
 AC_CONFIG_HEADERS(config.h)
 
@@ -59,9 +59,9 @@ fi
 
 AC_OUTPUT([
 Makefile 
-lib/Makefile 
-lib/http/Makefile
-lib/xmlParser/Makefile
+src/Makefile 
+src/http/Makefile
+src/xmlParser/Makefile
 include/Makefile
 include/musicbrainz3/Makefile
 test/Makefile
