@@ -44,7 +44,7 @@ namespace MusicBrainz
 		 *
 		 * @return a list of strings
 		 */
-		virtual IncludeList createIncludeTags() = 0;
+		virtual IncludeList createIncludeTags() const = 0;
 	};
 	
 	/**
@@ -74,7 +74,7 @@ namespace MusicBrainz
 		ArtistIncludes &trackRelations();	
 		//! Include URL relations.
 		ArtistIncludes &urlRelations();
-		IncludeList createIncludeTags();
+		IncludeList createIncludeTags() const;
 	private:
 		IncludeList includes;
 	};
@@ -110,7 +110,7 @@ namespace MusicBrainz
 		ReleaseIncludes &trackRelations();	
 		//! Include URL relations.
 		ReleaseIncludes &urlRelations();
-		IncludeList createIncludeTags();
+		IncludeList createIncludeTags() const;
 	private:
 		IncludeList includes;
 	};
@@ -142,7 +142,7 @@ namespace MusicBrainz
 		TrackIncludes &trackRelations();	
 		//! Include URL relations.
 		TrackIncludes &urlRelations();
-		IncludeList createIncludeTags();
+		IncludeList createIncludeTags() const;
 	private:
 		IncludeList includes;
 	};

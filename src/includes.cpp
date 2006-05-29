@@ -42,7 +42,7 @@ INCLUDES_METHOD(Track, trackRelations, track-rels)
 INCLUDES_METHOD(Track, urlRelations, url-rels)
 
 TrackIncludes::IncludeList
-TrackIncludes::createIncludeTags()
+TrackIncludes::createIncludeTags() const
 {
 	return includes;
 }
@@ -58,7 +58,7 @@ INCLUDES_METHOD(Release, trackRelations, track-rels)
 INCLUDES_METHOD(Release, urlRelations, url-rels)
 
 ReleaseIncludes::IncludeList
-ReleaseIncludes::createIncludeTags()
+ReleaseIncludes::createIncludeTags() const
 {
 	return includes;
 }
@@ -70,7 +70,7 @@ INCLUDES_METHOD(Artist, trackRelations, track-rels)
 INCLUDES_METHOD(Artist, urlRelations, url-rels)
 
 ArtistIncludes::IncludeList
-ArtistIncludes::createIncludeTags()
+ArtistIncludes::createIncludeTags() const
 {
 	return includes;
 }

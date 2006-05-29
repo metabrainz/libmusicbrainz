@@ -100,6 +100,54 @@ namespace MusicBrainz
 		Artist *getArtistById(const std::string &id,
 							  const ArtistIncludes &include = ArtistIncludes());
 		
+		/**
+		 * Returns a release.
+		 *
+		 * If no release with that ID can be found, C{include} contains
+		 * invalid tags or there's a server problem, and exception is
+		 * raised. 
+		 *
+		 * @param id a string containing the release's ID
+		 * @param include an ReleaseIncludes instance
+		 *
+		 * @return a pointer to Release instance, or \c NULL
+		 *
+		 * @note If the returned pointer is not \c NULL, the caller takes
+		 * responsibility for deleting it when it is no longer needed.
+		 *
+		 * @throw ConnectionError couldn't connect to server
+		 * @throw RequestError invalid ID or include tags
+		 * @throw ResourceNotFoundError artist doesn't exist
+		 * @throw ResponseError server returned invalid data
+		 */
+		 
+		Release *getReleaseById(const std::string &id,
+								const ReleaseIncludes &include = ReleaseIncludes());
+		
+		/**
+		 * Returns a track.
+		 *
+		 * If no track with that ID can be found, \a include contains
+		 * invalid tags or there's a server problem, and exception is
+		 * raised.  
+		 *
+		 * @param id a string containing the track's ID
+		 * @param include an TrackIncludes instance
+		 *
+		 * @return a pointer to Track instance, or \c NULL
+		 *
+		 * @note If the returned pointer is not \c NULL, the caller takes
+		 * responsibility for deleting it when it is no longer needed.
+		 *
+		 * @throw ConnectionError couldn't connect to server
+		 * @throw RequestError invalid ID or include tags
+		 * @throw ResourceNotFoundError artist doesn't exist
+		 * @throw ResponseError server returned invalid data
+		 */
+		 
+		Track *getTrackById(const std::string &id,
+							const TrackIncludes &include = TrackIncludes());
+		
 	protected:
 	
 		template<typename IT, typename FT>
