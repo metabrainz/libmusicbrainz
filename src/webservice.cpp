@@ -28,6 +28,7 @@
 #include <musicbrainz3/webservice.h>
 #include <musicbrainz3/artist.h>
 #include "http/http.h"
+#include "utilspriv.h"
 
 using namespace std;
 using namespace MusicBrainz;
@@ -74,25 +75,38 @@ WebService::get(const std::string &entity,
     MBHttp http;
     
     string url = "http://" + host;
-    if (port != 80) {
-        char temp[32];
-        sprintf(temp, ":%d", port);
-        url += temp; 
-    }
+    if (port != 80) 
+		url += ":" + intToString(port);
     url += pathPrefix + "/" + version + "/" + entity + "/" + id;
 
     map<string, string> params;
     params["type"] = "xml";
     
+	string inc;
+	for (IIncludes::IncludeList::const_iterator i = include.begin(); i != include.end(); i++) {
+		if (!inc.empty())
+			inc += " ";
+		inc += *i;
+	}
+	params["inc"] = inc;
+	
+	for (IFilter::ParameterList::const_iterator i = filter.begin(); i != filter.end(); i++) {
+		params[i->first] = i->second;	
+	}
+
+	bool first = true;	
     for (map<string, string>::iterator i = params.begin(); i != params.end(); i++) {
         string name = i->first;
-        // FIXME: escape the value
-        string value = i->second; 
-        url += (i == params.begin() ? "?" : "&") + name + "=" + value;  
+        string value = i->second;
+		if (value.empty())
+			continue;
+		MBHttp::EncodeURI(value);
+        url += (first ? "?" : "&") + name + "=" + value;
+		first = false;
     }
 
 #ifdef DEBUG    
-    cout << "GET " << url << endl;
+    cout << endl << "Request:" << endl << url << endl;
 #endif
     
     string response;
@@ -101,7 +115,7 @@ WebService::get(const std::string &entity,
     Error error = http.DownloadToString(url, data, response);
     
 #ifdef DEBUG    
-    cout << "Response:" << endl << response << endl;
+    cout << endl << "Response:" << endl << response << endl;
 #endif
     
     return response; 

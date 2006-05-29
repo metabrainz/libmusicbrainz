@@ -29,7 +29,7 @@ libmusicbrainz_la_SOURCES = \
 	artist.cpp artistalias.cpp disc.cpp entity.cpp filters.cpp \
 	includes.cpp mbxmlparser.cpp metadata.cpp relation.cpp release.cpp \
 	releaseevent.cpp results.cpp track.cpp user.cpp utils.cpp \
-	webservice.cpp
+	webservice.cpp utilspriv.cpp query.cpp
 
 # Here are a set of rules to help you update your library version information:
 #  Scheme: current:revsion:age

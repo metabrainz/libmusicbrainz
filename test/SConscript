@@ -16,19 +16,20 @@ dist_files = [
     'test_utils.cpp',
     'test_ws_filters.cpp',
     'test_ws_includes.cpp',
+    'test_ws.cpp',
     ]
     
 sources = filter(lambda src: src.endswith('.cpp'), dist_files)
 
 test = env.Program('test',
                    sources,
-                   LIBPATH=['#lib'],
+                   LIBPATH=['#src'],
                    LIBS=['musicbrainz3', 'cppunit'])
 
 if sys.platform == 'win32':
-    env.AddPostAction(test, "cd lib && %s && cd .." % (test[0].abspath,))
+    env.AddPostAction(test, "cd src && %s && cd .." % (test[0].abspath,))
 else:
-    env.AddPostAction(test, "cd test && LD_LIBRARY_PATH=../lib %s && cd .." % (test[0].abspath,))
+    env.AddPostAction(test, "cd test && LD_LIBRARY_PATH=../src %s && cd .." % (test[0].abspath,))
     
 env.DistFiles(dist_files)
 

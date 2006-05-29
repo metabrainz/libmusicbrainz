@@ -175,7 +175,7 @@ int MBHttp::WriteToFile(unsigned char *buffer, unsigned int size)
     return fwrite(buffer, sizeof(unsigned char), size, m_file);
 }
 
-void EncodeURI(string & URI)
+void MBHttp::EncodeURI(string & URI)
 {
    string::size_type convert = 0;
    const char *legalCharacters =
