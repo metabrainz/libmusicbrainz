@@ -6,6 +6,6 @@
 noinst_LTLIBRARIES = libxmlParser.la
 
 libxmlParser_la_SOURCES = xmlParser.cpp
-INCLUDES = -DMB_API_EXPORTS
+AM_CPPFLAGS = -DMB_API_EXPORTS
 
 EXTRA_DIST = xmlParser.h

@@ -44,8 +44,8 @@ env.Alias('docs', docs)
 
 env.Replace(pkgconfigdir='$libdir/pkgconfig')
 env.Alias('install', env.Install('$pkgconfigdir',
-                                 env.EnvSubstFile('libmusicbrainz.pc',
-                                                  'libmusicbrainz.pc.in')))
+                                 env.EnvSubstFile('libmusicbrainz3.pc',
+                                                  'libmusicbrainz3.pc.in')))
 
 # Default targets
 env.Default('src')
@@ -63,7 +63,7 @@ dist_files = [
     'SConstruct',
     'TODO',
     'config_win32.h.in',
-    'libmusicbrainz.pc.in',
+    'libmusicbrainz3.pc.in',
     ]
 dist_files += glob.glob('scons/*.py')
 

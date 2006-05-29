@@ -13,9 +13,9 @@ test_runner_SOURCES = \
 	test_parser_user.cpp test_utils.cpp test_ws_filters.cpp \
 	test_ws_includes.cpp
 
-INCLUDES = -I$(top_srcdir)/include @CPPUNIT_CFLAGS@
+AM_CPPFLAGS = -I$(top_srcdir)/include @CPPUNIT_CFLAGS@
 
 test_runner_LDFLAGS = @CPPUNIT_LIBS@
-test_runner_LDADD = $(top_srcdir)/lib/libmusicbrainz.la
+test_runner_LDADD = $(top_srcdir)/src/libmusicbrainz.la
 
 EXTRA_DIST = SConscript
