@@ -38,7 +38,7 @@ includes = glob.glob('../include/musicbrainz3/*.h')
 dist_files += includes
 
 libs = env.get('LIBS', [])
-cpp_paths = env.get('CPPPATH', []) + ['#lib', '#lib/http', '#include/musicbrainz3']
+cpp_paths = env.get('CPPPATH', []) + ['#src', '#src/http', '#include/musicbrainz3']
 cpp_defines = env.get('CPPDEFINES', []) + ['MB_API_EXPORTS']
     
 if sys.platform == 'win32':
