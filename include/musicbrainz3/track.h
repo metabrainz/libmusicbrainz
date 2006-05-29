@@ -98,7 +98,7 @@ namespace MusicBrainz
 		 *
 		 * @param artist a pointer to Artist object, or NULL
 		 */
-		void setArtist(Artist *value);
+		void setArtist(Artist *artist);
 		
 		/**
 		 * Returns the duration of this track in milliseconds.
