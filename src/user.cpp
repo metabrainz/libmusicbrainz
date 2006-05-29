@@ -19,7 +19,7 @@
  */
  
 #include <string>
-#include "user.h"
+#include <musicbrainz3/user.h>
 
 using namespace std;
 using namespace MusicBrainz;

@@ -21,7 +21,7 @@
 #
 AUTOMAKE_OPTIONS = foreign
 
-SUBDIRS = lib include test
+SUBDIRS = src include test
 
 pcdir = $(libdir)/pkgconfig
 pc_DATA = libmusicbrainz.pc
