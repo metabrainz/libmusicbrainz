@@ -22,17 +22,10 @@
 #include <string>
 #include <musicbrainz3/utils.h>
 #include <musicbrainz3/filters.h>
+#include "utilspriv.h"
 
 using namespace std;
 using namespace MusicBrainz;
-
-inline string
-intToString(const int i)
-{
-	char temp[32];
-	sprintf(temp, "%d", i);
-	return string(temp);
-}
 
 ArtistFilter::ParameterList
 ArtistFilter::createParameters()

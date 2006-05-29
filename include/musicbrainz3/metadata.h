@@ -46,44 +46,56 @@ namespace MusicBrainz
 		virtual ~Metadata();
 		
 		/**
-		 * Returns an artist.
+		 * Returns the artist.
 		 *
-		 * @return a pointer to Artist object, or NULL
+		 * @param remove if set to \c true, the object will be removed from 
+		 * this Metadata instance and the caller is responsible for
+		 * deleting it when it is no longer needed
+		 *
+		 * @return a pointer to Artist object, or \c NULL
 		 */
-		Artist *getArtist() const;
+		Artist *getArtist(bool remove = false);
 		
 		/**
 		 * Sets the artist.
 		 *
-		 * @param artist a pointer to Artist object, or NULL
+		 * @param artist a pointer to Artist object, or \c NULL
 		 */
 		void setArtist(Artist *artist);
 		
 		/**
-		 * Returns a release.
+		 * Returns the release.
 		 *
-		 * @return a pointer to Release object, or NULL
+		 * @param remove if set to \c true, the object will be removed from 
+		 * this Metadata instance and the caller is responsible for
+		 * deleting it when it is no longer needed
+		 *
+		 * @return a pointer to Release object, or \c NULL
 		 */
-		Release *getRelease() const;
+		Release *getRelease(bool remove = false);
 		
 		/**
 		 * Sets the release.
 		 *
-		 * @param release a pointer to Release object, or NULL
+		 * @param release a pointer to Release object, or \c NULL
 		 */
 		void setRelease(Release *release);
 		
 		/**
 		 * Returns a track.
 		 *
-		 * @return a pointer to Track object, or NULL
+		 * @param remove if set to \c true, the object will be removed from 
+		 * this Metadata instance and the caller is responsible for
+		 * deleting it when it is no longer needed
+		 *
+		 * @return a pointer to Track object, or \c NULL
 		 */
-		Track *getTrack() const;
+		Track *getTrack(bool remove = false);
 		
 		/**
 		 * Sets the track.
 		 *
-		 * @param track a pointer to Track object, or NULL
+		 * @param track a pointer to Track object, or \c NULL
 		 */
 		void setTrack(Track *track);
 		

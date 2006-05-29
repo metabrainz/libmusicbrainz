@@ -69,7 +69,7 @@ namespace MusicBrainz
 								 const std::string &id,
 								 const IIncludes::IncludeList &include,
 								 const IFilter::ParameterList &filter,
-								 const std::string &version) = 0;
+								 const std::string &version = "1") = 0;
 		 
 		 /**
 		  * Submit data to the web service.

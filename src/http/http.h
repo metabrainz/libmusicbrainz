@@ -47,6 +47,8 @@ class MBHttp
       virtual void Progress(unsigned int bytesReceived, unsigned int maxBytes);
       void         SetProxyURL(const string &proxy); 
 
+	  static void EncodeURI(string & URI);
+
     private:
 
       Error    Download(const string &url, const string &xml, bool fileDownload);

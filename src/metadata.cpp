@@ -58,36 +58,51 @@ Metadata::~Metadata()
 void 
 Metadata::setArtist(Artist *value)
 {
+	if (artist)
+		delete artist;
     artist = value;
 }
 
 void 
 Metadata::setTrack(Track *value)
 {
+	if (track)
+		delete track;
     track = value;
 }
 void 
 Metadata::setRelease(Release *value)
 {
+	if (release)
+		delete release;
     release = value;
 }
 
 Artist * 
-Metadata::getArtist() const
+Metadata::getArtist(bool remove)
 {
-    return artist;
+	Artist *ret = artist;
+	if (remove)
+		artist = NULL;
+    return ret;
 }
 
 Track * 
-Metadata::getTrack() const
+Metadata::getTrack(bool remove)
 {
-    return track;
+	Track *ret = track;
+	if (remove)
+		track = NULL;
+    return ret;
 }
 
 Release * 
-Metadata::getRelease() const
+Metadata::getRelease(bool remove)
 {
-    return release;
+	Release *ret = release;
+	if (remove)
+		release = NULL;
+    return ret;
 }
 
 UserList &
