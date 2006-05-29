@@ -47,7 +47,7 @@ namespace MusicBrainz
 		 *
 		 * @return: a string->string map of parameters 
 		 */
-		virtual ParameterList createParameters() = 0;
+		virtual ParameterList createParameters() const = 0;
 	};
 	
 	/**
@@ -58,7 +58,7 @@ namespace MusicBrainz
 	public:
 		ArtistFilter &name(const std::string &name);
 		ArtistFilter &limit(const int limit);
-		ParameterList createParameters();
+		ParameterList createParameters() const;
 	private:
 		ParameterList parameters;
 	};
@@ -103,7 +103,7 @@ namespace MusicBrainz
 		ReleaseFilter &artistName(const std::string &value);
 		ReleaseFilter &artistId(const std::string &value);
 		ReleaseFilter &limit(const int value);
-		ParameterList createParameters();
+		ParameterList createParameters() const;
 	private:
 		ParameterList parameters;
 	};
@@ -128,7 +128,7 @@ namespace MusicBrainz
 		TrackFilter &duration(const int value);
 		TrackFilter &puid(const std::string &value);
 		TrackFilter &limit(const int value);
-		ParameterList createParameters();
+		ParameterList createParameters() const;
 	private:
 		ParameterList parameters;
 	};
@@ -140,7 +140,7 @@ namespace MusicBrainz
 	{
 	public:
 		UserFilter &name(const std::string &name);
-		ParameterList createParameters();
+		ParameterList createParameters() const;
 	private:
 		ParameterList parameters;
 	};

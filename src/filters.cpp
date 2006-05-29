@@ -28,7 +28,7 @@ using namespace std;
 using namespace MusicBrainz;
 
 ArtistFilter::ParameterList
-ArtistFilter::createParameters()
+ArtistFilter::createParameters() const
 {
 	return parameters;
 }
@@ -48,7 +48,7 @@ ArtistFilter::limit(const int value)
 }
 
 ReleaseFilter::ParameterList
-ReleaseFilter::createParameters()
+ReleaseFilter::createParameters() const
 {
 	return parameters;
 }
@@ -103,7 +103,7 @@ ReleaseFilter::limit(const int value)
 }
 
 TrackFilter::ParameterList
-TrackFilter::createParameters()
+TrackFilter::createParameters() const
 {
 	return parameters;
 }
@@ -165,7 +165,7 @@ TrackFilter::limit(const int value)
 }
 
 UserFilter::ParameterList
-UserFilter::createParameters()
+UserFilter::createParameters() const
 {
 	return parameters;
 }

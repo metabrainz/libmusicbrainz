@@ -47,6 +47,28 @@ Query::getArtistById(const string &id,
 	return artist;
 }
 
+Release *
+Query::getReleaseById(const string &id,
+					 const ReleaseIncludes &include)
+{
+	string uuid = extractUuid(id);
+	Metadata *metadata = getFromWebService<ReleaseIncludes, ReleaseFilter>("release", uuid, include); 
+	Release *release = metadata->getRelease(true);
+	delete metadata;
+	return release;
+}
+
+Track *
+Query::getTrackById(const string &id,
+					 const TrackIncludes &include)
+{
+	string uuid = extractUuid(id);
+	Metadata *metadata = getFromWebService<TrackIncludes, TrackFilter>("track", uuid, include); 
+	Track *track = metadata->getTrack(true);
+	delete metadata;
+	return track;
+}
+
 template<typename IT, typename FT>
 Metadata *
 Query::getFromWebService(const string &entity,
@@ -54,8 +76,8 @@ Query::getFromWebService(const string &entity,
 						 const IT &include,
 						 const FT &filter)
 {
-	IIncludes::IncludeList includeParams;
-	IFilter::ParameterList filterParams;
+	const IT::IncludeList &includeParams = include.createIncludeTags();
+	const FT::ParameterList &filterParams = filter.createParameters();
 	string content = ws->get(entity, id, includeParams, filterParams);
 	try {
 		MbXmlParser parser;
