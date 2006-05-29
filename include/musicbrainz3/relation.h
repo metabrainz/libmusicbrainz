@@ -231,7 +231,7 @@ namespace MusicBrainz
 		 *
 		 * @param attribute a string containing an absolute URI
 		 */
-		void addAttribute(const std::string &value);
+		void addAttribute(const std::string &attribute);
 		
 		/**
 		 * Returns this relation's target object.
