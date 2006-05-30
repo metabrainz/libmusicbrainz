@@ -76,8 +76,8 @@ Query::getFromWebService(const string &entity,
 						 const IT &include,
 						 const FT &filter)
 {
-	const IT::IncludeList &includeParams = include.createIncludeTags();
-	const FT::ParameterList &filterParams = filter.createParameters();
+	const IIncludes::IncludeList includeParams(include.createIncludeTags());
+	const IFilter::ParameterList filterParams(filter.createParameters());
 	string content = ws->get(entity, id, includeParams, filterParams);
 	try {
 		MbXmlParser parser;
