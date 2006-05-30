@@ -20,7 +20,7 @@
 #    $Id$
 #
 
-SUBDIRS = http xmlParser
+SUBDIRS = xmlParser
 
 lib_LTLIBRARIES = libmusicbrainz.la
 AM_CPPFLAGS = -I$(top_srcdir)/include -DMB_API_EXPORTS
@@ -47,6 +47,6 @@ libmusicbrainz_la_SOURCES = \
 #     set age to 0. 
 #libmusicbrainz_la_LDFLAGS = -version-info 5:0:0 -no-undefined
 libmusicbrainz_la_LDFLAGS = -version-info 4:0:0 -no-undefined -lstdc++ -lm
-libmusicbrainz_la_LIBADD = http/libhttp.la xmlParser/libxmlParser.la
+libmusicbrainz_la_LIBADD = xmlParser/libxmlParser.la
 
-EXTRA_DIST = types.h SConscript
+EXTRA_DIST = SConscript
