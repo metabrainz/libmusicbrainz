@@ -19,17 +19,10 @@ dist_files = [
     'releaseevent.cpp',
     'results.cpp',
     'track.cpp',
-    'types.h',
     'user.cpp',
     'utils.cpp',
     'utilspriv.cpp',
     'webservice.cpp',
-    'http/comhttpsocket.cpp',
-    'http/comhttpsocket.h',
-    'http/comsocket.h',
-    'http/http.cpp',
-    'http/http.h',
-    'http/wincomsocket.h',
     'xmlParser/xmlParser.h',
     'xmlParser/xmlParser.cpp',
     ]
@@ -39,26 +32,14 @@ sources = filter(lambda src: src.endswith('.cpp'), dist_files)
 includes = glob.glob('../include/musicbrainz3/*.h')
 dist_files += includes
 
-libs = env.get('LIBS', [])
-cpp_paths = env.get('CPPPATH', []) + ['#src', '#src/http', '#include/musicbrainz3']
+cpp_paths = env.get('CPPPATH', []) + ['#src', '#include/musicbrainz3']
 cpp_defines = env.get('CPPDEFINES', []) + ['MB_API_EXPORTS']
-    
-if sys.platform == 'win32':
-    sources.append('http/wincomsocket.cpp')
-    libs += ['wsock32', 'advapi32']
-else:
-    sources.append('http/comsocket.cpp')
-
-dist_files += [
-    'http/comsocket.cpp',
-    'http/wincomsocket.cpp',
-    ]
     
 musicbrainz3 = env.SharedLibrary('musicbrainz3',
                                  sources,
                                  CPPPATH=cpp_paths,
                                  CPPDEFINES=cpp_defines,
-                                 LIBS=libs)
+                                 LIBS=['advapi32', 'neon', 'wsock32'])
 
 env.Alias('install', env.Install('$libdir', musicbrainz3))
 env.Alias('install', env.Install('$includedir/musicbrainz3', includes))

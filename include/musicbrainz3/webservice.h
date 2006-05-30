@@ -193,6 +193,8 @@ namespace MusicBrainz
 
 	private:
 	
+		static int httpResponseReader(void *userdata, const char *buf, size_t len);
+	
 		std::string host;
 		int port;
 		std::string pathPrefix;

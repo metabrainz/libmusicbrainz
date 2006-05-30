@@ -27,8 +27,12 @@
 #endif
 #include <musicbrainz3/webservice.h>
 #include <musicbrainz3/artist.h>
-#include "http/http.h"
 #include "utilspriv.h"
+
+#include <ne_session.h>
+#include <ne_request.h>
+#include <ne_utils.h>
+#include <ne_uri.h> 
 
 using namespace std;
 using namespace MusicBrainz;
@@ -36,26 +40,20 @@ using namespace MusicBrainz;
 void
 WebService::init()
 {
-#ifdef WIN32
-    WSADATA d;
-    WSAStartup(0x0002,  &d);
-#endif
+	ne_sock_init(); 
 }
 
 void
 WebService::cleanup()
 {
-#ifdef WIN32
-    WSACleanup();
-#endif
 }
 
 WebService::WebService(const std::string &host,
 					   const int port,
 					   const std::string &pathPrefix,
-                       const std::string &username,
+					   const std::string &username,
 					   const std::string &password,
-                       const std::string &realm)
+					   const std::string &realm)
 	: host(host),
 	  port(port),
 	  pathPrefix(pathPrefix),
@@ -65,6 +63,23 @@ WebService::WebService(const std::string &host,
 {
 }
 
+int
+WebService::httpResponseReader(void *userdata, const char *buf, size_t len)
+{
+	string *str = (string *)userdata;
+	str->append(buf, len);
+	return 0;
+}
+
+string
+uriEscape(string uri)
+{
+	char *esc_uri_str = ne_path_escape(uri.c_str());
+	string esc_uri = string((const char *)esc_uri_str);
+	free(esc_uri_str);
+	return esc_uri;
+}
+
 string
 WebService::get(const std::string &entity,
 				const std::string &id,
@@ -72,16 +87,20 @@ WebService::get(const std::string &entity,
 				const IFilter::ParameterList &filter,
 				const std::string &version)
 {
-    MBHttp http;
-    
-    string url = "http://" + host;
-    if (port != 80) 
-		url += ":" + intToString(port);
-    url += pathPrefix + "/" + version + "/" + entity + "/" + id;
+	ne_session *sess;
+	ne_request *req;
+	
+#ifdef DEBUG	
+	cout << endl << "Connecting to http://" << host << ":" << port << endl;
+#endif
+	
+	sess = ne_session_create("http", host.c_str(), port);
+	if (!sess) 
+		throw WebServiceError("ne_session_create() failed.");
 
-    map<string, string> params;
-    params["type"] = "xml";
-    
+	map<string, string> params;
+	params["type"] = "xml";
+	
 	string inc;
 	for (IIncludes::IncludeList::const_iterator i = include.begin(); i != include.end(); i++) {
 		if (!inc.empty())
@@ -94,36 +113,43 @@ WebService::get(const std::string &entity,
 		params[i->first] = i->second;	
 	}
 
+	string uri = pathPrefix + "/" + version + "/" + entity + "/" + id;
+	
 	bool first = true;	
-    for (map<string, string>::iterator i = params.begin(); i != params.end(); i++) {
-        string name = i->first;
-        string value = i->second;
+	for (map<string, string>::iterator i = params.begin(); i != params.end(); i++) {
+		string name = i->first;
+		string value = i->second;
 		if (value.empty())
 			continue;
-		MBHttp::EncodeURI(value);
-        url += (first ? "?" : "&") + name + "=" + value;
+		uri += (first ? "?" : "&") + name + "=" + uriEscape(value);
 		first = false;
-    }
+	}
 
-#ifdef DEBUG    
-    cout << endl << "Request:" << endl << url << endl;
+#ifdef DEBUG	
+	cout << "GET " << uri << endl;
 #endif
-    
-    string response;
-    string data = "";
-    
-    Error error = http.DownloadToString(url, data, response);
-    
-#ifdef DEBUG    
-    cout << endl << "Response:" << endl << response << endl;
+	
+	string response;
+	
+	req = ne_request_create(sess, "GET", uri.c_str());	
+	ne_add_response_body_reader(req, ne_accept_2xx, httpResponseReader, &response);		
+	ne_request_dispatch(req);
+	int status = ne_get_status(req)->code;
+	ne_request_destroy(req); 
+	
+#ifdef DEBUG	
+	cout << "Status: " << status << endl;
+	cout << "Response:" << endl << response << endl;
 #endif
-    
-    return response; 
+	
+	ne_session_destroy(sess);
+
+	return response; 
 }
 
 void
 WebService::post(const std::string &entity,
-			     const std::string &id,
+				 const std::string &id,
 				 const std::string &data,
 				 const std::string &version)
 {

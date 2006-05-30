@@ -49,12 +49,6 @@ AM_PATH_CPPUNIT(1.10.0, ,
 )
 
 
-AC_PROTOTYPE_ACCEPT
-
-AC_DEFINE_UNQUOTED([ACCEPT_ARG2],,"Argument 2 to accept()")
-AC_DEFINE_UNQUOTED([ACCEPT_ARG3],,"Argument 3 to accept()")
-
-
 if test "$GCC" = yes; then
   CFLAGS="$CFLAGS -Wall -O2"
 fi
