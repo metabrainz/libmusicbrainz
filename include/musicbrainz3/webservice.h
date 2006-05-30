@@ -193,6 +193,8 @@ namespace MusicBrainz
 
 	private:
 	
+		static int httpAuth(void *userdata, const char *realm, int attempts,
+							char *username, char *password);
 		static int httpResponseReader(void *userdata, const char *buf, size_t len);
 	
 		std::string host;

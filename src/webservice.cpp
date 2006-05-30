@@ -32,6 +32,7 @@
 #include <ne_session.h>
 #include <ne_request.h>
 #include <ne_utils.h>
+#include <ne_auth.h>
 #include <ne_uri.h> 
 
 using namespace std;
@@ -61,6 +62,16 @@ WebService::WebService(const std::string &host,
 	  password(password),
 	  realm(realm)
 {
+}
+
+int
+WebService::httpAuth(void *userdata, const char *realm, int attempts,
+					 char *username, char *password)
+{
+	WebService *ws = (WebService *)userdata;
+	strncpy(username, ws->username.c_str(), NE_ABUFSIZ);
+	strncpy(password, ws->password.c_str(), NE_ABUFSIZ);
+	return attempts;  	
 }
 
 int
@@ -97,6 +108,7 @@ WebService::get(const std::string &entity,
 	sess = ne_session_create("http", host.c_str(), port);
 	if (!sess) 
 		throw WebServiceError("ne_session_create() failed.");
+	ne_set_server_auth(sess, httpAuth, this);
 
 	map<string, string> params;
 	params["type"] = "xml";

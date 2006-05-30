@@ -148,6 +148,31 @@ namespace MusicBrainz
 		Track *getTrackById(const std::string &id,
 							const TrackIncludes &include = TrackIncludes());
 		
+		/**
+		 * Returns information about a MusicBrainz user.
+		 *
+		 * You can only request user data if you know the user name and
+		 * password for that account. If username and/or password are
+		 * incorrect, an L{AuthenticationError} is raised.
+		 * 
+		 * See the example in L{Query} on how to supply user name and
+		 * password.
+		 *
+		 * @param name a string containing the user's name
+		 *
+		 * @return a pointer to User instance, or \c NULL
+		 *
+		 * @note If the returned pointer is not \c NULL, the caller takes
+		 * responsibility for deleting it when it is no longer needed.
+		 *
+		 * @throw ConnectionError couldn't connect to server
+		 * @throw RequestError invalid ID or include tags
+		 * @throw ResourceNotFoundError artist doesn't exist
+		 * @throw ResponseError server returned invalid data
+		 */
+		 
+		User *getUserByName(const std::string &name);
+		
 	protected:
 	
 		template<typename IT, typename FT>

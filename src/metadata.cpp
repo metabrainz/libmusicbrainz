@@ -129,3 +129,35 @@ Metadata::getReleaseResults()
 	return releaseResults;
 }
 
+UserList 
+Metadata::getUserList(bool remove)
+{
+	UserList list = userList;
+	userList.clear();
+	return list;
+}
+
+ArtistResultList 
+Metadata::getArtistResults(bool remove)
+{
+	ArtistResultList list = artistResults;
+	artistResults.clear();
+	return list;
+}
+
+TrackResultList 
+Metadata::getTrackResults(bool remove)
+{
+	TrackResultList list = trackResults;
+	trackResults.clear();
+	return list;
+}
+
+ReleaseResultList 
+Metadata::getReleaseResults(bool remove)
+{
+	ReleaseResultList list = releaseResults;
+	releaseResults.clear();
+	return list;
+}
+

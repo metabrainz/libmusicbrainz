@@ -107,6 +107,7 @@ namespace MusicBrainz
 		 * @note This is a MusicBrainz extension.
 		 */
 		UserList &getUserList();
+		UserList getUserList(bool remove);
 		
 		/**
 		 * Returns a artist result list. 
@@ -114,6 +115,7 @@ namespace MusicBrainz
 		 * @return a vector of pointers to ArtistResult objects
 		 */
 		ArtistResultList &getArtistResults();
+		ArtistResultList getArtistResults(bool remove);
 		
 		/**
 		 * Returns a track result list. 
@@ -121,6 +123,7 @@ namespace MusicBrainz
 		 * @return a vector of pointers to TrackResult objects
 		 */
 		TrackResultList &getTrackResults();
+		TrackResultList getTrackResults(bool remove);
 		
 		/**
 		 * Returns a release result list. 
@@ -128,6 +131,7 @@ namespace MusicBrainz
 		 * @return a vector of pointers to ReleaseResult objects
 		 */
 		ReleaseResultList &getReleaseResults();
+		ReleaseResultList getReleaseResults(bool remove);
 		
 	private:
 	
