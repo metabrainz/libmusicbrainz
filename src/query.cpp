@@ -69,6 +69,18 @@ Query::getTrackById(const string &id,
 	return track;
 }
 
+User *
+Query::getUserByName(const string &name)
+{
+	Metadata *metadata = getFromWebService<TrackIncludes, UserFilter>("user", "", TrackIncludes(), UserFilter().name(name));
+	UserList &list = metadata->getUserList(true);
+	delete metadata;
+	if (list.size() > 0) 
+		return list[0];
+	else
+		throw ResponseError("response didn't contain user data");
+}
+
 template<typename IT, typename FT>
 Metadata *
 Query::getFromWebService(const string &entity,
