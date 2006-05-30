@@ -48,6 +48,9 @@ AM_PATH_CPPUNIT(1.10.0, ,
 	AC_MSG_WARN([[No recent cppunit found, test suite will not work.]])
 )
 
+dnl Check for neon.
+NE_REQUIRE_VERSIONS([0], [25 26])
+NEON_LIBRARY
 
 if test "$GCC" = yes; then
   CFLAGS="$CFLAGS -Wall -O2"
@@ -60,7 +63,6 @@ fi
 AC_OUTPUT([
 Makefile 
 src/Makefile 
-src/http/Makefile
 src/xmlParser/Makefile
 include/Makefile
 include/musicbrainz3/Makefile
