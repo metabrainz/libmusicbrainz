@@ -31,6 +31,14 @@ using namespace MusicBrainz;
 
 /* A little bit of cpp goodness :) */
 
+#define MB_C_NEW_NOARGS(TYPE1, TYPE2) \
+	MB##TYPE1 \
+	mb_##TYPE2##_new() \
+	{ \
+		TYPE1 *o = new TYPE1(); \
+		return (MB##TYPE1)o; \
+	} 
+
 #define MB_C_FREE(TYPE1, TYPE2) \
 	void \
 	mb_##TYPE2##_free(MB##TYPE1 o) \
@@ -96,27 +104,29 @@ mb_query_new(MBWebService ws, const char *client_id)
 MB_C_FREE(Query, query)
 
 MBArtist
-mb_query_get_artist_by_id(MBQuery q, const char *id)
+mb_query_get_artist_by_id(MBQuery q, const char *id, MBArtistIncludes inc)
 {
 	Query *query = (Query *)q;
-	return (MBArtist)query->getArtistById(id);
+	return (MBArtist)query->getArtistById(id, (ArtistIncludes *)inc);
 }
 
 MBRelease
-mb_query_get_release_by_id(MBQuery q, const char *id)
+mb_query_get_release_by_id(MBQuery q, const char *id, MBReleaseIncludes inc)
 {
 	Query *query = (Query *)q;
-	return (MBRelease)query->getReleaseById(id);
+	return (MBRelease)query->getReleaseById(id, (ReleaseIncludes *)inc);
 }
 
 MBTrack
-mb_query_get_track_by_id(MBQuery q, const char *id)
+mb_query_get_track_by_id(MBQuery q, const char *id, MBTrackIncludes inc)
 {
 	Query *query = (Query *)q;
-	return (MBTrack)query->getTrackById(id);
+	return (MBTrack)query->getTrackById(id, (TrackIncludes *)inc);
 }
 
 /* === MusicBrainz::Artist === */
+
+MB_C_FREE(Artist, artist)
 
 MB_C_STR_GETTER(Artist, artist, Id, id)
 MB_C_STR_GETTER(Artist, artist, Type, type)
@@ -127,6 +137,8 @@ MB_C_STR_GETTER(Artist, artist, EndDate, end_date)
 
 /* === MusicBrainz::Release === */
 
+MB_C_FREE(Release, release)
+
 MB_C_STR_GETTER(Release, release, Id, id)
 MB_C_STR_GETTER(Release, release, Title, title)
 MB_C_STR_GETTER(Release, release, TextLanguage, text_language)
@@ -134,6 +146,8 @@ MB_C_STR_GETTER(Release, release, TextScript, text_script)
 MB_C_STR_GETTER(Release, release, Asin, asin)
 
 /* === MusicBrainz::Track === */
+
+MB_C_FREE(Track, track)
 
 MB_C_STR_GETTER(Track, track, Id, id)
 MB_C_STR_GETTER(Track, track, Title, title)
@@ -147,7 +161,57 @@ MB_C_STR_GETTER(ArtistAlias, artist_alias, Script, script)
 
 /* === MusicBrainz::User === */
 
+MB_C_FREE(User, user)
+
 MB_C_STR_GETTER(User, user, Name, name)
 MB_C_BOOL_GETTER(User, user, ShowNag, show_nag)
+
+#define MB_C_INCLUDES(TYPE1, TYPE2, INC1, INC2) \
+	MB##TYPE1 \
+	mb_##TYPE2##_##INC2(MB##TYPE1 o) \
+	{ \
+		((TYPE1 *)o)->INC1(); \
+		return o; \
+	} 
+
+/* === MusicBrainz::ArtistIncludes === */
+
+MB_C_NEW_NOARGS(ArtistIncludes, artist_includes)
+MB_C_FREE(ArtistIncludes, artist_includes)
+
+MB_C_INCLUDES(ArtistIncludes, artist_includes, aliases, aliases)
+MB_C_INCLUDES(ArtistIncludes, artist_includes, artistRelations, artist_relations)
+MB_C_INCLUDES(ArtistIncludes, artist_includes, releaseRelations, release_relations)
+MB_C_INCLUDES(ArtistIncludes, artist_includes, trackRelations, track_relations)
+MB_C_INCLUDES(ArtistIncludes, artist_includes, urlRelations, url_relations)
+
+/* === MusicBrainz::ReleaseIncludes === */
+
+MB_C_NEW_NOARGS(ReleaseIncludes, release_includes)
+MB_C_FREE(ReleaseIncludes, release_includes)
+
+MB_C_INCLUDES(ReleaseIncludes, release_includes, artist, artist)
+MB_C_INCLUDES(ReleaseIncludes, release_includes, counts, counts)
+MB_C_INCLUDES(ReleaseIncludes, release_includes, releaseEvents, release_events)
+MB_C_INCLUDES(ReleaseIncludes, release_includes, discs, discs)
+MB_C_INCLUDES(ReleaseIncludes, release_includes, tracks, tracks)
+MB_C_INCLUDES(ReleaseIncludes, release_includes, artistRelations, artist_relations)
+MB_C_INCLUDES(ReleaseIncludes, release_includes, releaseRelations, release_relations)
+MB_C_INCLUDES(ReleaseIncludes, release_includes, trackRelations, track_relations)
+MB_C_INCLUDES(ReleaseIncludes, release_includes, urlRelations, url_relations)
+
+/* === MusicBrainz::TrackIncludes === */
+
+MB_C_NEW_NOARGS(TrackIncludes, track_includes)
+MB_C_FREE(TrackIncludes, track_includes)
+
+MB_C_INCLUDES(TrackIncludes, track_includes, artist, artist)
+MB_C_INCLUDES(TrackIncludes, track_includes, releases, releases)
+MB_C_INCLUDES(TrackIncludes, track_includes, puids, puids)
+MB_C_INCLUDES(TrackIncludes, track_includes, artistRelations, artist_relations)
+MB_C_INCLUDES(TrackIncludes, track_includes, releaseRelations, release_relations)
+MB_C_INCLUDES(TrackIncludes, track_includes, trackRelations, track_relations)
+MB_C_INCLUDES(TrackIncludes, track_includes, urlRelations, url_relations)
+
 
 }

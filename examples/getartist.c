@@ -25,15 +25,16 @@ main(int argc, char **argv)
 	
 	query = mb_query_new(NULL, NULL);
 	
-	artist = mb_query_get_artist_by_id(query, argv[1]);
+	artist = mb_query_get_artist_by_id(query, argv[1], NULL);
 	if (!artist) {
 		printf("No artist returned.\n");
+		mb_artist_includes_free(query);
 		mb_query_free(query);
 		return 1;
 	}
 	
 	if (mb_artist_get_id(artist, data, 256))
-		printf("Id		: %s\n", data);
+		printf("Id      : %s\n", data);
 	
 	if (mb_artist_get_type(artist, data, 256))
 		printf("Type	: %s\n", data);
@@ -43,6 +44,8 @@ main(int argc, char **argv)
 	
 	if (mb_artist_get_sortname(artist, data, 256))
 		printf("SortName: %s\n", data);
+
+	mb_artist_free(artist);
 	
 	mb_query_free(query);
 	
