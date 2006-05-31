@@ -30,4 +30,7 @@ findartist_LDADD = $(top_builddir)/src/libmusicbrainz.la -lstdc++ -lm
 findtrack_SOURCES = findtrack.cpp
 findtrack_LDADD = $(top_builddir)/src/libmusicbrainz.la -lstdc++ -lm
 
+getartist_c_SOURCES = getartist.c
+getartist_c_LDADD = $(top_builddir)/src/libmusicbrainz.la -lstdc++ -lm
+
 EXTRA_DIST = SConscript

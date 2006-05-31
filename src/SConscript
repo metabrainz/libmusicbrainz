@@ -12,6 +12,7 @@ dist_files = [
     'filters.cpp',
     'includes.cpp',
     'mbxmlparser.cpp',
+    'mb_c.cpp',
     'metadata.cpp',
     'query.cpp',
     'relation.cpp',

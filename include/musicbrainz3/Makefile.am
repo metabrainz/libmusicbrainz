@@ -25,4 +25,4 @@ mb_inc_HEADERS = \
 	artist.h artistalias.h disc.h entity.h factory.h filters.h includes.h \
 	iwebservice.h lists.h mbxmlparser.h metadata.h model.h musicbrainz.h \
 	relation.h release.h releaseevent.h results.h track.h user.h utils.h \
-	webservice.h
+	webservice.h mb_c.h
