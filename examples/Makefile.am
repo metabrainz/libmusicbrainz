@@ -22,7 +22,7 @@
 
 INCLUDES = -I$(top_srcdir)/include
 
-noinst_PROGRAMS = findartist findtrack
+noinst_PROGRAMS = findartist findtrack getartist_c getartist
 
 findartist_SOURCES = findartist.cpp
 findartist_LDADD = $(top_builddir)/src/libmusicbrainz.la -lstdc++ -lm
@@ -30,7 +30,10 @@ findartist_LDADD = $(top_builddir)/src/libmusicbrainz.la -lstdc++ -lm
 findtrack_SOURCES = findtrack.cpp
 findtrack_LDADD = $(top_builddir)/src/libmusicbrainz.la -lstdc++ -lm
 
-getartist_c_SOURCES = getartist.c
+getartist_c_SOURCES = getartist_c.c
 getartist_c_LDADD = $(top_builddir)/src/libmusicbrainz.la -lstdc++ -lm
+
+getartist_SOURCES = getartist.cpp
+getartist_LDADD = $(top_builddir)/src/libmusicbrainz.la -lstdc++ -lm
 
 EXTRA_DIST = SConscript
