@@ -44,11 +44,6 @@ WebService::init()
 	ne_sock_init(); 
 }
 
-void
-WebService::cleanup()
-{
-}
-
 WebService::WebService(const std::string &host,
 					   const int port,
 					   const std::string &pathPrefix,
@@ -145,17 +140,45 @@ WebService::get(const std::string &entity,
 	
 	req = ne_request_create(sess, "GET", uri.c_str());	
 	ne_add_response_body_reader(req, ne_accept_2xx, httpResponseReader, &response);		
-	ne_request_dispatch(req);
+	int result = ne_request_dispatch(req);
 	int status = ne_get_status(req)->code;
 	ne_request_destroy(req); 
 	
+	string errorMessage = ne_get_error(sess);
+	ne_session_destroy(sess);
+	
 #ifdef DEBUG	
+	cout << "Result: " << result << " (" << errorMessage << ")"<< endl;
 	cout << "Status: " << status << endl;
 	cout << "Response:" << endl << response << endl;
 #endif
 	
-	ne_session_destroy(sess);
+	switch (result) {
+	case NE_OK:
+		break;
+	case NE_CONNECT:
+		throw ConnectionError(errorMessage);
+	case NE_TIMEOUT:
+		throw TimeOutError(errorMessage);
+	case NE_AUTH:
+		throw AuthenticationError(errorMessage);
+	default:
+		throw WebServiceError(errorMessage);
+	}
 
+	switch (status) {
+	case 200:
+		break;
+	case 400:
+		throw RequestError(errorMessage);
+	case 401:
+		throw AuthenticationError(errorMessage);
+	case 404:
+		throw ResourceNotFoundError(errorMessage);
+	default:
+		throw WebServiceError(errorMessage);
+	}
+	
 	return response; 
 }
 

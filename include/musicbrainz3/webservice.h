@@ -54,6 +54,16 @@ namespace MusicBrainz
 	};
 	
 	/**
+	 * Connection to a server timed out.
+	 *
+	 */
+	class MB_API TimeOutError : public WebServiceError
+	{
+	public:
+		TimeOutError(const std::string &msg = std::string()) : WebServiceError(msg) {}
+	};
+	
+	/**
 	 * No resource with the given ID exists.
 	 */
 	class MB_API ResourceNotFoundError : public WebServiceError
@@ -176,21 +186,10 @@ namespace MusicBrainz
 		/**
 		 * Initialized networking environment required by the web service.
 		 *
-		 * @note You must call this method at start of your program.
-		 *
-		 * @see cleanup
+		 * @note You must call this function at start of your program.
 		 */
 		static void init();
 		
-		/**
-		 * Cleans up networking environment.
-		 *
-		 * @note You must call this method at end of your program.
-		 *
-		 * @see init
-		 */
-		static void cleanup();
-
 	private:
 	
 		static int httpAuth(void *userdata, const char *realm, int attempts,
