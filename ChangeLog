@@ -10,7 +10,7 @@ Changes for libmusicbrainz 2.1.3
    - Little fixes in the API documentation 
    - Python bindings:
       - Using the new ctypes 0.9.9.x API, with support to fallback to
-        the old API or only an old ctypes version is installed
+        the old API if only an old ctypes version is installed
       - Removed dependency on ctypes in setup.py
 
 Changes for libmusicbrainz 2.1.2
