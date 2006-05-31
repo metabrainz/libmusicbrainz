@@ -19,12 +19,15 @@
 #
 #    $Id$
 #
-AUTOMAKE_OPTIONS = foreign
 
-SUBDIRS = src include test examples
+INCLUDES = -I$(top_srcdir)/include
 
-pcdir = $(libdir)/pkgconfig
-pc_DATA = libmusicbrainz3.pc
+noinst_PROGRAMS = findartist findtrack
 
-EXTRA_DIST = test-data libmusicbrainz3.pc.in Doxyfile.in \
-	README.win32 config_win32.h.in SConstruct scons
+findartist_SOURCES = findartist.cpp
+findartist_LDADD = $(top_builddir)/src/libmusicbrainz.la -lstdc++ -lm
+
+findtrack_SOURCES = findtrack.cpp
+findtrack_LDADD = $(top_builddir)/src/libmusicbrainz.la -lstdc++ -lm
+
+EXTRA_DIST = SConscript
