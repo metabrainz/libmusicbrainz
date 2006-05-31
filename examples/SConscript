@@ -12,3 +12,7 @@ env.Program("getartist_c", ["getartist_c.c"],
 env.Program("getartist", ["getartist.cpp"],
             LIBPATH=["#src"], LIBS=["musicbrainz3"])
 
+env.Program("getuser", ["getuser.cpp"],
+            LIBPATH=["#src"], LIBS=["musicbrainz3"])
+
+
