@@ -6,3 +6,6 @@ env.Program("findartist", ["findartist.cpp"],
 env.Program("findtrack", ["findtrack.cpp"],
             LIBPATH=["#src"], LIBS=["musicbrainz3"])
 
+env.Program("getartist_c", ["getartist.c"],
+            LIBPATH=["#src"], LIBS=["musicbrainz3"])
+
