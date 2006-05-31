@@ -67,6 +67,7 @@ src/xmlParser/Makefile
 include/Makefile
 include/musicbrainz3/Makefile
 test/Makefile
+examples/Makefile 
 libmusicbrainz3.pc
 Doxyfile], 
 echo timestamp > stamp-h)

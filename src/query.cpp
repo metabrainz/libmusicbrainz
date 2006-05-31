@@ -79,7 +79,7 @@ User *
 Query::getUserByName(const string &name)
 {
 	Metadata *metadata = getFromWebService("user", "", NULL, &UserFilter().name(name));
-	UserList &list = metadata->getUserList(true);
+	UserList list = metadata->getUserList(true);
 	delete metadata;
 	if (list.size() > 0) 
 		return list[0];
@@ -91,7 +91,7 @@ ArtistResultList
 Query::getArtists(const ArtistFilter *filter)
 {
 	Metadata *metadata = getFromWebService("artist", "", NULL, filter);
-	ArtistResultList &list = metadata->getArtistResults(true);
+	ArtistResultList list = metadata->getArtistResults(true);
 	delete metadata;
 	return list;
 }
@@ -100,7 +100,7 @@ ReleaseResultList
 Query::getReleases(const ReleaseFilter *filter)
 {
 	Metadata *metadata = getFromWebService("release", "", NULL, filter);
-	ReleaseResultList &list = metadata->getReleaseResults(true);
+	ReleaseResultList list = metadata->getReleaseResults(true);
 	delete metadata;
 	return list;
 }
@@ -109,7 +109,7 @@ TrackResultList
 Query::getTracks(const TrackFilter *filter)
 {
 	Metadata *metadata = getFromWebService("track", "", NULL, filter);
-	TrackResultList &list = metadata->getTrackResults(true);
+	TrackResultList list = metadata->getTrackResults(true);
 	delete metadata;
 	return list;
 }
