@@ -18,7 +18,7 @@ if sys.platform == 'win32':
     env.Append(CPPDEFINES=['WIN32'])
     
 if 'msvc' in env.get('TOOLS', []):
-	env.Append(CCFLAGS=['/O2', '/GX', '/MD', '/W1', '/WX']) 
+	env.Append(CCFLAGS=['/O2', '/GX', '/MD', '/W3', '/WX']) 
     
 if 'gcc' in env.get('TOOLS', []):
     env.Append(CCFLAGS=['-O2', '-g', '-Wall', '-pedantic']) 

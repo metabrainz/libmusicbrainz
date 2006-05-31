@@ -48,10 +48,38 @@ Entity::setId(const string &id)
 	this->id = id;
 }
 
-const RelationList &
-Entity::getRelations() const
+RelationList 
+Entity::getRelations(const std::string &targetType,
+					 const std::string &relationType) const
 {
-	return relations;
+	if (targetType.empty() && relationType.empty())
+		return relations;
+	
+	RelationList result;
+	
+	if (targetType.empty()) {
+		for (RelationList::const_iterator i = relations.begin(); i != relations.end(); i++) {
+			if ((*i)->getType() == relationType) {
+				result.push_back(*i);
+			}
+		}
+	}
+	else if (relationType.empty()) {
+		for (RelationList::const_iterator i = relations.begin(); i != relations.end(); i++) {
+			if ((*i)->getTargetType() == targetType) {
+				result.push_back(*i);
+			}
+		}
+	}
+	else {
+		for (RelationList::const_iterator i = relations.begin(); i != relations.end(); i++) {
+			if ((*i)->getType() == relationType && (*i)->getTargetType() == targetType) {
+				result.push_back(*i);
+			}
+		}
+	}
+	
+	return result;	
 }
 
 void

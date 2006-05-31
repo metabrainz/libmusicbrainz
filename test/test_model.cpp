@@ -15,6 +15,7 @@ class ModelTest : public CppUnit::TestFixture
 	CPPUNIT_TEST(testArtistAliasProperties);
 	CPPUNIT_TEST(testUserTypes);
 	CPPUNIT_TEST(testAddRelation);
+	CPPUNIT_TEST(testGetRelations);
 	CPPUNIT_TEST_SUITE_END();
 	
 protected:
@@ -110,6 +111,28 @@ protected:
 		CPPUNIT_ASSERT_EQUAL(rel->getAttributes().size(), rel2->getAttributes().size());
 		CPPUNIT_ASSERT_EQUAL(rel->getBeginDate(), rel2->getBeginDate());
 		CPPUNIT_ASSERT_EQUAL(rel->getEndDate(), rel2->getEndDate());
+	}
+	
+	void testGetRelations()
+	{
+		Relation *rel = new Relation("Producer", Relation::TO_RELEASE, "al_id");
+		Relation *rel2 = new Relation("Wikipedia", Relation::TO_URL, "http://en.wikipedia.org/Tori_Amos");
+		Artist artist("ar_id", "Tori Amos", Artist::TYPE_PERSON);
+		artist.addRelation(rel);
+		artist.addRelation(rel2);
+
+		RelationList list1 = artist.getRelations();
+		RelationList list2 = artist.getRelations(Relation::TO_RELEASE);
+		RelationList list3 = artist.getRelations("", "Producer");
+		RelationList list4 = artist.getRelations(Relation::TO_RELEASE, "Producer");
+		RelationList list5 = artist.getRelations(Relation::TO_RELEASE, "Wikipedia");
+		RelationList list6 = artist.getRelations("", "Wikipedia");
+		CPPUNIT_ASSERT_EQUAL(2, int(list1.size()));
+		CPPUNIT_ASSERT_EQUAL(1, int(list2.size()));
+		CPPUNIT_ASSERT_EQUAL(1, int(list3.size()));
+		CPPUNIT_ASSERT_EQUAL(1, int(list4.size()));
+		CPPUNIT_ASSERT_EQUAL(0, int(list5.size()));
+		CPPUNIT_ASSERT_EQUAL(1, int(list6.size()));
 	}
 	
 	void testUserTypes()
