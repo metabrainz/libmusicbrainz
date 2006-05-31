@@ -17,6 +17,7 @@ class WebServiceTest : public CppUnit::TestFixture
 	CPPUNIT_TEST(testGetUserByName);
 	CPPUNIT_TEST(testAuthenticationError);
 	CPPUNIT_TEST(testResourceNotFoundError);
+	CPPUNIT_TEST(testRequestError);
 	CPPUNIT_TEST(testConnectionError);
 	CPPUNIT_TEST_SUITE_END();
 	
