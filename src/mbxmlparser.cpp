@@ -126,7 +126,7 @@ getUriListAttr(XMLNode node, string name, string ns = NS_MMD_1)
 		string::size_type end = text.find(' ', pos);
 		if (pos == end) 
 			break;
-		string word = extractFragment(text.substr(pos, end));
+		string word = extractFragment(text.substr(pos, end - pos));
 		uriList.push_back(ns + word);
 		pos = text.find_first_not_of(' ', end);
 	}
