@@ -65,6 +65,9 @@ namespace MusicBrainz
 		
 	public:
 		
+		/**
+		 * Destructor.
+		 */
 		virtual ~Entity();
 		
 		/**
@@ -81,8 +84,35 @@ namespace MusicBrainz
 		 */
 		virtual void setId(const std::string &value);
 
-		// TODO, FIXME, ... :)	
-		const RelationList &getRelations() const;
+		/**
+		 * Returns a list of relations.
+		 *
+		 * If \a targetType is given, only relations of that target
+		 * type are returned. For MusicBrainz, the following target
+		 * types are defined:
+		 *
+		 *  - Relation::TO_ARTIST
+		 *  - Relation::TO_RELEASE
+		 *  - Relation::TO_TRACK
+		 *  - Relation::TO_URL
+		 *
+		 * If \a targetType is Relation::TO_ARTIST, for example,
+		 * this method returns all relations between this Entity and
+		 * artists.
+		 *
+		 * You may use the \a relationType parameter to further restrict
+		 * the selection. If it is set, only relations with the given
+		 * relation type are returned.
+		 *
+		 * @param targetType a string containing an absolute URI
+		 * @param relationType a string containing an absolute URI
+		 *
+		 * @return a list of pointers to Relation objects
+		 *
+		 * @see Entity
+		 */
+		RelationList getRelations(const std::string &targetType = std::string(),
+								  const std::string &relationType = std::string()) const;
 		
 		/**
 		 * Adds a relation.

@@ -21,29 +21,27 @@
 #ifndef __MUSICBRAINZ3_MUSICBRAINZ_H__
 #define __MUSICBRAINZ3_MUSICBRAINZ_H__
 
-#include <exception>
+#ifdef _MSC_VER
+#	pragma warning (disable : 4251) 
+#endif
 
 #ifdef WIN32
 #	ifdef MB_API_EXPORTS
 #		define MB_API __declspec(dllexport)
-#		define EXPIMP_TEMPLATE
 #	else
 #		define MB_API __declspec(dllimport)
-	#define EXPIMP_TEMPLATE extern
-  #endif
+#	endif
 #else
-  #ifdef GCC_HASCLASSVISIBILITY
-    #define MB_API __attribute__ ((visibility("default")))
-  #else
-    #define MB_API
-  #endif
+#	define MB_EXPIMP_TEMPLATE
+#	ifdef GCC_HASCLASSVISIBILITY
+#		define MB_API __attribute__ ((visibility("default")))
+#	else
+#		define MB_API
+#	endif
 #endif
 
+#include <exception>
 #include <string>
-
-/** 
- * Main libmusicbrainz namespace.
- */ 
 
 namespace MusicBrainz
 { 
@@ -65,22 +63,22 @@ namespace MusicBrainz
 	};
 	
     /**
-     * MusicBrainz ID for "Various Artists" 
+     * The ID of the special 'Various Artists' artist. 
      */    
     static const std::string VARIOUS_ARTISTS_ID = "http://musicbrainz.org/artist/89ad4ac3-39f7-470e-963a-56509c546377";     
 
     /**
-     * Namespace URI prefix for code MusicBrainz metadata 
+     * Default namespace prefix for all MusicBrainz metadata. 
      */    
     static const std::string NS_MMD_1 = "http://musicbrainz.org/ns/mmd-1.0#";
     
     /**
-     * Namespace URI prefix for MusicBrainz relations 
+     * Namespace prefix for relations. 
      */    
     static const std::string NS_REL_1 = "http://musicbrainz.org/ns/rel-1.0#";
     
     /**
-     * Namespace URI prefix for extensions to MusicBrainz metadata 
+     * Namespace prefix for MusicBrainz extensions. 
      */    
     static const std::string NS_EXT_1 = "http://musicbrainz.org/ns/ext-1.0#";     
     
