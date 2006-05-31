@@ -28,7 +28,6 @@ main(int argc, char **argv)
 	artist = mb_query_get_artist_by_id(query, argv[1], NULL);
 	if (!artist) {
 		printf("No artist returned.\n");
-		mb_artist_includes_free(query);
 		mb_query_free(query);
 		return 1;
 	}

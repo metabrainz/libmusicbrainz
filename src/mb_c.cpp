@@ -185,6 +185,20 @@ MB_C_INCLUDES(ArtistIncludes, artist_includes, releaseRelations, release_relatio
 MB_C_INCLUDES(ArtistIncludes, artist_includes, trackRelations, track_relations)
 MB_C_INCLUDES(ArtistIncludes, artist_includes, urlRelations, url_relations)
 
+MBArtistIncludes
+mb_artist_includes_releases(MBArtistIncludes o, const char *str) 
+{ 
+	((ArtistIncludes *)o)->releases(str ? string(str) : string()); 
+	return o; 
+} 
+
+MBArtistIncludes
+mb_artist_includes_va_releases(MBArtistIncludes o, const char *str) 
+{ 
+	((ArtistIncludes *)o)->vaReleases(str ? string(str) : string()); 
+	return o; 
+} 
+
 /* === MusicBrainz::ReleaseIncludes === */
 
 MB_C_NEW_NOARGS(ReleaseIncludes, release_includes)
