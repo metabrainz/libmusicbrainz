@@ -1,0 +1,8 @@
+Import('env')
+
+env.Program("findartist", ["findartist.cpp"],
+            LIBPATH=["#src"], LIBS=["musicbrainz3"])
+
+env.Program("findtrack", ["findtrack.cpp"],
+            LIBPATH=["#src"], LIBS=["musicbrainz3"])
+

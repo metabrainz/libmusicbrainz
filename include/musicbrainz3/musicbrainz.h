@@ -24,10 +24,12 @@
 #include <exception>
 
 #ifdef WIN32
-  #ifdef MB_API_EXPORTS
-    #define MB_API __declspec(dllexport)
-  #else
-    #define MB_API __declspec(dllimport)
+#	ifdef MB_API_EXPORTS
+#		define MB_API __declspec(dllexport)
+#		define EXPIMP_TEMPLATE
+#	else
+#		define MB_API __declspec(dllimport)
+	#define EXPIMP_TEMPLATE extern
   #endif
 #else
   #ifdef GCC_HASCLASSVISIBILITY
