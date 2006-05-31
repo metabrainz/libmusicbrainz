@@ -17,7 +17,7 @@ The client library includes the following features:
 See http://mm.musicbrainz.org/client_howto.html for more info
 """
 
-__version__ = "2.1.2"
+__version__ = "2.1.3"
 
 import os, types, sys
 

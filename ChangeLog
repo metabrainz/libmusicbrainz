@@ -1,3 +1,18 @@
+Changes for libmusicbrainz 2.1.3
+-------------------------------------
+
+   - New queries for selecting album artists: 
+      - MBS_SelectAlbumArtist
+      - MBE_AlbumGetAlbumArtistName
+      - MBE_AlbumGetAlbumArtistSortName
+   - New query MBE_AlbumGetCdindexId
+   - Using size_t instead of int in networking code
+   - Little fixes in the API documentation 
+   - Python bindings:
+      - Using the new ctypes 0.9.9.x API, with support to fallback to
+        the old API or only an old ctypes version is installed
+      - Removed dependency on ctypes in setup.py
+
 Changes for libmusicbrainz 2.1.2
 -------------------------------------
 
