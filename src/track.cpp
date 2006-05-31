@@ -57,6 +57,8 @@ Track::getArtist()
 void
 Track::setArtist(Artist *value)
 {
+	if (artist)
+		delete artist;
 	artist = value;
 }
 

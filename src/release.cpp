@@ -111,6 +111,8 @@ Release::getArtist()
 void
 Release::setArtist(Artist *value)
 {
+	if (artist)
+		delete artist;
 	artist = value;
 }
 

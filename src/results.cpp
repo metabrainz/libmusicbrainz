@@ -59,6 +59,8 @@ ArtistResult::getArtist()
 void
 ArtistResult::setArtist(Artist *value)
 {
+	if (artist)
+		delete artist;
 	artist = value;
 }
 
@@ -82,6 +84,8 @@ ReleaseResult::getRelease()
 void
 ReleaseResult::setRelease(Release *value)
 {
+	if (release)
+		delete release;
 	release = value;
 }
 
@@ -105,6 +109,8 @@ TrackResult::getTrack()
 void
 TrackResult::setTrack(Track *value)
 {
+	if (track)
+		delete track;
 	track = value;
 }
 
