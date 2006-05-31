@@ -18,7 +18,7 @@ if sys.platform == 'win32':
     env.Append(CPPDEFINES=['WIN32'])
     
 if 'msvc' in env.get('TOOLS', []):
-	env.Append(CCFLAGS=['/O2', '/GX', '/MD']) 
+	env.Append(CCFLAGS=['/O2', '/GX', '/MD', '/W1', '/WX']) 
     
 if 'gcc' in env.get('TOOLS', []):
     env.Append(CCFLAGS=['-O2', '-g', '-Wall', '-pedantic']) 
@@ -26,6 +26,7 @@ if 'gcc' in env.get('TOOLS', []):
 Export('env') 
 
 SConscript([
+    'examples/SConscript',           
     'src/SConscript',           
     'test/SConscript',           
     ])  

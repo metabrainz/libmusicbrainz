@@ -24,7 +24,7 @@
 #include <string>
 #include <musicbrainz3/webservice.h>
 #include <musicbrainz3/metadata.h>
-#include <musicbrainz3/model.h> 
+#include <musicbrainz3/model.h>
 
 namespace MusicBrainz
 {
@@ -69,7 +69,7 @@ namespace MusicBrainz
 		 * @param ws a pointer to subclass instance of IWebService, or \c NULL
 		 * @param clientId a string containing the application's ID
 		 */
-		Query(IWebService *ws, const std::string &clientId);
+		Query(IWebService *ws = NULL, const std::string &clientId = std::string());
 
 		/**
 		 * Destructor.
@@ -98,12 +98,12 @@ namespace MusicBrainz
 		 */
 		 
 		Artist *getArtistById(const std::string &id,
-							  const ArtistIncludes &include = ArtistIncludes());
+							  const ArtistIncludes *include = NULL);
 		
 		/**
 		 * Returns a release.
 		 *
-		 * If no release with that ID can be found, C{include} contains
+		 * If no release with that ID can be found, \a include contains
 		 * invalid tags or there's a server problem, and exception is
 		 * raised. 
 		 *
@@ -122,7 +122,7 @@ namespace MusicBrainz
 		 */
 		 
 		Release *getReleaseById(const std::string &id,
-								const ReleaseIncludes &include = ReleaseIncludes());
+								const ReleaseIncludes *include = NULL);
 		
 		/**
 		 * Returns a track.
@@ -146,16 +146,16 @@ namespace MusicBrainz
 		 */
 		 
 		Track *getTrackById(const std::string &id,
-							const TrackIncludes &include = TrackIncludes());
+							const TrackIncludes *include = NULL);
 		
 		/**
 		 * Returns information about a MusicBrainz user.
 		 *
 		 * You can only request user data if you know the user name and
 		 * password for that account. If username and/or password are
-		 * incorrect, an L{AuthenticationError} is raised.
+		 * incorrect, an AuthenticationError is raised.
 		 * 
-		 * See the example in L{Query} on how to supply user name and
+		 * See the example in Query on how to supply user name and
 		 * password.
 		 *
 		 * @param name a string containing the user's name
@@ -173,17 +173,65 @@ namespace MusicBrainz
 		 
 		User *getUserByName(const std::string &name);
 		
+		/**
+		 * Returns artists matching given criteria.
+		 *
+		 * @param filter: a pointer to ArtistFilter object
+		 * 
+		 * @return a vector of pointers to ArtistResult objects
+		 *
+		 * @note The caller is responsible for deleting all
+		 * returned ArtistResult objects.
+		 *
+		 * @throw ConnectionError couldn't connect to server
+		 * @throw RequestError invalid ID or include tags
+		 * @throw ResponseError server returned invalid data
+		 */
+		ArtistResultList getArtists(const ArtistFilter *filter);
+
+		/**
+		 * Returns releases matching given criteria. 
+		 *
+		 * @param filter a pointer to ReleaseFilter object
+		 * 
+		 * @return a vector of pointers to ReleaseResult objects
+		 *
+		 * @note The caller is responsible for deleting all
+		 * returned ReleaseResult objects.
+		 *
+		 * @throw ConnectionError couldn't connect to server
+		 * @throw RequestError invalid ID or include tags
+		 * @throw ResponseError server returned invalid data
+		 */
+		ReleaseResultList getReleases(const ReleaseFilter *filter);
+		
+		/**
+		 * Returns tracks matching given criteria.
+		 *
+		 * @param filter a pointer to TrackFilter object
+		 * 
+		 * @return a vector of pointers to TrackResult objects
+		 *
+		 * @note The caller is responsible for deleting all
+		 * returned TrackResult objects.
+		 *
+		 * @throw ConnectionError couldn't connect to server
+		 * @throw RequestError invalid ID or include tags
+		 * @throw ResponseError server returned invalid data
+		 */
+		TrackResultList getTracks(const TrackFilter *filter);
+		
 	protected:
 	
-		template<typename IT, typename FT>
 		Metadata *getFromWebService(const std::string &entity,
 									const std::string &id,
-									const IT &include = IT(),
-									const FT &filter = FT());
+									const IIncludes *include = NULL,
+									const IFilter *filter = NULL);
 		
 	private:
 	
 		IWebService *ws;
+		bool own_ws;
 		std::string clientId;		
 	};
 	
