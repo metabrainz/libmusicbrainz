@@ -19,10 +19,13 @@
  *
  * $Id$
  */
- 
+
+#include <string>
+#include <hash_map>
 #include <musicbrainz3/utils.h>
 
 using namespace std;
+using namespace stdext;
 using namespace MusicBrainz;
 
 std::string
@@ -55,5 +58,77 @@ MusicBrainz::extractUuid(const string &uri)
 	if (uri.size() == 36)
 		return uri;
 	throw ValueError(uri + "is not a valid MusicBrainz ID.");
+}
+
+#include "utils_countrynames.h"
+
+string 
+MusicBrainz::getCountryName(const string &id)
+{
+	static bool countryNamesMapBuilt = false;
+	static hash_map<string, string> countryNamesMap;
+	
+	if (!countryNamesMapBuilt) {
+		for (int i = 0; i < (int)(sizeof(countryNames) / sizeof(countryNames[0])); i++) 
+			countryNamesMap[countryNames[i][0]] = countryNames[i][1];	
+		countryNamesMapBuilt = true;
+	}
+	
+	hash_map<string, string>::iterator i = countryNamesMap.find(id);
+	return i == countryNamesMap.end() ? string() : i->second; 
+}
+
+#include "utils_languagenames.h"
+
+string 
+MusicBrainz::getLanguageName(const string &id)
+{
+	static bool languageNamesMapBuilt = false;
+	static hash_map<string, string> languageNamesMap;
+	
+	if (!languageNamesMapBuilt) {
+		for (int i = 0; i < (int)(sizeof(languageNames) / sizeof(languageNames[0])); i++) 
+			languageNamesMap[languageNames[i][0]] = languageNames[i][1];	
+		languageNamesMapBuilt = true;
+	}
+	
+	hash_map<string, string>::iterator i = languageNamesMap.find(id);
+	return i == languageNamesMap.end() ? string() : i->second; 
+}
+
+#include "utils_scriptnames.h"
+
+string 
+MusicBrainz::getScriptName(const string &id)
+{
+	static bool scriptNamesMapBuilt = false;
+	static hash_map<string, string> scriptNamesMap;
+	
+	if (!scriptNamesMapBuilt) {
+		for (int i = 0; i < (int)(sizeof(scriptNames) / sizeof(scriptNames[0])); i++) 
+			scriptNamesMap[scriptNames[i][0]] = scriptNames[i][1];	
+		scriptNamesMapBuilt = true;
+	}
+	
+	hash_map<string, string>::iterator i = scriptNamesMap.find(id);
+	return i == scriptNamesMap.end() ? string() : i->second; 
+}
+
+#include "utils_releasetypenames.h"
+
+string 
+MusicBrainz::getReleaseTypeName(const string &id)
+{
+	static bool releaseTypeNamesMapBuilt = false;
+	static hash_map<string, string> releaseTypeNamesMap;
+	
+	if (!releaseTypeNamesMapBuilt) {
+		for (int i = 0; i < (int)(sizeof(releaseTypeNames) / sizeof(releaseTypeNames[0])); i++) 
+			releaseTypeNamesMap[releaseTypeNames[i][0]] = releaseTypeNames[i][1];	
+		releaseTypeNamesMapBuilt = true;
+	}
+
+	hash_map<string, string>::iterator i = releaseTypeNamesMap.find(id);
+	return i == releaseTypeNamesMap.end() ? string() : i->second; 
 }
 
