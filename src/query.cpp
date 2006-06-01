@@ -21,10 +21,12 @@
  */
  
 #include <string>
+#include <map>
 #include <iostream>
 #include <musicbrainz3/utils.h>
 #include <musicbrainz3/query.h>
 #include <musicbrainz3/mbxmlparser.h>
+#include "utilspriv.h"
 
 using namespace std;
 using namespace MusicBrainz;
@@ -132,5 +134,17 @@ Query::getFromWebService(const string &entity,
 	catch (ParseError &e) {
 		throw ResponseError(e.what());
 	}
+}
+
+void
+Query::submitPuids(const map<string, string> &tracks2puids)
+{
+	if (clientId.empty())
+		throw WebServiceError("Please supply a client ID");
+	vector<pair<string, string> > params;
+	params.push_back(pair<string, string>("client", clientId));
+	for (map<string, string>::const_iterator i = tracks2puids.begin(); i != tracks2puids.end(); i++) 
+		params.push_back(pair<string, string>("puid", extractUuid(i->first) + " " + i->second));
+	ws->post("track", "", urlEncode(params));	
 }
 

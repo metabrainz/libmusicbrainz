@@ -12,7 +12,6 @@ env = Environment(ENV=os.environ,
                   tools=['default', 'env_subst', 'dist', 'install'])
 
 env.Append(CPPPATH=['#.', '#lib', '#include'])
-env.Append(CPPDEFINES=[('VERSION', r'\"$VERSION\"')])
 
 if sys.platform == 'win32':
     env.Append(CPPDEFINES=['WIN32'])
@@ -32,8 +31,7 @@ SConscript([
     ])  
 
 # Configuration file
-#env.EnvSubstFile('config.h',  'config.h.in')
-env.EnvSubstFile('config_win32.h',  'config_win32.h.in')
+env.EnvSubstFile('config.h',  'config_win32.h.in')
 
 # API documentation
 docs = env.Command('docs/index.html', '', 'doxygen')

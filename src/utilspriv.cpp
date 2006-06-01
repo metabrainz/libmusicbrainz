@@ -21,6 +21,8 @@
  */
  
 #include <cstring>
+#include <map>
+#include <ne_uri.h> 
 #include "utilspriv.h"
 
 using namespace std;
@@ -38,5 +40,31 @@ int
 MusicBrainz::stringToInt(const std::string &s)
 {
 	return atoi(s.c_str());
+}
+
+string
+MusicBrainz::uriEscape(const string &uri)
+{
+	char *esc_uri_str = ne_path_escape(uri.c_str());
+	string esc_uri = string((const char *)esc_uri_str);
+	free(esc_uri_str);
+	return esc_uri;
+}
+
+string
+MusicBrainz::urlEncode(const vector<pair<string, string> > &params)
+{
+	string encodedStr;
+	bool first = true;	
+	for (vector<pair<string, string> >::const_iterator i = params.begin(); i != params.end(); i++) {
+		string name = i->first;
+		string value = i->second;
+		if (first)
+			first = false;
+		else
+			encodedStr += "&";
+		encodedStr += name + "=" + uriEscape(value);
+	}
+	return encodedStr;
 }
 
