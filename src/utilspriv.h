@@ -24,6 +24,7 @@
 #define __MUSICBRAINZ3_UTILSPRIV_H__
 
 #include <string>
+#include <vector>
 #include <musicbrainz3/musicbrainz.h>
 
 namespace MusicBrainz
@@ -31,6 +32,9 @@ namespace MusicBrainz
 	
 	std::string intToString(const int i);
 	int stringToInt(const std::string &s);
+
+	std::string uriEscape(const std::string &uri);
+	std::string urlEncode(const std::vector<std::pair<std::string, std::string> > &params);
 	
 }
 

@@ -24,18 +24,16 @@
 #include <map>
 #include <iostream>
 #include <string.h>
-#ifdef WIN32
-#include <winsock.h>
-#endif
-#include <musicbrainz3/webservice.h>
-#include <musicbrainz3/artist.h>
-#include "utilspriv.h"
-
 #include <ne_session.h>
 #include <ne_request.h>
 #include <ne_utils.h>
 #include <ne_auth.h>
 #include <ne_uri.h> 
+#include <musicbrainz3/webservice.h>
+#include <musicbrainz3/artist.h>
+#include "utilspriv.h"
+#include "config.h"
+
 
 using namespace std;
 using namespace MusicBrainz;
@@ -80,15 +78,6 @@ WebService::httpResponseReader(void *userdata, const char *buf, size_t len)
 }
 
 string
-uriEscape(string uri)
-{
-	char *esc_uri_str = ne_path_escape(uri.c_str());
-	string esc_uri = string((const char *)esc_uri_str);
-	free(esc_uri_str);
-	return esc_uri;
-}
-
-string
 WebService::get(const std::string &entity,
 				const std::string &id,
 				const IIncludes::IncludeList &include,
@@ -106,9 +95,10 @@ WebService::get(const std::string &entity,
 	if (!sess) 
 		throw WebServiceError("ne_session_create() failed.");
 	ne_set_server_auth(sess, httpAuth, this);
+	ne_set_useragent(sess, PACKAGE"/"VERSION);
 
-	map<string, string> params;
-	params["type"] = "xml";
+	vector<pair<string, string> > params;
+	params.push_back(pair<string, string>("type", "xml"));
 	
 	string inc;
 	for (IIncludes::IncludeList::const_iterator i = include.begin(); i != include.end(); i++) {
@@ -116,24 +106,14 @@ WebService::get(const std::string &entity,
 			inc += " ";
 		inc += *i;
 	}
-	params["inc"] = inc;
+	if (!inc.empty())
+		params.push_back(pair<string, string>("inc", inc));
 	
-	for (IFilter::ParameterList::const_iterator i = filter.begin(); i != filter.end(); i++) {
-		params[i->first] = i->second;	
-	}
+	for (IFilter::ParameterList::const_iterator i = filter.begin(); i != filter.end(); i++)  
+		params.push_back(pair<string, string>(i->first, i->second));
 
-	string uri = pathPrefix + "/" + version + "/" + entity + "/" + id;
+	string uri = pathPrefix + "/" + version + "/" + entity + "/" + id + "?" + urlEncode(params);
 	
-	bool first = true;	
-	for (map<string, string>::iterator i = params.begin(); i != params.end(); i++) {
-		string name = i->first;
-		string value = i->second;
-		if (value.empty())
-			continue;
-		uri += (first ? "?" : "&") + name + "=" + uriEscape(value);
-		first = false;
-	}
-
 #ifdef DEBUG	
 	cout << "GET " << uri << endl;
 #endif
@@ -190,5 +170,66 @@ WebService::post(const std::string &entity,
 				 const std::string &data,
 				 const std::string &version)
 {
+	ne_session *sess;
+	ne_request *req;
+	
+#ifdef DEBUG	
+	cout << endl << "Connecting to http://" << host << ":" << port << endl;
+#endif
+	
+	sess = ne_session_create("http", host.c_str(), port);
+	if (!sess) 
+		throw WebServiceError("ne_session_create() failed.");
+	ne_set_server_auth(sess, httpAuth, this);
+	ne_set_useragent(sess, PACKAGE"/"VERSION);
+
+	string uri = pathPrefix + "/" + version + "/" + entity + "/" + id;
+	
+#ifdef DEBUG	
+	cout << "POST " << uri << endl;
+	cout << "POST-BODY: " << data << endl;
+#endif
+	
+	req = ne_request_create(sess, "POST", uri.c_str());
+	ne_set_request_flag(req, NE_REQFLAG_IDEMPOTENT, 0);
+	ne_add_request_header(req, "Content-type", "application/x-www-form-urlencoded");
+	ne_set_request_body_buffer(req, data.c_str(), data.size());	
+	int result = ne_request_dispatch(req);
+	int status = ne_get_status(req)->code;
+	ne_request_destroy(req); 
+	
+	string errorMessage = ne_get_error(sess);
+	ne_session_destroy(sess);
+	
+#ifdef DEBUG	
+	cout << "Result: " << result << " (" << errorMessage << ")"<< endl;
+	cout << "Status: " << status << endl;
+#endif
+	
+	switch (result) {
+	case NE_OK:
+		break;
+	case NE_CONNECT:
+		throw ConnectionError(errorMessage);
+	case NE_TIMEOUT:
+		throw TimeOutError(errorMessage);
+	case NE_AUTH:
+		throw AuthenticationError(errorMessage);
+	default:
+		throw WebServiceError(errorMessage);
+	}
+
+	switch (status) {
+	case 200:
+		break;
+	case 400:
+		throw RequestError(errorMessage);
+	case 401:
+		throw AuthenticationError(errorMessage);
+	case 404:
+		throw ResourceNotFoundError(errorMessage);
+	default:
+		throw WebServiceError(errorMessage);
+	}
 }
 

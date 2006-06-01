@@ -86,7 +86,7 @@ namespace MusicBrainz
 		 virtual void post(const std::string &entity,
 						   const std::string &id,
 						   const std::string &data,
-						   const std::string &version) = 0;
+						   const std::string &version = "1") = 0;
 	};
 	
 }

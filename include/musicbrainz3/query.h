@@ -23,6 +23,7 @@
 #ifndef __MUSICBRAINZ3_QUERY_H__
 #define __MUSICBRAINZ3_QUERY_H__
 
+#include <map>
 #include <string>
 #include <musicbrainz3/webservice.h>
 #include <musicbrainz3/metadata.h>
@@ -223,6 +224,26 @@ namespace MusicBrainz
 		 */
 		TrackResultList getTracks(const TrackFilter *filter);
 		
+		/**
+		 * Submit track to PUID mappings.
+		 *
+		 * The \a tracks2puids parameter has to be a map, with the
+		 * keys being MusicBrainz track IDs (either as absolute URIs or
+		 * in their 36 character ASCII representation) and the values
+		 * being PUIDs (ASCII, 36 characters).
+
+		 * Note that this method only works if a valid user name and
+		 * password have been set. See the example in Query on how
+		 * to supply authentication data.
+		 *
+		 * @param tracks2puids a map mapping track IDs to PUIDs
+		 *
+		 * @throw ConnectionError couldn't connect to server
+		 * @throw RequestError invalid track- or PUIDs
+		 * @throw AuthenticationError invalid user name and/or password 
+		 */
+		 void submitPuids(const std::map<std::string, std::string> &tracks2puids);
+		 
 	protected:
 	
 		Metadata *getFromWebService(const std::string &entity,
