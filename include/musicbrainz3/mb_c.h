@@ -33,7 +33,6 @@ extern "C" {
   TODO:
    * Type names: MBXxx, mb_xxx or mb_xxx_t?
    * Error handling? 
-     * Consistency of string and int/bool getters
      * Error messages
    * Returning of lists?
 */
@@ -129,7 +128,7 @@ mb_artist_free(MBArtist artist);
  *
  * @see MusicBrainz::Artist::getId	
  */
-MB_API int
+MB_API void
 mb_artist_get_id(MBArtist artist, char *str, int len);
 
 /**
@@ -137,7 +136,7 @@ mb_artist_get_id(MBArtist artist, char *str, int len);
  *
  * @see MusicBrainz::Artist::getType	
  */
-MB_API int
+MB_API void
 mb_artist_get_type(MBArtist artist, char *str, int len);
 
 /**
@@ -145,7 +144,7 @@ mb_artist_get_type(MBArtist artist, char *str, int len);
  *
  * @see MusicBrainz::Artist::getName	
  */
-MB_API int
+MB_API void
 mb_artist_get_name(MBArtist artist, char *str, int len);
 
 /**
@@ -153,7 +152,7 @@ mb_artist_get_name(MBArtist artist, char *str, int len);
  *
  * @see MusicBrainz::Artist::getSortName	
  */
-MB_API int
+MB_API void
 mb_artist_get_sortname(MBArtist artist, char *str, int len);
 
 /**
@@ -161,7 +160,7 @@ mb_artist_get_sortname(MBArtist artist, char *str, int len);
  *
  * @see MusicBrainz::Artist::getDisambiguation
  */
-MB_API int
+MB_API void
 mb_artist_get_disambiguation(MBArtist artist, char *str, int len);
 
 /**
@@ -169,7 +168,7 @@ mb_artist_get_disambiguation(MBArtist artist, char *str, int len);
  *
  * @see MusicBrainz::Artist::getUniqueName
  */
-MB_API int
+MB_API void
 mb_artist_get_unique_name(MBArtist artist, char *str, int len);
 
 /**
@@ -177,7 +176,7 @@ mb_artist_get_unique_name(MBArtist artist, char *str, int len);
  *
  * @see MusicBrainz::Artist::getBeginDate
  */
-MB_API int
+MB_API void
 mb_artist_get_begin_date(MBArtist artist, char *str, int len);
 
 /**
@@ -185,7 +184,7 @@ mb_artist_get_begin_date(MBArtist artist, char *str, int len);
  *
  * @see MusicBrainz::Artist::getEndDate
  */
-MB_API int
+MB_API void
 mb_artist_get_end_date(MBArtist artist, char *str, int len);
 
 /* }}} */
@@ -203,7 +202,7 @@ mb_release_free(MBRelease release);
  *
  * @see MusicBrainz::Release::getId
  */
-MB_API int
+MB_API void
 mb_release_get_id(MBRelease release, char *str, int len);
 
 /**
@@ -211,7 +210,7 @@ mb_release_get_id(MBRelease release, char *str, int len);
  *
  * @see MusicBrainz::Release::getTitle
  */
-MB_API int
+MB_API void
 mb_release_get_title(MBRelease release, char *str, int len);
 
 /**
@@ -219,7 +218,7 @@ mb_release_get_title(MBRelease release, char *str, int len);
  *
  * @see MusicBrainz::Release::getTextLanguage
  */
-MB_API int
+MB_API void
 mb_release_get_text_language(MBRelease release, char *str, int len);
 
 /**
@@ -227,7 +226,7 @@ mb_release_get_text_language(MBRelease release, char *str, int len);
  *
  * @see MusicBrainz::Release::getTextScript
  */
-MB_API int
+MB_API void
 mb_release_get_text_script(MBRelease release, char *str, int len);
 
 /**
@@ -235,7 +234,7 @@ mb_release_get_text_script(MBRelease release, char *str, int len);
  *
  * @see MusicBrainz::Release::getAsin
  */
-MB_API int
+MB_API void
 mb_release_get_asin(MBRelease release, char *str, int len);
 
 /**
@@ -261,7 +260,7 @@ mb_track_free(MBTrack track);
  *
  * @see MusicBrainz::Track::getId
  */
-MB_API int
+MB_API void
 mb_track_get_id(MBTrack track, char *str, int len);
 
 /**
@@ -269,7 +268,7 @@ mb_track_get_id(MBTrack track, char *str, int len);
  *
  * @see MusicBrainz::Track::getTitle
  */
-MB_API int
+MB_API void
 mb_track_get_title(MBTrack track, char *str, int len);
 
 /**
@@ -289,7 +288,7 @@ mb_track_get_duration(MBTrack track);
  *
  * @see MusicBrainz::ArtistAlias::getValue
  */
-MB_API int
+MB_API void
 mb_artist_alias_get_value(MBArtistAlias alias, char *str, int len);
 
 /**
@@ -297,7 +296,7 @@ mb_artist_alias_get_value(MBArtistAlias alias, char *str, int len);
  *
  * @see MusicBrainz::ArtistAlias::getType
  */
-MB_API int
+MB_API void
 mb_artist_alias_get_type(MBArtistAlias alias, char *str, int len);
 
 /**
@@ -305,7 +304,7 @@ mb_artist_alias_get_type(MBArtistAlias alias, char *str, int len);
  *
  * @see MusicBrainz::ArtistAlias::getScript
  */
-MB_API int
+MB_API void
 mb_artist_alias_get_script(MBArtistAlias alias, char *str, int len);
 
 /* }}} */
@@ -323,7 +322,7 @@ mb_user_free(MBUser user);
  *
  * @see MusicBrainz::User::getName
  */
-MB_API int
+MB_API void
 mb_user_get_name(MBUser user, char *str, int len);
 
 /**
@@ -442,7 +441,7 @@ mb_track_includes_url_relations(MBTrackIncludes inc);
  *
  * @see MusicBrainz::ReleaseEvent::getCountry 
  */
-MB_API int
+MB_API void
 mb_release_event_get_country(MBReleaseEvent releaseEvent, char *str, int len);
 
 /**
@@ -450,7 +449,7 @@ mb_release_event_get_country(MBReleaseEvent releaseEvent, char *str, int len);
  *
  * @see MusicBrainz::ReleaseEvent::getDate
  */
-MB_API int
+MB_API void
 mb_release_event_get_date(MBReleaseEvent releaseEvent, char *str, int len);
 
 /* }}} */
@@ -462,7 +461,7 @@ mb_release_event_get_date(MBReleaseEvent releaseEvent, char *str, int len);
  *
  * @see MusicBrainz::Relation::getType
  */
-MB_API int
+MB_API void
 mb_relation_get_type(MBRelation relation, char *str, int len);
 
 /**
@@ -470,7 +469,7 @@ mb_relation_get_type(MBRelation relation, char *str, int len);
  *
  * @see MusicBrainz::Relation::getTargetId
  */
-MB_API int
+MB_API void
 mb_relation_get_target_id(MBRelation relation, char *str, int len);
 
 /**
@@ -478,7 +477,7 @@ mb_relation_get_target_id(MBRelation relation, char *str, int len);
  *
  * @see MusicBrainz::Relation::getTargetType
  */
-MB_API int
+MB_API void
 mb_relation_get_target_type(MBRelation relation, char *str, int len);
 
 /**
@@ -486,7 +485,7 @@ mb_relation_get_target_type(MBRelation relation, char *str, int len);
  *
  * @see MusicBrainz::Relation::getBeginDate
  */
-MB_API int
+MB_API void
 mb_relation_get_begin_date(MBRelation relation, char *str, int len);
 
 /**
@@ -494,7 +493,7 @@ mb_relation_get_begin_date(MBRelation relation, char *str, int len);
  *
  * @see MusicBrainz::Relation::getEndDate
  */
-MB_API int
+MB_API void
 mb_relation_get_end_date(MBRelation relation, char *str, int len);
 
 /**
@@ -522,7 +521,7 @@ mb_relation_get_target(MBRelation relation);
  *
  * @see MusicBrainz::Disc::getId
  */
-MB_API int
+MB_API void
 mb_disc_get_id(MBDisc disc, char *str, int len);
 
 /**
