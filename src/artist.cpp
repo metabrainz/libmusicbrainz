@@ -97,6 +97,12 @@ Artist::setDisambiguation(const string &value)
 }
 
 string
+Artist::getUniqueName() const
+{
+    return disambiguation.empty() ? name : name + " (" + disambiguation +")";
+}
+
+string
 Artist::getBeginDate() const
 {
     return beginDate;
