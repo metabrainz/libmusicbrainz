@@ -47,16 +47,14 @@ using namespace MusicBrainz;
 	} 
 
 #define MB_C_STR_GETTER(TYPE1, TYPE2, PROP1, PROP2) \
-	int \
+	void \
 	mb_##TYPE2##_get_##PROP2(MB##TYPE1 o, char *str, int len) \
 	{ \
 		try { \
 			strncpy(str, ((TYPE1 *)o)->get##PROP1().c_str(), len); \
-			return 1; \
 		} \
 		catch (...) { \
 			str[0] = '\0'; \
-			return 0; \
 		} \
 	} 
 

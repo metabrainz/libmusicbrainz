@@ -32,17 +32,17 @@ main(int argc, char **argv)
 		return 1;
 	}
 	
-	if (mb_artist_get_id(artist, data, 256))
-		printf("Id      : %s\n", data);
+	mb_artist_get_id(artist, data, 256);
+	printf("Id      : %s\n", data);
 	
-	if (mb_artist_get_type(artist, data, 256))
-		printf("Type	: %s\n", data);
+	mb_artist_get_type(artist, data, 256);
+	printf("Type	: %s\n", data);
 	
-	if (mb_artist_get_name(artist, data, 256))
-		printf("Name	: %s\n", data);
+	mb_artist_get_name(artist, data, 256);
+	printf("Name	: %s\n", data);
 	
-	if (mb_artist_get_sortname(artist, data, 256))
-		printf("SortName: %s\n", data);
+	mb_artist_get_sortname(artist, data, 256);
+	printf("SortName: %s\n", data);
 
 	mb_artist_free(artist);
 	
