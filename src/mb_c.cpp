@@ -84,6 +84,18 @@ using namespace MusicBrainz;
 		} \
 	} 
 
+#define MB_C_OBJ_GETTER(TYPE1, TYPE2, PROP1, PROP2, OBJTYPE) \
+	OBJTYPE \
+	mb_##TYPE2##_get_##PROP2(MB##TYPE1 o) \
+	{ \
+		try { \
+			return (OBJTYPE)((TYPE1 *)o)->get##PROP1(); \
+		} \
+		catch (...) { \
+			return (OBJTYPE)0; \
+		} \
+	} 
+
 /* === MusicBrainz::WebService === */
 
 void
@@ -124,6 +136,13 @@ mb_query_get_track_by_id(MBQuery q, const char *id, MBTrackIncludes inc)
 	return (MBTrack)query->getTrackById(id, (TrackIncludes *)inc);
 }
 
+MBUser
+mb_query_get_user_by_name(MBQuery q, const char *name)
+{
+	Query *query = (Query *)q;
+	return (MBUser)query->getUserByName(name);
+}
+
 /* === MusicBrainz::Artist === */
 
 MB_C_FREE(Artist, artist)
@@ -132,6 +151,8 @@ MB_C_STR_GETTER(Artist, artist, Id, id)
 MB_C_STR_GETTER(Artist, artist, Type, type)
 MB_C_STR_GETTER(Artist, artist, Name, name)
 MB_C_STR_GETTER(Artist, artist, SortName, sortname)
+MB_C_STR_GETTER(Artist, artist, Disambiguation, disambiguation)
+MB_C_STR_GETTER(Artist, artist, UniqueName, unique_name)
 MB_C_STR_GETTER(Artist, artist, BeginDate, begin_date)
 MB_C_STR_GETTER(Artist, artist, EndDate, end_date)
 
@@ -144,6 +165,7 @@ MB_C_STR_GETTER(Release, release, Title, title)
 MB_C_STR_GETTER(Release, release, TextLanguage, text_language)
 MB_C_STR_GETTER(Release, release, TextScript, text_script)
 MB_C_STR_GETTER(Release, release, Asin, asin)
+MB_C_INT_GETTER(Release, release, TracksOffset, tracks_offset)
 
 /* === MusicBrainz::Track === */
 
@@ -227,5 +249,26 @@ MB_C_INCLUDES(TrackIncludes, track_includes, releaseRelations, release_relations
 MB_C_INCLUDES(TrackIncludes, track_includes, trackRelations, track_relations)
 MB_C_INCLUDES(TrackIncludes, track_includes, urlRelations, url_relations)
 
+/* === MusicBrainz::ReleaseEvent === */
+
+MB_C_STR_GETTER(ReleaseEvent, release_event, Country, country)
+MB_C_STR_GETTER(ReleaseEvent, release_event, Date, date)
+
+/* === MusicBrainz::Relation === */
+
+MB_C_STR_GETTER(Relation, relation, Type, type)
+MB_C_STR_GETTER(Relation, relation, TargetId, target_id)
+MB_C_STR_GETTER(Relation, relation, TargetType, target_type)
+MB_C_STR_GETTER(Relation, relation, BeginDate, begin_date)
+MB_C_STR_GETTER(Relation, relation, EndDate, end_date)
+MB_C_INT_GETTER(Relation, relation, Direction, direction)
+MB_C_OBJ_GETTER(Relation, relation, Target, target, MBEntity)
+
+/* === MusicBrainz::Disc === */
+
+MB_C_STR_GETTER(Disc, disc, Id, id)
+MB_C_INT_GETTER(Disc, disc, Sectors, sectors)
+MB_C_INT_GETTER(Disc, disc, FirstTrackNum, first_track_num)
+MB_C_INT_GETTER(Disc, disc, LastTrackNum, last_track_num)
 
 }
