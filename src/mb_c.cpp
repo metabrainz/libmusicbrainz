@@ -94,6 +94,58 @@ using namespace MusicBrainz;
 		} \
 	} 
 
+#define MB_C_OBJ_LIST_GETTER(TYPE1, TYPE2, PLR1, PLR2, SNG1, SNG2, RTYPE) \
+	int \
+	mb_##TYPE2##_get_num_##PLR2(MB##TYPE1 o) \
+	{ \
+		try { \
+			return ((TYPE1 *)o)->getNum##PLR1(); \
+		} \
+		catch (...) { \
+			return 0; \
+		} \
+	} \
+	MB##RTYPE \
+	mb_##TYPE2##_get_##SNG2(MB##TYPE1 o, int index) \
+	{ \
+		try { \
+			return (MB##RTYPE)((TYPE1 *)o)->get##SNG1(index); \
+		} \
+		catch (...) { \
+			return (MB##RTYPE)0; \
+		} \
+	} 
+
+#define MB_C_STR_LIST_GETTER(TYPE1, TYPE2, PLR1, PLR2, SNG1, SNG2) \
+	int \
+	mb_##TYPE2##_get_num_##PLR2(MB##TYPE1 o) \
+	{ \
+		try { \
+			return ((TYPE1 *)o)->getNum##PLR1(); \
+		} \
+		catch (...) { \
+			return 0; \
+		} \
+	} \
+	void \
+	mb_##TYPE2##_get_##SNG2(MB##TYPE1 o, int index, char *str, int len) \
+	{ \
+		try { \
+			strncpy(str, ((TYPE1 *)o)->get##SNG1(index).c_str(), len); \
+		} \
+		catch (...) { \
+			str[0] = '\0'; \
+		} \
+	} 
+
+#define MB_C_INCLUDES(TYPE1, TYPE2, INC1, INC2) \
+	MB##TYPE1 \
+	mb_##TYPE2##_##INC2(MB##TYPE1 o) \
+	{ \
+		((TYPE1 *)o)->INC1(); \
+		return o; \
+	} 
+
 /* === MusicBrainz::WebService === */
 
 void
@@ -153,6 +205,9 @@ MB_C_STR_GETTER(Artist, artist, Disambiguation, disambiguation)
 MB_C_STR_GETTER(Artist, artist, UniqueName, unique_name)
 MB_C_STR_GETTER(Artist, artist, BeginDate, begin_date)
 MB_C_STR_GETTER(Artist, artist, EndDate, end_date)
+MB_C_OBJ_LIST_GETTER(Artist, artist, Aliases, aliases, Alias, alias, ArtistAlias)
+MB_C_OBJ_LIST_GETTER(Artist, artist, Releases, releases, Release, release, Release)
+MB_C_OBJ_LIST_GETTER(Artist, artist, Relations, relations, Relation, relation, Relation)
 
 /* === MusicBrainz::Release === */
 
@@ -164,6 +219,10 @@ MB_C_STR_GETTER(Release, release, TextLanguage, text_language)
 MB_C_STR_GETTER(Release, release, TextScript, text_script)
 MB_C_STR_GETTER(Release, release, Asin, asin)
 MB_C_INT_GETTER(Release, release, TracksOffset, tracks_offset)
+MB_C_OBJ_LIST_GETTER(Release, release, Tracks, tracks, Track, track, Track)
+MB_C_OBJ_LIST_GETTER(Release, release, Discs, discs, Disc, disc, Disc)
+MB_C_OBJ_LIST_GETTER(Release, release, ReleaseEvents, release_events, ReleaseEvent, release_event, ReleaseEvent)
+MB_C_OBJ_LIST_GETTER(Release, release, Relations, relations, Relation, relation, Relation)
 
 /* === MusicBrainz::Track === */
 
@@ -172,6 +231,7 @@ MB_C_FREE(Track, track)
 MB_C_STR_GETTER(Track, track, Id, id)
 MB_C_STR_GETTER(Track, track, Title, title)
 MB_C_INT_GETTER(Track, track, Duration, duration)
+MB_C_OBJ_LIST_GETTER(Track, track, Relations, relations, Relation, relation, Relation)
 
 /* === MusicBrainz::ArtistAlias === */
 
@@ -185,14 +245,7 @@ MB_C_FREE(User, user)
 
 MB_C_STR_GETTER(User, user, Name, name)
 MB_C_BOOL_GETTER(User, user, ShowNag, show_nag)
-
-#define MB_C_INCLUDES(TYPE1, TYPE2, INC1, INC2) \
-	MB##TYPE1 \
-	mb_##TYPE2##_##INC2(MB##TYPE1 o) \
-	{ \
-		((TYPE1 *)o)->INC1(); \
-		return o; \
-	} 
+MB_C_STR_LIST_GETTER(User, user, Types, types, Type, type)
 
 /* === MusicBrainz::ArtistIncludes === */
 
@@ -261,6 +314,7 @@ MB_C_STR_GETTER(Relation, relation, BeginDate, begin_date)
 MB_C_STR_GETTER(Relation, relation, EndDate, end_date)
 MB_C_INT_GETTER(Relation, relation, Direction, direction)
 MB_C_OBJ_GETTER(Relation, relation, Target, target, MBEntity)
+MB_C_STR_LIST_GETTER(Relation, relation, Attributes, attributes, Attribute, attribute)
 
 /* === MusicBrainz::Disc === */
 

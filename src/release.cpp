@@ -160,4 +160,39 @@ Release::getReleaseEvents()
 	return releaseEvents;
 }
 
+int
+Release::getNumReleaseEvents() const
+{
+	return releaseEvents.size();
+}
+
+ReleaseEvent * 
+Release::getReleaseEvent(int i)
+{
+	return releaseEvents[i];
+}
+
+int
+Release::getNumDiscs() const
+{
+	return discs.size();
+}
+
+Disc * 
+Release::getDisc(int i)
+{
+	return discs[i];
+}
+
+int
+Release::getNumTracks() const
+{
+	return tracks.size();
+}
+
+Track * 
+Release::getTrack(int i)
+{
+	return tracks[i];
+}
 

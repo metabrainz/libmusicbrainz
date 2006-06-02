@@ -187,6 +187,54 @@ mb_artist_get_begin_date(MBArtist artist, char *str, int len);
 MB_API void
 mb_artist_get_end_date(MBArtist artist, char *str, int len);
 
+/**
+ * Returns number of aliases. 
+ *
+ * @see MusicBrainz::Artist::getNumAliases
+ */
+MB_API int
+mb_artist_get_num_aliases(MBArtist artist);
+
+/**
+ * Returns an alias specified by index. 
+ *
+ * @see MusicBrainz::Artist::getGetAlias
+ */
+MB_API MBArtistAlias
+mb_artist_get_alias(MBArtist artist, int index);
+
+/**
+ * Returns number of releases. 
+ *
+ * @see MusicBrainz::Artist::getNumReleases
+ */
+MB_API int
+mb_artist_get_num_releases(MBArtist artist);
+
+/**
+ * Returns an release specified by index. 
+ *
+ * @see MusicBrainz::Artist::getGetRelease
+ */
+MB_API MBRelease
+mb_artist_get_release(MBArtist artist, int index);
+
+/**
+ * Returns number of relations. 
+ *
+ * @see MusicBrainz::Artist::getNumRelations
+ */
+MB_API int
+mb_artist_get_num_relations(MBArtist artist);
+
+/**
+ * Returns a relation specified by index. 
+ *
+ * @see MusicBrainz::Artist::getRelation
+ */
+MB_API MBRelation
+mb_artist_get_relation(MBArtist artist, int index);
+
 /* }}} */
 
 /* {{{ MusicBrainz::Release */
@@ -245,6 +293,70 @@ mb_release_get_asin(MBRelease release, char *str, int len);
 MB_API int
 mb_release_get_tracks_offset(MBRelease release);
 
+/**
+ * Returns number of relations. 
+ *
+ * @see MusicBrainz::Release::getNumRelations
+ */
+MB_API int
+mb_release_get_num_relations(MBRelease release);
+
+/**
+ * Returns a relation specified by index. 
+ *
+ * @see MusicBrainz::Release::getRelation
+ */
+MB_API MBRelation
+mb_release_get_relation(MBRelease release, int index);
+
+/**
+ * Returns number of tracks. 
+ *
+ * @see MusicBrainz::Release::getNumTracks
+ */
+MB_API int
+mb_release_get_num_tracks(MBRelease release);
+
+/**
+ * Returns a track specified by index. 
+ *
+ * @see MusicBrainz::Release::getTrack
+ */
+MB_API MBTrack
+mb_release_get_track(MBRelease release, int index);
+
+/**
+ * Returns number of discs. 
+ *
+ * @see MusicBrainz::Release::getNumDiscs
+ */
+MB_API int
+mb_release_get_num_discs(MBRelease release);
+
+/**
+ * Returns a disc specified by index. 
+ *
+ * @see MusicBrainz::Release::getDisc
+ */
+MB_API MBDisc
+mb_release_get_disc(MBRelease release, int index);
+
+/**
+ * Returns number of release events. 
+ *
+ * @see MusicBrainz::Release::getNumReleaseEvents
+ */
+MB_API int
+mb_release_get_num_release_events(MBRelease release);
+
+/**
+ * Returns a release event specified by index. 
+ *
+ * @see MusicBrainz::Release::getReleaseEvent
+ */
+MB_API MBReleaseEvent
+mb_release_get_release_event(MBRelease release, int index);
+
 /* }}} */
 
 /* {{{ MusicBrainz::Track */
@@ -278,6 +390,22 @@ mb_track_get_title(MBTrack track, char *str, int len);
  */
 MB_API int
 mb_track_get_duration(MBTrack track);
+
+/**
+ * Returns number of relations. 
+ *
+ * @see MusicBrainz::Track::getNumRelations
+ */
+MB_API int
+mb_track_get_num_relations(MBTrack track);
+
+/**
+ * Returns a relation specified by index. 
+ *
+ * @see MusicBrainz::Track::getRelation
+ */
+MB_API MBRelation
+mb_track_get_relation(MBTrack track, int index);
 
 /* }}} */
 
@@ -332,6 +460,22 @@ mb_user_get_name(MBUser user, char *str, int len);
  */
 MB_API int
 mb_user_get_show_nag(MBUser user);
+
+/**
+ * Returns number of types. 
+ *
+ * @see MusicBrainz::User::getNumTypes
+ */
+MB_API int
+mb_user_get_num_types(MBUser user);
+
+/**
+ * Returns a type specified by index. 
+ *
+ * @see MusicBrainz::User::getType
+ */
+MB_API void
+mb_user_get_type(MBUser user, int index, char *str, int len);
 
 /* }}} */
 
@@ -511,6 +655,22 @@ mb_relation_get_direction(MBRelation relation);
  */
 MB_API MBEntity
 mb_relation_get_target(MBRelation relation);
+
+/**
+ * Returns number of attributes. 
+ *
+ * @see MusicBrainz::Relation::getNumAttributes
+ */
+MB_API int
+mb_relation_get_num_attributes(MBRelation relation);
+
+/**
+ * Returns a attribute specified by index. 
+ *
+ * @see MusicBrainz::Relation::getAttribute
+ */
+MB_API void
+mb_relation_get_attribute(MBRelation relation, int index, char *str, int len);
 
 /* }}} */
 

@@ -194,6 +194,28 @@ namespace MusicBrainz
 		TrackList &getTracks();
 
 		/**
+		 * Returns number of tracks.
+		 *
+		 * This is equivalent to \c getTracks().size()
+		 *
+		 * @return an int containing number of tracks
+		 *
+		 * @see getTracks		 
+		 */
+		int getNumTracks() const;
+		
+		/**
+		 * Returns an track specified by index.
+		 *
+		 * This is equivalent to \c getTracks()[index]
+		 *
+		 * @return a pointer to Track instance
+		 *
+		 * @see getTracks		 
+		 */
+		Track *getTrack(int index);
+		
+		/**
 		 * Returns the offset of the track list.
 		 * 
 		 * This is used if the track list is incomplete (ie. the web
@@ -223,9 +245,33 @@ namespace MusicBrainz
 		 * Note that under rare circumstances (identical TOCs), a
 		 * DiscID could be associated with more than one release.
 		 *
-		 * @return: a list of pointers to Disc objects
+		 * @return a list of pointers to Disc objects
+		 * 
+		 * @todo make the returned vector \c const
 		 */
 		DiscList &getDiscs();
+		
+		/**
+		 * Returns number of discs.
+		 *
+		 * This is equivalent to \c getDiscs().size()
+		 *
+		 * @return an int containing number of discs
+		 *
+		 * @see getDiscs		 
+		 */
+		int getNumDiscs() const;
+		
+		/**
+		 * Returns an disc specified by index.
+		 *
+		 * This is equivalent to \c getDiscs()[index]
+		 *
+		 * @return a pointer to Disc instance
+		 *
+		 * @see getDiscs		 
+		 */
+		Disc *getDisc(int index);
 		
 		/**
 		 * Returns the list of release events.
@@ -234,9 +280,31 @@ namespace MusicBrainz
 		 * each represented using a ReleaseEvent object. Release
 		 * evens specify where and when this release was, well, released.
 		 * 
-		 * @return: a list of pointers to ReleaseEvent objects
+		 * @return a list of pointers to ReleaseEvent objects
 		 */
 		ReleaseEventList &getReleaseEvents();
+		
+		/**
+		 * Returns number of release events.
+		 *
+		 * This is equivalent to \c getReleaseEvents().size()
+		 *
+		 * @return an int containing number of release events
+		 *
+		 * @see getReleaseEvents		 
+		 */
+		int getNumReleaseEvents() const;
+		
+		/**
+		 * Returns an release event specified by index.
+		 *
+		 * This is equivalent to \c getReleaseevents()[index]
+		 *
+		 * @return a pointer to ReleaseEvent instance
+		 *
+		 * @see getReleaseEvents		 
+		 */
+		ReleaseEvent *getReleaseEvent(int index);
 		
 	private:
 		

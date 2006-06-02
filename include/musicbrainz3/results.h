@@ -28,6 +28,9 @@
 namespace MusicBrainz
 {
     
+	/**
+	 * Represents generic search result.
+	 */
 	class MB_API Result 
 	{
 	public:

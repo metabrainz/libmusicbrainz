@@ -218,7 +218,7 @@ namespace MusicBrainz
 		 * @see getDirection
 		 */
 		void setDirection(const Direction direction);
-		
+
 		/**
 		 * Returns a list of attributes describing this relation.
 		 *
@@ -227,6 +227,28 @@ namespace MusicBrainz
 		 * @return a list of strings containing absolute URIs
 		 */
 		const Attributes &getAttributes() const;
+		
+		/**
+		 * Returns number of attributes.
+		 *
+		 * This is equivalent to \c getAttributes().size()
+		 *
+		 * @return an int containing number of attributes
+		 *
+		 * @see getAttributes		 
+		 */
+		int getNumAttributes() const;
+		
+		/**
+		 * Returns an attribute specified by index.
+		 *
+		 * This is equivalent to \c getAttributes()[index]
+		 *
+		 * @return a string containing the attribute
+		 *
+		 * @see getAttributes		 
+		 */
+		std::string getAttribute(int index) const;
 		
 		/**
 		 * Adds an attribute to the list.

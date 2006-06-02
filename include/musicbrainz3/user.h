@@ -72,6 +72,28 @@ namespace MusicBrainz
 		const std::vector<std::string> &getTypes() const;
 
 		/**
+		 * Returns number of types.
+		 *
+		 * This is equivalent to \c getTypes().size()
+		 *
+		 * @return an int containing number of types
+		 *
+		 * @see getTypes		 
+		 */
+		int getNumTypes() const;
+		
+		/**
+		 * Returns an type specified by index.
+		 *
+		 * This is equivalent to \c getTypes()[index]
+		 *
+		 * @return a string containing the type
+		 *
+		 * @see getTypes		 
+		 */
+		std::string getType(int index) const;
+		
+		/**
 		 * Add a type to the list of types.
 		 *
 		 * @param type a string containing absolute URIs
