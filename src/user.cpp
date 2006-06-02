@@ -66,3 +66,15 @@ User::addType(const string &type)
 	types.push_back(type);
 }
 
+int
+User::getNumTypes() const
+{
+	return types.size();
+}
+
+string 
+User::getType(int i) const
+{
+	return types[i];
+}
+

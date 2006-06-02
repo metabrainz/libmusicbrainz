@@ -90,4 +90,15 @@ Entity::addRelation(Relation *relation)
 	relations.push_back(relation);
 }
 
+int
+Entity::getNumRelations() const
+{
+	return relations.size();
+}
+
+Relation * 
+Entity::getRelation(int i)
+{
+	return relations[i];
+}
 

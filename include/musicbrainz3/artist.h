@@ -212,6 +212,28 @@ namespace MusicBrainz
 		ReleaseList &getReleases();
 		
 		/**
+		 * Returns number of releases.
+		 *
+		 * This is equivalent to \c getReleases().size()
+		 *
+		 * @return an int containing number of releases
+		 *
+		 * @see getReleases		 
+		 */
+		int getNumReleases() const;
+		
+		/**
+		 * Returns an release specified by index.
+		 *
+		 * This is equivalent to \c getReleases()[index]
+		 *
+		 * @return a pointer to Release instance
+		 *
+		 * @see getReleases		 
+		 */
+		Release *getRelease(int index);
+		
+		/**
 		 * Adds a release to this artist's list of releases.
 		 *
 		 * @param release a pointer to Release object
@@ -224,6 +246,28 @@ namespace MusicBrainz
 		 * @return a list of pointers to ArtistAlias objects
 		 */
 		ArtistAliasList &getAliases();
+		
+		/**
+		 * Returns number of aliases.
+		 *
+		 * This is equivalent to \c getAliases().size()
+		 *
+		 * @return an int containing number of aliases
+		 *
+		 * @see getAliases		 
+		 */
+		int getNumAliases() const;
+		
+		/**
+		 * Returns alias specified by index.
+		 *
+		 * This is equivalent to \c getAliases()[index]
+		 *
+		 * @return a pointer to ArtistAlias instance
+		 *
+		 * @see getAliases		 
+		 */
+		ArtistAlias *getAlias(int index);
 		
 		/**
 		 * Adds an alias for this artist.

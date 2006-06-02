@@ -127,6 +127,28 @@ namespace MusicBrainz
 		 */
 		void addRelation(Relation *relation);
 		
+		/**
+		 * Returns number of relations.
+		 *
+		 * This is equivalent to \c getRelations().size()
+		 *
+		 * @return an int containing number of relations
+		 *
+		 * @see getRelations		 
+		 */
+		int getNumRelations() const;
+		
+		/**
+		 * Returns an relation specified by index.
+		 *
+		 * This is equivalent to \c getRelations()[index]
+		 *
+		 * @return a pointer to Relation instance
+		 *
+		 * @see getRelations		 
+		 */
+		Relation *getRelation(int index);
+		
 	private:
 
 		std::string id;

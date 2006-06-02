@@ -152,4 +152,15 @@ Relation::setEndDate(const string &value)
 	endDate = value;
 } 
 
+int
+Relation::getNumAttributes() const
+{
+	return attributes.size();
+}
+
+string
+Relation::getAttribute(int i) const
+{
+	return attributes[i];
+}
 

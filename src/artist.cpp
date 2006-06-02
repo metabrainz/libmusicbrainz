@@ -150,3 +150,27 @@ Artist::addAlias(ArtistAlias *alias)
     aliases.push_back(alias);
 }
 
+int
+Artist::getNumReleases() const
+{
+	return releases.size();
+}
+
+Release * 
+Artist::getRelease(int i)
+{
+	return releases[i];
+}
+
+int
+Artist::getNumAliases() const
+{
+	return aliases.size();
+}
+
+ArtistAlias * 
+Artist::getAlias(int i)
+{
+	return aliases[i];
+}
+
