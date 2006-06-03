@@ -83,12 +83,13 @@ except NotImplementedError, e:
     raise MusicBrainzError(str(e))
 
 if sys.platform == 'win32':
-    mbdll.mb_WSAInit.argtypes = [c_int]
-    mbdll.mb_WSAStop.argtypes = [c_int]     
+    mbdll.mb_WSAInit.argtypes = [c_void_p]
+    mbdll.mb_WSAStop.argtypes = [c_void_p]     
 
 class mb:
     mbdll.mb_New.argtypes = []
-    mbdll.mb_UseUTF8.argtypes = [c_int, c_int]
+    mbdll.mb_New.restype = c_void_p
+    mbdll.mb_UseUTF8.argtypes = [c_void_p, c_int]
     def __init__(self):
         self.mb = mbdll.mb_New();
         mbdll.mb_UseUTF8(self.mb, True)
@@ -98,7 +99,7 @@ class mb:
         if sys.platform == "win32":
             mbdll.mb_WSAInit(self.mb)
 
-    mbdll.mb_Delete.argtypes = [c_int]
+    mbdll.mb_Delete.argtypes = [c_void_p]
     def __del__(self):
         if sys.platform == "win32":
             self.mbdll.mb_WSAStop(self.mb)
@@ -106,11 +107,11 @@ class mb:
         self.mbdll.mb_Delete(self.mb)
         self.mbdll = None
 
-    mbdll.mb_SetDepth.argtypes = [c_int, c_int]
+    mbdll.mb_SetDepth.argtypes = [c_void_p, c_int]
     def SetDepth(self, depth):
         mbdll.mb_SetDepth(self.mb, depth)
     
-    mbdll.mb_GetVersion.argtypes = [c_int, c_void_p, c_void_p, c_void_p]
+    mbdll.mb_GetVersion.argtypes = [c_void_p, c_void_p, c_void_p, c_void_p]
     def GetVersion(self):
         major = c_int()
         minor = c_int()
@@ -118,47 +119,47 @@ class mb:
         mbdll.mb_GetVersion(self.mb, byref(major), byref(minor), byref(rev))
         return (major.value, minor.value, rev.value,)
 
-    mbdll.mb_SetServer.argtypes = [c_int, c_char_p, c_int]
+    mbdll.mb_SetServer.argtypes = [c_void_p, c_char_p, c_int]
     def SetServer(self, addr, port):
         if not mbdll.mb_SetServer(self.mb, addr, port):
             raise Error("Could not set server to \"%s\", port %d" % (addr, port,))
 
-    mbdll.mb_SetDebug.argtypes = [c_int, c_int]
+    mbdll.mb_SetDebug.argtypes = [c_void_p, c_int]
     def SetDebug(self, debug):
         mbdll.mb_SetDebug(self.mb, debug)
     
-    mbdll.mb_SetProxy.argtypes = [c_int, c_char_p, c_int]
+    mbdll.mb_SetProxy.argtypes = [c_void_p, c_char_p, c_int]
     def SetProxy(self, addr, port):
         if not mbdll.mb_SetProxy(self.mb, c_char_p(addr), c_int(port)):
             raise Error("Could not set proxy to \"%s\", port %d" % (addr, port,))
 
-    #mbdll.mb_GetQueryError.argtypes = [c_int, c_void_p, c_int]
+    mbdll.mb_GetQueryError.argtypes = [c_void_p, c_char_p, c_int]
     def GetQueryError(self):
         BUFSIZE = 256
         msg = c_buffer(BUFSIZE)
         mbdll.mb_GetQueryError(self.mb, msg, BUFSIZE)
         return msg.value
     
-    mbdll.mb_Authenticate.argtypes = [c_int, c_char_p, c_char_p]
+    mbdll.mb_Authenticate.argtypes = [c_void_p, c_char_p, c_char_p]
     def Authenticate(self, username, password):
         if not mbdll.mb_Authenticate(self.mb, username, password):
             raise Error("Authentication failed: %s" % self.GetQueryError())
         
-    mbdll.mb_SetDevice.argtypes = [c_int, c_char_p]
+    mbdll.mb_SetDevice.argtypes = [c_void_p, c_char_p]
     def SetDevice(self, device):
         if not mbdll.mb_SetDevice(self.mb, device):
             raise Error("Could not set the device to \"%s\"" % device)
     
-    mbdll.mb_SetMaxItems.argtypes = [c_int, c_int]
+    mbdll.mb_SetMaxItems.argtypes = [c_void_p, c_int]
     def SetMaxItems(self, maxitems):
         mbdll.mb_SetMaxItems(self.mb, maxitems)
         
-    mbdll.mb_Query.argtypes = [c_int, c_char_p]
+    mbdll.mb_Query.argtypes = [c_void_p, c_char_p]
     def Query(self, query):
         if not mbdll.mb_Query(self.mb, query):
             raise Error("Query failed: %s" % self.GetQueryError())
     
-    #mbdll.mb_QueryWithArgs.argtypes = [c_int, c_char_p, c_void_p]
+    mbdll.mb_QueryWithArgs.argtypes = [c_void_p, c_char_p, c_void_p]
     def QueryWithArgs(self, query, args):
         if type(args) in types.StringTypes:
             args = (args,)
@@ -173,7 +174,7 @@ class mb:
         if not mbdll.mb_QueryWithArgs(self.mb, query, ary):
             raise Error("Query failed: %s" % self.GetQueryError())
 
-    #mbdll.mb_GetWebSubmitURL.argtypes = [c_int, c_char_p, c_int]
+    mbdll.mb_GetWebSubmitURL.argtypes = [c_void_p, c_char_p, c_int]
     def GetWebSubmitURL(self):
         BUFSIZE = 1024
         url = c_buffer(BUFSIZE)
@@ -181,15 +182,15 @@ class mb:
             raise Error("GetWebSubmitURL failed")
         return url.value
 
-    mbdll.mb_Select.argtypes = [c_int, c_char_p]
+    mbdll.mb_Select.argtypes = [c_void_p, c_char_p]
     def Select(self, query):
         return mbdll.mb_Select(self.mb, query)
     
-    mbdll.mb_Select1.argtypes = [c_int, c_char_p, c_int]
+    mbdll.mb_Select1.argtypes = [c_void_p, c_char_p, c_int]
     def Select1(self, query, ord):
         return mbdll.mb_Select1(self.mb, query, ord)
 
-    mbdll.mb_SelectWithArgs.argtypes = [c_int, c_char_p, c_void_p]
+    mbdll.mb_SelectWithArgs.argtypes = [c_void_p, c_char_p, c_void_p]
     def SelectWithArgs(self, query, args):
         arrayClass = c_int * (len(args) + 1)
         ary = arrayClass()
@@ -198,7 +199,7 @@ class mb:
         ary[len(args)] = None
         return mbdll.mb_Select(self.mb, query, args)
    
-    #mbdll.mb_GetResultData.argtypes = [c_int, c_char_p, c_char_p, c_int]
+    mbdll.mb_GetResultData.argtypes = [c_void_p, c_char_p, c_char_p, c_int]
     def GetResultData(self, query):
         BUFSIZE = 1024
         data = c_buffer(BUFSIZE)
@@ -206,7 +207,7 @@ class mb:
             raise Error("Error in GetResultData")
         return data.value.decode('utf-8')
 
-    mbdll.mb_GetResultData1.argtypes = [c_int, c_char_p, c_char_p, c_int, c_int]
+    mbdll.mb_GetResultData1.argtypes = [c_void_p, c_char_p, c_char_p, c_int, c_int]
     def GetResultData1(self, query, ord):
         BUFSIZE = 1024
         data = c_char_p('\x00' * BUFSIZE)
@@ -214,24 +215,24 @@ class mb:
             raise Error("Error in GetResultData1")
         return data.value.decode('utf-8')
 
-    mbdll.mb_DoesResultExist.argtypes = [c_int, c_char_p]
+    mbdll.mb_DoesResultExist.argtypes = [c_void_p, c_char_p]
     def DoesResultExist(self, query):
         return mbdll.mb_DoesResultExist(self.mb, query)
 
-    mbdll.mb_DoesResultExist1.argtypes = [c_int, c_char_p, c_int]
+    mbdll.mb_DoesResultExist1.argtypes = [c_void_p, c_char_p, c_int]
     def DoesResultExist1(self, query, ord):
         return mbdll.mb_DoesResultExist1(self.mb, query, ord)
         
-    mbdll.mb_GetResultInt.argtypes = [c_int, c_char_p]
+    mbdll.mb_GetResultInt.argtypes = [c_void_p, c_char_p]
     def GetResultInt(self, query):
         return mbdll.mb_GetResultInt(self.mb, query)
 
-    mbdll.mb_GetResultInt1.argtypes = [c_int, c_char_p, c_int]
+    mbdll.mb_GetResultInt1.argtypes = [c_void_p, c_char_p, c_int]
     def GetResultInt1(self, query, ord):
         return mbdll.mb_GetResultInt1(self.mb, query, ord)
 
-    #mbdll.mb_GetResultRDF.argtypes = [c_int, c_char_p, c_int]
-    mbdll.mb_GetResultRDFLen.argtypes = [c_int]
+    mbdll.mb_GetResultRDF.argtypes = [c_void_p, c_char_p, c_int]
+    mbdll.mb_GetResultRDFLen.argtypes = [c_void_p]
     def GetResultRDF(self):
         BUFSIZE = mbdll.mb_GetResultRDFLen(self.mb)
         data = c_buffer(BUFSIZE)
@@ -239,30 +240,30 @@ class mb:
             raise Error("Couldn't return RDF")
         return data.value.decode('utf-8')
 
-    mbdll.mb_SetResultRDF.argtypes = [c_int, c_char_p]
+    mbdll.mb_SetResultRDF.argtypes = [c_void_p, c_char_p]
     def SetResultRDF(self, rdf):
         if not mbdll.mb_SetResultRDF(self.mb, rdf):
             raise Error("Couldn't set RDF")
     
-    #mbdll.mb_GetIDFromURL.argtypes = [c_int, c_char_p, c_char_p, c_int]
+    mbdll.mb_GetIDFromURL.argtypes = [c_void_p, c_char_p, c_char_p, c_int]
     def GetIDFromURL(self, url):
         BUFSIZE = 256
         ret = c_buffer(BUFSIZE)
         mbdll.mb_GetIDFromURL(self.mb, url.encode('utf-8'), ret, BUFSIZE)
         return ret.value
 
-    #mbdll.mb_GetFragmentFromURL.argtypes = [c_int, c_char_p, c_char_p, c_int]
+    mbdll.mb_GetFragmentFromURL.argtypes = [c_void_p, c_char_p, c_char_p, c_int]
     def GetFragmentFromURL(self, url):
         BUFSIZE = 256
         ret = c_buffer(BUFSIZE)
         mbdll.mb_GetFragmentFromURL(self.mb, url.encode('utf-8'), ret, BUFSIZE)
         return ret.value
 
-    mbdll.mb_GetOrdinalFromList.argtypes = [c_int, c_char_p, c_char_p]
+    mbdll.mb_GetOrdinalFromList.argtypes = [c_void_p, c_char_p, c_char_p]
     def GetOrdinalFromList(self, resultList, url):
         return mbdll.mb_GetOrdinalFromList(self.mb, resultList, url.encode('utf-8'))
 
-    mbdll.mb_GetMP3Info.argtypes = [c_int, c_char_p, c_void_p, c_void_p, c_void_p, c_void_p]
+    mbdll.mb_GetMP3Info.argtypes = [c_void_p, c_char_p, c_void_p, c_void_p, c_void_p, c_void_p]
     def GetMP3Info(self, fileName):
         duration = c_int()
         bitrate = c_int()
@@ -283,34 +284,35 @@ class mb:
         
 class trm:
     mbdll.trm_New.argtypes = []
+    mbdll.trm_New.restype = c_void_p
     def __init__(self):
         self.trm = mbdll.trm_New()
         # only used for __del__
         self.mbdll = mbdll
         
-    mbdll.trm_Delete.argtypes = [c_int]
+    mbdll.trm_Delete.argtypes = [c_void_p]
     def __del__(self):
         self.mbdll.trm_Delete(self.trm)
         self.mbdll = None
 
-    mbdll.trm_SetProxy.argtypes = [c_int, c_char_p, c_int]
+    mbdll.trm_SetProxy.argtypes = [c_void_p, c_char_p, c_int]
     def SetProxy(self, addr, port):
         if not mbdll.trm_SetProxy(self.trm, addr, port):
             raise Error("Could not set proxy to \"%s\", port %d" % (addr, port,))
         
-    mbdll.trm_SetPCMDataInfo.argtypes = [c_int, c_int, c_int, c_int]
+    mbdll.trm_SetPCMDataInfo.argtypes = [c_void_p, c_int, c_int, c_int]
     def SetPCMDataInfo(self, samplesPerSecond, numChannels, bitsPerSample):
         mbdll.trm_SetPCMDataInfo(self.trm, samplesPerSecond, numChannels, bitsPerSample)
     
-    #mbdll.trm_GenerateSignature.argtypes = [c_int, c_char_p, c_int]
+    mbdll.trm_GenerateSignature.argtypes = [c_void_p, c_char_p, c_int]
     def GenerateSignature(self, data):
         buf = c_buffer(len(data))
         buf.raw = str(data)
         
         return mbdll.trm_GenerateSignature(self.trm, buf, len(buf))        
 
-    #mbdll.trm_FinalizeSignature.argtypes = [c_int, c_char_p, c_char_p]
-    #mbdll.trm_ConvertSigToASCII.argtypes = [c_int, c_char_p, c_char_p]
+    mbdll.trm_FinalizeSignature.argtypes = [c_void_p, c_char_p, c_char_p]
+    mbdll.trm_ConvertSigToASCII.argtypes = [c_void_p, c_char_p, c_char_p]
     def FinalizeSignature(self):
         sig = c_buffer(17)
         mbdll.trm_FinalizeSignature(self.trm, sig, None)
@@ -318,7 +320,7 @@ class trm:
         mbdll.trm_ConvertSigToASCII(self.trm, sig, asciiSig)
         return asciiSig.value
 
-    mbdll.trm_SetSongLength.argtypes = [c_int, c_long]
+    mbdll.trm_SetSongLength.argtypes = [c_void_p, c_long]
     def SetSongLength(self, seconds):
         mbdll.trm_SetSongLength(self.trm, seconds)
         
