@@ -191,7 +191,10 @@ WebService::post(const std::string &entity,
 #endif
 	
 	req = ne_request_create(sess, "POST", uri.c_str());
+// neon 0.26 and higher
+#ifdef NE_FEATURE_I18N	
 	ne_set_request_flag(req, NE_REQFLAG_IDEMPOTENT, 0);
+#endif
 	ne_add_request_header(req, "Content-type", "application/x-www-form-urlencoded");
 	ne_set_request_body_buffer(req, data.c_str(), data.size());	
 	int result = ne_request_dispatch(req);
