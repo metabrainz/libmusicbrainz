@@ -21,11 +21,10 @@
  */
 
 #include <string>
-#include <hash_map>
+#include <map>
 #include <musicbrainz3/utils.h>
 
 using namespace std;
-using namespace stdext;
 using namespace MusicBrainz;
 
 std::string
@@ -66,7 +65,7 @@ string
 MusicBrainz::getCountryName(const string &id)
 {
 	static bool countryNamesMapBuilt = false;
-	static hash_map<string, string> countryNamesMap;
+	static map<string, string> countryNamesMap;
 	
 	if (!countryNamesMapBuilt) {
 		for (int i = 0; i < (int)(sizeof(countryNames) / sizeof(countryNames[0])); i++) 
@@ -74,7 +73,7 @@ MusicBrainz::getCountryName(const string &id)
 		countryNamesMapBuilt = true;
 	}
 	
-	hash_map<string, string>::iterator i = countryNamesMap.find(id);
+	map<string, string>::iterator i = countryNamesMap.find(id);
 	return i == countryNamesMap.end() ? string() : i->second; 
 }
 
@@ -84,7 +83,7 @@ string
 MusicBrainz::getLanguageName(const string &id)
 {
 	static bool languageNamesMapBuilt = false;
-	static hash_map<string, string> languageNamesMap;
+	static map<string, string> languageNamesMap;
 	
 	if (!languageNamesMapBuilt) {
 		for (int i = 0; i < (int)(sizeof(languageNames) / sizeof(languageNames[0])); i++) 
@@ -92,7 +91,7 @@ MusicBrainz::getLanguageName(const string &id)
 		languageNamesMapBuilt = true;
 	}
 	
-	hash_map<string, string>::iterator i = languageNamesMap.find(id);
+	map<string, string>::iterator i = languageNamesMap.find(id);
 	return i == languageNamesMap.end() ? string() : i->second; 
 }
 
@@ -102,7 +101,7 @@ string
 MusicBrainz::getScriptName(const string &id)
 {
 	static bool scriptNamesMapBuilt = false;
-	static hash_map<string, string> scriptNamesMap;
+	static map<string, string> scriptNamesMap;
 	
 	if (!scriptNamesMapBuilt) {
 		for (int i = 0; i < (int)(sizeof(scriptNames) / sizeof(scriptNames[0])); i++) 
@@ -110,7 +109,7 @@ MusicBrainz::getScriptName(const string &id)
 		scriptNamesMapBuilt = true;
 	}
 	
-	hash_map<string, string>::iterator i = scriptNamesMap.find(id);
+	map<string, string>::iterator i = scriptNamesMap.find(id);
 	return i == scriptNamesMap.end() ? string() : i->second; 
 }
 
@@ -120,7 +119,7 @@ string
 MusicBrainz::getReleaseTypeName(const string &id)
 {
 	static bool releaseTypeNamesMapBuilt = false;
-	static hash_map<string, string> releaseTypeNamesMap;
+	static map<string, string> releaseTypeNamesMap;
 	
 	if (!releaseTypeNamesMapBuilt) {
 		for (int i = 0; i < (int)(sizeof(releaseTypeNames) / sizeof(releaseTypeNames[0])); i++) 
@@ -128,7 +127,7 @@ MusicBrainz::getReleaseTypeName(const string &id)
 		releaseTypeNamesMapBuilt = true;
 	}
 
-	hash_map<string, string>::iterator i = releaseTypeNamesMap.find(id);
+	map<string, string>::iterator i = releaseTypeNamesMap.find(id);
 	return i == releaseTypeNamesMap.end() ? string() : i->second; 
 }
 
