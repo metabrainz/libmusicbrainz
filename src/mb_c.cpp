@@ -32,23 +32,23 @@ using namespace MusicBrainz;
 /* A little bit of cpp goodness :) */
 
 #define MB_C_NEW_NOARGS(TYPE1, TYPE2) \
-	MB##TYPE1 \
+	Mb##TYPE1 \
 	mb_##TYPE2##_new() \
 	{ \
 		TYPE1 *o = new TYPE1(); \
-		return (MB##TYPE1)o; \
+		return (Mb##TYPE1)o; \
 	} 
 
 #define MB_C_FREE(TYPE1, TYPE2) \
 	void \
-	mb_##TYPE2##_free(MB##TYPE1 o) \
+	mb_##TYPE2##_free(Mb##TYPE1 o) \
 	{ \
 		delete (TYPE1 *)o; \
 	} 
 
 #define MB_C_STR_GETTER(TYPE1, TYPE2, PROP1, PROP2) \
 	void \
-	mb_##TYPE2##_get_##PROP2(MB##TYPE1 o, char *str, int len) \
+	mb_##TYPE2##_get_##PROP2(Mb##TYPE1 o, char *str, int len) \
 	{ \
 		try { \
 			strncpy(str, ((TYPE1 *)o)->get##PROP1().c_str(), len); \
@@ -60,7 +60,7 @@ using namespace MusicBrainz;
 
 #define MB_C_INT_GETTER(TYPE1, TYPE2, PROP1, PROP2) \
 	int \
-	mb_##TYPE2##_get_##PROP2(MB##TYPE1 o) \
+	mb_##TYPE2##_get_##PROP2(Mb##TYPE1 o) \
 	{ \
 		try { \
 			return ((TYPE1 *)o)->get##PROP1(); \
@@ -72,7 +72,7 @@ using namespace MusicBrainz;
 
 #define MB_C_BOOL_GETTER(TYPE1, TYPE2, PROP1, PROP2) \
 	int \
-	mb_##TYPE2##_get_##PROP2(MB##TYPE1 o) \
+	mb_##TYPE2##_get_##PROP2(Mb##TYPE1 o) \
 	{ \
 		try { \
 			return ((TYPE1 *)o)->get##PROP1() ? 1 : 0; \
@@ -84,7 +84,7 @@ using namespace MusicBrainz;
 
 #define MB_C_OBJ_GETTER(TYPE1, TYPE2, PROP1, PROP2, OBJTYPE) \
 	OBJTYPE \
-	mb_##TYPE2##_get_##PROP2(MB##TYPE1 o) \
+	mb_##TYPE2##_get_##PROP2(Mb##TYPE1 o) \
 	{ \
 		try { \
 			return (OBJTYPE)((TYPE1 *)o)->get##PROP1(); \
@@ -96,7 +96,7 @@ using namespace MusicBrainz;
 
 #define MB_C_OBJ_LIST_GETTER(TYPE1, TYPE2, PLR1, PLR2, SNG1, SNG2, RTYPE) \
 	int \
-	mb_##TYPE2##_get_num_##PLR2(MB##TYPE1 o) \
+	mb_##TYPE2##_get_num_##PLR2(Mb##TYPE1 o) \
 	{ \
 		try { \
 			return ((TYPE1 *)o)->getNum##PLR1(); \
@@ -105,20 +105,20 @@ using namespace MusicBrainz;
 			return 0; \
 		} \
 	} \
-	MB##RTYPE \
-	mb_##TYPE2##_get_##SNG2(MB##TYPE1 o, int index) \
+	Mb##RTYPE \
+	mb_##TYPE2##_get_##SNG2(Mb##TYPE1 o, int index) \
 	{ \
 		try { \
-			return (MB##RTYPE)((TYPE1 *)o)->get##SNG1(index); \
+			return (Mb##RTYPE)((TYPE1 *)o)->get##SNG1(index); \
 		} \
 		catch (...) { \
-			return (MB##RTYPE)0; \
+			return (Mb##RTYPE)0; \
 		} \
 	} 
 
 #define MB_C_STR_LIST_GETTER(TYPE1, TYPE2, PLR1, PLR2, SNG1, SNG2) \
 	int \
-	mb_##TYPE2##_get_num_##PLR2(MB##TYPE1 o) \
+	mb_##TYPE2##_get_num_##PLR2(Mb##TYPE1 o) \
 	{ \
 		try { \
 			return ((TYPE1 *)o)->getNum##PLR1(); \
@@ -128,7 +128,7 @@ using namespace MusicBrainz;
 		} \
 	} \
 	void \
-	mb_##TYPE2##_get_##SNG2(MB##TYPE1 o, int index, char *str, int len) \
+	mb_##TYPE2##_get_##SNG2(Mb##TYPE1 o, int index, char *str, int len) \
 	{ \
 		try { \
 			strncpy(str, ((TYPE1 *)o)->get##SNG1(index).c_str(), len); \
@@ -139,8 +139,8 @@ using namespace MusicBrainz;
 	} 
 
 #define MB_C_INCLUDES(TYPE1, TYPE2, INC1, INC2) \
-	MB##TYPE1 \
-	mb_##TYPE2##_##INC2(MB##TYPE1 o) \
+	Mb##TYPE1 \
+	mb_##TYPE2##_##INC2(Mb##TYPE1 o) \
 	{ \
 		((TYPE1 *)o)->INC1(); \
 		return o; \
@@ -156,41 +156,41 @@ mb_webservice_init()
 
 /* === MusicBrainz::Query === */
 
-MBQuery
-mb_query_new(MBWebService ws, const char *client_id)
+MbQuery
+mb_query_new(MbWebService ws, const char *client_id)
 {
 	Query *query = new Query((WebService *)ws, client_id ? client_id : "");
-	return (MBQuery)query;
+	return (MbQuery)query;
 }
 
 MB_C_FREE(Query, query)
 
-MBArtist
-mb_query_get_artist_by_id(MBQuery q, const char *id, MBArtistIncludes inc)
+MbArtist
+mb_query_get_artist_by_id(MbQuery q, const char *id, MbArtistIncludes inc)
 {
 	Query *query = (Query *)q;
-	return (MBArtist)query->getArtistById(id, (ArtistIncludes *)inc);
+	return (MbArtist)query->getArtistById(id, (ArtistIncludes *)inc);
 }
 
-MBRelease
-mb_query_get_release_by_id(MBQuery q, const char *id, MBReleaseIncludes inc)
+MbRelease
+mb_query_get_release_by_id(MbQuery q, const char *id, MbReleaseIncludes inc)
 {
 	Query *query = (Query *)q;
-	return (MBRelease)query->getReleaseById(id, (ReleaseIncludes *)inc);
+	return (MbRelease)query->getReleaseById(id, (ReleaseIncludes *)inc);
 }
 
-MBTrack
-mb_query_get_track_by_id(MBQuery q, const char *id, MBTrackIncludes inc)
+MbTrack
+mb_query_get_track_by_id(MbQuery q, const char *id, MbTrackIncludes inc)
 {
 	Query *query = (Query *)q;
-	return (MBTrack)query->getTrackById(id, (TrackIncludes *)inc);
+	return (MbTrack)query->getTrackById(id, (TrackIncludes *)inc);
 }
 
-MBUser
-mb_query_get_user_by_name(MBQuery q, const char *name)
+MbUser
+mb_query_get_user_by_name(MbQuery q, const char *name)
 {
 	Query *query = (Query *)q;
-	return (MBUser)query->getUserByName(name);
+	return (MbUser)query->getUserByName(name);
 }
 
 /* === MusicBrainz::Artist === */
@@ -258,15 +258,15 @@ MB_C_INCLUDES(ArtistIncludes, artist_includes, releaseRelations, release_relatio
 MB_C_INCLUDES(ArtistIncludes, artist_includes, trackRelations, track_relations)
 MB_C_INCLUDES(ArtistIncludes, artist_includes, urlRelations, url_relations)
 
-MBArtistIncludes
-mb_artist_includes_releases(MBArtistIncludes o, const char *str) 
+MbArtistIncludes
+mb_artist_includes_releases(MbArtistIncludes o, const char *str) 
 { 
 	((ArtistIncludes *)o)->releases(str ? string(str) : string()); 
 	return o; 
 } 
 
-MBArtistIncludes
-mb_artist_includes_va_releases(MBArtistIncludes o, const char *str) 
+MbArtistIncludes
+mb_artist_includes_va_releases(MbArtistIncludes o, const char *str) 
 { 
 	((ArtistIncludes *)o)->vaReleases(str ? string(str) : string()); 
 	return o; 
@@ -313,7 +313,7 @@ MB_C_STR_GETTER(Relation, relation, TargetType, target_type)
 MB_C_STR_GETTER(Relation, relation, BeginDate, begin_date)
 MB_C_STR_GETTER(Relation, relation, EndDate, end_date)
 MB_C_INT_GETTER(Relation, relation, Direction, direction)
-MB_C_OBJ_GETTER(Relation, relation, Target, target, MBEntity)
+MB_C_OBJ_GETTER(Relation, relation, Target, target, MbEntity)
 MB_C_STR_LIST_GETTER(Relation, relation, Attributes, attributes, Attribute, attribute)
 
 /* === MusicBrainz::Disc === */
