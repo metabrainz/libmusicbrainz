@@ -1,3 +1,10 @@
+Changes for libmusicbrainz 3.0.0
+-------------------------------------
+
+   - Rewritten from scratch, libmusicbrainz now uses the new XML web service.
+   - New object oriented API in C++ based on python-musicbrainz2, with
+     GLib-style C bindings.
+     
 Changes for libmusicbrainz 2.1.2
 -------------------------------------
 
