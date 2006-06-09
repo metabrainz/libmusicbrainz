@@ -31,7 +31,6 @@ extern "C" {
 
 /*
   TODO:
-   * Type names: MbXxx, mb_xxx or mb_xxx_t?
    * Error handling? 
      * Error messages
    * Returning of lists?
@@ -41,6 +40,7 @@ extern "C" {
 
 typedef void *MbArtist;
 typedef void *MbArtistAlias;
+typedef void *MbArtistFilter;
 typedef void *MbArtistIncludes;
 typedef void *MbDisc;
 typedef void *MbEntity;
@@ -48,10 +48,13 @@ typedef void *MbQuery;
 typedef void *MbRelation;
 typedef void *MbRelease;
 typedef void *MbReleaseEvent;
+typedef void *MbReleaseFilter;
 typedef void *MbReleaseIncludes;
-typedef void *MbUser;
 typedef void *MbTrack;
+typedef void *MbTrackFilter;
 typedef void *MbTrackIncludes;
+typedef void *MbUser;
+typedef void *MbUserFilter;
 typedef void *MbWebService;
 
 /* }}} */
@@ -575,6 +578,97 @@ mb_track_includes_track_relations(MbTrackIncludes inc);
 
 MB_API MbTrackIncludes
 mb_track_includes_url_relations(MbTrackIncludes inc);
+
+/* }}} */
+
+/* {{{ MusicBrainz::MbArtistFilter */
+
+MB_API MbArtistFilter
+mb_artist_filter_new();
+
+MB_API void
+mb_artist_filter_free(MbArtistFilter flt);
+
+MB_API MbArtistFilter
+mb_artist_filter_name(MbArtistFilter flt, const char *value);
+
+MB_API MbArtistFilter
+mb_artist_filter_limit(MbArtistFilter flt, int value);
+
+/* }}} */
+
+/* {{{ MusicBrainz::MbReleaseFilter */
+
+MB_API MbReleaseFilter
+mb_release_filter_new();
+
+MB_API void
+mb_release_filter_free(MbReleaseFilter flt);
+
+MB_API MbReleaseFilter
+mb_release_filter_title(MbReleaseFilter flt, const char *value);
+
+MB_API MbReleaseFilter
+mb_release_filter_disc_id(MbReleaseFilter flt, const char *value);
+
+MB_API MbReleaseFilter
+mb_release_filter_release_type(MbReleaseFilter flt, const char *value);
+
+MB_API MbReleaseFilter
+mb_release_filter_artist_name(MbReleaseFilter flt, const char *value);
+
+MB_API MbReleaseFilter
+mb_release_filter_artist_id(MbReleaseFilter flt, const char *value);
+
+MB_API MbReleaseFilter
+mb_release_filter_limit(MbReleaseFilter flt, int value);
+
+/* }}} */
+
+/* {{{ MusicBrainz::MbTrackFilter */
+
+MB_API MbTrackFilter
+mb_track_filter_new();
+
+MB_API void
+mb_track_filter_free(MbTrackFilter flt);
+
+MB_API MbTrackFilter
+mb_track_filter_title(MbTrackFilter flt, const char *value);
+
+MB_API MbTrackFilter
+mb_track_filter_artist_name(MbTrackFilter flt, const char *value);
+
+MB_API MbTrackFilter
+mb_track_filter_artist_id(MbTrackFilter flt, const char *value);
+
+MB_API MbTrackFilter
+mb_track_filter_release_title(MbTrackFilter flt, const char *value);
+
+MB_API MbTrackFilter
+mb_track_filter_release_id(MbTrackFilter flt, const char *value);
+
+MB_API MbTrackFilter
+mb_track_filter_duration(MbTrackFilter flt, int value);
+
+MB_API MbTrackFilter
+mb_track_filter_puid(MbTrackFilter flt, const char *value);
+
+MB_API MbTrackFilter
+mb_track_filter_limit(MbTrackFilter flt, int value);
+
+/* }}} */
+
+/* {{{ MusicBrainz::MbUserFilter */
+
+MB_API MbUserFilter
+mb_user_filter_new();
+
+MB_API void
+mb_user_filter_free(MbUserFilter flt);
+
+MB_API MbUserFilter
+mb_user_filter_name(MbUserFilter flt, const char *value);
 
 /* }}} */
 

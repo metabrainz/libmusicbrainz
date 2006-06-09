@@ -144,6 +144,22 @@ using namespace MusicBrainz;
 	{ \
 		((TYPE1 *)o)->INC1(); \
 		return o; \
+	}
+	
+#define MB_C_INT_FILTER(TYPE1, TYPE2, INC1, INC2) \
+	Mb##TYPE1 \
+	mb_##TYPE2##_##INC2(Mb##TYPE1 o, int i) \
+	{ \
+		((TYPE1 *)o)->INC1(i); \
+		return o; \
+	} 
+
+#define MB_C_STR_FILTER(TYPE1, TYPE2, INC1, INC2) \
+	Mb##TYPE1 \
+	mb_##TYPE2##_##INC2(Mb##TYPE1 o, const char *s) \
+	{ \
+		((TYPE1 *)o)->INC1(s); \
+		return o; \
 	} 
 
 /* === MusicBrainz::WebService === */
@@ -322,5 +338,47 @@ MB_C_STR_GETTER(Disc, disc, Id, id)
 MB_C_INT_GETTER(Disc, disc, Sectors, sectors)
 MB_C_INT_GETTER(Disc, disc, FirstTrackNum, first_track_num)
 MB_C_INT_GETTER(Disc, disc, LastTrackNum, last_track_num)
+
+/* === MusicBrainz::ArtistFilter === */
+
+MB_C_NEW_NOARGS(ArtistFilter, artist_filter)
+MB_C_FREE(ArtistFilter, artist_filter)
+
+MB_C_STR_FILTER(ArtistFilter, artist_filter, name, name)
+MB_C_INT_FILTER(ArtistFilter, artist_filter, limit, limit)
+
+/* === MusicBrainz::ReleaseFilter === */
+
+MB_C_NEW_NOARGS(ReleaseFilter, release_filter)
+MB_C_FREE(ReleaseFilter, release_filter)
+
+MB_C_STR_FILTER(ReleaseFilter, release_filter, title, title)
+MB_C_STR_FILTER(ReleaseFilter, release_filter, discId, disc_id)
+MB_C_STR_FILTER(ReleaseFilter, release_filter, releaseType, release_type)
+MB_C_STR_FILTER(ReleaseFilter, release_filter, artistName, artist_name)
+MB_C_STR_FILTER(ReleaseFilter, release_filter, artistId, artist_id)
+MB_C_INT_FILTER(ReleaseFilter, release_filter, limit, limit)
+
+/* === MusicBrainz::TrackFilter === */
+
+MB_C_NEW_NOARGS(TrackFilter, track_filter)
+MB_C_FREE(TrackFilter, track_filter)
+
+MB_C_STR_FILTER(TrackFilter, track_filter, title, title)
+MB_C_STR_FILTER(TrackFilter, track_filter, releaseTitle, release_title)
+MB_C_STR_FILTER(TrackFilter, track_filter, releaseId, release_id)
+MB_C_STR_FILTER(TrackFilter, track_filter, artistName, artist_name)
+MB_C_STR_FILTER(TrackFilter, track_filter, artistId, artist_id)
+MB_C_INT_FILTER(TrackFilter, track_filter, duration, duration)
+MB_C_STR_FILTER(TrackFilter, track_filter, puid, puid)
+MB_C_INT_FILTER(TrackFilter, track_filter, limit, limit)
+
+/* === MusicBrainz::UserFilter === */
+
+MB_C_NEW_NOARGS(UserFilter, user_filter)
+MB_C_FREE(UserFilter, user_filter)
+
+MB_C_STR_FILTER(UserFilter, user_filter, name, name)
+
 
 }
