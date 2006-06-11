@@ -12,8 +12,8 @@
 int
 main(int argc, char **argv)
 {
-	MBQuery query;
-	MBArtist artist;
+	MbQuery query;
+	MbArtist artist;
 	char data[256];
 	
 	if (argc < 2) {
