@@ -20,6 +20,7 @@ class ParseReleaseTest : public CppUnit::TestFixture
 	CPPUNIT_TEST(testReleaseEvents);
 	CPPUNIT_TEST(testReleaseTracks);
 	CPPUNIT_TEST(testReleaseTracksVA);
+	CPPUNIT_TEST(testReleaseSearch);
 	CPPUNIT_TEST_SUITE_END();
 	
 protected:
@@ -94,6 +95,17 @@ protected:
 		CPPUNIT_ASSERT_EQUAL(string("Metallica"), artist->getName());
 		CPPUNIT_ASSERT_EQUAL(string("Metallica"), artist->getSortName());
 		CPPUNIT_ASSERT_EQUAL(Artist::TYPE_GROUP, artist->getType());
+	}
+	
+	void testReleaseSearch()
+	{
+		Metadata *md = MbXmlParser().parse(get_file_contents("../test-data/valid/release/search_result_1.xml"));
+		ReleaseResultList r = md->getReleaseResults();
+		
+		CPPUNIT_ASSERT_EQUAL(2, int(r.size()));
+		CPPUNIT_ASSERT_EQUAL(100, r[0]->getScore());
+		CPPUNIT_ASSERT_EQUAL(80, r[1]->getScore());
+		CPPUNIT_ASSERT_EQUAL(string("http://musicbrainz.org/release/005fe18b-144b-4fee-81c0-e04737a23500"), r[1]->getRelease()->getId());
 	}
 	
 };

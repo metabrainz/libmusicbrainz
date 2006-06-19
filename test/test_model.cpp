@@ -1,6 +1,7 @@
 #include <string>
 #include <cppunit/extensions/HelperMacros.h>
 #include <musicbrainz3/model.h>
+#include <musicbrainz3/filters.h>
 
 using namespace std;
 using namespace MusicBrainz;
@@ -10,6 +11,9 @@ class ModelTest : public CppUnit::TestFixture
 	CPPUNIT_TEST_SUITE(ModelTest);
 	CPPUNIT_TEST(testDiscProperties);
 	CPPUNIT_TEST(testArtistProperties);
+	CPPUNIT_TEST(testArtistUniqueName);
+	CPPUNIT_TEST(testArtistReleases);
+	CPPUNIT_TEST(testArtistAliases);
 	CPPUNIT_TEST(testTrackProperties);
 	CPPUNIT_TEST(testReleaseEventProperties);
 	CPPUNIT_TEST(testArtistAliasProperties);
@@ -57,6 +61,36 @@ protected:
 		CPPUNIT_ASSERT_EQUAL(string("Jarre, Jean Michel"), b.getSortName());
 		CPPUNIT_ASSERT_EQUAL(string("1948-08-24"), b.getBeginDate());
 		CPPUNIT_ASSERT_EQUAL(string("1948-08-25"), b.getEndDate());
+	}
+	
+	void testArtistUniqueName()
+	{
+		Artist a("", Artist::TYPE_PERSON, "Jean Michel Jarre");
+		CPPUNIT_ASSERT_EQUAL(string("Jean Michel Jarre"), a.getUniqueName());
+		a.setDisambiguation("Test");
+		CPPUNIT_ASSERT_EQUAL(string("Jean Michel Jarre (Test)"), a.getUniqueName());
+	}
+	
+	void testArtistReleases()
+	{
+		Artist a("", Artist::TYPE_PERSON, "Jean Michel Jarre");
+		a.addRelease(new Release("8813e1f4-18a6-4cc2-b723-35da00af622d"));
+		a.addRelease(new Release("-"));
+		CPPUNIT_ASSERT_EQUAL(2, int(a.getReleases().size()));
+		CPPUNIT_ASSERT_EQUAL(2, a.getNumReleases());
+		CPPUNIT_ASSERT_EQUAL(string("-"), a.getReleases()[1]->getId());
+		CPPUNIT_ASSERT_EQUAL(string("-"), a.getRelease(1)->getId());
+	}
+	
+	void testArtistAliases()
+	{
+		Artist a("", Artist::TYPE_PERSON, "Jean Michel Jarre");
+		a.addAlias(new ArtistAlias("Jarre"));
+		a.addAlias(new ArtistAlias("JMJ"));
+		CPPUNIT_ASSERT_EQUAL(2, int(a.getAliases().size()));
+		CPPUNIT_ASSERT_EQUAL(2, a.getNumAliases());
+		CPPUNIT_ASSERT_EQUAL(string("JMJ"), a.getAliases()[1]->getValue());
+		CPPUNIT_ASSERT_EQUAL(string("JMJ"), a.getAlias(1)->getValue());
 	}
 	
 	void testTrackProperties()
