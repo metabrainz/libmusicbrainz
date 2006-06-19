@@ -79,7 +79,8 @@ protected:
 		
 		Artist *ar = static_cast<Artist *>(re[0]->getTarget());
 		CPPUNIT_ASSERT_EQUAL(string("Mark Hawley"), ar->getName());
-		//CPPUNIT_ASSERT_EQUAL(string("http://www.yessaid.com/albums.html"), re[1]->getTargetId());
+		
+		CPPUNIT_ASSERT_EQUAL(string("http://www.yessaid.com/albums.html"), re[1]->getTargetId());
 	}
 	
 };
