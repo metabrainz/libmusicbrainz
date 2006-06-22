@@ -21,6 +21,8 @@
  */
  
 #include <musicbrainz3/disc.h>
+#include <discid/discid.h>
+#include "utilspriv.h"
 
 using namespace std;
 using namespace MusicBrainz;
@@ -93,5 +95,55 @@ void
 Disc::addTrack(Disc::Track track)
 {
     tracks.push_back(track);
+}
+
+Disc *
+MusicBrainz::readDisc(const std::string &deviceName)
+{
+	DiscId *discid = discid_new();
+	if (!discid) {
+		throw DiscError("Couldn't create a new DiscId instance.");
+	}
+	
+	if (!discid_read(discid, deviceName.empty() ? NULL : deviceName.c_str())) {
+		string msg(discid_get_error_msg(discid));
+		discid_free(discid);
+		throw DiscError(msg);
+	}
+	
+	Disc *disc = new Disc;
+	disc->setId(discid_get_id(discid));
+	disc->setSectors(discid_get_sectors(discid));
+	disc->setFirstTrackNum(discid_get_first_track_num(discid));
+	disc->setLastTrackNum(discid_get_last_track_num(discid));
+	for (int i = disc->getFirstTrackNum(); i <= disc->getLastTrackNum(); i++) {
+		disc->addTrack(Disc::Track(discid_get_track_offset(discid, i),
+								   discid_get_track_length(discid, i)));
+	}
+	
+	discid_free(discid);
+	return disc;
+}
+
+std::string
+MusicBrainz::getSubmissionUrl(Disc *disc, const std::string &host, int port)
+{
+	string netloc;
+	if (port == 80) 
+		netloc = host;
+	else
+		netloc = host + ":" + intToString(port);
+	
+	string toc = intToString(disc->getFirstTrackNum())
+		+ "+" + intToString(disc->getLastTrackNum())
+		+ "+" + intToString(disc->getSectors());
+		
+	for (Disc::TrackList::const_iterator i = disc->getTracks().begin();
+			i < disc->getTracks().end(); i++) {
+		toc += "+" + intToString(i->first);
+	}
+	
+	return "http://" + netloc + "/bare/cdlookup.html?id=" + disc->getId()
+		+ "&toc=" + toc + "&tracks=" + intToString(disc->getLastTrackNum());
 }
 

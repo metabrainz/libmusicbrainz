@@ -9,7 +9,6 @@ using namespace MusicBrainz;
 class ModelTest : public CppUnit::TestFixture
 {
 	CPPUNIT_TEST_SUITE(ModelTest);
-	CPPUNIT_TEST(testDiscProperties);
 	CPPUNIT_TEST(testArtistProperties);
 	CPPUNIT_TEST(testArtistUniqueName);
 	CPPUNIT_TEST(testArtistReleases);
@@ -24,23 +23,6 @@ class ModelTest : public CppUnit::TestFixture
 	
 protected:
 
-	void testDiscProperties()
-	{
-		Disc a("X64QNQ5GVfJUFF9MKTe3AD0wbag-");
-		a.setFirstTrackNum(1);
-		a.setLastTrackNum(12);
-		a.setSectors(260075);
-		a.addTrack(Disc::Track(150, 19912));
-		a.addTrack(Disc::Track(20062, 32335));
-		CPPUNIT_ASSERT_EQUAL(string("X64QNQ5GVfJUFF9MKTe3AD0wbag-"), a.getId());
-		CPPUNIT_ASSERT_EQUAL(1, a.getFirstTrackNum());
-		CPPUNIT_ASSERT_EQUAL(12, a.getLastTrackNum());
-		CPPUNIT_ASSERT_EQUAL(260075, a.getSectors());
-		CPPUNIT_ASSERT_EQUAL(2, int(a.getTracks().size()));
-		CPPUNIT_ASSERT_EQUAL(150, a.getTracks()[0].first);
-		CPPUNIT_ASSERT_EQUAL(32335, a.getTracks()[1].second);
-	}
-	
 	void testArtistProperties()
 	{
 		Artist a("86e2e2ad-6d1b-44fd-9463-b6683718a1cc", Artist::TYPE_PERSON, "Jean Michel Jarre", "Jarre, Jean Michel");
