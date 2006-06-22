@@ -21,4 +21,4 @@
 #
 AUTOMAKE_OPTIONS = foreign
 
-EXTRA_DIST = __init__.py Makefile.am README test_exception.py test_template
+EXTRA_DIST = __init__.py Makefile.am README test_exception.py
