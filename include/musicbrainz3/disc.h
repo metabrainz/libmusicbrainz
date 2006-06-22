@@ -30,7 +30,7 @@
 
 namespace MusicBrainz
 {
-	
+
 	/**
 	 * Represents an Audio CD.
 	 *
@@ -160,6 +160,67 @@ namespace MusicBrainz
 		int lastTrackNum;
 		Disc::TrackList tracks;
 	};
+	
+	/**
+	 * The Audio CD could not be read.
+	 *
+	 * This may be simply because no disc was in the drive, the device name
+	 * was wrong or the disc can't be read. Reading errors can occur in case
+	 * of a damaged disc or a copy protection mechanism, for example. 
+	 */
+	class MB_API DiscError : public Exception
+	{
+	public:
+		DiscError(const std::string &msg = std::string()) : Exception(msg) {}
+	};
+	
+	/**
+	 * Reads an Audio CD in the disc drive.
+	 *
+	 * This reads a CD's table of contents (TOC) and calculates the MusicBrainz
+	 * DiscID, which is a 28 character ASCII string. This DiscID can be used
+	 * to retrieve a list of matching releases from the web service (see
+	 * MusicBrainz::Query).
+	 *
+	 * Note that an Audio CD has to be in drive for this to work. The
+	 * \a deviceName argument may be used to set the device. The default
+	 * depends on the operating system (on linux, it's \c "/dev/cdrom").
+	 * No network connection is needed for this function.
+	 *
+	 * If the device doesn't exist or there's no valid Audio CD in the drive,
+	 * a DiscError exception is raised.
+	 *
+	 * @param deviceName a string containing the CD drive's device name
+	 *
+	 * @return a pointer to Disc object
+	 *
+	 * @raise DiscError if there was a problem reading the disc
+	 */
+	MB_API Disc *readDisc(const std::string &deviceName = std::string());
+
+	/**
+	 * Returns a URL for adding a disc to the MusicBrainz database.
+	 *
+	 * A fully initialized Disc object is needed, as
+	 * returned by readDisc. A disc object returned by the web service
+	 * doesn't provide the necessary information.
+	 *
+	 * Note that the created URL is intended for interactive use and points
+	 * to the MusicBrainz disc submission wizard by default. This method
+	 * just returns a URL, no network connection is needed. The disc drive
+	 * isn't used.
+	 *
+	 * @param disc a fully initialized Disc object
+	 * @param host a string containing a host name
+	 * @param port an integer containing a port number
+	 * 
+	 * @return a string containing the submission URL
+	 * 
+	 * @see readDisc 
+	 */
+	MB_API std::string getSubmissionUrl(Disc *disc,
+		const std::string &host = "mm.musicbrainz.org",
+		int port = 80);
 	
 }
 

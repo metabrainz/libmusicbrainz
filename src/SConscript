@@ -40,7 +40,7 @@ musicbrainz3 = env.SharedLibrary('musicbrainz3',
                                  sources,
                                  CPPPATH=cpp_paths,
                                  CPPDEFINES=cpp_defines,
-                                 LIBS=['advapi32', 'neon', 'wsock32'])
+                                 LIBS=['advapi32', 'neon', 'wsock32', 'discid', 'winmm'])
 
 env.Alias('install', env.Install('$libdir', musicbrainz3))
 env.Alias('install', env.Install('$includedir/musicbrainz3', includes))

@@ -17,6 +17,7 @@ dist_files = [
     'test_ws_filters.cpp',
     'test_ws_includes.cpp',
     'test_ws.cpp',
+    'test_disc.cpp'
     ]
     
 sources = filter(lambda src: src.endswith('.cpp'), dist_files)
