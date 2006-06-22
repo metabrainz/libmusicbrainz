@@ -98,7 +98,11 @@ if  (eval {require ExtUtils::Constant; 1}) {
 		 MBS_SelectLookupResultAlbum MBS_SelectLookupResultArtist
 		 MBS_SelectLookupResultTrack MBS_SelectReleaseDate
 		 MBS_SelectRelationship MBS_SelectTrack 
-		 MBS_SelectTrackAlbum MBS_SelectTrackArtist MBS_SelectTrmid));
+		 MBS_SelectTrackAlbum MBS_SelectTrackArtist MBS_SelectTrmid
+		 MBS_SelectAlbumArtist MBE_AlbumGetCdindexId
+		 MBE_AlbumGetAlbumArtistName MBE_AlbumGetAlbumArtistSortName
+		 MBE_GetRelationshipAttribute
+		 ));
   ExtUtils::Constant::WriteConstants(
                                      NAME         => 'MusicBrainz::Queries',
                                      NAMES        => \@names,

@@ -21,6 +21,8 @@ our @ISA = qw(Exporter);
 # will save memory.
 our %EXPORT_TAGS = ( 'all' => [ qw(
 	MBE_AlbumGetAlbumArtistId
+	MBE_AlbumGetAlbumArtistName
+	MBE_AlbumGetAlbumArtistSortName
 	MBE_AlbumGetAlbumId
 	MBE_AlbumGetAlbumName
 	MBE_AlbumGetAlbumStatus
@@ -29,6 +31,7 @@ our %EXPORT_TAGS = ( 'all' => [ qw(
 	MBE_AlbumGetArtistId
 	MBE_AlbumGetArtistName
 	MBE_AlbumGetArtistSortName
+	MBE_AlbumGetCdindexId
 	MBE_AlbumGetNumCdindexIds
 	MBE_AlbumGetNumReleaseDates
 	MBE_AlbumGetNumTracks
@@ -87,6 +90,7 @@ our %EXPORT_TAGS = ( 'all' => [ qw(
 	MBE_GetRelationshipArtistName
 	MBE_GetRelationshipAlbumId
 	MBE_GetRelationshipAlbumName
+	MBE_GetRelationshipAttribute
 	MBE_GetRelationshipTrackId
 	MBE_GetRelationshipTrackName
 	MBE_GetRelationshipURL
@@ -115,6 +119,7 @@ our %EXPORT_TAGS = ( 'all' => [ qw(
 	MBS_Back
 	MBS_Rewind
 	MBS_SelectAlbum
+	MBS_SelectAlbumArtist
 	MBS_SelectArtist
 	MBS_SelectRelationship
 	MBS_SelectCdindexid
@@ -198,6 +203,14 @@ id for the Various Artists' artist, and then you should check the artist for
 each track of the album seperately with MBE_AlbumGetArtistName, 
 MBE_AlbumGetArtistSortName and MBE_AlbumGetArtistId.
 
+=item MBE_AlbumGetAlbumArtistName
+
+Return the name of the artist for this album.
+
+=item MBE_AlbumGetAlbumArtistSortName
+
+Return the sortname of the artist for this album. 
+	
 =item  MBE_AlbumGetAlbumId
 
 Return the ID of the currently selected Album.
@@ -232,6 +245,11 @@ a track index ordinal. 1 for the first track, etc...
 
 Return the artist sortname of the nth track in the album. 
 Requires a track index ordinal. 1 for the first track, etc...
+
+=item  MBE_AlbumGetCdindexId
+
+Return the nth cdindex of the album. Requires a index 
+ordinal. 1 for the first cdindex, etc... 
 
 =item  MBE_AlbumGetNumCdindexIds
 
@@ -490,6 +508,10 @@ Get the album id that this link points to.
 
 Get the album name that this link points to.
 
+=item  MBE_GetRelationshipAttribute
+
+Get the vocal/instrument attributes. Must pass an ordinal to indicate which attribute to get. 
+
 =item  MBE_GetRelationshipTrackId
 
 Get the track id that this link points to.
@@ -745,6 +767,11 @@ trmid from the list.
 Use this Select Query to select a relationship from a list 
 advanced relationships. 
 
+=item MBS_SelectAlbumArtist
+
+Use this Select Query to select an the corresponding artist from an album  
+context. MBE_ArtistXXXXXX queries to extract data after the select. 
+	
 =back
 
 
