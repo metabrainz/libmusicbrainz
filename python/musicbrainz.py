@@ -92,6 +92,9 @@ class mb:
     mbdll.mb_UseUTF8.argtypes = [c_void_p, c_int]
     def __init__(self):
         self.mb = mbdll.mb_New();
+        # for ctypes 0.9.6
+        if not isinstance(self.tp, c_void_p):
+            self.tp = c_void_p(self.tp) 
         mbdll.mb_UseUTF8(self.mb, True)
         # need to hold ref for __del__ to work
         self.mbdll = mbdll
