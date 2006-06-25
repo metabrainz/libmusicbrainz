@@ -98,9 +98,22 @@ class mb:
         mbdll.mb_UseUTF8(self.mb, True)
         # need to hold ref for __del__ to work
         self.mbdll = mbdll
-        
+
         if sys.platform == "win32":
             mbdll.mb_WSAInit(self.mb)
+            
+        # Parse http_proxy environment variable
+        if os.environ.has_key('http_proxy'):
+            from urlparse import urlparse
+            netloc = urlparse(os.environ['http_proxy'])[1]
+            if ':' in netloc:
+                host, port = netloc.split(':')
+                port = int(port)
+            else:
+                host = netloc
+                port = 80
+            if host:
+                self.SetProxy(host, port)
 
     mbdll.mb_Delete.argtypes = [c_void_p]
     def __del__(self):
