@@ -21,6 +21,8 @@
  */
  
 #include <cstring>
+#include <cstdarg>
+#include <iostream>
 #include <map>
 #include <ne_uri.h> 
 #include "utilspriv.h"
@@ -68,3 +70,15 @@ MusicBrainz::urlEncode(const vector<pair<string, string> > &params)
 	return encodedStr;
 }
 
+#ifndef NDEBUG 
+void
+MusicBrainz::debug(const char *fmt, ...)
+{
+	va_list ap;
+	va_start(ap, fmt);
+	fprintf(stderr, "MusicBrainz: ");
+	vfprintf(stderr, fmt, ap);
+	fprintf(stderr, "\n");
+	va_end(ap); 	
+}
+#endif

@@ -29,6 +29,12 @@
 
 namespace MusicBrainz
 {
+
+#ifndef NDEBUG 
+	void debug(const char *fmt, ...);
+#else
+	inline void debug(const char *fmt, ...) {};
+#endif
 	
 	std::string intToString(const int i);
 	int stringToInt(const std::string &s);

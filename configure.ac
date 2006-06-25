@@ -53,10 +53,10 @@ NE_REQUIRE_VERSIONS([0], [25 26])
 NEON_LIBRARY
 
 if test "$GCC" = yes; then
-  CFLAGS="$CFLAGS -Wall -O2"
+  CFLAGS="$CFLAGS -Wall -O2 -DNDEBUG"
 fi
 if test "$GXX" = yes; then
-  CXXFLAGS="$CXXFLAGS -Wall -O2"
+  CXXFLAGS="$CXXFLAGS -Wall -O2 -DNDEBUG"
 fi
 
 

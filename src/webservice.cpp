@@ -34,14 +34,31 @@
 #include "utilspriv.h"
 #include "config.h"
 
-
 using namespace std;
 using namespace MusicBrainz;
+
+string WebService::systemProxyHost = string();
+int WebService::systemProxyPort = 0;
 
 void
 WebService::init()
 {
-	ne_sock_init(); 
+	ne_sock_init();
+	
+	// Parse http_proxy environmnent variable	
+	const char *http_proxy = getenv("http_proxy");
+	if (http_proxy) {
+		debug("Found http_proxy environmnent variable \"%s\"", http_proxy);
+		ne_uri uri;
+		if (!ne_uri_parse(http_proxy, &uri)) {
+			if (uri.host)
+				systemProxyHost = string(uri.host); 
+			if (uri.port)
+				systemProxyPort = uri.port;
+			// TODO: parse uri.userinfo
+		}
+		ne_uri_free(&uri);
+	}
 }
 
 WebService::WebService(const std::string &host,
@@ -55,7 +72,9 @@ WebService::WebService(const std::string &host,
 	  pathPrefix(pathPrefix),
 	  username(username),
 	  password(password),
-	  realm(realm)
+	  realm(realm),
+	  proxyHost(systemProxyHost),
+	  proxyPort(systemProxyPort)
 {
 }
 
@@ -87,15 +106,19 @@ WebService::get(const std::string &entity,
 	ne_session *sess;
 	ne_request *req;
 	
-#ifdef DEBUG	
-	cout << endl << "Connecting to http://" << host << ":" << port << endl;
-#endif
+	debug("Connecting to http://%s:%d", host.c_str(), port);
 	
 	sess = ne_session_create("http", host.c_str(), port);
 	if (!sess) 
 		throw WebServiceError("ne_session_create() failed.");
 	ne_set_server_auth(sess, httpAuth, this);
 	ne_set_useragent(sess, PACKAGE"/"VERSION);
+	
+	// Use proxy server
+	if (!proxyHost.empty()) {
+		ne_session_proxy(sess, proxyHost.c_str(), proxyPort);
+		// TODO: ne_set_proxy_auth
+	}
 
 	vector<pair<string, string> > params;
 	params.push_back(pair<string, string>("type", "xml"));
@@ -114,12 +137,9 @@ WebService::get(const std::string &entity,
 
 	string uri = pathPrefix + "/" + version + "/" + entity + "/" + id + "?" + urlEncode(params);
 	
-#ifdef DEBUG	
-	cout << "GET " << uri << endl;
-#endif
+	debug("GET %s", uri.c_str());
 	
 	string response;
-	
 	req = ne_request_create(sess, "GET", uri.c_str());	
 	ne_add_response_body_reader(req, ne_accept_2xx, httpResponseReader, &response);		
 	int result = ne_request_dispatch(req);
@@ -128,12 +148,10 @@ WebService::get(const std::string &entity,
 	
 	string errorMessage = ne_get_error(sess);
 	ne_session_destroy(sess);
-	
-#ifdef DEBUG	
-	cout << "Result: " << result << " (" << errorMessage << ")"<< endl;
-	cout << "Status: " << status << endl;
-	cout << "Response:" << endl << response << endl;
-#endif
+		
+	debug("Result: %d (%s)", result, errorMessage.c_str());
+	debug("Status: %d", status);
+	debug("Response:\n%s", response.c_str());
 	
 	switch (result) {
 	case NE_OK:
@@ -173,9 +191,7 @@ WebService::post(const std::string &entity,
 	ne_session *sess;
 	ne_request *req;
 	
-#ifdef DEBUG	
-	cout << endl << "Connecting to http://" << host << ":" << port << endl;
-#endif
+	debug("Connecting to http://%s:%d", host.c_str(), port);
 	
 	sess = ne_session_create("http", host.c_str(), port);
 	if (!sess) 
@@ -183,12 +199,16 @@ WebService::post(const std::string &entity,
 	ne_set_server_auth(sess, httpAuth, this);
 	ne_set_useragent(sess, PACKAGE"/"VERSION);
 
+	// Use proxy server
+	if (!proxyHost.empty()) {
+		ne_session_proxy(sess, proxyHost.c_str(), proxyPort);
+		// TODO: ne_set_proxy_auth
+	}
+
 	string uri = pathPrefix + "/" + version + "/" + entity + "/" + id;
 	
-#ifdef DEBUG	
-	cout << "POST " << uri << endl;
-	cout << "POST-BODY: " << data << endl;
-#endif
+	debug("POST %s", uri.c_str());
+	debug("POST-BODY:\n%s", data.c_str());
 	
 	req = ne_request_create(sess, "POST", uri.c_str());
 // neon 0.26 and higher
@@ -204,10 +224,8 @@ WebService::post(const std::string &entity,
 	string errorMessage = ne_get_error(sess);
 	ne_session_destroy(sess);
 	
-#ifdef DEBUG	
-	cout << "Result: " << result << " (" << errorMessage << ")"<< endl;
-	cout << "Status: " << status << endl;
-#endif
+	debug("Result: %d (%s)", result, errorMessage.c_str());
+	debug("Status: %d", status);
 	
 	switch (result) {
 	case NE_OK:
@@ -235,4 +253,101 @@ WebService::post(const std::string &entity,
 		throw WebServiceError(errorMessage);
 	}
 }
+
+void
+WebService::setHost(const std::string &value)
+{
+	host = value;
+}
+
+std::string
+WebService::getHost() const
+{
+	return host;
+}
+
+void
+WebService::setPort(const int value)
+{
+	port = value;
+}
+
+int
+WebService::getPort() const
+{
+	return port;
+}
+
+void
+WebService::setPathPrefix(const std::string &value)
+{
+	pathPrefix = value;
+}
+
+std::string
+WebService::getPathPrefix() const
+{
+	return pathPrefix;
+}
+
+void
+WebService::setUserName(const std::string &value)
+{
+	username = value;
+}
+
+std::string
+WebService::getUserName() const
+{
+	return username;
+}
+
+void
+WebService::setPassword(const std::string &value)
+{
+	password = value;
+}
+
+std::string
+WebService::getPassword() const
+{
+	return password;
+}
+
+void
+WebService::setRealm(const std::string &value)
+{
+	realm = value;
+}
+
+std::string
+WebService::getRealm() const
+{
+	return realm;
+}
+
+void
+WebService::setProxyHost(const std::string &value)
+{
+	proxyHost = value;
+}
+
+std::string
+WebService::getProxyHost() const
+{
+	return proxyHost;
+}
+
+void
+WebService::setProxyPort(const int value)
+{
+	proxyPort = value;
+}
+
+int
+WebService::getProxyPort() const
+{
+	return proxyPort;
+}
+
 

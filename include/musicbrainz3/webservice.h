@@ -145,6 +145,30 @@ namespace MusicBrainz
 				   const std::string &password = std::string(),
 				   const std::string &realm = "musicbrainz.org");
 
+		void setHost(const std::string &host);
+		std::string getHost() const;
+		
+		void setPort(const int port);
+		int getPort() const;
+		
+		void setPathPrefix(const std::string &pathPrefix);
+		std::string getPathPrefix() const;
+		
+		void setUserName(const std::string &username);
+		std::string getUserName() const;
+		
+		void setPassword(const std::string &password);
+		std::string getPassword() const;
+		
+		void setRealm(const std::string &realm);
+		std::string getRealm() const;
+		
+		void setProxyHost(const std::string &host);
+		std::string getProxyHost() const;
+		
+		void setProxyPort(const int port);
+		int getProxyPort() const;
+		
 		/**
 		 * Query the web service via HTTP-GET.
 		 *
@@ -204,6 +228,11 @@ namespace MusicBrainz
 		std::string username;
 		std::string password;
 		std::string realm;
+		std::string proxyHost;
+		int proxyPort;
+		
+		static std::string systemProxyHost;
+		static int systemProxyPort;
 		
 	};
 	
