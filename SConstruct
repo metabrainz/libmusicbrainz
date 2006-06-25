@@ -13,6 +13,7 @@ env = Environment(ENV=os.environ,
 
 env.Append(CPPPATH=['#.', '#lib', '#include'])
 
+env.Append(CPPDEFINES=['NDEBUG'])
 if sys.platform == 'win32':
     env.Append(CPPDEFINES=['WIN32'])
     
