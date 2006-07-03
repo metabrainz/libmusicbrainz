@@ -3,7 +3,7 @@ package MusicBrainz::Client;
 #
 #   MusicBrainz::Client -- The Internet music metadatabase
 #
-#   Copyright (C) 2003-2005 Alexander van Zoest
+#   Copyright (C) 2003-2006 Alexander van Zoest
 #   
 #   $Id$
 #
@@ -35,7 +35,7 @@ our @EXPORT_OK = ( @{ $EXPORT_TAGS{'all'} } );
 our @EXPORT = qw(
 );
 
-our $VERSION = do { my @r = (q$Revision$ =~ /\d+/g); $r[0]--;sprintf "%d."."%02d" x $#r, @r }; # must be all one line, for MakeMaker
+our $VERSION = 0.11;
 
 
 sub AUTOLOAD {
