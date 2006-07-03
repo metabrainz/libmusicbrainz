@@ -467,7 +467,7 @@ Sander van Zoest <svanzoest@cpan.org>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright 2003-2005 by Alexander van Zoest.
+Copyright 2003-2006 by Alexander van Zoest.
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.
