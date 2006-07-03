@@ -1,5 +1,6 @@
 # $Id$
 CVS
+.svn
 MANIFEST.SKIP
 MANIFEST.bak
 Makefile.old
