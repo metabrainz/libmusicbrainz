@@ -10,11 +10,11 @@ sub MY::postamble {
 ck_version :
 	@perl -MExtUtils::MakeMaker -le 'print "Version: " . MM->parse_version(shift)' $(VERSION_FROM)
 
-cvs_export :
-	cvs export -r$(NAME_SYM)_$(VERSION_SYM) -d$(DISTVNAME) $(CVS_PACKAGE)
+svn_export :
+	svn export -rHEAD $(SVN_PACKAGE)/tags/cpan_$(NAME_SYM)_$(VERSION_SYM) $(DISTVNAME)
 
-cvs_tag :
-	cvs tag cpan_$(NAME_SYM)_$(VERSION_SYM) .
+svn_tag :
+	svn copy $(SVN_PACKAGE)/trunk $(SVN_PACKAGE)/tags/cpan_$(NAME_SYM)_$(VERSION_SYM)
 	@echo tagged all files with cpan_$(NAME_SYM)_$(VERSION_SYM)
 
 EOT
@@ -25,7 +25,7 @@ EOT
 WriteMakefile(
     'NAME'              => 'MusicBrainz::Client',
     'VERSION_FROM'           => 'Client.pm', # finds $VERSION
-    'PREREQ_PM'	        => {'MusicBrainz::Queries' => 0.09,
+    'PREREQ_PM'	        => {'MusicBrainz::Queries' => '0.10',
                             'Test::More'           => 0 }, 
     ($] >= 5.005 ?    ## Add these new keywords supported since 5.005
       (ABSTRACT_FROM => 'Client.pm', # retrieve abstract from module
@@ -45,7 +45,8 @@ WriteMakefile(
 	FILES 		=> 'const-c.inc const-xs.inc MANIFEST.bak'
 		           },
      macro	        => {
-	CVS_PACKAGE	=> ''
+	SVN_PACKAGE	=> 'http://svn.musicbrainz.org/libmusicbrainz',
+        SVN_PATH	=> '/perl/Client'
 			   },
 );
 if  (eval {require ExtUtils::Constant; 1}) {

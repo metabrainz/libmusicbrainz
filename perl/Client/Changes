@@ -5,6 +5,9 @@ otherwise noted.
 
 $Id$
 
+0.11	
+	- Adjusted for migration from CVS to Subversion
+
 0.10 	Fri Nov 11 08:58:46 2005
 	- Updated to libmusicbrainz 2.1.2
 	- Updated req for MusicBrainz::Queries to 0.09
