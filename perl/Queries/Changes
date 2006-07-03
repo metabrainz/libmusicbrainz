@@ -5,6 +5,16 @@ otherwise noted.
 
 $Id$
 
+0.10	Mon Jul  3 22:32:03 2006
+	- adjusted for migration from CVS to Subversion
+        - updated to libmusicbrainz 2.1.3 [luks]
+        - added new queries:
+              MBE_AlbumGetAlbumArtistName
+	      MBE_AlbumGetAlbumArtistSortName
+	      MBE_AlbumGetCdindexId
+	      MBE_GetRelationshipAttribute
+	      MBS_SelectAlbumArtist
+
 0.09	Fri Nov 11 08:59:07 2005
         - updated to libmusicbrainz 2.1.2
         - added new relationship queries:
