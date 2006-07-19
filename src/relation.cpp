@@ -116,7 +116,7 @@ Relation::setTarget(Entity *value)
 	target = value;
 }
 
-const Relation::Attributes &
+Relation::Attributes &
 Relation::getAttributes() const
 {
 	return attributes;
