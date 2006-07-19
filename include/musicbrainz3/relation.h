@@ -226,7 +226,7 @@ namespace MusicBrainz
 		 *
 		 * @return a list of strings containing absolute URIs
 		 */
-		Attributes &getAttributes() const;
+		const Attributes &getAttributes() const;
 		
 		/**
 		 * Returns number of attributes.

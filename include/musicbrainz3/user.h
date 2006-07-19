@@ -69,7 +69,7 @@ namespace MusicBrainz
 		 *
 		 * @return a vector of strings containing absolute URIs 
 		 */
-		std::vector<std::string> &getTypes() const;
+		const std::vector<std::string> &getTypes() const;
 
 		/**
 		 * Returns number of types.

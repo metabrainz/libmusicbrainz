@@ -137,7 +137,7 @@ namespace MusicBrainz
 		 * 
 		 * @return a vector of (offset, length) pairs (values are ints)
 		 */
-		Disc::TrackList &getTracks() const;
+		const Disc::TrackList &getTracks() const;
 		
 		/**
 		 * Adds a track to the list.

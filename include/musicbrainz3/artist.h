@@ -209,7 +209,7 @@ namespace MusicBrainz
 		 *
 		 * @return: a list of pointers to Release objects 
 		 */
-		const ReleaseList &getReleases();
+		ReleaseList &getReleases();
 		
 		/**
 		 * Returns number of releases.
@@ -245,7 +245,7 @@ namespace MusicBrainz
 		 *
 		 * @return a list of pointers to ArtistAlias objects
 		 */
-		const ArtistAliasList &getAliases();
+		ArtistAliasList &getAliases();
 		
 		/**
 		 * Returns number of aliases.
