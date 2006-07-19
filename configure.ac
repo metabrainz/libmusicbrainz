@@ -52,6 +52,17 @@ dnl Check for neon.
 NE_REQUIRE_VERSIONS([0], [25 26])
 NEON_LIBRARY
 
+dnl Check for discid.
+PKG_CHECK_MODULES(DISCID, libdiscid, [
+	AC_DEFINE(HAVE_DISCID, 1, [Have libdiscid?])
+], [
+	AC_MSG_RESULT([no])
+	AC_MSG_WARN([[libdiscid not found, MusicBrainz::readDisc() will not be available.]])
+])
+AC_SUBST(DISCID_CFLAGS)
+AC_SUBST(DISCID_LIBS)
+
+
 if test "$GCC" = yes; then
   CFLAGS="$CFLAGS -Wall -O2 -DNDEBUG"
 fi

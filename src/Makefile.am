@@ -23,7 +23,7 @@
 SUBDIRS = xmlParser
 
 lib_LTLIBRARIES = libmusicbrainz.la
-AM_CPPFLAGS = -I$(top_srcdir)/include -DMB_API_EXPORTS @CFLAGS@ @NEON_CFLAGS@
+AM_CPPFLAGS = -I$(top_srcdir)/include -DMB_API_EXPORTS @CFLAGS@ @NEON_CFLAGS@ @DISCID_CFLAGS@
 
 libmusicbrainz_la_SOURCES = \
 	artist.cpp artistalias.cpp disc.cpp entity.cpp filters.cpp \
@@ -48,6 +48,6 @@ libmusicbrainz_la_SOURCES = \
 #     set age to 0. 
 #libmusicbrainz_la_LDFLAGS = -version-info 5:0:0 -no-undefined
 libmusicbrainz_la_LDFLAGS = -version-info 4:0:0 -no-undefined -lstdc++ -lm
-libmusicbrainz_la_LIBADD = xmlParser/libxmlParser.la @NEON_LIBS@
+libmusicbrainz_la_LIBADD = xmlParser/libxmlParser.la @NEON_LIBS@ @DISCID_LIBS@
 
 EXTRA_DIST = SConscript

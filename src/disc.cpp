@@ -19,9 +19,14 @@
  *
  * $Id$
  */
- 
-#include <musicbrainz3/disc.h>
+
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+#ifdef HAVE_DISCID
 #include <discid/discid.h>
+#endif
+#include <musicbrainz3/disc.h>
 #include "utilspriv.h"
 
 using namespace std;
@@ -100,6 +105,7 @@ Disc::addTrack(Disc::Track track)
 Disc *
 MusicBrainz::readDisc(const std::string &deviceName)
 {
+#ifdef HAVE_DISCID
 	DiscId *discid = discid_new();
 	if (!discid) {
 		throw DiscError("Couldn't create a new DiscId instance.");
@@ -123,6 +129,9 @@ MusicBrainz::readDisc(const std::string &deviceName)
 	
 	discid_free(discid);
 	return disc;
+#else
+	throw DiscError("libdiscid is not available.");
+#endif
 }
 
 std::string
