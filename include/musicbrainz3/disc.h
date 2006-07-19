@@ -137,7 +137,7 @@ namespace MusicBrainz
 		 * 
 		 * @return a vector of (offset, length) pairs (values are ints)
 		 */
-		const Disc::TrackList &getTracks() const;
+		Disc::TrackList &getTracks();
 		
 		/**
 		 * Adds a track to the list.
@@ -194,7 +194,7 @@ namespace MusicBrainz
 	 *
 	 * @return a pointer to Disc object
 	 *
-	 * @raise DiscError if there was a problem reading the disc
+	 * @throw DiscError if there was a problem reading the disc
 	 */
 	MB_API Disc *readDisc(const std::string &deviceName = std::string());
 

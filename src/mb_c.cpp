@@ -339,6 +339,36 @@ MB_C_INT_GETTER(Disc, disc, Sectors, sectors)
 MB_C_INT_GETTER(Disc, disc, FirstTrackNum, first_track_num)
 MB_C_INT_GETTER(Disc, disc, LastTrackNum, last_track_num)
 
+MbDisc
+mb_read_disc(const char *device_name)
+{
+	try {
+		return (MbDisc)readDisc(device_name);
+	}
+	catch (...) {
+		return NULL;
+	}
+}
+
+void
+mb_get_submission_url(MbDisc disc, const char *host, int port, char *str, int len)
+{
+	try {
+		if (host && port) {
+			strncpy(str, getSubmissionUrl((Disc *)disc, host, port).c_str(), len); 
+		}
+		else if (host) {
+			strncpy(str, getSubmissionUrl((Disc *)disc, host).c_str(), len); 
+		}
+		else {
+			strncpy(str, getSubmissionUrl((Disc *)disc).c_str(), len); 
+		}
+	} 
+	catch (...) { 
+		str[0] = '\0'; 
+	}
+}
+
 /* === MusicBrainz::ArtistFilter === */
 
 MB_C_NEW_NOARGS(ArtistFilter, artist_filter)
