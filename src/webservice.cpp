@@ -39,6 +39,8 @@ using namespace MusicBrainz;
 
 string WebService::systemProxyHost = string();
 int WebService::systemProxyPort = 0;
+string WebService::systemProxyUserName = string();
+string WebService::systemProxyPassword = string();
 
 void
 WebService::init()
@@ -55,7 +57,17 @@ WebService::init()
 				systemProxyHost = string(uri.host); 
 			if (uri.port)
 				systemProxyPort = uri.port;
-			// TODO: parse uri.userinfo
+			if (uri.userinfo) {
+				char *pos = strchr(uri.userinfo, ':');
+				if (pos) {
+					*pos = '\0';
+					systemProxyUserName = string(uri.userinfo);
+					systemProxyPassword = string(pos + 1);
+				}
+				else {
+					systemProxyUserName = string(uri.userinfo);
+				}
+			}
 		}
 		ne_uri_free(&uri);
 	}
@@ -74,7 +86,9 @@ WebService::WebService(const std::string &host,
 	  password(password),
 	  realm(realm),
 	  proxyHost(systemProxyHost),
-	  proxyPort(systemProxyPort)
+	  proxyPort(systemProxyPort),
+	  proxyUserName(systemProxyUserName),
+	  proxyPassword(systemProxyPassword)
 {
 }
 
@@ -85,6 +99,16 @@ WebService::httpAuth(void *userdata, const char *realm, int attempts,
 	WebService *ws = (WebService *)userdata;
 	strncpy(username, ws->username.c_str(), NE_ABUFSIZ);
 	strncpy(password, ws->password.c_str(), NE_ABUFSIZ);
+	return attempts;  	
+}
+
+int
+WebService::proxyAuth(void *userdata, const char *realm, int attempts,
+					 char *username, char *password)
+{
+	WebService *ws = (WebService *)userdata;
+	strncpy(username, ws->proxyUserName.c_str(), NE_ABUFSIZ);
+	strncpy(password, ws->proxyPassword.c_str(), NE_ABUFSIZ);
 	return attempts;  	
 }
 
@@ -117,7 +141,7 @@ WebService::get(const std::string &entity,
 	// Use proxy server
 	if (!proxyHost.empty()) {
 		ne_session_proxy(sess, proxyHost.c_str(), proxyPort);
-		// TODO: ne_set_proxy_auth
+		ne_set_proxy_auth(sess, proxyAuth, this);
 	}
 
 	vector<pair<string, string> > params;
@@ -202,7 +226,7 @@ WebService::post(const std::string &entity,
 	// Use proxy server
 	if (!proxyHost.empty()) {
 		ne_session_proxy(sess, proxyHost.c_str(), proxyPort);
-		// TODO: ne_set_proxy_auth
+		ne_set_proxy_auth(sess, proxyAuth, this);
 	}
 
 	string uri = pathPrefix + "/" + version + "/" + entity + "/" + id;
@@ -348,6 +372,18 @@ int
 WebService::getProxyPort() const
 {
 	return proxyPort;
+}
+
+void
+WebService::setProxyUserName(const std::string &value)
+{
+	proxyUserName = value;
+}
+
+std::string
+WebService::getProxyPassword() const
+{
+	return proxyPassword;
 }
 
 

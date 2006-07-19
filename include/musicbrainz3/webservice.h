@@ -169,6 +169,12 @@ namespace MusicBrainz
 		void setProxyPort(const int port);
 		int getProxyPort() const;
 		
+		void setProxyUserName(const std::string &username);
+		std::string getProxyUserName() const;
+		
+		void setProxyPassword(const std::string &password);
+		std::string getProxyPassword() const;
+		
 		/**
 		 * Query the web service via HTTP-GET.
 		 *
@@ -220,6 +226,8 @@ namespace MusicBrainz
 	
 		static int httpAuth(void *userdata, const char *realm, int attempts,
 							char *username, char *password);
+		static int proxyAuth(void *userdata, const char *realm, int attempts,
+							char *username, char *password);
 		static int httpResponseReader(void *userdata, const char *buf, size_t len);
 	
 		std::string host;
@@ -230,9 +238,13 @@ namespace MusicBrainz
 		std::string realm;
 		std::string proxyHost;
 		int proxyPort;
+		std::string proxyUserName;
+		std::string proxyPassword;
 		
 		static std::string systemProxyHost;
 		static int systemProxyPort;
+		static std::string systemProxyUserName;
+		static std::string systemProxyPassword;
 		
 	};
 	
