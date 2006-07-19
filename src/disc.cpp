@@ -90,8 +90,8 @@ Disc::setLastTrackNum(const int value)
     lastTrackNum = value;
 }
 
-const Disc::TrackList &
-Disc::getTracks() const
+Disc::TrackList &
+Disc::getTracks()
 {
     return tracks;
 }

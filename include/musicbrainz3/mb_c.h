@@ -802,6 +802,22 @@ mb_disc_get_first_track_num(MbDisc disc);
 MB_API int
 mb_disc_get_last_track_num(MbDisc disc);
 
+/**
+ * Reads an Audio CD in the disc drive.
+ *
+ * @see MusicBrainz::readDisc
+ */
+MB_API MbDisc
+mb_read_disc(const char *device_name);
+
+/**
+ * Returns a URL for adding a disc to the MusicBrainz database.
+ *
+ * @see MusicBrainz::getSubmissionUrl
+ */
+MB_API void
+mb_get_submission_url(MbDisc disc, const char *host, int port, char *str, int len);
+
 /* }}} */
 
 #ifdef __cplusplus

@@ -54,8 +54,8 @@ User::setShowNag(bool value)
 	showNag = value;
 }
 
-const std::vector<std::string> &
-User::getTypes() const
+std::vector<std::string> &
+User::getTypes()
 {
 	return types;
 }
