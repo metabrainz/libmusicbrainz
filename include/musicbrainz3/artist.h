@@ -64,7 +64,7 @@ namespace MusicBrainz
 		/**
 		 * Destructor.
 		 */
-		~Artist();
+		virtual ~Artist();
 		
 		/**
 		 * Returns the artist's type.
@@ -278,15 +278,8 @@ namespace MusicBrainz
 		
 	private:
 
-		std::string type;
-		std::string name;
-		std::string sortName;
-		std::string disambiguation;
-		std::string beginDate;
-		std::string endDate;
-		ReleaseList releases;
-		ArtistAliasList aliases;
-		
+		class ArtistPrivate;
+		ArtistPrivate *d;
 	};
 	
 }

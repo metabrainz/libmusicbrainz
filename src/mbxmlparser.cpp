@@ -35,8 +35,7 @@
 using namespace std;
 using namespace MusicBrainz;
 
-namespace MusicBrainz {
-class MbXmlParserPrivate
+class MbXmlParser::MbXmlParserPrivate
 {
 public:
 	MbXmlParserPrivate(/*IFactory *factory*/)/* : factory(factory)*/ {}
@@ -72,7 +71,6 @@ public:
 
 	DefaultFactory factory;
 };
-}
 
 static bool
 getBoolAttr(XMLNode node, string name)
@@ -150,7 +148,7 @@ getInt(XMLNode node, int def = 0)
 } 
 
 Artist *
-MbXmlParserPrivate::createArtist(XMLNode artistNode)
+MbXmlParser::MbXmlParserPrivate::createArtist(XMLNode artistNode)
 {
 	Artist *artist = factory.newArtist();
 	artist->setId(getIdAttr(artistNode, "id", "artist"));
@@ -189,7 +187,7 @@ MbXmlParserPrivate::createArtist(XMLNode artistNode)
 }
 
 ArtistAlias *
-MbXmlParserPrivate::createArtistAlias(XMLNode node)
+MbXmlParser::MbXmlParserPrivate::createArtistAlias(XMLNode node)
 {
 	ArtistAlias *alias = factory.newArtistAlias();
 	alias->setType(getUriAttr(node, "type"));
@@ -208,7 +206,7 @@ getResourceType(const string &type)
 }
 
 Relation *
-MbXmlParserPrivate::createRelation(XMLNode node, const string &targetType)
+MbXmlParser::MbXmlParserPrivate::createRelation(XMLNode node, const string &targetType)
 {
 	Relation *relation = factory.newRelation();
 	
@@ -250,7 +248,7 @@ MbXmlParserPrivate::createRelation(XMLNode node, const string &targetType)
 }
 
 void
-MbXmlParserPrivate::addRelationsToEntity(XMLNode node, Entity *entity)
+MbXmlParser::MbXmlParserPrivate::addRelationsToEntity(XMLNode node, Entity *entity)
 {
 	string targetType = getUriAttr(node, "target-type");
 	if (targetType.empty())
@@ -266,10 +264,8 @@ MbXmlParserPrivate::addRelationsToEntity(XMLNode node, Entity *entity)
 	}
 }
 
-
-
 Release *
-MbXmlParserPrivate::createRelease(XMLNode releaseNode)
+MbXmlParser::MbXmlParserPrivate::createRelease(XMLNode releaseNode)
 {
 	Release *release = factory.newRelease();
 	release->setId(getIdAttr(releaseNode, "id", "release"));
@@ -307,7 +303,7 @@ MbXmlParserPrivate::createRelease(XMLNode releaseNode)
 }
 
 Track *
-MbXmlParserPrivate::createTrack(XMLNode trackNode)
+MbXmlParser::MbXmlParserPrivate::createTrack(XMLNode trackNode)
 {
 	Track *track = factory.newTrack();
 	track->setId(getIdAttr(trackNode, "id", "track"));
@@ -331,7 +327,7 @@ MbXmlParserPrivate::createTrack(XMLNode trackNode)
 }
 
 User *
-MbXmlParserPrivate::createUser(XMLNode userNode)
+MbXmlParser::MbXmlParserPrivate::createUser(XMLNode userNode)
 {
 	User *user = factory.newUser();
 	vector<string> typeList = getUriListAttr(userNode, "type", NS_EXT_1);
@@ -351,7 +347,7 @@ MbXmlParserPrivate::createUser(XMLNode userNode)
 }
 
 Disc *
-MbXmlParserPrivate::createDisc(XMLNode discNode)
+MbXmlParser::MbXmlParserPrivate::createDisc(XMLNode discNode)
 {
 	Disc *disc = factory.newDisc();
 	disc->setId(getTextAttr(discNode, "id"));
@@ -359,7 +355,7 @@ MbXmlParserPrivate::createDisc(XMLNode discNode)
 }
 
 ReleaseEvent *
-MbXmlParserPrivate::createReleaseEvent(XMLNode releaseEventNode)
+MbXmlParser::MbXmlParserPrivate::createReleaseEvent(XMLNode releaseEventNode)
 {
 	ReleaseEvent *releaseEvent = factory.newReleaseEvent();
 	releaseEvent->setCountry(getTextAttr(releaseEventNode, "country"));
@@ -369,7 +365,7 @@ MbXmlParserPrivate::createReleaseEvent(XMLNode releaseEventNode)
 
 template<typename T, typename TL, typename TR>
 void
-MbXmlParserPrivate::addResults(XMLNode listNode, TL &resultList, T *(MbXmlParserPrivate::*creator)(XMLNode))
+MbXmlParser::MbXmlParserPrivate::addResults(XMLNode listNode, TL &resultList, T *(MbXmlParserPrivate::*creator)(XMLNode))
 {
 	for (int i = 0; i < listNode.nChildNode(); i++) {
 		XMLNode node = listNode.getChildNode(i);
@@ -380,26 +376,26 @@ MbXmlParserPrivate::addResults(XMLNode listNode, TL &resultList, T *(MbXmlParser
 }
 
 void
-MbXmlParserPrivate::addArtistResults(XMLNode listNode, ArtistResultList &resultList)
+MbXmlParser::MbXmlParserPrivate::addArtistResults(XMLNode listNode, ArtistResultList &resultList)
 {
 	addResults<Artist, ArtistResultList, ArtistResult>(listNode, resultList, &MbXmlParserPrivate::createArtist);
 }
 
 void
-MbXmlParserPrivate::addReleaseResults(XMLNode listNode, ReleaseResultList &resultList)
+MbXmlParser::MbXmlParserPrivate::addReleaseResults(XMLNode listNode, ReleaseResultList &resultList)
 {
 	addResults<Release, ReleaseResultList, ReleaseResult>(listNode, resultList, &MbXmlParserPrivate::createRelease);
 }
 
 void
-MbXmlParserPrivate::addTrackResults(XMLNode listNode, TrackResultList &resultList)
+MbXmlParser::MbXmlParserPrivate::addTrackResults(XMLNode listNode, TrackResultList &resultList)
 {
 	addResults<Track, TrackResultList, TrackResult>(listNode, resultList, &MbXmlParserPrivate::createTrack);
 }
 
 template<typename T, typename TL>
 void
-MbXmlParserPrivate::addToList(XMLNode listNode, TL &resultList, T *(MbXmlParserPrivate::*creator)(XMLNode))
+MbXmlParser::MbXmlParserPrivate::addToList(XMLNode listNode, TL &resultList, T *(MbXmlParserPrivate::*creator)(XMLNode))
 {
 	for (int i = 0; i < listNode.nChildNode(); i++) {
 		XMLNode node = listNode.getChildNode(i);
@@ -408,55 +404,55 @@ MbXmlParserPrivate::addToList(XMLNode listNode, TL &resultList, T *(MbXmlParserP
 }
 
 void
-MbXmlParserPrivate::addArtistsToList(XMLNode listNode, ArtistList &resultList)
+MbXmlParser::MbXmlParserPrivate::addArtistsToList(XMLNode listNode, ArtistList &resultList)
 {
 	addToList<Artist, ArtistList>(listNode, resultList, &MbXmlParserPrivate::createArtist);
 }
 
 void
-MbXmlParserPrivate::addArtistAliasesToList(XMLNode listNode, ArtistAliasList &resultList)
+MbXmlParser::MbXmlParserPrivate::addArtistAliasesToList(XMLNode listNode, ArtistAliasList &resultList)
 {
 	addToList<ArtistAlias, ArtistAliasList>(listNode, resultList, &MbXmlParserPrivate::createArtistAlias);
 }
 
 void
-MbXmlParserPrivate::addDiscsToList(XMLNode listNode, DiscList &resultList)
+MbXmlParser::MbXmlParserPrivate::addDiscsToList(XMLNode listNode, DiscList &resultList)
 {
 	addToList<Disc, DiscList>(listNode, resultList, &MbXmlParserPrivate::createDisc);
 }
 
 void
-MbXmlParserPrivate::addReleasesToList(XMLNode listNode, ReleaseList &resultList)
+MbXmlParser::MbXmlParserPrivate::addReleasesToList(XMLNode listNode, ReleaseList &resultList)
 {
 	addToList<Release, ReleaseList>(listNode, resultList, &MbXmlParserPrivate::createRelease);
 }
 
 void
-MbXmlParserPrivate::addReleaseEventsToList(XMLNode listNode, ReleaseEventList &resultList)
+MbXmlParser::MbXmlParserPrivate::addReleaseEventsToList(XMLNode listNode, ReleaseEventList &resultList)
 {
 	addToList<ReleaseEvent, ReleaseEventList>(listNode, resultList, &MbXmlParserPrivate::createReleaseEvent);
 }
 
 void
-MbXmlParserPrivate::addTracksToList(XMLNode listNode, TrackList &resultList)
+MbXmlParser::MbXmlParserPrivate::addTracksToList(XMLNode listNode, TrackList &resultList)
 {
 	addToList<Track, TrackList>(listNode, resultList, &MbXmlParserPrivate::createTrack);
 }
 
 void
-MbXmlParserPrivate::addUsersToList(XMLNode listNode, UserList &resultList)
+MbXmlParser::MbXmlParserPrivate::addUsersToList(XMLNode listNode, UserList &resultList)
 {
 	addToList<User, UserList>(listNode, resultList, &MbXmlParserPrivate::createUser);
 }
 
 MbXmlParser::MbXmlParser(/*IFactory &factory*/)
 {
-	priv = new MbXmlParserPrivate();
+	d = new MbXmlParserPrivate();
 }
 
 MbXmlParser::~MbXmlParser()
 {
-	delete priv;
+	delete d;
 }
 
 Metadata *
@@ -474,25 +470,25 @@ MbXmlParser::parse(const std::string &data)
 			XMLNode node = root.getChildNode(i);
 			string name = node.getName(); 
 			if (name == string("artist")) {
-				md->setArtist(priv->createArtist(node));
+				md->setArtist(d->createArtist(node));
 			}
 			else if (name == string("track")) {
-				md->setTrack(priv->createTrack(node));
+				md->setTrack(d->createTrack(node));
 			}
 			else if (name == string("release")) {
-				md->setRelease(priv->createRelease(node));
+				md->setRelease(d->createRelease(node));
 			}
 			else if (name == string("artist-list")) {
-				priv->addArtistResults(node, md->getArtistResults());
+				d->addArtistResults(node, md->getArtistResults());
 			}
 			else if (name == string("track-list")) {
-				priv->addTrackResults(node, md->getTrackResults());
+				d->addTrackResults(node, md->getTrackResults());
 			}
 			else if (name == string("release-list")) {
-				priv->addReleaseResults(node, md->getReleaseResults());
+				d->addReleaseResults(node, md->getReleaseResults());
 			}
 			else if (name == string("ext:user-list")) {
-				priv->addUsersToList(node, md->getUserList());
+				d->addUsersToList(node, md->getUserList());
 			}
 		}
 	}

@@ -43,6 +43,11 @@ namespace MusicBrainz
 		User();
 		
 		/**
+		 * Destructor.
+		 */
+		virtual ~User();
+		
+		/**
 		 * Returns the user name.
 		 *
 		 * @return a string containing the user name   
@@ -120,10 +125,8 @@ namespace MusicBrainz
 		
 	private:
 		
-		std::string name;
-		bool showNag;
-		std::vector<std::string> types;
-		
+		class UserPrivate;
+		UserPrivate *d;
 	};
 	
 }

@@ -29,148 +29,168 @@ using namespace MusicBrainz;
 const string Artist::TYPE_PERSON = NS_MMD_1 + "Person"; 
 const string Artist::TYPE_GROUP = NS_MMD_1 + "Group"; 
 
+class Artist::ArtistPrivate
+{
+public:
+	ArtistPrivate()
+		{}
+	
+	std::string type;
+	std::string name;
+	std::string sortName;
+	std::string disambiguation;
+	std::string beginDate;
+	std::string endDate;
+	ReleaseList releases;
+	ArtistAliasList aliases;
+};
+
 Artist::Artist(const string &id, const string &type, const string &name, const string &sortName)
     : Entity(id)
 {
-    setType(type);
-    setName(name);
-    setSortName(sortName);
+	d = new ArtistPrivate();
+	
+	d->type = type;
+	d->name = name;
+	d->sortName = sortName;
 }
 
 Artist::~Artist()
 {
-	for (ReleaseList::iterator i = releases.begin(); i != releases.end(); i++) 
+	for (ReleaseList::iterator i = d->releases.begin(); i != d->releases.end(); i++) 
 		delete *i;
-	releases.clear();
+	d->releases.clear();
  	
-	for (ArtistAliasList::iterator i = aliases.begin(); i != aliases.end(); i++) 
+	for (ArtistAliasList::iterator i = d->aliases.begin(); i != d->aliases.end(); i++) 
 		delete *i;
-	aliases.clear(); 	
+	d->aliases.clear();
+
+	delete d; 	
 }
 
 string
 Artist::getType() const
 {
-    return type;
+    return d->type;
 }
 
 void
-Artist::setType(const string &value)
+Artist::setType(const string &type)
 {
-    type = value;
+    d->type = type;
 }
 
 string
 Artist::getName() const
 {
-    return name;
+    return d->name;
 }
 
 void
-Artist::setName(const string &value)
+Artist::setName(const string &name)
 {
-    name = value;
+    d->name = name;
 }
 
 string
 Artist::getSortName() const
 {
-    return sortName;
+    return d->sortName;
 }
 
 void
 Artist::setSortName(const string &value)
 {
-    sortName = value;
+    d->sortName = value;
 }
 
 string
 Artist::getDisambiguation() const
 {
-    return disambiguation;
+    return d->disambiguation;
 }
 
 void
-Artist::setDisambiguation(const string &value)
+Artist::setDisambiguation(const string &disambiguation)
 {
-    disambiguation = value;
+    d->disambiguation = disambiguation;
 }
 
 string
 Artist::getUniqueName() const
 {
-    return disambiguation.empty() ? name : name + " (" + disambiguation +")";
+    return d->disambiguation.empty() ? d->name : d->name + " (" + d->disambiguation +")";
 }
 
 string
 Artist::getBeginDate() const
 {
-    return beginDate;
+    return d->beginDate;
 }
 
 void
-Artist::setBeginDate(const string &value)
+Artist::setBeginDate(const string &beginDate)
 {
-    beginDate = value;
+    d->beginDate = beginDate;
 }
 
 string
 Artist::getEndDate() const
 {
-    return endDate;
+    return d->endDate;
 }
 
 void
-Artist::setEndDate(const string &value)
+Artist::setEndDate(const string &endDate)
 {
-    endDate = value;
+    d->endDate = endDate;
 } 
 
 ReleaseList &
 Artist::getReleases()
 {
-    return releases;
+    return d->releases;
 }
 
 void
 Artist::addRelease(Release *release)
 {
-    releases.push_back(release);
+    d->releases.push_back(release);
 }
 
 ArtistAliasList &
 Artist::getAliases()
 {
-    return aliases;
+    return d->aliases;
 }
 
 void
 Artist::addAlias(ArtistAlias *alias)
 {
-    aliases.push_back(alias);
+    d->aliases.push_back(alias);
 }
 
 int
 Artist::getNumReleases() const
 {
-	return releases.size();
+	return d->releases.size();
 }
 
 Release * 
 Artist::getRelease(int i)
 {
-	return releases[i];
+	return d->releases[i];
 }
 
 int
 Artist::getNumAliases() const
 {
-	return aliases.size();
+	return d->aliases.size();
 }
 
 ArtistAlias * 
 Artist::getAlias(int i)
 {
-	return aliases[i];
+	return d->aliases[i];
 }
 

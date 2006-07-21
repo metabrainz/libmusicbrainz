@@ -154,11 +154,8 @@ namespace MusicBrainz
 		
 	private:
 
-		std::string id;
-		int sectors;
-		int firstTrackNum;
-		int lastTrackNum;
-		Disc::TrackList tracks;
+		class DiscPrivate;
+		DiscPrivate *d;
 	};
 	
 	/**

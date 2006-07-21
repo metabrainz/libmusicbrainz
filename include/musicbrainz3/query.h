@@ -253,9 +253,8 @@ namespace MusicBrainz
 		
 	private:
 	
-		IWebService *ws;
-		bool own_ws;
-		std::string clientId;		
+		class QueryPrivate;
+		QueryPrivate *d;
 	};
 	
 }

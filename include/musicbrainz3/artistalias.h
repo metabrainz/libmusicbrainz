@@ -56,6 +56,11 @@ namespace MusicBrainz
 					const std::string &script = std::string());
 		
 		/**
+		 * Destructor.
+		 */
+		virtual ~ArtistAlias(); 
+		
+		/**
 		 * Returns the alias.	
 		 *
 		 * @return a string containing the alias 
@@ -99,9 +104,8 @@ namespace MusicBrainz
 		
 	private:
 		
-		std::string value;
-		std::string type;
-		std::string script;
+		class ArtistAliasPrivate;
+		ArtistAliasPrivate *d;
 	};
 	
 }

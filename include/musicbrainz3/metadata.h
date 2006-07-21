@@ -137,13 +137,8 @@ namespace MusicBrainz
 		
 	private:
 	
-		Artist *artist;
-		Track *track;
-		Release *release;
-		UserList userList;
-		ArtistResultList artistResults;
-		TrackResultList trackResults;
-		ReleaseResultList releaseResults;
+		class MetadataPrivate;
+		MetadataPrivate *d;
 	};
 	
 }

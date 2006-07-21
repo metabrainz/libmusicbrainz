@@ -279,14 +279,8 @@ namespace MusicBrainz
 		
 	private:
 		
-		std::string type;
-		std::string targetType;
-		std::string targetId;
-		Direction direction;
-		Attributes attributes;
-		std::string beginDate;
-		std::string endDate;
-		Entity *target;
+		class RelationPrivate;
+		RelationPrivate *d;
 	};
 	
 }

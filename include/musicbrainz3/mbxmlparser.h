@@ -30,55 +30,56 @@
 
 namespace MusicBrainz
 {
-    
-    /**
-     * Exception to be thrown if a parse error occurs. 
-     */
-    class MB_API ParseError : public Exception
-    {
+
+	/**
+	 * Exception to be thrown if a parse error occurs. 
+	 */
+	class MB_API ParseError : public Exception
+	{
 	public:
 		ParseError(const std::string &msg = std::string()) : Exception(msg) {}
-    };
-    
-	class MbXmlParserPrivate;
+	};
+   
 	
-    /**
-     * A parser for the Music Metadata XML format.
-     *
-     * @see <a href="http://musicbrainz.org/development/mmd/">The Music
-     *      Metadata XML Format</a>
-     */
-    class MB_API MbXmlParser
-    {
-    public:
+	/**
+	 * A parser for the Music Metadata XML format.
+	 *
+	 * @see <a href="http://musicbrainz.org/development/mmd/">The Music
+	 *      Metadata XML Format</a>
+	 */
+	class MB_API MbXmlParser
+	{
+	public:
 
-        /**
-         * Constructor. 
-         */
-        MbXmlParser(/*IFactory factory = DefaultFactory()*/);
-		
-        /**
-         * Destructor. 
-         */
+		/**
+		 * Constructor. 
+		 */
+		MbXmlParser(/*IFactory factory = DefaultFactory()*/);
+
+		/**
+		 * Destructor. 
+		 */
 		virtual ~MbXmlParser();
-        
-        /**
-         * Parses the MusicBrainz web service XML.
-         *
-         * Returns a Metadata object representing the parsed XML or
-         * raises a ParseError exception if the data was malformed.
-         * The parser tries to be liberal and skips invalid content if
-         * possible.
-         *
-         * @param data a string containing the XML data
-         * @return a Metadata object (never NULL)
-         * @throw ParseError if the document is not valid
-         */
-        Metadata *parse(const std::string &data);
+
+		/**
+		 * Parses the MusicBrainz web service XML.
+		 *
+		 * Returns a Metadata object representing the parsed XML or
+		 * raises a ParseError exception if the data was malformed.
+		 * The parser tries to be liberal and skips invalid content if
+		 * possible.
+		 *
+		 * @param data a string containing the XML data
+		 * @return a Metadata object (never NULL)
+		 * @throw ParseError if the document is not valid
+		 */
+		Metadata *parse(const std::string &data);
        
 	private:
-		MbXmlParserPrivate *priv;
-    };
+	
+		class MbXmlParserPrivate;
+		MbXmlParserPrivate *d;
+	};
     
 }
 

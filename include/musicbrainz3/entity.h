@@ -151,8 +151,8 @@ namespace MusicBrainz
 		
 	private:
 
-		std::string id;
-		RelationList relations;
+		class EntityPrivate;
+		EntityPrivate *d;
 	};
 	
 }

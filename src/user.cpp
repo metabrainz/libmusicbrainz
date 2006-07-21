@@ -26,55 +26,73 @@
 using namespace std;
 using namespace MusicBrainz;
 
+class User::UserPrivate
+{
+public:
+	UserPrivate() :
+		showNag(false)
+		{}
+		
+	std::string name;
+	bool showNag;
+	std::vector<std::string> types;
+};
+
 User::User()
 {
+	d = new UserPrivate();
+}
+
+User::~User()
+{
+	delete d;
 }
 
 string
 User::getName() const
 {
-	return name;
+	return d->name;
 }
 
 void
 User::setName(const string &value)
 {
-	name = value;
+	d->name = value;
 }
 
 bool
 User::getShowNag() const
 {
-	return showNag;
+	return d->showNag;
 }
 
 void
 User::setShowNag(bool value)
 {
-	showNag = value;
+	d->showNag = value;
 }
 
 std::vector<std::string> &
 User::getTypes()
 {
-	return types;
+	return d->types;
 }
 
 void
 User::addType(const string &type)
 {
-	types.push_back(type);
+	d->types.push_back(type);
 }
 
 int
 User::getNumTypes() const
 {
-	return types.size();
+	return d->types.size();
 }
 
 string 
 User::getType(int i) const
 {
-	return types[i];
+	return d->types[i];
 }
 

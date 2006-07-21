@@ -32,74 +32,94 @@
 using namespace std;
 using namespace MusicBrainz;
 
-Disc::Disc(const string &id)
-	: id(id)
+class Disc::DiscPrivate
 {
+public:
+	DiscPrivate() :
+		sectors(0),
+		firstTrackNum(0),
+		lastTrackNum(0)
+		{}
+	
+	std::string id;
+	int sectors;
+	int firstTrackNum;
+	int lastTrackNum;
+	Disc::TrackList tracks;
+};
+
+Disc::Disc(const string &id)
+{
+	d = new DiscPrivate();
+	
+	d->id = id;
 }
 
 Disc::~Disc()
 {
-    tracks.clear();
+    d->tracks.clear();
+	
+	delete d;
 }
 
 string
 Disc::getId() const
 {
-    return id;
+    return d->id;
 }
 
 void
 Disc::setId(const string &value)
 {
-    id = value;
+    d->id = value;
 }
 
 int
 Disc::getSectors() const
 {
-    return sectors;
+    return d->sectors;
 }
 
 void
 Disc::setSectors(const int value)
 {
-    sectors = value;
+    d->sectors = value;
 }
 
 int
 Disc::getFirstTrackNum() const
 {
-    return firstTrackNum;
+    return d->firstTrackNum;
 }
 
 void
 Disc::setFirstTrackNum(const int value)
 {
-    firstTrackNum = value;
+    d->firstTrackNum = value;
 }
 
 int
 Disc::getLastTrackNum() const
 {
-    return lastTrackNum;
+    return d->lastTrackNum;
 }
 
 void
 Disc::setLastTrackNum(const int value)
 {
-    lastTrackNum = value;
+    d->lastTrackNum = value;
 }
 
 Disc::TrackList &
 Disc::getTracks()
 {
-    return tracks;
+    return d->tracks;
 }
 
 void
 Disc::addTrack(Disc::Track track)
 {
-    tracks.push_back(track);
+    d->tracks.push_back(track);
 }
 
 Disc *
