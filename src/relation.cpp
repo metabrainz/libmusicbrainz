@@ -31,6 +31,22 @@ const string Relation::TO_RELEASE = NS_MMD_1 + "Release";
 const string Relation::TO_TRACK = NS_MMD_1 + "Track"; 
 const string Relation::TO_URL = NS_MMD_1 + "Url"; 
 
+class Relation::RelationPrivate
+{
+public:
+	RelationPrivate()
+		{}
+	
+	std::string type;
+	std::string targetType;
+	std::string targetId;
+	Direction direction;
+	Attributes attributes;
+	std::string beginDate;
+	std::string endDate;
+	Entity *target;
+};
+
 Relation::Relation(const std::string &relationType,
 				   const std::string &targetType,
 				   const std::string &targetId,
@@ -39,128 +55,132 @@ Relation::Relation(const std::string &relationType,
 				   const std::string &beginDate,
 				   const std::string &endDate,
 				   Entity *target)
-	: type(relationType),
-	  targetType(targetType),
-	  targetId(targetId),
-	  direction(direction),
-	  attributes(attributes),
-	  beginDate(beginDate),
-	  endDate(endDate),
-	  target(target)
 {
+	d = new RelationPrivate();
+	
+	d->type = relationType;
+	d->targetType = targetType;
+	d->targetId = targetId;
+	d->direction = direction;
+	d->attributes = attributes;
+	d->beginDate = beginDate;
+	d->endDate = endDate;
+	d->target = target;
 }
 
 Relation::~Relation()
 {
-	if (target)
-		delete target;
+	if (d->target)
+		delete d->target;
+	
+	delete d;
 }
 
 string
 Relation::getType() const
 {
-	return type;
+	return d->type;
 }
 
 void
 Relation::setType(const string &value)
 {
-	type = value;
+	d->type = value;
 }
 
 string
 Relation::getTargetId() const
 {
-	return targetId;
+	return d->targetId;
 }
 
 void
 Relation::setTargetId(const string &value)
 {
-	targetId = value;
+	d->targetId = value;
 }
 
 Relation::Direction
 Relation::getDirection() const
 {
-	return direction;
+	return d->direction;
 }
 
 void
 Relation::setDirection(const Relation::Direction value)
 {
-	direction = value;
+	d->direction = value;
 }
 
 string
 Relation::getTargetType() const
 {
-	return targetType;
+	return d->targetType;
 }
 
 void
 Relation::setTargetType(const string &value)
 {
-	targetType = value;
+	d->targetType = value;
 }
 
 Entity *
 Relation::getTarget() const
 {
-	return target;
+	return d->target;
 }
 
 void
 Relation::setTarget(Entity *value)
 {
-	target = value;
+	d->target = value;
 }
 
 Relation::Attributes &
 Relation::getAttributes()
 {
-	return attributes;
+	return d->attributes;
 }
 
 void
 Relation::addAttribute(const string &value)
 {
-	attributes.push_back(value);
+	d->attributes.push_back(value);
 }
 
 string
 Relation::getBeginDate() const
 {
-	return beginDate;
+	return d->beginDate;
 }
 
 void
 Relation::setBeginDate(const string &value)
 {
-	beginDate = value;
+	d->beginDate = value;
 }
 
 string
 Relation::getEndDate() const
 {
-	return endDate;
+	return d->endDate;
 }
 
 void
 Relation::setEndDate(const string &value)
 {
-	endDate = value;
+	d->endDate = value;
 } 
 
 int
 Relation::getNumAttributes() const
 {
-	return attributes.size();
+	return d->attributes.size();
 }
 
 string
 Relation::getAttribute(int i) const
 {
-	return attributes[i];
+	return d->attributes[i];
 }
 

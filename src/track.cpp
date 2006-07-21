@@ -26,54 +26,71 @@
 using namespace std;
 using namespace MusicBrainz;
 
-Track::Track(const string &id, const string &title)
-    : Entity(id), artist(0), duration(0)
+class Track::TrackPrivate
 {
-    setTitle(title);
+public:
+	TrackPrivate() :
+		artist(0),
+		duration(0)
+		{}
+		
+	std::string title;
+	Artist *artist;
+	int duration;
+};
+
+Track::Track(const string &id, const string &title)
+    : Entity(id)
+{
+	d = new TrackPrivate();
+	
+	d->title = title;
 }
 
 Track::~Track()
 {
-	if (artist)
-		delete artist;
+	if (d->artist)
+		delete d->artist;
+	
+	delete d;
 }
 
 string
 Track::getTitle() const
 {
-    return title;
+    return d->title;
 }
 
 void
 Track::setTitle(const string &value)
 {
-    title = value;
+    d->title = value;
 }
 
 Artist *
 Track::getArtist()
 {
-	return artist;
+	return d->artist;
 }
 
 void
 Track::setArtist(Artist *value)
 {
-	if (artist)
-		delete artist;
-	artist = value;
+	if (d->artist)
+		delete d->artist;
+	d->artist = value;
 }
 
 int
 Track::getDuration() const
 {
-    return duration;
+    return d->duration;
 }
 
 void
 Track::setDuration(const int value)
 {
-    duration = value;
+    d->duration = value;
 }
 
 

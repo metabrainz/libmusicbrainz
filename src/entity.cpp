@@ -26,28 +26,42 @@
 using namespace std;
 using namespace MusicBrainz;
 
+class Entity::EntityPrivate
+{
+public:
+	EntityPrivate()
+		{}
+	
+	std::string id;
+	RelationList relations;
+};
+
 Entity::Entity(const string &id)
 {
-	setId(id);
+	d = new EntityPrivate();
+	
+	d->id = id;
 }
 
 Entity::~Entity()
 {
-	for (RelationList::iterator i = relations.begin(); i != relations.end(); i++) 
+	for (RelationList::iterator i = d->relations.begin(); i != d->relations.end(); i++) 
 		delete *i;
-	relations.clear();
+	d->relations.clear();
+	
+	delete d;
 }
 
 string
 Entity::getId() const
 {
-	return id;
+	return d->id;
 }
 
 void
 Entity::setId(const string &id)
 {
-	this->id = id;
+	d->id = id;
 }
 
 RelationList 
@@ -55,26 +69,26 @@ Entity::getRelations(const std::string &targetType,
 					 const std::string &relationType) const
 {
 	if (targetType.empty() && relationType.empty())
-		return relations;
+		return d->relations;
 	
 	RelationList result;
 	
 	if (targetType.empty()) {
-		for (RelationList::const_iterator i = relations.begin(); i != relations.end(); i++) {
+		for (RelationList::const_iterator i = d->relations.begin(); i != d->relations.end(); i++) {
 			if ((*i)->getType() == relationType) {
 				result.push_back(*i);
 			}
 		}
 	}
 	else if (relationType.empty()) {
-		for (RelationList::const_iterator i = relations.begin(); i != relations.end(); i++) {
+		for (RelationList::const_iterator i = d->relations.begin(); i != d->relations.end(); i++) {
 			if ((*i)->getTargetType() == targetType) {
 				result.push_back(*i);
 			}
 		}
 	}
 	else {
-		for (RelationList::const_iterator i = relations.begin(); i != relations.end(); i++) {
+		for (RelationList::const_iterator i = d->relations.begin(); i != d->relations.end(); i++) {
 			if ((*i)->getType() == relationType && (*i)->getTargetType() == targetType) {
 				result.push_back(*i);
 			}
@@ -87,18 +101,18 @@ Entity::getRelations(const std::string &targetType,
 void
 Entity::addRelation(Relation *relation)
 {
-	relations.push_back(relation);
+	d->relations.push_back(relation);
 }
 
 int
 Entity::getNumRelations() const
 {
-	return relations.size();
+	return d->relations.size();
 }
 
 Relation * 
 Entity::getRelation(int i)
 {
-	return relations[i];
+	return d->relations[i];
 }
 

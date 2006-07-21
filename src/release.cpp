@@ -44,155 +44,177 @@ const string Release::TYPE_OFFICIAL = NS_MMD_1 + "Official";
 const string Release::TYPE_PROMOTION = NS_MMD_1 + "Promotion";
 const string Release::TYPE_BOOTLEG = NS_MMD_1 + "Bootleg";	
 
-Release::Release(const string &id, const string &title)
-	: Entity(id), artist(0)
+class Release::ReleasePrivate
 {
-	setTitle(title);
+public:
+	ReleasePrivate() :
+		artist(NULL)
+		{}
+	
+	std::string title;
+	std::string textLanguage;
+	std::string textScript;
+	std::string asin;
+	Artist *artist;
+	TrackList tracks;
+	int tracksOffset;
+	DiscList discs;
+	ReleaseEventList releaseEvents;
+};
+
+Release::Release(const string &id, const string &title)
+	: Entity(id)
+{
+	d = new ReleasePrivate();
+	
+	d->title = title;
 }
 
 Release::~Release()
 {
-	if (artist)
-		delete artist;
+	if (d->artist)
+		delete d->artist;
 	
-	for (TrackList::iterator i = tracks.begin(); i != tracks.end(); i++) 
+	for (TrackList::iterator i = d->tracks.begin(); i != d->tracks.end(); i++) 
 		delete *i;
-	tracks.clear();
+	d->tracks.clear();
 	
-	for (DiscList::iterator i = discs.begin(); i != discs.end(); i++) 
+	for (DiscList::iterator i = d->discs.begin(); i != d->discs.end(); i++) 
 		delete *i;
-	discs.clear();
+	d->discs.clear();
 	
-	for (ReleaseEventList::iterator i = releaseEvents.begin(); i != releaseEvents.end(); i++) 
+	for (ReleaseEventList::iterator i = d->releaseEvents.begin(); i != d->releaseEvents.end(); i++) 
 		delete *i;
-	releaseEvents.clear();
+	d->releaseEvents.clear();
+	
+	delete d;
 }
 
 string
 Release::getTitle() const
 {
-	return title;
+	return d->title;
 }
 
 void
 Release::setTitle(const string &value)
 {
-	title = value;
+	d->title = value;
 }
 
 string
 Release::getTextLanguage() const
 {
-	return textLanguage;
+	return d->textLanguage;
 }
 
 void
 Release::setTextLanguage(const string &value)
 {
-	textLanguage = value;
+	d->textLanguage = value;
 }
 
 string
 Release::getTextScript() const
 {
-	return textScript;
+	return d->textScript;
 }
 
 void
 Release::setTextScript(const string &value)
 {
-	textScript = value;
+	d->textScript = value;
 }
 
 Artist *
 Release::getArtist()
 {
-	return artist;
+	return d->artist;
 }
 
 void
 Release::setArtist(Artist *value)
 {
-	if (artist)
-		delete artist;
-	artist = value;
+	if (d->artist)
+		delete d->artist;
+	d->artist = value;
 }
 
 string
 Release::getAsin() const
 {
-	return asin;
+	return d->asin;
 }
 
 void
 Release::setAsin(const string &value)
 {
-	asin = value;
+	d->asin = value;
 }
 
 TrackList &
 Release::getTracks()
 {
-	return tracks;
+	return d->tracks;
 }
 
 int
 Release::getTracksOffset() const
 {
-	return tracksOffset;
+	return d->tracksOffset;
 }
 
 void
 Release::setTracksOffset(const int value)
 {
-	tracksOffset = value;
+	d->tracksOffset = value;
 }
 
 DiscList &
 Release::getDiscs()
 {
-	return discs;
+	return d->discs;
 }
 
 ReleaseEventList &
 Release::getReleaseEvents()
 {
-	return releaseEvents;
+	return d->releaseEvents;
 }
 
 int
 Release::getNumReleaseEvents() const
 {
-	return releaseEvents.size();
+	return d->releaseEvents.size();
 }
 
 ReleaseEvent * 
 Release::getReleaseEvent(int i)
 {
-	return releaseEvents[i];
+	return d->releaseEvents[i];
 }
 
 int
 Release::getNumDiscs() const
 {
-	return discs.size();
+	return d->discs.size();
 }
 
 Disc * 
 Release::getDisc(int i)
 {
-	return discs[i];
+	return d->discs[i];
 }
 
 int
 Release::getNumTracks() const
 {
-	return tracks.size();
+	return d->tracks.size();
 }
 
 Track * 
 Release::getTrack(int i)
 {
-	return tracks[i];
+	return d->tracks[i];
 }
 

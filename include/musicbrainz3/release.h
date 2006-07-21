@@ -308,15 +308,8 @@ namespace MusicBrainz
 		
 	private:
 		
-		std::string title;
-		std::string textLanguage;
-		std::string textScript;
-		std::string asin;
-		Artist *artist;
-		TrackList tracks;
-		int tracksOffset;
-		DiscList discs;
-		ReleaseEventList releaseEvents;
+		class ReleasePrivate;
+		ReleasePrivate *d;
 	};
 	
 }

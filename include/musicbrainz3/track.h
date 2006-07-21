@@ -118,9 +118,8 @@ namespace MusicBrainz
 		
 	private:
 		
-		std::string title;
-		Artist *artist;
-		int duration;
+		class TrackPrivate;
+		TrackPrivate *d;
 	};
 	
 }

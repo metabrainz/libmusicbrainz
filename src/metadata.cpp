@@ -24,142 +24,162 @@
 
 using namespace MusicBrainz;
 
-Metadata::Metadata()
-    : artist(NULL), track(NULL), release(NULL)
+class Metadata::MetadataPrivate
 {
+public:
+	MetadataPrivate() :
+		artist(NULL),
+		track(NULL),
+		release(NULL)
+		{}
+	
+	Artist *artist;
+	Track *track;
+	Release *release;
+	UserList userList;
+	ArtistResultList artistResults;
+	TrackResultList trackResults;
+	ReleaseResultList releaseResults;
+};
+
+Metadata::Metadata()
+{
+	d = new MetadataPrivate();
 }
 
 Metadata::~Metadata()
 {
-	if (artist)
-		delete artist;
+	if (d->artist)
+		delete d->artist;
 	
-	if (track)
-		delete track;
+	if (d->track)
+		delete d->track;
 	
-	if (release)
-		delete release;
+	if (d->release)
+		delete d->release;
 	
-	for (UserList::iterator i = userList.begin(); i != userList.end(); i++) 
+	for (UserList::iterator i = d->userList.begin(); i != d->userList.end(); i++) 
 		delete *i;
-	userList.clear();
+	d->userList.clear();
 	
-	for (ArtistResultList::iterator i = artistResults.begin(); i != artistResults.end(); i++) 
+	for (ArtistResultList::iterator i = d->artistResults.begin(); i != d->artistResults.end(); i++) 
 		delete *i;
-	artistResults.clear();
+	d->artistResults.clear();
 	
-	for (ReleaseResultList::iterator i = releaseResults.begin(); i != releaseResults.end(); i++) 
+	for (ReleaseResultList::iterator i = d->releaseResults.begin(); i != d->releaseResults.end(); i++) 
 		delete *i;
-	releaseResults.clear();
+	d->releaseResults.clear();
 	
-	for (TrackResultList::iterator i = trackResults.begin(); i != trackResults.end(); i++) 
+	for (TrackResultList::iterator i = d->trackResults.begin(); i != d->trackResults.end(); i++) 
 		delete *i;
-	trackResults.clear();
+	d->trackResults.clear();
+	
+	delete d;
 }
 
 void 
 Metadata::setArtist(Artist *value)
 {
-	if (artist)
-		delete artist;
-    artist = value;
+	if (d->artist)
+		delete d->artist;
+    d->artist = value;
 }
 
 void 
 Metadata::setTrack(Track *value)
 {
-	if (track)
-		delete track;
-    track = value;
+	if (d->track)
+		delete d->track;
+    d->track = value;
 }
 void 
 Metadata::setRelease(Release *value)
 {
-	if (release)
-		delete release;
-    release = value;
+	if (d->release)
+		delete d->release;
+    d->release = value;
 }
 
 Artist * 
 Metadata::getArtist(bool remove)
 {
-	Artist *ret = artist;
+	Artist *ret = d->artist;
 	if (remove)
-		artist = NULL;
+		d->artist = NULL;
     return ret;
 }
 
 Track * 
 Metadata::getTrack(bool remove)
 {
-	Track *ret = track;
+	Track *ret = d->track;
 	if (remove)
-		track = NULL;
+		d->track = NULL;
     return ret;
 }
 
 Release * 
 Metadata::getRelease(bool remove)
 {
-	Release *ret = release;
+	Release *ret = d->release;
 	if (remove)
-		release = NULL;
+		d->release = NULL;
     return ret;
 }
 
 UserList &
 Metadata::getUserList()
 {
-	return userList;
+	return d->userList;
 }
 
 ArtistResultList &
 Metadata::getArtistResults()
 {
-	return artistResults;
+	return d->artistResults;
 }
 
 TrackResultList &
 Metadata::getTrackResults()
 {
-	return trackResults;
+	return d->trackResults;
 }
 
 ReleaseResultList &
 Metadata::getReleaseResults()
 {
-	return releaseResults;
+	return d->releaseResults;
 }
 
 UserList 
 Metadata::getUserList(bool remove)
 {
-	UserList list = userList;
-	userList.clear();
+	UserList list = d->userList;
+	d->userList.clear();
 	return list;
 }
 
 ArtistResultList 
 Metadata::getArtistResults(bool remove)
 {
-	ArtistResultList list = artistResults;
-	artistResults.clear();
+	ArtistResultList list = d->artistResults;
+	d->artistResults.clear();
 	return list;
 }
 
 TrackResultList 
 Metadata::getTrackResults(bool remove)
 {
-	TrackResultList list = trackResults;
-	trackResults.clear();
+	TrackResultList list = d->trackResults;
+	d->trackResults.clear();
 	return list;
 }
 
 ReleaseResultList 
 Metadata::getReleaseResults(bool remove)
 {
-	ReleaseResultList list = releaseResults;
-	releaseResults.clear();
+	ReleaseResultList list = d->releaseResults;
+	d->releaseResults.clear();
 	return list;
 }
 

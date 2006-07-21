@@ -48,6 +48,11 @@ namespace MusicBrainz
 		 */
 		ReleaseEvent(const std::string &country = std::string(),
 					 const std::string &dateStr = std::string());
+
+		/**
+		 * Destructor.
+		 */
+		virtual ~ReleaseEvent();
 		
 		/**
 		 * Returns the country a release took place.
@@ -85,8 +90,8 @@ namespace MusicBrainz
 		
 	private:
 		
-		std::string country;
-		std::string dateStr;
+		class ReleaseEventPrivate;
+		ReleaseEventPrivate *d;
 	};
 	
 }

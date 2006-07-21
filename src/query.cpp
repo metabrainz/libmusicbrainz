@@ -31,19 +31,38 @@
 using namespace std;
 using namespace MusicBrainz;
 
-Query::Query(IWebService *ws_, const string &clientId)
-	: ws(ws_), own_ws(false), clientId(clientId) 
+class Query::QueryPrivate
 {
-	if (!ws) {
-		ws = new WebService();
-		own_ws = true;
+public:
+	QueryPrivate() :
+		ws(NULL),
+		ownWs(false)
+		{}
+	
+	IWebService *ws;
+	bool ownWs;
+	std::string clientId;		
+};
+
+Query::Query(IWebService *ws, const string &clientId)
+{
+	d = new QueryPrivate();
+	
+	d->ws = ws;
+	d->clientId = clientId;
+	
+	if (!d->ws) {
+		d->ws = new WebService();
+		d->ownWs = true;
 	}
 }
 
 Query::~Query()
 {
-	if (own_ws && ws)
-		delete ws;
+	if (d->ownWs && d->ws)
+		delete d->ws;
+	
+	delete d;
 }
 
 Artist *
@@ -126,7 +145,7 @@ Query::getFromWebService(const string &entity,
 {
 	const IIncludes::IncludeList includeParams(include ? include->createIncludeTags() : IIncludes::IncludeList());
 	const IFilter::ParameterList filterParams(filter ? filter->createParameters() : IFilter::ParameterList());
-	string content = ws->get(entity, id, includeParams, filterParams);
+	string content = d->ws->get(entity, id, includeParams, filterParams);
 	try {
 		MbXmlParser parser;
 		return parser.parse(content);
@@ -139,12 +158,12 @@ Query::getFromWebService(const string &entity,
 void
 Query::submitPuids(const map<string, string> &tracks2puids)
 {
-	if (clientId.empty())
+	if (d->clientId.empty())
 		throw WebServiceError("Please supply a client ID");
 	vector<pair<string, string> > params;
-	params.push_back(pair<string, string>("client", clientId));
+	params.push_back(pair<string, string>("client", d->clientId));
 	for (map<string, string>::const_iterator i = tracks2puids.begin(); i != tracks2puids.end(); i++) 
 		params.push_back(pair<string, string>("puid", extractUuid(i->first) + " " + i->second));
-	ws->post("track", "", urlEncode(params));	
+	d->ws->post("track", "", urlEncode(params));	
 }
 

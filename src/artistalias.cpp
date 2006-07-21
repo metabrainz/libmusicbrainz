@@ -25,44 +25,64 @@
 using namespace std;
 using namespace MusicBrainz;
 
-ArtistAlias::ArtistAlias(const string &value, const string &type, const string &script)
-	: value(value), type(type), script(script)
+class ArtistAlias::ArtistAliasPrivate
 {
+public:
+	ArtistAliasPrivate()
+		{}
+	
+	std::string value;
+	std::string type;
+	std::string script;
+};
+
+ArtistAlias::ArtistAlias(const string &value, const string &type, const string &script)
+{
+	d = new ArtistAliasPrivate();
+	
+	d->value = value;
+	d->type = type;
+	d->script = script;
+}
+
+ArtistAlias::~ArtistAlias()
+{
+	delete d;
 }
 
 string
 ArtistAlias::getType() const
 {
-	return type;
+	return d->type;
 }
 
 void
-ArtistAlias::setType(const string &value)
+ArtistAlias::setType(const string &type)
 {
-	type = value;
+	d->type = type;
 }
 
 string
 ArtistAlias::getValue() const
 {
-	return value;
+	return d->value;
 }
 
 void
-ArtistAlias::setValue(const string &value_)
+ArtistAlias::setValue(const string &value)
 {
-	value = value_;
+	d->value = value;
 }
 
 string
 ArtistAlias::getScript() const
 {
-	return script;
+	return d->script;
 }
 
 void
-ArtistAlias::setScript(const string &value)
+ArtistAlias::setScript(const string &script)
 {
-	script = value;
+	d->script = script;
 }
 
