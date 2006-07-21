@@ -27,7 +27,7 @@
 extern "C" {
 #endif
 
-#include <musicbrainz3/config.h>
+#include <musicbrainz3/defines.h>
 
 /*
   TODO:

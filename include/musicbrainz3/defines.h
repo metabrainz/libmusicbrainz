@@ -34,7 +34,6 @@
 #		define MB_API __declspec(dllimport)
 #	endif
 #else
-#	define MB_EXPIMP_TEMPLATE
 #	ifdef GCC_HASCLASSVISIBILITY
 #		define MB_API __attribute__ ((visibility("default")))
 #	else

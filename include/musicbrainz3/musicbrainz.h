@@ -23,7 +23,7 @@
 #ifndef __MUSICBRAINZ3_MUSICBRAINZ_H__
 #define __MUSICBRAINZ3_MUSICBRAINZ_H__
 
-#include <musicbrainz3/config.h>
+#include <musicbrainz3/defines.h>
 
 #include <exception>
 #include <string>
