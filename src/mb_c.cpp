@@ -46,6 +46,28 @@ using namespace MusicBrainz;
 		delete (TYPE1 *)o; \
 	} 
 
+#define MB_C_STR_SETTER(TYPE1, TYPE2, PROP1, PROP2) \
+	void \
+	mb_##TYPE2##_set_##PROP2(Mb##TYPE1 o, const char *str) \
+	{ \
+		try { \
+			((TYPE1 *)o)->set##PROP1(str); \
+		} \
+		catch (...) { \
+		} \
+	} 
+
+#define MB_C_INT_SETTER(TYPE1, TYPE2, PROP1, PROP2) \
+	void \
+	mb_##TYPE2##_set_##PROP2(Mb##TYPE1 o, int i) \
+	{ \
+		try { \
+			((TYPE1 *)o)->set##PROP1(i); \
+		} \
+		catch (...) { \
+		} \
+	} 
+
 #define MB_C_STR_GETTER(TYPE1, TYPE2, PROP1, PROP2) \
 	void \
 	mb_##TYPE2##_get_##PROP2(Mb##TYPE1 o, char *str, int len) \
@@ -169,6 +191,19 @@ mb_webservice_init()
 {
 	WebService::init();
 }
+
+MB_C_NEW_NOARGS(WebService, webservice)
+MB_C_FREE(WebService, webservice)
+MB_C_STR_SETTER(WebService, webservice, Host, host)
+MB_C_INT_SETTER(WebService, webservice, Port, port)
+MB_C_STR_SETTER(WebService, webservice, PathPrefix, path_prefix)
+MB_C_STR_SETTER(WebService, webservice, UserName, username)
+MB_C_STR_SETTER(WebService, webservice, Password, password)
+MB_C_STR_SETTER(WebService, webservice, Realm, realm)
+MB_C_STR_SETTER(WebService, webservice, ProxyHost, proxy_host)
+MB_C_INT_SETTER(WebService, webservice, ProxyPort, proxy_port)
+MB_C_STR_SETTER(WebService, webservice, ProxyUserName, proxy_username)
+MB_C_STR_SETTER(WebService, webservice, ProxyPassword, proxy_password)
 
 /* === MusicBrainz::Query === */
 

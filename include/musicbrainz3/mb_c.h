@@ -64,6 +64,82 @@ typedef void *MbWebService;
 MB_API void
 mb_webservice_init();
 
+/**
+ * Creates a new instance of MbWebService.
+ *
+ * @see MusicBrainz::WebService::WebService
+ */
+MB_API MbWebService
+mb_webservice_new();
+
+/**
+ * Deletes the MbWebService instance.
+ *
+ * @see MusicBrainz::WebService::~WebService
+ */
+MB_API void
+mb_webservice_free(MbWebService webservice);
+
+/**
+ * @see MusicBrainz::WebService::setHost
+ */
+MB_API void
+mb_webservice_set_host(MbWebService webservice, const char *str);
+
+/**
+ * @see MusicBrainz::WebService::setPort
+ */
+MB_API void
+mb_webservice_set_port(MbWebService webservice, int port);
+
+/**
+ * @see MusicBrainz::WebService::setPathPrefix
+ */
+MB_API void
+mb_webservice_set_path_prefix(MbWebService webservice, const char *str);
+
+/**
+ * @see MusicBrainz::WebService::setUserName
+ */
+MB_API void
+mb_webservice_set_username(MbWebService webservice, const char *str);
+
+/**
+ * @see MusicBrainz::WebService::setPassword
+ */
+MB_API void
+mb_webservice_set_password(MbWebService webservice, const char *str);
+
+/**
+ * @see MusicBrainz::WebService::setRealm
+ */
+MB_API void
+mb_webservice_set_realm(MbWebService webservice, const char *str);
+
+/**
+ * @see MusicBrainz::WebService::setProxyHost
+ */
+MB_API void
+mb_webservice_set_proxy_host(MbWebService webservice, const char *str);
+
+/**
+ * @see MusicBrainz::WebService::setProxyPort
+ */
+MB_API void
+mb_webservice_set_proxy_port(MbWebService webservice, int port);
+
+/**
+ * @see MusicBrainz::WebService::setProxyUserName
+ */
+MB_API void
+mb_webservice_set_proxy_username(MbWebService webservice, const char *str);
+
+/**
+ * @see MusicBrainz::WebService::setProxyPassword
+ */
+MB_API void
+mb_webservice_set_proxy_password(MbWebService webservice, const char *str);
+
 /* }}} */
 
 /* {{{ MusicBrainz::Query */
