@@ -386,4 +386,10 @@ WebService::getProxyPassword() const
 	return proxyPassword;
 }
 
+void
+WebService::setProxyPassword(const std::string &value)
+{
+	proxyPassword = value;
+}
+
 
