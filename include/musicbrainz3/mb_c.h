@@ -61,9 +61,6 @@ typedef void *MbWebService;
 
 /* {{{ MusicBrainz::WebService */
 
-MB_API void
-mb_webservice_init();
-
 /**
  * Creates a new instance of MbWebService.
  *
