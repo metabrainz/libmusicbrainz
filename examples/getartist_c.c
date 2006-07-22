@@ -21,8 +21,6 @@ main(int argc, char **argv)
 		return 1;
 	}
 	
-	mb_webservice_init();
-	
 	query = mb_query_new(NULL, NULL);
 	
 	artist = mb_query_get_artist_by_id(query, argv[1], NULL);

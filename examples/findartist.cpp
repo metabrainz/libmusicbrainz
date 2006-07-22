@@ -16,8 +16,6 @@ using namespace MusicBrainz;
 int
 main(int argc, char **argv)
 {
-	WebService::init();
-	
 	if (argc < 2) {
 		cout << "Usage: findartist 'artist name'" << endl;
 		return 1;
