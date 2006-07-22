@@ -1,18 +1,14 @@
-Import('env')
+from glob import glob
 
-env.Program("findartist", ["findartist.cpp"],
-            LIBPATH=["#src"], LIBS=["musicbrainz3"])
+Import("env")
+env = env.Copy()
 
-env.Program("findtrack", ["findtrack.cpp"],
-            LIBPATH=["#src"], LIBS=["musicbrainz3"])
+env.Append(LIBPATH=["#src"])
+env.Append(LIBS=["musicbrainz3"])
 
-env.Program("getartist_c", ["getartist_c.c"],
-            LIBPATH=["#src"], LIBS=["musicbrainz3"])
+for source in glob("*.c") + glob("*.cpp"):
+    example = env.Program(source.split(".")[0], [source])
+    env.DistSources(example)
 
-env.Program("getartist", ["getartist.cpp"],
-            LIBPATH=["#src"], LIBS=["musicbrainz3"])
-
-env.Program("getuser", ["getuser.cpp"],
-            LIBPATH=["#src"], LIBS=["musicbrainz3"])
-
+env.DistFiles(Split("Makefile.am SConscript"))
 

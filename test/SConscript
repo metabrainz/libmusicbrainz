@@ -1,36 +1,23 @@
-import sys
-import os.path
-Import('env')
+from glob import glob
 
-dist_files = [
-    'SConscript',
-    'main.cpp',
-    'read_file.h',
-    'test_first.cpp',
-    'test_model.cpp',
-    'test_parser.cpp',
-    'test_parser_artist.cpp',
-    'test_parser_release.cpp',
-    'test_parser_track.cpp',
-    'test_parser_user.cpp',
-    'test_utils.cpp',
-    'test_ws_filters.cpp',
-    'test_ws_includes.cpp',
-    'test_ws.cpp',
-    'test_disc.cpp'
-    ]
-    
-sources = filter(lambda src: src.endswith('.cpp'), dist_files)
+Import("env")
 
-test = env.Program('test',
-                   sources,
-                   LIBPATH=['#src'],
-                   LIBS=['musicbrainz3', 'cppunit'])
+test_runner = env.Program(
+    "test_runner",
+    glob("*.cpp"),
+    LIBPATH=["#src"],
+    LIBS=["musicbrainz3", "cppunit"])
 
-if sys.platform == 'win32':
-    env.AddPostAction(test, "cd src && %s && cd .." % (test[0].abspath,))
+if env["PLATFORM"] == "win32":
+    env.AddPostAction(test_runner,
+        "cd src && %s && cd .." % (test_runner[0].abspath,))
 else:
-    env.AddPostAction(test, "cd test && LD_LIBRARY_PATH=../src %s && cd .." % (test[0].abspath,))
+    env.AddPostAction(test_runner,
+        "cd test && LD_LIBRARY_PATH=../src %s && cd .." % (test_runner[0].abspath,))
     
-env.DistFiles(dist_files)
+env.Alias("check", test_runner)
+    
+env.DistSources(test_runner)
+env.DistFiles(glob("*.h"))
+env.DistFiles(Split("Makefile.am SConscript"))
 

@@ -26,3 +26,6 @@ mb_inc_HEADERS = \
 	iwebservice.h lists.h mbxmlparser.h metadata.h model.h musicbrainz.h \
 	relation.h release.h releaseevent.h results.h track.h user.h utils.h \
 	webservice.h mb_c.h
+
+EXTRA_DIST = SConscript
+
