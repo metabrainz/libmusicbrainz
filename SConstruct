@@ -25,7 +25,7 @@ env = Environment(
 env['PACKAGE'] = PACKAGE
 env['VERSION'] = VERSION
 
-env.Append(CPPPATH=['#.', '#lib', '#include'])
+env.Append(CPPPATH=['#.', '#include'])
 
 if env['PLATFORM'] == 'win32':
     env.Append(CPPDEFINES=['WIN32', '_WINDOWS'])

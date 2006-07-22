@@ -33,7 +33,7 @@ namespace MusicBrainz
 #ifndef NDEBUG 
 	void debug(const char *fmt, ...);
 #else
-	inline void debug(const char *fmt, ...) {};
+	inline void debug(const char *fmt, ...) {}
 #endif
 	
 	std::string intToString(const int i);
