@@ -79,6 +79,8 @@ webServiceInit()
 				systemProxyHost = string(uri.host); 
 			if (uri.port)
 				systemProxyPort = uri.port;
+// neon 0.26
+#ifdef NE_FEATURE_I18N	
 			if (uri.userinfo) {
 				char *pos = strchr(uri.userinfo, ':');
 				if (pos) {
@@ -90,6 +92,20 @@ webServiceInit()
 					systemProxyUserName = string(uri.userinfo);
 				}
 			}
+// neon 0.25
+#else
+			if (uri.authinfo) {
+				char *pos = strchr(uri.authinfo, ':');
+				if (pos) {
+					*pos = '\0';
+					systemProxyUserName = string(uri.authinfo);
+					systemProxyPassword = string(pos + 1);
+				}
+				else {
+					systemProxyUserName = string(uri.authinfo);
+				}
+			}
+#endif
 		}
 		ne_uri_free(&uri);
 	}

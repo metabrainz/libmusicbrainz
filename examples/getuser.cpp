@@ -17,8 +17,6 @@ using namespace MusicBrainz;
 int
 main(int argc, char **argv)
 {
-	WebService::init();
-	
 	string username;
 	cout << "User name: ";
 	cin >> username;
