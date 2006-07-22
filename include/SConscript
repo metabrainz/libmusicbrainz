@@ -1,0 +1,5 @@
+Import("env")
+
+env.DistFiles(Split("Makefile.am SConscript"))
+
+env.SConscript("musicbrainz3/SConscript")
