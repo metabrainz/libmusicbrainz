@@ -145,6 +145,11 @@ namespace MusicBrainz
 				   const std::string &password = std::string(),
 				   const std::string &realm = "musicbrainz.org");
 
+		/**
+		 * Destructor.
+		 */
+		virtual ~WebService();
+		
 		void setHost(const std::string &host);
 		std::string getHost() const;
 		
@@ -215,13 +220,6 @@ namespace MusicBrainz
 				   const std::string &data,
 				   const std::string &version = "1");
 		
-		/**
-		 * Initialized networking environment required by the web service.
-		 *
-		 * @note You must call this function at start of your program.
-		 */
-		static void init();
-		
 	private:
 	
 		static int httpAuth(void *userdata, const char *realm, int attempts,
@@ -229,23 +227,9 @@ namespace MusicBrainz
 		static int proxyAuth(void *userdata, const char *realm, int attempts,
 							char *username, char *password);
 		static int httpResponseReader(void *userdata, const char *buf, size_t len);
-	
-		std::string host;
-		int port;
-		std::string pathPrefix;
-		std::string username;
-		std::string password;
-		std::string realm;
-		std::string proxyHost;
-		int proxyPort;
-		std::string proxyUserName;
-		std::string proxyPassword;
-		
-		static std::string systemProxyHost;
-		static int systemProxyPort;
-		static std::string systemProxyUserName;
-		static std::string systemProxyPassword;
-		
+
+		class WebServicePrivate;
+		WebServicePrivate *d;
 	};
 	
 }

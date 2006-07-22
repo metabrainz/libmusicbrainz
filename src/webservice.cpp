@@ -37,14 +37,36 @@
 using namespace std;
 using namespace MusicBrainz;
 
-string WebService::systemProxyHost = string();
-int WebService::systemProxyPort = 0;
-string WebService::systemProxyUserName = string();
-string WebService::systemProxyPassword = string();
-
-void
-WebService::init()
+class WebService::WebServicePrivate
 {
+public:
+	WebServicePrivate()
+		{}
+		
+	std::string host;
+	int port;
+	std::string pathPrefix;
+	std::string username;
+	std::string password;
+	std::string realm;
+	std::string proxyHost;
+	int proxyPort;
+	std::string proxyUserName;
+	std::string proxyPassword;
+};
+
+static bool webServiceInitialized = false;
+static string systemProxyHost = string();
+static int systemProxyPort = 0;
+static string systemProxyUserName = string();
+static string systemProxyPassword = string();
+
+static void
+webServiceInit()
+{
+	if (webServiceInitialized)
+		return;
+	
 	ne_sock_init();
 	
 	// Parse http_proxy environmnent variable	
@@ -71,6 +93,8 @@ WebService::init()
 		}
 		ne_uri_free(&uri);
 	}
+	
+	webServiceInitialized = true;
 }
 
 WebService::WebService(const std::string &host,
@@ -79,17 +103,25 @@ WebService::WebService(const std::string &host,
 					   const std::string &username,
 					   const std::string &password,
 					   const std::string &realm)
-	: host(host),
-	  port(port),
-	  pathPrefix(pathPrefix),
-	  username(username),
-	  password(password),
-	  realm(realm),
-	  proxyHost(systemProxyHost),
-	  proxyPort(systemProxyPort),
-	  proxyUserName(systemProxyUserName),
-	  proxyPassword(systemProxyPassword)
 {
+	webServiceInit();
+	
+	d = new WebServicePrivate();
+	d->host = host;
+	d->port = port;
+	d->pathPrefix = pathPrefix;
+	d->username = username;
+	d->password = password;
+	d->realm = realm;
+	d->proxyHost = systemProxyHost;
+	d->proxyPort = systemProxyPort;
+	d->proxyUserName = systemProxyUserName;
+	d->proxyPassword = systemProxyPassword;
+}
+
+WebService::~WebService()
+{
+	delete d;
 }
 
 int
@@ -97,8 +129,8 @@ WebService::httpAuth(void *userdata, const char *realm, int attempts,
 					 char *username, char *password)
 {
 	WebService *ws = (WebService *)userdata;
-	strncpy(username, ws->username.c_str(), NE_ABUFSIZ);
-	strncpy(password, ws->password.c_str(), NE_ABUFSIZ);
+	strncpy(username, ws->d->username.c_str(), NE_ABUFSIZ);
+	strncpy(password, ws->d->password.c_str(), NE_ABUFSIZ);
 	return attempts;  	
 }
 
@@ -107,8 +139,8 @@ WebService::proxyAuth(void *userdata, const char *realm, int attempts,
 					 char *username, char *password)
 {
 	WebService *ws = (WebService *)userdata;
-	strncpy(username, ws->proxyUserName.c_str(), NE_ABUFSIZ);
-	strncpy(password, ws->proxyPassword.c_str(), NE_ABUFSIZ);
+	strncpy(username, ws->d->proxyUserName.c_str(), NE_ABUFSIZ);
+	strncpy(password, ws->d->proxyPassword.c_str(), NE_ABUFSIZ);
 	return attempts;  	
 }
 
@@ -130,17 +162,17 @@ WebService::get(const std::string &entity,
 	ne_session *sess;
 	ne_request *req;
 	
-	debug("Connecting to http://%s:%d", host.c_str(), port);
+	debug("Connecting to http://%s:%d", d->host.c_str(), d->port);
 	
-	sess = ne_session_create("http", host.c_str(), port);
+	sess = ne_session_create("http", d->host.c_str(), d->port);
 	if (!sess) 
 		throw WebServiceError("ne_session_create() failed.");
 	ne_set_server_auth(sess, httpAuth, this);
 	ne_set_useragent(sess, PACKAGE"/"VERSION);
 	
 	// Use proxy server
-	if (!proxyHost.empty()) {
-		ne_session_proxy(sess, proxyHost.c_str(), proxyPort);
+	if (!d->proxyHost.empty()) {
+		ne_session_proxy(sess, d->proxyHost.c_str(), d->proxyPort);
 		ne_set_proxy_auth(sess, proxyAuth, this);
 	}
 
@@ -159,7 +191,7 @@ WebService::get(const std::string &entity,
 	for (IFilter::ParameterList::const_iterator i = filter.begin(); i != filter.end(); i++)  
 		params.push_back(pair<string, string>(i->first, i->second));
 
-	string uri = pathPrefix + "/" + version + "/" + entity + "/" + id + "?" + urlEncode(params);
+	string uri = d->pathPrefix + "/" + version + "/" + entity + "/" + id + "?" + urlEncode(params);
 	
 	debug("GET %s", uri.c_str());
 	
@@ -215,21 +247,21 @@ WebService::post(const std::string &entity,
 	ne_session *sess;
 	ne_request *req;
 	
-	debug("Connecting to http://%s:%d", host.c_str(), port);
+	debug("Connecting to http://%s:%d", d->host.c_str(), d->port);
 	
-	sess = ne_session_create("http", host.c_str(), port);
+	sess = ne_session_create("http", d->host.c_str(), d->port);
 	if (!sess) 
 		throw WebServiceError("ne_session_create() failed.");
 	ne_set_server_auth(sess, httpAuth, this);
 	ne_set_useragent(sess, PACKAGE"/"VERSION);
 
 	// Use proxy server
-	if (!proxyHost.empty()) {
-		ne_session_proxy(sess, proxyHost.c_str(), proxyPort);
+	if (!d->proxyHost.empty()) {
+		ne_session_proxy(sess, d->proxyHost.c_str(), d->proxyPort);
 		ne_set_proxy_auth(sess, proxyAuth, this);
 	}
 
-	string uri = pathPrefix + "/" + version + "/" + entity + "/" + id;
+	string uri = d->pathPrefix + "/" + version + "/" + entity + "/" + id;
 	
 	debug("POST %s", uri.c_str());
 	debug("POST-BODY:\n%s", data.c_str());
@@ -281,115 +313,115 @@ WebService::post(const std::string &entity,
 void
 WebService::setHost(const std::string &value)
 {
-	host = value;
+	d->host = value;
 }
 
 std::string
 WebService::getHost() const
 {
-	return host;
+	return d->host;
 }
 
 void
 WebService::setPort(const int value)
 {
-	port = value;
+	d->port = value;
 }
 
 int
 WebService::getPort() const
 {
-	return port;
+	return d->port;
 }
 
 void
 WebService::setPathPrefix(const std::string &value)
 {
-	pathPrefix = value;
+	d->pathPrefix = value;
 }
 
 std::string
 WebService::getPathPrefix() const
 {
-	return pathPrefix;
+	return d->pathPrefix;
 }
 
 void
 WebService::setUserName(const std::string &value)
 {
-	username = value;
+	d->username = value;
 }
 
 std::string
 WebService::getUserName() const
 {
-	return username;
+	return d->username;
 }
 
 void
 WebService::setPassword(const std::string &value)
 {
-	password = value;
+	d->password = value;
 }
 
 std::string
 WebService::getPassword() const
 {
-	return password;
+	return d->password;
 }
 
 void
 WebService::setRealm(const std::string &value)
 {
-	realm = value;
+	d->realm = value;
 }
 
 std::string
 WebService::getRealm() const
 {
-	return realm;
+	return d->realm;
 }
 
 void
 WebService::setProxyHost(const std::string &value)
 {
-	proxyHost = value;
+	d->proxyHost = value;
 }
 
 std::string
 WebService::getProxyHost() const
 {
-	return proxyHost;
+	return d->proxyHost;
 }
 
 void
 WebService::setProxyPort(const int value)
 {
-	proxyPort = value;
+	d->proxyPort = value;
 }
 
 int
 WebService::getProxyPort() const
 {
-	return proxyPort;
+	return d->proxyPort;
 }
 
 void
 WebService::setProxyUserName(const std::string &value)
 {
-	proxyUserName = value;
+	d->proxyUserName = value;
 }
 
 std::string
 WebService::getProxyPassword() const
 {
-	return proxyPassword;
+	return d->proxyPassword;
 }
 
 void
 WebService::setProxyPassword(const std::string &value)
 {
-	proxyPassword = value;
+	d->proxyPassword = value;
 }
 
 

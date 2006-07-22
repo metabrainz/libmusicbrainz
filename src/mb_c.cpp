@@ -186,12 +186,6 @@ using namespace MusicBrainz;
 
 /* === MusicBrainz::WebService === */
 
-void
-mb_webservice_init()
-{
-	WebService::init();
-}
-
 MB_C_NEW_NOARGS(WebService, webservice)
 MB_C_FREE(WebService, webservice)
 MB_C_STR_SETTER(WebService, webservice, Host, host)
