@@ -12,8 +12,8 @@ def env_subst(target, source, env):
     text = env.subst(source_file.read())
     # Autoconf-like substs
     for key, value in env.items():
-        value = str(value)
-        text = text.replace('@%s@' % (key,), value)
+        if isinstance(value, str) or isinstance(value, unicode):
+            text = text.replace('@%s@' % (key,), value)
         
     target_file.write(text)
     target_file.write("\n")
