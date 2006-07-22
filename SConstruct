@@ -1,38 +1,56 @@
 import os
-import os.path
-import sys
-import glob
+from glob import glob
 
-version = '3.0.0dev'
+EnsureSConsVersion(0, 96, 91)
 
-env = Environment(ENV=os.environ,
-                  PACKAGE='libmusicbrainz',
-                  VERSION=version,
-                  toolpath=['scons'],
-                  tools=['default', 'env_subst', 'dist', 'install'])
+PACKAGE = 'libmusicbrainz3'
+VERSION = '3.0.0dev'
+
+opts = Options('build.options', ARGUMENTS)
+opts.AddOptions(
+    BoolOption('debug', 'Compile with debug symbols', 0),
+    ('tools', 'Tools to use to build', 'default')
+)
+
+baseenv = Environment(options=opts)
+Help(opts.GenerateHelpText(baseenv))
+
+env = Environment(
+    ENV=os.environ,
+    options=opts,
+    toolpath=['build/scons'],
+    tools=Split(baseenv['tools']) + ['env_subst', 'dist', 'install']
+)
+
+env['PACKAGE'] = PACKAGE
+env['VERSION'] = VERSION
 
 env.Append(CPPPATH=['#.', '#lib', '#include'])
 
-env.Append(CPPDEFINES=['NDEBUG'])
-if sys.platform == 'win32':
-    env.Append(CPPDEFINES=['WIN32'])
+if env['PLATFORM'] == 'win32':
+    env.Append(CPPDEFINES=['WIN32', '_WINDOWS'])
+
+if 'msvc' in env['TOOLS']:
+    env.Append(CCFLAGS=['/GX', '/MD', '/W3', '/WX'])
+else:
+    env.Append(CCFLAGS=['-Wall', '-pedantic']) 
     
-if 'msvc' in env.get('TOOLS', []):
-	env.Append(CCFLAGS=['/O2', '/GX', '/MD', '/W3', '/WX']) 
-    
-if 'gcc' in env.get('TOOLS', []):
-    env.Append(CCFLAGS=['-O2', '-g', '-Wall', '-pedantic']) 
+if env['debug']:
+    if 'msvc' in env['TOOLS']:
+        env.Append(CCFLAGS=['/Zi']) 
+    else:
+        env.Append(CCFLAGS=['-g']) 
+else:
+    env.Append(CPPDEFINES=['NDEBUG'])
+    if 'msvc' in env['TOOLS']:
+        env.Append(CCFLAGS=['/O2'])
+    else:
+        env.Append(CCFLAGS=['-O2']) 
 
 Export('env') 
 
-SConscript([
-    'examples/SConscript',           
-    'src/SConscript',           
-    'test/SConscript',           
-    ])  
-
 # Configuration file
-env.EnvSubstFile('config.h',  'config_win32.h.in')
+env.EnvSubstFile('config.h',  'config.h.scons')
 
 # API documentation
 docs = env.Command('docs/index.html', '', 'doxygen')
@@ -47,25 +65,30 @@ env.Alias('install', env.Install('$pkgconfigdir',
                                  env.EnvSubstFile('libmusicbrainz3.pc',
                                                   'libmusicbrainz3.pc.in')))
 
-# Default targets
+extra_dist_files = Split("""
+    AUTHORS
+    autogen.sh
+    config.h.scons
+    configure.ac
+    COPYING
+    Doxyfile.in
+    ChangeLog
+    INSTALL
+    libmusicbrainz3.pc.in
+    Makefile.am
+    README
+    SConstruct
+    """)
+
+env.DistFiles(glob("scons/*.py"))
+env.DistFiles(extra_dist_files)
+
+env.SConscript(Split("""
+    examples/SConscript           
+    include/SConscript           
+    src/SConscript           
+    test/SConscript           
+    """))
+    
 env.Default('src')
-
-#env.Install(dir = '/usr/local/bin', source = ['foo', 'bar'])
-
-dist_files = [
-    'AUTHORS',
-    'COPYING',
-    'Doxyfile.in',
-    'ChangeLog',
-    'INSTALL',
-    'README',
-    'README.win32',
-    'SConstruct',
-    'TODO',
-    'config_win32.h.in',
-    'libmusicbrainz3.pc.in',
-    ]
-dist_files += glob.glob('scons/*.py')
-
-env.DistFiles(dist_files)
 

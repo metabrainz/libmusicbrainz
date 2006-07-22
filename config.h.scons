@@ -1,5 +1,5 @@
-#ifndef _CONFIG_WIN32_H_
-#define _CONFIG_WIN32_H_
+#ifndef __CONFIG_H__
+#define __CONFIG_H__
 
 #define PACKAGE "@PACKAGE@"
 #define VERSION "@VERSION@"

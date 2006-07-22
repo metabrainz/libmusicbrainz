@@ -1,49 +1,22 @@
-import sys
-import glob
+from glob import glob
 
-Import('*') 
+Import("env")
+env = env.Copy()
 
-dist_files = [
-    'SConscript',
-    'artist.cpp',
-    'artistalias.cpp',
-    'disc.cpp',
-    'entity.cpp',
-    'filters.cpp',
-    'includes.cpp',
-    'mbxmlparser.cpp',
-    'mb_c.cpp',
-    'metadata.cpp',
-    'query.cpp',
-    'relation.cpp',
-    'release.cpp',
-    'releaseevent.cpp',
-    'results.cpp',
-    'track.cpp',
-    'user.cpp',
-    'utils.cpp',
-    'utilspriv.cpp',
-    'webservice.cpp',
-    'xmlParser/xmlParser.h',
-    'xmlParser/xmlParser.cpp',
-    ]
+env.Append(CPPDEFINES=['MB_API_EXPORTS'])
 
-sources = filter(lambda src: src.endswith('.cpp'), dist_files)
+if env["PLATFORM"] == "win32":
+    env.Append(LIBS=Split("advapi32 neon wsock32 discid winmm"))
+else:
+    env.Append(LIBS=Split("neon discid"))
 
-includes = glob.glob('../include/musicbrainz3/*.h')
-dist_files += includes
+musicbrainz3 = env.SharedLibrary(
+    "musicbrainz3",
+    glob("*.cpp") + glob("xmlParser/*.cpp"))
 
-cpp_paths = env.get('CPPPATH', []) + ['#src', '#include/musicbrainz3']
-cpp_defines = env.get('CPPDEFINES', []) + ['MB_API_EXPORTS']
-    
-musicbrainz3 = env.SharedLibrary('musicbrainz3',
-                                 sources,
-                                 CPPPATH=cpp_paths,
-                                 CPPDEFINES=cpp_defines,
-                                 LIBS=['advapi32', 'neon', 'wsock32', 'discid', 'winmm'])
+env.Alias("install", env.Install("$libdir", musicbrainz3))
 
-env.Alias('install', env.Install('$libdir', musicbrainz3))
-env.Alias('install', env.Install('$includedir/musicbrainz3', includes))
-
-env.DistFiles(dist_files)
+env.DistSources(musicbrainz3)
+env.DistFiles(glob("*.h"))
+env.DistFiles(Split("Makefile.am SConscript"))
 

@@ -21,3 +21,6 @@
 #
 
 SUBDIRS = musicbrainz3
+
+EXTRA_DIST = SConscript
+
