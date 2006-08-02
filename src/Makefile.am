@@ -30,7 +30,8 @@ libmusicbrainz_la_SOURCES = \
 	includes.cpp mbxmlparser.cpp metadata.cpp relation.cpp release.cpp \
 	releaseevent.cpp results.cpp track.cpp user.cpp utils.cpp \
 	webservice.cpp utilspriv.cpp query.cpp mb_c.cpp utils_countrynames.h \
-    utils_languagenames.h utils_releasetypenames.h utils_scriptnames.h
+	utils_languagenames.h utils_releasetypenames.h utils_scriptnames.h \
+	utilspriv.h
 
 # Here are a set of rules to help you update your library version information:
 #  Scheme: current:revsion:age
