@@ -11,7 +11,7 @@ test_runner_SOURCES = \
 	main.cpp test_first.cpp test_model.cpp test_parser.cpp \
 	test_parser_artist.cpp test_parser_release.cpp test_parser_track.cpp \
 	test_parser_user.cpp test_utils.cpp test_ws_filters.cpp \
-	test_ws_includes.cpp test_ws.cpp test_disc.cpp
+	test_ws_includes.cpp test_ws.cpp test_disc.cpp read_file.h
 
 AM_CPPFLAGS = -I$(top_srcdir)/include @CPPUNIT_CFLAGS@
 
