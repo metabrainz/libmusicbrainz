@@ -27,4 +27,4 @@ pcdir = $(libdir)/pkgconfig
 pc_DATA = libmusicbrainz3.pc
 
 EXTRA_DIST = test-data libmusicbrainz3.pc.in Doxyfile.in \
-	README.win32 config.h.scons SConstruct build/scons
+	config.h.scons SConstruct build/scons
