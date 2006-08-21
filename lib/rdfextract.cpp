@@ -73,6 +73,7 @@ RDFExtract::RDFExtract(const string &rdfDocument, bool useUTF8)
                string(line);
        hasError = true;
    }
+   RDF_ParserFree(parser); 
 }
 
 RDFExtract::~RDFExtract(void)
