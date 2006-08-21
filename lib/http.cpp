@@ -437,7 +437,7 @@ Error MBHttp::Download(const string &url, const string &xml, bool fileDownload)
                 }while(IsntError(result) && !IsHTTPHeaderComplete(buffer, total));
                 // If this is a continue response, skip the first header
                 // and keep on truckin'
-                if (buffer[9] == '1')
+                if (total >= 10 && buffer[9] == '1')
                 {
                     char *cp;
 
