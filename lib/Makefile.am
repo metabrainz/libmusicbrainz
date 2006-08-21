@@ -46,7 +46,7 @@ nodist_libmusicbrainz_la_SOURCES = mb.cpp
 #     increment age.
 #  6. If any interfaces have been removed since the last public release, then 
 #     set age to 0. 
-libmusicbrainz_la_LDFLAGS = -version-info 4:1:0 -no-undefined
+libmusicbrainz_la_LDFLAGS = -version-info 4:2:0 -no-undefined
 libmusicbrainz_la_LIBADD = @EXPAT_LIBS@ -lstdc++ -lm
 
 noinst_HEADERS = \

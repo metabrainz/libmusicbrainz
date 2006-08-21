@@ -1,3 +1,11 @@
+Changes for libmusicbrainz 2.1.4
+-------------------------------------
+
+   - Fixed buffer overflows in the RDF parsing and HTTP code. Patch by
+     Martin Schulze. (#2066)
+   - Fixed memory leaks in RDFExtract. (#2061)
+   - Fixed invalid memory access in the HTTP code. (#2033)
+
 Changes for libmusicbrainz 2.1.3
 -------------------------------------
 
