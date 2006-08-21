@@ -550,6 +550,7 @@ parse_uri(
 {
 	const XML_Char* s = NULL;
 	XML_Char* d = NULL;
+	XML_Char* endp = NULL;
 
 	*scheme = NULL;
 	*authority = NULL;
@@ -559,6 +560,7 @@ parse_uri(
 
 	s = uri;
 	d = buffer;
+	endp = d + len;
 
 	if( is_absolute_uri( uri ) )
 	{
@@ -566,10 +568,12 @@ parse_uri(
 
 		while( *s != T( ':' ) )
 		{
-			*d++ = *s++;
+			if (d < endp)
+				*d++ = *s++;
 		}
 
-		*d++ = 0;
+		if (d < endp)
+			*d++ = 0;
 
 		++s;
 	}
@@ -586,10 +590,12 @@ parse_uri(
 			&& *s != T( '?' ) 
 			&& *s != T( '#' ) )
 		{
-			*d++ = *s++;
+			if (d < endp)
+				*d++ = *s++;
 		}
 
-		*d++ = 0;
+		if (d < endp)
+			*d++ = 0;
 	}
 
 	if( *s != 0 && *s != T( '?' ) && *s != T( '#' ) )
@@ -600,10 +606,12 @@ parse_uri(
 			&& *s != T( '?' ) 
 			&& *s != T( '#' ) )
 		{
-			*d++ = *s++;
+			if (d < endp)
+				*d++ = *s++;
 		}
 
-		*d++ = 0;
+		if (d < endp)
+			*d++ = 0;
 	}
 
 	if( *s != 0 && *s == T( '?' ) )
@@ -615,10 +623,12 @@ parse_uri(
 		while( *s != 0 
 			&& *s != T( '#' ) )
 		{
-			*d++ = *s++;
+			if (d < endp)
+				*d++ = *s++;
 		}
 
-		*d++ = 0;
+		if (d < endp)
+			*d++ = 0;
 	}
 
 	if( *s != 0 && *s == T( '#' ) )
@@ -629,10 +639,12 @@ parse_uri(
 
 		while( *s != 0 )
 		{
-			*d++ = *s++;
+			if (d < endp)
+				*d++ = *s++;
 		}
 
-		*d = 0;
+		if (d < endp)
+			*d = 0;
 	}
 }
 
@@ -680,17 +692,24 @@ resolve_uri_reference(
 		&& reference_path == NULL
 		&& reference_query == NULL )
 	{
-		tcscpy( buffer, base_uri );
+		tcsncpy( buffer, base_uri, length - 1 );
 
 		if( reference_fragment != NULL )
 		{
-			tcscat( buffer, T( "#" ) );
-			tcscat( buffer, reference_fragment );
+			length -= tcslen(buffer);
+			if ( length > 1 )
+			{
+				tcsncat( buffer, T( "#" ), length - 1 );
+				if ( length > 2 )
+				{
+					tcsncat( buffer, reference_fragment, length - 1 );
+				}
+			}
 		}
 	}
 	else if( reference_scheme != NULL )
 	{
-		tcscpy( buffer, reference_uri );
+		tcsncpy( buffer, reference_uri, length - 1 );
 	}
 	else
 	{
@@ -739,10 +758,12 @@ resolve_uri_reference(
 				{
 					XML_Char* s = base_path;
 					XML_Char* d = path_buffer;
+					XML_Char* endp = d + 255;
 					
 					while( s <= p )
 					{
-						*d++ = *s++;
+						if (d < endp)
+							*d++ = *s++;
 					}
 
 					*d++ = 0;
@@ -750,7 +771,7 @@ resolve_uri_reference(
 
 				if( reference_path != NULL )
 				{
-					tcscat( path_buffer, reference_path );
+					tcsncat( path_buffer, reference_path, 255 );
 				}
 
 				{
@@ -766,12 +787,14 @@ resolve_uri_reference(
 							if( p == ( s - 1 ) && *p == T( '.' ) )
 							{
 								XML_Char* d = p;
+								XML_Char* endp = path_buffer + 255;
 
 								++s;
 
 								while( *s != 0 )
 								{
-									*d++ = *s++;
+									if (d < endp)
+										*d++ = *s++;
 								}
 
 								*d = 0;
@@ -828,12 +851,14 @@ resolve_uri_reference(
 										&& *( p + 1 ) != T( '.' ) )
 									{
 										XML_Char* d = p;
+										XML_Char* endp = path_buffer + 255;
 
 										++s;
 
 										while( *s != 0 )
 										{
-											*d++ = *s++;
+											if (d < endp)
+												*d++ = *s++;
 										}
 
 										*d = 0;

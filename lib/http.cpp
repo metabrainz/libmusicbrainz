@@ -237,8 +237,8 @@ Error MBHttp::Download(const string &url, const string &xml, bool fileDownload)
         {
             hostname[0] = 0;
             numFields = sscanf(m_proxy.c_str(), 
-                               "http://%[^:/]:%hu", hostname, &port);
-            sscanf(url.c_str(), "http://%[^:/]", targethostname);
+                               "http://%64[^:/]:%hu", hostname, &port);
+            sscanf(url.c_str(), "http://%64[^:/]", targethostname);
 
             strcpy(proxyname, url.c_str());
             file = string(proxyname);
@@ -248,7 +248,7 @@ Error MBHttp::Download(const string &url, const string &xml, bool fileDownload)
             const char *ptr;
             hostname[0] = 0;
             numFields = sscanf(url.c_str(), 
-                           "http://%[^:/]:%hu", hostname, &port);
+                           "http://%64[^:/]:%hu", hostname, &port);
             strcpy(targethostname, hostname);
             ptr = strchr(url.c_str() + 7, '/');
             file = string(ptr ? ptr : "");
