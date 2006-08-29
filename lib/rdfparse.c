@@ -569,7 +569,8 @@ parse_uri(
 		while( *s != T( ':' ) )
 		{
 			if (d < endp)
-				*d++ = *s++;
+				*d++ = *s;
+			s++;
 		}
 
 		if (d < endp)
@@ -591,7 +592,8 @@ parse_uri(
 			&& *s != T( '#' ) )
 		{
 			if (d < endp)
-				*d++ = *s++;
+				*d++ = *s;
+			s++;
 		}
 
 		if (d < endp)
@@ -607,7 +609,8 @@ parse_uri(
 			&& *s != T( '#' ) )
 		{
 			if (d < endp)
-				*d++ = *s++;
+				*d++ = *s;
+			s++;
 		}
 
 		if (d < endp)
@@ -624,7 +627,8 @@ parse_uri(
 			&& *s != T( '#' ) )
 		{
 			if (d < endp)
-				*d++ = *s++;
+				*d++ = *s;
+			s++;
 		}
 
 		if (d < endp)
@@ -640,7 +644,8 @@ parse_uri(
 		while( *s != 0 )
 		{
 			if (d < endp)
-				*d++ = *s++;
+				*d++ = *s;
+			s++;
 		}
 
 		if (d < endp)
@@ -763,7 +768,8 @@ resolve_uri_reference(
 					while( s <= p )
 					{
 						if (d < endp)
-							*d++ = *s++;
+							*d++ = *s;
+						s++;
 					}
 
 					*d++ = 0;
@@ -794,7 +800,8 @@ resolve_uri_reference(
 								while( *s != 0 )
 								{
 									if (d < endp)
-										*d++ = *s++;
+										*d++ = *s;
+									s++;
 								}
 
 								*d = 0;
@@ -858,7 +865,8 @@ resolve_uri_reference(
 										while( *s != 0 )
 										{
 											if (d < endp)
-												*d++ = *s++;
+												*d++ = *s;
+											s++;
 										}
 
 										*d = 0;
