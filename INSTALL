@@ -11,6 +11,9 @@ Dependencies
 
   * Neon -- HTTP client library
     http://www.webdav.org/neon/
+
+  * libdiscid - library for calculating MusicBrainz discids
+    http://musicbrainz.org/doc/libdiscid
     
   * (optional) CppUnit -- C++ unit testing framework
     http://cppunit.sourceforge.net/cppunit-wiki
