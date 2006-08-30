@@ -26,7 +26,7 @@
 #include <musicbrainz3/utils.h>
 #include <musicbrainz3/query.h>
 #include <musicbrainz3/mbxmlparser.h>
-#include "utilspriv.h"
+#include "utils_private.h"
 
 using namespace std;
 using namespace MusicBrainz;

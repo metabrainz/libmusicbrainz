@@ -25,7 +25,7 @@
 #include <iostream>
 #include <map>
 #include <ne_uri.h> 
-#include "utilspriv.h"
+#include "utils_private.h"
 
 using namespace std;
 using namespace MusicBrainz;

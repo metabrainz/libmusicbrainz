@@ -34,7 +34,7 @@
 #include <ne_uri.h> 
 #include <musicbrainz3/webservice.h>
 #include <musicbrainz3/artist.h>
-#include "utilspriv.h"
+#include "utils_private.h"
 
 using namespace std;
 using namespace MusicBrainz;
