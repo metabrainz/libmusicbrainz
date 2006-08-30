@@ -27,6 +27,7 @@ env['VERSION'] = VERSION
 
 env.Append(CPPPATH=['#.', '#include'])
 
+env.Append(CPPDEFINES=['HAVE_CONFIG_H'])
 if env['PLATFORM'] == 'win32':
     env.Append(CPPDEFINES=['WIN32', '_WINDOWS'])
 

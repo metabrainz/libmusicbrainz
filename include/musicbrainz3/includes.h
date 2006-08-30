@@ -31,7 +31,7 @@ namespace MusicBrainz
 {
 
 	/**
-     * An interface implemented by include tag generators.
+	 * An interface implemented by include tag generators.
 	 */
 	class MB_API IIncludes
 	{
