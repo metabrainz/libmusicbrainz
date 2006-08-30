@@ -20,6 +20,9 @@
  * $Id$
  */
  
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
 #include <string>
 #include <map>
 #include <iostream>
@@ -32,7 +35,6 @@
 #include <musicbrainz3/webservice.h>
 #include <musicbrainz3/artist.h>
 #include "utilspriv.h"
-#include "config.h"
 
 using namespace std;
 using namespace MusicBrainz;
