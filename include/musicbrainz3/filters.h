@@ -32,7 +32,7 @@ namespace MusicBrainz
 {
 
 	/**
-     * A filter for collections.
+	 * A filter for collections.
 	 *
 	 * This is the interface all filters have to implement. 
 	 */

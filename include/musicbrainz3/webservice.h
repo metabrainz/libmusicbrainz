@@ -150,34 +150,144 @@ namespace MusicBrainz
 		 */
 		virtual ~WebService();
 		
+		/**
+		 * Sets the host. 
+		 *
+		 * @param host a string containing the host name   
+		 */
 		void setHost(const std::string &host);
+		
+		/**
+		 * Returns the host.
+		 *
+		 * @return a string containing the host name  
+		 */
 		std::string getHost() const;
 		
+		/**
+		 * Sets the port. 
+		 *
+		 * @param port an int containing the port number   
+		 */
 		void setPort(const int port);
+		
+		/**
+		 * Returns the port.
+		 *
+		 * @return an int containing the port number  
+		 */
 		int getPort() const;
 		
+		/**
+		 * Sets the path prefix. 
+		 *
+		 * @param pathPrefix a string containing the path prefix  
+		 */
 		void setPathPrefix(const std::string &pathPrefix);
+		
+		/**
+		 * Returns the path prefix.
+		 *
+		 * @return a string containing the path prefix  
+		 */
 		std::string getPathPrefix() const;
 		
+		/**
+		 * Sets the MusicBrainz user name. 
+		 *
+		 * @param username a string containing the user name  
+		 */
 		void setUserName(const std::string &username);
+		
+		/**
+		 * Returns the MusicBrainz user name.
+		 *
+		 * @return a string containing the user name 
+		 */
 		std::string getUserName() const;
 		
+		/**
+		 * Sets the MusicBrainz user password. 
+		 *
+		 * @param password a string containing the user password  
+		 */
 		void setPassword(const std::string &password);
+		
+		/**
+		 * Returns the MusicBrainz user password.
+		 *
+		 * @return a string containing the user password 
+		 */
 		std::string getPassword() const;
 		
+		/**
+		 * Sets the HTTP authentification realm. 
+		 *
+		 * @param password a string containing the realm 
+		 */
 		void setRealm(const std::string &realm);
+		
+		/**
+		 * Returns the HTTP authentification realm.
+		 *
+		 * @return a string containing the realm 
+		 */
 		std::string getRealm() const;
 		
+		/**
+		 * Sets the proxy host. 
+		 *
+		 * @param host a string containing the host name   
+		 */
 		void setProxyHost(const std::string &host);
+		
+		/**
+		 * Returns the proxy host.
+		 *
+		 * @return a string containing the host name  
+		 */
 		std::string getProxyHost() const;
 		
+		/**
+		 * Sets the proxy port. 
+		 *
+		 * @param port an int containing the port number   
+		 */
 		void setProxyPort(const int port);
+		
+		/**
+		 * Returns the proxy port.
+		 *
+		 * @return an int containing the port number  
+		 */
 		int getProxyPort() const;
 		
+		/**
+		 * Sets the proxy user name. 
+		 *
+		 * @param username a string containing the user name   
+		 */
 		void setProxyUserName(const std::string &username);
+		
+		/**
+		 * Returns the proxy user name.
+		 *
+		 * @return a string containing the user name  
+		 */
 		std::string getProxyUserName() const;
 		
+		/**
+		 * Sets the proxy password. 
+		 *
+		 * @param password a string containing the password   
+		 */
 		void setProxyPassword(const std::string &password);
+		
+		/**
+		 * Returns the proxy password.
+		 *
+		 * @return a string containing the password  
+		 */
 		std::string getProxyPassword() const;
 		
 		/**

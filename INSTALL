@@ -4,22 +4,22 @@ Installation of the MusicBrainz client library
   The instructions in this file should help you to build and install the
   MusicBrainz client library from source on your system.
 
-Required Libraries
-==================
+Dependencies
+============
 
   Before you start, make sure you have installed following libraries:
 
   * Neon -- HTTP client library
     http://www.webdav.org/neon/
     
-  * CppUnit -- C++ unit testing framework
+  * (optional) CppUnit -- C++ unit testing framework
     http://cppunit.sourceforge.net/cppunit-wiki
     Only required to compile and run the test suite.
     
 Building on *nix
 ================
 
-  Once you have installed Neon, and optionally CppUnit, you can compile the
+  Once you have installed all dependencies, you can compile the
   library:
     
     $ ./configure

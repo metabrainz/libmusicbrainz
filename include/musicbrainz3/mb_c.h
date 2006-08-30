@@ -29,13 +29,6 @@ extern "C" {
 
 #include <musicbrainz3/defines.h>
 
-/*
-  TODO:
-   * Error handling? 
-     * Error messages
-   * Returning of lists?
-*/
-
 /* {{{ Typedefs */
 
 typedef void *MbArtist;
