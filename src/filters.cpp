@@ -24,7 +24,7 @@
 #include <string>
 #include <musicbrainz3/utils.h>
 #include <musicbrainz3/filters.h>
-#include "utilspriv.h"
+#include "utils_private.h"
 
 using namespace std;
 using namespace MusicBrainz;

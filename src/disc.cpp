@@ -27,7 +27,7 @@
 #include <discid/discid.h>
 #endif
 #include <musicbrainz3/disc.h>
-#include "utilspriv.h"
+#include "utils_private.h"
 
 using namespace std;
 using namespace MusicBrainz;
