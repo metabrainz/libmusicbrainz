@@ -3,9 +3,9 @@ exec_prefix=@exec_prefix@
 libdir=@libdir@
 includedir=@includedir@
 
-Name: libmusicbrainz
+Name: libmusicbrainz3
 Description: The Musicbrainz Client Library.
 Version: @VERSION@
 Requires: 
-Libs: -L${libdir} -lmusicbrainz @NEON_LIBS@ @DISCID_LIBS@
+Libs: -L${libdir} -lmusicbrainz3 @NEON_LIBS@ @DISCID_LIBS@
 Cflags: -I${includedir}

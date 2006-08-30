@@ -16,6 +16,6 @@ test_runner_SOURCES = \
 AM_CPPFLAGS = -I$(top_srcdir)/include @CPPUNIT_CFLAGS@
 
 test_runner_LDFLAGS = @CPPUNIT_LIBS@
-test_runner_LDADD = $(top_srcdir)/src/libmusicbrainz.la
+test_runner_LDADD = $(top_srcdir)/src/libmusicbrainz3.la
 
 EXTRA_DIST = SConscript
