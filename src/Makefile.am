@@ -23,15 +23,15 @@
 SUBDIRS = xmlParser
 
 lib_LTLIBRARIES = libmusicbrainz3.la
-AM_CPPFLAGS = -I$(top_srcdir)/include -DMB_API_EXPORTS @CFLAGS@ @NEON_CFLAGS@ @DISCID_CFLAGS@
+AM_CPPFLAGS = -I$(top_srcdir)/include @CFLAGS@ @NEON_CFLAGS@ @DISCID_CFLAGS@
 
 libmusicbrainz3_la_SOURCES = \
 	artist.cpp artistalias.cpp disc.cpp entity.cpp filters.cpp \
 	includes.cpp mbxmlparser.cpp metadata.cpp relation.cpp release.cpp \
 	releaseevent.cpp results.cpp track.cpp user.cpp utils.cpp \
-	webservice.cpp utilspriv.cpp query.cpp mb_c.cpp utils_countrynames.h \
-	utils_languagenames.h utils_releasetypenames.h utils_scriptnames.h \
-	utilspriv.h
+	webservice.cpp utils_private.cpp query.cpp mb_c.cpp \
+	utils_countrynames.h utils_languagenames.h utils_releasetypenames.h \
+	utils_scriptnames.h utils_private.h
 
 # Here are a set of rules to help you update your library version information:
 #  Scheme: current:revsion:age
@@ -47,8 +47,7 @@ libmusicbrainz3_la_SOURCES = \
 #     increment age.
 #  6. If any interfaces have been removed since the last public release, then 
 #     set age to 0. 
-#libmusicbrainz_la_LDFLAGS = -version-info 5:0:0 -no-undefined
-libmusicbrainz3_la_LDFLAGS = -version-info 4:0:0 -no-undefined -lstdc++ -lm
+libmusicbrainz3_la_LDFLAGS = -version-info 5:0:0 -no-undefined -lstdc++ -lm
 libmusicbrainz3_la_LIBADD = xmlParser/libxmlParser.la @NEON_LIBS@ @DISCID_LIBS@
 
 EXTRA_DIST = SConscript
