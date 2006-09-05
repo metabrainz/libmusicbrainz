@@ -239,6 +239,28 @@ namespace MusicBrainz
 		void setTracksOffset(const int offset);
 		
 		/**
+		 * Returns the number of tracks on this release. 
+		 * 
+		 * This may or may not match with the number of elements that 
+		 * getTracks and getNumTracks returns. If the count is higher than 
+		 * the list, it indicates that the list is incomplete. 
+		 *
+		 * @return an integer containing the count
+		 *
+		 * @see getTracks 
+		 */
+		int getTracksCount() const;
+		
+		/**
+		 * Sets the count of the track list.
+		 *
+		 * @param count an integer containing the count
+		 *
+		 * @see getTracksCount 
+		 */
+		void setTracksCount(const int count);
+		
+		/**
 		 * Returns the discs associated with this release.
 		 *
 		 * Discs are currently containers for MusicBrainz DiscIDs.

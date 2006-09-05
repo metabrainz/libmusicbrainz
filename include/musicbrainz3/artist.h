@@ -241,6 +241,51 @@ namespace MusicBrainz
 		void addRelease(Release *release);
 
 		/**
+		 * Returns the offset of the release list.
+		 * 
+		 * This is used if the track list is incomplete (ie. the web
+		 * service only returned part of the tracks on this release).
+		 * Note that the offset value is zero-based, which means track
+		 * \a 0 is the first track.
+		 *
+		 * @return an integer containing the offset
+		 *
+		 * @see getReleases
+		 */
+		int getReleasesOffset() const;
+		
+		/**
+		 * Sets the offset of the release list. 
+		 *
+		 * @param offset an integer containing the offset
+		 *
+		 * @see getReleasesOffset 
+		 */
+		void setReleasesOffset(const int offset);
+		
+		/**
+		 * Returns the number of existing releases. 
+		 * 
+		 * This may or may not match with the number of elements that 
+		 * getReleases and getNumReleases returns. If the count is higher than 
+		 * the list, it indicates that the list is incomplete. 
+		 *
+		 * @return an integer containing the count
+		 *
+		 * @see getReleases 
+		 */
+		int getReleasesCount() const;
+		
+		/**
+		 * Sets the count of the release list.
+		 *
+		 * @param count an integer containing the count
+		 *
+		 * @see getReleasesCount 
+		 */
+		void setReleasesCount(const int count);
+		
+		/**
 		 * Returns the list of aliases for this artist.
 		 *
 		 * @return a list of pointers to ArtistAlias objects

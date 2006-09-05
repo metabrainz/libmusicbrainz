@@ -177,6 +177,8 @@ MbXmlParser::MbXmlParserPrivate::createArtist(XMLNode artistNode)
 			addArtistAliasesToList(node, artist->getAliases());
 		}
 		else if (name == "release-list") {
+			artist->setReleasesOffset(getIntAttr(node, "offset"));
+			artist->setReleasesCount(getIntAttr(node, "count"));
 			addReleasesToList(node, artist->getReleases());
 		}
 		else if (name == "relation-list") {
@@ -293,6 +295,7 @@ MbXmlParser::MbXmlParserPrivate::createRelease(XMLNode releaseNode)
 		}
 		else if (name == "track-list") {
 			release->setTracksOffset(getIntAttr(node, "offset"));
+			release->setTracksCount(getIntAttr(node, "count"));
 			addTracksToList(node, release->getTracks());
 		}
 		else if (name == "relation-list") {

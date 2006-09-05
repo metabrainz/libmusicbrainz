@@ -15,6 +15,7 @@ class ParseReleaseTest : public CppUnit::TestFixture
 {
 	CPPUNIT_TEST_SUITE(ParseReleaseTest);
 	CPPUNIT_TEST(testReleaseBasic);
+	CPPUNIT_TEST(testReleaseIncompleteTrackList);
 	CPPUNIT_TEST(testReleaseArtist);
 	CPPUNIT_TEST(testReleaseDiscs);
 	CPPUNIT_TEST(testReleaseEvents);
@@ -36,6 +37,15 @@ protected:
 		CPPUNIT_ASSERT_EQUAL(string("ENG"), release->getTextLanguage());
 		CPPUNIT_ASSERT_EQUAL(string("Latn"), release->getTextScript());
 		CPPUNIT_ASSERT_EQUAL(0, release->getTracksOffset());
+	}
+	
+	void testReleaseIncompleteTrackList()
+	{
+		Metadata *md = MbXmlParser().parse(get_file_contents("../test-data/valid/release/Under_the_Pink_2.xml"));
+		Release *release = md->getRelease();
+		CPPUNIT_ASSERT(release);
+		CPPUNIT_ASSERT_EQUAL(1, release->getTracksOffset());
+		CPPUNIT_ASSERT_EQUAL(12, release->getTracksCount());
 	}
 	
 	void testReleaseArtist()

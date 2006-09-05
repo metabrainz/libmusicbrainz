@@ -16,6 +16,7 @@ else:
         "cd test && LD_LIBRARY_PATH=../src %s && cd .." % (test_runner[0].abspath,))
     
 env.Alias("check", test_runner)
+env.AlwaysBuild(test_runner)
     
 env.DistSources(test_runner)
 env.DistFiles(glob("*.h"))
