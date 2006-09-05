@@ -223,7 +223,7 @@ namespace MusicBrainz
 		/**
 		 * Sets the HTTP authentification realm. 
 		 *
-		 * @param password a string containing the realm 
+		 * @param realm a string containing the realm 
 		 */
 		void setRealm(const std::string &realm);
 		
