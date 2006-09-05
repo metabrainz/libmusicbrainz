@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-
 """
 Search and submit data to the MusicBrainz database
 
