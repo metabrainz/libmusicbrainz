@@ -289,6 +289,22 @@ MB_API MbRelease
 mb_artist_get_release(MbArtist artist, int index);
 
 /**
+ * Returns the offset of the release list.
+ *
+ * @see MusicBrainz::Artist::getReleasesOffset
+ */
+MB_API int
+mb_artist_get_releases_offset(MbArtist artist);
+
+/**
+ * Returns the number of releases on this artist.
+ *
+ * @see MusicBrainz::Artist::getReleasesCount
+ */
+MB_API int
+mb_artist_get_releases_count(MbArtist artist);
+
+/**
  * Returns number of relations. 
  *
  * @see MusicBrainz::Artist::getNumRelations
@@ -361,6 +377,14 @@ mb_release_get_asin(MbRelease release, char *str, int len);
  */
 MB_API int
 mb_release_get_tracks_offset(MbRelease release);
+
+/**
+ * Returns the number of tracks on this release.
+ *
+ * @see MusicBrainz::Release::getTracksCount
+ */
+MB_API int
+mb_release_get_tracks_count(MbRelease release);
 
 /**
  * Returns number of relations. 

@@ -48,7 +48,9 @@ class Release::ReleasePrivate
 {
 public:
 	ReleasePrivate() :
-		artist(NULL)
+		artist(NULL),
+		tracksOffset(0),
+		tracksCount(0)
 		{}
 	
 	std::string title;
@@ -58,6 +60,7 @@ public:
 	Artist *artist;
 	TrackList tracks;
 	int tracksOffset;
+	int tracksCount;
 	DiscList discs;
 	ReleaseEventList releaseEvents;
 };
@@ -168,6 +171,18 @@ void
 Release::setTracksOffset(const int value)
 {
 	d->tracksOffset = value;
+}
+
+int
+Release::getTracksCount() const
+{
+    return d->tracksCount;
+}
+
+void
+Release::setTracksCount(const int tracksCount)
+{
+    d->tracksCount = tracksCount;
 }
 
 DiscList &

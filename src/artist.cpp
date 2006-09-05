@@ -32,7 +32,9 @@ const string Artist::TYPE_GROUP = NS_MMD_1 + "Group";
 class Artist::ArtistPrivate
 {
 public:
-	ArtistPrivate()
+	ArtistPrivate() :
+		releasesCount(0),
+		releasesOffset(0)
 		{}
 	
 	std::string type;
@@ -42,6 +44,8 @@ public:
 	std::string beginDate;
 	std::string endDate;
 	ReleaseList releases;
+	int releasesCount;
+	int releasesOffset;
 	ArtistAliasList aliases;
 };
 
@@ -180,6 +184,30 @@ Release *
 Artist::getRelease(int i)
 {
 	return d->releases[i];
+}
+
+int
+Artist::getReleasesOffset() const
+{
+    return d->releasesOffset;
+}
+
+void
+Artist::setReleasesOffset(const int releasesOffset)
+{
+    d->releasesOffset = releasesOffset;
+}
+
+int
+Artist::getReleasesCount() const
+{
+    return d->releasesCount;
+}
+
+void
+Artist::setReleasesCount(const int releasesCount)
+{
+    d->releasesCount = releasesCount;
 }
 
 int
