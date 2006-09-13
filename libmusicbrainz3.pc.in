@@ -5,7 +5,8 @@ includedir=@includedir@
 
 Name: libmusicbrainz3
 Description: The Musicbrainz Client Library.
+URL: http://musicbrainz.org/doc/libmusicbrainz
 Version: @VERSION@
-Requires: 
-Libs: -L${libdir} -lmusicbrainz3 @NEON_LIBS@ @DISCID_LIBS@
+Requires: neon >= 0.25, libdiscid
+Libs: -L${libdir} -lmusicbrainz3
 Cflags: -I${includedir}
