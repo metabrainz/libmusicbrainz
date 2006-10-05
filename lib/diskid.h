@@ -87,6 +87,8 @@ class DiskId
         Error GenerateDiskIdRDF(const string &device, string &xml);
         Error GenerateDiskIdQueryRDF(const string &device, string &xml,
                                      bool associateCD);
+        Error GenerateDiskIdQueryRDF(const PMUSICBRAINZ_CDINFO pCDInfo, string &xml,
+                                     bool associateCD);
         Error GetWebSubmitURLArgs(const string &device, string &args);
         void  GetLastError(string &err);
 
