@@ -136,10 +136,10 @@ AC_PROTOTYPE(accept,
  ARG3, [socklen_t, size_t, int, unsigned int, long unsigned int])
 ])
 
-AC_PROTOTYPE_ACCEPT
-
 AC_DEFINE_UNQUOTED([ACCEPT_ARG2],,"Argument 2 to accept()")
 AC_DEFINE_UNQUOTED([ACCEPT_ARG3],,"Argument 3 to accept()")
+AC_PROTOTYPE_ACCEPT
+
 AC_DEFINE_UNQUOTED(PREFIX, "${prefix}", [Application install prefix])
 
 AC_OUTPUT([
