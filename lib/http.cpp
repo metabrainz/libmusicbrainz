@@ -142,14 +142,14 @@ int MBHttp::WriteToBuffer(unsigned char *buffer, unsigned int size)
     if (m_buffer == NULL)
     {
         m_bufferSize = kBufferSize;
-        m_buffer = new unsigned char[m_bufferSize];
+        m_buffer = new unsigned char[m_bufferSize + 1];
     }
     if (m_bytesInBuffer + size > m_bufferSize)
     {
         unsigned char *pTemp;
 
-        m_bufferSize += (kBufferSize < size) ? kBufferSize : kBufferSize + size;
-        pTemp = new unsigned char[m_bufferSize];
+        m_bufferSize += ((size / kBufferSize) + 1) * kBufferSize;
+        pTemp = new unsigned char[m_bufferSize + 1];
 
         memcpy(pTemp, m_buffer, m_bytesInBuffer);
         delete [] m_buffer;
