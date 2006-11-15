@@ -159,6 +159,12 @@ bool DiskId::ReadTOC(MUSICBRAINZ_DEVICE device,
       close(fd);	
       return false;
    }
+   if (first < 1 || first > 99 || last < 1 || last > 99)
+   {
+      ReportError("Track numbers must be within range 1..99.");
+      close(fd);
+      return false;
+   }
 
    // Get the logical block address (lba) for the end of the audio data.
    // The "LEADOUT" track is the track beyond the final audio track
