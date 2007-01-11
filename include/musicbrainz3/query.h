@@ -98,6 +98,7 @@ namespace MusicBrainz
 		 * @throw RequestError invalid ID or include tags
 		 * @throw ResourceNotFoundError artist doesn't exist
 		 * @throw ResponseError server returned invalid data
+		 * @throw ValueError invalid format of the ID
 		 */
 		 
 		Artist *getArtistById(const std::string &id,
@@ -122,6 +123,7 @@ namespace MusicBrainz
 		 * @throw RequestError invalid ID or include tags
 		 * @throw ResourceNotFoundError artist doesn't exist
 		 * @throw ResponseError server returned invalid data
+		 * @throw ValueError invalid format of the ID
 		 */
 		 
 		Release *getReleaseById(const std::string &id,
@@ -146,6 +148,7 @@ namespace MusicBrainz
 		 * @throw RequestError invalid ID or include tags
 		 * @throw ResourceNotFoundError artist doesn't exist
 		 * @throw ResponseError server returned invalid data
+		 * @throw ValueError invalid format of the ID
 		 */
 		 
 		Track *getTrackById(const std::string &id,
