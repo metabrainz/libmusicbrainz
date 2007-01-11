@@ -45,10 +45,10 @@ MusicBrainz::extractUuid(const string &uri)
 		return uri;
 	string types[] = {"artist/", "release/", "track/"};
 	for (int i = 0; i < 3; i++) {
-		string::size_type pos = uri.find(types[0]);
+		string::size_type pos = uri.find(types[i]);
 		if (pos != string::npos) {
-			pos += types[i].size() + 1;
-			if (pos + 36 <= uri.size()) {
+			pos += types[i].size();
+			if (pos + 36 == uri.size()) {
 				return uri.substr(pos, 36);
 			}
 		}
