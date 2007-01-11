@@ -9,7 +9,9 @@ using namespace MusicBrainz;
 class UtilsTest : public CppUnit::TestFixture
 {
 	CPPUNIT_TEST_SUITE(UtilsTest);
-	CPPUNIT_TEST(testExtractUuid);
+	CPPUNIT_TEST(testExtractUuidArtist);
+	CPPUNIT_TEST(testExtractUuidRelease);
+	CPPUNIT_TEST(testExtractUuidTrack);
 	CPPUNIT_TEST(testExtractFragment);
 	CPPUNIT_TEST(testGetCountryName);
 	CPPUNIT_TEST(testGetLanguageName);
@@ -19,7 +21,7 @@ class UtilsTest : public CppUnit::TestFixture
 	
 protected:
 
-	void testExtractUuid()
+	void testExtractUuidArtist()
 	{
 		string artistPrefix = "http://musicbrainz.org/artist/";
 		string uuid = "c0b2500e-0cef-4130-869d-732b23ed9df5";
@@ -28,7 +30,27 @@ protected:
 		CPPUNIT_ASSERT_EQUAL(uuid, extractUuid(uuid));
 		CPPUNIT_ASSERT_EQUAL(uuid, extractUuid(mbid));
 	}
-	
+
+	void testExtractUuidRelease()
+	{
+		string artistPrefix = "http://musicbrainz.org/release/";
+		string uuid = "c0b2500e-0cef-4130-869d-732b23ed9df5";
+		string mbid = artistPrefix + uuid;
+		CPPUNIT_ASSERT_EQUAL(string(), extractUuid(string()));
+		CPPUNIT_ASSERT_EQUAL(uuid, extractUuid(uuid));
+		CPPUNIT_ASSERT_EQUAL(uuid, extractUuid(mbid));
+	}
+
+    void testExtractUuidTrack()
+	{
+		string artistPrefix = "http://musicbrainz.org/track/";
+		string uuid = "c0b2500e-0cef-4130-869d-732b23ed9df5";
+		string mbid = artistPrefix + uuid;
+		CPPUNIT_ASSERT_EQUAL(string(), extractUuid(string()));
+		CPPUNIT_ASSERT_EQUAL(uuid, extractUuid(uuid));
+		CPPUNIT_ASSERT_EQUAL(uuid, extractUuid(mbid));
+	}
+
 	void testExtractFragment()
 	{
 		string fragment = "Album";
