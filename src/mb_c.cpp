@@ -271,6 +271,7 @@ MB_C_OBJ_LIST_GETTER(Release, release, Tracks, tracks, Track, track, Track)
 MB_C_OBJ_LIST_GETTER(Release, release, Discs, discs, Disc, disc, Disc)
 MB_C_OBJ_LIST_GETTER(Release, release, ReleaseEvents, release_events, ReleaseEvent, release_event, ReleaseEvent)
 MB_C_OBJ_LIST_GETTER(Release, release, Relations, relations, Relation, relation, Relation)
+MB_C_STR_LIST_GETTER(Release, release, Types, types, Type, type)
 
 /* === MusicBrainz::Track === */
 
