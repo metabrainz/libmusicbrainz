@@ -69,7 +69,13 @@ Artist *
 Query::getArtistById(const string &id,
 					 const ArtistIncludes *include)
 {
-	string uuid = extractUuid(id);
+	string uuid;
+	try {
+		uuid = extractUuid(id);
+	}
+	catch (ValueError &e) {
+		throw RequestError(e.what());
+	}
 	Metadata *metadata = getFromWebService("artist", uuid, include); 
 	Artist *artist = metadata->getArtist(true);
 	delete metadata;
@@ -80,7 +86,13 @@ Release *
 Query::getReleaseById(const string &id,
 					 const ReleaseIncludes *include)
 {
-	string uuid = extractUuid(id);
+	string uuid;
+	try {
+		uuid = extractUuid(id);
+	}
+	catch (ValueError &e) {
+		throw RequestError(e.what());
+	}
 	Metadata *metadata = getFromWebService("release", uuid, include); 
 	Release *release = metadata->getRelease(true);
 	delete metadata;
@@ -91,7 +103,13 @@ Track *
 Query::getTrackById(const string &id,
 					 const TrackIncludes *include)
 {
-	string uuid = extractUuid(id);
+	string uuid;
+	try {
+		uuid = extractUuid(id);
+	}
+	catch (ValueError &e) {
+		throw RequestError(e.what());
+	}
 	Metadata *metadata = getFromWebService("track", uuid, include); 
 	Track *track = metadata->getTrack(true);
 	delete metadata;
