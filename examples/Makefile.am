@@ -22,7 +22,7 @@
 
 AM_CPPFLAGS = -I$(top_srcdir)/include
 
-noinst_PROGRAMS = findartist findtrack getartist_c getartist getuser
+noinst_PROGRAMS = findartist findtrack getartist_c getartist getuser cdlookup
 
 findartist_SOURCES = findartist.cpp
 findartist_LDADD = $(top_builddir)/src/libmusicbrainz3.la -lstdc++ -lm
@@ -38,5 +38,8 @@ getartist_LDADD = $(top_builddir)/src/libmusicbrainz3.la -lstdc++ -lm
 
 getuser_SOURCES = getuser.cpp
 getuser_LDADD = $(top_builddir)/src/libmusicbrainz3.la -lstdc++ -lm
+
+cdlookup_SOURCES = cdlookup.cpp
+cdlookup_LDADD = $(top_builddir)/src/libmusicbrainz3.la -lstdc++ -lm
 
 EXTRA_DIST = SConscript
