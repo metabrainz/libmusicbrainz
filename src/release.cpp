@@ -57,6 +57,7 @@ public:
 	std::string textLanguage;
 	std::string textScript;
 	std::string asin;
+	vector<string> types;
 	Artist *artist;
 	TrackList tracks;
 	int tracksOffset;
@@ -233,3 +234,26 @@ Release::getTrack(int i)
 	return d->tracks[i];
 }
 
+void
+Release::setTypes(const vector<string> &types)
+{
+	d->types = types;
+}
+
+vector<string> &
+Release::getTypes()
+{
+	return d->types;
+}
+
+int
+Release::getNumTypes() const
+{
+	return d->types.size();
+}
+
+string
+Release::getType(int i) const
+{
+	return d->types[i];
+}

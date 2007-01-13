@@ -450,6 +450,22 @@ mb_release_get_num_release_events(MbRelease release);
 MB_API MbReleaseEvent
 mb_release_get_release_event(MbRelease release, int index);
 
+/**
+ * Returns number of types.
+ *
+ * @see MusicBrainz::Release::getNumTypes
+ */
+MB_API int
+mb_release_get_num_types(MbRelease release);
+
+/**
+ * Returns a type specified by index.
+ *
+ * @see MusicBrainz::Release::getType
+ */
+MB_API void
+mb_release_get_type(MbRelease release, int index, char *str, int len);
+
 /* }}} */
 
 /* {{{ MusicBrainz::Track */

@@ -271,6 +271,7 @@ MbXmlParser::MbXmlParserPrivate::createRelease(XMLNode releaseNode)
 {
 	Release *release = factory.newRelease();
 	release->setId(getIdAttr(releaseNode, "id", "release"));
+	release->setTypes(getUriListAttr(releaseNode, "type"));
 	for (int i = 0; i < releaseNode.nChildNode(); i++) {
 		XMLNode node = releaseNode.getChildNode(i);
 		string name = node.getName(); 

@@ -36,6 +36,8 @@ protected:
 		CPPUNIT_ASSERT_EQUAL(string("B000002IXU"), release->getAsin());
 		CPPUNIT_ASSERT_EQUAL(string("ENG"), release->getTextLanguage());
 		CPPUNIT_ASSERT_EQUAL(string("Latn"), release->getTextScript());
+		CPPUNIT_ASSERT_EQUAL(2, release->getNumTypes());
+		CPPUNIT_ASSERT_EQUAL(NS_MMD_1 + string("Album"), release->getType(0));
 		CPPUNIT_ASSERT_EQUAL(0, release->getTracksOffset());
 	}
 	

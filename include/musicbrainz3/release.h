@@ -327,7 +327,42 @@ namespace MusicBrainz
 		 * @see getReleaseEvents		 
 		 */
 		ReleaseEvent *getReleaseEvent(int index);
-		
+
+		/**
+		 * Sets the list of release types.
+		 *
+		 * @param types a vector of strings string
+		 */
+		void setTypes(const std::vector<std::string> &types);
+
+		/**
+		 * Returns the list of release types.
+		 *
+		 * @return a vector of strings string
+		 *
+		 * @see getType
+		 */
+		std::vector<std::string> &getTypes();
+
+		/**
+		 * Returns the number of release types.
+		 *
+		 * @return an int
+		 */
+		int getNumTypes() const;
+
+		/**
+		 * Returns the type specified by index.
+		 *
+		 * This is an equivalent to \c getTypes()[index]
+		 *
+		 * @param index index
+		 * @return a string
+		 *
+		 * @see getTypes
+		 */
+		std::string getType(int index) const;
+
 	private:
 		
 		class ReleasePrivate;
