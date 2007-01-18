@@ -37,6 +37,9 @@ public:
 	std::string title;
 	Artist *artist;
 	int duration;
+	ReleaseList releases;
+	int releasesCount;
+	int releasesOffset;
 };
 
 Track::Track(const string &id, const string &title)
@@ -93,4 +96,50 @@ Track::setDuration(const int value)
     d->duration = value;
 }
 
+ReleaseList &
+Track::getReleases()
+{
+	return d->releases;
+}
 
+void
+Track::addRelease(Release *release)
+{
+	d->releases.push_back(release);
+}
+
+int
+Track::getNumReleases() const
+{
+	return d->releases.size();
+}
+
+Release *
+Track::getRelease(int i)
+{
+	return d->releases[i];
+}
+
+int
+Track::getReleasesOffset() const
+{
+	return d->releasesOffset;
+}
+
+void
+Track::setReleasesOffset(const int releasesOffset)
+{
+	d->releasesOffset = releasesOffset;
+}
+
+int
+Track::getReleasesCount() const
+{
+	return d->releasesCount;
+}
+
+void
+Track::setReleasesCount(const int releasesCount)
+{
+	d->releasesCount = releasesCount;
+}
