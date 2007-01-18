@@ -323,6 +323,11 @@ MbXmlParser::MbXmlParserPrivate::createTrack(XMLNode trackNode)
 		else if (name == "duration") {
 			track->setDuration(getInt(node));
 		}
+		else if (name == "release-list") {
+			track->setReleasesOffset(getIntAttr(node, "offset"));
+			track->setReleasesCount(getIntAttr(node, "count"));
+			addReleasesToList(node, track->getReleases());
+		}
 		else if (name == "relation-list") {
 			addRelationsToEntity(node, track);
 		}
