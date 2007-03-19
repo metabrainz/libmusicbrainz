@@ -4,7 +4,7 @@ from glob import glob
 EnsureSConsVersion(0, 96, 91)
 
 PACKAGE = 'libmusicbrainz3'
-VERSION = '3.0.0beta1'
+VERSION = '3.0.0beta3'
 
 opts = Options('build.options', ARGUMENTS)
 opts.AddOptions(

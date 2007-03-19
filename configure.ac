@@ -5,7 +5,7 @@ dnl       libtool version number in src/Makefile.am have to be incremented.
 dnl       The libtool version number has to be changed ALWAYS, no matter how
 dnl       small the change to the source code was!
 dnl
-AC_INIT(libmusicbrainz, 3.0.0beta2)
+AC_INIT(libmusicbrainz, 3.0.0beta3)
 AC_CONFIG_SRCDIR(src/artist.cpp)
 AM_INIT_AUTOMAKE
 AC_CONFIG_HEADERS(config.h)
