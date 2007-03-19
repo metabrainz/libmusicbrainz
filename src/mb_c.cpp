@@ -238,6 +238,67 @@ mb_query_get_user_by_name(MbQuery q, const char *name)
 	return (MbUser)query->getUserByName(name);
 }
 
+void
+mb_result_list_free(MbResultList list)
+{
+    delete (ResultList *)list;
+}
+
+int
+mb_result_list_get_size(MbResultList list)
+{
+    return ((ResultList *)list)->size();
+}
+
+int
+mb_result_list_get_score(MbResultList list, int index)
+{
+    return (*((ResultList *)list))[index]->getScore();
+}
+
+MbArtist
+mb_result_list_get_artist(MbResultList list, int index)
+{
+    return (MbArtist)(*((ArtistResultList *)list))[index]->getArtist();
+}
+
+MbRelease
+mb_result_list_get_release(MbResultList list, int index)
+{
+    return (*((ReleaseResultList *)list))[index]->getRelease();
+}
+
+MbTrack
+mb_result_list_get_track(MbResultList list, int index)
+{
+    return (*((TrackResultList *)list))[index]->getTrack();
+}
+
+MB_API MbResultList
+mb_query_get_artists(MbQuery q, MbArtistFilter flt)
+{
+	Query *query = (Query *)q;
+	ArtistResultList *results = new ArtistResultList(query->getArtists((ArtistFilter *)flt));
+    return (MbResultList)results;
+}
+
+MB_API MbResultList
+mb_query_get_releases(MbQuery q, MbReleaseFilter flt)
+{
+	Query *query = (Query *)q;
+	ReleaseResultList *results = new ReleaseResultList(query->getReleases((ReleaseFilter *)flt));
+    return (MbResultList)results;
+}
+
+MB_API MbResultList
+mb_query_get_tracks(MbQuery q, MbTrackFilter flt)
+{
+	Query *query = (Query *)q;
+	TrackResultList *results = new TrackResultList(query->getTracks((TrackFilter *)flt));
+    return (MbResultList)results;
+}
+
+
 /* === MusicBrainz::Artist === */
 
 MB_C_FREE(Artist, artist)

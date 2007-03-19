@@ -36,6 +36,7 @@ namespace MusicBrainz
 	class Release;
 	class ReleaseEvent;
 	class ReleaseResult;
+    class Result;
 	class Track;
 	class TrackResult;
 	class User;
@@ -56,6 +57,8 @@ namespace MusicBrainz
 	typedef std::vector<ReleaseEvent *> ReleaseEventList;
 	//! A vector of pointers to ReleaseResult objects
 	typedef std::vector<ReleaseResult *> ReleaseResultList;
+	//! A vector of pointers to Result objects
+	typedef std::vector<Result *> ResultList;
 	//! A vector of pointers to Track objects
 	typedef std::vector<Track *> TrackList;
 	//! A vector of pointers to TrackResult objects
