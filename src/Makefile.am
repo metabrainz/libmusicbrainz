@@ -47,7 +47,7 @@ libmusicbrainz3_la_SOURCES = \
 #     increment age.
 #  6. If any interfaces have been removed since the last public release, then 
 #     set age to 0. 
-libmusicbrainz3_la_LDFLAGS = -version-info 5:1:0 -no-undefined -lstdc++ -lm
+libmusicbrainz3_la_LDFLAGS = -version-info 6:0:1 -no-undefined -lstdc++ -lm
 libmusicbrainz3_la_LIBADD = xmlParser/libxmlParser.la @NEON_LIBS@ @DISCID_LIBS@
 
 EXTRA_DIST = SConscript
