@@ -43,6 +43,7 @@ typedef void *MbRelease;
 typedef void *MbReleaseEvent;
 typedef void *MbReleaseFilter;
 typedef void *MbReleaseIncludes;
+typedef void *MbResultList;
 typedef void *MbTrack;
 typedef void *MbTrackFilter;
 typedef void *MbTrackIncludes;
@@ -183,6 +184,33 @@ MB_API MbUser
 mb_query_get_user_by_name(MbQuery query, const char *name);
 
 /* }}} */
+
+MB_API void
+mb_result_list_free(MbResultList list);
+
+MB_API int
+mb_result_list_get_size(MbResultList list);
+
+MB_API int
+mb_result_list_get_score(MbResultList list, int index);
+
+MB_API MbArtist
+mb_result_list_get_artist(MbResultList list, int index);
+
+MB_API MbRelease
+mb_result_list_get_release(MbResultList list, int index);
+
+MB_API MbTrack
+mb_result_list_get_track(MbResultList list, int index);
+
+MB_API MbResultList
+mb_query_get_artists(MbQuery query, MbArtistFilter flt);
+
+MB_API MbResultList
+mb_query_get_releases(MbQuery query, MbReleaseFilter flt);
+
+MB_API MbResultList
+mb_query_get_track(MbQuery query, MbTrackFilter flt);
 
 /* {{{ MusicBrainz::Artist */
 
