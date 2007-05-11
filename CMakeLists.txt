@@ -1,0 +1,30 @@
+PROJECT(libmusicbrainz3)
+SET(PROJECT_VERSION 3.0.0beta3)
+
+SET(musicbrainz3_VERSION 6.0.2)
+SET(musicbrainz3_SOVERSION 6)
+
+SET(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR})
+FIND_PACKAGE(Neon REQUIRED)
+FIND_PACKAGE(CppUnit)
+FIND_PACKAGE(DiscId)
+
+SET(LIB_SUFFIX "" CACHE STRING "Define suffix of directory name (32/64)")
+SET(EXEC_INSTALL_PREFIX ${CMAKE_INSTALL_PREFIX} CACHE PATH "Installation prefix for executables and object code libraries" FORCE)
+SET(BIN_INSTALL_DIR ${EXEC_INSTALL_PREFIX}/bin CACHE PATH "Installation prefix for user executables" FORCE)
+SET(LIB_INSTALL_DIR ${EXEC_INSTALL_PREFIX}/lib${LIB_SUFFIX} CACHE PATH  "Installation prefix for object code libraries" FORCE)
+SET(INCLUDE_INSTALL_DIR ${CMAKE_INSTALL_PREFIX}/include CACHE PATH "Installation prefix for C header files" FORCE)
+
+CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/libmusicbrainz3.pc.cmake ${CMAKE_CURRENT_BINARY_DIR}/libmusicbrainz3.pc)
+CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile.cmake ${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile)
+CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/config.h.cmake ${CMAKE_CURRENT_SOURCE_DIR}/config.h)
+
+FILE(GLOB headers ${CMAKE_CURRENT_SOURCE_DIR}/include/musicbrainz3/*.h)
+INSTALL(FILES ${headers} DESTINATION ${INCLUDE_INSTALL_DIR}/musicbrainz3)
+INSTALL(FILES ${CMAKE_CURRENT_BINARY_DIR}/libmusicbrainz3.pc DESTINATION ${LIB_INSTALL_DIR}/pkgconfig)
+
+ADD_SUBDIRECTORY(src)
+IF(CPPUNIT_FOUND)
+    ADD_SUBDIRECTORY(test)
+ENDIF(CPPUNIT_FOUND)
+ADD_SUBDIRECTORY(examples)

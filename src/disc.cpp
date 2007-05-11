@@ -20,10 +20,8 @@
  * $Id$
  */
 
-#ifdef HAVE_CONFIG_H
 #include <config.h>
-#endif
-#ifdef HAVE_DISCID
+#ifdef DISCID_FOUND
 #include <discid/discid.h>
 #endif
 #include <musicbrainz3/disc.h>
