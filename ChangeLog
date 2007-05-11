@@ -1,3 +1,8 @@
+Changes for libmusicbrainz 2.1.5
+-------------------------------------
+
+   - Fix for CD TOC reading on Solaris, thanks to Brian Cameron. (#2009)
+
 Changes for libmusicbrainz 2.1.4
 -------------------------------------
 
