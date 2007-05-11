@@ -2,6 +2,7 @@ Changes for libmusicbrainz 2.1.5
 -------------------------------------
 
    - Fix for CD TOC reading on Solaris, thanks to Brian Cameron. (#2009)
+   - Fixed compilation on GCC 4.3. (http://bugs.debian.org/417352)
 
 Changes for libmusicbrainz 2.1.4
 -------------------------------------
