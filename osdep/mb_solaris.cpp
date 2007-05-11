@@ -90,7 +90,7 @@ int ReadTOCEntry(int fd,
     if (!ret) {
         assert(te.cdte_format == CDROM_LBA);
 
-        lba = ntohl(te.cdte_addr.lba);  // network to host order (long)
+	lba = te.cdte_addr.lba;
     }
 
     return ret;
@@ -104,6 +104,8 @@ bool DiskId::ReadTOC(MUSICBRAINZ_DEVICE device,
    int  first;
    int  last;
    int  lba;
+   int  blksize;
+   int  scale;
    int  i;
    char err[256];
 
@@ -118,6 +120,16 @@ bool DiskId::ReadTOC(MUSICBRAINZ_DEVICE device,
        sprintf(err, "Cannot open '%s'", device);
        ReportError(err);
        return false;
+   }
+
+   // see what scaling we need to perform to correct for
+   // non-standard blocksizes
+   if (ioctl(fd, CDROMGBLKMODE, &blksize) == -1) {
+	ReportError("Cannot get cdrom blocksize");
+	scale = 1;	// and hope for the best 
+   } else {
+       // lba standard blocksize is 2048
+       scale = 2048/blksize;
    }
 
    // Initialize cdinfo to all zeroes.
@@ -146,13 +158,13 @@ bool DiskId::ReadTOC(MUSICBRAINZ_DEVICE device,
                 CDROM_LEADOUT, 
                 lba);
 
-   cdinfo.FrameOffset[0] = lba / 4 + 150;  // Solaris 2048 bytes blocksize hack
+   cdinfo.FrameOffset[0] = lba / scale + 150;
 
    // Now, for every track, find out the block address where it starts.
    for (i = first; i <= last; i++)
    {
       ReadTOCEntry(fd, i, lba);
-      cdinfo.FrameOffset[i] = lba / 4 + 150;  // note factor 1/4
+      cdinfo.FrameOffset[i] = lba / scale + 150;
    }
 
    cdinfo.FirstTrack = first;
