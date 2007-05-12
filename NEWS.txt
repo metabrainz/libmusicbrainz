@@ -1,3 +1,8 @@
+Changes for libmusicbrainz 3.0.0 (2007-05-12)
+---------------------------------------------
+
+   - Use CMake as the only build system.
+
 Changes for libmusicbrainz 3.0.0beta3
 -------------------------------------
 
@@ -18,6 +23,11 @@ Changes for libmusicbrainz 3.0.0beta1
    - Rewritten from scratch, libmusicbrainz now uses the new XML web service.
    - New object oriented API in C++ based on python-musicbrainz2, with
      GLib-style C bindings.
+
+
+******************************************************************************
+******************************************************************************
+******************************************************************************
 
 Changes for libmusicbrainz 2.1.2
 -------------------------------------

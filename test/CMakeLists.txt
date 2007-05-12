@@ -3,3 +3,8 @@ INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/.. ${CMAKE_CURRENT_SOURCE_DIR}/.
 FILE(GLOB _sources ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp)
 ADD_EXECUTABLE(test_runner ${_sources})
 TARGET_LINK_LIBRARIES(test_runner musicbrainz3 ${NEON_LIBRARIES} ${CPPUNIT_LIBRARIES})
+
+ADD_CUSTOM_TARGET(check
+    ./test_runner
+    DEPENDS test_runner
+)
