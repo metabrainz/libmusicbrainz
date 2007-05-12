@@ -48,8 +48,4 @@ For overview of all available options use:
 
    cmake -L .
 
-or a GUI:
-
-   ccmake .
-
- 
+or use a GUI. See http://www.cmake.org/HTML/RunningCMake.html for more details.
