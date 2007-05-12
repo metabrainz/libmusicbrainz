@@ -1,40 +1,23 @@
-Changes for libmusicbrainz 2.1.5
+Changes for libmusicbrainz 3.0.0beta3
 -------------------------------------
 
-   - Fix for CD TOC reading on Solaris, thanks to Brian Cameron. (#2009)
-   - Fixed compilation on GCC 4.3. (http://bugs.debian.org/417352)
-   - Fix the patch for buffer overflows in rdfparse.c (2066)
-   - Support for Debian GNU/kFreeBSD in configure.in (patch from the
-     libmb package in Debian) 
-   - Patch to allow manually entering the CD TOC information, thanks
-     to sbooth. (#2193) 
-   - Fixed configure.in to work with newer versions of autoconf. (#1829)
-   - Buffer overflow in MBHttp::WriteToBuffer. (#2273) 
-   - Python bindings:
-      - No shebang in non-executable scripts.
+   - C bindings for artist/release/track collections.
+   - New cdlookup_c.c example.
 
-Changes for libmusicbrainz 2.1.4
+Changes for libmusicbrainz 3.0.0beta2
 -------------------------------------
 
-   - Fixed buffer overflows in the RDF parsing and HTTP code. Patch by
-     Martin Schulze. (#2066)
-   - Fixed memory leaks in RDFExtract. (#2061)
-   - Fixed invalid memory access in the HTTP code. (#2033)
+   - Fixed MusicBrainz::extractUuid for non-artist IDs.
+   - Implementation of release types.
+   - Implementation of release lists on track level.
+   - New cdlookup.cpp example.
 
-Changes for libmusicbrainz 2.1.3
+Changes for libmusicbrainz 3.0.0beta1
 -------------------------------------
 
-   - New queries for selecting album artists: 
-      - MBS_SelectAlbumArtist
-      - MBE_AlbumGetAlbumArtistName
-      - MBE_AlbumGetAlbumArtistSortName
-   - New query MBE_AlbumGetCdindexId
-   - Using size_t instead of int in networking code
-   - Little fixes in the API documentation 
-   - Python bindings:
-      - Using the new ctypes 0.9.9.x API, with support to fallback to
-        the old API if only an old ctypes version is installed
-      - Removed dependency on ctypes in setup.py
+   - Rewritten from scratch, libmusicbrainz now uses the new XML web service.
+   - New object oriented API in C++ based on python-musicbrainz2, with
+     GLib-style C bindings.
 
 Changes for libmusicbrainz 2.1.2
 -------------------------------------
