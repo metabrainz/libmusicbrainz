@@ -1,10 +1,10 @@
 PROJECT(libmusicbrainz3)
-SET(PROJECT_VERSION 3.0.0beta3)
+SET(PROJECT_VERSION 3.0.0)
 
-SET(musicbrainz3_VERSION 6.0.2)
+SET(musicbrainz3_VERSION 6.1.0)
 SET(musicbrainz3_SOVERSION 6)
 
-SET(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR})
+SET(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/modules)
 FIND_PACKAGE(Neon REQUIRED)
 FIND_PACKAGE(CppUnit)
 FIND_PACKAGE(DiscId)
@@ -28,3 +28,13 @@ IF(CPPUNIT_FOUND)
     ADD_SUBDIRECTORY(test)
 ENDIF(CPPUNIT_FOUND)
 ADD_SUBDIRECTORY(examples)
+
+ADD_CUSTOM_TARGET(docs
+    doxygen
+)
+
+ADD_CUSTOM_TARGET(dist
+    rm -rf "libmusicbrainz-${PROJECT_VERSION}"
+    COMMAND svn export http://svn.musicbrainz.org/libmusicbrainz/trunk "libmusicbrainz-${PROJECT_VERSION}"
+    COMMAND tar -zcvf "libmusicbrainz-${PROJECT_VERSION}.tar.gz" "libmusicbrainz-${PROJECT_VERSION}"
+)
