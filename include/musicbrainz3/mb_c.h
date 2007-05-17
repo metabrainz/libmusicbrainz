@@ -210,7 +210,7 @@ MB_API MbResultList
 mb_query_get_releases(MbQuery query, MbReleaseFilter flt);
 
 MB_API MbResultList
-mb_query_get_track(MbQuery query, MbTrackFilter flt);
+mb_query_get_tracks(MbQuery query, MbTrackFilter flt);
 
 /* {{{ MusicBrainz::Artist */
 
