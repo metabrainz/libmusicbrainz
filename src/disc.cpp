@@ -123,7 +123,7 @@ Disc::addTrack(Disc::Track track)
 Disc *
 MusicBrainz::readDisc(const std::string &deviceName)
 {
-#ifdef HAVE_DISCID
+#ifdef DISCID_FOUND
 	DiscId *discid = discid_new();
 	if (!discid) {
 		throw DiscError("Couldn't create a new DiscId instance.");

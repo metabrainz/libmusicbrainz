@@ -2,6 +2,7 @@ Changes for libmusicbrainz 3.0.1
 --------------------------------
 
    - Fixed mb_query_get_tracks function name in mb_c.h.
+   - Detect correctly installed libdiscid in src/disc.cpp.
 
 Changes for libmusicbrainz 3.0.0 (2007-05-12)
 ---------------------------------------------
