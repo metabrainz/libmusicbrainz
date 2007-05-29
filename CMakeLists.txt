@@ -1,8 +1,16 @@
 PROJECT(libmusicbrainz3)
-SET(PROJECT_VERSION 3.0.0)
+SET(PROJECT_VERSION 3.0.1)
 
-SET(musicbrainz3_VERSION 6.1.0)
-SET(musicbrainz3_SOVERSION 6)
+# 1. If the library source code has changed at all since the last update, then increment revision.
+# 2. If any interfaces have been added, removed, or changed since the last update, increment current, and set revision to 0.
+# 3. If any interfaces have been added since the last public release, then increment age.
+# 4. If any interfaces have been removed since the last public release, then set age to 0. 
+SET(musicbrainz3_SOVERSION_CURRENT  6)
+SET(musicbrainz3_SOVERSION_REVISION 1)
+SET(musicbrainz3_SOVERSION_AGE      1)
+
+SET(musicbrainz3_VERSION ${musicbrainz3_SOVERSION_CURRENT}.${musicbrainz3_SOVERSION_AGE}.${musicbrainz3_SOVERSION_REVISION})
+SET(musicbrainz3_SOVERSION ${musicbrainz3_SOVERSION_CURRENT})
 
 SET(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/modules)
 FIND_PACKAGE(Neon REQUIRED)
