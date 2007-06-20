@@ -22,6 +22,7 @@
  
 #include <string>
 #include <musicbrainz3/releaseevent.h>
+#include "utils_private.h"
 
 using namespace std;
 using namespace MusicBrainz;
@@ -34,6 +35,8 @@ public:
 		
 	string country;
 	string dateStr;
+	string catalogNumber;
+	string barcode;
 };
 
 ReleaseEvent::ReleaseEvent(const string &country, const string &dateStr)
@@ -49,27 +52,7 @@ ReleaseEvent::~ReleaseEvent()
 	delete d;
 }
 
-string
-ReleaseEvent::getCountry() const
-{
-	return d->country;
-}
-
-void
-ReleaseEvent::setCountry(const string &value)
-{
-	d->country = value;
-}
-
-string
-ReleaseEvent::getDate() const
-{
-	return d->dateStr;
-}
-
-void
-ReleaseEvent::setDate(const string &value)
-{
-	d->dateStr = value;
-}
-
+SIMPLE_STRING_SETTER_GETTER(ReleaseEvent, Country, country);
+SIMPLE_STRING_SETTER_GETTER(ReleaseEvent, CatalogNumber, catalogNumber);
+SIMPLE_STRING_SETTER_GETTER(ReleaseEvent, Barcode, barcode);
+SIMPLE_STRING_SETTER_GETTER(ReleaseEvent, Date, dateStr);

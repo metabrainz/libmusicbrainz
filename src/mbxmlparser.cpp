@@ -369,6 +369,8 @@ MbXmlParser::MbXmlParserPrivate::createReleaseEvent(XMLNode releaseEventNode)
 	ReleaseEvent *releaseEvent = factory.newReleaseEvent();
 	releaseEvent->setCountry(getTextAttr(releaseEventNode, "country"));
 	releaseEvent->setDate(getTextAttr(releaseEventNode, "date"));
+	releaseEvent->setCatalogNumber(getTextAttr(releaseEventNode, "catalog-number"));
+	releaseEvent->setBarcode(getTextAttr(releaseEventNode, "barcode"));
 	return releaseEvent;
 }
 
