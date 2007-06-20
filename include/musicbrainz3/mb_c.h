@@ -645,6 +645,9 @@ mb_artist_includes_track_relations(MbArtistIncludes inc);
 MB_API MbArtistIncludes
 mb_artist_includes_url_relations(MbArtistIncludes inc);
 
+MB_API MbArtistIncludes
+mb_artist_includes_release_events(MbArtistIncludes inc);
+
 /* }}} */
 
 /* {{{ MusicBrainz::ReleaseIncludes */

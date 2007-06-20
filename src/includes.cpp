@@ -70,6 +70,7 @@ INCLUDES_METHOD(Artist, artistRelations, artist-rels)
 INCLUDES_METHOD(Artist, releaseRelations, release-rels)
 INCLUDES_METHOD(Artist, trackRelations, track-rels)
 INCLUDES_METHOD(Artist, urlRelations, url-rels)
+INCLUDES_METHOD(Artist, releaseEvents, release-events)
 
 ArtistIncludes::IncludeList
 ArtistIncludes::createIncludeTags() const
