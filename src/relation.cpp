@@ -22,6 +22,7 @@
  
 #include <string>
 #include <musicbrainz3/model.h>
+#include "utils_private.h"
 
 using namespace std;
 using namespace MusicBrainz;
@@ -76,29 +77,11 @@ Relation::~Relation()
 	delete d;
 }
 
-string
-Relation::getType() const
-{
-	return d->type;
-}
-
-void
-Relation::setType(const string &value)
-{
-	d->type = value;
-}
-
-string
-Relation::getTargetId() const
-{
-	return d->targetId;
-}
-
-void
-Relation::setTargetId(const string &value)
-{
-	d->targetId = value;
-}
+SIMPLE_STRING_SETTER_GETTER(Relation, Type, type);
+SIMPLE_STRING_SETTER_GETTER(Relation, TargetId, targetId);
+SIMPLE_STRING_SETTER_GETTER(Relation, TargetType, targetType);
+SIMPLE_STRING_SETTER_GETTER(Relation, BeginDate, beginDate);
+SIMPLE_STRING_SETTER_GETTER(Relation, EndDate, endDate);
 
 Relation::Direction
 Relation::getDirection() const
@@ -110,18 +93,6 @@ void
 Relation::setDirection(const Relation::Direction value)
 {
 	d->direction = value;
-}
-
-string
-Relation::getTargetType() const
-{
-	return d->targetType;
-}
-
-void
-Relation::setTargetType(const string &value)
-{
-	d->targetType = value;
 }
 
 Entity *
@@ -147,30 +118,6 @@ Relation::addAttribute(const string &value)
 {
 	d->attributes.push_back(value);
 }
-
-string
-Relation::getBeginDate() const
-{
-	return d->beginDate;
-}
-
-void
-Relation::setBeginDate(const string &value)
-{
-	d->beginDate = value;
-}
-
-string
-Relation::getEndDate() const
-{
-	return d->endDate;
-}
-
-void
-Relation::setEndDate(const string &value)
-{
-	d->endDate = value;
-} 
 
 int
 Relation::getNumAttributes() const

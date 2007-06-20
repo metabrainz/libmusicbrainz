@@ -22,6 +22,7 @@
  
 #include <string>
 #include <musicbrainz3/model.h>
+#include "utils_private.h"
 
 using namespace std;
 using namespace MusicBrainz;
@@ -72,83 +73,18 @@ Artist::~Artist()
 	delete d; 	
 }
 
-string
-Artist::getType() const
-{
-    return d->type;
-}
-
-void
-Artist::setType(const string &type)
-{
-    d->type = type;
-}
-
-string
-Artist::getName() const
-{
-    return d->name;
-}
-
-void
-Artist::setName(const string &name)
-{
-    d->name = name;
-}
-
-string
-Artist::getSortName() const
-{
-    return d->sortName;
-}
-
-void
-Artist::setSortName(const string &value)
-{
-    d->sortName = value;
-}
-
-string
-Artist::getDisambiguation() const
-{
-    return d->disambiguation;
-}
-
-void
-Artist::setDisambiguation(const string &disambiguation)
-{
-    d->disambiguation = disambiguation;
-}
+SIMPLE_STRING_SETTER_GETTER(Artist, Type, type);
+SIMPLE_STRING_SETTER_GETTER(Artist, Name, name);
+SIMPLE_STRING_SETTER_GETTER(Artist, SortName, sortName);
+SIMPLE_STRING_SETTER_GETTER(Artist, Disambiguation, disambiguation);
+SIMPLE_STRING_SETTER_GETTER(Artist, BeginDate, beginDate);
+SIMPLE_STRING_SETTER_GETTER(Artist, EndDate, endDate);
 
 string
 Artist::getUniqueName() const
 {
     return d->disambiguation.empty() ? d->name : d->name + " (" + d->disambiguation +")";
 }
-
-string
-Artist::getBeginDate() const
-{
-    return d->beginDate;
-}
-
-void
-Artist::setBeginDate(const string &beginDate)
-{
-    d->beginDate = beginDate;
-}
-
-string
-Artist::getEndDate() const
-{
-    return d->endDate;
-}
-
-void
-Artist::setEndDate(const string &endDate)
-{
-    d->endDate = endDate;
-} 
 
 ReleaseList &
 Artist::getReleases()
@@ -216,9 +152,8 @@ Artist::getNumAliases() const
 	return d->aliases.size();
 }
 
-ArtistAlias * 
+ArtistAlias *
 Artist::getAlias(int i)
 {
 	return d->aliases[i];
 }
-

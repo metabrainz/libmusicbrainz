@@ -22,6 +22,7 @@
  
 #include <string>
 #include <musicbrainz3/user.h>
+#include "utils_private.h"
 
 using namespace std;
 using namespace MusicBrainz;
@@ -48,17 +49,7 @@ User::~User()
 	delete d;
 }
 
-string
-User::getName() const
-{
-	return d->name;
-}
-
-void
-User::setName(const string &value)
-{
-	d->name = value;
-}
+SIMPLE_STRING_SETTER_GETTER(User, Name, name);
 
 bool
 User::getShowNag() const

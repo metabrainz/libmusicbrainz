@@ -60,53 +60,10 @@ Disc::~Disc()
 	delete d;
 }
 
-string
-Disc::getId() const
-{
-    return d->id;
-}
-
-void
-Disc::setId(const string &value)
-{
-    d->id = value;
-}
-
-int
-Disc::getSectors() const
-{
-    return d->sectors;
-}
-
-void
-Disc::setSectors(const int value)
-{
-    d->sectors = value;
-}
-
-int
-Disc::getFirstTrackNum() const
-{
-    return d->firstTrackNum;
-}
-
-void
-Disc::setFirstTrackNum(const int value)
-{
-    d->firstTrackNum = value;
-}
-
-int
-Disc::getLastTrackNum() const
-{
-    return d->lastTrackNum;
-}
-
-void
-Disc::setLastTrackNum(const int value)
-{
-    d->lastTrackNum = value;
-}
+SIMPLE_STRING_SETTER_GETTER(Disc, Id, id);
+SIMPLE_INT_SETTER_GETTER(Disc, Sectors, sectors);
+SIMPLE_INT_SETTER_GETTER(Disc, FirstTrackNum, firstTrackNum);
+SIMPLE_INT_SETTER_GETTER(Disc, LastTrackNum, lastTrackNum);
 
 Disc::TrackList &
 Disc::getTracks()
