@@ -209,6 +209,8 @@ namespace MusicBrainz
 		 *
 		 * This is equivalent to \c getTracks()[index]
 		 *
+		 * @warning \c index must be always lower than the result of \c getNumTracks()
+		 *
 		 * @return a pointer to Track instance
 		 *
 		 * @see getTracks		 
@@ -289,6 +291,8 @@ namespace MusicBrainz
 		 *
 		 * This is equivalent to \c getDiscs()[index]
 		 *
+		 * @warning \c index must be always lower than the result of \c getNumDiscs()
+		 *
 		 * @return a pointer to Disc instance
 		 *
 		 * @see getDiscs		 
@@ -321,6 +325,8 @@ namespace MusicBrainz
 		 * Returns an release event specified by index.
 		 *
 		 * This is equivalent to \c getReleaseevents()[index]
+		 *
+		 * @warning \c index must be always lower than the result of \c getNumReleaseEvents()
 		 *
 		 * @return a pointer to ReleaseEvent instance
 		 *
@@ -355,6 +361,8 @@ namespace MusicBrainz
 		 * Returns the type specified by index.
 		 *
 		 * This is an equivalent to \c getTypes()[index]
+		 *
+		 * @warning \c index must be always lower than the result of \c getNumTypes()
 		 *
 		 * @param index index
 		 * @return a string
