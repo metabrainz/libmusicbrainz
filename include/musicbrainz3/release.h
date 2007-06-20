@@ -53,18 +53,19 @@ namespace MusicBrainz
 		static const std::string TYPE_ALBUM;
 		static const std::string TYPE_SINGLE;
 		static const std::string TYPE_EP;
-		static const std::string TYPE_COMPILATION;	
+		static const std::string TYPE_COMPILATION;
 		static const std::string TYPE_SOUNDTRACK;
 		static const std::string TYPE_SPOKENWORD;
 		static const std::string TYPE_INTERVIEW;
 		static const std::string TYPE_AUDIOBOOK;
 		static const std::string TYPE_LIVE;
-		static const std::string TYPE_REMIX;	
+		static const std::string TYPE_REMIX;
 		static const std::string TYPE_OTHER;
 
 		static const std::string TYPE_OFFICIAL;
 		static const std::string TYPE_PROMOTION;
-		static const std::string TYPE_BOOTLEG; 	
+		static const std::string TYPE_BOOTLEG;
+		static const std::string TYPE_PSEUDO_RELEASE;
 	
 		/**
 		 * Constructor.
