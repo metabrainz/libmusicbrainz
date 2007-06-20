@@ -5,6 +5,7 @@ Changes for libmusicbrainz 3.0.1
    - Detect correctly installed libdiscid in src/disc.cpp.
    - Support for releaseEvents in ArtistIncludes. (#2974)
    - Support for catalog numbers and barcodes.
+   - Added Release::TYPE_PSEUDO_RELEASE.
 
 Changes for libmusicbrainz 3.0.0 (2007-05-12)
 ---------------------------------------------

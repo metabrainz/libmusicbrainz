@@ -44,6 +44,7 @@ const string Release::TYPE_OTHER = NS_MMD_1 + "Other";
 const string Release::TYPE_OFFICIAL = NS_MMD_1 + "Official";
 const string Release::TYPE_PROMOTION = NS_MMD_1 + "Promotion";
 const string Release::TYPE_BOOTLEG = NS_MMD_1 + "Bootleg";	
+const string Release::TYPE_PSEUDO_RELEASE = NS_MMD_1 + "Pseudo-Release";	
 
 class Release::ReleasePrivate
 {
