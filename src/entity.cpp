@@ -22,6 +22,7 @@
  
 #include <string>
 #include <musicbrainz3/entity.h>
+#include "utils_private.h"
 
 using namespace std;
 using namespace MusicBrainz;
@@ -52,17 +53,7 @@ Entity::~Entity()
 	delete d;
 }
 
-string
-Entity::getId() const
-{
-	return d->id;
-}
-
-void
-Entity::setId(const string &id)
-{
-	d->id = id;
-}
+SIMPLE_STRING_SETTER_GETTER(Entity, Id, id);
 
 RelationList 
 Entity::getRelations(const std::string &targetType,

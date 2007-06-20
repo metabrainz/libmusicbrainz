@@ -54,6 +54,18 @@ namespace MusicBrainz
 	class::set##name(const string &value) \
 	{ \
 		d->name2 = value; \
+	}
+
+#define SIMPLE_INT_SETTER_GETTER(class, name, name2) \
+	int \
+	class::get##name() const \
+	{ \
+		return d->name2; \
 	} \
+	void \
+	class::set##name(const int value) \
+	{ \
+		d->name2 = value; \
+	}
 
 #endif

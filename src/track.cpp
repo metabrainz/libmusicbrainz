@@ -22,6 +22,7 @@
  
 #include <string>
 #include <musicbrainz3/model.h>
+#include "utils_private.h"
 
 using namespace std;
 using namespace MusicBrainz;
@@ -58,17 +59,8 @@ Track::~Track()
 	delete d;
 }
 
-string
-Track::getTitle() const
-{
-    return d->title;
-}
-
-void
-Track::setTitle(const string &value)
-{
-    d->title = value;
-}
+SIMPLE_STRING_SETTER_GETTER(Track, Title, title);
+SIMPLE_INT_SETTER_GETTER(Track, Duration, duration);
 
 Artist *
 Track::getArtist()
@@ -82,18 +74,6 @@ Track::setArtist(Artist *value)
 	if (d->artist)
 		delete d->artist;
 	d->artist = value;
-}
-
-int
-Track::getDuration() const
-{
-    return d->duration;
-}
-
-void
-Track::setDuration(const int value)
-{
-    d->duration = value;
 }
 
 ReleaseList &

@@ -22,6 +22,7 @@
  
 #include <string>
 #include <musicbrainz3/model.h>
+#include "utils_private.h"
 
 using namespace std;
 using namespace MusicBrainz;
@@ -94,41 +95,10 @@ Release::~Release()
 	delete d;
 }
 
-string
-Release::getTitle() const
-{
-	return d->title;
-}
-
-void
-Release::setTitle(const string &value)
-{
-	d->title = value;
-}
-
-string
-Release::getTextLanguage() const
-{
-	return d->textLanguage;
-}
-
-void
-Release::setTextLanguage(const string &value)
-{
-	d->textLanguage = value;
-}
-
-string
-Release::getTextScript() const
-{
-	return d->textScript;
-}
-
-void
-Release::setTextScript(const string &value)
-{
-	d->textScript = value;
-}
+SIMPLE_STRING_SETTER_GETTER(Release, Title, title);
+SIMPLE_STRING_SETTER_GETTER(Release, TextLanguage, textLanguage);
+SIMPLE_STRING_SETTER_GETTER(Release, TextScript, textScript);
+SIMPLE_STRING_SETTER_GETTER(Release, Asin, asin);
 
 Artist *
 Release::getArtist()
@@ -142,18 +112,6 @@ Release::setArtist(Artist *value)
 	if (d->artist)
 		delete d->artist;
 	d->artist = value;
-}
-
-string
-Release::getAsin() const
-{
-	return d->asin;
-}
-
-void
-Release::setAsin(const string &value)
-{
-	d->asin = value;
 }
 
 TrackList &
