@@ -88,6 +88,12 @@ namespace MusicBrainz
 		 */
 		void setDate(const std::string &dateStr);
 		
+		void setCatalogNumber(const std::string &catalogNumber);
+		std::string getCatalogNumber() const;
+		
+		void setBarcode(const std::string &barcode);
+		std::string getBarcode() const;
+
 	private:
 		
 		class ReleaseEventPrivate;

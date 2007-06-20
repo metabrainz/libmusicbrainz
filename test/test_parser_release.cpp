@@ -19,6 +19,7 @@ class ParseReleaseTest : public CppUnit::TestFixture
 	CPPUNIT_TEST(testReleaseArtist);
 	CPPUNIT_TEST(testReleaseDiscs);
 	CPPUNIT_TEST(testReleaseEvents);
+	CPPUNIT_TEST(testReleaseEvents2);
 	CPPUNIT_TEST(testReleaseTracks);
 	CPPUNIT_TEST(testReleaseTracksVA);
 	CPPUNIT_TEST(testReleaseSearch);
@@ -80,6 +81,17 @@ protected:
 		CPPUNIT_ASSERT_EQUAL(3, int(re.size()));
 		CPPUNIT_ASSERT_EQUAL(string("DE"), re[1]->getCountry());
 		CPPUNIT_ASSERT_EQUAL(string("1992-02-25"), re[2]->getDate());
+	}
+	
+	void testReleaseEvents2()
+	{
+		Metadata *md = MbXmlParser().parse(get_file_contents("../test-data/valid/release/Under_the_Pink_3.xml"));
+		Release *release = md->getRelease();
+		CPPUNIT_ASSERT(release);
+		ReleaseEventList &re = release->getReleaseEvents();
+		CPPUNIT_ASSERT_EQUAL(1, int(re.size()));
+		CPPUNIT_ASSERT_EQUAL(string("82567-2"), re[0]->getCatalogNumber());
+		CPPUNIT_ASSERT_EQUAL(string("07567825672"), re[0]->getBarcode());
 	}
 	
 	void testReleaseTracks()
