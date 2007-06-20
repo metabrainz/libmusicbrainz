@@ -68,6 +68,8 @@ namespace MusicBrainz
 		ArtistIncludes &releases(const std::string &type);
 		//! Include VA releases of speficied type.
 		ArtistIncludes &vaReleases(const std::string &type);
+		//! Include release events for included releases.
+		ArtistIncludes &releaseEvents();	
 		//! Include artist relations.
 		ArtistIncludes &artistRelations();	
 		//! Include release relations.

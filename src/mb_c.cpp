@@ -367,6 +367,7 @@ MB_C_INCLUDES(ArtistIncludes, artist_includes, artistRelations, artist_relations
 MB_C_INCLUDES(ArtistIncludes, artist_includes, releaseRelations, release_relations)
 MB_C_INCLUDES(ArtistIncludes, artist_includes, trackRelations, track_relations)
 MB_C_INCLUDES(ArtistIncludes, artist_includes, urlRelations, url_relations)
+MB_C_INCLUDES(ArtistIncludes, artist_includes, releaseEvents, release_events)
 
 MbArtistIncludes
 mb_artist_includes_releases(MbArtistIncludes o, const char *str) 
