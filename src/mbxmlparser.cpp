@@ -54,6 +54,7 @@ public:
 	void addTracksToList(XMLNode listNode, TrackList &resultList);
 	void addUsersToList(XMLNode listNode, UserList &resultList);
 	void addTagsToList(XMLNode listNode, TagList &resultList);
+	void addLabelAliasesToList(XMLNode listNode, LabelAliasList &resultList);
 
 	template<typename T, typename TL, typename TR>
 	void addResults(XMLNode listNode, TL &resultList, T *(MbXmlParserPrivate::*creator)(XMLNode));
@@ -70,6 +71,8 @@ public:
 	Track *createTrack(XMLNode releaseNode);
 	User *createUser(XMLNode releaseNode);
 	Tag *createTag(XMLNode releaseNode);
+	Label *createLabel(XMLNode releaseNode);
+	LabelAlias *createLabelAlias(XMLNode releaseNode);
 
 	DefaultFactory factory;
 };
@@ -197,6 +200,60 @@ ArtistAlias *
 MbXmlParser::MbXmlParserPrivate::createArtistAlias(XMLNode node)
 {
 	ArtistAlias *alias = factory.newArtistAlias();
+	alias->setType(getUriAttr(node, "type"));
+	alias->setScript(getTextAttr(node, "script"));
+	alias->setValue(getText(node));
+	return alias;
+}
+
+Label *
+MbXmlParser::MbXmlParserPrivate::createLabel(XMLNode labelNode)
+{
+	Label *label = factory.newLabel();
+	label->setId(getIdAttr(labelNode, "id", "label"));
+	label->setType(getUriAttr(labelNode, "type"));
+	for (int i = 0; i < labelNode.nChildNode(); i++) {
+		XMLNode node = labelNode.getChildNode(i);
+		string name = node.getName(); 
+		if (name == "name") {
+			label->setName(getText(node));
+		}
+		else if (name == "sort-name") {
+			label->setSortName(getText(node));
+		}
+		else if (name == "disambiguation") {
+			label->setDisambiguation(getText(node));
+		}
+		else if (name == "life-span") {
+			const char *begin = node.getAttribute("begin");
+			const char *end = node.getAttribute("end");
+			if (begin)
+				label->setBeginDate(string(begin));
+			if (end)
+				label->setEndDate(string(end));
+		}
+		else if (name == "alias-list") {
+			addLabelAliasesToList(node, label->getAliases());
+		}
+		else if (name == "release-list") {
+			label->setReleasesOffset(getIntAttr(node, "offset"));
+			label->setReleasesCount(getIntAttr(node, "count"));
+			addReleasesToList(node, label->getReleases());
+		}
+		else if (name == "relation-list") {
+			addRelationsToEntity(node, label);
+		}
+		else if (name == "tag-list") {
+			addTagsToList(node, label->getTags());
+		}
+	}
+	return label; 
+}
+
+LabelAlias *
+MbXmlParser::MbXmlParserPrivate::createLabelAlias(XMLNode node)
+{
+	LabelAlias *alias = factory.newLabelAlias();
 	alias->setType(getUriAttr(node, "type"));
 	alias->setScript(getTextAttr(node, "script"));
 	alias->setValue(getText(node));
@@ -391,6 +448,13 @@ MbXmlParser::MbXmlParserPrivate::createReleaseEvent(XMLNode releaseEventNode)
 	releaseEvent->setDate(getTextAttr(releaseEventNode, "date"));
 	releaseEvent->setCatalogNumber(getTextAttr(releaseEventNode, "catalog-number"));
 	releaseEvent->setBarcode(getTextAttr(releaseEventNode, "barcode"));
+	for (int i = 0; i < releaseEventNode.nChildNode(); i++) {
+		XMLNode node = releaseEventNode.getChildNode(i);
+		string name = node.getName();
+		if (name == "label") {
+			releaseEvent->setLabel(createLabel(node));
+		}
+	}
 	return releaseEvent;
 }
 
@@ -482,6 +546,12 @@ MbXmlParser::MbXmlParserPrivate::addTagsToList(XMLNode listNode, TagList &result
 	addToList<Tag, TagList>(listNode, resultList, &MbXmlParserPrivate::createTag);
 }
 
+void
+MbXmlParser::MbXmlParserPrivate::addLabelAliasesToList(XMLNode listNode, LabelAliasList &resultList)
+{
+	addToList<LabelAlias, LabelAliasList>(listNode, resultList, &MbXmlParserPrivate::createLabelAlias);
+}
+
 MbXmlParser::MbXmlParser(/*IFactory &factory*/)
 {
 	d = new MbXmlParserPrivate();
@@ -514,6 +584,9 @@ MbXmlParser::parse(const std::string &data)
 			}
 			else if (name == string("release")) {
 				md->setRelease(d->createRelease(node));
+			}
+			else if (name == string("label")) {
+				md->setLabel(d->createLabel(node));
 			}
 			else if (name == string("artist-list")) {
 				d->addArtistResults(node, md->getArtistResults());

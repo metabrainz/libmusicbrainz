@@ -93,6 +93,8 @@ protected:
 		CPPUNIT_ASSERT_EQUAL(1, int(re.size()));
 		CPPUNIT_ASSERT_EQUAL(string("82567-2"), re[0]->getCatalogNumber());
 		CPPUNIT_ASSERT_EQUAL(string("07567825672"), re[0]->getBarcode());
+		CPPUNIT_ASSERT(re[0]->getLabel());
+		CPPUNIT_ASSERT_EQUAL(string("Atlantic Records"), re[0]->getLabel()->getName());
 	}
 	
 	void testReleaseTracks()

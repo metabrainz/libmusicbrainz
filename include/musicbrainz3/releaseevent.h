@@ -94,6 +94,9 @@ namespace MusicBrainz
 		void setBarcode(const std::string &barcode);
 		std::string getBarcode() const;
 
+		void setLabel(Label *label);
+		Label *getLabel();
+
 	private:
 		
 		class ReleaseEventPrivate;

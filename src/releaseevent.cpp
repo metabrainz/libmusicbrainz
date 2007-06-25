@@ -21,6 +21,7 @@
  */
  
 #include <string>
+#include <musicbrainz3/label.h>
 #include <musicbrainz3/releaseevent.h>
 #include "utils_private.h"
 
@@ -31,12 +32,14 @@ class ReleaseEvent::ReleaseEventPrivate
 {
 public:
 	ReleaseEventPrivate()
+		: label(NULL)
 		{}
 		
 	string country;
 	string dateStr;
 	string catalogNumber;
 	string barcode;
+	Label *label;
 };
 
 ReleaseEvent::ReleaseEvent(const string &country, const string &dateStr)
@@ -49,6 +52,9 @@ ReleaseEvent::ReleaseEvent(const string &country, const string &dateStr)
 
 ReleaseEvent::~ReleaseEvent()
 {
+	if (d->label)
+		delete d->label;
+
 	delete d;
 }
 
@@ -56,3 +62,18 @@ SIMPLE_STRING_SETTER_GETTER(ReleaseEvent, Country, country);
 SIMPLE_STRING_SETTER_GETTER(ReleaseEvent, CatalogNumber, catalogNumber);
 SIMPLE_STRING_SETTER_GETTER(ReleaseEvent, Barcode, barcode);
 SIMPLE_STRING_SETTER_GETTER(ReleaseEvent, Date, dateStr);
+
+void
+ReleaseEvent::setLabel(Label *label)
+{
+	if (d->label)
+		delete d->label;
+
+	d->label = label;
+}
+
+Label *
+ReleaseEvent::getLabel()
+{
+	return d->label;
+}
