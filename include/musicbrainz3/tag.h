@@ -1,7 +1,7 @@
 /*
  * MusicBrainz -- The Internet music metadatabase
  *
- * Copyright (C) 2006 Lukas Lalinsky
+ * Copyright (C) 2007 Lukas Lalinsky
  *  
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -20,20 +20,48 @@
  * $Id$
  */
  
-#ifndef __MUSICBRAINZ3_MODEL_H__
-#define __MUSICBRAINZ3_MODEL_H__
+#ifndef __MUSICBRAINZ3_TAG_H__
+#define __MUSICBRAINZ3_TAG_H__
 
-#include <musicbrainz3/entity.h> 
-#include <musicbrainz3/lists.h> 
-#include <musicbrainz3/artist.h> 
-#include <musicbrainz3/artistalias.h> 
-#include <musicbrainz3/disc.h> 
-#include <musicbrainz3/track.h> 
-#include <musicbrainz3/release.h> 
-#include <musicbrainz3/releaseevent.h> 
-#include <musicbrainz3/relation.h> 
-#include <musicbrainz3/user.h> 
-#include <musicbrainz3/tag.h> 
+#include <string>
+#include <musicbrainz3/musicbrainz.h>
+
+namespace MusicBrainz
+{
+	
+	/**
+	 * 
+	 */
+	class MB_API Tag
+	{
+	public:
+	
+		/**
+		 * Constructor.
+		 *
+		 * @param name
+		 * @param count
+		 */
+		Tag(const std::string &name = std::string(), int count = 0);
+
+		/**
+		 * Destructor.
+		 */
+		virtual ~Tag();
+		
+		std::string getName() const;
+		void setName(const std::string &name);
+		
+		int getCount() const;
+		void setCount(const int count);
+		
+	private:
+		
+		class TagPrivate;
+		TagPrivate *d;
+	};
+	
+}
 
 #endif
 

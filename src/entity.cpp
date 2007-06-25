@@ -35,6 +35,7 @@ public:
 	
 	std::string id;
 	RelationList relations;
+	TagList tags;
 };
 
 Entity::Entity(const string &id)
@@ -105,5 +106,23 @@ Relation *
 Entity::getRelation(int i)
 {
 	return d->relations[i];
+}
+
+int
+Entity::getNumTags() const
+{
+	return d->tags.size();
+}
+
+Tag * 
+Entity::getTag(int i)
+{
+	return d->tags[i];
+}
+
+TagList &
+Entity::getTags()
+{
+	return d->tags;
 }
 

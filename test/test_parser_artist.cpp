@@ -19,6 +19,7 @@ class ParseArtistTest : public CppUnit::TestFixture
 	CPPUNIT_TEST(testArtistReleases);
 	CPPUNIT_TEST(testArtistIncompleteReleaseList);
 	CPPUNIT_TEST(testArtistRelations);
+	CPPUNIT_TEST(testArtistTags);
 	CPPUNIT_TEST(testSearchResults);
 	CPPUNIT_TEST_SUITE_END();
 	
@@ -46,6 +47,18 @@ protected:
 		CPPUNIT_ASSERT_EQUAL(string("Myra Ellen Amos"), al[0]->getValue());
 		CPPUNIT_ASSERT_EQUAL(string("Latn"), al[2]->getScript());
 		CPPUNIT_ASSERT_EQUAL(string(NS_MMD_1 + "Misspelling"), al[2]->getType());
+	}
+	
+	void testArtistTags()
+	{
+		Metadata *md = MbXmlParser().parse(get_file_contents("../test-data/valid/artist/Tchaikovsky-2.xml"));
+		const TagList &t = md->getArtist()->getTags();
+		
+		CPPUNIT_ASSERT_EQUAL(4, int(t.size()));
+		CPPUNIT_ASSERT_EQUAL(string("classical"), t[0]->getName());
+		CPPUNIT_ASSERT_EQUAL(100, t[0]->getCount());
+		CPPUNIT_ASSERT_EQUAL(string("composer"), t[3]->getName());
+		CPPUNIT_ASSERT_EQUAL(120, t[3]->getCount());
 	}
 	
 	void testArtistReleases()

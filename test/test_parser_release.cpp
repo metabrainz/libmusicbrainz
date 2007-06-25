@@ -23,6 +23,7 @@ class ParseReleaseTest : public CppUnit::TestFixture
 	CPPUNIT_TEST(testReleaseTracks);
 	CPPUNIT_TEST(testReleaseTracksVA);
 	CPPUNIT_TEST(testReleaseSearch);
+	CPPUNIT_TEST(testReleaseTags);
 	CPPUNIT_TEST_SUITE_END();
 	
 protected:
@@ -130,6 +131,18 @@ protected:
 		CPPUNIT_ASSERT_EQUAL(100, r[0]->getScore());
 		CPPUNIT_ASSERT_EQUAL(80, r[1]->getScore());
 		CPPUNIT_ASSERT_EQUAL(string("http://musicbrainz.org/release/005fe18b-144b-4fee-81c0-e04737a23500"), r[1]->getRelease()->getId());
+	}
+	
+	void testReleaseTags()
+	{
+		Metadata *md = MbXmlParser().parse(get_file_contents("../test-data/valid/release/Highway_61_Revisited_2.xml"));
+		const TagList &t = md->getRelease()->getTags();
+		
+		CPPUNIT_ASSERT_EQUAL(4, int(t.size()));
+		CPPUNIT_ASSERT_EQUAL(string("rock"), t[0]->getName());
+		CPPUNIT_ASSERT_EQUAL(100, t[0]->getCount());
+		CPPUNIT_ASSERT_EQUAL(string("dylan"), t[3]->getName());
+		CPPUNIT_ASSERT_EQUAL(4, t[3]->getCount());
 	}
 	
 };

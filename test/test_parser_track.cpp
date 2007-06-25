@@ -17,6 +17,7 @@ class ParseTrackTest : public CppUnit::TestFixture
 	CPPUNIT_TEST(testTrackBasic);
 	CPPUNIT_TEST(testTrackReleases);
 	CPPUNIT_TEST(testTrackSearch);
+	CPPUNIT_TEST(testTrackTags);
 	CPPUNIT_TEST_SUITE_END();
 	
 protected:
@@ -52,6 +53,14 @@ protected:
 		CPPUNIT_ASSERT_EQUAL(99, r[1]->getScore());
 		CPPUNIT_ASSERT_EQUAL(80, r[2]->getScore());
 		CPPUNIT_ASSERT_EQUAL(string("http://musicbrainz.org/track/1954d2a1-d021-4426-b818-b5a5bce1ca07"), r[2]->getTrack()->getId());
+	}
+	
+	void testTrackTags()
+	{
+		Metadata *md = MbXmlParser().parse(get_file_contents("../test-data/valid/track/Silent_All_These_Years_6.xml"));
+		const TagList &t = md->getTrack()->getTags();
+		
+		CPPUNIT_ASSERT_EQUAL(0, int(t.size()));
 	}
 	
 };
