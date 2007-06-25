@@ -44,6 +44,8 @@ namespace MusicBrainz
     	virtual ReleaseEvent *newReleaseEvent() = 0;
     	virtual User *newUser() = 0;
     	virtual Tag *newTag() = 0;
+    	virtual Label *newLabel() = 0;
+    	virtual LabelAlias *newLabelAlias() = 0;
     };
     
     /**
@@ -63,6 +65,8 @@ namespace MusicBrainz
     	virtual ReleaseEvent *newReleaseEvent() { return new ReleaseEvent(); };
     	virtual User *newUser() { return new User(); };
     	virtual Tag *newTag() { return new Tag(); };
+    	virtual Label *newLabel() { return new Label(); };
+    	virtual LabelAlias *newLabelAlias() { return new LabelAlias(); };
     };
     
 }

@@ -30,12 +30,14 @@ public:
 	MetadataPrivate() :
 		artist(NULL),
 		track(NULL),
-		release(NULL)
+		release(NULL),
+		label(NULL)
 		{}
 	
 	Artist *artist;
 	Track *track;
 	Release *release;
+	Label *label;
 	UserList userList;
 	ArtistResultList artistResults;
 	TrackResultList trackResults;
@@ -57,6 +59,9 @@ Metadata::~Metadata()
 	
 	if (d->release)
 		delete d->release;
+	
+	if (d->label)
+		delete d->label;
 	
 	for (UserList::iterator i = d->userList.begin(); i != d->userList.end(); i++) 
 		delete *i;
@@ -125,6 +130,23 @@ Metadata::getRelease(bool remove)
 	if (remove)
 		d->release = NULL;
     return ret;
+}
+
+Label * 
+Metadata::getLabel(bool remove)
+{
+	Label *ret = d->label;
+	if (remove)
+		d->label = NULL;
+    return ret;
+}
+
+void 
+Metadata::setLabel(Label *value)
+{
+	if (d->label)
+		delete d->label;
+    d->label = value;
 }
 
 UserList &

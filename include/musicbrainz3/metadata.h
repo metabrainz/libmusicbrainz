@@ -102,6 +102,24 @@ namespace MusicBrainz
 		void setTrack(Track *track);
 		
 		/**
+		 * Returns the label.
+		 *
+		 * @param remove if set to \c true, the object will be removed from 
+		 * this Metadata instance and the caller is responsible for
+		 * deleting it when it is no longer needed
+		 *
+		 * @return a pointer to Label object, or \c NULL
+		 */
+		Label *getLabel(bool remove = false);
+		
+		/**
+		 * Sets the label.
+		 *
+		 * @param label a pointer to Label object, or \c NULL
+		 */
+		void setLabel(Label *label);
+		
+		/**
 		 * Returns a list of users.
 		 *
 		 * @return a vector of pointers to User objects
