@@ -43,6 +43,7 @@ namespace MusicBrainz
     	virtual Release *newRelease() = 0;
     	virtual ReleaseEvent *newReleaseEvent() = 0;
     	virtual User *newUser() = 0;
+    	virtual Tag *newTag() = 0;
     };
     
     /**
@@ -53,7 +54,7 @@ namespace MusicBrainz
     class MB_API DefaultFactory : public IFactory 
     {
     public:
-		virtual Artist *newArtist() { return new Artist(); };
+	virtual Artist *newArtist() { return new Artist(); };
     	virtual ArtistAlias *newArtistAlias() { return new ArtistAlias(); };
     	virtual Disc *newDisc() { return new Disc(); };
     	virtual Track *newTrack() { return new Track(); };
@@ -61,6 +62,7 @@ namespace MusicBrainz
     	virtual Release *newRelease() { return new Release(); };
     	virtual ReleaseEvent *newReleaseEvent() { return new ReleaseEvent(); };
     	virtual User *newUser() { return new User(); };
+    	virtual Tag *newTag() { return new Tag(); };
     };
     
 }

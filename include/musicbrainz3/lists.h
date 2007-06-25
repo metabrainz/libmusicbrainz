@@ -40,6 +40,7 @@ namespace MusicBrainz
 	class Track;
 	class TrackResult;
 	class User;
+	class Tag;
 	
 	//! A vector of pointers to Artist objects
 	typedef std::vector<Artist *> ArtistList;
@@ -65,6 +66,8 @@ namespace MusicBrainz
 	typedef std::vector<TrackResult *> TrackResultList;
 	//! A vector of pointers to User objects
 	typedef std::vector<User *> UserList;
+	//! A vector of pointers to Tag objects
+	typedef std::vector<Tag *> TagList;
 	
 }
 

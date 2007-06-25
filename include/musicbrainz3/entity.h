@@ -27,6 +27,7 @@
 #include <musicbrainz3/musicbrainz.h> 
 #include <musicbrainz3/lists.h> 
 #include <musicbrainz3/relation.h> 
+#include <musicbrainz3/tag.h> 
 
 namespace MusicBrainz
 {
@@ -148,6 +149,10 @@ namespace MusicBrainz
 		 * @see getRelations		 
 		 */
 		Relation *getRelation(int index);
+
+		TagList &getTags();
+		int getNumTags() const;
+		Tag *getTag(int index);
 		
 	private:
 

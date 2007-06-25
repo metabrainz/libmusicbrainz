@@ -53,6 +53,7 @@ public:
 	void addReleaseEventsToList(XMLNode listNode, ReleaseEventList &resultList);
 	void addTracksToList(XMLNode listNode, TrackList &resultList);
 	void addUsersToList(XMLNode listNode, UserList &resultList);
+	void addTagsToList(XMLNode listNode, TagList &resultList);
 
 	template<typename T, typename TL, typename TR>
 	void addResults(XMLNode listNode, TL &resultList, T *(MbXmlParserPrivate::*creator)(XMLNode));
@@ -68,6 +69,7 @@ public:
 	ReleaseEvent *createReleaseEvent(XMLNode releaseNode);
 	Track *createTrack(XMLNode releaseNode);
 	User *createUser(XMLNode releaseNode);
+	Tag *createTag(XMLNode releaseNode);
 
 	DefaultFactory factory;
 };
@@ -184,6 +186,9 @@ MbXmlParser::MbXmlParserPrivate::createArtist(XMLNode artistNode)
 		else if (name == "relation-list") {
 			addRelationsToEntity(node, artist);
 		}
+		else if (name == "tag-list") {
+			addTagsToList(node, artist->getTags());
+		}
 	}
 	return artist; 
 }
@@ -196,6 +201,15 @@ MbXmlParser::MbXmlParserPrivate::createArtistAlias(XMLNode node)
 	alias->setScript(getTextAttr(node, "script"));
 	alias->setValue(getText(node));
 	return alias;
+}
+
+Tag *
+MbXmlParser::MbXmlParserPrivate::createTag(XMLNode node)
+{
+	Tag *tag = factory.newTag();
+	tag->setCount(getIntAttr(node, "count"));
+	tag->setName(getText(node));
+	return tag;
 }
 
 
@@ -302,6 +316,9 @@ MbXmlParser::MbXmlParserPrivate::createRelease(XMLNode releaseNode)
 		else if (name == "relation-list") {
 			addRelationsToEntity(node, release);
 		}
+		else if (name == "tag-list") {
+			addTagsToList(node, release->getTags());
+		}
 	}
 	return release;
 }
@@ -330,6 +347,9 @@ MbXmlParser::MbXmlParserPrivate::createTrack(XMLNode trackNode)
 		}
 		else if (name == "relation-list") {
 			addRelationsToEntity(node, track);
+		}
+		else if (name == "tag-list") {
+			addTagsToList(node, track->getTags());
 		}
 	}
 	return track;
@@ -454,6 +474,12 @@ void
 MbXmlParser::MbXmlParserPrivate::addUsersToList(XMLNode listNode, UserList &resultList)
 {
 	addToList<User, UserList>(listNode, resultList, &MbXmlParserPrivate::createUser);
+}
+
+void
+MbXmlParser::MbXmlParserPrivate::addTagsToList(XMLNode listNode, TagList &resultList)
+{
+	addToList<Tag, TagList>(listNode, resultList, &MbXmlParserPrivate::createTag);
 }
 
 MbXmlParser::MbXmlParser(/*IFactory &factory*/)
