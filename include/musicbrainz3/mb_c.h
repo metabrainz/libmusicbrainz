@@ -399,6 +399,14 @@ MB_API void
 mb_release_get_asin(MbRelease release, char *str, int len);
 
 /**
+ * Returns the artist. 
+ *
+ * @see MusicBrainz::Release::getArtist
+ */
+MB_API MbArtist
+mb_release_get_artist(MbRelease release);
+
+/**
  * Returns the offset of the track list.
  *
  * @see MusicBrainz::Release::getTracksOffset

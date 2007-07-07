@@ -6,6 +6,7 @@ Changes for libmusicbrainz 3.0.1
    - Support for releaseEvents in ArtistIncludes. (#2974)
    - Support for catalog numbers and barcodes.
    - Added Release::TYPE_PSEUDO_RELEASE.
+   - Added mb_release_get_artist to the C API, patch by Ross Burton.
 
 Changes for libmusicbrainz 3.0.0 (2007-05-12)
 ---------------------------------------------
