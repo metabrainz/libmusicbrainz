@@ -334,6 +334,13 @@ MB_C_OBJ_LIST_GETTER(Release, release, ReleaseEvents, release_events, ReleaseEve
 MB_C_OBJ_LIST_GETTER(Release, release, Relations, relations, Relation, relation, Relation)
 MB_C_STR_LIST_GETTER(Release, release, Types, types, Type, type)
 
+MB_API MbArtist
+mb_release_get_artist(MbRelease r)
+{
+	Release *release = (Release *)r;
+	return (MbArtist)release->getArtist();
+}
+
 /* === MusicBrainz::Track === */
 
 MB_C_FREE(Track, track)
