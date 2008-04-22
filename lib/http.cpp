@@ -32,6 +32,8 @@
 #endif
 #include <fcntl.h>    
 #include <errno.h>    
+#include <string.h>
+#include <stdlib.h>
 
 #ifdef WIN32
 #include <winsock.h>

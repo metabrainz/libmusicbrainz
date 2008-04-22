@@ -33,6 +33,8 @@ email                : ijr@relatable.com
 #pragma warning(disable:4786)
 #endif
 
+#include <string.h>
+
 #include "sigclient.h"
 #include "comhttpsocket.h"
 

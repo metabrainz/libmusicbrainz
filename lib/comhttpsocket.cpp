@@ -20,6 +20,7 @@
 #endif
 #include <stdlib.h>
 #include <assert.h>
+#include <string.h>
 
 const char* g_strCOMVer = "libmusicbrainz/"VERSION;
 

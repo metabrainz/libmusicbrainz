@@ -24,6 +24,7 @@
 #include "musicbrainz.h"
 #include "trm.h"
 #include "mb_c.h"
+#include <string.h>
 
 extern "C"
 {
