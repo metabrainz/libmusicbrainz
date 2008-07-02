@@ -494,6 +494,9 @@ mb_release_get_num_types(MbRelease release);
 MB_API void
 mb_release_get_type(MbRelease release, int index, char *str, int len);
 
+MB_API MbArtist
+mb_release_get_artist(MbRelease release);
+
 /* }}} */
 
 /* {{{ MusicBrainz::Track */
@@ -543,6 +546,9 @@ mb_track_get_num_relations(MbTrack track);
  */
 MB_API MbRelation
 mb_track_get_relation(MbTrack track, int index);
+
+MB_API MbArtist
+mb_track_get_artist(MbTrack track);
 
 /* }}} */
 
