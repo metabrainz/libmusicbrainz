@@ -552,6 +552,14 @@ mb_track_get_num_relations(MbTrack track);
 MB_API MbRelation
 mb_track_get_relation(MbTrack track, int index);
 
+/**
+ * Returns the artist. 
+ *
+ * @see MusicBrainz::Track::getArtist
+ */
+MB_API MbArtist
+mb_track_get_artist(MbTrack track);
+
 /* }}} */
 
 /* {{{ MusicBrainz::ArtistAlias */

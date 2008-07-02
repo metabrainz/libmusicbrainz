@@ -1,3 +1,8 @@
+Changes for libmusicbrainz 3.0.2
+--------------------------------
+
+   - Added mb_track_get_artist to the C API. (#3817)
+
 Changes for libmusicbrainz 3.0.1
 --------------------------------
 
