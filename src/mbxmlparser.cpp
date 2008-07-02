@@ -81,7 +81,7 @@ static bool
 getBoolAttr(XMLNode node, string name)
 {
 	const char *value = node.getAttribute(name.c_str());
-	return value ? value == "true" : false;
+	return value ? string(value) == string("true") : false;
 }
 
 static int
