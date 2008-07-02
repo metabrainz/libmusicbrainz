@@ -1,5 +1,5 @@
 inline string
-get_file_contents(char *filename)
+get_file_contents(const char *filename)
 {
 	ifstream file(filename, ios::in | ios::ate);
 	if (!file.is_open())
