@@ -2,6 +2,7 @@ Changes for libmusicbrainz 3.0.2
 --------------------------------
 
    - Added mb_track_get_artist to the C API. (#3817)
+   - Fix incorrect string comparision in the XML parser code. (#3614)
 
 Changes for libmusicbrainz 3.0.1
 --------------------------------
