@@ -393,13 +393,7 @@ MB_C_OBJ_LIST_GETTER(Release, release, Discs, discs, Disc, disc, Disc)
 MB_C_OBJ_LIST_GETTER(Release, release, ReleaseEvents, release_events, ReleaseEvent, release_event, ReleaseEvent)
 MB_C_OBJ_LIST_GETTER(Release, release, Relations, relations, Relation, relation, Relation)
 MB_C_STR_LIST_GETTER(Release, release, Types, types, Type, type)
-
-MB_API MbArtist
-mb_release_get_artist(MbRelease r)
-{
-	Release *release = (Release *)r;
-	return (MbArtist)release->getArtist();
-}
+MB_C_OBJ_GETTER(Release, release, Artist, artist, MbArtist)
 
 /* === MusicBrainz::Track === */
 
@@ -409,6 +403,7 @@ MB_C_STR_GETTER(Track, track, Id, id)
 MB_C_STR_GETTER(Track, track, Title, title)
 MB_C_INT_GETTER(Track, track, Duration, duration)
 MB_C_OBJ_LIST_GETTER(Track, track, Relations, relations, Relation, relation, Relation)
+MB_C_OBJ_GETTER(Track, track, Artist, artist, MbArtist)
 
 /* === MusicBrainz::ArtistAlias === */
 
