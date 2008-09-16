@@ -7,7 +7,7 @@ Name: ${PROJECT_NAME}
 Description: The Musicbrainz Client Library.
 URL: http://musicbrainz.org/doc/libmusicbrainz
 Version: ${PROJECT_VERSION}
-Requires: neon >= 0.25, libdiscid
+Requires.private: neon >= 0.25, libdiscid
 Libs: -L${LIB_INSTALL_DIR} -lmusicbrainz3
 Cflags: -I${INCLUDE_INSTALL_DIR}
 
