@@ -44,6 +44,10 @@ using the CMAKE_INSTALL_PREFIX option, for example:
 
    cmake -DCMAKE_INSTALL_PREFIX:PATH=/usr .
 
+To disable debug messages, change the build type:
+
+   cmake -DCMAKE_BUILD_TYPE=Release .
+
 For overview of all available options use:
 
    cmake -L .
