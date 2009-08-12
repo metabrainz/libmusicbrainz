@@ -66,6 +66,31 @@ ArtistResult::setArtist(Artist *value)
 	artist = value;
 }
 
+LabelResult::LabelResult(Label *label, int score)
+	: Result(score), label(label)
+{
+}
+
+LabelResult::~LabelResult()
+{
+	if (label)
+		delete label;
+}
+
+Label *
+LabelResult::getLabel()
+{
+	return label;
+}
+
+void
+LabelResult::setLabel(Label *value)
+{
+	if (label)
+		delete label;
+	label = value;
+}
+
 ReleaseResult::ReleaseResult(Release *release, int score)
 	: Result(score), release(release)
 {

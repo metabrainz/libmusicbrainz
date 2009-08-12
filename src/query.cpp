@@ -81,6 +81,23 @@ Query::getArtistById(const string &id,
 	return artist;
 }
 
+Label *
+Query::getLabelById(const string &id,
+					 const LabelIncludes *include)
+{
+	string uuid;
+	try {
+		uuid = extractUuid(id);
+	}
+	catch (ValueError &e) {
+		throw RequestError(e.what());
+	}
+	Metadata *metadata = getFromWebService("label", uuid, include); 
+	Label *label = metadata->getLabel(true);
+	delete metadata;
+	return label;
+}
+
 Release *
 Query::getReleaseById(const string &id,
 					 const ReleaseIncludes *include)
@@ -132,6 +149,15 @@ Query::getArtists(const ArtistFilter *filter)
 {
 	Metadata *metadata = getFromWebService("artist", "", NULL, filter);
 	ArtistResultList list = metadata->getArtistResults(true);
+	delete metadata;
+	return list;
+}
+
+LabelResultList 
+Query::getLabels(const LabelFilter *filter)
+{
+	Metadata *metadata = getFromWebService("label", "", NULL, filter);
+	LabelResultList list = metadata->getLabelResults(true);
 	delete metadata;
 	return list;
 }

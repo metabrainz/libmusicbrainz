@@ -49,6 +49,26 @@ ArtistFilter::limit(const int value)
 	return *this;
 }
 
+LabelFilter::ParameterList
+LabelFilter::createParameters() const
+{
+	return parameters;
+}
+
+LabelFilter &
+LabelFilter::name(const string &value)
+{
+	parameters.push_back(pair<string, string>(string("name"), value));
+	return *this;
+}
+
+LabelFilter &
+LabelFilter::limit(const int value)
+{
+	parameters.push_back(pair<string, string>(string("limit"), intToString(value)));
+	return *this;
+}
+
 ReleaseFilter::ParameterList
 ReleaseFilter::createParameters() const
 {

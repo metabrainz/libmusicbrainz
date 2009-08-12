@@ -39,6 +39,7 @@ INCLUDES_METHOD(Track, artist, artist)
 INCLUDES_METHOD(Track, releases, releases)
 INCLUDES_METHOD(Track, puids, puids)
 INCLUDES_METHOD(Track, artistRelations, artist-rels)
+INCLUDES_METHOD(Track, labelRelations, label-rels)
 INCLUDES_METHOD(Track, releaseRelations, release-rels)
 INCLUDES_METHOD(Track, trackRelations, track-rels)
 INCLUDES_METHOD(Track, urlRelations, url-rels)
@@ -57,6 +58,7 @@ INCLUDES_METHOD(Release, releaseEvents, release-events)
 INCLUDES_METHOD(Release, discs, discs)
 INCLUDES_METHOD(Release, tracks, tracks)
 INCLUDES_METHOD(Release, artistRelations, artist-rels)
+INCLUDES_METHOD(Release, labelRelations, label-rels)
 INCLUDES_METHOD(Release, releaseRelations, release-rels)
 INCLUDES_METHOD(Release, trackRelations, track-rels)
 INCLUDES_METHOD(Release, urlRelations, url-rels)
@@ -71,6 +73,7 @@ ReleaseIncludes::createIncludeTags() const
 
 INCLUDES_METHOD(Artist, aliases, aliases)
 INCLUDES_METHOD(Artist, artistRelations, artist-rels)
+INCLUDES_METHOD(Artist, labelRelations, label-rels)
 INCLUDES_METHOD(Artist, releaseRelations, release-rels)
 INCLUDES_METHOD(Artist, trackRelations, track-rels)
 INCLUDES_METHOD(Artist, urlRelations, url-rels)
@@ -95,4 +98,18 @@ ArtistIncludes::vaReleases(const string &type)
 {
 	includes.push_back(string("va-") + extractFragment(type));
 	return *this;
+}
+
+INCLUDES_METHOD(Label, aliases, aliases)
+INCLUDES_METHOD(Label, artistRelations, artist-rels)
+INCLUDES_METHOD(Label, labelRelations, label-rels)
+INCLUDES_METHOD(Label, releaseRelations, release-rels)
+INCLUDES_METHOD(Label, trackRelations, track-rels)
+INCLUDES_METHOD(Label, urlRelations, url-rels)
+INCLUDES_METHOD(Label, ratings, ratings)
+
+LabelIncludes::IncludeList
+LabelIncludes::createIncludeTags() const
+{
+	return includes;
 }

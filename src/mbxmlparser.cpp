@@ -61,6 +61,7 @@ public:
 	void addResults(XMLNode listNode, TL &resultList, T *(MbXmlParserPrivate::*creator)(XMLNode));
 	
 	void addArtistResults(XMLNode listNode, ArtistResultList &resultList);
+	void addLabelResults(XMLNode listNode, LabelResultList &resultList);
 	void addReleaseResults(XMLNode listNode, ReleaseResultList &resultList);
 	void addTrackResults(XMLNode listNode, TrackResultList &resultList);
 	
@@ -500,6 +501,12 @@ MbXmlParser::MbXmlParserPrivate::addArtistResults(XMLNode listNode, ArtistResult
 }
 
 void
+MbXmlParser::MbXmlParserPrivate::addLabelResults(XMLNode listNode, LabelResultList &resultList)
+{
+	addResults<Label, LabelResultList, LabelResult>(listNode, resultList, &MbXmlParserPrivate::createLabel);
+}
+
+void
 MbXmlParser::MbXmlParserPrivate::addReleaseResults(XMLNode listNode, ReleaseResultList &resultList)
 {
 	addResults<Release, ReleaseResultList, ReleaseResult>(listNode, resultList, &MbXmlParserPrivate::createRelease);
@@ -634,6 +641,9 @@ MbXmlParser::parse(const std::string &data)
 			}
 			else if (name == string("artist-list")) {
 				d->addArtistResults(node, md->getArtistResults());
+			}
+			else if (name == string("label-list")) {
+				d->addLabelResults(node, md->getLabelResults());
 			}
 			else if (name == string("track-list")) {
 				d->addTrackResults(node, md->getTrackResults());

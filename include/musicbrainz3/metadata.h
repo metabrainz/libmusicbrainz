@@ -152,7 +152,10 @@ namespace MusicBrainz
 		 */
 		ReleaseResultList &getReleaseResults();
 		ReleaseResultList getReleaseResults(bool remove);
-		
+
+		LabelResultList &getLabelResults();
+		LabelResultList getLabelResults(bool remove);
+
 	private:
 	
 		class MetadataPrivate;

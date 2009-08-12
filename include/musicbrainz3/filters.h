@@ -66,6 +66,19 @@ namespace MusicBrainz
 	};
 	
 	/**
+	 * A filter for the label collection.
+	 */
+	class MB_API LabelFilter : public IFilter
+	{
+	public:
+		LabelFilter &name(const std::string &name);
+		LabelFilter &limit(const int limit);
+		ParameterList createParameters() const;
+	private:
+		ParameterList parameters;
+	};
+	
+	/**
 	 * A filter for the release collection.
 	 *
 	 * If \a discId or \a artistId are set, only releases matching

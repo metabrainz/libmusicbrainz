@@ -50,7 +50,7 @@ namespace MusicBrainz
 	};
 	
 	/**
-	 * A specification on how much data to return with a track.
+	 * A specification on how much data to return with a artist.
 	 *
 	 * This implementation uses \e method \e chaining to define list of includes.
 	 *
@@ -72,6 +72,8 @@ namespace MusicBrainz
 		ArtistIncludes &releaseEvents();	
 		//! Include artist relations.
 		ArtistIncludes &artistRelations();	
+		//! Include label relations.
+		ArtistIncludes &labelRelations();	
 		//! Include release relations.
 		ArtistIncludes &releaseRelations();	
 		//! Include track relations.
@@ -80,6 +82,38 @@ namespace MusicBrainz
 		ArtistIncludes &urlRelations();
 		//! Include ratings.
 		ArtistIncludes &ratings();
+		IncludeList createIncludeTags() const;
+	private:
+		IncludeList includes;
+	};
+	
+	/**
+	 * A specification on how much data to return with a label.
+	 *
+	 * This implementation uses \e method \e chaining to define list of includes.
+	 *
+	 * Example usage:
+	 * \code
+	 * LabelIncludes inc = LabelIncludes().aliases().urlRelations();
+	 * \endcode
+	 */
+	class MB_API LabelIncludes : public IIncludes
+	{
+	public:
+		//! Include aliases.
+		LabelIncludes &aliases();
+		//! Include artist relations.
+		LabelIncludes &artistRelations();	
+		//! Include label relations.
+		LabelIncludes &labelRelations();	
+		//! Include release relations.
+		LabelIncludes &releaseRelations();	
+		//! Include track relations.
+		LabelIncludes &trackRelations();	
+		//! Include URL relations.
+		LabelIncludes &urlRelations();
+		//! Include ratings.
+		LabelIncludes &ratings();
 		IncludeList createIncludeTags() const;
 	private:
 		IncludeList includes;
@@ -110,6 +144,8 @@ namespace MusicBrainz
 		ReleaseIncludes &tracks();	
 		//! Include artist relations.
 		ReleaseIncludes &artistRelations();	
+		//! Include label relations.
+		ReleaseIncludes &labelRelations();	
 		//! Include release relations.
 		ReleaseIncludes &releaseRelations();	
 		//! Include track relations.
@@ -146,6 +182,8 @@ namespace MusicBrainz
 		TrackIncludes &puids();	
 		//! Include artist relations.
 		TrackIncludes &artistRelations();	
+		//! Include label relations.
+		TrackIncludes &labelRelations();	
 		//! Include release relations.
 		TrackIncludes &releaseRelations();	
 		//! Include track relations.
