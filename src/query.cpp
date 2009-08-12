@@ -22,7 +22,6 @@
  
 #include <string>
 #include <map>
-#include <iostream>
 #include <musicbrainz3/utils.h>
 #include <musicbrainz3/query.h>
 #include <musicbrainz3/mbxmlparser.h>

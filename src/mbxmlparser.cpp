@@ -23,7 +23,6 @@
 // TODO: support for namespaces and full MMD 
  
 #include <string>
-#include <iostream>
 #include <cctype>
 #include <algorithm>
 #include <cstring>

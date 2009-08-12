@@ -23,7 +23,6 @@
 #include <config.h>
 #include <string>
 #include <map>
-#include <iostream>
 #include <stdlib.h>
 #include <string.h>
 #include <ne_session.h>
