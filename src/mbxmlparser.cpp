@@ -55,6 +55,7 @@ public:
 	void addTagsToList(XMLNode listNode, TagList &resultList);
 	void addLabelAliasesToList(XMLNode listNode, LabelAliasList &resultList);
 	void addIsrcsToList(XMLNode listNode, IsrcList &resultList);
+	void addRating(XMLNode node, Entity *entity);
 
 	template<typename T, typename TL, typename TR>
 	void addResults(XMLNode listNode, TL &resultList, T *(MbXmlParserPrivate::*creator)(XMLNode));
@@ -150,7 +151,14 @@ getInt(XMLNode node, int def = 0)
 {
 	string text = getText(node);
 	return text.empty() ? def : atoi(text.c_str());
-} 
+}
+
+static float
+getFloat(XMLNode node, float def = 0)
+{
+	string text = getText(node);
+	return text.empty() ? def : atof(text.c_str());
+}
 
 Artist *
 MbXmlParser::MbXmlParserPrivate::createArtist(XMLNode artistNode)
@@ -191,6 +199,9 @@ MbXmlParser::MbXmlParserPrivate::createArtist(XMLNode artistNode)
 		}
 		else if (name == "tag-list") {
 			addTagsToList(node, artist->getTags());
+		}
+		else if (name == "rating") {
+			addRating(node, artist);
 		}
 	}
 	return artist; 
@@ -245,6 +256,9 @@ MbXmlParser::MbXmlParserPrivate::createLabel(XMLNode labelNode)
 		}
 		else if (name == "tag-list") {
 			addTagsToList(node, label->getTags());
+		}
+		else if (name == "rating") {
+			addRating(node, label);
 		}
 	}
 	return label; 
@@ -376,6 +390,9 @@ MbXmlParser::MbXmlParserPrivate::createRelease(XMLNode releaseNode)
 		else if (name == "tag-list") {
 			addTagsToList(node, release->getTags());
 		}
+		else if (name == "rating") {
+			addRating(node, release);
+		}
 	}
 	return release;
 }
@@ -410,6 +427,9 @@ MbXmlParser::MbXmlParserPrivate::createTrack(XMLNode trackNode)
 		}
 		else if (name == "isrc-list") {
 			addIsrcsToList(node, track->getIsrcs());
+		}
+		else if (name == "rating") {
+			addRating(node, track);
 		}
 	}
 	return track;
@@ -561,6 +581,13 @@ MbXmlParser::MbXmlParserPrivate::addIsrcsToList(XMLNode listNode, IsrcList &resu
 			}
 		}
 	}
+}
+
+void
+MbXmlParser::MbXmlParserPrivate::addRating(XMLNode node, Entity *entity)
+{
+	entity->setRating(getFloat(node));
+	entity->setRatingVoteCount(getIntAttr(node, "votes-count"));
 }
 
 void

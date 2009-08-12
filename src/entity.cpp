@@ -31,11 +31,14 @@ class Entity::EntityPrivate
 {
 public:
 	EntityPrivate()
+		: rating(0), ratingVoteCount(0)
 		{}
 	
 	std::string id;
 	RelationList relations;
 	TagList tags;
+	float rating;
+	int ratingVoteCount;
 };
 
 Entity::Entity(const string &id)
@@ -126,3 +129,5 @@ Entity::getTags()
 	return d->tags;
 }
 
+SIMPLE_FLOAT_SETTER_GETTER(Entity, Rating, rating);
+SIMPLE_INT_SETTER_GETTER(Entity, RatingVoteCount, ratingVoteCount);
