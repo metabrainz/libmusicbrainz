@@ -185,3 +185,11 @@ Query::submitPuids(const map<string, string> &tracks2puids)
 	d->ws->post("track", "", urlEncode(params));	
 }
 
+void
+Query::submitIsrcs(const map<string, string> &tracks2isrcs)
+{
+	vector<pair<string, string> > params;
+	for (map<string, string>::const_iterator i = tracks2isrcs.begin(); i != tracks2isrcs.end(); i++) 
+		params.push_back(pair<string, string>("isrc", extractUuid(i->first) + " " + i->second));
+	d->ws->post("track", "", urlEncode(params));
+}
