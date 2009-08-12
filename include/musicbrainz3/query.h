@@ -243,6 +243,26 @@ namespace MusicBrainz
 		 * @throw AuthenticationError invalid user name and/or password 
 		 */
 		 void submitPuids(const std::map<std::string, std::string> &tracks2puids);
+		
+		/**
+		 * Submit track to ISRC mappings.
+		 *
+		 * The \a tracks2isrcs parameter has to be a map, with the
+		 * keys being MusicBrainz track IDs (either as absolute URIs or
+		 * in their 36 character ASCII representation) and the values
+		 * being ISRCs (ASCII, 12 characters).
+
+		 * Note that this method only works if a valid user name and
+		 * password have been set. See the example in Query on how
+		 * to supply authentication data.
+		 *
+		 * @param tracks2isrcs a map mapping track IDs to PUIDs
+		 *
+		 * @throw ConnectionError couldn't connect to server
+		 * @throw RequestError invalid tracks or ISRCss
+		 * @throw AuthenticationError invalid user name and/or password 
+		 */
+		 void submitIsrcs(const std::map<std::string, std::string> &tracks2isrcs);
 		 
 	protected:
 	
