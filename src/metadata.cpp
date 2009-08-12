@@ -40,6 +40,7 @@ public:
 	Label *label;
 	UserList userList;
 	ArtistResultList artistResults;
+	LabelResultList labelResults;
 	TrackResultList trackResults;
 	ReleaseResultList releaseResults;
 };
@@ -70,6 +71,10 @@ Metadata::~Metadata()
 	for (ArtistResultList::iterator i = d->artistResults.begin(); i != d->artistResults.end(); i++) 
 		delete *i;
 	d->artistResults.clear();
+	
+	for (LabelResultList::iterator i = d->labelResults.begin(); i != d->labelResults.end(); i++) 
+		delete *i;
+	d->labelResults.clear();
 	
 	for (ReleaseResultList::iterator i = d->releaseResults.begin(); i != d->releaseResults.end(); i++) 
 		delete *i;
@@ -161,6 +166,12 @@ Metadata::getArtistResults()
 	return d->artistResults;
 }
 
+LabelResultList &
+Metadata::getLabelResults()
+{
+	return d->labelResults;
+}
+
 TrackResultList &
 Metadata::getTrackResults()
 {
@@ -186,6 +197,14 @@ Metadata::getArtistResults(bool remove)
 {
 	ArtistResultList list = d->artistResults;
 	d->artistResults.clear();
+	return list;
+}
+
+LabelResultList 
+Metadata::getLabelResults(bool remove)
+{
+	LabelResultList list = d->labelResults;
+	d->labelResults.clear();
 	return list;
 }
 

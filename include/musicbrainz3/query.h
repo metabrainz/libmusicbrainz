@@ -102,7 +102,10 @@ namespace MusicBrainz
 		 
 		Artist *getArtistById(const std::string &id,
 							  const ArtistIncludes *include = NULL);
-		
+
+		Label *getLabelById(const std::string &id,
+							  const LabelIncludes *include = NULL);
+
 		/**
 		 * Returns a release.
 		 *
@@ -191,6 +194,8 @@ namespace MusicBrainz
 		 * @throw ResponseError server returned invalid data
 		 */
 		ArtistResultList getArtists(const ArtistFilter *filter);
+
+		LabelResultList getLabels(const LabelFilter *filter);
 
 		/**
 		 * Returns releases matching given criteria. 

@@ -108,6 +108,46 @@ namespace MusicBrainz
 		
 		Artist *artist;
 	};
+
+	/**
+	 * Represents an label result.
+	 *
+	 * An \a LabelResult consists of a \a score and an \a label. The score
+	 * is a number between 0 and 100, where a higher number indicates a better
+	 * match. 
+	 */
+	class MB_API LabelResult : public Result
+	{
+	public:
+		
+		/**
+		 * Constructor.
+		 */
+		LabelResult(Label *label, int score);
+		
+		/**
+		 * Destructor.
+		 */
+		~LabelResult();
+		
+		/**
+		 * Returns the label.
+		 *
+		 * @return a pointer to an Label object
+		 */
+		Label *getLabel();
+		
+		/**
+		 * Sets the label.
+		 *
+		 * @param label a pointer to an Label object
+		 */
+		void setLabel(Label *label);
+		
+	private:
+		
+		Label *label;
+	};
 	
 	/**
 	 * Represents an release result.
