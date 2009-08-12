@@ -54,6 +54,7 @@ public:
 	void addUsersToList(XMLNode listNode, UserList &resultList);
 	void addTagsToList(XMLNode listNode, TagList &resultList);
 	void addLabelAliasesToList(XMLNode listNode, LabelAliasList &resultList);
+	void addIsrcsToList(XMLNode listNode, IsrcList &resultList);
 
 	template<typename T, typename TL, typename TR>
 	void addResults(XMLNode listNode, TL &resultList, T *(MbXmlParserPrivate::*creator)(XMLNode));
@@ -407,6 +408,9 @@ MbXmlParser::MbXmlParserPrivate::createTrack(XMLNode trackNode)
 		else if (name == "tag-list") {
 			addTagsToList(node, track->getTags());
 		}
+		else if (name == "isrc-list") {
+			addIsrcsToList(node, track->getIsrcs());
+		}
 	}
 	return track;
 }
@@ -543,6 +547,20 @@ void
 MbXmlParser::MbXmlParserPrivate::addTagsToList(XMLNode listNode, TagList &resultList)
 {
 	addToList<Tag, TagList>(listNode, resultList, &MbXmlParserPrivate::createTag);
+}
+
+void
+MbXmlParser::MbXmlParserPrivate::addIsrcsToList(XMLNode listNode, IsrcList &resultList)
+{
+	for (int i = 0; i < listNode.nChildNode(); i++) {
+		XMLNode node = listNode.getChildNode(i);
+		if (node.getName() == string("isrc")) {
+			string isrc = getTextAttr(node, "id");
+			if (isrc.size()) {
+				resultList.push_back(isrc);
+			}
+		}
+	}
 }
 
 void
