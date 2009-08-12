@@ -153,7 +153,13 @@ namespace MusicBrainz
 		TagList &getTags();
 		int getNumTags() const;
 		Tag *getTag(int index);
-		
+
+		float getRating() const;
+		void setRating(float rating);
+
+		int getRatingVoteCount() const;
+		void setRatingVoteCount(int count);
+
 	private:
 
 		class EntityPrivate;

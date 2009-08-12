@@ -19,6 +19,7 @@ class ParseTrackTest : public CppUnit::TestFixture
 	CPPUNIT_TEST(testTrackSearch);
 	CPPUNIT_TEST(testTrackTags);
 	CPPUNIT_TEST(testTrackIsrcs);
+	CPPUNIT_TEST(testTrackRating);
 	CPPUNIT_TEST_SUITE_END();
 	
 protected:
@@ -63,7 +64,7 @@ protected:
 		
 		CPPUNIT_ASSERT_EQUAL(0, int(t.size()));
 	}
-	
+
 	void testTrackIsrcs()
 	{
 		Metadata *md = MbXmlParser().parse(get_file_contents("../test-data/valid/track/Silent_All_These_Years_6.xml"));
@@ -72,7 +73,15 @@ protected:
 		CPPUNIT_ASSERT_EQUAL(1, int(t.size()));
 		CPPUNIT_ASSERT_EQUAL(string("USPR37300012"), t[0]);
 	}
-	
+
+	void testTrackRating()
+	{
+		Metadata *md = MbXmlParser().parse(get_file_contents("../test-data/valid/track/Silent_All_These_Years_6.xml"));
+		
+		CPPUNIT_ASSERT_EQUAL(4.5f, float(md->getTrack()->getRating()));
+		CPPUNIT_ASSERT_EQUAL(10, int(md->getTrack()->getRatingVoteCount()));
+	}
+
 };
 
 CPPUNIT_TEST_SUITE_REGISTRATION(ParseTrackTest); 

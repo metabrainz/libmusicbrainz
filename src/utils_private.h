@@ -63,7 +63,19 @@ namespace MusicBrainz
 		return d->name2; \
 	} \
 	void \
-	class::set##name(const int value) \
+	class::set##name(int value) \
+	{ \
+		d->name2 = value; \
+	}
+
+#define SIMPLE_FLOAT_SETTER_GETTER(class, name, name2) \
+	float \
+	class::get##name() const \
+	{ \
+		return d->name2; \
+	} \
+	void \
+	class::set##name(float value) \
 	{ \
 		d->name2 = value; \
 	}
