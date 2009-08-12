@@ -41,6 +41,7 @@ public:
 	ReleaseList releases;
 	int releasesCount;
 	int releasesOffset;
+	IsrcList isrcs;
 };
 
 Track::Track(const string &id, const string &title)
@@ -122,4 +123,28 @@ void
 Track::setReleasesCount(const int releasesCount)
 {
 	d->releasesCount = releasesCount;
+}
+
+IsrcList &
+Track::getIsrcs()
+{
+	return d->isrcs;
+}
+
+void
+Track::addIsrc(const string &isrc)
+{
+	d->isrcs.push_back(isrc);
+}
+
+int
+Track::getNumIsrcs() const
+{
+	return d->isrcs.size();
+}
+
+string
+Track::getIsrc(int i)
+{
+	return d->isrcs[i];
 }

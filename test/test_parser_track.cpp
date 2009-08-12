@@ -18,6 +18,7 @@ class ParseTrackTest : public CppUnit::TestFixture
 	CPPUNIT_TEST(testTrackReleases);
 	CPPUNIT_TEST(testTrackSearch);
 	CPPUNIT_TEST(testTrackTags);
+	CPPUNIT_TEST(testTrackIsrcs);
 	CPPUNIT_TEST_SUITE_END();
 	
 protected:
@@ -61,6 +62,15 @@ protected:
 		const TagList &t = md->getTrack()->getTags();
 		
 		CPPUNIT_ASSERT_EQUAL(0, int(t.size()));
+	}
+	
+	void testTrackIsrcs()
+	{
+		Metadata *md = MbXmlParser().parse(get_file_contents("../test-data/valid/track/Silent_All_These_Years_6.xml"));
+		const IsrcList &t = md->getTrack()->getIsrcs();
+		
+		CPPUNIT_ASSERT_EQUAL(1, int(t.size()));
+		CPPUNIT_ASSERT_EQUAL(string("USPR37300012"), t[0]);
 	}
 	
 };

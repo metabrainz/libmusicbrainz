@@ -200,7 +200,43 @@ namespace MusicBrainz
 		 * @see getReleasesCount 
 		 */
 		void setReleasesCount(const int count);
-		
+
+		/**
+		 * Returns the list of ISRCs for this track.
+		 *
+		 * @return a list of strings
+		 */
+		IsrcList &getIsrcs();
+
+		/**
+		 * Returns number of ISRCs.
+		 *
+		 * This is equivalent to \c getIsrcs().size()
+		 *
+		 * @return an int containing number of ISRCs
+		 *
+		 * @see getIsrcs
+		 */
+		int getNumIsrcs() const;
+
+		/**
+		 * Returns ISRC specified by index.
+		 *
+		 * This is equivalent to \c getIsrcs()[index]
+		 *
+		 * @return a string
+		 *
+		 * @see getAliases
+		 */
+		std::string getIsrc(int index);
+
+		/**
+		 * Adds an ISRC for this track.
+		 *
+		 * @param isrc
+		 */
+		void addIsrc(const std::string &isrc);
+
 	private:
 		
 		class TrackPrivate;

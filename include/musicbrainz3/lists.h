@@ -74,6 +74,7 @@ namespace MusicBrainz
 	typedef std::vector<Label *> LabelList;
 	//! A vector of pointers to LabelAlias objects
 	typedef std::vector<LabelAlias *> LabelAliasList;
+	typedef std::vector<std::string> IsrcList;
 	
 }
 
