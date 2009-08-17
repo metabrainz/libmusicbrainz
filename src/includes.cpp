@@ -45,6 +45,7 @@ INCLUDES_METHOD(Track, trackRelations, track-rels)
 INCLUDES_METHOD(Track, urlRelations, url-rels)
 INCLUDES_METHOD(Track, isrcs, isrcs)
 INCLUDES_METHOD(Track, ratings, ratings)
+INCLUDES_METHOD(Track, tags, tags)
 
 TrackIncludes::IncludeList
 TrackIncludes::createIncludeTags() const
@@ -64,6 +65,7 @@ INCLUDES_METHOD(Release, trackRelations, track-rels)
 INCLUDES_METHOD(Release, urlRelations, url-rels)
 INCLUDES_METHOD(Release, isrcs, isrcs)
 INCLUDES_METHOD(Release, ratings, ratings)
+INCLUDES_METHOD(Release, tags, tags)
 
 ReleaseIncludes::IncludeList
 ReleaseIncludes::createIncludeTags() const
@@ -79,6 +81,7 @@ INCLUDES_METHOD(Artist, trackRelations, track-rels)
 INCLUDES_METHOD(Artist, urlRelations, url-rels)
 INCLUDES_METHOD(Artist, releaseEvents, release-events)
 INCLUDES_METHOD(Artist, ratings, ratings)
+INCLUDES_METHOD(Artist, tags, tags)
 
 ArtistIncludes::IncludeList
 ArtistIncludes::createIncludeTags() const
@@ -107,6 +110,7 @@ INCLUDES_METHOD(Label, releaseRelations, release-rels)
 INCLUDES_METHOD(Label, trackRelations, track-rels)
 INCLUDES_METHOD(Label, urlRelations, url-rels)
 INCLUDES_METHOD(Label, ratings, ratings)
+INCLUDES_METHOD(Label, tags, tags)
 
 LabelIncludes::IncludeList
 LabelIncludes::createIncludeTags() const
