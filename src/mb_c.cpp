@@ -22,6 +22,7 @@
  
 #include <string.h>
 #include <musicbrainz3/query.h>
+#include <musicbrainz3/utils.h>
 #include <musicbrainz3/mb_c.h>
 
 extern "C" {
@@ -567,5 +568,22 @@ MB_C_FREE(UserFilter, user_filter)
 
 MB_C_STR_FILTER(UserFilter, user_filter, name, name)
 
+/* === Utils === */
+
+void
+mb_extract_fragment(const char *uri, char *fragment, int len)
+{
+  string uri_tmp(uri);
+  string fragment_tmp = extractFragment(uri_tmp);
+  strncpy(fragment, fragment_tmp.c_str(), len);
+}
+
+void
+mb_extract_uuid(const char *uri, char *uuid, int len)
+{
+  string uri_tmp(uri);
+  string uuid_tmp = extractUuid(uri_tmp);
+  strncpy(uuid, uuid_tmp.c_str(), len);
+}
 
 }
