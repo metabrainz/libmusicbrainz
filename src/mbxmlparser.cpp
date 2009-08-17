@@ -236,6 +236,9 @@ MbXmlParser::MbXmlParserPrivate::createLabel(XMLNode labelNode)
 		else if (name == "disambiguation") {
 			label->setDisambiguation(getText(node));
 		}
+		else if (name == "label-code") {
+			label->setCode(getInt(node));
+		}
 		else if (name == "life-span") {
 			const char *begin = node.getAttribute("begin");
 			const char *end = node.getAttribute("end");
