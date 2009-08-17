@@ -973,6 +973,26 @@ mb_get_submission_url(MbDisc disc, const char *host, int port, char *str, int le
 
 /* }}} */
 
+/* {{{ Utils */
+
+/**
+ * Extract the fragment part from a URI.
+ *
+ * @see extractFragment
+ */
+MB_API void
+mb_extract_fragment(const char *uri, char *fragment, int len);
+
+/**
+ * Extract the UUID part from a MusicBrainz identifier.
+ *
+ * @see extractUuid
+ */
+MB_API void
+mb_extract_uuid(const char *uri, char *uuid, int len);
+
+/* }}} */
+
 #ifdef __cplusplus
 }
 #endif
