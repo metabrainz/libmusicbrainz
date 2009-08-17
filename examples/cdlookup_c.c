@@ -3,7 +3,7 @@
 // Usage:
 //	cdlookup_c [device] 
 //
-// $Id$
+// 
 
 #include <stdio.h>
 #include <musicbrainz3/mb_c.h>
