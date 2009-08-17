@@ -82,6 +82,8 @@ namespace MusicBrainz
 		ArtistIncludes &urlRelations();
 		//! Include ratings.
 		ArtistIncludes &ratings();
+		//! Include tags.
+		ArtistIncludes &tags();
 		IncludeList createIncludeTags() const;
 	private:
 		IncludeList includes;
@@ -114,6 +116,8 @@ namespace MusicBrainz
 		LabelIncludes &urlRelations();
 		//! Include ratings.
 		LabelIncludes &ratings();
+		//! Include tags.
+		LabelIncludes &tags();
 		IncludeList createIncludeTags() const;
 	private:
 		IncludeList includes;
@@ -156,6 +160,8 @@ namespace MusicBrainz
 		ReleaseIncludes &isrcs();
 		//! Include ratings.
 		ReleaseIncludes &ratings();
+		//! Include tags.
+		ReleaseIncludes &tags();
 		IncludeList createIncludeTags() const;
 	private:
 		IncludeList includes;
@@ -194,6 +200,8 @@ namespace MusicBrainz
 		TrackIncludes &isrcs();
 		//! Include ratings.
 		TrackIncludes &ratings();
+		//! Include tags.
+		TrackIncludes &tags();
 		IncludeList createIncludeTags() const;
 	private:
 		IncludeList includes;

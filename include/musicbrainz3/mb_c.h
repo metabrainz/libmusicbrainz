@@ -823,6 +823,9 @@ mb_artist_includes_release_events(MbArtistIncludes inc);
 MB_API MbArtistIncludes
 mb_artist_includes_ratings(MbArtistIncludes inc);
 
+MB_API MbArtistIncludes
+mb_artist_includes_tags(MbArtistIncludes inc);
+
 /* }}} */
 
 /* {{{ MusicBrainz::LabelIncludes */
@@ -850,6 +853,9 @@ mb_label_includes_url_relations(MbLabelIncludes inc);
 
 MB_API MbLabelIncludes
 mb_label_includes_ratings(MbLabelIncludes inc);
+
+MB_API MbLabelIncludes
+mb_label_includes_tags(MbLabelIncludes inc);
 
 /* }}} */
 
@@ -891,6 +897,9 @@ mb_release_includes_url_relations(MbReleaseIncludes inc);
 MB_API MbReleaseIncludes
 mb_release_includes_ratings(MbReleaseIncludes inc);
 
+MB_API MbReleaseIncludes
+mb_release_includes_tags(MbReleaseIncludes inc);
+
 /* }}} */
 
 /* {{{ MusicBrainz::TrackIncludes */
@@ -924,6 +933,9 @@ mb_track_includes_url_relations(MbTrackIncludes inc);
 
 MB_API MbTrackIncludes
 mb_track_includes_ratings(MbTrackIncludes inc);
+
+MB_API MbTrackIncludes
+mb_track_includes_tags(MbTrackIncludes inc);
 
 /* }}} */
 
