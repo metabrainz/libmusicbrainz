@@ -451,6 +451,14 @@ MB_C_OBJ_LIST_GETTER(Release, release, Relations, relations, Relation, relation,
 MB_C_STR_LIST_GETTER(Release, release, Types, types, Type, type)
 MB_C_OBJ_GETTER(Release, release, Artist, artist, MbArtist)
 
+/* === MusicBrainz::ReleaseGroup === */
+
+MB_C_FREE(ReleaseGroup, release_group)
+
+MB_C_STR_GETTER(ReleaseGroup, release_group, Id, id)
+MB_C_STR_GETTER(ReleaseGroup, release_group, Title, title)
+MB_C_STR_GETTER(ReleaseGroup, release_group, Type, type)
+
 /* === MusicBrainz::Track === */
 
 MB_C_FREE(Track, track)

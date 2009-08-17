@@ -1,4 +1,3 @@
-/* 
 
 static const char *languageNames[][2] = {
 	{"ART", "Artificial (Other)"},

@@ -1,4 +1,3 @@
-/* 
 
 static const char *scriptNames[][2] = {
 	{"Yiii", "Yi"},

@@ -1,4 +1,3 @@
-/* 
 
 static const char *countryNames[][2] = {
 	{"BD", "Bangladesh"},

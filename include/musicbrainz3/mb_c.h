@@ -45,6 +45,7 @@ typedef void *MbQuery;
 typedef void *MbRelation;
 typedef void *MbRelease;
 typedef void *MbReleaseEvent;
+typedef void *MbReleaseGroup;
 typedef void *MbReleaseFilter;
 typedef void *MbReleaseIncludes;
 typedef void *MbResultList;
@@ -511,6 +512,40 @@ mb_label_get_num_relations(MbLabel label);
  */
 MB_API MbRelation
 mb_label_get_relation(MbLabel label, int index);
+
+/* }}} */
+
+/* {{{ MusicBrainz::ReleaseGroup */
+
+/**
+ * Deletes the MbReleaseGroup instance.
+ */
+MB_API void
+mb_release_group_free(MbReleaseGroup release_group);
+
+/**
+ * Returns the release_group's ID. 
+ *
+ * @see MusicBrainz::ReleaseGroup::getId
+ */
+MB_API void
+mb_release_group_get_id(MbReleaseGroup release_group, char *str, int len);
+
+/**
+ * Returns the release_group's title. 
+ *
+ * @see MusicBrainz::ReleaseGroup::getTitle
+ */
+MB_API void
+mb_release_group_get_title(MbReleaseGroup release_group, char *str, int len);
+
+/**
+ * Returns the release_group's type. 
+ *
+ * @see MusicBrainz::ReleaseGroup::getType
+ */
+MB_API void
+mb_release_group_get_type(MbReleaseGroup release_group, char *str, int len);
 
 /* }}} */
 

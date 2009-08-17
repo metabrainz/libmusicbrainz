@@ -30,6 +30,7 @@
 #include <musicbrainz3/disc.h> 
 #include <musicbrainz3/track.h> 
 #include <musicbrainz3/release.h> 
+#include <musicbrainz3/releasegroup.h>
 #include <musicbrainz3/releaseevent.h> 
 #include <musicbrainz3/relation.h> 
 #include <musicbrainz3/user.h> 
