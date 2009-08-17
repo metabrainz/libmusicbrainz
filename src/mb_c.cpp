@@ -420,6 +420,7 @@ MB_C_FREE(Label, label)
 
 MB_C_STR_GETTER(Label, label, Id, id)
 MB_C_STR_GETTER(Label, label, Type, type)
+MB_C_INT_GETTER(Label, label, Code, code)
 MB_C_STR_GETTER(Label, label, Name, name)
 MB_C_STR_GETTER(Label, label, SortName, sortname)
 MB_C_STR_GETTER(Label, label, Disambiguation, disambiguation)

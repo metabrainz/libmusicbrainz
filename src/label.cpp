@@ -34,10 +34,12 @@ class Label::LabelPrivate
 {
 public:
 	LabelPrivate() :
+		code(0),
 		releasesCount(0),
 		releasesOffset(0)
 		{}
 	
+	int code;
 	std::string type;
 	std::string name;
 	std::string sortName;
@@ -74,6 +76,7 @@ Label::~Label()
 }
 
 SIMPLE_STRING_SETTER_GETTER(Label, Type, type);
+SIMPLE_INT_SETTER_GETTER(Label, Code, code);
 SIMPLE_STRING_SETTER_GETTER(Label, Name, name);
 SIMPLE_STRING_SETTER_GETTER(Label, SortName, sortName);
 SIMPLE_STRING_SETTER_GETTER(Label, Disambiguation, disambiguation);

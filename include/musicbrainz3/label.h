@@ -73,6 +73,20 @@ namespace MusicBrainz
 		void setType(const std::string &type);
 		
 		/**
+		 * Returns the label code.
+		 *
+		 * @return an int representing the label code
+		 */
+		int getCode() const;
+		
+		/**
+		 * Sets the label code.
+		 *
+		 * @param code an int representing the label code
+		 */
+		void setCode(int code);
+		
+		/**
 		 * Returns the label's name.
 		 * 
 		 * @return a string containing the label's name, or empty string

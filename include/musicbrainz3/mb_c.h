@@ -393,6 +393,14 @@ MB_API void
 mb_label_get_type(MbLabel label, char *str, int len);
 
 /**
+ * Returns the label code. 
+ *
+ * @see MusicBrainz::Label::getCode
+ */
+MB_API int
+mb_label_get_code(MbLabel label);
+
+/**
  * Returns the label's name.
  *
  * @see MusicBrainz::Label::getName	
