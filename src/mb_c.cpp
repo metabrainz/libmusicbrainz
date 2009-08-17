@@ -491,6 +491,7 @@ MB_C_INCLUDES(ArtistIncludes, artist_includes, releaseRelations, release_relatio
 MB_C_INCLUDES(ArtistIncludes, artist_includes, trackRelations, track_relations)
 MB_C_INCLUDES(ArtistIncludes, artist_includes, urlRelations, url_relations)
 MB_C_INCLUDES(ArtistIncludes, artist_includes, releaseEvents, release_events)
+MB_C_INCLUDES(ArtistIncludes, artist_includes, ratings, ratings)
 
 MbArtistIncludes
 mb_artist_includes_releases(MbArtistIncludes o, const char *str) 
@@ -516,6 +517,7 @@ MB_C_INCLUDES(LabelIncludes, label_includes, labelRelations, label_relations)
 MB_C_INCLUDES(LabelIncludes, label_includes, releaseRelations, release_relations)
 MB_C_INCLUDES(LabelIncludes, label_includes, trackRelations, track_relations)
 MB_C_INCLUDES(LabelIncludes, label_includes, urlRelations, url_relations)
+MB_C_INCLUDES(LabelIncludes, label_includes, ratings, ratings)
 
 /* === MusicBrainz::ReleaseIncludes === */
 
@@ -531,6 +533,7 @@ MB_C_INCLUDES(ReleaseIncludes, release_includes, artistRelations, artist_relatio
 MB_C_INCLUDES(ReleaseIncludes, release_includes, releaseRelations, release_relations)
 MB_C_INCLUDES(ReleaseIncludes, release_includes, trackRelations, track_relations)
 MB_C_INCLUDES(ReleaseIncludes, release_includes, urlRelations, url_relations)
+MB_C_INCLUDES(ReleaseIncludes, release_includes, ratings, ratings)
 
 /* === MusicBrainz::TrackIncludes === */
 
@@ -544,6 +547,7 @@ MB_C_INCLUDES(TrackIncludes, track_includes, artistRelations, artist_relations)
 MB_C_INCLUDES(TrackIncludes, track_includes, releaseRelations, release_relations)
 MB_C_INCLUDES(TrackIncludes, track_includes, trackRelations, track_relations)
 MB_C_INCLUDES(TrackIncludes, track_includes, urlRelations, url_relations)
+MB_C_INCLUDES(TrackIncludes, track_includes, ratings, ratings)
 
 /* === MusicBrainz::ReleaseEvent === */
 
