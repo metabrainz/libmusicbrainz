@@ -223,6 +223,18 @@ mb_query_get_artist_by_id(MbQuery q, const char *id, MbArtistIncludes inc)
 	}
 }
 
+MbLabel
+mb_query_get_label_by_id(MbQuery q, const char *id, MbLabelIncludes inc)
+{
+	Query *query = (Query *)q;
+	try {
+		return (MbLabel)query->getLabelById(id, (LabelIncludes *)inc);
+	}
+	catch (...) {
+		return NULL;
+	}
+}
+
 MbRelease
 mb_query_get_release_by_id(MbQuery q, const char *id, MbReleaseIncludes inc)
 {
@@ -298,6 +310,17 @@ mb_result_list_get_artist(MbResultList list, int index)
 	}
 }
 
+MbLabel
+mb_result_list_get_label(MbResultList list, int index)
+{
+	try {
+		return (MbLabel)(*((LabelResultList *)list))[index]->getLabel();
+	}
+	catch (...) {
+		return NULL;
+	}
+}
+
 MbRelease
 mb_result_list_get_release(MbResultList list, int index)
 {
@@ -326,6 +349,19 @@ mb_query_get_artists(MbQuery q, MbArtistFilter flt)
 	Query *query = (Query *)q;
 	try {
 		ArtistResultList *results = new ArtistResultList(query->getArtists((ArtistFilter *)flt));
+    	return (MbResultList)results;
+	}
+	catch (...) {
+		return NULL;
+	}
+}
+
+MB_API MbResultList
+mb_query_get_labels(MbQuery q, MbLabelFilter flt)
+{
+	Query *query = (Query *)q;
+	try {
+		LabelResultList *results = new LabelResultList(query->getLabels((LabelFilter *)flt));
     	return (MbResultList)results;
 	}
 	catch (...) {
@@ -378,6 +414,24 @@ MB_C_OBJ_LIST_GETTER(Artist, artist, Aliases, aliases, Alias, alias, ArtistAlias
 MB_C_OBJ_LIST_GETTER(Artist, artist, Releases, releases, Release, release, Release)
 MB_C_OBJ_LIST_GETTER(Artist, artist, Relations, relations, Relation, relation, Relation)
 
+/* === MusicBrainz::Label === */
+
+MB_C_FREE(Label, label)
+
+MB_C_STR_GETTER(Label, label, Id, id)
+MB_C_STR_GETTER(Label, label, Type, type)
+MB_C_STR_GETTER(Label, label, Name, name)
+MB_C_STR_GETTER(Label, label, SortName, sortname)
+MB_C_STR_GETTER(Label, label, Disambiguation, disambiguation)
+MB_C_STR_GETTER(Label, label, UniqueName, unique_name)
+MB_C_STR_GETTER(Label, label, BeginDate, begin_date)
+MB_C_STR_GETTER(Label, label, EndDate, end_date)
+MB_C_INT_GETTER(Label, label, ReleasesOffset, releases_offset)
+MB_C_INT_GETTER(Label, label, ReleasesCount, releases_count)
+MB_C_OBJ_LIST_GETTER(Label, label, Aliases, aliases, Alias, alias, LabelAlias)
+MB_C_OBJ_LIST_GETTER(Label, label, Releases, releases, Release, release, Release)
+MB_C_OBJ_LIST_GETTER(Label, label, Relations, relations, Relation, relation, Relation)
+
 /* === MusicBrainz::Release === */
 
 MB_C_FREE(Release, release)
@@ -412,6 +466,12 @@ MB_C_STR_GETTER(ArtistAlias, artist_alias, Value, value)
 MB_C_STR_GETTER(ArtistAlias, artist_alias, Type, type)
 MB_C_STR_GETTER(ArtistAlias, artist_alias, Script, script)
 
+/* === MusicBrainz::LabelAlias === */
+
+MB_C_STR_GETTER(LabelAlias, label_alias, Value, value)
+MB_C_STR_GETTER(LabelAlias, label_alias, Type, type)
+MB_C_STR_GETTER(LabelAlias, label_alias, Script, script)
+
 /* === MusicBrainz::User === */
 
 MB_C_FREE(User, user)
@@ -445,6 +505,17 @@ mb_artist_includes_va_releases(MbArtistIncludes o, const char *str)
 	((ArtistIncludes *)o)->vaReleases(str ? string(str) : string()); 
 	return o; 
 } 
+
+/* === MusicBrainz::ArtistIncludes === */
+
+MB_C_NEW_NOARGS(LabelIncludes, label_includes)
+MB_C_FREE(LabelIncludes, label_includes)
+
+MB_C_INCLUDES(LabelIncludes, label_includes, aliases, aliases)
+MB_C_INCLUDES(LabelIncludes, label_includes, labelRelations, label_relations)
+MB_C_INCLUDES(LabelIncludes, label_includes, releaseRelations, release_relations)
+MB_C_INCLUDES(LabelIncludes, label_includes, trackRelations, track_relations)
+MB_C_INCLUDES(LabelIncludes, label_includes, urlRelations, url_relations)
 
 /* === MusicBrainz::ReleaseIncludes === */
 
@@ -534,6 +605,14 @@ MB_C_FREE(ArtistFilter, artist_filter)
 
 MB_C_STR_FILTER(ArtistFilter, artist_filter, name, name)
 MB_C_INT_FILTER(ArtistFilter, artist_filter, limit, limit)
+
+/* === MusicBrainz::LabelFilter === */
+
+MB_C_NEW_NOARGS(LabelFilter, label_filter)
+MB_C_FREE(LabelFilter, label_filter)
+
+MB_C_STR_FILTER(LabelFilter, label_filter, name, name)
+MB_C_INT_FILTER(LabelFilter, label_filter, limit, limit)
 
 /* === MusicBrainz::ReleaseFilter === */
 
