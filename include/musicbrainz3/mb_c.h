@@ -35,6 +35,10 @@ typedef void *MbArtist;
 typedef void *MbArtistAlias;
 typedef void *MbArtistFilter;
 typedef void *MbArtistIncludes;
+typedef void *MbLabel;
+typedef void *MbLabelAlias;
+typedef void *MbLabelFilter;
+typedef void *MbLabelIncludes;
 typedef void *MbDisc;
 typedef void *MbEntity;
 typedef void *MbQuery;
@@ -160,6 +164,14 @@ MB_API MbArtist
 mb_query_get_artist_by_id(MbQuery query, const char *id, MbArtistIncludes inc);
 
 /**
+ * Returns a label.
+ * 
+ * @see MusicBrainz::Query::getLabelById
+ */
+MB_API MbLabel
+mb_query_get_label_by_id(MbQuery query, const char *id, MbLabelIncludes inc);
+
+/**
  * Returns an release.
  * 
  * @see MusicBrainz::Query::getReleaseById
@@ -197,6 +209,9 @@ mb_result_list_get_score(MbResultList list, int index);
 MB_API MbArtist
 mb_result_list_get_artist(MbResultList list, int index);
 
+MB_API MbLabel
+mb_result_list_get_label(MbResultList list, int index);
+
 MB_API MbRelease
 mb_result_list_get_release(MbResultList list, int index);
 
@@ -205,6 +220,9 @@ mb_result_list_get_track(MbResultList list, int index);
 
 MB_API MbResultList
 mb_query_get_artists(MbQuery query, MbArtistFilter flt);
+
+MB_API MbResultList
+mb_query_get_labels(MbQuery query, MbLabelFilter flt);
 
 MB_API MbResultList
 mb_query_get_releases(MbQuery query, MbReleaseFilter flt);
@@ -347,6 +365,144 @@ mb_artist_get_num_relations(MbArtist artist);
  */
 MB_API MbRelation
 mb_artist_get_relation(MbArtist artist, int index);
+
+/* }}} */
+
+/* {{{ MusicBrainz::Label */
+
+/**
+ * Deletes the MbLabel instance.
+ */
+MB_API void
+mb_label_free(MbLabel label);
+
+/**
+ * Returns the label's ID.
+ *
+ * @see MusicBrainz::Label::getId	
+ */
+MB_API void
+mb_label_get_id(MbLabel label, char *str, int len);
+
+/**
+ * Returns the label's type.
+ *
+ * @see MusicBrainz::Label::getType	
+ */
+MB_API void
+mb_label_get_type(MbLabel label, char *str, int len);
+
+/**
+ * Returns the label's name.
+ *
+ * @see MusicBrainz::Label::getName	
+ */
+MB_API void
+mb_label_get_name(MbLabel label, char *str, int len);
+
+/**
+ * Returns the label's sort name.
+ *
+ * @see MusicBrainz::Label::getSortName	
+ */
+MB_API void
+mb_label_get_sortname(MbLabel label, char *str, int len);
+
+/**
+ * Returns the disambiguation attribute. 
+ *
+ * @see MusicBrainz::Label::getDisambiguation
+ */
+MB_API void
+mb_label_get_disambiguation(MbLabel label, char *str, int len);
+
+/**
+ * Returns a unique label name (using disambiguation). 
+ *
+ * @see MusicBrainz::Label::getUniqueName
+ */
+MB_API void
+mb_label_get_unique_name(MbLabel label, char *str, int len);
+
+/**
+ * Returns the birth/foundation date. 
+ *
+ * @see MusicBrainz::Label::getBeginDate
+ */
+MB_API void
+mb_label_get_begin_date(MbLabel label, char *str, int len);
+
+/**
+ * Returns the death/dissolving date. 
+ *
+ * @see MusicBrainz::Label::getEndDate
+ */
+MB_API void
+mb_label_get_end_date(MbLabel label, char *str, int len);
+
+/**
+ * Returns number of aliases. 
+ *
+ * @see MusicBrainz::Label::getNumAliases
+ */
+MB_API int
+mb_label_get_num_aliases(MbLabel label);
+
+/**
+ * Returns an alias specified by index. 
+ *
+ * @see MusicBrainz::Label::getGetAlias
+ */
+MB_API MbLabelAlias
+mb_label_get_alias(MbLabel label, int index);
+
+/**
+ * Returns number of releases. 
+ *
+ * @see MusicBrainz::Label::getNumReleases
+ */
+MB_API int
+mb_label_get_num_releases(MbLabel label);
+
+/**
+ * Returns an release specified by index. 
+ *
+ * @see MusicBrainz::Label::getGetRelease
+ */
+MB_API MbRelease
+mb_label_get_release(MbLabel label, int index);
+
+/**
+ * Returns the offset of the release list.
+ *
+ * @see MusicBrainz::Label::getReleasesOffset
+ */
+MB_API int
+mb_label_get_releases_offset(MbLabel label);
+
+/**
+ * Returns the number of releases on this label.
+ *
+ * @see MusicBrainz::Label::getReleasesCount
+ */
+MB_API int
+mb_label_get_releases_count(MbLabel label);
+
+/**
+ * Returns number of relations. 
+ *
+ * @see MusicBrainz::Label::getNumRelations
+ */
+MB_API int
+mb_label_get_num_relations(MbLabel label);
+
+/**
+ * Returns a relation specified by index. 
+ *
+ * @see MusicBrainz::Label::getRelation
+ */
+MB_API MbRelation
+mb_label_get_relation(MbLabel label, int index);
 
 /* }}} */
 
