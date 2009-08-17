@@ -3,7 +3,7 @@
  * Usage:
  *  getartist 'artist id'
  *
- * $Id$
+ * 
  */
 
 #include <stdio.h>

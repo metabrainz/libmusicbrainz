@@ -1,4 +1,4 @@
-/* $Id$ */
+/* 
 
 static const char *releaseTypeNames[][2] = {
 	{"http://musicbrainz.org/ns/mmd-1.0#None", "None"},

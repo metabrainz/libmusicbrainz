@@ -3,7 +3,7 @@
 // Usage:
 //	findtrack 'track name' ['artist name'] 
 //
-// $Id$
+// 
 
 #include <iostream>
 #include <musicbrainz3/webservice.h>
