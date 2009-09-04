@@ -123,6 +123,19 @@ namespace MusicBrainz
 		ParameterList parameters;
 	};
 	
+	class MB_API ReleaseGroupFilter : public IFilter
+	{
+	public:
+		ReleaseGroupFilter &title(const std::string &value);
+		ReleaseGroupFilter &releaseType(const std::string &value);
+		ReleaseGroupFilter &artistName(const std::string &value);
+		ReleaseGroupFilter &artistId(const std::string &value);
+		ReleaseGroupFilter &limit(const int value);
+		ParameterList createParameters() const;
+	private:
+		ParameterList parameters;
+	};
+	
 	/**
 	 * A filter for the track collection.
 	 *

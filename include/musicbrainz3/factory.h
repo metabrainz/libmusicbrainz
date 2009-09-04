@@ -41,13 +41,14 @@ namespace MusicBrainz
     	virtual Track *newTrack() = 0;
     	virtual Relation *newRelation() = 0;
     	virtual Release *newRelease() = 0;
+    	virtual ReleaseGroup *newReleaseGroup() = 0;
     	virtual ReleaseEvent *newReleaseEvent() = 0;
     	virtual User *newUser() = 0;
     	virtual Tag *newTag() = 0;
     	virtual Label *newLabel() = 0;
     	virtual LabelAlias *newLabelAlias() = 0;
     };
-    
+
     /**
      * A factory to instantiate classes from the domain model.
 	 *
@@ -62,6 +63,7 @@ namespace MusicBrainz
     	virtual Track *newTrack() { return new Track(); };
     	virtual Relation *newRelation() { return new Relation(); };
     	virtual Release *newRelease() { return new Release(); };
+    	virtual ReleaseGroup *newReleaseGroup() { return new ReleaseGroup(); };
     	virtual ReleaseEvent *newReleaseEvent() { return new ReleaseEvent(); };
     	virtual User *newUser() { return new User(); };
     	virtual Tag *newTag() { return new Tag(); };

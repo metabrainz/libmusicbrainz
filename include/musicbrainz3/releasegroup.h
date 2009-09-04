@@ -121,6 +121,10 @@ namespace MusicBrainz
 		 */
 		std::string getType() const;
 
+		ReleaseList &getReleases();
+		int getNumReleases() const;
+		Release *getRelease(int index);
+
 	private:
 		
 		class ReleaseGroupPrivate;

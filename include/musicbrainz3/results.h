@@ -190,6 +190,46 @@ namespace MusicBrainz
 	};
 	
 	/**
+	 * Represents an releaseGroup result.
+	 *
+	 * An \a ReleaseGroupResult consists of a \a score and an \a releaseGroup. The score
+	 * is a number between 0 and 100, where a higher number indicates a better
+	 * match. 
+	 */
+	class MB_API ReleaseGroupResult : public Result
+	{
+	public:
+		
+		/**
+		 * Constructor.
+		 */
+		ReleaseGroupResult(ReleaseGroup *releaseGroup, int score);
+		
+		/**
+		 * Destructor.
+		 */
+		~ReleaseGroupResult();
+		
+		/**
+		 * Returns the releaseGroup.
+		 *
+		 * @return a pointer to a ReleaseGroup object
+		 */
+		ReleaseGroup *getReleaseGroup();
+		
+		/**
+		 * Sets the releaseGroup.
+		 *
+		 * @param releaseGroup a pointer to a ReleaseGroup object
+		 */
+		void setReleaseGroup(ReleaseGroup *releaseGroup);
+		
+	private:
+		
+		ReleaseGroup *releaseGroup;
+	};
+	
+	/**
 	 * Represents an track result.
 	 *
 	 * An \a TrackResult consists of a \a score and an \a track. The score

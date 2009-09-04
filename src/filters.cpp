@@ -124,6 +124,54 @@ ReleaseFilter::limit(const int value)
 	return *this;
 }
 
+ReleaseGroupFilter::ParameterList
+ReleaseGroupFilter::createParameters() const
+{
+	return parameters;
+}
+
+ReleaseGroupFilter &
+ReleaseGroupFilter::title(const string &value)
+{
+	parameters.push_back(pair<string, string>(string("title"), value));
+	return *this;
+}
+
+ReleaseGroupFilter &
+ReleaseGroupFilter::releaseType(const string &value)
+{
+	string type = extractFragment(value);
+	for (ParameterList::iterator i = parameters.begin(); i != parameters.end(); i++) {
+		if (i->first == string("releasetypes")) {
+			i->second += string(" ") + type;
+			return *this;
+		}
+	}
+	parameters.push_back(pair<string, string>(string("releasetypes"), type));
+	return *this;
+}
+
+ReleaseGroupFilter &
+ReleaseGroupFilter::artistName(const string &value)
+{
+	parameters.push_back(pair<string, string>(string("artist"), value));
+	return *this;
+}
+
+ReleaseGroupFilter &
+ReleaseGroupFilter::artistId(const string &value)
+{
+	parameters.push_back(pair<string, string>(string("artistid"), value));
+	return *this;
+}
+
+ReleaseGroupFilter &
+ReleaseGroupFilter::limit(const int value)
+{
+	parameters.push_back(pair<string, string>(string("limit"), intToString(value)));
+	return *this;
+}
+
 TrackFilter::ParameterList
 TrackFilter::createParameters() const
 {

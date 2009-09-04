@@ -49,6 +49,7 @@ public:
 	void addArtistAliasesToList(XMLNode listNode, ArtistAliasList &resultList);
 	void addDiscsToList(XMLNode listNode, DiscList &resultList);
 	void addReleasesToList(XMLNode listNode, ReleaseList &resultList);
+	void addReleaseGroupsToList(XMLNode listNode, ReleaseGroupList &resultList);
 	void addReleaseEventsToList(XMLNode listNode, ReleaseEventList &resultList);
 	void addTracksToList(XMLNode listNode, TrackList &resultList);
 	void addUsersToList(XMLNode listNode, UserList &resultList);
@@ -63,12 +64,14 @@ public:
 	void addArtistResults(XMLNode listNode, ArtistResultList &resultList);
 	void addLabelResults(XMLNode listNode, LabelResultList &resultList);
 	void addReleaseResults(XMLNode listNode, ReleaseResultList &resultList);
+	void addReleaseGroupResults(XMLNode listNode, ReleaseGroupResultList &resultList);
 	void addTrackResults(XMLNode listNode, TrackResultList &resultList);
 	
 	Artist *createArtist(XMLNode artistNode);
 	ArtistAlias *createArtistAlias(XMLNode artistAliasNode);
 	Disc *createDisc(XMLNode artistNode);
 	Release *createRelease(XMLNode releaseNode);
+	ReleaseGroup *createReleaseGroup(XMLNode releaseGroupNode);
 	ReleaseEvent *createReleaseEvent(XMLNode releaseNode);
 	Track *createTrack(XMLNode releaseNode);
 	User *createUser(XMLNode releaseNode);
@@ -377,6 +380,9 @@ MbXmlParser::MbXmlParserPrivate::createRelease(XMLNode releaseNode)
 		else if (name == "artist") {
 			release->setArtist(createArtist(node));
 		}
+		else if (name == "release-group") {
+			release->setReleaseGroup(createReleaseGroup(node));
+		}
 		else if (name == "release-event-list") {
 			addReleaseEventsToList(node, release->getReleaseEvents());
 		}
@@ -399,6 +405,28 @@ MbXmlParser::MbXmlParserPrivate::createRelease(XMLNode releaseNode)
 		}
 	}
 	return release;
+}
+
+ReleaseGroup *
+MbXmlParser::MbXmlParserPrivate::createReleaseGroup(XMLNode releaseGroupNode)
+{
+	ReleaseGroup *releaseGroup = factory.newReleaseGroup();
+	releaseGroup->setId(getIdAttr(releaseGroupNode, "id", "release-group"));
+	releaseGroup->setType(getUriAttr(releaseGroupNode, "type"));
+	for (int i = 0; i < releaseGroupNode.nChildNode(); i++) {
+		XMLNode node = releaseGroupNode.getChildNode(i);
+		string name = node.getName();
+		if (name == "title") {
+			releaseGroup->setTitle(getText(node));
+		}
+		else if (name == "artist") {
+			releaseGroup->setArtist(createArtist(node));
+		}
+		else if (name == "release-list") {
+			addReleasesToList(node, releaseGroup->getReleases());
+		}
+	}
+	return releaseGroup;
 }
 
 Track *
@@ -516,6 +544,12 @@ MbXmlParser::MbXmlParserPrivate::addReleaseResults(XMLNode listNode, ReleaseResu
 }
 
 void
+MbXmlParser::MbXmlParserPrivate::addReleaseGroupResults(XMLNode listNode, ReleaseGroupResultList &resultList)
+{
+	addResults<ReleaseGroup, ReleaseGroupResultList, ReleaseGroupResult>(listNode, resultList, &MbXmlParserPrivate::createReleaseGroup);
+}
+
+void
 MbXmlParser::MbXmlParserPrivate::addTrackResults(XMLNode listNode, TrackResultList &resultList)
 {
 	addResults<Track, TrackResultList, TrackResult>(listNode, resultList, &MbXmlParserPrivate::createTrack);
@@ -553,6 +587,12 @@ void
 MbXmlParser::MbXmlParserPrivate::addReleasesToList(XMLNode listNode, ReleaseList &resultList)
 {
 	addToList<Release, ReleaseList>(listNode, resultList, &MbXmlParserPrivate::createRelease);
+}
+
+void
+MbXmlParser::MbXmlParserPrivate::addReleaseGroupsToList(XMLNode listNode, ReleaseGroupList &resultList)
+{
+	addToList<ReleaseGroup, ReleaseGroupList>(listNode, resultList, &MbXmlParserPrivate::createReleaseGroup);
 }
 
 void
@@ -638,6 +678,9 @@ MbXmlParser::parse(const std::string &data)
 			}
 			else if (name == string("release")) {
 				md->setRelease(d->createRelease(node));
+			}
+			else if (name == string("release-group")) {
+				md->setReleaseGroup(d->createReleaseGroup(node));
 			}
 			else if (name == string("label")) {
 				md->setLabel(d->createLabel(node));

@@ -17,9 +17,8 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * 
  */
- 
+
 #ifndef __MUSICBRAINZ3_QUERY_H__
 #define __MUSICBRAINZ3_QUERY_H__
 
@@ -105,6 +104,9 @@ namespace MusicBrainz
 
 		Label *getLabelById(const std::string &id,
 							  const LabelIncludes *include = NULL);
+
+		ReleaseGroup *getReleaseGroupById(const std::string &id,
+							  const ReleaseGroupIncludes *include = NULL);
 
 		/**
 		 * Returns a release.
@@ -196,6 +198,8 @@ namespace MusicBrainz
 		ArtistResultList getArtists(const ArtistFilter *filter);
 
 		LabelResultList getLabels(const LabelFilter *filter);
+
+		ReleaseGroupResultList getReleaseGroups(const ReleaseGroupFilter *filter);
 
 		/**
 		 * Returns releases matching given criteria. 

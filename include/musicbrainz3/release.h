@@ -167,6 +167,20 @@ namespace MusicBrainz
 		void setArtist(Artist *artist);
 
 		/**
+		 * Returns the release group of this release.
+		 *
+		 * @return a pointer to ReleaseGroup object, or NULL 
+		 */
+		ReleaseGroup *getReleaseGroup();
+		
+		/** 
+		 * Sets this release's group.
+		 *
+		 * @param releaseGroup a pointer to ReleaseGroup object 
+		 */
+		void setReleaseGroup(ReleaseGroup *releaseGroup);
+
+		/**
 		 * Returns the Amazon shop identifier (ASIN).
 		 *
 		 * The ASIN is a 10-letter code (except for books) assigned

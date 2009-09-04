@@ -168,6 +168,28 @@ namespace MusicBrainz
 	};
 	
 	/**
+	 * A specification on how much data to return with a release group.
+	 *
+	 * This implementation uses \e method \e chaining to define list of includes.
+	 *
+	 * Example usage:
+	 * \code
+	 * ReleaseGroupIncludes inc = ReleaseGroupIncludes().releaseEvents().disc();
+	 * \endcode
+	 */
+	class MB_API ReleaseGroupIncludes : public IIncludes
+	{
+	public:
+		//! Include artist.
+		ReleaseGroupIncludes &artist();
+		//! Include release events.
+		ReleaseGroupIncludes &releases();
+		IncludeList createIncludeTags() const;
+	private:
+		IncludeList includes;
+	};
+	
+	/**
 	 * A specification on how much data to return with a track.
 	 *
 	 * This implementation uses \e method \e chaining to define list of includes.

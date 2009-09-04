@@ -50,6 +50,7 @@ public:
 	
 	std::string title;
 	std::string type;
+	ReleaseList releases;
 	Artist *artist;
 };
 
@@ -84,4 +85,22 @@ ReleaseGroup::setArtist(Artist *value)
 	if (d->artist)
 		delete d->artist;
 	d->artist = value;
+}
+
+int
+ReleaseGroup::getNumReleases() const
+{
+	return d->releases.size();
+}
+
+Release *
+ReleaseGroup::getRelease(int i)
+{
+	return d->releases[i];
+}
+
+ReleaseList &
+ReleaseGroup::getReleases()
+{
+	return d->releases;
 }
