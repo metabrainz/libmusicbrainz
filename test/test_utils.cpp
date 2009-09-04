@@ -11,6 +11,7 @@ class UtilsTest : public CppUnit::TestFixture
 	CPPUNIT_TEST_SUITE(UtilsTest);
 	CPPUNIT_TEST(testExtractUuidArtist);
 	CPPUNIT_TEST(testExtractUuidRelease);
+	CPPUNIT_TEST(testExtractUuidReleaseGroup);
 	CPPUNIT_TEST(testExtractUuidTrack);
 	CPPUNIT_TEST(testExtractFragment);
 	CPPUNIT_TEST(testGetCountryName);
@@ -33,9 +34,19 @@ protected:
 
 	void testExtractUuidRelease()
 	{
-		string artistPrefix = "http://musicbrainz.org/release/";
+		string releasePrefix = "http://musicbrainz.org/release/";
 		string uuid = "c0b2500e-0cef-4130-869d-732b23ed9df5";
-		string mbid = artistPrefix + uuid;
+		string mbid = releasePrefix + uuid;
+		CPPUNIT_ASSERT_EQUAL(string(), extractUuid(string()));
+		CPPUNIT_ASSERT_EQUAL(uuid, extractUuid(uuid));
+		CPPUNIT_ASSERT_EQUAL(uuid, extractUuid(mbid));
+	}
+
+	void testExtractUuidReleaseGroup()
+	{
+		string releaseGroupPrefix = "http://musicbrainz.org/release-group/";
+		string uuid = "c0b2500e-0cef-4130-869d-732b23ed9df5";
+		string mbid = releaseGroupPrefix + uuid;
 		CPPUNIT_ASSERT_EQUAL(string(), extractUuid(string()));
 		CPPUNIT_ASSERT_EQUAL(uuid, extractUuid(uuid));
 		CPPUNIT_ASSERT_EQUAL(uuid, extractUuid(mbid));
