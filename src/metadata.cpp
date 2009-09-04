@@ -31,18 +31,21 @@ public:
 		artist(NULL),
 		track(NULL),
 		release(NULL),
+		releaseGroup(NULL),
 		label(NULL)
 		{}
 	
 	Artist *artist;
 	Track *track;
 	Release *release;
+	ReleaseGroup *releaseGroup;
 	Label *label;
 	UserList userList;
 	ArtistResultList artistResults;
 	LabelResultList labelResults;
 	TrackResultList trackResults;
 	ReleaseResultList releaseResults;
+	ReleaseGroupResultList releaseGroupResults;
 };
 
 Metadata::Metadata()
@@ -60,7 +63,10 @@ Metadata::~Metadata()
 	
 	if (d->release)
 		delete d->release;
-	
+
+	if (d->releaseGroup)
+		delete d->releaseGroup;
+
 	if (d->label)
 		delete d->label;
 	
@@ -79,6 +85,10 @@ Metadata::~Metadata()
 	for (ReleaseResultList::iterator i = d->releaseResults.begin(); i != d->releaseResults.end(); i++) 
 		delete *i;
 	d->releaseResults.clear();
+	
+	for (ReleaseGroupResultList::iterator i = d->releaseGroupResults.begin(); i != d->releaseGroupResults.end(); i++) 
+		delete *i;
+	d->releaseGroupResults.clear();
 	
 	for (TrackResultList::iterator i = d->trackResults.begin(); i != d->trackResults.end(); i++) 
 		delete *i;
@@ -102,12 +112,21 @@ Metadata::setTrack(Track *value)
 		delete d->track;
     d->track = value;
 }
-void 
+
+void
 Metadata::setRelease(Release *value)
 {
 	if (d->release)
 		delete d->release;
     d->release = value;
+}
+
+void
+Metadata::setReleaseGroup(ReleaseGroup *value)
+{
+	if (d->releaseGroup)
+		delete d->releaseGroup;
+    d->releaseGroup = value;
 }
 
 Artist * 
@@ -134,6 +153,15 @@ Metadata::getRelease(bool remove)
 	Release *ret = d->release;
 	if (remove)
 		d->release = NULL;
+    return ret;
+}
+
+ReleaseGroup *
+Metadata::getReleaseGroup(bool remove)
+{
+	ReleaseGroup *ret = d->releaseGroup;
+	if (remove)
+		d->releaseGroup = NULL;
     return ret;
 }
 
@@ -184,6 +212,12 @@ Metadata::getReleaseResults()
 	return d->releaseResults;
 }
 
+ReleaseGroupResultList &
+Metadata::getReleaseGroupResults()
+{
+	return d->releaseGroupResults;
+}
+
 UserList 
 Metadata::getUserList(bool remove)
 {
@@ -224,3 +258,10 @@ Metadata::getReleaseResults(bool remove)
 	return list;
 }
 
+ReleaseGroupResultList 
+Metadata::getReleaseGroupResults(bool remove)
+{
+	ReleaseGroupResultList list = d->releaseGroupResults;
+	d->releaseGroupResults.clear();
+	return list;
+}

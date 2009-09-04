@@ -73,6 +73,15 @@ ReleaseIncludes::createIncludeTags() const
 	return includes;
 }
 
+INCLUDES_METHOD(ReleaseGroup, artist, artist)
+INCLUDES_METHOD(ReleaseGroup, releases, releases)
+
+ReleaseGroupIncludes::IncludeList
+ReleaseGroupIncludes::createIncludeTags() const
+{
+	return includes;
+}
+
 INCLUDES_METHOD(Artist, aliases, aliases)
 INCLUDES_METHOD(Artist, artistRelations, artist-rels)
 INCLUDES_METHOD(Artist, labelRelations, label-rels)

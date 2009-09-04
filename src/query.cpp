@@ -115,6 +115,23 @@ Query::getReleaseById(const string &id,
 	return release;
 }
 
+ReleaseGroup *
+Query::getReleaseGroupById(const string &id,
+					 const ReleaseGroupIncludes *include)
+{
+	string uuid;
+	try {
+		uuid = extractUuid(id);
+	}
+	catch (ValueError &e) {
+		throw RequestError(e.what());
+	}
+	Metadata *metadata = getFromWebService("release-group", uuid, include);
+	ReleaseGroup *releaseGroup = metadata->getReleaseGroup(true);
+	delete metadata;
+	return releaseGroup;
+}
+
 Track *
 Query::getTrackById(const string &id,
 					 const TrackIncludes *include)
@@ -167,6 +184,15 @@ Query::getReleases(const ReleaseFilter *filter)
 {
 	Metadata *metadata = getFromWebService("release", "", NULL, filter);
 	ReleaseResultList list = metadata->getReleaseResults(true);
+	delete metadata;
+	return list;
+}
+
+ReleaseGroupResultList 
+Query::getReleaseGroups(const ReleaseGroupFilter *filter)
+{
+	Metadata *metadata = getFromWebService("release-group", "", NULL, filter);
+	ReleaseGroupResultList list = metadata->getReleaseGroupResults(true);
 	delete metadata;
 	return list;
 }

@@ -116,6 +116,31 @@ ReleaseResult::setRelease(Release *value)
 	release = value;
 }
 
+ReleaseGroupResult::ReleaseGroupResult(ReleaseGroup *releaseGroup, int score)
+	: Result(score), releaseGroup(releaseGroup)
+{
+}
+
+ReleaseGroupResult::~ReleaseGroupResult()
+{
+	if (releaseGroup)
+		delete releaseGroup;
+}
+
+ReleaseGroup *
+ReleaseGroupResult::getReleaseGroup()
+{
+	return releaseGroup;
+}
+
+void
+ReleaseGroupResult::setReleaseGroup(ReleaseGroup *value)
+{
+	if (releaseGroup)
+		delete releaseGroup;
+	releaseGroup = value;
+}
+
 TrackResult::TrackResult(Track *track, int score)
 	: Result(score), track(track)
 {

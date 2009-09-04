@@ -51,6 +51,7 @@ class Release::ReleasePrivate
 public:
 	ReleasePrivate() :
 		artist(NULL),
+		releaseGroup(NULL),
 		tracksOffset(0),
 		tracksCount(0)
 		{}
@@ -61,6 +62,7 @@ public:
 	std::string asin;
 	vector<string> types;
 	Artist *artist;
+	ReleaseGroup *releaseGroup;
 	TrackList tracks;
 	int tracksOffset;
 	int tracksCount;
@@ -113,6 +115,20 @@ Release::setArtist(Artist *value)
 	if (d->artist)
 		delete d->artist;
 	d->artist = value;
+}
+
+ReleaseGroup *
+Release::getReleaseGroup()
+{
+	return d->releaseGroup;
+}
+
+void
+Release::setReleaseGroup(ReleaseGroup *value)
+{
+	if (d->releaseGroup)
+		delete d->releaseGroup;
+	d->releaseGroup = value;
 }
 
 TrackList &

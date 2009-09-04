@@ -247,6 +247,18 @@ mb_query_get_release_by_id(MbQuery q, const char *id, MbReleaseIncludes inc)
 	}
 }
 
+MbReleaseGroup
+mb_query_get_release_group_by_id(MbQuery q, const char *id, MbReleaseGroupIncludes inc)
+{
+	Query *query = (Query *)q;
+	try {
+		return (MbReleaseGroup)query->getReleaseGroupById(id, (ReleaseGroupIncludes *)inc);
+	}
+	catch (...) {
+		return NULL;
+	}
+}
+
 MbTrack
 mb_query_get_track_by_id(MbQuery q, const char *id, MbTrackIncludes inc)
 {
@@ -332,6 +344,17 @@ mb_result_list_get_release(MbResultList list, int index)
 	}
 }
 
+MbReleaseGroup
+mb_result_list_get_release_group(MbResultList list, int index)
+{
+	try {
+		return (*((ReleaseGroupResultList *)list))[index]->getReleaseGroup();
+	}
+	catch (...) {
+		return NULL;
+	}
+}
+
 MbTrack
 mb_result_list_get_track(MbResultList list, int index)
 {
@@ -375,6 +398,19 @@ mb_query_get_releases(MbQuery q, MbReleaseFilter flt)
 	Query *query = (Query *)q;
 	try {
 		ReleaseResultList *results = new ReleaseResultList(query->getReleases((ReleaseFilter *)flt));
+	    return (MbResultList)results;
+	}
+	catch (...) {
+		return NULL;
+	}
+}
+
+MB_API MbResultList
+mb_query_get_release_groups(MbQuery q, MbReleaseGroupFilter flt)
+{
+	Query *query = (Query *)q;
+	try {
+		ReleaseGroupResultList *results = new ReleaseGroupResultList(query->getReleaseGroups((ReleaseGroupFilter *)flt));
 	    return (MbResultList)results;
 	}
 	catch (...) {
@@ -458,6 +494,7 @@ MB_C_FREE(ReleaseGroup, release_group)
 MB_C_STR_GETTER(ReleaseGroup, release_group, Id, id)
 MB_C_STR_GETTER(ReleaseGroup, release_group, Title, title)
 MB_C_STR_GETTER(ReleaseGroup, release_group, Type, type)
+MB_C_OBJ_LIST_GETTER(ReleaseGroup, release_group, Releases, releases, Release, release, Release)
 
 /* === MusicBrainz::Track === */
 

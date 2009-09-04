@@ -46,6 +46,8 @@ typedef void *MbRelation;
 typedef void *MbRelease;
 typedef void *MbReleaseEvent;
 typedef void *MbReleaseGroup;
+typedef void *MbReleaseGroupFilter;
+typedef void *MbReleaseGroupIncludes;
 typedef void *MbReleaseFilter;
 typedef void *MbReleaseIncludes;
 typedef void *MbResultList;
@@ -180,6 +182,9 @@ mb_query_get_label_by_id(MbQuery query, const char *id, MbLabelIncludes inc);
 MB_API MbRelease
 mb_query_get_release_by_id(MbQuery query, const char *id, MbReleaseIncludes inc);
 
+MB_API MbReleaseGroup
+mb_query_get_release_group_by_id(MbQuery query, const char *id, MbReleaseGroupIncludes inc);
+
 /**
  * Returns an track.
  * 
@@ -216,6 +221,9 @@ mb_result_list_get_label(MbResultList list, int index);
 MB_API MbRelease
 mb_result_list_get_release(MbResultList list, int index);
 
+MB_API MbReleaseGroup
+mb_result_list_get_release_group(MbResultList list, int index);
+
 MB_API MbTrack
 mb_result_list_get_track(MbResultList list, int index);
 
@@ -227,6 +235,9 @@ mb_query_get_labels(MbQuery query, MbLabelFilter flt);
 
 MB_API MbResultList
 mb_query_get_releases(MbQuery query, MbReleaseFilter flt);
+
+MB_API MbResultList
+mb_query_get_release_groups(MbQuery query, MbReleaseGroupFilter flt);
 
 MB_API MbResultList
 mb_query_get_tracks(MbQuery query, MbTrackFilter flt);

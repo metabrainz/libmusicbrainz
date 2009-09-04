@@ -84,6 +84,24 @@ namespace MusicBrainz
 		void setRelease(Release *release);
 		
 		/**
+		 * Returns the release group.
+		 *
+		 * @param remove if set to \c true, the object will be removed from 
+		 * this Metadata instance and the caller is responsible for
+		 * deleting it when it is no longer needed
+		 *
+		 * @return a pointer to ReleaseGroup object, or \c NULL
+		 */
+		ReleaseGroup *getReleaseGroup(bool remove = false);
+		
+		/**
+		 * Sets the release group.
+		 *
+		 * @param releaseGroup a pointer to ReleaseGroup object, or \c NULL
+		 */
+		void setReleaseGroup(ReleaseGroup *releaseGroup);
+		
+		/**
 		 * Returns a track.
 		 *
 		 * @param remove if set to \c true, the object will be removed from 
@@ -152,6 +170,14 @@ namespace MusicBrainz
 		 */
 		ReleaseResultList &getReleaseResults();
 		ReleaseResultList getReleaseResults(bool remove);
+		
+		/**
+		 * Returns a release group result list. 
+		 *
+		 * @return a vector of pointers to ReleaseGroupResult objects
+		 */
+		ReleaseGroupResultList &getReleaseGroupResults();
+		ReleaseGroupResultList getReleaseGroupResults(bool remove);
 
 		LabelResultList &getLabelResults();
 		LabelResultList getLabelResults(bool remove);

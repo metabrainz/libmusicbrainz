@@ -20,6 +20,7 @@
  * 
  */
 
+#include <iostream>
 #include <string>
 #include <map>
 #include <musicbrainz3/utils.h>
@@ -43,8 +44,8 @@ MusicBrainz::extractUuid(const string &uri)
 {
 	if (uri.empty())
 		return uri;
-	string types[] = {"artist/", "release/", "track/"};
-	for (int i = 0; i < 3; i++) {
+	string types[] = {"artist/", "label/", "release/", "release-group/", "track/"};
+	for (int i = 0; i < 5; i++) {
 		string::size_type pos = uri.find(types[i]);
 		if (pos != string::npos) {
 			pos += types[i].size();
@@ -56,7 +57,7 @@ MusicBrainz::extractUuid(const string &uri)
 	// FIXME: ugh...
 	if (uri.size() == 36)
 		return uri;
-	throw ValueError(uri + "is not a valid MusicBrainz ID.");
+	throw ValueError(uri + " is not a valid MusicBrainz ID.");
 }
 
 #include "utils_countrynames.h"
