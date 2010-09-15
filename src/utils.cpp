@@ -20,7 +20,6 @@
  * 
  */
 
-#include <iostream>
 #include <string>
 #include <map>
 #include <musicbrainz3/utils.h>
