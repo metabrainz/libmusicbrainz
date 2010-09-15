@@ -1,10 +1,13 @@
+INCLUDE(FindPackageHandleStandardArgs)
 INCLUDE(UsePkgConfig)
 PKGCONFIG(neon _NeonIncDir _NeonLinkDir _NeonLinkFlags _NeonCflags)
 
 FIND_PATH(NEON_INCLUDE_DIR ne_request.h
+    PATHS
     ${_NeonIncDir}
-    /usr/include/neon
-    /usr/local/include/neon
+    /usr/include
+    /usr/local/include
+    PATH_SUFFIXES neon
 )
 
 FIND_LIBRARY(NEON_LIBRARIES neon
@@ -13,16 +16,4 @@ FIND_LIBRARY(NEON_LIBRARIES neon
     /usr/local/lib
 )
 
-IF (NEON_INCLUDE_DIR AND NEON_LIBRARIES)
-    SET(NEON_FOUND TRUE)
-ENDIF (NEON_INCLUDE_DIR AND NEON_LIBRARIES)
-
-IF (NEON_FOUND)
-    IF (NOT Neon_FIND_QUIETLY)
-	MESSAGE(STATUS "Found Neon: ${NEON_LIBRARIES}")
-    ENDIF (NOT Neon_FIND_QUIETLY)
-ELSE (NEON_FOUND)
-    IF (Neon_FIND_REQUIRED)
-	MESSAGE(FATAL_ERROR "Could not find Neon")
-    ENDIF (Neon_FIND_REQUIRED)
-ENDIF (NEON_FOUND)
+FIND_PACKAGE_HANDLE_STANDARD_ARGS(Neon DEFAULT_MSG NEON_LIBRARIES NEON_INCLUDE_DIR)
