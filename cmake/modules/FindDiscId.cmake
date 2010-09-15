@@ -1,15 +1,15 @@
 INCLUDE(FindPackageHandleStandardArgs)
-INCLUDE(UsePkgConfig)
-PKGCONFIG(libdiscid _DiscIdIncDir _DiscIdLinkDir _DiscIdLinkFlags _DiscIdCflags)
+FIND_PACKAGE(PkgConfig)
+PKG_CHECK_MODULES(PKG_LIBDISCID libdiscid)
 
 FIND_PATH(DISCID_INCLUDE_DIR discid/discid.h
-    ${_DiscIdIncDir}
+    ${PKG_LIBDISCID_INCLUDE_DIRS}
     /usr/include
     /usr/local/include
 )
 
 FIND_LIBRARY(DISCID_LIBRARIES discid
-    ${_DiscIdLinkDir}
+    ${PKG_LIBDISCID_LIBRARY_DIRS}
     /usr/lib
     /usr/local/lib
 )
