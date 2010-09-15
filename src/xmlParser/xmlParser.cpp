@@ -113,7 +113,7 @@ typedef enum TokenTypeTag
     eTokenShortHandClose,   /* "/>"           */
     eTokenClear,
     eTokenError
-};
+} TokenTypeTag;
 
 #define INDENTCHAR    _T('\t')
 
