@@ -1,15 +1,15 @@
 INCLUDE(FindPackageHandleStandardArgs)
-INCLUDE(UsePkgConfig)
-PKGCONFIG(cppunit _CppUnitIncDir _CppUnitLinkDir _CppUnitLinkFlags _CppUnitCflags)
+FIND_PACKAGE(PkgConfig)
+PKG_CHECK_MODULES(PKG_CPPUNIT cppunit)
 
 FIND_PATH(CPPUNIT_INCLUDE_DIR cppunit/TestCase.h
-    ${_CppUnitIncDir}
+    ${PKG_CPPUNIT_INCLUDE_DIRS}
     /usr/local/include
     /usr/include
 )
 
 FIND_LIBRARY(CPPUNIT_LIBRARIES cppunit
-    ${_CppUnitLinkDir}
+    ${PKG_CPPUNIT_LIBRARY_DIRS}
     /usr/local/lib
     /usr/lib
 )

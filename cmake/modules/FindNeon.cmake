@@ -1,17 +1,17 @@
 INCLUDE(FindPackageHandleStandardArgs)
-INCLUDE(UsePkgConfig)
-PKGCONFIG(neon _NeonIncDir _NeonLinkDir _NeonLinkFlags _NeonCflags)
+FIND_PACKAGE(PkgConfig)
+PKG_CHECK_MODULES(PKG_NEON neon)
 
 FIND_PATH(NEON_INCLUDE_DIR ne_request.h
     PATHS
-    ${_NeonIncDir}
+    ${PKG_NEON_INCLUDE_DIRS}
     /usr/include
     /usr/local/include
     PATH_SUFFIXES neon
 )
 
 FIND_LIBRARY(NEON_LIBRARIES neon
-    ${_NeonLinkDir}
+    ${PKG_NEON_LIBRARY_DIRS}
     /usr/lib
     /usr/local/lib
 )
