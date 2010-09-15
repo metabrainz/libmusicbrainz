@@ -58,7 +58,7 @@
 #ifndef _CRT_SECURE_NO_DEPRECATE
 #define _CRT_SECURE_NO_DEPRECATE
 #endif
-#include <Windows.h> // to have IsTextUnicode, MultiByteToWideChar, WideCharToMultiByte
+#include <windows.h> // to have IsTextUnicode, MultiByteToWideChar, WideCharToMultiByte
                      // to handle unicode files
 #endif
 
