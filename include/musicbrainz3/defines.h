@@ -27,7 +27,7 @@
 #	pragma warning (disable : 4251) 
 #endif
 
-#ifdef WIN32
+#if (defined(_WIN32) || defined(_WIN64))
 #	ifdef MB_API_EXPORTS
 #		define MB_API __declspec(dllexport)
 #	else
