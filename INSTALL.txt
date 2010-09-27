@@ -28,7 +28,8 @@ library:
    cmake .
    make
   
-To build and run the test suite use:
+If you also have cppunit, use the following commands to build and run
+the test suite:
   
    make check
     
