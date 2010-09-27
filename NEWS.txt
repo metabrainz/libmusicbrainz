@@ -3,8 +3,9 @@ Changes for libmusicbrainz 3.0.3
 
    - Use Requires.private instead of Requires for dependencies in
      libmusicbrainz3.pc
-   - ISRC, rating and release group support
-   - Full label support including search queries
+   - Support for reading and submitting ISRCs
+   - Support for reading ratings for all entity type
+   - Full release group and label support
    - C wrappers for extractFragment and extractUuid
    - Support for filtering by any Lucene query
 
