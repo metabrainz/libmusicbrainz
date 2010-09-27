@@ -60,6 +60,7 @@ namespace MusicBrainz
 	public:
 		ArtistFilter &name(const std::string &name);
 		ArtistFilter &limit(const int limit);
+		ArtistFilter &query(const std::string &query);
 		ParameterList createParameters() const;
 	private:
 		ParameterList parameters;
@@ -73,6 +74,7 @@ namespace MusicBrainz
 	public:
 		LabelFilter &name(const std::string &name);
 		LabelFilter &limit(const int limit);
+		LabelFilter &query(const std::string &query);
 		ParameterList createParameters() const;
 	private:
 		ParameterList parameters;
@@ -118,6 +120,7 @@ namespace MusicBrainz
 		ReleaseFilter &artistName(const std::string &value);
 		ReleaseFilter &artistId(const std::string &value);
 		ReleaseFilter &limit(const int value);
+		ReleaseFilter &query(const std::string &query);
 		ParameterList createParameters() const;
 	private:
 		ParameterList parameters;
@@ -131,6 +134,7 @@ namespace MusicBrainz
 		ReleaseGroupFilter &artistName(const std::string &value);
 		ReleaseGroupFilter &artistId(const std::string &value);
 		ReleaseGroupFilter &limit(const int value);
+		ReleaseGroupFilter &query(const std::string &query);
 		ParameterList createParameters() const;
 	private:
 		ParameterList parameters;
@@ -156,6 +160,7 @@ namespace MusicBrainz
 		TrackFilter &duration(const int value);
 		TrackFilter &puid(const std::string &value);
 		TrackFilter &limit(const int value);
+		TrackFilter &query(const std::string &value);
 		ParameterList createParameters() const;
 	private:
 		ParameterList parameters;

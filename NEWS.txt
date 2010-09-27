@@ -6,6 +6,7 @@ Changes for libmusicbrainz 3.0.3
    - ISRC, rating and release group support
    - Full label support including search queries
    - C wrappers for extractFragment and extractUuid
+   - Support for filtering by any Lucene query
 
 Changes for libmusicbrainz 3.0.2
 --------------------------------

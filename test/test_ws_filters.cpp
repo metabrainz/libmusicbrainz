@@ -14,6 +14,7 @@ class FiltersTest : public CppUnit::TestFixture
 	CPPUNIT_TEST(testArtistFilter2);
 	CPPUNIT_TEST(testArtistFilter3);
 	CPPUNIT_TEST(testReleaseTypeFilter);
+	CPPUNIT_TEST(testReleaseQueryFilter);
 	CPPUNIT_TEST(testUserFilter);
 	CPPUNIT_TEST_SUITE_END();
 	
@@ -49,6 +50,14 @@ protected:
 		ReleaseFilter::ParameterList pars3 = flt3.createParameters();
 		CPPUNIT_ASSERT_EQUAL(string("releasetypes"), pars3[0].first);
 		CPPUNIT_ASSERT_EQUAL(string("Album Official"), pars3[0].second);
+	}
+	
+	void testReleaseQueryFilter()
+	{
+		ReleaseFilter flt3 = ReleaseFilter().query("barcode:1234567890");
+		ReleaseFilter::ParameterList pars3 = flt3.createParameters();
+		CPPUNIT_ASSERT_EQUAL(string("query"), pars3[0].first);
+		CPPUNIT_ASSERT_EQUAL(string("barcode:1234567890"), pars3[0].second);
 	}
 	
 	void testUserFilter()
