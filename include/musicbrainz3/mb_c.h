@@ -1005,7 +1005,29 @@ MB_API MbArtistFilter
 mb_artist_filter_name(MbArtistFilter flt, const char *value);
 
 MB_API MbArtistFilter
+mb_artist_filter_query(MbArtistFilter flt, const char *value);
+
+MB_API MbArtistFilter
 mb_artist_filter_limit(MbArtistFilter flt, int value);
+
+/* }}} */
+
+/* {{{ MusicBrainz::MbLabelFilter */
+
+MB_API MbLabelFilter
+mb_label_filter_new();
+
+MB_API void
+mb_label_filter_free(MbLabelFilter flt);
+
+MB_API MbLabelFilter
+mb_label_filter_name(MbLabelFilter flt, const char *value);
+
+MB_API MbLabelFilter
+mb_label_filter_query(MbLabelFilter flt, const char *value);
+
+MB_API MbLabelFilter
+mb_label_filter_limit(MbLabelFilter flt, int value);
 
 /* }}} */
 
@@ -1031,6 +1053,9 @@ mb_release_filter_artist_name(MbReleaseFilter flt, const char *value);
 
 MB_API MbReleaseFilter
 mb_release_filter_artist_id(MbReleaseFilter flt, const char *value);
+
+MB_API MbReleaseFilter
+mb_release_filter_query(MbReleaseFilter flt, const char *value);
 
 MB_API MbReleaseFilter
 mb_release_filter_limit(MbReleaseFilter flt, int value);
@@ -1065,6 +1090,9 @@ mb_track_filter_duration(MbTrackFilter flt, int value);
 
 MB_API MbTrackFilter
 mb_track_filter_puid(MbTrackFilter flt, const char *value);
+
+MB_API MbTrackFilter
+mb_track_filter_query(MbTrackFilter flt, const char *value);
 
 MB_API MbTrackFilter
 mb_track_filter_limit(MbTrackFilter flt, int value);

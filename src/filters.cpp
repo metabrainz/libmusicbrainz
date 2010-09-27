@@ -43,6 +43,13 @@ ArtistFilter::name(const string &value)
 }
 
 ArtistFilter &
+ArtistFilter::query(const string &value)
+{
+	parameters.push_back(pair<string, string>(string("query"), value));
+	return *this;
+}
+
+ArtistFilter &
 ArtistFilter::limit(const int value)
 {
 	parameters.push_back(pair<string, string>(string("limit"), intToString(value)));
@@ -63,6 +70,13 @@ LabelFilter::name(const string &value)
 }
 
 LabelFilter &
+LabelFilter::query(const string &value)
+{
+	parameters.push_back(pair<string, string>(string("query"), value));
+	return *this;
+}
+
+LabelFilter &
 LabelFilter::limit(const int value)
 {
 	parameters.push_back(pair<string, string>(string("limit"), intToString(value)));
@@ -79,6 +93,13 @@ ReleaseFilter &
 ReleaseFilter::title(const string &value)
 {
 	parameters.push_back(pair<string, string>(string("title"), value));
+	return *this;
+}
+
+ReleaseFilter &
+ReleaseFilter::query(const string &value)
+{
+	parameters.push_back(pair<string, string>(string("query"), value));
 	return *this;
 }
 
@@ -138,6 +159,13 @@ ReleaseGroupFilter::title(const string &value)
 }
 
 ReleaseGroupFilter &
+ReleaseGroupFilter::query(const string &value)
+{
+	parameters.push_back(pair<string, string>(string("query"), value));
+	return *this;
+}
+
+ReleaseGroupFilter &
 ReleaseGroupFilter::releaseType(const string &value)
 {
 	string type = extractFragment(value);
@@ -182,6 +210,13 @@ TrackFilter &
 TrackFilter::title(const string &value)
 {
 	parameters.push_back(pair<string, string>(string("title"), value));
+	return *this;
+}
+
+TrackFilter &
+TrackFilter::query(const string &value)
+{
+	parameters.push_back(pair<string, string>(string("query"), value));
 	return *this;
 }
 

@@ -658,6 +658,7 @@ MB_C_NEW_NOARGS(ArtistFilter, artist_filter)
 MB_C_FREE(ArtistFilter, artist_filter)
 
 MB_C_STR_FILTER(ArtistFilter, artist_filter, name, name)
+MB_C_STR_FILTER(ArtistFilter, artist_filter, query, query)
 MB_C_INT_FILTER(ArtistFilter, artist_filter, limit, limit)
 
 /* === MusicBrainz::LabelFilter === */
@@ -666,6 +667,7 @@ MB_C_NEW_NOARGS(LabelFilter, label_filter)
 MB_C_FREE(LabelFilter, label_filter)
 
 MB_C_STR_FILTER(LabelFilter, label_filter, name, name)
+MB_C_STR_FILTER(LabelFilter, label_filter, query, query)
 MB_C_INT_FILTER(LabelFilter, label_filter, limit, limit)
 
 /* === MusicBrainz::ReleaseFilter === */
@@ -678,6 +680,7 @@ MB_C_STR_FILTER(ReleaseFilter, release_filter, discId, disc_id)
 MB_C_STR_FILTER(ReleaseFilter, release_filter, releaseType, release_type)
 MB_C_STR_FILTER(ReleaseFilter, release_filter, artistName, artist_name)
 MB_C_STR_FILTER(ReleaseFilter, release_filter, artistId, artist_id)
+MB_C_STR_FILTER(ReleaseFilter, release_filter, query, query)
 MB_C_INT_FILTER(ReleaseFilter, release_filter, limit, limit)
 
 /* === MusicBrainz::TrackFilter === */
@@ -692,6 +695,7 @@ MB_C_STR_FILTER(TrackFilter, track_filter, artistName, artist_name)
 MB_C_STR_FILTER(TrackFilter, track_filter, artistId, artist_id)
 MB_C_INT_FILTER(TrackFilter, track_filter, duration, duration)
 MB_C_STR_FILTER(TrackFilter, track_filter, puid, puid)
+MB_C_STR_FILTER(TrackFilter, track_filter, query, query)
 MB_C_INT_FILTER(TrackFilter, track_filter, limit, limit)
 
 /* === MusicBrainz::UserFilter === */
