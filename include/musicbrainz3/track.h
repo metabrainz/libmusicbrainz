@@ -114,7 +114,7 @@ namespace MusicBrainz
 		 *
 		 * @param duration an int containing the duration in milliseconds
 		 */
-		void setDuration(const int duration);
+		void setDuration(int duration);
 		
 		/**
 		 * Returns a list of releases from this artist.
