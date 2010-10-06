@@ -1,3 +1,8 @@
+Changes for libmusicbrainz 3.0.4
+--------------------------------
+
+   - Fixed compilation on the Sun Studio compiler (#5801)
+
 Changes for libmusicbrainz 3.0.3
 --------------------------------
 

@@ -53,7 +53,7 @@ namespace MusicBrainz
 		void setName(const std::string &name);
 		
 		int getCount() const;
-		void setCount(const int count);
+		void setCount(int count);
 		
 	private:
 		
