@@ -617,6 +617,7 @@ MB_C_STR_LIST_GETTER(Relation, relation, Attributes, attributes, Attribute, attr
 
 /* === MusicBrainz::Disc === */
 
+MB_C_FREE(Disc, disc)
 MB_C_STR_GETTER(Disc, disc, Id, id)
 MB_C_INT_GETTER(Disc, disc, Sectors, sectors)
 MB_C_INT_GETTER(Disc, disc, FirstTrackNum, first_track_num)

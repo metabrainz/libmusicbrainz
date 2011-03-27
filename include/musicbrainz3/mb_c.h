@@ -1211,6 +1211,12 @@ mb_relation_get_attribute(MbRelation relation, int index, char *str, int len);
 /* {{{ MusicBrainz::Disc */
 
 /**
+ * Deletes the MbDisc instance.
+ */
+MB_API void
+mb_disc_free(MbDisc disc);
+
+/**
  * Returns the MusicBrainz DiscID. 
  *
  * @see MusicBrainz::Disc::getId
