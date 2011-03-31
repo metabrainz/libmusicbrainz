@@ -1,7 +1,9 @@
 Changes for libmusicbrainz 3.0.4
 --------------------------------
 
+   - Fixed parsing of release-group lists. (#5891)
    - Fixed compilation on the Sun Studio compiler (#5801)
+   - Added mb_disc_free() to the C bindings. (#5885)
 
 Changes for libmusicbrainz 3.0.3
 --------------------------------
