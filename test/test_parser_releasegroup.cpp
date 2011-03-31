@@ -14,12 +14,13 @@ using namespace MusicBrainz;
 class ParseReleaseGroupTest : public CppUnit::TestFixture
 {
 	CPPUNIT_TEST_SUITE(ParseReleaseGroupTest);
-	CPPUNIT_TEST(testReleaseBasic);
+	CPPUNIT_TEST(testReleaseGroupBasic);
+	CPPUNIT_TEST(testReleaseGroupSearch);
 	CPPUNIT_TEST_SUITE_END();
 
 protected:
 
-	void testReleaseBasic()
+	void testReleaseGroupBasic()
 	{
 		Metadata *md = MbXmlParser().parse(get_file_contents("../test-data/valid/release-group/The_Cure_1.xml"));
 		ReleaseGroup *releaseGroup = md->getReleaseGroup();
@@ -32,6 +33,20 @@ protected:
 		CPPUNIT_ASSERT_EQUAL(string("http://musicbrainz.org/release/61a4ec51-fa34-4757-85d7-83231776ed14"), releaseGroup->getRelease(3)->getId());
 	}
 
+	void testReleaseGroupSearch()
+	{
+		Metadata *md = MbXmlParser().parse(get_file_contents("../test-data/valid/release-group/search_result_1.xml"));
+		ReleaseGroupResultList r = md->getReleaseGroupResults();
+		
+		CPPUNIT_ASSERT_EQUAL(3, int(r.size()));
+		CPPUNIT_ASSERT_EQUAL(100, r[0]->getScore());
+		CPPUNIT_ASSERT_EQUAL(98, r[1]->getScore());
+		CPPUNIT_ASSERT_EQUAL(90, r[2]->getScore());
+		CPPUNIT_ASSERT_EQUAL(string("http://musicbrainz.org/release-group/963eac15-e3da-3a92-aa5c-2ec23bfb6ec2"), r[0]->getReleaseGroup()->getId());
+		CPPUNIT_ASSERT_EQUAL(string("http://musicbrainz.org/release-group/0bd324a3-1c90-3bdb-8ca4-4101a580c62c"), r[1]->getReleaseGroup()->getId());
+		CPPUNIT_ASSERT_EQUAL(string("http://musicbrainz.org/release-group/ea7d8352-7751-30be-8490-bb6df737f47c"), r[2]->getReleaseGroup()->getId());
+	}
+	
 };
 
 CPPUNIT_TEST_SUITE_REGISTRATION(ParseReleaseGroupTest);

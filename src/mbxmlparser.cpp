@@ -697,6 +697,9 @@ MbXmlParser::parse(const std::string &data)
 			else if (name == string("release-list")) {
 				d->addReleaseResults(node, md->getReleaseResults());
 			}
+			else if (name == string("release-group-list")) {
+				d->addReleaseGroupResults(node, md->getReleaseGroupResults());
+			}
 			else if (name == string("ext:user-list")) {
 				d->addUsersToList(node, md->getUserList());
 			}
