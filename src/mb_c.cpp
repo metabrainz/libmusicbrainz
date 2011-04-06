@@ -603,6 +603,9 @@ MB_C_INCLUDES(TrackIncludes, track_includes, tags, tags)
 
 MB_C_STR_GETTER(ReleaseEvent, release_event, Country, country)
 MB_C_STR_GETTER(ReleaseEvent, release_event, Date, date)
+MB_C_STR_GETTER(ReleaseEvent, release_event, CatalogNumber, catalog_number)
+MB_C_STR_GETTER(ReleaseEvent, release_event, Barcode, barcode)
+MB_C_OBJ_GETTER(ReleaseEvent, release_event, Label, label, MbLabel)
 
 /* === MusicBrainz::Relation === */
 
