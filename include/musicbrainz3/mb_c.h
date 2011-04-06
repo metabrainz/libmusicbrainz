@@ -1130,6 +1130,30 @@ mb_release_event_get_country(MbReleaseEvent releaseEvent, char *str, int len);
 MB_API void
 mb_release_event_get_date(MbReleaseEvent releaseEvent, char *str, int len);
 
+/**
+ * Returns the catalog number.
+ *
+ * @see MusicBrainz::ReleaseEvent::getCatalogNumber
+ */
+MB_API void
+mb_release_event_get_catalog_number(MbReleaseEvent releaseEvent, char *str, int len);
+
+/**
+ * Returns the barcode.
+ *
+ * @see MusicBrainz::ReleaseEvent::getBarcode
+ */
+MB_API void
+mb_release_event_get_barcode(MbReleaseEvent releaseEvent, char *str, int len);
+
+/**
+ * Returns the release event's label.
+ *
+ * @see MusicBrainz::ReleaseEvent::getLabel
+ */
+MB_API MbLabel
+mb_release_event_get_label(MbReleaseEvent releaseEvent);
+
 /* }}} */
 
 /* {{{ MusicBrainz::Relation */
