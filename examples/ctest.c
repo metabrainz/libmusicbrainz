@@ -117,9 +117,7 @@ void CompileTest()
 	Mb4Track Track=0;
 	Mb4TrackList TrackList=0;
 	Mb4UserRating UserRating=0;
-/*
 	Mb4UserTag UserTag=0;
-*/
 	Mb4UserTagList UserTagList=0;
 	Mb4Work Work=0;
 	Mb4WorkList WorkList=0;
@@ -362,6 +360,9 @@ void CompileTest()
 
 	DummyInt=mb4_userrating_get_userrating(UserRating);
 	mb4_userrating_delete(UserRating);
+
+	mb4_usertag_get_name(UserTag,Str,Size);
+	mb4_usertag_delete(UserTag);
 
 	mb4_alias_list_size(AliasList);
 	Alias=mb4_alias_list_item(AliasList,0);
