@@ -102,7 +102,9 @@ void CompileTest()
 	Mb4ISRC ISRC=0;
 /*
 	Mb4ISRCList ISRCList=0;
+*/
 	Mb4Label Label=0;
+/*
 	Mb4LabelInfo LabelInfo=0;
 	Mb4LabelInfoList LabelInfoList=0;
 */
@@ -234,6 +236,23 @@ void CompileTest()
 	mb4_isrc_get_id(ISRC,Str,Size);
 	RecordingList=mb4_isrc_get_recordinglist(ISRC);
 	mb4_isrc_delete(ISRC);
+
+	mb4_label_get_id(Label,Str,Size);
+	mb4_label_get_type(Label,Str,Size);
+	mb4_label_get_name(Label,Str,Size);
+	mb4_label_get_sortname(Label,Str,Size);
+	mb4_label_get_labelcode(Label,Str,Size);
+	mb4_label_get_disambiguation(Label,Str,Size);
+	mb4_label_get_country(Label,Str,Size);
+	Lifespan=mb4_label_get_lifespan(Label);
+	AliasList=mb4_label_get_aliaslist(Label);
+	ReleaseList=mb4_label_get_releaselist(Label);
+	RelationList=mb4_label_get_relationlist(Label);
+	TagList=mb4_label_get_taglist(Label);
+	UserTagList=mb4_label_get_usertaglist(Label);
+	Rating=mb4_label_get_rating(Label);
+	UserRating=mb4_label_get_userrating(Label);
+	mb4_label_delete(Label);
 
 	mb4_alias_list_size(AliasList);
 	Alias=mb4_alias_list_item(AliasList,0);
