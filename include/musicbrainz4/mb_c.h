@@ -109,7 +109,7 @@ extern "C"
 	Mb4AliasList mb4_artist_get_aliaslist(Mb4Artist Artist);
 	Mb4RecordingList mb4_artist_get_recordinglist(Mb4Artist Artist);
 	Mb4ReleaseList mb4_artist_get_releaselist(Mb4Artist Artist);
-	Mb4ReleaseGroupList mb4_artist_get_grouplist(Mb4Artist Artist);
+	Mb4ReleaseGroupList mb4_artist_get_releasegrouplist(Mb4Artist Artist);
 	Mb4LabelList mb4_artist_get_labellist(Mb4Artist Artist);
 	Mb4WorkList mb4_artist_get_worklist(Mb4Artist Artist);
 	Mb4RelationList mb4_artist_get_relationlist(Mb4Artist Artist);

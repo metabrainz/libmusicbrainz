@@ -73,7 +73,9 @@ void CompileTest()
 	Mb4Annotation Annotation=0;
 /*
 	Mb4AnnotationList AnnotationList=0;
+*/
 	Mb4Artist Artist=0;
+/*
 	Mb4ArtistCredit ArtistCredit=0;
 	Mb4ArtistList ArtistList=0;
 	Mb4Attribute Attribute=0;
@@ -91,8 +93,10 @@ void CompileTest()
 	Mb4Label Label=0;
 	Mb4LabelInfo LabelInfo=0;
 	Mb4LabelInfoList LabelInfoList=0;
+*/
 	Mb4LabelList LabelList=0;
 	Mb4Lifespan Lifespan=0;
+/*
 	Mb4Medium Medium=0;
 	Mb4MediumList MediumList=0;
 	Mb4Metadata Metadata=0;
@@ -103,27 +107,41 @@ void CompileTest()
 	Mb4PUID PUID=0;
 	Mb4PUIDList PUIDList=0;
 	Mb4Query Query=0;
+*/
 	Mb4Rating Rating=0;
+/*
 	Mb4RatingList RatingList=0;
 	Mb4Recording Recording=0;
+*/
 	Mb4RecordingList RecordingList=0;
+/*
 	Mb4Relation Relation=0;
+*/
 	Mb4RelationList RelationList=0;
+/*
 	Mb4Release Release=0;
 	Mb4ReleaseGroup ReleaseGroup=0;
+*/
 	Mb4ReleaseGroupList ReleaseGroupList=0;
 	Mb4ReleaseList ReleaseList=0;
+/*
 	Mb4Tag Tag=0;
+*/
 	Mb4TagList TagList=0;
+/*
 	Mb4TextRepresentation TextRepresentation=0;
 	Mb4Track Track=0;
 	Mb4TrackList TrackList=0;
-	Mb4UserRating UserRating=0;
-	Mb4UserTag UserTag=0;
-	Mb4UserTagList UserTagList=0;
-	Mb4Work Work=0;
-	Mb4WorkList WorkList=0;
 */
+	Mb4UserRating UserRating=0;
+/*
+	Mb4UserTag UserTag=0;
+*/
+	Mb4UserTagList UserTagList=0;
+/*
+	Mb4Work Work=0;
+*/
+	Mb4WorkList WorkList=0;
 	char Str[256];
 	int Size=sizeof(Str);
 /*
@@ -142,6 +160,26 @@ void CompileTest()
 	mb4_annotation_get_name(Annotation,Str,Size);
 	mb4_annotation_get_text(Annotation,Str,Size);
 	mb4_annotation_delete(Annotation);
+
+	mb4_artist_get_id(Artist,Str,Size);
+	mb4_artist_get_type(Artist,Str,Size);
+	mb4_artist_get_name(Artist,Str,Size);
+	mb4_artist_get_sortname(Artist,Str,Size);
+	mb4_artist_get_gender(Artist,Str,Size);
+	mb4_artist_get_country(Artist,Str,Size);
+	mb4_artist_get_disambiguation(Artist,Str,Size);
+	Lifespan=mb4_artist_get_lifespan(Artist);
+	AliasList=mb4_artist_get_aliaslist(Artist);
+	RecordingList=mb4_artist_get_recordinglist(Artist);
+	ReleaseList=mb4_artist_get_releaselist(Artist);
+	ReleaseGroupList=mb4_artist_get_releasegrouplist(Artist);
+	LabelList=mb4_artist_get_labellist(Artist);
+	WorkList=mb4_artist_get_worklist(Artist);
+	RelationList=mb4_artist_get_relationlist(Artist);
+	TagList=mb4_artist_get_taglist(Artist);
+	UserTagList=mb4_artist_get_usertaglist(Artist);
+	Rating=mb4_artist_get_rating(Artist);
+	UserRating=mb4_artist_get_userrating(Artist);
 
 	mb4_alias_list_size(AliasList);
 	Alias=mb4_alias_list_item(AliasList,0);
