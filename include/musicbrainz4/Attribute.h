@@ -33,17 +33,20 @@
 
 namespace MusicBrainz4
 {
+	class CAttributePrivate;
+	
 	class CAttribute
 	{
 	public:
 		CAttribute(const XMLNode& Node=XMLNode::emptyNode());
 		CAttribute(const CAttribute& Other);
 		CAttribute& operator =(const CAttribute& Other);
+		~CAttribute();
 
 		std::string Text() const;
 
 	private:
-		std::string m_Text;
+		CAttributePrivate * const m_d;
 	};
 }
 

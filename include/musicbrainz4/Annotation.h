@@ -49,7 +49,7 @@ namespace MusicBrainz4
 		std::string Text() const;
 
 	private:
-		CAnnotationPrivate *m_d;
+		CAnnotationPrivate * const m_d;
 	};
 }
 

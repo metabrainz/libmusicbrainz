@@ -25,18 +25,26 @@
 
 #include "musicbrainz4/Attribute.h"
 
+class MusicBrainz4::CAttributePrivate
+{
+	public:
+		std::string m_Text;
+};
+		
 MusicBrainz4::CAttribute::CAttribute(const XMLNode& Node)
+:	m_d(new CAttributePrivate)
 {
 	if (!Node.isEmpty())
 	{
 		//std::cout << "Attribute node: " << std::endl << Node.createXMLString(true) << std::endl;
 
 		if (Node.getText())
-			m_Text=Node.getText();
+			m_d->m_Text=Node.getText();
 	}
 }
 
 MusicBrainz4::CAttribute::CAttribute(const CAttribute& Other)
+:	m_d(new CAttributePrivate)
 {
 	*this=Other;
 }
@@ -45,15 +53,20 @@ MusicBrainz4::CAttribute& MusicBrainz4::CAttribute::operator =(const CAttribute&
 {
 	if (this!=&Other)
 	{
-		m_Text=Other.m_Text;
+		m_d->m_Text=Other.m_d->m_Text;
 	}
 
 	return *this;
 }
 
+MusicBrainz4::CAttribute::~CAttribute()
+{
+	delete m_d;
+}
+
 std::string MusicBrainz4::CAttribute::Text() const
 {
-	return m_Text;
+	return m_d->m_Text;
 }
 
 std::ostream& operator << (std::ostream& os, const MusicBrainz4::CAttribute& Attribute)

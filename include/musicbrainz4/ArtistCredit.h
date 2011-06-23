@@ -50,7 +50,7 @@ namespace MusicBrainz4
 	private:
 		void Cleanup();
 
-		CArtistCreditPrivate *m_d;
+		CArtistCreditPrivate * const m_d;
 	};
 }
 

@@ -73,6 +73,7 @@ MusicBrainz4::CAnnotation::CAnnotation(const XMLNode& Node)
 }
 
 MusicBrainz4::CAnnotation::CAnnotation(const CAnnotation& Other)
+:	m_d(new CAnnotationPrivate)
 {
 	*this=Other;
 }

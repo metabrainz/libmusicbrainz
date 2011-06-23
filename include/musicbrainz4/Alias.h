@@ -48,7 +48,7 @@ namespace MusicBrainz4
 		std::string Text() const;
 
 	private:
-		CAliasPrivate *m_d;
+		CAliasPrivate * const m_d;
 	};
 }
 

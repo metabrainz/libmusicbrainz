@@ -80,7 +80,7 @@ namespace MusicBrainz4
 	private:
 		void Cleanup();
 		
-		CArtistPrivate *m_d;
+		CArtistPrivate * const m_d;
 	};
 }
 
