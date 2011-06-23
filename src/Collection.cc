@@ -27,15 +27,28 @@
 
 #include "musicbrainz4/Release.h"
 
+class MusicBrainz4::CCollectionPrivate
+{
+	public:
+		CCollectionPrivate()
+		:	 m_ReleaseList(0)
+		{
+		}
+		
+		std::string m_ID;
+		std::string m_Name;
+		std::string m_Editor;
+		CGenericList<CRelease> *m_ReleaseList;
+};		
 MusicBrainz4::CCollection::CCollection(const XMLNode& Node)
-:	m_ReleaseList(0)
+:	m_d(new CCollectionPrivate)
 {
 	if (!Node.isEmpty())
 	{
 		//std::cout << "Medium node: " << std::endl << Node.createXMLString(true) << std::endl;
 
 		if (Node.isAttributeSet("id"))
-			m_ID=Node.getAttribute("id");
+			m_d->m_ID=Node.getAttribute("id");
 
 		for (int count=0;count<Node.nChildNode();count++)
 		{
@@ -47,15 +60,15 @@ MusicBrainz4::CCollection::CCollection(const XMLNode& Node)
 
 			if ("name"==NodeName)
 			{
-				m_Name=NodeValue;
+				m_d->m_Name=NodeValue;
 			}
 			else if ("editor"==NodeName)
 			{
-				m_Editor=NodeValue;
+				m_d->m_Editor=NodeValue;
 			}
 			else if ("release-list"==NodeName)
 			{
-				m_ReleaseList=new CGenericList<CRelease>(ChildNode,"release");
+				m_d->m_ReleaseList=new CGenericList<CRelease>(ChildNode,"release");
 			}
 			else
 			{
@@ -66,7 +79,7 @@ MusicBrainz4::CCollection::CCollection(const XMLNode& Node)
 }
 
 MusicBrainz4::CCollection::CCollection(const CCollection& Other)
-:	m_ReleaseList(0)
+:	m_d(new CCollectionPrivate)
 {
 	*this=Other;
 }
@@ -77,12 +90,12 @@ MusicBrainz4::CCollection& MusicBrainz4::CCollection::operator =(const CCollecti
 	{
 		Cleanup();
 
-		m_ID=Other.m_ID;
-		m_Name=Other.m_Name;
-		m_Editor=Other.m_Editor;
+		m_d->m_ID=Other.m_d->m_ID;
+		m_d->m_Name=Other.m_d->m_Name;
+		m_d->m_Editor=Other.m_d->m_Editor;
 
-		if (Other.m_ReleaseList)
-			m_ReleaseList=new CGenericList<CRelease>(*Other.m_ReleaseList);
+		if (Other.m_d->m_ReleaseList)
+			m_d->m_ReleaseList=new CGenericList<CRelease>(*Other.m_d->m_ReleaseList);
 	}
 
 	return *this;
@@ -91,32 +104,34 @@ MusicBrainz4::CCollection& MusicBrainz4::CCollection::operator =(const CCollecti
 MusicBrainz4::CCollection::~CCollection()
 {
 	Cleanup();
+	
+	delete m_d;
 }
 
 void MusicBrainz4::CCollection::Cleanup()
 {
-	delete m_ReleaseList;
-	m_ReleaseList=0;
+	delete m_d->m_ReleaseList;
+	m_d->m_ReleaseList=0;
 }
 
 std::string MusicBrainz4::CCollection::ID() const
 {
-	return m_ID;
+	return m_d->m_ID;
 }
 
 std::string MusicBrainz4::CCollection::Name() const
 {
-	return m_Name;
+	return m_d->m_Name;
 }
 
 std::string MusicBrainz4::CCollection::Editor() const
 {
-	return m_Editor;
+	return m_d->m_Editor;
 }
 
 MusicBrainz4::CGenericList<MusicBrainz4::CRelease> *MusicBrainz4::CCollection::ReleaseList() const
 {
-	return m_ReleaseList;
+	return m_d->m_ReleaseList;
 }
 
 std::ostream& operator << (std::ostream& os, const MusicBrainz4::CCollection& Collection)

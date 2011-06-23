@@ -32,6 +32,8 @@
 
 namespace MusicBrainz4
 {
+	class CCollectionPrivate;
+	
 	class CRelease;
 
 	class CCollection
@@ -50,10 +52,7 @@ namespace MusicBrainz4
 	private:
 		void Cleanup();
 
-		std::string m_ID;
-		std::string m_Name;
-		std::string m_Editor;
-		CGenericList<CRelease> *m_ReleaseList;
+		CCollectionPrivate * const m_d;
 	};
 }
 
