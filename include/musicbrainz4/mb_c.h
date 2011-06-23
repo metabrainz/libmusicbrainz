@@ -180,8 +180,35 @@ extern "C"
 	unsigned char mb4_medium_contains_discid(Mb4Medium Medium, const char *DiscID);
 
 	void mb4_metadata_delete(Mb4Metadata Metadata);
-	Mb4ReleaseList mb4_metadata_get_releaselist(Mb4Metadata Metadata);
+	void mb4_metadata_get_generator(Mb4Metadata Metadata, char *str, int len);
+	void mb4_metadata_get_created(Mb4Metadata Metadata, char *str, int len);
+	Mb4Artist mb4_metadata_get_artist(Mb4Metadata Metadata);
+	Mb4Release mb4_metadata_get_release(Mb4Metadata Metadata);
+	Mb4ReleaseGroup mb4_metadata_get_releasegroup(Mb4Metadata Metadata);
+	Mb4Recording mb4_metadata_get_recording(Mb4Metadata Metadata);
+	Mb4Label mb4_metadata_get_label(Mb4Metadata Metadata);
+	Mb4Work mb4_metadata_get_work(Mb4Metadata Metadata);
+	Mb4PUID mb4_metadata_get_puid(Mb4Metadata Metadata);
+	Mb4ISRC mb4_metadata_get_isrc(Mb4Metadata Metadata);
 	Mb4Disc mb4_metadata_get_disc(Mb4Metadata Metadata);
+	Mb4LabelInfoList mb4_metadata_get_labelinfolist(Mb4Metadata Metadata);
+	Mb4Rating mb4_metadata_get_rating(Mb4Metadata Metadata);
+	Mb4UserRating mb4_metadata_get_userrating(Mb4Metadata Metadata);
+	Mb4Collection mb4_metadata_get_collection(Mb4Metadata Metadata);
+	Mb4ArtistList mb4_metadata_get_artistlist(Mb4Metadata Metadata);
+	Mb4ReleaseList mb4_metadata_get_releaselist(Mb4Metadata Metadata);
+	Mb4ReleaseGroupList mb4_metadata_get_releasegrouplist(Mb4Metadata Metadata);
+	Mb4RecordingList mb4_metadata_get_recordinglist(Mb4Metadata Metadata);
+	Mb4LabelList mb4_metadata_get_labellist(Mb4Metadata Metadata);
+	Mb4WorkList mb4_metadata_get_worklist(Mb4Metadata Metadata);
+	Mb4ISRCList mb4_metadata_get_isrclist(Mb4Metadata Metadata);
+	Mb4AnnotationList mb4_metadata_get_annotationlist(Mb4Metadata Metadata);
+	Mb4CDStubList mb4_metadata_get_cdstublist(Mb4Metadata Metadata);
+	Mb4FreeDBDiscList mb4_metadata_get_freedbdisclist(Mb4Metadata Metadata);
+	Mb4TagList mb4_metadata_get_taglist(Mb4Metadata Metadata);
+	Mb4UserTagList mb4_metadata_get_usertaglist(Mb4Metadata Metadata);
+	Mb4CollectionList mb4_metadata_get_collectionlist(Mb4Metadata Metadata);
+	Mb4CDStub mb4_metadata_get_cdstub(Mb4Metadata Metadata);
 
 	Mb4Query mb4_query_new(const char *Server);
 	void mb4_query_delete(Mb4Query Query);
