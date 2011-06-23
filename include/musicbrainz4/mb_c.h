@@ -329,12 +329,15 @@ extern "C"
 	void mb4_textrepresentation_get_script(Mb4TextRepresentation TextRepresentation, char *str, int len);
 
 	void mb4_track_delete(Mb4Track Track);
-	int mb4_track_delete_get_position(Mb4Track Track);
+	int mb4_track_get_position(Mb4Track Track);
 	void mb4_track_get_title(Mb4Track Track, char *str, int len);
 	Mb4Recording mb4_track_get_recording(Mb4Track Track, char *str, int len);
 
 	void mb4_userrating_delete(Mb4UserRating UserRating);
-	int mb4_userrating_delete_get_userrating(Mb4UserRating UserRating);
+	int mb4_userrating_get_userrating(Mb4UserRating UserRating);
+
+	void mb4_usertag_delete(Mb4UserTag UserTag);
+	void mb4_usertag_delete_get_name(Mb4UserTag UserTag, char *str, int len);
 
 	int mb4_alias_list_size(Mb4AliasList List);
 	Mb4Alias mb4_alias_list_item(Mb4AliasList List, int Item);

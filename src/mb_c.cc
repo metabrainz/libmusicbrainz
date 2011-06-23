@@ -483,6 +483,9 @@ MB4_C_OBJ_GETTER(Track,track,Recording,recording)
 MB4_C_DELETE(UserRating,userrating)
 MB4_C_INT_GETTER(UserRating,userrating,UserRating,userrating)
 
+MB4_C_DELETE(UserTag,usertag)
+MB4_C_STR_GETTER(UserTag,usertag,Name,name)
+
 MB4_C_LIST_GETTER(Alias,alias)
 MB4_C_LIST_GETTER(Annotation,annotation)
 MB4_C_LIST_GETTER(Artist,artist)
