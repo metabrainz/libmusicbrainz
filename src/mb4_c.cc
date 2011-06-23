@@ -1,4 +1,4 @@
-#include "musicbrainz4/mb_c.h"
+#include "musicbrainz4/mb4_c.h"
 
 #include <string.h>
 

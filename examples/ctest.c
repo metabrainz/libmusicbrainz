@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "musicbrainz4/mb_c.h"
+#include "musicbrainz4/mb4_c.h"
 
 int main(int argc, const char *argv[])
 {
