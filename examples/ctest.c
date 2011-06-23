@@ -88,7 +88,9 @@ void CompileTest()
 	Mb4CDStubList CDStubList=0;
 	Mb4Collection Collection=0;
 	Mb4CollectionList CollectionList=0;
+*/
 	Mb4Disc Disc=0;
+/*
 	Mb4DiscList DiscList=0;
 	Mb4FreeDBDisc FreeDBDisc=0;
 	Mb4FreeDBDiscList FreeDBDiscList=0;
