@@ -14,6 +14,7 @@
 #include "musicbrainz4/ISRC.h"
 #include "musicbrainz4/Label.h"
 #include "musicbrainz4/LabelInfo.h"
+#include "musicbrainz4/Lifespan.h"
 #include "musicbrainz4/Medium.h"
 #include "musicbrainz4/Metadata.h"
 #include "musicbrainz4/NameCredit.h"
@@ -267,6 +268,10 @@ MB4_C_OBJ_GETTER(Label,label,UserRating,userrating)
 MB4_C_DELETE(LabelInfo,labelinfo)
 MB4_C_STR_GETTER(LabelInfo,labelinfo,CatalogNumber,catalognumber)
 MB4_C_OBJ_GETTER(LabelInfo,labelinfo,Label,label)
+
+MB4_C_DELETE(Lifespan,lifespan)
+MB4_C_STR_GETTER(Lifespan,lifespan,Begin,begin)
+MB4_C_STR_GETTER(Lifespan,lifespan,End,end)
 
 MB4_C_DELETE(Metadata,metadata)
 MB4_C_OBJ_GETTER(Metadata,metadata,ReleaseList,releaselist)

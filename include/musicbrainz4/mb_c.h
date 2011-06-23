@@ -74,7 +74,6 @@ extern "C"
 	typedef void *Mb4Work;
 	typedef void *Mb4WorkList;
 
-
 	void mb4_alias_delete(Mb4Alias Alias);
 	void mb4_alias_get_type(Mb4Alias Alias, char *str, int len);
 	void mb4_alias_get_script(Mb4Alias Alias, char *str, int len);
@@ -164,6 +163,10 @@ extern "C"
 	void mb4_labelinfo_delete(Mb4LabelInfo LabelInfo);
 	void mb4_labelinfo_get_catalognumber(Mb4LabelInfo LabelInfo, char *str, int len);
 	Mb4Label mb4_labelinfo_get_label(Mb4LabelInfo LabelInfo);
+
+	void mb4_lifespan_delete(Mb4Lifespan Lifespan);
+	void mb4_lifespan_get_hegin(Mb4Lifespan Lifespan, char *str, int len);
+	void mb4_lifespan_get_end(Mb4Lifespan Lifespan, char *str, int len);
 
 	void mb4_metadata_delete(Mb4Metadata Metadata);
 	Mb4ReleaseList mb4_metadata_get_releaselist(Mb4Metadata Metadata);
