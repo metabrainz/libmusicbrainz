@@ -104,8 +104,8 @@ void CompileTest()
 	Mb4ISRCList ISRCList=0;
 */
 	Mb4Label Label=0;
-/*
 	Mb4LabelInfo LabelInfo=0;
+/*
 	Mb4LabelInfoList LabelInfoList=0;
 */
 	Mb4LabelList LabelList=0;
@@ -253,6 +253,10 @@ void CompileTest()
 	Rating=mb4_label_get_rating(Label);
 	UserRating=mb4_label_get_userrating(Label);
 	mb4_label_delete(Label);
+
+	mb4_labelinfo_get_catalognumber(LabelInfo,Str,Size);
+	Label=mb4_labelinfo_get_label(LabelInfo);
+	mb4_labelinfo_delete(LabelInfo);
 
 	mb4_lifespan_get_begin(Lifespan,Str,Size);
 	mb4_lifespan_get_end(Lifespan,Str,Size);
