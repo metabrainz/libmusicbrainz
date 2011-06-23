@@ -37,8 +37,14 @@
 #include "musicbrainz4/HTTPFetch.h"
 #include "musicbrainz4/Disc.h"
 
+class MusicBrainz4::CQueryPrivate
+{
+	public:
+		std::string m_Server;
+};
+
 MusicBrainz4::CQuery::CQuery(const std::string& Server)
-:	m_Server(Server)
+:	m_d(new CQueryPrivate)
 {
 }
 
@@ -48,7 +54,7 @@ MusicBrainz4::CMetadata MusicBrainz4::CQuery::PerformQuery(const std::string& Qu
 
 	CMetadata Metadata;
 
-	CHTTPFetch Fetch(m_Server);
+	CHTTPFetch Fetch(m_d->m_Server);
 
 	int Ret=Fetch.Fetch(Query);
 	std::cout << "Ret: " << Ret << std::endl;
@@ -177,7 +183,7 @@ MusicBrainz4::CRelease MusicBrainz4::CQuery::LookupRelease(const std::string& Re
 
 void MusicBrainz4::CQuery::WaitRequest() const
 {
-	if (m_Server.find("musicbrainz.org")!=std::string::npos)
+	if (m_d->m_Server.find("musicbrainz.org")!=std::string::npos)
 	{
 		static struct timeval LastRequest;
 		const int TimeBetweenRequests=2;

@@ -38,6 +38,8 @@
 
 namespace MusicBrainz4
 {
+	class CQueryPrivate;
+	
 	class CQuery
 	{
 	public:
@@ -50,7 +52,7 @@ namespace MusicBrainz4
 		CMetadata Query(const std::string& Resource,const std::string& ID,const tParamMap& Params=tParamMap());
 
 	private:
-		std::string m_Server;
+		CQueryPrivate * const m_d;
 
 		CMetadata PerformQuery(const std::string& Query);
 		void WaitRequest() const;
