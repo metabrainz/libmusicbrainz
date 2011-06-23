@@ -1,8 +1,3 @@
-Changed for libmusicbrainz 4
-----------------------------
-
-Rewrite to work with NGS
-
 Changes for libmusicbrainz 3.0.4
 --------------------------------
 
