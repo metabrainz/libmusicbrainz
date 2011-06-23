@@ -33,19 +33,21 @@
 
 namespace MusicBrainz4
 {
+	class CTagPrivate;
+	
 	class CTag
 	{
 	public:
 		CTag(const XMLNode& Node);
 		CTag(const CTag& Other);
 		CTag& operator =(const CTag& Other);
+		~CTag();
 
 		int Count() const;
 		std::string Name() const;
 
 	private:
-		int m_Count;
-		std::string m_Name;
+		CTagPrivate * const m_d;
 	};
 }
 
