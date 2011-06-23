@@ -474,6 +474,11 @@ MB4_C_DELETE(TextRepresentation,textrepresentation)
 MB4_C_STR_GETTER(TextRepresentation,textrepresentation,Language,language)
 MB4_C_STR_GETTER(TextRepresentation,textrepresentation,Script,script)
 
+MB4_C_DELETE(Track,track)
+MB4_C_INT_GETTER(Track,track,Position,position)
+MB4_C_STR_GETTER(Track,track,Title,title)
+MB4_C_OBJ_GETTER(Track,track,Recording,recording)
+
 MB4_C_LIST_GETTER(Alias,alias)
 MB4_C_LIST_GETTER(Annotation,annotation)
 MB4_C_LIST_GETTER(Artist,artist)
