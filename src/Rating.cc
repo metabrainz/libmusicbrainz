@@ -27,7 +27,15 @@
 
 #include <sstream>
 
+class MusicBrainz4::CRatingPrivate
+{
+	public:
+		int m_VotesCount;
+		double m_Rating;
+};
+
 MusicBrainz4::CRating::CRating(const XMLNode& Node)
+:	m_d(new CRatingPrivate)
 {
 	if (!Node.isEmpty())
 	{
@@ -37,19 +45,20 @@ MusicBrainz4::CRating::CRating(const XMLNode& Node)
 		{
 			std::stringstream os;
 			os << Node.getAttribute("votes-count");
-			os >> m_VotesCount;
+			os >> m_d->m_VotesCount;
 		}
 
 		if (Node.getText())
 		{
 			std::stringstream os;
 			os << Node.getText();
-			os >> m_Rating;
+			os >> m_d->m_Rating;
 		}
 	}
 }
 
 MusicBrainz4::CRating::CRating(const CRating& Other)
+:	m_d(new CRatingPrivate)
 {
 	*this=Other;
 }
@@ -58,21 +67,26 @@ MusicBrainz4::CRating& MusicBrainz4::CRating::operator =(const CRating& Other)
 {
 	if (this!=&Other)
 	{
-		m_VotesCount=Other.m_VotesCount;
-		m_Rating=Other.m_Rating;
+		m_d->m_VotesCount=Other.m_d->m_VotesCount;
+		m_d->m_Rating=Other.m_d->m_Rating;
 	}
 
 	return *this;
 }
 
+MusicBrainz4::CRating::~CRating()
+{
+	delete m_d;
+}
+
 int MusicBrainz4::CRating::VotesCount() const
 {
-	return m_VotesCount;
+	return m_d->m_VotesCount;
 }
 
 double MusicBrainz4::CRating::Rating() const
 {
-	return m_Rating;
+	return m_d->m_Rating;
 }
 
 std::ostream& operator << (std::ostream& os, const MusicBrainz4::CRating& Rating)

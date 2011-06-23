@@ -32,19 +32,21 @@
 
 namespace MusicBrainz4
 {
+	class CRatingPrivate;
+	
 	class CRating
 	{
 	public:
 		CRating(const XMLNode& Node=XMLNode::emptyNode());
 		CRating(const CRating& Other);
 		CRating& operator =(const CRating& Other);
+		~CRating();
 
 		int VotesCount() const;
 		double Rating() const;
 
 	private:
-		int m_VotesCount;
-		double m_Rating;
+		CRatingPrivate * const m_d;
 	};
 }
 
