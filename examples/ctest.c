@@ -381,4 +381,91 @@ void CompileTest()
 	Alias=mb4_alias_list_item(AliasList,0);
 	mb4_alias_list_delete(AliasList);
 
+	mb4_annotation_list_size(AnnotationList);
+	Annotation=mb4_annotation_list_item(AnnotationList,0);
+	mb4_annotation_list_delete(AnnotationList);
+
+	mb4_artist_list_size(ArtistList);
+	Artist=mb4_artist_list_item(ArtistList,0);
+	mb4_artist_list_delete(ArtistList);
+
+	mb4_attribute_list_size(AttributeList);
+	Attribute=mb4_attribute_list_item(AttributeList,0);
+	mb4_attribute_list_delete(AttributeList);
+
+	mb4_cdstub_list_size(CDStubList);
+	CDStub=mb4_cdstub_list_item(CDStubList,0);
+	mb4_cdstub_list_delete(CDStubList);
+
+	mb4_collection_list_size(CollectionList);
+	Collection=mb4_collection_list_item(CollectionList,0);
+	mb4_collection_list_delete(CollectionList);
+
+	mb4_disc_list_size(DiscList);
+	Disc=mb4_disc_list_item(DiscList,0);
+	mb4_disc_list_delete(DiscList);
+
+	mb4_freedbdisc_list_size(FreeDBDiscList);
+	FreeDBDisc=mb4_freedbdisc_list_item(FreeDBDiscList,0);
+	mb4_freedbdisc_list_delete(FreeDBDiscList);
+
+	mb4_isrc_list_size(ISRCList);
+	ISRC=mb4_isrc_list_item(ISRCList,0);
+	mb4_isrc_list_delete(ISRCList);
+
+	mb4_label_list_size(LabelList);
+	Label=mb4_label_list_item(LabelList,0);
+	mb4_label_list_delete(LabelList);
+
+	mb4_labelinfo_list_size(LabelInfoList);
+	LabelInfo=mb4_labelinfo_list_item(LabelInfoList,0);
+	mb4_labelinfo_list_delete(LabelInfoList);
+
+	mb4_medium_list_size(MediumList);
+	Medium=mb4_medium_list_item(MediumList,0);
+	mb4_medium_list_delete(MediumList);
+
+	mb4_namecredit_list_size(NameCreditList);
+	NameCredit=mb4_namecredit_list_item(NameCreditList,0);
+	mb4_namecredit_list_delete(NameCreditList);
+
+	mb4_nonembtrack_list_size(NoneMBTrackList);
+	NoneMBTrack=mb4_nonembtrack_list_item(NoneMBTrackList,0);
+	mb4_nonembtrack_list_delete(NoneMBTrackList);
+
+	mb4_puid_list_size(PUIDList);
+	PUID=mb4_puid_list_item(PUIDList,0);
+	mb4_puid_list_delete(PUIDList);
+
+	mb4_recording_list_size(RecordingList);
+	Recording=mb4_recording_list_item(RecordingList,0);
+	mb4_recording_list_delete(RecordingList);
+
+	mb4_relation_list_size(RelationList);
+	Relation=mb4_relation_list_item(RelationList,0);
+	mb4_relation_list_delete(RelationList);
+
+	mb4_release_list_size(ReleaseList);
+	Release=mb4_release_list_item(ReleaseList,0);
+	mb4_release_list_delete(ReleaseList);
+
+	mb4_releasegroup_list_size(ReleaseGroupList);
+	ReleaseGroup=mb4_releasegroup_list_item(ReleaseGroupList,0);
+	mb4_releasegroup_list_delete(ReleaseGroupList);
+
+	mb4_tag_list_size(TagList);
+	Tag=mb4_tag_list_item(TagList,0);
+	mb4_tag_list_delete(TagList);
+
+	mb4_track_list_size(TrackList);
+	Track=mb4_track_list_item(TrackList,0);
+	mb4_track_list_delete(TrackList);
+
+	mb4_usertag_list_size(UserTagList);
+	UserTag=mb4_usertag_list_item(UserTagList,0);
+	mb4_usertag_list_delete(UserTagList);
+
+	mb4_work_list_size(WorkList);
+	Work=mb4_work_list_item(WorkList,0);
+	mb4_work_list_delete(WorkList);
 }

@@ -359,7 +359,7 @@ extern "C"
 
 	void mb4_annotation_list_delete(Mb4AnnotationList List);
 	int mb4_annotation_list_size(Mb4AnnotationList List);
-	Mb4Annotation mb4_annoation_list_item(Mb4AnnotationList List, int Item);
+	Mb4Annotation mb4_annotation_list_item(Mb4AnnotationList List, int Item);
 
 	void mb4_artist_list_delete(Mb4ArtistList List);
 	int mb4_artist_list_size(Mb4ArtistList List);
