@@ -27,6 +27,7 @@
 #include "musicbrainz4/Release.h"
 #include "musicbrainz4/ReleaseGroup.h"
 #include "musicbrainz4/Tag.h"
+#include "musicbrainz4/TextRepresentation.h"
 #include "musicbrainz4/Track.h"
 #include "musicbrainz4/UserTag.h"
 #include "musicbrainz4/Work.h"
@@ -468,6 +469,10 @@ MB4_C_OBJ_GETTER(ReleaseGroup,releasegroup,UserRating,userrating)
 MB4_C_DELETE(Tag,tag)
 MB4_C_INT_GETTER(Tag,tag,Count,count)
 MB4_C_STR_GETTER(Tag,tag,Name,name)
+
+MB4_C_DELETE(TextRepresentation,textrepresentation)
+MB4_C_STR_GETTER(TextRepresentation,textrepresentation,Language,language)
+MB4_C_STR_GETTER(TextRepresentation,textrepresentation,Script,script)
 
 MB4_C_LIST_GETTER(Alias,alias)
 MB4_C_LIST_GETTER(Annotation,annotation)

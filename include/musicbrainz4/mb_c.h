@@ -77,9 +77,9 @@ extern "C"
 	typedef void *Mb4ReleaseList;
 	typedef void *Mb4Tag;
 	typedef void *Mb4TagList;
+	typedef void *Mb4TextRepresentation;
 	typedef void *Mb4Track;
 	typedef void *Mb4TrackList;
-	typedef void *Mb4TextRepresentation;
 	typedef void *Mb4UserRating;
 	typedef void *Mb4UserTag;
 	typedef void *Mb4UserTagList;
@@ -323,6 +323,10 @@ extern "C"
 	void mb4_tag_delete(Mb4Tag Tag);
 	int mb4_tag_get_count(Mb4Tag Tag);
 	void mb4_tag_get_name(Mb4Tag Tag, char *str, int len);
+
+	void mb4_textrepresentation_delete(Mb4TextRepresentation TextRepresentation);
+	void mb4_textrepresentation_get_language(Mb4TextRepresentation TextRepresentation, char *str, int len);
+	void mb4_textrepresentation_get_script(Mb4TextRepresentation TextRepresentation, char *str, int len);
 
 	int mb4_alias_list_size(Mb4AliasList List);
 	Mb4Alias mb4_alias_list_item(Mb4AliasList List, int Item);
