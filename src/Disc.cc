@@ -27,15 +27,28 @@
 
 #include "musicbrainz4/Release.h"
 
+class MusicBrainz4::CDiscPrivate
+{
+	public:
+		CDiscPrivate()
+		:	m_ReleaseList(0)
+		{
+		}
+		
+		std::string m_ID;
+		std::string m_Sectors;
+		CGenericList<CRelease> *m_ReleaseList;
+};
+
 MusicBrainz4::CDisc::CDisc(const XMLNode& Node)
-:	m_ReleaseList(0)
+:	m_d(new CDiscPrivate)
 {
 	if (!Node.isEmpty())
 	{
 		//std::cout << "Disc node: " << std::endl << Node.createXMLString(true) << std::endl;
 
 		if (Node.isAttributeSet("id"))
-			m_ID=Node.getAttribute("id");
+			m_d->m_ID=Node.getAttribute("id");
 
 		for (int count=0;count<Node.nChildNode();count++)
 		{
@@ -47,11 +60,11 @@ MusicBrainz4::CDisc::CDisc(const XMLNode& Node)
 
 			if ("sectors"==NodeName)
 			{
-				m_Sectors=NodeValue;
+				m_d->m_Sectors=NodeValue;
 			}
 			else if ("release-list"==NodeName)
 			{
-				m_ReleaseList=new CGenericList<CRelease>(ChildNode,"release");
+				m_d->m_ReleaseList=new CGenericList<CRelease>(ChildNode,"release");
 			}
 			else
 			{
@@ -62,7 +75,7 @@ MusicBrainz4::CDisc::CDisc(const XMLNode& Node)
 }
 
 MusicBrainz4::CDisc::CDisc(const CDisc& Other)
-:	m_ReleaseList(0)
+:	m_d(new CDiscPrivate)
 {
 	*this=Other;
 }
@@ -73,11 +86,11 @@ MusicBrainz4::CDisc& MusicBrainz4::CDisc::operator =(const CDisc& Other)
 	{
 		Cleanup();
 
-		m_ID=Other.m_ID;
-		m_Sectors=Other.m_Sectors;
+		m_d->m_ID=Other.m_d->m_ID;
+		m_d->m_Sectors=Other.m_d->m_Sectors;
 
-		if (Other.m_ReleaseList)
-			m_ReleaseList=new CGenericList<CRelease>(*Other.m_ReleaseList);
+		if (Other.m_d->m_ReleaseList)
+			m_d->m_ReleaseList=new CGenericList<CRelease>(*Other.m_d->m_ReleaseList);
 	}
 
 	return *this;
@@ -86,27 +99,29 @@ MusicBrainz4::CDisc& MusicBrainz4::CDisc::operator =(const CDisc& Other)
 MusicBrainz4::CDisc::~CDisc()
 {
 	Cleanup();
+	
+	delete m_d;
 }
 
 void MusicBrainz4::CDisc::Cleanup()
 {
-	delete m_ReleaseList;
-	m_ReleaseList=0;
+	delete m_d->m_ReleaseList;
+	m_d->m_ReleaseList=0;
 }
 
 std::string MusicBrainz4::CDisc::ID() const
 {
-	return m_ID;
+	return m_d->m_ID;
 }
 
 std::string MusicBrainz4::CDisc::Sectors() const
 {
-	return m_Sectors;
+	return m_d->m_Sectors;
 }
 
 MusicBrainz4::CGenericList<MusicBrainz4::CRelease> *MusicBrainz4::CDisc::ReleaseList() const
 {
-	return m_ReleaseList;
+	return m_d->m_ReleaseList;
 }
 
 std::ostream& operator << (std::ostream& os, const MusicBrainz4::CDisc& Disc)
