@@ -29,26 +29,27 @@
 #include <string>
 #include <vector>
 
-class CHTTPFetch
+namespace MusicBrainz4
 {
-public:
-	CHTTPFetch(const std::string& Host, int Port=80);
-
-	int Fetch(const std::string& URL);
-	std::vector<unsigned char> Data() const;
-	int Result() const;
-	int Status() const;
-	std::string ErrorMessage() const;
+	class CHTTPFetchPrivate;
 	
-private:
-	std::string m_Host;
-	int m_Port;
-	std::vector<unsigned char> m_Data;
-	int m_Result;
-	int m_Status;
-	std::string m_ErrorMessage;
-
-	static int httpResponseReader(void *userdata, const char *buf, size_t len);
-};
+	class CHTTPFetch
+	{
+	public:
+		CHTTPFetch(const std::string& Host, int Port=80);
+		~CHTTPFetch();
+	
+		int Fetch(const std::string& URL);
+		std::vector<unsigned char> Data() const;
+		int Result() const;
+		int Status() const;
+		std::string ErrorMessage() const;
+		
+	private:
+		CHTTPFetchPrivate * const m_d;
+		
+		static int httpResponseReader(void *userdata, const char *buf, size_t len);
+	};
+}
 
 #endif
