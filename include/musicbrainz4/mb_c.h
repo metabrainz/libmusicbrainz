@@ -66,7 +66,6 @@ extern "C"
 	typedef void *Mb4PUIDList;
 	typedef void *Mb4Query;
 	typedef void *Mb4Rating;
-	typedef void *Mb4RatingList;
 	typedef void *Mb4Recording;
 	typedef void *Mb4RecordingList;
 	typedef void *Mb4Relation;

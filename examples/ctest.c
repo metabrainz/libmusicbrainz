@@ -103,9 +103,6 @@ void CompileTest()
 	Mb4PUIDList PUIDList=0;
 	Mb4Query Query=0;
 	Mb4Rating Rating=0;
-/*
-	Mb4RatingList RatingList=0;
-*/
 	Mb4Recording Recording=0;
 	Mb4RecordingList RecordingList=0;
 	Mb4Relation Relation=0;
@@ -355,6 +352,10 @@ void CompileTest()
 	DummyInt=mb4_tag_get_count(Tag);
 	mb4_tag_get_name(Tag,Str,Size);
 	mb4_tag_delete(Tag);
+
+	mb4_textrepresentation_get_language(TextRepresentation,Str,Size);
+	mb4_textrepresentation_get_script(TextRepresentation,Str,Size);
+	mb4_textrepresentation_delete(TextRepresentation);
 
 	mb4_alias_list_size(AliasList);
 	Alias=mb4_alias_list_item(AliasList,0);
