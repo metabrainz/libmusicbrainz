@@ -217,6 +217,11 @@ extern "C"
 	Mb4CollectionList mb4_metadata_get_collectionlist(Mb4Metadata Metadata);
 	Mb4CDStub mb4_metadata_get_cdstub(Mb4Metadata Metadata);
 
+	void mb4_namecredit_delete(Mb4NameCredit NameCredit);
+	void mb4_namecredit_get_joinphrase(Mb4NameCredit NameCredit, char *str, int len);
+	void mb4_namecredit_get_name(Mb4NameCredit NameCredit, char *str, int len);
+	Mb4Artist mb4_namecredit_get_artist(Mb4NameCredit NameCredit);
+
 	Mb4Query mb4_query_new(const char *Server);
 	void mb4_query_delete(Mb4Query Query);
 	Mb4Metadata mb4_query_query(Mb4Query Query, const char *Resource, const char *ID, int NumParams, char **ParamNames, char **ParamValues);

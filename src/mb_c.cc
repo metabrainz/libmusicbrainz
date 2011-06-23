@@ -323,6 +323,11 @@ MB4_C_OBJ_GETTER(Metadata,metadata,UserTagList,usertaglist)
 MB4_C_OBJ_GETTER(Metadata,metadata,CollectionList,collectionlist)
 MB4_C_OBJ_GETTER(Metadata,metadata,CDStub,cdstub)
 
+MB4_C_DELETE(NameCredit,namecredit)
+MB4_C_STR_GETTER(NameCredit,namecredit,JoinPhrase,joinphrase)
+MB4_C_STR_GETTER(NameCredit,namecredit,Name,name)
+MB4_C_OBJ_GETTER(NameCredit,namecredit,Artist,artist)
+
 Mb4Query mb4_query_new(const char *Server)
 {
 	return new MusicBrainz4::CQuery(Server ? Server : "www.musicbrainz.org");
