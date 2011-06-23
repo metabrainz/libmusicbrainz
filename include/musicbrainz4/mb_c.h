@@ -237,6 +237,10 @@ extern "C"
 	Mb4Release mb4_query_lookup_release(Mb4Query Query, const char *Release);
 	Mb4Metadata mb4_query_query(Mb4Query Query, const char *Resource, const char *ID, int NumParams, char **ParamNames, char **ParamValues);
 
+	void mb4_rating_delete(Mb4Rating Rating);
+	int mb4_rating_get_votescount(Mb4Rating Rating);
+	double mb4_rating_get_rating(Mb4Rating Rating);
+
 	void mb4_release_delete(Mb4Release Release);
 	void mb4_release_get_id(Mb4Release Release, char *str, int len);
 	void m4b_release_get_title(Mb4Release Release, char *str, int len);

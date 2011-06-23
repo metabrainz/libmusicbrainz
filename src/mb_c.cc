@@ -21,6 +21,7 @@
 #include "musicbrainz4/NoneMBTrack.h"
 #include "musicbrainz4/PUID.h"
 #include "musicbrainz4/Query.h"
+#include "musicbrainz4/Rating.h"
 #include "musicbrainz4/Recording.h"
 #include "musicbrainz4/Relation.h"
 #include "musicbrainz4/Release.h"
@@ -124,6 +125,18 @@ T *GetListItem(void *List, int Item)
 
 #define MB4_C_INT_GETTER(TYPE1, TYPE2, PROP1, PROP2) \
 	int \
+	mb4_##TYPE2##_get_##PROP2(Mb4##TYPE1 o) \
+	{ \
+		try { \
+			return ((MusicBrainz4::C##TYPE1 *)o)->PROP1(); \
+		} \
+		catch (...) { \
+			return 0; \
+		} \
+	}
+
+#define MB4_C_DOUBLE_GETTER(TYPE1, TYPE2, PROP1, PROP2) \
+	double \
 	mb4_##TYPE2##_get_##PROP2(Mb4##TYPE1 o) \
 	{ \
 		try { \
@@ -378,6 +391,10 @@ Mb4Metadata mb4_query_query(Mb4Query Query, const char *Resource, const char *ID
 
 	return 0;
 }
+
+MB4_C_DELETE(Rating,rating)
+MB4_C_INT_GETTER(Rating,rating,VotesCount,votescount)
+MB4_C_DOUBLE_GETTER(Rating,rating,Rating,rating)
 
 MB4_C_DELETE(Release,release)
 MB4_C_STR_GETTER(Release,release,ID,id)
