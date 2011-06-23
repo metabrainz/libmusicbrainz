@@ -27,15 +27,28 @@
 
 #include "musicbrainz4/Artist.h"
 
+class MusicBrainz4::CNameCreditPrivate
+{
+	public:
+		CNameCreditPrivate()
+		:	m_Artist(0)
+		{
+		}
+		
+		std::string m_JoinPhrase;
+		std::string m_Name;
+		CArtist *m_Artist;
+};
+
 MusicBrainz4::CNameCredit::CNameCredit(const XMLNode& Node)
-:	m_Artist(0)
+:	m_d(new CNameCreditPrivate)
 {
 	if (!Node.isEmpty())
 	{
 		//std::cout << "Name credit node: " << std::endl << Node.createXMLString(true) << std::endl;
 
 		if (Node.isAttributeSet("joinphrase"))
-			m_JoinPhrase=Node.getAttribute("joinphrase");
+			m_d->m_JoinPhrase=Node.getAttribute("joinphrase");
 
 		for (int count=0;count<Node.nChildNode();count++)
 		{
@@ -47,11 +60,11 @@ MusicBrainz4::CNameCredit::CNameCredit(const XMLNode& Node)
 
 			if ("name"==NodeName)
 			{
-				m_Name=NodeValue;
+				m_d->m_Name=NodeValue;
 			}
 			else if ("artist"==NodeName)
 			{
-				m_Artist=new CArtist(ChildNode);
+				m_d->m_Artist=new CArtist(ChildNode);
 			}
 			else
 			{
@@ -62,7 +75,7 @@ MusicBrainz4::CNameCredit::CNameCredit(const XMLNode& Node)
 }
 
 MusicBrainz4::CNameCredit::CNameCredit(const CNameCredit& Other)
-:	m_Artist(0)
+:	m_d(new CNameCreditPrivate)
 {
 	*this=Other;
 }
@@ -73,11 +86,11 @@ MusicBrainz4::CNameCredit& MusicBrainz4::CNameCredit::operator =(const CNameCred
 	{
 		Cleanup();
 
-		m_JoinPhrase=Other.m_JoinPhrase;
-		m_Name=Other.m_Name;
+		m_d->m_JoinPhrase=Other.m_d->m_JoinPhrase;
+		m_d->m_Name=Other.m_d->m_Name;
 
-		if (Other.m_Artist)
-			m_Artist=new CArtist(*Other.m_Artist);
+		if (Other.m_d->m_Artist)
+			m_d->m_Artist=new CArtist(*Other.m_d->m_Artist);
 	}
 
 	return *this;
@@ -86,27 +99,29 @@ MusicBrainz4::CNameCredit& MusicBrainz4::CNameCredit::operator =(const CNameCred
 MusicBrainz4::CNameCredit::~CNameCredit()
 {
 	Cleanup();
+	
+	delete m_d;
 }
 
 void MusicBrainz4::CNameCredit::Cleanup()
 {
-	delete m_Artist;
-	m_Artist=0;
+	delete m_d->m_Artist;
+	m_d->m_Artist=0;
 }
 
 std::string MusicBrainz4::CNameCredit::JoinPhrase() const
 {
-	return m_JoinPhrase;
+	return m_d->m_JoinPhrase;
 }
 
 std::string MusicBrainz4::CNameCredit::Name() const
 {
-	return m_Name;
+	return m_d->m_Name;
 }
 
 MusicBrainz4::CArtist *MusicBrainz4::CNameCredit::Artist() const
 {
-	return m_Artist;
+	return m_d->m_Artist;
 }
 
 std::ostream& operator << (std::ostream& os, const MusicBrainz4::CNameCredit& NameCredit)

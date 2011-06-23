@@ -33,6 +33,8 @@
 
 namespace MusicBrainz4
 {
+	class CNameCreditPrivate;
+	
 	class CArtist;
 
 	class CNameCredit
@@ -50,9 +52,7 @@ namespace MusicBrainz4
 	private:
 		void Cleanup();
 
-		std::string m_JoinPhrase;
-		std::string m_Name;
-		CArtist *m_Artist;
+		CNameCreditPrivate * const m_d;
 	};
 }
 
