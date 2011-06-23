@@ -55,6 +55,8 @@
 #include "ne_string.h"
 #include "ne_request.h"
 
+#include "config.h"
+
 CHTTPFetch::CHTTPFetch(const std::string& Host, int Port)
 :	m_Host(Host),
 	m_Port(Port)
@@ -72,7 +74,7 @@ int CHTTPFetch::Fetch(const std::string& URL)
 	ne_session *sess=ne_session_create("http", m_Host.c_str(), m_Port);
 	if (sess)
 	{
-		ne_set_useragent(sess, "flactag/v" VERSION);
+		ne_set_useragent(sess, PACKAGE "/v" VERSION);
 
 		ne_request *req = ne_request_create(sess, "GET", URL.c_str());
 		ne_add_response_body_reader(req, ne_accept_2xx, httpResponseReader, &m_Data);
