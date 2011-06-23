@@ -34,15 +34,21 @@ extern "C"
 	typedef void *Mb4Alias;
 	typedef void *Mb4AliasList;
 	typedef void *Mb4Annotation;
+	typedef void *Mb4AnnotationList;
 	typedef void *Mb4Artist;
 	typedef void *Mb4ArtistCredit;
+	typedef void *Mb4ArtistList;
 	typedef void *Mb4Attribute;
 	typedef void *Mb4CDStub;
+	typedef void *Mb4CDStubList;
 	typedef void *Mb4Collection;
+	typedef void *Mb4CollectionList;
 	typedef void *Mb4Disc;
 	typedef void *Mb4DiscList;
 	typedef void *Mb4FreeDBDisc;
+	typedef void *Mb4FreeDBDiscList;
 	typedef void *Mb4ISRC;
+	typedef void *Mb4ISRCList;
 	typedef void *Mb4Label;
 	typedef void *Mb4LabelInfo;
 	typedef void *Mb4LabelInfoList;
@@ -55,6 +61,7 @@ extern "C"
 	typedef void *Mb4NameCreditList;
 	typedef void *Mb4NoneMBTrack;
 	typedef void *Mb4NoneMBTrackList;
+	typedef void *Mb4PUID;
 	typedef void *Mb4Query;
 	typedef void *Mb4Rating;
 	typedef void *Mb4RatingList;
@@ -233,8 +240,26 @@ extern "C"
 	int mb4_alias_list_size(Mb4AliasList List);
 	Mb4Alias mb4_alias_list_item(Mb4AliasList List, int Item);
 
+	int mb4_annotation_list_size(Mb4AnnotationList List);
+	Mb4Annotation mb4_annoation_list_item(Mb4AnnotationList List, int Item);
+
+	int mb4_artist_list_size(Mb4ArtistList List);
+	Mb4Artist mb4_artist_list_item(Mb4ArtistList List, int Item);
+
+	int mb4_cdstub_list_size(Mb4CDStubList List);
+	Mb4CDStub mb4_cdstub_list_item(Mb4CDStubList List, int Item);
+
+	int mb4_collection_list_size(Mb4CollectionList List);
+	Mb4Collection mb4_collection_list_item(Mb4CollectionList List, int Item);
+
 	int mb4_disc_list_size(Mb4DiscList List);
 	Mb4Disc mb4_disc_list_item(Mb4DiscList List, int Item);
+
+	int mb4_freedbdisc_list_size(Mb4FreeDBDiscList List);
+	Mb4FreeDBDisc mb4_freedbdisc_list_item(Mb4FreeDBDiscList List, int Item);
+
+	int mb4_isrc_list_size(Mb4ISRCList List);
+	Mb4ISRC mb4_isrc_list_item(Mb4ISRCList List, int Item);
 
 	int mb4_label_list_size(Mb4LabelList List);
 	Mb4Label mb4_label_list_item(Mb4LabelList List, int Item);

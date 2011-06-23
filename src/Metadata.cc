@@ -479,6 +479,11 @@ MusicBrainz4::CGenericList<MusicBrainz4::CLabelInfo> *MusicBrainz4::CMetadata::L
 	return m_LabelInfoList;
 }
 
+MusicBrainz4::CRating *MusicBrainz4::CMetadata::Rating() const
+{
+	return m_Rating;
+}
+
 MusicBrainz4::CUserRating *MusicBrainz4::CMetadata::UserRating() const
 {
 	return m_UserRating;
