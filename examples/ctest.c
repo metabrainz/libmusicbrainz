@@ -99,9 +99,7 @@ void CompileTest()
 	Mb4MediumList MediumList=0;
 */
 	Mb4Metadata Metadata=0;
-/*
 	Mb4NameCredit NameCredit=0;
-*/
 	Mb4NameCreditList NameCreditList=0;
 	Mb4NoneMBTrack NoneMBTrack=0;
 	Mb4NoneMBTrackList NoneMBTrackList=0;
@@ -285,6 +283,11 @@ void CompileTest()
 	mb4_nonembtrack_get_artist(NoneMBTrack,Str,Size);
 	mb4_nonembtrack_get_length(NoneMBTrack,Str,Size);
 	mb4_nonembtrack_delete(NoneMBTrack);
+
+	mb4_namecredit_get_joinphrase(NameCredit,Str,Size);
+	mb4_namecredit_get_name(NameCredit,Str,Size);
+	Artist=mb4_namecredit_get_artist(NameCredit);
+	mb4_namecredit_delete(NameCredit);
 
 	mb4_alias_list_size(AliasList);
 	Alias=mb4_alias_list_item(AliasList,0);
