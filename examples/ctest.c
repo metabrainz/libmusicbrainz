@@ -357,6 +357,8 @@ void CompileTest()
 	mb4_track_get_title(Track,Str,Size);
 	Recording=mb4_track_get_recording(Track);
 	mb4_track_delete(Track);
+	DummyInt=mb4_track_get_length(Track);
+	ArtistCredit=mb4_track_get_artistcredit(Track);
 
 	DummyInt=mb4_userrating_get_userrating(UserRating);
 	mb4_userrating_delete(UserRating);

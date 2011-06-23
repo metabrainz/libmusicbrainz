@@ -36,6 +36,7 @@ namespace MusicBrainz4
 	class CTrackPrivate;
 	
 	class CRecording;
+	class CArtistCredit;
 
 	class CTrack
 	{
@@ -48,6 +49,8 @@ namespace MusicBrainz4
 		int Position() const;
 		std::string Title() const;
 		CRecording *Recording() const;
+		int Length() const;
+		CArtistCredit *ArtistCredit() const;
 
 	private:
 		void Cleanup();

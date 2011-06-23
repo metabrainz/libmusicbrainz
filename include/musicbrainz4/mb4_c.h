@@ -350,6 +350,8 @@ extern "C"
 	int mb4_track_get_position(Mb4Track Track);
 	void mb4_track_get_title(Mb4Track Track, char *str, int len);
 	Mb4Recording mb4_track_get_recording(Mb4Track Track);
+	int mb4_track_get_length(Mb4Track Track);
+	Mb4ArtistCredit mb4_track_get_artistcredit(Mb4Track Track);
 
 	void mb4_userrating_delete(Mb4UserRating UserRating);
 	int mb4_userrating_get_userrating(Mb4UserRating UserRating);

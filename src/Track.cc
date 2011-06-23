@@ -28,18 +28,22 @@
 #include <sstream>
 
 #include "musicbrainz4/Recording.h"
+#include "musicbrainz4/ArtistCredit.h"
 
 class MusicBrainz4::CTrackPrivate
 {
 	public:
 		CTrackPrivate()
-		:	m_Recording(0)
+		:	m_Recording(0),
+			m_ArtistCredit(0)
 		{
 		}
 		
 		int m_Position;
 		std::string m_Title;
 		CRecording *m_Recording;
+		int m_Length;
+		CArtistCredit *m_ArtistCredit;
 };
 
 MusicBrainz4::CTrack::CTrack(const XMLNode& Node)
@@ -71,6 +75,16 @@ MusicBrainz4::CTrack::CTrack(const XMLNode& Node)
 			{
 				m_d->m_Recording=new CRecording(ChildNode);
 			}
+			else if ("length"==NodeName)
+			{
+				std::stringstream os;
+				os << NodeValue;
+				os >> m_d->m_Length;
+			}
+			else if ("artist-credit"==NodeName)
+			{
+				m_d->m_ArtistCredit=new CArtistCredit(ChildNode);
+			}
 			else
 			{
 				std::cerr << "Unrecognised track node: '" << NodeName << "'" << std::endl;
@@ -96,6 +110,11 @@ MusicBrainz4::CTrack& MusicBrainz4::CTrack::operator =(const CTrack& Other)
 
 		if (Other.m_d->m_Recording)
 			m_d->m_Recording=new CRecording(*Other.m_d->m_Recording);
+			
+		m_d->m_Length=Other.m_d->m_Length;
+
+		if (Other.m_d->m_ArtistCredit)
+			m_d->m_ArtistCredit=new CArtistCredit(*Other.m_d->m_ArtistCredit);
 	}
 
 	return *this;
@@ -112,6 +131,9 @@ void MusicBrainz4::CTrack::Cleanup()
 {
 	delete m_d->m_Recording;
 	m_d->m_Recording=0;
+	
+	delete m_d->m_ArtistCredit;
+	m_d->m_ArtistCredit=0;
 }
 
 int MusicBrainz4::CTrack::Position() const
@@ -124,9 +146,19 @@ std::string MusicBrainz4::CTrack::Title() const
 	return m_d->m_Title;
 }
 
-MusicBrainz4::CRecording *MusicBrainz4::CTrack:: Recording() const
+MusicBrainz4::CRecording *MusicBrainz4::CTrack::Recording() const
 {
 	return m_d->m_Recording;
+}
+
+int MusicBrainz4::CTrack::Length() const
+{
+	return m_d->m_Length;
+}
+
+MusicBrainz4::CArtistCredit *MusicBrainz4::CTrack::ArtistCredit() const
+{
+	return m_d->m_ArtistCredit;
 }
 
 std::ostream& operator << (std::ostream& os, const MusicBrainz4::CTrack& Track)
@@ -138,6 +170,11 @@ std::ostream& operator << (std::ostream& os, const MusicBrainz4::CTrack& Track)
 
 	if (Track.Recording())
 		os << *Track.Recording() << std::endl;
+			
+	os << "\tLength:   " << Track.Length() << std::endl;
 
+	if (Track.ArtistCredit())
+		os << *Track.ArtistCredit() << std::endl;
+			
 	return os;
 }

@@ -484,6 +484,8 @@ MB4_C_DELETE(Track,track)
 MB4_C_INT_GETTER(Track,track,Position,position)
 MB4_C_STR_GETTER(Track,track,Title,title)
 MB4_C_OBJ_GETTER(Track,track,Recording,recording)
+MB4_C_INT_GETTER(Track,track,Length,length)
+MB4_C_OBJ_GETTER(Track,track,ArtistCredit,artistcredit)
 
 MB4_C_DELETE(UserRating,userrating)
 MB4_C_INT_GETTER(UserRating,userrating,UserRating,userrating)
