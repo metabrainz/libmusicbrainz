@@ -78,7 +78,9 @@ void CompileTest()
 	Mb4ArtistCredit ArtistCredit=0;
 /*
 	Mb4ArtistList ArtistList=0;
+*/
 	Mb4Attribute Attribute=0;
+/*
 	Mb4AttributeList AttributeList=0;
 	Mb4CDStub CDStub=0;
 	Mb4CDStubList CDStubList=0;
@@ -186,6 +188,9 @@ void CompileTest()
 
 	NameCreditList=mb4_artistcredit_get_namecreditlist(ArtistCredit);
 	mb4_artistcredit_delete(ArtistCredit);
+
+	mb4_attribute_get_text(Attribute,Str,Size);
+	mb4_attribute_delete(Attribute);
 
 	mb4_alias_list_size(AliasList);
 	Alias=mb4_alias_list_item(AliasList,0);
