@@ -103,9 +103,7 @@ void CompileTest()
 	Mb4NameCredit NameCredit=0;
 */
 	Mb4NameCreditList NameCreditList=0;
-/*
 	Mb4NoneMBTrack NoneMBTrack=0;
-*/
 	Mb4NoneMBTrackList NoneMBTrackList=0;
 	Mb4PUID PUID=0;
 /*
@@ -282,6 +280,11 @@ void CompileTest()
 	CollectionList=mb4_metadata_get_collectionlist(Metadata);
 	CDStub=mb4_metadata_get_cdstub(Metadata);
 	mb4_metadata_delete(Metadata);
+
+	mb4_nonembtrack_get_title(NoneMBTrack,Str,Size);
+	mb4_nonembtrack_get_artist(NoneMBTrack,Str,Size);
+	mb4_nonembtrack_get_length(NoneMBTrack,Str,Size);
+	mb4_nonembtrack_delete(NoneMBTrack);
 
 	mb4_alias_list_size(AliasList);
 	Alias=mb4_alias_list_item(AliasList,0);
