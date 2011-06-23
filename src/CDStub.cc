@@ -27,15 +27,31 @@
 
 #include "musicbrainz4/NoneMBTrack.h"
 
+class MusicBrainz4::CCDStubPrivate
+{
+	public:
+		CCDStubPrivate()
+		:	m_NoneMBTrackList(0)
+		{
+		}
+		
+		std::string m_ID;
+		std::string m_Title;
+		std::string m_Artist;
+		std::string m_Barcode;
+		std::string m_Comment;
+		CGenericList<CNoneMBTrack> *m_NoneMBTrackList;
+};
+
 MusicBrainz4::CCDStub::CCDStub(const XMLNode& Node)
-:	m_NoneMBTrackList(0)
+:	m_d(new CCDStubPrivate)
 {
 	if (!Node.isEmpty())
 	{
 		//std::cout << "CDStub node: " << std::endl << Node.createXMLString(true) << std::endl;
 
 		if (Node.isAttributeSet("id"))
-			m_ID=Node.getAttribute("id");
+			m_d->m_ID=Node.getAttribute("id");
 
 		for (int count=0;count<Node.nChildNode();count++)
 		{
@@ -47,23 +63,23 @@ MusicBrainz4::CCDStub::CCDStub(const XMLNode& Node)
 
 			if ("title"==NodeName)
 			{
-				m_Title=NodeValue;
+				m_d->m_Title=NodeValue;
 			}
 			else if ("artist"==NodeName)
 			{
-				m_Artist=NodeValue;
+				m_d->m_Artist=NodeValue;
 			}
 			else if ("barcode"==NodeName)
 			{
-				m_Barcode=NodeValue;
+				m_d->m_Barcode=NodeValue;
 			}
 			else if ("comment"==NodeName)
 			{
-				m_Comment=NodeValue;
+				m_d->m_Comment=NodeValue;
 			}
 			else if ("nonmb-track-list"==NodeName)
 			{
-				m_NoneMBTrackList=new CGenericList<CNoneMBTrack>(ChildNode,"track");
+				m_d->m_NoneMBTrackList=new CGenericList<CNoneMBTrack>(ChildNode,"track");
 			}
 			else
 			{
@@ -74,7 +90,7 @@ MusicBrainz4::CCDStub::CCDStub(const XMLNode& Node)
 }
 
 MusicBrainz4::CCDStub::CCDStub(const CCDStub& Other)
-:	m_NoneMBTrackList(0)
+:	m_d(new CCDStubPrivate)
 {
 	*this=Other;
 }
@@ -85,14 +101,14 @@ MusicBrainz4::CCDStub& MusicBrainz4::CCDStub::operator =(const CCDStub& Other)
 	{
 		Cleanup();
 
-		m_ID=Other.m_ID;
-		m_Title=Other.m_Title;
-		m_Artist=Other.m_Artist;
-		m_Barcode=Other.m_Barcode;
-		m_Comment=Other.m_Comment;
+		m_d->m_ID=Other.m_d->m_ID;
+		m_d->m_Title=Other.m_d->m_Title;
+		m_d->m_Artist=Other.m_d->m_Artist;
+		m_d->m_Barcode=Other.m_d->m_Barcode;
+		m_d->m_Comment=Other.m_d->m_Comment;
 
-		if (Other.m_NoneMBTrackList)
-			m_NoneMBTrackList=new CGenericList<CNoneMBTrack>(*Other.m_NoneMBTrackList);
+		if (Other.m_d->m_NoneMBTrackList)
+			m_d->m_NoneMBTrackList=new CGenericList<CNoneMBTrack>(*Other.m_d->m_NoneMBTrackList);
 	}
 
 	return *this;
@@ -101,42 +117,44 @@ MusicBrainz4::CCDStub& MusicBrainz4::CCDStub::operator =(const CCDStub& Other)
 MusicBrainz4::CCDStub::~CCDStub()
 {
 	Cleanup();
+	
+	delete m_d;
 }
 
 void MusicBrainz4::CCDStub::Cleanup()
 {
-	delete m_NoneMBTrackList;
-	m_NoneMBTrackList=0;
+	delete m_d->m_NoneMBTrackList;
+	m_d->m_NoneMBTrackList=0;
 }
 
 std::string MusicBrainz4::CCDStub::ID() const
 {
-	return m_ID;
+	return m_d->m_ID;
 }
 
 std::string MusicBrainz4::CCDStub::Title() const
 {
-	return m_Title;
+	return m_d->m_Title;
 }
 
 std::string MusicBrainz4::CCDStub::Artist() const
 {
-	return m_Artist;
+	return m_d->m_Artist;
 }
 
 std::string MusicBrainz4::CCDStub::Barcode() const
 {
-	return m_Barcode;
+	return m_d->m_Barcode;
 }
 
 std::string MusicBrainz4::CCDStub::Comment() const
 {
-	return m_Comment;
+	return m_d->m_Comment;
 }
 
 MusicBrainz4::CGenericList<MusicBrainz4::CNoneMBTrack> *MusicBrainz4::CCDStub::NoneMBTrackList() const
 {
-	return m_NoneMBTrackList;
+	return m_d->m_NoneMBTrackList;
 }
 
 std::ostream& operator << (std::ostream& os, const MusicBrainz4::CCDStub& CDStub)
