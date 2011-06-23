@@ -33,12 +33,15 @@
 
 namespace MusicBrainz4
 {
+	class CAnnotationPrivate;
+	
 	class CAnnotation
 	{
 	public:
 		CAnnotation(const XMLNode& Node);
 		CAnnotation(const CAnnotation& Other);
 		CAnnotation& operator =(const CAnnotation& Other);
+		~CAnnotation();
 
 		std::string Type() const;
 		std::string Entity() const;
@@ -46,10 +49,7 @@ namespace MusicBrainz4
 		std::string Text() const;
 
 	private:
-		std::string m_Type;
-		std::string m_Entity;
-		std::string m_Name;
-		std::string m_Text;
+		CAnnotationPrivate *m_d;
 	};
 }
 

@@ -25,14 +25,24 @@
 
 #include "musicbrainz4/Annotation.h"
 
+class MusicBrainz4::CAnnotationPrivate
+{
+public:
+		std::string m_Type;
+		std::string m_Entity;
+		std::string m_Name;
+		std::string m_Text;
+};
+
 MusicBrainz4::CAnnotation::CAnnotation(const XMLNode& Node)
+:	m_d(new CAnnotationPrivate)
 {
 	if (!Node.isEmpty())
 	{
 		//std::cout << "Annotation node: " << std::endl << Node.createXMLString(true) << std::endl;
 
 		if (Node.isAttributeSet("type"))
-			m_Type=Node.getAttribute("type");
+			m_d->m_Type=Node.getAttribute("type");
 
 		for (int count=0;count<Node.nChildNode();count++)
 		{
@@ -44,15 +54,15 @@ MusicBrainz4::CAnnotation::CAnnotation(const XMLNode& Node)
 
 			if ("entity"==NodeName)
 			{
-				m_Entity=NodeValue;
+				m_d->m_Entity=NodeValue;
 			}
 			else if ("name"==NodeName)
 			{
-				m_Name=NodeValue;
+				m_d->m_Name=NodeValue;
 			}
 			else if ("text"==NodeName)
 			{
-				m_Text=NodeValue;
+				m_d->m_Text=NodeValue;
 			}
 			else
 			{
@@ -71,33 +81,38 @@ MusicBrainz4::CAnnotation& MusicBrainz4::CAnnotation::operator =(const CAnnotati
 {
 	if (this!=&Other)
 	{
-		m_Type=Other.m_Type;
-		m_Entity=Other.m_Entity;
-		m_Name=Other.m_Name;
-		m_Text=Other.m_Text;
+		m_d->m_Type=Other.m_d->m_Type;
+		m_d->m_Entity=Other.m_d->m_Entity;
+		m_d->m_Name=Other.m_d->m_Name;
+		m_d->m_Text=Other.m_d->m_Text;
 	}
 
 	return *this;
 }
 
+MusicBrainz4::CAnnotation::~CAnnotation()
+{
+	delete m_d;
+}
+
 std::string MusicBrainz4::CAnnotation::Type() const
 {
-	return m_Type;
+	return m_d->m_Type;
 }
 
 std::string MusicBrainz4::CAnnotation::Entity() const
 {
-	return m_Entity;
+	return m_d->m_Entity;
 }
 
 std::string MusicBrainz4::CAnnotation::Name() const
 {
-	return m_Name;
+	return m_d->m_Name;
 }
 
 std::string MusicBrainz4::CAnnotation::Text() const
 {
-	return m_Text;
+	return m_d->m_Text;
 }
 
 std::ostream& operator << (std::ostream& os, const MusicBrainz4::CAnnotation& Annotation)

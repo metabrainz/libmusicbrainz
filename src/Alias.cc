@@ -52,6 +52,7 @@ MusicBrainz4::CAlias::CAlias(const XMLNode& Node)
 }
 
 MusicBrainz4::CAlias::CAlias(const CAlias& Other)
+:	m_d(new CAliasPrivate)
 {
 	*this=Other;
 }
