@@ -364,6 +364,19 @@ void CompileTest()
 	mb4_usertag_get_name(UserTag,Str,Size);
 	mb4_usertag_delete(UserTag);
 
+	mb4_work_get_id(Work,Str,Size);
+	mb4_work_get_type(Work,Str,Size);
+	mb4_work_get_title(Work,Str,Size);
+	ArtistCredit=mb4_work_get_artistcredit(Work);
+	mb4_work_get_iswc(Work,Str,Size);
+	mb4_work_get_disambiguation(Work,Str,Size);
+	AliasList=mb4_work_get_aliaslist(Work);
+	RelationList=mb4_work_get_relationlist(Work);
+	TagList=mb4_work_get_taglist(Work);
+	UserTagList=mb4_work_get_usertaglist(Work);
+	Rating=mb4_work_get_rating(Work);
+	UserRating=mb4_work_get_userrating(Work);
+
 	mb4_alias_list_size(AliasList);
 	Alias=mb4_alias_list_item(AliasList,0);
 	mb4_alias_list_delete(AliasList);
