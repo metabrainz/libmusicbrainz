@@ -35,6 +35,8 @@
 
 namespace MusicBrainz4
 {
+	class CReleasePrivate;
+	
 	class CTextRepresentation;
 	class CArtistCredit;
 	class CReleaseGroup;
@@ -72,22 +74,7 @@ namespace MusicBrainz4
 	private:
 		void Cleanup();
 
-		std::string m_ID;
-		std::string m_Title;
-		std::string m_Status;
-		std::string m_Quality;
-		std::string m_Disambiguation;
-		std::string m_Packaging;
-		CTextRepresentation *m_TextRepresentation;
-		CArtistCredit *m_ArtistCredit;
-		CReleaseGroup *m_ReleaseGroup;
-		std::string m_Date;
-		std::string m_Country;
-		std::string m_Barcode;
-		std::string m_ASIN;
-		CGenericList<CLabelInfo> *m_LabelInfoList;
-		CGenericList<CMedium> *m_MediumList;
-		CGenericList<CRelation> *m_RelationList;
+		CReleasePrivate * const m_d;
 	};
 }
 

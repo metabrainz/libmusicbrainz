@@ -34,20 +34,46 @@
 #include "musicbrainz4/LabelInfo.h"
 #include "musicbrainz4/Relation.h"
 
+class MusicBrainz4::CReleasePrivate
+{
+	public:
+		CReleasePrivate()
+		:	m_TextRepresentation(0),
+			m_ArtistCredit(0),
+			m_ReleaseGroup(0),
+			m_LabelInfoList(0),
+			m_MediumList(0),
+			m_RelationList(0)
+		{
+		}
+		
+		std::string m_ID;
+		std::string m_Title;
+		std::string m_Status;
+		std::string m_Quality;
+		std::string m_Disambiguation;
+		std::string m_Packaging;
+		CTextRepresentation *m_TextRepresentation;
+		CArtistCredit *m_ArtistCredit;
+		CReleaseGroup *m_ReleaseGroup;
+		std::string m_Date;
+		std::string m_Country;
+		std::string m_Barcode;
+		std::string m_ASIN;
+		CGenericList<CLabelInfo> *m_LabelInfoList;
+		CGenericList<CMedium> *m_MediumList;
+		CGenericList<CRelation> *m_RelationList;
+};
+
 MusicBrainz4::CRelease::CRelease(const XMLNode& Node)
-:	m_TextRepresentation(0),
-	m_ArtistCredit(0),
-	m_ReleaseGroup(0),
-	m_LabelInfoList(0),
-	m_MediumList(0),
-	m_RelationList(0)
+:	m_d(new CReleasePrivate)
 {
 	if (!Node.isEmpty())
 	{
 		//std::cout << "Release node: " << std::endl << Node.createXMLString(true) << std::endl;
 
 		if (Node.isAttributeSet("id"))
-			m_ID=Node.getAttribute("id");
+			m_d->m_ID=Node.getAttribute("id");
 
 		for (int count=0;count<Node.nChildNode();count++)
 		{
@@ -59,64 +85,63 @@ MusicBrainz4::CRelease::CRelease(const XMLNode& Node)
 
 			if ("title"==NodeName)
 			{
-				m_Title=NodeValue;
+				m_d->m_Title=NodeValue;
 			}
 			else if ("status"==NodeName)
 			{
-				m_Status=NodeValue;
+				m_d->m_Status=NodeValue;
 			}
 			else if ("quality"==NodeName)
 			{
-				m_Quality=NodeValue;
+				m_d->m_Quality=NodeValue;
 			}
 			else if ("disambiguation"==NodeName)
 			{
-				m_Disambiguation=NodeValue;
+				m_d->m_Disambiguation=NodeValue;
 			}
 			else if ("packaging"==NodeName)
 			{
-				m_Packaging=NodeValue;
+				m_d->m_Packaging=NodeValue;
 			}
 			else if ("text-representation"==NodeName)
 			{
-				m_TextRepresentation=new CTextRepresentation(ChildNode);
+				m_d->m_TextRepresentation=new CTextRepresentation(ChildNode);
 			}
 			else if ("artist-credit"==NodeName)
 			{
-				m_ArtistCredit=new CArtistCredit(ChildNode);
+				m_d->m_ArtistCredit=new CArtistCredit(ChildNode);
 			}
 			else if ("release-group"==NodeName)
 			{
-				m_ReleaseGroup=new CReleaseGroup(ChildNode);
+				m_d->m_ReleaseGroup=new CReleaseGroup(ChildNode);
 			}
-
 			else if ("date"==NodeName)
 			{
-				m_Date=NodeValue;
+				m_d->m_Date=NodeValue;
 			}
 			else if ("country"==NodeName)
 			{
-				m_Country=NodeValue;
+				m_d->m_Country=NodeValue;
 			}
 			else if ("barcode"==NodeName)
 			{
-				m_Barcode=NodeValue;
+				m_d->m_Barcode=NodeValue;
 			}
 			else if ("asin"==NodeName)
 			{
-				m_ASIN=NodeValue;
+				m_d->m_ASIN=NodeValue;
 			}
 			else if ("label-info-list"==NodeName)
 			{
-				m_LabelInfoList=new CGenericList<CLabelInfo>(ChildNode,"label-info");
+				m_d->m_LabelInfoList=new CGenericList<CLabelInfo>(ChildNode,"label-info");
 			}
 			else if ("medium-list"==NodeName)
 			{
-				m_MediumList=new CGenericList<CMedium>(ChildNode,"medium");
+				m_d->m_MediumList=new CGenericList<CMedium>(ChildNode,"medium");
 			}
 			else if ("relation-list"==NodeName)
 			{
-				m_RelationList=new CGenericList<CRelation>(ChildNode,"relation");
+				m_d->m_RelationList=new CGenericList<CRelation>(ChildNode,"relation");
 			}
 			else
 			{
@@ -127,12 +152,7 @@ MusicBrainz4::CRelease::CRelease(const XMLNode& Node)
 }
 
 MusicBrainz4::CRelease::CRelease(const CRelease& Other)
-:	m_TextRepresentation(0),
-	m_ArtistCredit(0),
-	m_ReleaseGroup(0),
-	m_LabelInfoList(0),
-	m_MediumList(0),
-	m_RelationList(0)
+:	m_d(new CReleasePrivate)
 {
 	*this=Other;
 }
@@ -143,35 +163,35 @@ MusicBrainz4::CRelease& MusicBrainz4::CRelease::operator =(const CRelease& Other
 	{
 		Cleanup();
 
-		m_ID=Other.m_ID;
-		m_Title=Other.m_Title;
-		m_Status=Other.m_Status;
-		m_Quality=Other.m_Quality;
-		m_Disambiguation=Other.m_Disambiguation;
-		m_Packaging=Other.m_Packaging;
+		m_d->m_ID=Other.m_d->m_ID;
+		m_d->m_Title=Other.m_d->m_Title;
+		m_d->m_Status=Other.m_d->m_Status;
+		m_d->m_Quality=Other.m_d->m_Quality;
+		m_d->m_Disambiguation=Other.m_d->m_Disambiguation;
+		m_d->m_Packaging=Other.m_d->m_Packaging;
 
-		if (Other.m_TextRepresentation)
-			m_TextRepresentation=new CTextRepresentation(*Other.m_TextRepresentation);
+		if (Other.m_d->m_TextRepresentation)
+			m_d->m_TextRepresentation=new CTextRepresentation(*Other.m_d->m_TextRepresentation);
 
-		if (Other.m_ArtistCredit)
-			m_ArtistCredit=new CArtistCredit(*Other.m_ArtistCredit);
+		if (Other.m_d->m_ArtistCredit)
+			m_d->m_ArtistCredit=new CArtistCredit(*Other.m_d->m_ArtistCredit);
 
-		if (Other.m_ReleaseGroup)
-			m_ReleaseGroup=new CReleaseGroup(*Other.m_ReleaseGroup);
+		if (Other.m_d->m_ReleaseGroup)
+			m_d->m_ReleaseGroup=new CReleaseGroup(*Other.m_d->m_ReleaseGroup);
 
-		m_Date=Other.m_Date;
-		m_Country=Other.m_Country;
-		m_Barcode=Other.m_Barcode;
-		m_ASIN=Other.m_ASIN;
+		m_d->m_Date=Other.m_d->m_Date;
+		m_d->m_Country=Other.m_d->m_Country;
+		m_d->m_Barcode=Other.m_d->m_Barcode;
+		m_d->m_ASIN=Other.m_d->m_ASIN;
 
-		if (Other.m_LabelInfoList)
-			m_LabelInfoList=new CGenericList<CLabelInfo>(*Other.m_LabelInfoList);
+		if (Other.m_d->m_LabelInfoList)
+			m_d->m_LabelInfoList=new CGenericList<CLabelInfo>(*Other.m_d->m_LabelInfoList);
 
-		if (Other.m_MediumList)
-			m_MediumList=new CGenericList<CMedium>(*Other.m_MediumList);
+		if (Other.m_d->m_MediumList)
+			m_d->m_MediumList=new CGenericList<CMedium>(*Other.m_d->m_MediumList);
 
-		if (Other.m_RelationList)
-			m_RelationList=new CGenericList<CRelation>(*Other.m_RelationList);
+		if (Other.m_d->m_RelationList)
+			m_d->m_RelationList=new CGenericList<CRelation>(*Other.m_d->m_RelationList);
 	}
 
 	return *this;
@@ -180,114 +200,116 @@ MusicBrainz4::CRelease& MusicBrainz4::CRelease::operator =(const CRelease& Other
 MusicBrainz4::CRelease::~CRelease()
 {
 	Cleanup();
+	
+	delete m_d;
 }
 
 void MusicBrainz4::CRelease::Cleanup()
 {
-	delete m_TextRepresentation;
-	m_TextRepresentation=0;
+	delete m_d->m_TextRepresentation;
+	m_d->m_TextRepresentation=0;
 
-	delete m_ArtistCredit;
-	m_ArtistCredit=0;
+	delete m_d->m_ArtistCredit;
+	m_d->m_ArtistCredit=0;
 
-	delete m_ReleaseGroup;
-	m_ReleaseGroup=0;
+	delete m_d->m_ReleaseGroup;
+	m_d->m_ReleaseGroup=0;
 
-	delete m_LabelInfoList;
-	m_LabelInfoList=0;
+	delete m_d->m_LabelInfoList;
+	m_d->m_LabelInfoList=0;
 
-	delete m_MediumList;
-	m_MediumList=0;
+	delete m_d->m_MediumList;
+	m_d->m_MediumList=0;
 
-	delete m_RelationList;
-	m_RelationList=0;
+	delete m_d->m_RelationList;
+	m_d->m_RelationList=0;
 }
 
 std::string MusicBrainz4::CRelease::ID() const
 {
-	return m_ID;
+	return m_d->m_ID;
 }
 
 std::string MusicBrainz4::CRelease::Title() const
 {
-	return m_Title;
+	return m_d->m_Title;
 }
 
 std::string MusicBrainz4::CRelease::Status() const
 {
-	return m_Status;
+	return m_d->m_Status;
 }
 
 std::string MusicBrainz4::CRelease::Quality() const
 {
-	return m_Quality;
+	return m_d->m_Quality;
 }
 
 std::string MusicBrainz4::CRelease::Disambiguation() const
 {
-	return m_Disambiguation;
+	return m_d->m_Disambiguation;
 }
 
 std::string MusicBrainz4::CRelease::Packaging() const
 {
-	return m_Packaging;
+	return m_d->m_Packaging;
 }
 
 MusicBrainz4::CTextRepresentation *MusicBrainz4::CRelease::TextRepresentation() const
 {
-	return m_TextRepresentation;
+	return m_d->m_TextRepresentation;
 }
 
 MusicBrainz4::CArtistCredit *MusicBrainz4::CRelease::ArtistCredit() const
 {
-	return m_ArtistCredit;
+	return m_d->m_ArtistCredit;
 }
 
 MusicBrainz4::CReleaseGroup *MusicBrainz4::CRelease::ReleaseGroup() const
 {
-	return m_ReleaseGroup;
+	return m_d->m_ReleaseGroup;
 }
 
 std::string MusicBrainz4::CRelease::Date() const
 {
-	return m_Date;
+	return m_d->m_Date;
 }
 
 std::string MusicBrainz4::CRelease::Country() const
 {
-	return m_Country;
+	return m_d->m_Country;
 }
 
 std::string MusicBrainz4::CRelease::Barcode() const
 {
-	return m_Barcode;
+	return m_d->m_Barcode;
 }
 
 std::string MusicBrainz4::CRelease::ASIN() const
 {
-	return m_ASIN;
+	return m_d->m_ASIN;
 }
 
 MusicBrainz4::CGenericList<MusicBrainz4::CLabelInfo> *MusicBrainz4::CRelease::LabelInfoList() const
 {
-	return m_LabelInfoList;
+	return m_d->m_LabelInfoList;
 }
 
 MusicBrainz4::CGenericList<MusicBrainz4::CMedium> *MusicBrainz4::CRelease::MediumList() const
 {
-	return m_MediumList;
+	return m_d->m_MediumList;
 }
 
 MusicBrainz4::CGenericList<MusicBrainz4::CRelation> *MusicBrainz4::CRelease::RelationList() const
 {
-	return m_RelationList;
+	return m_d->m_RelationList;
 }
 
 MusicBrainz4::CGenericList<MusicBrainz4::CMedium> MusicBrainz4::CRelease::MediaMatchingDiscID(const std::string& DiscID) const
 {
 	CGenericList<MusicBrainz4::CMedium> Ret;
 
-	std::list<MusicBrainz4::CMedium> Media=m_MediumList->Items();
+	std::list<MusicBrainz4::CMedium> Media=m_d->m_MediumList->Items();
 	std::list<MusicBrainz4::CMedium>::const_iterator ThisMedium=Media.begin();
 	while (ThisMedium!=Media.end())
 	{
