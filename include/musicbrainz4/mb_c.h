@@ -307,6 +307,19 @@ extern "C"
 	Mb4RelationList mb4_release_get_relationlist(Mb4Release Release);
 	Mb4MediumList mb4_release_media_matching_disc_id(Mb4Release Release, const char *DiscID);
 
+	void mb4_releasegroup_delete(Mb4ReleaseGroup ReleaseGroup);
+	void mb4_releasegroup_get_id(Mb4ReleaseGroup ReleaseGroup, char *str, int len);
+	void mb4_releasegroup_get_type(Mb4ReleaseGroup ReleaseGroup, char *str, int len);
+	void mb4_releasegroup_get_title(Mb4ReleaseGroup ReleaseGroup, char *str, int len);
+	void mb4_releasegroup_get_comment(Mb4ReleaseGroup ReleaseGroup, char *str, int len);
+	Mb4ArtistCredit mb4_releasegroup_get_artistcredit(Mb4ReleaseGroup ReleaseGroup);
+	Mb4ReleaseList mb4_releasegroup_get_releaselist(Mb4ReleaseGroup ReleaseGroup);
+	Mb4RelationList mb4_releasegroup_get_relationlist(Mb4ReleaseGroup ReleaseGroup);
+	Mb4TagList mb4_releasegroup_get_taglist(Mb4ReleaseGroup ReleaseGroup);
+	Mb4UserTagList mb4_releasegroup_get_usertaglist(Mb4ReleaseGroup ReleaseGroup);
+	Mb4Rating mb4_releasegroup_get_rating(Mb4ReleaseGroup ReleaseGroup);
+	Mb4UserRating mb4_releasegroup_get_userrating(Mb4ReleaseGroup ReleaseGroup);
+
 	int mb4_alias_list_size(Mb4AliasList List);
 	Mb4Alias mb4_alias_list_item(Mb4AliasList List, int Item);
 

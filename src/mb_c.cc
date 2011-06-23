@@ -452,6 +452,19 @@ Mb4MediumList mb4_release_media_matching_discid(Mb4Release Release, const char *
 	return 0;
 }
 
+MB4_C_DELETE(ReleaseGroup,releasegroup)
+MB4_C_STR_GETTER(ReleaseGroup,releasegroup,ID,id)
+MB4_C_STR_GETTER(ReleaseGroup,releasegroup,Type,type)
+MB4_C_STR_GETTER(ReleaseGroup,releasegroup,Title,title)
+MB4_C_STR_GETTER(ReleaseGroup,releasegroup,Comment,comment)
+MB4_C_OBJ_GETTER(ReleaseGroup,releasegroup,ArtistCredit,artistcredit)
+MB4_C_OBJ_GETTER(ReleaseGroup,releasegroup,ReleaseList,releaselist)
+MB4_C_OBJ_GETTER(ReleaseGroup,releasegroup,RelationList,relationlist)
+MB4_C_OBJ_GETTER(ReleaseGroup,releasegroup,TagList,taglist)
+MB4_C_OBJ_GETTER(ReleaseGroup,releasegroup,UserTagList,usertaglist)
+MB4_C_OBJ_GETTER(ReleaseGroup,releasegroup,Rating,rating)
+MB4_C_OBJ_GETTER(ReleaseGroup,releasegroup,UserRating,userrating)
+
 MB4_C_LIST_GETTER(Alias,alias)
 MB4_C_LIST_GETTER(Annotation,annotation)
 MB4_C_LIST_GETTER(Artist,artist)
