@@ -174,6 +174,11 @@ T *GetListItem(void *List, int Item)
 	}
 
 #define MB4_C_LIST_GETTER(TYPE1, TYPE2) \
+	void \
+	mb4_##TYPE2##_list_delete(Mb4##TYPE1 o) \
+	{ \
+		delete (MusicBrainz4::CGenericList<MusicBrainz4::C##TYPE1> *)o; \
+	} \
 	int \
 	mb4_##TYPE2##_list_size(Mb4##TYPE1##List List) \
 	{ \
