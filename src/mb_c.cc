@@ -19,6 +19,7 @@
 #include "musicbrainz4/Metadata.h"
 #include "musicbrainz4/NameCredit.h"
 #include "musicbrainz4/NoneMBTrack.h"
+#include "musicbrainz4/PUID.h"
 #include "musicbrainz4/Query.h"
 #include "musicbrainz4/Recording.h"
 #include "musicbrainz4/Relation.h"
@@ -332,6 +333,10 @@ MB4_C_DELETE(NoneMBTrack,nonembtrack)
 MB4_C_STR_GETTER(NoneMBTrack,nonembtrack,Title,title)
 MB4_C_STR_GETTER(NoneMBTrack,nonembtrack,Artist,artist)
 MB4_C_STR_GETTER(NoneMBTrack,nonembtrack,Length,length)
+
+MB4_C_DELETE(PUID,puid)
+MB4_C_STR_GETTER(PUID,puid,ID,id)
+MB4_C_OBJ_GETTER(PUID,puid,RecordingList,recordinglist)
 
 Mb4Query mb4_query_new(const char *Server)
 {
