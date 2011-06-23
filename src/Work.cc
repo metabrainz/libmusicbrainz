@@ -33,24 +33,46 @@
 #include "musicbrainz4/Rating.h"
 #include "musicbrainz4/UserRating.h"
 
+class MusicBrainz4::CWorkPrivate
+{
+	public:
+		CWorkPrivate()
+		:	m_ArtistCredit(0),
+			m_AliasList(0),
+			m_RelationList(0),
+			m_TagList(0),
+			m_UserTagList(0),
+			m_Rating(0),
+			m_UserRating(0)
+		{
+		}
+		
+		std::string m_ID;
+		std::string m_Type;
+		std::string m_Title;
+		CArtistCredit *m_ArtistCredit;
+		std::string m_ISWC;
+		std::string m_Disambiguation;
+		CGenericList<CAlias> *m_AliasList;
+		CGenericList<CRelation> *m_RelationList;
+		CGenericList<CTag> *m_TagList;
+		CGenericList<CUserTag> *m_UserTagList;
+		CRating *m_Rating;
+		CUserRating *m_UserRating;
+};
+
 MusicBrainz4::CWork::CWork(const XMLNode& Node)
-:	m_ArtistCredit(0),
-	m_AliasList(0),
-	m_RelationList(0),
-	m_TagList(0),
-	m_UserTagList(0),
-	m_Rating(0),
-	m_UserRating(0)
+:	m_d(new CWorkPrivate)
 {
 	if (!Node.isEmpty())
 	{
 		//std::cout << "Work node: " << std::endl << Node.createXMLString(true) << std::endl;
 
 		if (Node.isAttributeSet("id"))
-			m_ID=Node.getAttribute("id");
+			m_d->m_ID=Node.getAttribute("id");
 
 		if (Node.isAttributeSet("type"))
-			m_Type=Node.getAttribute("type");
+			m_d->m_Type=Node.getAttribute("type");
 
 		for (int count=0;count<Node.nChildNode();count++)
 		{
@@ -62,43 +84,43 @@ MusicBrainz4::CWork::CWork(const XMLNode& Node)
 
 			if ("title"==NodeName)
 			{
-				m_Title=NodeValue;
+				m_d->m_Title=NodeValue;
 			}
 			else if ("artist-credit"==NodeName)
 			{
-				m_ArtistCredit=new CArtistCredit(ChildNode);
+				m_d->m_ArtistCredit=new CArtistCredit(ChildNode);
 			}
 			else if ("iswc"==NodeName)
 			{
-				m_ISWC=NodeValue;
+				m_d->m_ISWC=NodeValue;
 			}
 			else if ("disambiguation"==NodeName)
 			{
-				m_Disambiguation=NodeValue;
+				m_d->m_Disambiguation=NodeValue;
 			}
 			else if ("alias-list"==NodeName)
 			{
-				m_AliasList=new CGenericList<CAlias>(ChildNode,"alias");
+				m_d->m_AliasList=new CGenericList<CAlias>(ChildNode,"alias");
 			}
 			else if ("relation-list"==NodeName)
 			{
-				m_RelationList=new CGenericList<CRelation>(ChildNode,"relation");
+				m_d->m_RelationList=new CGenericList<CRelation>(ChildNode,"relation");
 			}
 			else if ("tag-list"==NodeName)
 			{
-				m_TagList=new CGenericList<CTag>(ChildNode,"tag");
+				m_d->m_TagList=new CGenericList<CTag>(ChildNode,"tag");
 			}
 			else if ("user-tag-list"==NodeName)
 			{
-				m_UserTagList=new CGenericList<CUserTag>(ChildNode,"user-tag");
+				m_d->m_UserTagList=new CGenericList<CUserTag>(ChildNode,"user-tag");
 			}
 			else if ("rating"==NodeName)
 			{
-				m_Rating=new CRating(ChildNode);
+				m_d->m_Rating=new CRating(ChildNode);
 			}
 			else if ("user-rating"==NodeName)
 			{
-				m_UserRating=new CUserRating(ChildNode);
+				m_d->m_UserRating=new CUserRating(ChildNode);
 			}
 			else
 			{
@@ -109,13 +131,7 @@ MusicBrainz4::CWork::CWork(const XMLNode& Node)
 }
 
 MusicBrainz4::CWork::CWork(const CWork& Other)
-:	m_ArtistCredit(0),
-	m_AliasList(0),
-	m_RelationList(0),
-	m_TagList(0),
-	m_UserTagList(0),
-	m_Rating(0),
-	m_UserRating(0)
+:	m_d(new CWorkPrivate)
 {
 	*this=Other;
 }
@@ -126,33 +142,33 @@ MusicBrainz4::CWork& MusicBrainz4::CWork::operator =(const CWork& Other)
 	{
 		Cleanup();
 
-		m_ID=Other.m_ID;
-		m_Type=Other.m_Type;
-		m_Title=Other.m_Title;
+		m_d->m_ID=Other.m_d->m_ID;
+		m_d->m_Type=Other.m_d->m_Type;
+		m_d->m_Title=Other.m_d->m_Title;
 
-		if (Other.m_ArtistCredit)
-			m_ArtistCredit=new CArtistCredit(*Other.m_ArtistCredit);
+		if (Other.m_d->m_ArtistCredit)
+			m_d->m_ArtistCredit=new CArtistCredit(*Other.m_d->m_ArtistCredit);
 
-		m_ISWC=Other.m_ISWC;
-		m_Disambiguation=Other.m_Disambiguation;
+		m_d->m_ISWC=Other.m_d->m_ISWC;
+		m_d->m_Disambiguation=Other.m_d->m_Disambiguation;
 
-		if (Other.m_AliasList)
-			m_AliasList=new CGenericList<CAlias>(*Other.m_AliasList);
+		if (Other.m_d->m_AliasList)
+			m_d->m_AliasList=new CGenericList<CAlias>(*Other.m_d->m_AliasList);
 
-		if (Other.m_RelationList)
-			m_RelationList=new CGenericList<CRelation>(*Other.m_RelationList);
+		if (Other.m_d->m_RelationList)
+			m_d->m_RelationList=new CGenericList<CRelation>(*Other.m_d->m_RelationList);
 
-		if (Other.m_TagList)
-			m_TagList=new CGenericList<CTag>(*Other.m_TagList);
+		if (Other.m_d->m_TagList)
+			m_d->m_TagList=new CGenericList<CTag>(*Other.m_d->m_TagList);
 
-		if (Other.m_UserTagList)
-			m_UserTagList=new CGenericList<CUserTag>(*Other.m_UserTagList);
+		if (Other.m_d->m_UserTagList)
+			m_d->m_UserTagList=new CGenericList<CUserTag>(*Other.m_d->m_UserTagList);
 
-		if (Other.m_Rating)
-			m_Rating=new CRating(*Other.m_Rating);
+		if (Other.m_d->m_Rating)
+			m_d->m_Rating=new CRating(*Other.m_d->m_Rating);
 
-		if (Other.m_UserRating)
-			m_UserRating=new CUserRating(*Other.m_UserRating);
+		if (Other.m_d->m_UserRating)
+			m_d->m_UserRating=new CUserRating(*Other.m_d->m_UserRating);
 	}
 
 	return *this;
@@ -161,90 +177,92 @@ MusicBrainz4::CWork& MusicBrainz4::CWork::operator =(const CWork& Other)
 MusicBrainz4::CWork::~CWork()
 {
 	Cleanup();
+	
+	delete m_d;
 }
 
 void MusicBrainz4::CWork::Cleanup()
 {
-	delete m_ArtistCredit;
-	m_ArtistCredit=0;
+	delete m_d->m_ArtistCredit;
+	m_d->m_ArtistCredit=0;
 
-	delete m_AliasList;
-	m_AliasList=0;
+	delete m_d->m_AliasList;
+	m_d->m_AliasList=0;
 
-	delete m_RelationList;
-	m_RelationList=0;
+	delete m_d->m_RelationList;
+	m_d->m_RelationList=0;
 
-	delete m_TagList;
-	m_TagList=0;
+	delete m_d->m_TagList;
+	m_d->m_TagList=0;
 
-	delete m_UserTagList;
-	m_UserTagList=0;
+	delete m_d->m_UserTagList;
+	m_d->m_UserTagList=0;
 
-	delete m_Rating;
-	m_Rating=0;
+	delete m_d->m_Rating;
+	m_d->m_Rating=0;
 
-	delete m_UserRating;
-	m_UserRating=0;
+	delete m_d->m_UserRating;
+	m_d->m_UserRating=0;
 }
 
 std::string MusicBrainz4::CWork::ID() const
 {
-	return m_ID;
+	return m_d->m_ID;
 }
 
 std::string MusicBrainz4::CWork::Type() const
 {
-	return m_Type;
+	return m_d->m_Type;
 }
 
 std::string MusicBrainz4::CWork::Title() const
 {
-	return m_Title;
+	return m_d->m_Title;
 }
 
 MusicBrainz4::CArtistCredit *MusicBrainz4::CWork::ArtistCredit() const
 {
-	return m_ArtistCredit;
+	return m_d->m_ArtistCredit;
 }
 
 std::string MusicBrainz4::CWork::ISWC() const
 {
-	return m_ISWC;
+	return m_d->m_ISWC;
 }
 
 std::string MusicBrainz4::CWork::Disambiguation() const
 {
-	return m_Disambiguation;
+	return m_d->m_Disambiguation;
 }
 
 MusicBrainz4::CGenericList<MusicBrainz4::CAlias> *MusicBrainz4::CWork::AliasList() const
 {
-	return m_AliasList;
+	return m_d->m_AliasList;
 }
 
 MusicBrainz4::CGenericList<MusicBrainz4::CRelation> *MusicBrainz4::CWork::RelationList() const
 {
-	return m_RelationList;
+	return m_d->m_RelationList;
 }
 
 MusicBrainz4::CGenericList<MusicBrainz4::CTag> *MusicBrainz4::CWork::TagList() const
 {
-	return m_TagList;
+	return m_d->m_TagList;
 }
 
 MusicBrainz4::CGenericList<MusicBrainz4::CUserTag> *MusicBrainz4::CWork::UserTagList() const
 {
-	return m_UserTagList;
+	return m_d->m_UserTagList;
 }
 
 MusicBrainz4::CRating *MusicBrainz4::CWork::Rating() const
 {
-	return m_Rating;
+	return m_d->m_Rating;
 }
 
 MusicBrainz4::CUserRating *MusicBrainz4::CWork::UserRating() const
 {
-	return m_UserRating;
+	return m_d->m_UserRating;
 }
 
 std::ostream& operator << (std::ostream& os, const MusicBrainz4::CWork& Work)
