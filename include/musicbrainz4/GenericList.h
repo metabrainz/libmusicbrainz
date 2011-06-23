@@ -57,6 +57,7 @@ namespace MusicBrainz4
 
 		std::string SubNodeName() const { return m_SubNodeName; }
 		std::list<T> Items() const { return m_Items; }
+		void push_back(T Item) { return m_Items.push_back(Item); }
 
 	private:
 		std::string m_SubNodeName;

@@ -66,7 +66,8 @@ int main(int argc, const char *argv[])
 
 		std::cout << std::endl << std::endl << "Media matching " << DiscID << ":" << std::endl;
 
-		std::list<MusicBrainz4::CMedium> Media=FullRelease.MediaMatchingDiscID(DiscID);
+		MusicBrainz4::CGenericList<MusicBrainz4::CMedium> MediaList=FullRelease.MediaMatchingDiscID(DiscID);
+		std::list<MusicBrainz4::CMedium> Media=MediaList.Items();
 		std::list<MusicBrainz4::CMedium>::const_iterator ThisMedium=Media.begin();
 		while (ThisMedium!=Media.end())
 		{
