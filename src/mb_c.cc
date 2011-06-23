@@ -465,6 +465,10 @@ MB4_C_OBJ_GETTER(ReleaseGroup,releasegroup,UserTagList,usertaglist)
 MB4_C_OBJ_GETTER(ReleaseGroup,releasegroup,Rating,rating)
 MB4_C_OBJ_GETTER(ReleaseGroup,releasegroup,UserRating,userrating)
 
+MB4_C_DELETE(Tag,tag)
+MB4_C_INT_GETTER(Tag,tag,Count,count)
+MB4_C_STR_GETTER(Tag,tag,Name,name)
+
 MB4_C_LIST_GETTER(Alias,alias)
 MB4_C_LIST_GETTER(Annotation,annotation)
 MB4_C_LIST_GETTER(Artist,artist)

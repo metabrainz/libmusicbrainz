@@ -320,6 +320,10 @@ extern "C"
 	Mb4Rating mb4_releasegroup_get_rating(Mb4ReleaseGroup ReleaseGroup);
 	Mb4UserRating mb4_releasegroup_get_userrating(Mb4ReleaseGroup ReleaseGroup);
 
+	void mb4_tag_delete(Mb4Tag Tag);
+	int mb4_tag_get_count(Mb4Tag Tag);
+	void mb4_tag_get_name(Mb4Tag Tag, char *str, int len);
+
 	int mb4_alias_list_size(Mb4AliasList List);
 	Mb4Alias mb4_alias_list_item(Mb4AliasList List, int Item);
 
