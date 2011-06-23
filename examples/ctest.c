@@ -289,6 +289,10 @@ void CompileTest()
 	Artist=mb4_namecredit_get_artist(NameCredit);
 	mb4_namecredit_delete(NameCredit);
 
+	mb4_puid_get_id(PUID,Str,Size);
+	RecordingList=mb4_puid_get_recordinglist(PUID);
+	mb4_puid_delete(PUID);
+
 	mb4_alias_list_size(AliasList);
 	Alias=mb4_alias_list_item(AliasList,0);
 	mb4_alias_list_delete(AliasList);

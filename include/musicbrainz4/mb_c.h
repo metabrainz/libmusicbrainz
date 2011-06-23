@@ -230,7 +230,7 @@ extern "C"
 	void mb4_nonembtrack_get_length(Mb4NoneMBTrack NoneMBTrack, char *str, int len);
 
 	void mb4_puid_delete(Mb4PUID PUID);
-	void mb4_puid_get_title(Mb4PUID PUID, char *str, int len);
+	void mb4_puid_get_id(Mb4PUID PUID, char *str, int len);
 	Mb4RecordingList mb4_puid_get_recordinglist(Mb4PUID PUID);
 
 	Mb4Query mb4_query_new(const char *Server);
