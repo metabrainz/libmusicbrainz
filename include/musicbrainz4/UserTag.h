@@ -33,17 +33,20 @@
 
 namespace MusicBrainz4
 {
+	class CUserTagPrivate;
+	
 	class CUserTag
 	{
 	public:
 		CUserTag(const XMLNode& Node);
 		CUserTag(const CUserTag& Other);
 		CUserTag& operator =(const CUserTag& Other);
+		~CUserTag();
 
 		std::string Name() const;
 
 	private:
-		std::string m_Name;
+		CUserTagPrivate * const m_d;
 	};
 }
 

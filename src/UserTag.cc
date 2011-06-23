@@ -25,7 +25,14 @@
 
 #include "musicbrainz4/UserTag.h"
 
+class MusicBrainz4::CUserTagPrivate
+{
+	public:
+		std::string m_Name;
+};
+
 MusicBrainz4::CUserTag::CUserTag(const XMLNode& Node)
+:	m_d(new CUserTagPrivate)
 {
 	if (!Node.isEmpty())
 	{
@@ -41,7 +48,7 @@ MusicBrainz4::CUserTag::CUserTag(const XMLNode& Node)
 
 			if ("name"==NodeName)
 			{
-				m_Name=NodeValue;
+				m_d->m_Name=NodeValue;
 			}
 			else
 			{
@@ -52,6 +59,7 @@ MusicBrainz4::CUserTag::CUserTag(const XMLNode& Node)
 }
 
 MusicBrainz4::CUserTag::CUserTag(const CUserTag& Other)
+:	m_d(new CUserTagPrivate)
 {
 	*this=Other;
 }
@@ -60,15 +68,20 @@ MusicBrainz4::CUserTag& MusicBrainz4::CUserTag::operator =(const CUserTag& Other
 {
 	if (this!=&Other)
 	{
-		m_Name=Other.m_Name;
+		m_d->m_Name=Other.m_d->m_Name;
 	}
 
 	return *this;
 }
 
+MusicBrainz4::CUserTag::~CUserTag()
+{
+	delete m_d;
+}
+
 std::string MusicBrainz4::CUserTag::Name() const
 {
-	return m_Name;
+	return m_d->m_Name;
 }
 
 std::ostream& operator << (std::ostream& os, const MusicBrainz4::CUserTag& UserTag)
