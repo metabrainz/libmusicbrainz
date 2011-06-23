@@ -35,6 +35,8 @@
 
 namespace MusicBrainz4
 {
+	class CRecordingPrivate;
+	
 	class CArtistCredit;
 	class CRelease;
 	class CPUID;
@@ -70,19 +72,7 @@ namespace MusicBrainz4
 	private:
 		void Cleanup();
 
-		std::string m_ID;
-		std::string m_Title;
-		std::string m_Length;
-		std::string m_Disambiguation;
-		CArtistCredit *m_ArtistCredit;
-		CGenericList<CRelease> *m_ReleaseList;
-		CGenericList<CPUID> *m_PUIDList;
-		CGenericList<CISRC> *m_ISRCList;
-		CGenericList<CRelation> *m_RelationList;
-		CGenericList<CTag> *m_TagList;
-		CGenericList<CUserTag> *m_UserTagList;
-		CRating *m_Rating;
-		CUserRating *m_UserRating;
+		CRecordingPrivate * const m_d;
 	};
 }
 
