@@ -25,15 +25,30 @@
 
 #include "musicbrainz4/PUID.h"
 
+#include "musicbrainz4/GenericList.h"
+#include "musicbrainz4/Recording.h"
+
+class MusicBrainz4::CPUIDPrivate
+{
+	public:
+		CPUIDPrivate()
+		:	m_RecordingList(0)
+		{
+		}
+		
+		std::string m_ID;
+		CGenericList<CRecording> *m_RecordingList;
+};
+
 MusicBrainz4::CPUID::CPUID(const XMLNode& Node)
-:	m_RecordingList(0)
+:	m_d(new CPUIDPrivate)
 {
 	if (!Node.isEmpty())
 	{
 		//std::cout << "PUID node: " << std::endl << Node.createXMLString(true) << std::endl;
 
 		if (Node.isAttributeSet("id"))
-			m_ID=Node.getAttribute("id");
+			m_d->m_ID=Node.getAttribute("id");
 
 		for (int count=0;count<Node.nChildNode();count++)
 		{
@@ -45,7 +60,7 @@ MusicBrainz4::CPUID::CPUID(const XMLNode& Node)
 
 			if ("recording-list"==NodeName)
 			{
-				m_RecordingList=new CGenericList<CRecording>(ChildNode,"recording");
+				m_d->m_RecordingList=new CGenericList<CRecording>(ChildNode,"recording");
 			}
 			else
 			{
@@ -56,7 +71,7 @@ MusicBrainz4::CPUID::CPUID(const XMLNode& Node)
 }
 
 MusicBrainz4::CPUID::CPUID(const CPUID& Other)
-:	m_RecordingList(0)
+:	m_d(new CPUIDPrivate)
 {
 	*this=Other;
 }
@@ -67,10 +82,10 @@ MusicBrainz4::CPUID& MusicBrainz4::CPUID::operator =(const CPUID& Other)
 	{
 		Cleanup();
 
-		m_ID=Other.m_ID;
+		m_d->m_ID=Other.m_d->m_ID;
 
-		if (Other.m_RecordingList)
-			m_RecordingList=new CGenericList<CRecording>(*Other.m_RecordingList);
+		if (Other.m_d->m_RecordingList)
+			m_d->m_RecordingList=new CGenericList<CRecording>(*Other.m_d->m_RecordingList);
 	}
 
 	return *this;
@@ -79,22 +94,24 @@ MusicBrainz4::CPUID& MusicBrainz4::CPUID::operator =(const CPUID& Other)
 MusicBrainz4::CPUID::~CPUID()
 {
 	Cleanup();
+	
+	delete m_d;
 }
 
 void MusicBrainz4::CPUID::Cleanup()
 {
-	delete m_RecordingList;
-	m_RecordingList=0;
+	delete m_d->m_RecordingList;
+	m_d->m_RecordingList=0;
 }
 
 std::string MusicBrainz4::CPUID::ID() const
 {
-	return m_ID;
+	return m_d->m_ID;
 }
 
 MusicBrainz4::CGenericList<MusicBrainz4::CRecording> *MusicBrainz4::CPUID::RecordingList() const
 {
-	return m_RecordingList;
+	return m_d->m_RecordingList;
 }
 
 std::ostream& operator << (std::ostream& os, const MusicBrainz4::CPUID& PUID)

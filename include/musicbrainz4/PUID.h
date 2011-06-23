@@ -36,6 +36,8 @@
 
 namespace MusicBrainz4
 {
+	class CPUIDPrivate;
+	
 	class CPUID
 	{
 	public:
@@ -49,9 +51,8 @@ namespace MusicBrainz4
 
 	private:
 		void Cleanup();
-
-		std::string m_ID;
-		CGenericList<CRecording> *m_RecordingList;
+		
+		CPUIDPrivate * const m_d;
 	};
 }
 
