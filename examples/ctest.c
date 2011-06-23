@@ -98,7 +98,9 @@ void CompileTest()
 	Mb4FreeDBDisc FreeDBDisc=0;
 /*
 	Mb4FreeDBDiscList FreeDBDiscList=0;
+*/
 	Mb4ISRC ISRC=0;
+/*
 	Mb4ISRCList ISRCList=0;
 	Mb4Label Label=0;
 	Mb4LabelInfo LabelInfo=0;
@@ -227,6 +229,11 @@ void CompileTest()
 	mb4_freedbdisc_get_category(FreeDBDisc,Str,Size);
 	mb4_freedbdisc_get_year(FreeDBDisc,Str,Size);
 	NoneMBTrackList=mb4_freedbdisc_get_nonembtracklist(FreeDBDisc);
+	mb4_freedbdisc_delete(FreeDBDisc);
+
+	mb4_isrc_get_id(ISRC,Str,Size);
+	RecordingList=mb4_isrc_get_recordinglist(ISRC);
+	mb4_isrc_delete(ISRC);
 
 	mb4_alias_list_size(AliasList);
 	Alias=mb4_alias_list_item(AliasList,0);

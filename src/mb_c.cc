@@ -268,7 +268,7 @@ MB4_C_OBJ_GETTER(FreeDBDisc,freedbdisc,NoneMBTrackList,nonembtracklist)
 
 MB4_C_DELETE(ISRC,isrc)
 MB4_C_STR_GETTER(ISRC,isrc,ID,id)
-MB4_C_OBJ_GETTER(ISRC,isrc,RecordingList,RecordingList)
+MB4_C_OBJ_GETTER(ISRC,isrc,RecordingList,recordinglist)
 
 MB4_C_DELETE(Label,label)
 MB4_C_STR_GETTER(Label,label,ID,id)
