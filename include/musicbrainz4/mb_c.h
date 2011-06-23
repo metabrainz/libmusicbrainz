@@ -144,6 +144,23 @@ extern "C"
 	void mb4_isrc_get_id(Mb4ISRC ISRC, char *str, int len);
 	Mb4RecordingList mb4_isrc_get_recordinglist(Mb4ISRC ISRC);
 
+	void mb4_label_delete(Mb4Label Label);
+	void mb4_label_get_id(Mb4Label Label, char *str, int len);
+	void mb4_label_get_type(Mb4Label Label, char *str, int len);
+	void mb4_label_get_name(Mb4Label Label, char *str, int len);
+	void mb4_label_get_sortname(Mb4Label Label, char *str, int len);
+	void mb4_label_get_labelcode(Mb4Label Label, char *str, int len);
+	void mb4_label_get_disambiguation(Mb4Label Label, char *str, int len);
+	void mb4_label_get_country(Mb4Label Label, char *str, int len);
+	Mb4Lifespan mb4_label_get_lifespan(Mb4Label Label);
+	Mb4AliasList mb4_label_get_aliaslist(Mb4Label Label);
+	Mb4ReleaseList mb4_label_get_releaselist(Mb4Label Label);
+	Mb4RelationList mb4_label_get_relationlist(Mb4Label Label);
+	Mb4TagList mb4_label_get_taglist(Mb4Label Label);
+	Mb4UserTagList mb4_label_get_usertaglist(Mb4Label Label);
+	Mb4Rating mb4_label_get_rating(Mb4Label Label);
+	Mb4UserRating mb4_label_get_userrating(Mb4Label Label);
+
 	void mb4_metadata_delete(Mb4Metadata Metadata);
 	Mb4ReleaseList mb4_metadata_get_releaselist(Mb4Metadata Metadata);
 	Mb4Disc mb4_metadata_get_disc(Mb4Metadata Metadata);
