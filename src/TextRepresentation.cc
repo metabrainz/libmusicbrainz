@@ -25,7 +25,15 @@
 
 #include "musicbrainz4/TextRepresentation.h"
 
+class MusicBrainz4::CTextRepresentationPrivate
+{
+	public:
+		std::string m_Language;
+		std::string m_Script;
+};
+
 MusicBrainz4::CTextRepresentation::CTextRepresentation(const XMLNode& Node)
+:	m_d(new CTextRepresentationPrivate)
 {
 	if (!Node.isEmpty())
 	{
@@ -41,17 +49,18 @@ MusicBrainz4::CTextRepresentation::CTextRepresentation(const XMLNode& Node)
 
 			if ("language"==NodeName)
 			{
-				m_Language=NodeValue;
+				m_d->m_Language=NodeValue;
 			}
 			else if ("script"==NodeName)
 			{
-				m_Script=NodeValue;
+				m_d->m_Script=NodeValue;
 			}
 		}
 	}
 }
 
 MusicBrainz4::CTextRepresentation::CTextRepresentation(const CTextRepresentation& Other)
+:	m_d(new CTextRepresentationPrivate)
 {
 	*this=Other;
 }
@@ -60,21 +69,26 @@ MusicBrainz4::CTextRepresentation& MusicBrainz4::CTextRepresentation::operator =
 {
 	if (this!=&Other)
 	{
-		m_Language=Other.m_Language;
-		m_Script=Other.m_Script;
+		m_d->m_Language=Other.m_d->m_Language;
+		m_d->m_Script=Other.m_d->m_Script;
 	}
 
 	return *this;
 }
 
+MusicBrainz4::CTextRepresentation::~CTextRepresentation()
+{
+	delete m_d;
+}
+
 std::string MusicBrainz4::CTextRepresentation::Language() const
 {
-	return m_Language;
+	return m_d->m_Language;
 }
 
 std::string MusicBrainz4::CTextRepresentation::Script() const
 {
-	return m_Script;
+	return m_d->m_Script;
 }
 
 std::ostream& operator << (std::ostream& os, const MusicBrainz4::CTextRepresentation& TextRepresentation)

@@ -33,19 +33,21 @@
 
 namespace MusicBrainz4
 {
+	class CTextRepresentationPrivate;
+	
 	class CTextRepresentation
 	{
 	public:
 		CTextRepresentation(const XMLNode& Node=XMLNode::emptyNode());
 		CTextRepresentation(const CTextRepresentation& Other);
 		CTextRepresentation& operator =(const CTextRepresentation& Other);
-
+		~CTextRepresentation();
+		
 		std::string Language() const;
 		std::string Script() const;
 
 	private:
-		std::string m_Language;
-		std::string m_Script;
+		CTextRepresentationPrivate * const m_d;
 
 	};
 }
