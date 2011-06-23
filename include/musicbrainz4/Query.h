@@ -46,6 +46,7 @@ namespace MusicBrainz4
 		typedef std::map<std::string,std::string> tParamMap;
 
 		CQuery(const std::string& Server="www.musicbrainz.org");
+		~CQuery();
 
 		CGenericList<CRelease> LookupDiscID(const std::string& DiscID);
 		CRelease LookupRelease(const std::string& Release);

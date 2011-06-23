@@ -48,6 +48,11 @@ MusicBrainz4::CQuery::CQuery(const std::string& Server)
 {
 }
 
+MusicBrainz4::CQuery::~CQuery()
+{
+	delete m_d;
+}
+
 MusicBrainz4::CMetadata MusicBrainz4::CQuery::PerformQuery(const std::string& Query)
 {
 	WaitRequest();
