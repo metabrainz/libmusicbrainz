@@ -25,15 +25,27 @@
 
 #include "musicbrainz4/ISRC.h"
 
+class MusicBrainz4::CISRCPrivate
+{
+	public:
+		CISRCPrivate()
+		:	m_RecordingList(0)
+		{
+		}		
+
+		std::string m_ID;
+		CGenericList<CRecording> *m_RecordingList;
+};
+
 MusicBrainz4::CISRC::CISRC(const XMLNode& Node)
-:	m_RecordingList(0)
+:	m_d(new CISRCPrivate)
 {
 	if (!Node.isEmpty())
 	{
 		//std::cout << "ISRC node: " << std::endl << Node.createXMLString(true) << std::endl;
 
 		if (Node.isAttributeSet("id"))
-			m_ID=Node.getAttribute("id");
+			m_d->m_ID=Node.getAttribute("id");
 
 		for (int count=0;count<Node.nChildNode();count++)
 		{
@@ -45,7 +57,7 @@ MusicBrainz4::CISRC::CISRC(const XMLNode& Node)
 
 			if ("recording-list"==NodeName)
 			{
-				m_RecordingList=new CGenericList<CRecording>(ChildNode,"recording");
+				m_d->m_RecordingList=new CGenericList<CRecording>(ChildNode,"recording");
 			}
 			else
 			{
@@ -56,7 +68,7 @@ MusicBrainz4::CISRC::CISRC(const XMLNode& Node)
 }
 
 MusicBrainz4::CISRC::CISRC(const CISRC& Other)
-:	m_RecordingList(0)
+:	m_d(new CISRCPrivate)
 {
 	*this=Other;
 }
@@ -67,10 +79,10 @@ MusicBrainz4::CISRC& MusicBrainz4::CISRC::operator =(const CISRC& Other)
 	{
 		Cleanup();
 
-		m_ID=Other.m_ID;
+		m_d->m_ID=Other.m_d->m_ID;
 
-		if (Other.m_RecordingList)
-			m_RecordingList=new CGenericList<CRecording>(*Other.m_RecordingList);
+		if (Other.m_d->m_RecordingList)
+			m_d->m_RecordingList=new CGenericList<CRecording>(*Other.m_d->m_RecordingList);
 	}
 
 	return *this;
@@ -79,22 +91,24 @@ MusicBrainz4::CISRC& MusicBrainz4::CISRC::operator =(const CISRC& Other)
 MusicBrainz4::CISRC::~CISRC()
 {
 	Cleanup();
+	
+	delete m_d;
 }
 
 void MusicBrainz4::CISRC::Cleanup()
 {
-	delete m_RecordingList;
-	m_RecordingList=0;
+	delete m_d->m_RecordingList;
+	m_d->m_RecordingList=0;
 }
 
 std::string MusicBrainz4::CISRC::ID() const
 {
-	return m_ID;
+	return m_d->m_ID;
 }
 
 MusicBrainz4::CGenericList<MusicBrainz4::CRecording> *MusicBrainz4::CISRC::RecordingList() const
 {
-	return m_RecordingList;
+	return m_d->m_RecordingList;
 }
 
 std::ostream& operator << (std::ostream& os, const MusicBrainz4::CISRC& ISRC)

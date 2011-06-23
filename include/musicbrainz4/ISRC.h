@@ -34,6 +34,8 @@
 
 namespace MusicBrainz4
 {
+	class CISRCPrivate;
+	
 	class CISRC
 	{
 	public:
@@ -48,8 +50,7 @@ namespace MusicBrainz4
 	private:
 		void Cleanup();
 
-		std::string m_ID;
-		CGenericList<CRecording> *m_RecordingList;
+		CISRCPrivate * const m_d;
 	};
 }
 
