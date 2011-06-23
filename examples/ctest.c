@@ -114,9 +114,7 @@ void CompileTest()
 	Mb4ReleaseGroup ReleaseGroup=0;
 	Mb4ReleaseGroupList ReleaseGroupList=0;
 	Mb4ReleaseList ReleaseList=0;
-/*
 	Mb4Tag Tag=0;
-*/
 	Mb4TagList TagList=0;
 	Mb4TextRepresentation TextRepresentation=0;
 /*
@@ -353,6 +351,10 @@ void CompileTest()
 	Rating=mb4_releasegroup_get_rating(ReleaseGroup);
 	UserRating=mb4_releasegroup_get_userrating(ReleaseGroup);
 	mb4_releasegroup_delete(ReleaseGroup);
+
+	DummyInt=mb4_tag_get_count(Tag);
+	mb4_tag_get_name(Tag,Str,Size);
+	mb4_tag_delete(Tag);
 
 	mb4_alias_list_size(AliasList);
 	Alias=mb4_alias_list_item(AliasList,0);
