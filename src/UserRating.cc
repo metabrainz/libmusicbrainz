@@ -27,7 +27,14 @@
 
 #include <sstream>
 
+class MusicBrainz4::CUserRatingPrivate
+{
+	public:
+		int m_UserRating;
+};
+
 MusicBrainz4::CUserRating::CUserRating(const XMLNode& Node)
+:	m_d(new CUserRatingPrivate)
 {
 	if (!Node.isEmpty())
 	{
@@ -37,12 +44,13 @@ MusicBrainz4::CUserRating::CUserRating(const XMLNode& Node)
 		{
 			std::stringstream os;
 			os << Node.getText();
-			os >> m_UserRating;
+			os >> m_d->m_UserRating;
 		}
 	}
 }
 
 MusicBrainz4::CUserRating::CUserRating(const CUserRating& Other)
+:	m_d(new CUserRatingPrivate)
 {
 	*this=Other;
 }
@@ -51,15 +59,20 @@ MusicBrainz4::CUserRating& MusicBrainz4::CUserRating::operator =(const CUserRati
 {
 	if (this!=&Other)
 	{
-		m_UserRating=Other.m_UserRating;
+		m_d->m_UserRating=Other.m_d->m_UserRating;
 	}
 
 	return *this;
 }
 
+MusicBrainz4::CUserRating::~CUserRating()
+{
+	delete m_d;
+}
+
 int MusicBrainz4::CUserRating::UserRating() const
 {
-	return m_UserRating;
+	return m_d->m_UserRating;
 }
 
 std::ostream& operator << (std::ostream& os, const MusicBrainz4::CUserRating& UserRating)

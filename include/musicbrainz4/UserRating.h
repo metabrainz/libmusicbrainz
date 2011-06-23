@@ -32,17 +32,20 @@
 
 namespace MusicBrainz4
 {
+	class CUserRatingPrivate;
+	
 	class CUserRating
 	{
 	public:
 		CUserRating(const XMLNode& Node);
 		CUserRating(const CUserRating& Other);
 		CUserRating& operator =(const CUserRating& Other);
+		~CUserRating();
 
 		int UserRating() const;
 
 	private:
-		int m_UserRating;
+		CUserRatingPrivate * const m_d;
 	};
 }
 
