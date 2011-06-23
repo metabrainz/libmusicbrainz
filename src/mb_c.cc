@@ -264,6 +264,10 @@ MB4_C_OBJ_GETTER(Label,label,UserTagList,usertaglist)
 MB4_C_OBJ_GETTER(Label,label,Rating,rating)
 MB4_C_OBJ_GETTER(Label,label,UserRating,userrating)
 
+MB4_C_DELETE(LabelInfo,labelinfo)
+MB4_C_STR_GETTER(LabelInfo,labelinfo,CatalogNumber,catalognumber)
+MB4_C_OBJ_GETTER(LabelInfo,labelinfo,Label,label)
+
 MB4_C_DELETE(Metadata,metadata)
 MB4_C_OBJ_GETTER(Metadata,metadata,ReleaseList,releaselist)
 MB4_C_OBJ_GETTER(Metadata,metadata,Disc,disc)

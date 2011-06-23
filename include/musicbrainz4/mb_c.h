@@ -161,6 +161,10 @@ extern "C"
 	Mb4Rating mb4_label_get_rating(Mb4Label Label);
 	Mb4UserRating mb4_label_get_userrating(Mb4Label Label);
 
+	void mb4_labelinfo_delete(Mb4LabelInfo LabelInfo);
+	void mb4_labelinfo_get_catalognumber(Mb4LabelInfo LabelInfo, char *str, int len);
+	Mb4Label mb4_labelinfo_get_label(Mb4LabelInfo LabelInfo);
+
 	void mb4_metadata_delete(Mb4Metadata Metadata);
 	Mb4ReleaseList mb4_metadata_get_releaselist(Mb4Metadata Metadata);
 	Mb4Disc mb4_metadata_get_disc(Mb4Metadata Metadata);
