@@ -23,6 +23,24 @@
 
 ----------------------------------------------------------------------------*/
 
+/*
+
+	Things you should delete using the appropriate mb4_xxx_delete() function:
+
+	* The query object you create to do the actual work
+	* Anything returned from one of the mb4_query_xxx() functions
+	* Any list item retrieved from mb4_xxxx_list_item() functions
+	* The return from mb4_release_media_matching_discid() function
+
+	Everything else remains managed by the library, and should not be deleted
+
+	If in doubt, valgrind is a useful way to spot leaks
+	or things being deleted when they shouldn't be
+
+*/
+
+
+
 #ifndef _MUSICBRAINZ4_MB_C_H
 #define _MUSICBRAINZ4_MB_C_H
 
