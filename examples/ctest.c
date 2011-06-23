@@ -254,6 +254,10 @@ void CompileTest()
 	UserRating=mb4_label_get_userrating(Label);
 	mb4_label_delete(Label);
 
+	mb4_lifespan_get_begin(Lifespan,Str,Size);
+	mb4_lifespan_get_end(Lifespan,Str,Size);
+	mb4_lifespan_delete(Lifespan);
+
 	mb4_alias_list_size(AliasList);
 	Alias=mb4_alias_list_item(AliasList,0);
 	mb4_alias_list_delete(AliasList);
