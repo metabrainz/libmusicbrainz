@@ -40,6 +40,7 @@ extern "C"
 	typedef void *Mb4CDStub;
 	typedef void *Mb4Collection;
 	typedef void *Mb4Disc;
+	typedef void *Mb4DiscList;
 	typedef void *Mb4FreeDBDisc;
 	typedef void *Mb4ISRC;
 	typedef void *Mb4Label;
@@ -67,6 +68,8 @@ extern "C"
 	typedef void *Mb4ReleaseList;
 	typedef void *Mb4Tag;
 	typedef void *Mb4TagList;
+	typedef void *Mb4Track;
+	typedef void *Mb4TrackList;
 	typedef void *Mb4TextRepresentation;
 	typedef void *Mb4UserRating;
 	typedef void *Mb4UserTag;
@@ -165,8 +168,16 @@ extern "C"
 	Mb4Label mb4_labelinfo_get_label(Mb4LabelInfo LabelInfo);
 
 	void mb4_lifespan_delete(Mb4Lifespan Lifespan);
-	void mb4_lifespan_get_hegin(Mb4Lifespan Lifespan, char *str, int len);
+	void mb4_lifespan_get_begin(Mb4Lifespan Lifespan, char *str, int len);
 	void mb4_lifespan_get_end(Mb4Lifespan Lifespan, char *str, int len);
+
+	void mb4_medium_delete(Mb4Medium Medium);
+	void mb4_medium_get_title(Mb4Medium Medium, char *str, int len);
+	int mb4_medium_get_position(Mb4Medium Medium);
+	void mb4_medium_get_format(Mb4Medium Medium, char *str, int len);
+	Mb4DiscList mb4_medium_get_disclist(Mb4Medium Medium);
+	Mb4TrackList mb4_medium_get_tracklist(Mb4Medium Medium);
+	unsigned char mb4_medium_contains_discid(Mb4Medium Medium, const char *DiscID);
 
 	void mb4_metadata_delete(Mb4Metadata Metadata);
 	Mb4ReleaseList mb4_metadata_get_releaselist(Mb4Metadata Metadata);
@@ -194,6 +205,9 @@ extern "C"
 
 	int mb4_alias_list_size(Mb4AliasList List);
 	Mb4Alias mb4_alias_list_item(Mb4AliasList List, int Item);
+
+	int mb4_disc_list_size(Mb4DiscList List);
+	Mb4Disc mb4_disc_list_item(Mb4DiscList List, int Item);
 
 	int mb4_label_list_size(Mb4LabelList List);
 	Mb4Label mb4_label_list_item(Mb4LabelList List, int Item);
@@ -224,6 +238,9 @@ extern "C"
 
 	int mb4_tag_list_size(Mb4TagList List);
 	Mb4Tag mb4_tag_list_item(Mb4TagList List, int Item);
+
+	int mb4_track_list_size(Mb4TrackList List);
+	Mb4Track mb4_track_list_item(Mb4TrackList List, int Item);
 
 	int mb4_usertag_list_size(Mb4UserTagList List);
 	Mb4UserTag mb4_usertag_list_item(Mb4UserTagList List, int Item);

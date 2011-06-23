@@ -25,6 +25,7 @@
 #include "musicbrainz4/Release.h"
 #include "musicbrainz4/ReleaseGroup.h"
 #include "musicbrainz4/Tag.h"
+#include "musicbrainz4/Track.h"
 #include "musicbrainz4/UserTag.h"
 #include "musicbrainz4/Work.h"
 
@@ -125,7 +126,7 @@ T *GetListItem(void *List, int Item)
 	mb4_##TYPE2##_get_##PROP2(Mb4##TYPE1 o) \
 	{ \
 		try { \
-			return ((TYPE1 *)o)->get##PROP1(); \
+			return ((MusicBrainz4::C##TYPE1 *)o)->PROP1(); \
 		} \
 		catch (...) { \
 			return 0; \
@@ -273,6 +274,24 @@ MB4_C_DELETE(Lifespan,lifespan)
 MB4_C_STR_GETTER(Lifespan,lifespan,Begin,begin)
 MB4_C_STR_GETTER(Lifespan,lifespan,End,end)
 
+MB4_C_DELETE(Medium,medium)
+MB4_C_STR_GETTER(Medium,medium,Title,title)
+MB4_C_INT_GETTER(Medium,medium,Position,position)
+MB4_C_STR_GETTER(Medium,medium,Format,format)
+MB4_C_OBJ_GETTER(Medium,medium,DiscList,disclist)
+MB4_C_OBJ_GETTER(Medium,medium,TrackList,tracklist)
+
+unsigned char mb4_medium_contains_discid(Mb4Medium Medium, const char *DiscID)
+{
+	unsigned char Ret=0;
+
+	MusicBrainz4::CMedium *TheMedium=reinterpret_cast<MusicBrainz4::CMedium *>(Medium);
+	if (TheMedium)
+		Ret=TheMedium->ContainsDiscID(DiscID);
+
+	return Ret;
+}
+
 MB4_C_DELETE(Metadata,metadata)
 MB4_C_OBJ_GETTER(Metadata,metadata,ReleaseList,releaselist)
 MB4_C_OBJ_GETTER(Metadata,metadata,Disc,disc)
@@ -294,7 +313,10 @@ Mb4Metadata mb4_query_query(Mb4Query Query, const char *Resource, const char *ID
 	}
 
 	MusicBrainz4::CQuery *TheQuery=reinterpret_cast<MusicBrainz4::CQuery *>(Query);
-	return new MusicBrainz4::CMetadata(TheQuery->Query(Resource,ID,Params));
+	if (TheQuery)
+		return new MusicBrainz4::CMetadata(TheQuery->Query(Resource,ID,Params));
+
+	return 0;
 }
 
 MB4_C_DELETE(Release,release)
@@ -314,6 +336,7 @@ MB4_C_OBJ_GETTER(Release,release,MediumList,mediumlist)
 MB4_C_OBJ_GETTER(Release,release,RelationList,relationlist)
 
 MB4_C_LIST_GETTER(Alias,alias)
+MB4_C_LIST_GETTER(Disc,disc)
 MB4_C_LIST_GETTER(LabelInfo,labelinfo)
 MB4_C_LIST_GETTER(Label,label)
 MB4_C_LIST_GETTER(Medium,medium)
@@ -324,5 +347,6 @@ MB4_C_LIST_GETTER(Relation,relation)
 MB4_C_LIST_GETTER(Release,release)
 MB4_C_LIST_GETTER(ReleaseGroup,releasegroup)
 MB4_C_LIST_GETTER(Tag,tag)
+MB4_C_LIST_GETTER(Track,track)
 MB4_C_LIST_GETTER(UserTag,usertag)
 MB4_C_LIST_GETTER(Work,work)
