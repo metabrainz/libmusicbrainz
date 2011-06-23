@@ -365,7 +365,7 @@ Mb4Query mb4_query_new(const char *Server)
 
 MB4_C_DELETE(Query,query)
 
-Mb4ReleaseList mb4_query_lookup_disc_id(Mb4Query Query, const char *DiscID)
+Mb4ReleaseList mb4_query_lookup_discid(Mb4Query Query, const char *DiscID)
 {
 	MusicBrainz4::CQuery *TheQuery=reinterpret_cast<MusicBrainz4::CQuery *>(Query);
 	if (TheQuery)

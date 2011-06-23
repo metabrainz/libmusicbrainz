@@ -106,8 +106,8 @@ void CompileTest()
 	Mb4PUID PUID=0;
 /*
 	Mb4PUIDList PUIDList=0;
-	Mb4Query Query=0;
 */
+	Mb4Query Query=0;
 	Mb4Rating Rating=0;
 /*
 	Mb4RatingList RatingList=0;
@@ -292,6 +292,12 @@ void CompileTest()
 	mb4_puid_get_id(PUID,Str,Size);
 	RecordingList=mb4_puid_get_recordinglist(PUID);
 	mb4_puid_delete(PUID);
+
+	Query=mb4_query_new("server");
+	ReleaseList=mb4_query_lookup_discid(Query,"discid");
+	Release=mb4_query_lookup_release(Query,"release");
+	Metadata=mb4_query_query(Query,"resource","id",0,0,0);
+	mb4_query_delete(Query);
 
 	mb4_alias_list_size(AliasList);
 	Alias=mb4_alias_list_item(AliasList,0);
