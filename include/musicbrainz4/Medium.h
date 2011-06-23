@@ -35,6 +35,8 @@
 
 namespace MusicBrainz4
 {
+	class CMediumPrivate;
+	
 	class CDisc;
 	class CTrack;
 
@@ -57,11 +59,7 @@ namespace MusicBrainz4
 	private:
 		void Cleanup();
 
-		std::string m_Title;
-		int m_Position;
-		std::string m_Format;
-		CGenericList<CDisc> *m_DiscList;
-		CGenericList<CTrack> *m_TrackList;
+		CMediumPrivate * const m_d;
 	};
 }
 

@@ -30,9 +30,24 @@
 #include "musicbrainz4/Disc.h"
 #include "musicbrainz4/Track.h"
 
+class MusicBrainz4::CMediumPrivate
+{
+	public:
+		CMediumPrivate()
+		:	m_DiscList(0),
+			m_TrackList(0)
+		{
+		}
+		
+		std::string m_Title;
+		int m_Position;
+		std::string m_Format;
+		CGenericList<CDisc> *m_DiscList;
+		CGenericList<CTrack> *m_TrackList;
+};
+
 MusicBrainz4::CMedium::CMedium(const XMLNode& Node)
-:	m_DiscList(0),
-	m_TrackList(0)
+:	m_d(new CMediumPrivate)
 {
 	if (!Node.isEmpty())
 	{
@@ -48,25 +63,25 @@ MusicBrainz4::CMedium::CMedium(const XMLNode& Node)
 
 			if ("title"==NodeName)
 			{
-				m_Title=NodeValue;
+				m_d->m_Title=NodeValue;
 			}
 			else if ("position"==NodeName)
 			{
 				std::stringstream os;
 				os << NodeValue;
-				os >> m_Position;
+				os >> m_d->m_Position;
 			}
 			else if ("format"==NodeName)
 			{
-				m_Format=NodeValue;
+				m_d->m_Format=NodeValue;
 			}
 			else if ("disc-list"==NodeName)
 			{
-				m_DiscList=new CGenericList<CDisc>(ChildNode,"disc");
+				m_d->m_DiscList=new CGenericList<CDisc>(ChildNode,"disc");
 			}
 			else if ("track-list"==NodeName)
 			{
-				m_TrackList=new CGenericList<CTrack>(ChildNode,"track");
+				m_d->m_TrackList=new CGenericList<CTrack>(ChildNode,"track");
 			}
 			else
 			{
@@ -77,8 +92,7 @@ MusicBrainz4::CMedium::CMedium(const XMLNode& Node)
 }
 
 MusicBrainz4::CMedium::CMedium(const CMedium& Other)
-:	m_DiscList(0),
-	m_TrackList(0)
+:	m_d(new CMediumPrivate)
 {
 	*this=Other;
 }
@@ -89,15 +103,15 @@ MusicBrainz4::CMedium& MusicBrainz4::CMedium::operator =(const CMedium& Other)
 	{
 		Cleanup();
 
-		m_Title=Other.m_Title;
-		m_Position=Other.m_Position;
-		m_Format=Other.m_Format;
+		m_d->m_Title=Other.m_d->m_Title;
+		m_d->m_Position=Other.m_d->m_Position;
+		m_d->m_Format=Other.m_d->m_Format;
 
-		if (Other.m_DiscList)
-			m_DiscList=new CGenericList<CDisc>(*Other.m_DiscList);
+		if (Other.m_d->m_DiscList)
+			m_d->m_DiscList=new CGenericList<CDisc>(*Other.m_d->m_DiscList);
 
-		if (Other.m_TrackList)
-			m_TrackList=new CGenericList<CTrack>(*Other.m_TrackList);
+		if (Other.m_d->m_TrackList)
+			m_d->m_TrackList=new CGenericList<CTrack>(*Other.m_d->m_TrackList);
 	}
 
 	return *this;
@@ -106,47 +120,49 @@ MusicBrainz4::CMedium& MusicBrainz4::CMedium::operator =(const CMedium& Other)
 MusicBrainz4::CMedium::~CMedium()
 {
 	Cleanup();
+	
+	delete m_d;
 }
 
 void MusicBrainz4::CMedium::Cleanup()
 {
-	delete m_DiscList;
-	m_DiscList=0;
+	delete m_d->m_DiscList;
+	m_d->m_DiscList=0;
 
-	delete m_TrackList;
-	m_TrackList=0;
+	delete m_d->m_TrackList;
+	m_d->m_TrackList=0;
 }
 
 std::string MusicBrainz4::CMedium::Title() const
 {
-	return m_Title;
+	return m_d->m_Title;
 }
 
 int MusicBrainz4::CMedium::Position() const
 {
-	return m_Position;
+	return m_d->m_Position;
 }
 
 std::string MusicBrainz4::CMedium::Format() const
 {
-	return m_Format;
+	return m_d->m_Format;
 }
 
 MusicBrainz4::CGenericList<MusicBrainz4::CDisc> *MusicBrainz4::CMedium::DiscList() const
 {
-	return m_DiscList;
+	return m_d->m_DiscList;
 }
 
 MusicBrainz4::CGenericList<MusicBrainz4::CTrack> *MusicBrainz4::CMedium::TrackList() const
 {
-	return m_TrackList;
+	return m_d->m_TrackList;
 }
 
 bool MusicBrainz4::CMedium::ContainsDiscID(const std::string& DiscID) const
 {
 	bool RetVal=false;
 
-	std::list<CDisc> DiscList=m_DiscList->Items();
+	std::list<CDisc> DiscList=m_d->m_DiscList->Items();
 	std::list<CDisc>::const_iterator ThisDisc=DiscList.begin();
 	while (!RetVal && ThisDisc!=DiscList.end())
 	{
