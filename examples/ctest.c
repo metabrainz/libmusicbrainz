@@ -82,7 +82,9 @@ void CompileTest()
 	Mb4Attribute Attribute=0;
 /*
 	Mb4AttributeList AttributeList=0;
+*/
 	Mb4CDStub CDStub=0;
+/*
 	Mb4CDStubList CDStubList=0;
 	Mb4Collection Collection=0;
 	Mb4CollectionList CollectionList=0;
@@ -107,7 +109,9 @@ void CompileTest()
 	Mb4NameCreditList NameCreditList=0;
 /*
 	Mb4NoneMBTrack NoneMBTrack=0;
+*/
 	Mb4NoneMBTrackList NoneMBTrackList=0;
+/*
 	Mb4PUID PUID=0;
 	Mb4PUIDList PUIDList=0;
 	Mb4Query Query=0;
@@ -191,6 +195,14 @@ void CompileTest()
 
 	mb4_attribute_get_text(Attribute,Str,Size);
 	mb4_attribute_delete(Attribute);
+
+	mb4_cdstub_get_id(CDStub,Str,Size);
+	mb4_cdstub_get_title(CDStub,Str,Size);
+	mb4_cdstub_get_artist(CDStub,Str,Size);
+	mb4_cdstub_get_barcode(CDStub,Str,Size);
+	mb4_cdstub_get_comment(CDStub,Str,Size);
+	NoneMBTrackList=mb4_cdstub_get_nonembtracklist(CDStub);
+	mb4_cdstub_delete(CDStub);
 
 	mb4_alias_list_size(AliasList);
 	Alias=mb4_alias_list_item(AliasList,0);

@@ -245,7 +245,7 @@ MB4_C_STR_GETTER(CDStub,cdstub,Title,title)
 MB4_C_STR_GETTER(CDStub,cdstub,Artist,artist)
 MB4_C_STR_GETTER(CDStub,cdstub,Barcode,barcode)
 MB4_C_STR_GETTER(CDStub,cdstub,Comment,comment)
-MB4_C_OBJ_GETTER(CDStub,cdstub,NoneMBTrackList,NoneMBTrackList)
+MB4_C_OBJ_GETTER(CDStub,cdstub,NoneMBTrackList,nonembtracklist)
 
 MB4_C_DELETE(Collection,collection)
 MB4_C_STR_GETTER(Collection,collection,ID,id)
