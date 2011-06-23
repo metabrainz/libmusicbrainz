@@ -141,9 +141,7 @@ void CompileTest()
 	char Str[256];
 	int Size=sizeof(Str);
 	int DummyInt=0;
-/*
 	double DummyDouble=0;
-*/
 	unsigned char DummyBool=0;
 
 	mb4_alias_get_type(Alias,Str,Size);
@@ -298,6 +296,10 @@ void CompileTest()
 	Release=mb4_query_lookup_release(Query,"release");
 	Metadata=mb4_query_query(Query,"resource","id",0,0,0);
 	mb4_query_delete(Query);
+
+	DummyInt=mb4_rating_get_votescount(Rating);
+	DummyDouble=mb4_rating_get_rating(Rating);
+	mb4_rating_delete(Rating);
 
 	mb4_alias_list_size(AliasList);
 	Alias=mb4_alias_list_item(AliasList,0);
