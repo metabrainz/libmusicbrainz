@@ -341,6 +341,19 @@ void CompileTest()
 	MediumList=mb4_release_media_matching_discid(Release,"discid");
 	mb4_release_delete(Release);
 
+	mb4_releasegroup_get_id(ReleaseGroup,Str,Size);
+	mb4_releasegroup_get_type(ReleaseGroup,Str,Size);
+	mb4_releasegroup_get_title(ReleaseGroup,Str,Size);
+	mb4_releasegroup_get_comment(ReleaseGroup,Str,Size);
+	ArtistCredit=mb4_releasegroup_get_artistcredit(ReleaseGroup);
+	ReleaseList=mb4_releasegroup_get_releaselist(ReleaseGroup);
+	RelationList=mb4_releasegroup_get_relationlist(ReleaseGroup);
+	TagList=mb4_releasegroup_get_taglist(ReleaseGroup);
+	UserTagList=mb4_releasegroup_get_usertaglist(ReleaseGroup);
+	Rating=mb4_releasegroup_get_rating(ReleaseGroup);
+	UserRating=mb4_releasegroup_get_userrating(ReleaseGroup);
+	mb4_releasegroup_delete(ReleaseGroup);
+
 	mb4_alias_list_size(AliasList);
 	Alias=mb4_alias_list_item(AliasList,0);
 	mb4_alias_list_delete(AliasList);
