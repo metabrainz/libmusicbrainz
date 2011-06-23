@@ -337,7 +337,21 @@ extern "C"
 	int mb4_userrating_get_userrating(Mb4UserRating UserRating);
 
 	void mb4_usertag_delete(Mb4UserTag UserTag);
-	void mb4_usertag_delete_get_name(Mb4UserTag UserTag, char *str, int len);
+	void mb4_usertag_get_name(Mb4UserTag UserTag, char *str, int len);
+
+	void mb4_work_delete(Mb4Work Work);
+	void mb4_work_get_id(Mb4Work Work, char *str, int len);
+	void mb4_work_get_type(Mb4Work Work, char *str, int len);
+	void mb4_work_get_title(Mb4Work Work, char *str, int len);
+	Mb4ArtistCredit mb4_work_get_artistcredit(Mb4Work Work);
+	void mb4_work_get_iswc(Mb4Work Work, char *str, int len);
+	void mb4_work_get_disambiguation(Mb4Work Work, char *str, int len);
+	Mb4AliasList mb4_work_get_aliaslist(Mb4Work Work);
+	Mb4RelationList mb4_work_get_relationlist(Mb4Work Work);
+	Mb4TagList mb4_work_get_taglist(Mb4Work Work);
+	Mb4UserTagList mb4_work_get_usertaglist(Mb4Work Work);
+	Mb4Rating mb4_work_get_rating(Mb4Work Work);
+	Mb4UserRating mb4_work_get_userrating(Mb4Work Work);
 
 	int mb4_alias_list_size(Mb4AliasList List);
 	Mb4Alias mb4_alias_list_item(Mb4AliasList List, int Item);
