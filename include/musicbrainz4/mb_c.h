@@ -288,6 +288,25 @@ extern "C"
 	Mb4Label mb4_relation_get_label(Mb4Relation Relation);
 	Mb4Work mb4_relation_get_work(Mb4Relation Relation);
 
+	void mb4_release_delete(Mb4Release Release);
+	void mb4_release_get_id(Mb4Release Release, char *str, int len);
+	void mb4_release_get_title(Mb4Release Release, char *str, int len);
+	void mb4_release_get_status(Mb4Release Release, char *str, int len);
+	void mb4_release_get_quality(Mb4Release Release, char *str, int len);
+	void mb4_release_get_disambiguation(Mb4Release Release, char *str, int len);
+	void mb4_release_get_packaging(Mb4Release Release, char *str, int len);
+	Mb4TextRepresentation mb4_release_get_textrepresentation(Mb4Release Release);
+	Mb4ArtistCredit mb4_release_get_artistcredit(Mb4Release Release);
+	Mb4ReleaseGroup mb4_release_get_releasegroup(Mb4Release Release);
+	void mb4_release_get_date(Mb4Release Release, char *str, int len);
+	void mb4_release_get_country(Mb4Release Release, char *str, int len);
+	void mb4_release_get_barcode(Mb4Release Release, char *str, int len);
+	void mb4_release_get_asin(Mb4Release Release, char *str, int len);
+	Mb4LabelInfoList mb4_release_get_labelinfolist(Mb4Release Release);
+	Mb4MediumList mb4_release_get_mediumlist(Mb4Release Release);
+	Mb4RelationList mb4_release_get_relationlist(Mb4Release Release);
+	Mb4MediumList mb4_release_media_matching_disc_id(Mb4Release Release, const char *DiscID);
+
 	int mb4_alias_list_size(Mb4AliasList List);
 	Mb4Alias mb4_alias_list_item(Mb4AliasList List, int Item);
 

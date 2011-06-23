@@ -396,22 +396,6 @@ MB4_C_DELETE(Rating,rating)
 MB4_C_INT_GETTER(Rating,rating,VotesCount,votescount)
 MB4_C_DOUBLE_GETTER(Rating,rating,Rating,rating)
 
-MB4_C_DELETE(Release,release)
-MB4_C_STR_GETTER(Release,release,ID,id)
-MB4_C_STR_GETTER(Release,release,Title,title)
-MB4_C_STR_GETTER(Release,release,Status,status)
-MB4_C_STR_GETTER(Release,release,Quality,quality)
-MB4_C_STR_GETTER(Release,release,Disambiguation,disambiguation)
-MB4_C_STR_GETTER(Release,release,Packaging,packaging)
-MB4_C_OBJ_GETTER(Release,release,TextRepresentation,textrepresentation)
-MB4_C_STR_GETTER(Release,release,Date,date)
-MB4_C_STR_GETTER(Release,release,Country,country)
-MB4_C_STR_GETTER(Release,release,Barcode,barcode)
-MB4_C_STR_GETTER(Release,release,ASIN,asin)
-MB4_C_OBJ_GETTER(Release,release,LabelInfoList,labelinfolist)
-MB4_C_OBJ_GETTER(Release,release,MediumList,mediumlist)
-MB4_C_OBJ_GETTER(Release,release,RelationList,relationlist)
-
 MB4_C_DELETE(Recording,recording)
 MB4_C_STR_GETTER(Recording,recording,ID,id)
 MB4_C_STR_GETTER(Recording,recording,Title,title)
@@ -440,6 +424,33 @@ MB4_C_OBJ_GETTER(Relation,relation,ReleaseGroup,releasegroup)
 MB4_C_OBJ_GETTER(Relation,relation,Recording,recording)
 MB4_C_OBJ_GETTER(Relation,relation,Label,label)
 MB4_C_OBJ_GETTER(Relation,relation,Work,work)
+
+MB4_C_DELETE(Release,release)
+MB4_C_STR_GETTER(Release,release,ID,id)
+MB4_C_STR_GETTER(Release,release,Title,title)
+MB4_C_STR_GETTER(Release,release,Status,status)
+MB4_C_STR_GETTER(Release,release,Quality,quality)
+MB4_C_STR_GETTER(Release,release,Disambiguation,disambiguation)
+MB4_C_STR_GETTER(Release,release,Packaging,packaging)
+MB4_C_OBJ_GETTER(Release,release,TextRepresentation,textrepresentation)
+MB4_C_OBJ_GETTER(Release,release,ArtistCredit,artistcredit)
+MB4_C_OBJ_GETTER(Release,release,ReleaseGroup,releasegroup)
+MB4_C_STR_GETTER(Release,release,Date,date)
+MB4_C_STR_GETTER(Release,release,Country,country)
+MB4_C_STR_GETTER(Release,release,Barcode,barcode)
+MB4_C_STR_GETTER(Release,release,ASIN,asin)
+MB4_C_OBJ_GETTER(Release,release,LabelInfoList,labelinfolist)
+MB4_C_OBJ_GETTER(Release,release,MediumList,mediumlist)
+MB4_C_OBJ_GETTER(Release,release,RelationList,relationlist)
+
+Mb4MediumList mb4_release_media_matching_discid(Mb4Release Release, const char *DiscID)
+{
+	MusicBrainz4::CRelease *TheRelease=reinterpret_cast<MusicBrainz4::CRelease *>(Release);
+	if (TheRelease)
+		return new MusicBrainz4::CGenericList<MusicBrainz4::CMedium>(TheRelease->MediaMatchingDiscID(DiscID));
+
+	return 0;
+}
 
 MB4_C_LIST_GETTER(Alias,alias)
 MB4_C_LIST_GETTER(Annotation,annotation)
