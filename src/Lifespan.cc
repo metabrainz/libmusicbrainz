@@ -25,7 +25,15 @@
 
 #include "musicbrainz4/Lifespan.h"
 
+class MusicBrainz4::CLifespanPrivate
+{
+	public:
+		std::string m_Begin;
+		std::string m_End;
+};
+		
 MusicBrainz4::CLifespan::CLifespan(const XMLNode& Node)
+:	m_d(new CLifespanPrivate)
 {
 	if (!Node.isEmpty())
 	{
@@ -41,11 +49,11 @@ MusicBrainz4::CLifespan::CLifespan(const XMLNode& Node)
 
 			if ("begin"==NodeName)
 			{
-				m_Begin=NodeValue;
+				m_d->m_Begin=NodeValue;
 			}
 			else if ("end"==NodeName)
 			{
-				m_End=NodeValue;
+				m_d->m_End=NodeValue;
 			}
 			else
 			{
@@ -56,6 +64,7 @@ MusicBrainz4::CLifespan::CLifespan(const XMLNode& Node)
 }
 
 MusicBrainz4::CLifespan::CLifespan(const CLifespan& Other)
+:	m_d(new CLifespanPrivate)
 {
 	*this=Other;
 }
@@ -64,21 +73,26 @@ MusicBrainz4::CLifespan& MusicBrainz4::CLifespan::operator =(const CLifespan& Ot
 {
 	if (this!=&Other)
 	{
-		m_Begin=Other.m_Begin;
-		m_End=Other.m_End;
+		m_d->m_Begin=Other.m_d->m_Begin;
+		m_d->m_End=Other.m_d->m_End;
 	}
 
 	return *this;
 }
 
+MusicBrainz4::CLifespan::~CLifespan()
+{
+	delete m_d;
+}
+
 std::string MusicBrainz4::CLifespan::Begin() const
 {
-	return m_Begin;
+	return m_d->m_Begin;
 }
 
 std::string MusicBrainz4::CLifespan::End() const
 {
-	return m_End;
+	return m_d->m_End;
 }
 
 std::ostream& operator << (std::ostream& os, const MusicBrainz4::CLifespan& Lifespan)

@@ -33,19 +33,21 @@
 
 namespace MusicBrainz4
 {
+	class CLifespanPrivate;
+	
 	class CLifespan
 	{
 	public:
 		CLifespan(const XMLNode& Node=XMLNode::emptyNode());
 		CLifespan(const CLifespan& Other);
 		CLifespan& operator =(const CLifespan& Other);
-
+		~CLifespan();
+		
 		std::string Begin() const;
 		std::string End() const;
 
 	private:
-		std::string m_Begin;
-		std::string m_End;
+		CLifespanPrivate * const m_d;
 	};
 }
 
