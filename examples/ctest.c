@@ -76,9 +76,7 @@ void CompileTest()
 	Mb4ArtistCredit ArtistCredit=0;
 	Mb4ArtistList ArtistList=0;
 	Mb4Attribute Attribute=0;
-/*
 	Mb4AttributeList AttributeList=0;
-*/
 	Mb4CDStub CDStub=0;
 	Mb4CDStubList CDStubList=0;
 	Mb4Collection Collection=0;
@@ -112,9 +110,7 @@ void CompileTest()
 */
 	Mb4Recording Recording=0;
 	Mb4RecordingList RecordingList=0;
-/*
 	Mb4Relation Relation=0;
-*/
 	Mb4RelationList RelationList=0;
 	Mb4Release Release=0;
 	Mb4ReleaseGroup ReleaseGroup=0;
@@ -313,6 +309,19 @@ void CompileTest()
 	Rating=mb4_recording_get_rating(Recording);
 	UserRating=mb4_recording_get_userrating(Recording);
 	mb4_recording_delete(Recording);
+
+	mb4_relation_get_type(Relation,Str,Size);
+	mb4_relation_get_target(Relation,Str,Size);
+	mb4_relation_get_direction(Relation,Str,Size);
+	AttributeList=mb4_relation_get_attributelist(Relation);
+	mb4_relation_get_begin(Relation,Str,Size);
+	mb4_relation_get_end(Relation,Str,Size);
+	Artist=mb4_relation_get_artist(Relation);
+	Release=mb4_relation_get_release(Relation);
+	ReleaseGroup=mb4_relation_get_releasegroup(Relation);
+	Recording=mb4_relation_get_recording(Relation);
+	Label=mb4_relation_get_label(Relation);
+	Work=mb4_relation_get_work(Relation);
 
 	mb4_alias_list_size(AliasList);
 	Alias=mb4_alias_list_item(AliasList,0);
