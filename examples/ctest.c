@@ -92,9 +92,7 @@ void CompileTest()
 	Mb4CollectionList CollectionList=0;
 */
 	Mb4Disc Disc=0;
-/*
 	Mb4DiscList DiscList=0;
-*/
 	Mb4FreeDBDisc FreeDBDisc=0;
 /*
 	Mb4FreeDBDiscList FreeDBDiscList=0;
@@ -110,8 +108,8 @@ void CompileTest()
 */
 	Mb4LabelList LabelList=0;
 	Mb4Lifespan Lifespan=0;
-/*
 	Mb4Medium Medium=0;
+/*
 	Mb4MediumList MediumList=0;
 	Mb4Metadata Metadata=0;
 	Mb4NameCredit NameCredit=0;
@@ -149,8 +147,8 @@ void CompileTest()
 /*
 	Mb4TextRepresentation TextRepresentation=0;
 	Mb4Track Track=0;
-	Mb4TrackList TrackList=0;
 */
+	Mb4TrackList TrackList=0;
 	Mb4UserRating UserRating=0;
 /*
 	Mb4UserTag UserTag=0;
@@ -162,11 +160,11 @@ void CompileTest()
 	Mb4WorkList WorkList=0;
 	char Str[256];
 	int Size=sizeof(Str);
-/*
 	int DummyInt=0;
+/*
 	double DummyDouble=0;
-	unsgigned char DummyBool=0;
 */
+	unsigned char DummyBool=0;
 
 	mb4_alias_get_type(Alias,Str,Size);
 	mb4_alias_get_script(Alias,Str,Size);
@@ -261,6 +259,14 @@ void CompileTest()
 	mb4_lifespan_get_begin(Lifespan,Str,Size);
 	mb4_lifespan_get_end(Lifespan,Str,Size);
 	mb4_lifespan_delete(Lifespan);
+
+	mb4_medium_get_title(Medium,Str,Size);
+	DummyInt=mb4_medium_get_position(Medium);
+	mb4_medium_get_format(Medium,Str,Size);
+	DiscList=mb4_medium_get_disclist(Medium);
+	TrackList=mb4_medium_get_tracklist(Medium);
+	DummyBool=mb4_medium_contains_discid(Medium,"1234");
+	mb4_medium_delete(Medium);
 
 	mb4_alias_list_size(AliasList);
 	Alias=mb4_alias_list_item(AliasList,0);
