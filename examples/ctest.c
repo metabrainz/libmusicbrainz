@@ -104,9 +104,7 @@ void CompileTest()
 	Mb4NoneMBTrack NoneMBTrack=0;
 	Mb4NoneMBTrackList NoneMBTrackList=0;
 	Mb4PUID PUID=0;
-/*
 	Mb4PUIDList PUIDList=0;
-*/
 	Mb4Query Query=0;
 	Mb4Rating Rating=0;
 /*
@@ -300,6 +298,21 @@ void CompileTest()
 	DummyInt=mb4_rating_get_votescount(Rating);
 	DummyDouble=mb4_rating_get_rating(Rating);
 	mb4_rating_delete(Rating);
+
+	mb4_recording_get_id(Recording,Str,Size);
+	mb4_recording_get_title(Recording,Str,Size);
+	mb4_recording_get_length(Recording,Str,Size);
+	mb4_recording_get_disambiguation(Recording,Str,Size);
+	ArtistCredit=mb4_recording_get_artistcredit(Recording);
+	ReleaseList=mb4_recording_get_releaselist(Recording);
+	PUIDList=mb4_recording_get_puidlist(Recording);
+	ISRCList=mb4_recording_get_isrclist(Recording);
+	RelationList=mb4_recording_get_relationlist(Recording);
+	TagList=mb4_recording_get_taglist(Recording);
+	UserTagList=mb4_recording_get_usertaglist(Recording);
+	Rating=mb4_recording_get_rating(Recording);
+	UserRating=mb4_recording_get_userrating(Recording);
+	mb4_recording_delete(Recording);
 
 	mb4_alias_list_size(AliasList);
 	Alias=mb4_alias_list_item(AliasList,0);
