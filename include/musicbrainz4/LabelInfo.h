@@ -33,6 +33,8 @@
 
 namespace MusicBrainz4
 {
+	class CLabelInfoPrivate;
+	
 	class CLabel;
 
 	class CLabelInfo
@@ -48,9 +50,8 @@ namespace MusicBrainz4
 
 	private:
 		void Cleanup();
-
-		std::string m_CatalogNumber;
-		CLabel *m_Label;
+		
+		CLabelInfoPrivate * const m_d;
 	};
 }
 

@@ -27,8 +27,20 @@
 
 #include "musicbrainz4/Label.h"
 
+class MusicBrainz4::CLabelInfoPrivate
+{
+	public:
+		CLabelInfoPrivate()
+		:	m_Label(0)
+		{
+		}
+		
+		std::string m_CatalogNumber;
+		CLabel *m_Label;
+};
+		
 MusicBrainz4::CLabelInfo::CLabelInfo(const XMLNode& Node)
-:	m_Label(0)
+:	m_d(new CLabelInfoPrivate)
 {
 	if (!Node.isEmpty())
 	{
@@ -44,11 +56,11 @@ MusicBrainz4::CLabelInfo::CLabelInfo(const XMLNode& Node)
 
 			if ("catalog-number"==NodeName)
 			{
-				m_CatalogNumber=NodeValue;
+				m_d->m_CatalogNumber=NodeValue;
 			}
 			else if ("label"==NodeName)
 			{
-				m_Label=new CLabel(ChildNode);
+				m_d->m_Label=new CLabel(ChildNode);
 			}
 			else
 			{
@@ -59,7 +71,7 @@ MusicBrainz4::CLabelInfo::CLabelInfo(const XMLNode& Node)
 }
 
 MusicBrainz4::CLabelInfo::CLabelInfo(const CLabelInfo& Other)
-:	m_Label(0)
+:	m_d(new CLabelInfoPrivate)
 {
 	*this=Other;
 }
@@ -70,10 +82,10 @@ MusicBrainz4::CLabelInfo& MusicBrainz4::CLabelInfo::operator =(const CLabelInfo&
 	{
 		Cleanup();
 
-		m_CatalogNumber=Other.m_CatalogNumber;
+		m_d->m_CatalogNumber=Other.m_d->m_CatalogNumber;
 
-		if (Other.m_Label)
-			m_Label=new CLabel(*Other.m_Label);
+		if (Other.m_d->m_Label)
+			m_d->m_Label=new CLabel(*Other.m_d->m_Label);
 	}
 
 	return *this;
@@ -82,22 +94,24 @@ MusicBrainz4::CLabelInfo& MusicBrainz4::CLabelInfo::operator =(const CLabelInfo&
 MusicBrainz4::CLabelInfo::~CLabelInfo()
 {
 	Cleanup();
+	
+	delete m_d;
 }
 
 void MusicBrainz4::CLabelInfo::Cleanup()
 {
-	delete m_Label;
-	m_Label=0;
+	delete m_d->m_Label;
+	m_d->m_Label=0;
 }
 
 std::string MusicBrainz4::CLabelInfo::CatalogNumber() const
 {
-	return m_CatalogNumber;
+	return m_d->m_CatalogNumber;
 }
 
 MusicBrainz4::CLabel *MusicBrainz4::CLabelInfo::Label() const
 {
-	return m_Label;
+	return m_d->m_Label;
 }
 
 std::ostream& operator << (std::ostream& os, const MusicBrainz4::CLabelInfo& LabelInfo)
