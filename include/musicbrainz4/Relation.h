@@ -35,6 +35,8 @@
 
 namespace MusicBrainz4
 {
+	class CRelationPrivate;
+	
 	class CAttribute;
 	class CArtist;
 	class CRelease;
@@ -67,18 +69,7 @@ namespace MusicBrainz4
 	private:
 		void Cleanup();
 
-		std::string m_Type;
-		std::string m_Target;
-		std::string m_Direction;
-		CGenericList<CAttribute> *m_AttributeList;
-		std::string m_Begin;
-		std::string m_End;
-		CArtist *m_Artist;
-		CRelease *m_Release;
-		CReleaseGroup *m_ReleaseGroup;
-		CRecording *m_Recording;
-		CLabel *m_Label;
-		CWork *m_Work;
+		CRelationPrivate * const m_d;
 	};
 }
 
