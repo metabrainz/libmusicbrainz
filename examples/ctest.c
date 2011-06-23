@@ -86,7 +86,9 @@ void CompileTest()
 	Mb4CDStub CDStub=0;
 /*
 	Mb4CDStubList CDStubList=0;
+*/
 	Mb4Collection Collection=0;
+/*
 	Mb4CollectionList CollectionList=0;
 */
 	Mb4Disc Disc=0;
@@ -209,6 +211,13 @@ void CompileTest()
 	mb4_disc_get_id(Disc,Str,Size);
 	mb4_disc_get_sectors(Disc,Str,Size);
 	ReleaseList=mb4_disc_get_releaselist(Disc);
+	mb4_disc_delete(Disc);
+
+	mb4_collection_get_id(Collection,Str,Size);
+	mb4_collection_get_name(Collection,Str,Size);
+	mb4_collection_get_editor(Collection,Str,Size);
+	ReleaseList=mb4_collection_get_releaselist(Collection);
+	mb4_collection_delete(Collection);
 
 	mb4_alias_list_size(AliasList);
 	Alias=mb4_alias_list_item(AliasList,0);
