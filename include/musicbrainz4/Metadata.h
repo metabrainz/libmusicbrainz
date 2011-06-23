@@ -34,6 +34,8 @@
 
 namespace MusicBrainz4
 {
+	class CMetadataPrivate;
+	
 	class CArtist;
 	class CRelease;
 	class CReleaseGroup;
@@ -101,36 +103,8 @@ namespace MusicBrainz4
 
 	private:
 		void Cleanup();
-
-		std::string m_Generator;
-		std::string m_Created;
-		CArtist *m_Artist;
-		CRelease *m_Release;
-		CReleaseGroup *m_ReleaseGroup;
-		CRecording *m_Recording;
-		CLabel *m_Label;
-		CWork *m_Work;
-		CPUID *m_PUID;
-		CISRC *m_ISRC;
-		CDisc *m_Disc;
-		CGenericList<CLabelInfo> *m_LabelInfoList;
-		CRating *m_Rating;
-		CUserRating *m_UserRating;
-		CCollection *m_Collection;
-		CGenericList<CArtist> *m_ArtistList;
-		CGenericList<CRelease> *m_ReleaseList;
-		CGenericList<CReleaseGroup> *m_ReleaseGroupList;
-		CGenericList<CRecording> *m_RecordingList;
-		CGenericList<CLabel> *m_LabelList;
-		CGenericList<CWork> *m_WorkList;
-		CGenericList<CISRC> *m_ISRCList;
-		CGenericList<CAnnotation> *m_AnnotationList;
-		CGenericList<CCDStub> *m_CDStubList;
-		CGenericList<CFreeDBDisc> *m_FreeDBDiscList;
-		CGenericList<CTag> *m_TagList;
-		CGenericList<CUserTag> *m_UserTagList;
-		CGenericList<CCollection> *m_CollectionList;
-		CCDStub *m_CDStub;
+		
+		CMetadataPrivate * const m_d;
 	};
 }
 
