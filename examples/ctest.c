@@ -93,9 +93,7 @@ void CompileTest()
 	Mb4LabelList LabelList=0;
 	Mb4Lifespan Lifespan=0;
 	Mb4Medium Medium=0;
-/*
 	Mb4MediumList MediumList=0;
-*/
 	Mb4Metadata Metadata=0;
 	Mb4NameCredit NameCredit=0;
 	Mb4NameCreditList NameCreditList=0;
@@ -120,8 +118,8 @@ void CompileTest()
 	Mb4Tag Tag=0;
 */
 	Mb4TagList TagList=0;
-/*
 	Mb4TextRepresentation TextRepresentation=0;
+/*
 	Mb4Track Track=0;
 */
 	Mb4TrackList TrackList=0;
@@ -322,6 +320,26 @@ void CompileTest()
 	Recording=mb4_relation_get_recording(Relation);
 	Label=mb4_relation_get_label(Relation);
 	Work=mb4_relation_get_work(Relation);
+	mb4_relation_delete(Relation);
+
+	mb4_release_get_id(Release,Str,Size);
+	mb4_release_get_title(Release,Str,Size);
+	mb4_release_get_status(Release,Str,Size);
+	mb4_release_get_quality(Release,Str,Size);
+	mb4_release_get_disambiguation(Release,Str,Size);
+	mb4_release_get_packaging(Release,Str,Size);
+	TextRepresentation=mb4_release_get_textrepresentation(Release);
+	ArtistCredit=mb4_release_get_artistcredit(Release);
+	ReleaseGroup=mb4_release_get_releasegroup(Release);
+	mb4_release_get_date(Release,Str,Size);
+	mb4_release_get_country(Release,Str,Size);
+	mb4_release_get_barcode(Release,Str,Size);
+	mb4_release_get_asin(Release,Str,Size);
+	LabelInfoList=mb4_release_get_labelinfolist(Release);
+	MediumList=mb4_release_get_mediumlist(Release);
+	RelationList=mb4_release_get_relationlist(Release);
+	MediumList=mb4_release_media_matching_discid(Release,"discid");
+	mb4_release_delete(Release);
 
 	mb4_alias_list_size(AliasList);
 	Alias=mb4_alias_list_item(AliasList,0);

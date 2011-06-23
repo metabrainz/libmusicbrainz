@@ -273,6 +273,7 @@ extern "C"
 	Mb4LabelInfoList mb4_release_get_labelinfolist(Mb4Release Release);
 	Mb4MediumList mb4_release_get_mediumlist(Mb4Release Release);
 	Mb4RelationList mb4_release_get_relationlist(Mb4Release Release);
+	Mb4MediumList mb4_release_media_matching_discid(Mb4Release Release, const char *DiscID);
 
 	void mb4_relation_delete(Mb4Relation Relation);
 	void mb4_relation_get_type(Mb4Relation Relation, char *str, int len);
