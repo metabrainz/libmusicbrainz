@@ -204,6 +204,10 @@ void CompileTest()
 	NoneMBTrackList=mb4_cdstub_get_nonembtracklist(CDStub);
 	mb4_cdstub_delete(CDStub);
 
+	mb4_disc_get_id(Disc,Str,Size);
+	mb4_disc_get_sectors(Disc,Str,Size);
+	ReleaseList=mb4_disc_get_releaselist(Disc);
+
 	mb4_alias_list_size(AliasList);
 	Alias=mb4_alias_list_item(AliasList,0);
 	mb4_alias_list_delete(AliasList);
