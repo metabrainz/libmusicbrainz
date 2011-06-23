@@ -33,21 +33,22 @@
 
 namespace MusicBrainz4
 {
+	class CNoneMBTrackPrivate;
+	
 	class CNoneMBTrack
 	{
 	public:
 		CNoneMBTrack(const XMLNode& Node);
 		CNoneMBTrack(const CNoneMBTrack& Other);
 		CNoneMBTrack& operator =(const CNoneMBTrack& Other);
-
+		~CNoneMBTrack();
+		
 		std::string Title() const;
 		std::string Artist() const;
 		std::string Length() const;
 
 	private:
-		std::string m_Title;
-		std::string m_Artist;
-		std::string m_Length;
+		CNoneMBTrackPrivate * const m_d;
 	};
 }
 

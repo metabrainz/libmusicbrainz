@@ -25,7 +25,16 @@
 
 #include "musicbrainz4/NoneMBTrack.h"
 
+class MusicBrainz4::CNoneMBTrackPrivate
+{
+	public:
+		std::string m_Title;
+		std::string m_Artist;
+		std::string m_Length;
+};
+
 MusicBrainz4::CNoneMBTrack::CNoneMBTrack(const XMLNode& Node)
+:	m_d(new CNoneMBTrackPrivate)
 {
 	if (!Node.isEmpty())
 	{
@@ -41,15 +50,15 @@ MusicBrainz4::CNoneMBTrack::CNoneMBTrack(const XMLNode& Node)
 
 			if ("title"==NodeName)
 			{
-				m_Title=NodeValue;
+				m_d->m_Title=NodeValue;
 			}
 			else if ("artist"==NodeName)
 			{
-				m_Artist=NodeValue;
+				m_d->m_Artist=NodeValue;
 			}
 			else if ("length"==NodeName)
 			{
-				m_Length=NodeValue;
+				m_d->m_Length=NodeValue;
 			}
 			else
 			{
@@ -60,6 +69,7 @@ MusicBrainz4::CNoneMBTrack::CNoneMBTrack(const XMLNode& Node)
 }
 
 MusicBrainz4::CNoneMBTrack::CNoneMBTrack(const CNoneMBTrack& Other)
+:	m_d(new CNoneMBTrackPrivate)
 {
 	*this=Other;
 }
@@ -68,27 +78,32 @@ MusicBrainz4::CNoneMBTrack& MusicBrainz4::CNoneMBTrack::operator =(const CNoneMB
 {
 	if (this!=&Other)
 	{
-		m_Title=Other.m_Title;
-		m_Artist=Other.m_Artist;
-		m_Length=Other.m_Length;
+		m_d->m_Title=Other.m_d->m_Title;
+		m_d->m_Artist=Other.m_d->m_Artist;
+		m_d->m_Length=Other.m_d->m_Length;
 	}
 
 	return *this;
 }
 
+MusicBrainz4::CNoneMBTrack::~CNoneMBTrack()
+{
+	delete m_d;
+}
+
 std::string MusicBrainz4::CNoneMBTrack::Title() const
 {
-	return m_Title;
+	return m_d->m_Title;
 }
 
 std::string MusicBrainz4::CNoneMBTrack::Artist() const
 {
-	return m_Artist;
+	return m_d->m_Artist;
 }
 
 std::string MusicBrainz4::CNoneMBTrack::Length() const
 {
-	return m_Length;
+	return m_d->m_Length;
 }
 
 std::ostream& operator << (std::ostream& os, const MusicBrainz4::CNoneMBTrack& NoneMBTrack)
