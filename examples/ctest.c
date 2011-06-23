@@ -75,8 +75,8 @@ void CompileTest()
 	Mb4AnnotationList AnnotationList=0;
 */
 	Mb4Artist Artist=0;
-/*
 	Mb4ArtistCredit ArtistCredit=0;
+/*
 	Mb4ArtistList ArtistList=0;
 	Mb4Attribute Attribute=0;
 	Mb4AttributeList AttributeList=0;
@@ -101,7 +101,9 @@ void CompileTest()
 	Mb4MediumList MediumList=0;
 	Mb4Metadata Metadata=0;
 	Mb4NameCredit NameCredit=0;
+*/
 	Mb4NameCreditList NameCreditList=0;
+/*
 	Mb4NoneMBTrack NoneMBTrack=0;
 	Mb4NoneMBTrackList NoneMBTrackList=0;
 	Mb4PUID PUID=0;
@@ -180,6 +182,10 @@ void CompileTest()
 	UserTagList=mb4_artist_get_usertaglist(Artist);
 	Rating=mb4_artist_get_rating(Artist);
 	UserRating=mb4_artist_get_userrating(Artist);
+	mb4_artist_delete(Artist);
+
+	NameCreditList=mb4_artistcredit_get_namecreditlist(ArtistCredit);
+	mb4_artistcredit_delete(ArtistCredit);
 
 	mb4_alias_list_size(AliasList);
 	Alias=mb4_alias_list_item(AliasList,0);
