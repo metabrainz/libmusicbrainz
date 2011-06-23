@@ -114,9 +114,7 @@ void CompileTest()
 	Mb4Tag Tag=0;
 	Mb4TagList TagList=0;
 	Mb4TextRepresentation TextRepresentation=0;
-/*
 	Mb4Track Track=0;
-*/
 	Mb4TrackList TrackList=0;
 	Mb4UserRating UserRating=0;
 /*
@@ -356,6 +354,14 @@ void CompileTest()
 	mb4_textrepresentation_get_language(TextRepresentation,Str,Size);
 	mb4_textrepresentation_get_script(TextRepresentation,Str,Size);
 	mb4_textrepresentation_delete(TextRepresentation);
+
+	DummyInt=mb4_track_get_position(Track);
+	mb4_track_get_title(Track,Str,Size);
+	Recording=mb4_track_get_recording(Track);
+	mb4_track_delete(Track);
+
+	DummyInt=mb4_userrating_get_userrating(UserRating);
+	mb4_userrating_delete(UserRating);
 
 	mb4_alias_list_size(AliasList);
 	Alias=mb4_alias_list_item(AliasList,0);
