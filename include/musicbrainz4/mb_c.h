@@ -39,6 +39,7 @@ extern "C"
 	typedef void *Mb4ArtistCredit;
 	typedef void *Mb4ArtistList;
 	typedef void *Mb4Attribute;
+	typedef void *Mb4AttributeList;
 	typedef void *Mb4CDStub;
 	typedef void *Mb4CDStubList;
 	typedef void *Mb4Collection;
@@ -273,6 +274,20 @@ extern "C"
 	Mb4MediumList mb4_release_get_mediumlist(Mb4Release Release);
 	Mb4RelationList mb4_release_get_relationlist(Mb4Release Release);
 
+	void mb4_relation_delete(Mb4Relation Relation);
+	void mb4_relation_get_type(Mb4Relation Relation, char *str, int len);
+	void mb4_relation_get_target(Mb4Relation Relation, char *str, int len);
+	void mb4_relation_get_direction(Mb4Relation Relation, char *str, int len);
+	Mb4AttributeList mb4_relation_get_attributelist(Mb4Relation Relation);
+	void mb4_relation_get_begin(Mb4Relation Relation, char *str, int len);
+	void mb4_relation_get_end(Mb4Relation Relation, char *str, int len);
+	Mb4Artist mb4_relation_get_artist(Mb4Relation Relation);
+	Mb4Release mb4_relation_get_release(Mb4Relation Relation);
+	Mb4ReleaseGroup mb4_relation_get_releasegroup(Mb4Relation Relation);
+	Mb4Recording mb4_relation_get_recording(Mb4Relation Relation);
+	Mb4Label mb4_relation_get_label(Mb4Relation Relation);
+	Mb4Work mb4_relation_get_work(Mb4Relation Relation);
+
 	int mb4_alias_list_size(Mb4AliasList List);
 	Mb4Alias mb4_alias_list_item(Mb4AliasList List, int Item);
 
@@ -281,6 +296,9 @@ extern "C"
 
 	int mb4_artist_list_size(Mb4ArtistList List);
 	Mb4Artist mb4_artist_list_item(Mb4ArtistList List, int Item);
+
+	int mb4_attribute_list_size(Mb4AttributeList List);
+	Mb4Attribute mb4_attribute_list_item(Mb4AttributeList List, int Item);
 
 	int mb4_cdstub_list_size(Mb4CDStubList List);
 	Mb4CDStub mb4_cdstub_list_item(Mb4CDStubList List, int Item);
