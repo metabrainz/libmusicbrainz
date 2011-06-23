@@ -345,6 +345,24 @@ Mb4Query mb4_query_new(const char *Server)
 
 MB4_C_DELETE(Query,query)
 
+Mb4ReleaseList mb4_query_lookup_disc_id(Mb4Query Query, const char *DiscID)
+{
+	MusicBrainz4::CQuery *TheQuery=reinterpret_cast<MusicBrainz4::CQuery *>(Query);
+	if (TheQuery)
+		return new MusicBrainz4::CGenericList<MusicBrainz4::CRelease>(TheQuery->LookupDiscID(DiscID));
+
+	return 0;
+}
+
+Mb4Release mb4_query_lookup_release(Mb4Query Query, const char *Release)
+{
+	MusicBrainz4::CQuery *TheQuery=reinterpret_cast<MusicBrainz4::CQuery *>(Query);
+	if (TheQuery)
+		return new MusicBrainz4::CRelease(TheQuery->LookupRelease(Release));
+
+	return 0;
+}
+
 Mb4Metadata mb4_query_query(Mb4Query Query, const char *Resource, const char *ID, int NumParams, char **ParamName, char **ParamValue)
 {
 	MusicBrainz4::CQuery::tParamMap Params;

@@ -233,6 +233,8 @@ extern "C"
 
 	Mb4Query mb4_query_new(const char *Server);
 	void mb4_query_delete(Mb4Query Query);
+	Mb4ReleaseList mb4_query_lookup_disc_id(Mb4Query Query, const char *DiscID);
+	Mb4Release mb4_query_lookup_release(Mb4Query Query, const char *Release);
 	Mb4Metadata mb4_query_query(Mb4Query Query, const char *Resource, const char *ID, int NumParams, char **ParamNames, char **ParamValues);
 
 	void mb4_release_delete(Mb4Release Release);
