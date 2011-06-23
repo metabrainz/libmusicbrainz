@@ -353,72 +353,95 @@ extern "C"
 	Mb4Rating mb4_work_get_rating(Mb4Work Work);
 	Mb4UserRating mb4_work_get_userrating(Mb4Work Work);
 
+	void mb4_alias_list_delete(Mb4AliasList List);
 	int mb4_alias_list_size(Mb4AliasList List);
 	Mb4Alias mb4_alias_list_item(Mb4AliasList List, int Item);
 
+	void mb4_annotation_list_delete(Mb4AnnotationList List);
 	int mb4_annotation_list_size(Mb4AnnotationList List);
 	Mb4Annotation mb4_annoation_list_item(Mb4AnnotationList List, int Item);
 
+	void mb4_artist_list_delete(Mb4ArtistList List);
 	int mb4_artist_list_size(Mb4ArtistList List);
 	Mb4Artist mb4_artist_list_item(Mb4ArtistList List, int Item);
 
+	void mb4_attribute_list_delete(Mb4AttributeList List);
 	int mb4_attribute_list_size(Mb4AttributeList List);
 	Mb4Attribute mb4_attribute_list_item(Mb4AttributeList List, int Item);
 
+	void mb4_cdstub_list_delete(Mb4CDStubList List);
 	int mb4_cdstub_list_size(Mb4CDStubList List);
 	Mb4CDStub mb4_cdstub_list_item(Mb4CDStubList List, int Item);
 
+	void mb4_collection_list_delete(Mb4CollectionList List);
 	int mb4_collection_list_size(Mb4CollectionList List);
 	Mb4Collection mb4_collection_list_item(Mb4CollectionList List, int Item);
 
+	void mb4_disc_list_delete(Mb4DiscList List);
 	int mb4_disc_list_size(Mb4DiscList List);
 	Mb4Disc mb4_disc_list_item(Mb4DiscList List, int Item);
 
+	void mb4_freedbdisc_list_delete(Mb4FreeDBDiscList List);
 	int mb4_freedbdisc_list_size(Mb4FreeDBDiscList List);
 	Mb4FreeDBDisc mb4_freedbdisc_list_item(Mb4FreeDBDiscList List, int Item);
 
+	void mb4_isrc_list_delete(Mb4ISRCList List);
 	int mb4_isrc_list_size(Mb4ISRCList List);
 	Mb4ISRC mb4_isrc_list_item(Mb4ISRCList List, int Item);
 
+	void mb4_label_list_delete(Mb4LabelList List);
 	int mb4_label_list_size(Mb4LabelList List);
 	Mb4Label mb4_label_list_item(Mb4LabelList List, int Item);
 
+	void mb4_labelinfo_list_delete(Mb4LabelInfoList List);
 	int mb4_labelinfo_list_size(Mb4LabelInfoList List);
 	Mb4LabelInfo mb4_labelinfo_list_item(Mb4LabelInfoList List, int Item);
 
+	void mb4_medium_list_delete(Mb4MediumList List);
 	int mb4_medium_list_size(Mb4MediumList List);
 	Mb4Medium mb4_medium_list_item(Mb4MediumList List, int Item);
 
+	void mb4_namecredit_list_delete(Mb4NameCreditList List);
 	int mb4_namecredit_list_size(Mb4NameCreditList List);
 	Mb4NameCredit mb4_namecredit_list_item(Mb4NameCreditList List, int Item);
 
+	void mb4_nonembtrack_list_delete(Mb4NoneMBTrackList List);
 	int mb4_nonembtrack_list_size(Mb4NoneMBTrackList List);
 	Mb4NoneMBTrack mb4_nonembtrack_list_item(Mb4NoneMBTrackList List, int Item);
 
+	void mb4_puid_list_delete(Mb4PUIDList List);
 	int mb4_puid_list_size(Mb4PUIDList List);
 	Mb4PUID mb4_puid_list_item(Mb4PUIDList List, int Item);
 
+	void mb4_recording_list_delete(Mb4RecordingList List);
 	int mb4_recording_list_size(Mb4RecordingList List);
 	Mb4Recording mb4_recording_list_item(Mb4RecordingList List, int Item);
 
+	void mb4_relation_list_delete(Mb4RelationList List);
 	int mb4_relation_list_size(Mb4RelationList List);
 	Mb4Relation mb4_relation_list_item(Mb4RelationList List, int Item);
 
-	int mb4_releasegroup_list_size(Mb4ReleaseGroupList List);
-	Mb4ReleaseGroup mb4_releasegroup_list_item(Mb4ReleaseGroupList List, int Item);
-
+	void mb4_release_list_delete(Mb4ReleaseList List);
 	int mb4_release_list_size(Mb4ReleaseList List);
 	Mb4Release mb4_release_list_item(Mb4ReleaseList List, int Item);
 
+	void mb4_releasegroup_list_delete(Mb4ReleaseGroupList List);
+	int mb4_releasegroup_list_size(Mb4ReleaseGroupList List);
+	Mb4ReleaseGroup mb4_releasegroup_list_item(Mb4ReleaseGroupList List, int Item);
+
+	void mb4_tag_list_delete(Mb4TagList List);
 	int mb4_tag_list_size(Mb4TagList List);
 	Mb4Tag mb4_tag_list_item(Mb4TagList List, int Item);
 
+	void mb4_track_list_delete(Mb4TrackList List);
 	int mb4_track_list_size(Mb4TrackList List);
 	Mb4Track mb4_track_list_item(Mb4TrackList List, int Item);
 
+	void mb4_usertag_list_delete(Mb4UserTagList List);
 	int mb4_usertag_list_size(Mb4UserTagList List);
 	Mb4UserTag mb4_usertag_list_item(Mb4UserTagList List, int Item);
 
+	void mb4_work_list_delete(Mb4WorkList List);
 	int mb4_work_list_size(Mb4WorkList List);
 	Mb4Work mb4_work_list_item(Mb4WorkList List, int Item);
 
