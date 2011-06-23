@@ -222,6 +222,11 @@ extern "C"
 	void mb4_namecredit_get_name(Mb4NameCredit NameCredit, char *str, int len);
 	Mb4Artist mb4_namecredit_get_artist(Mb4NameCredit NameCredit);
 
+	void mb4_nonembtrack_delete(Mb4NoneMBTrack NoneMBTrack);
+	void mb4_nonembtrack_get_title(Mb4NoneMBTrack NoneMBTrack, char *str, int len);
+	void mb4_nonembtrack_get_artist(Mb4NoneMBTrack NoneMBTrack, char *str, int len);
+	void mb4_nonembtrack_get_length(Mb4NoneMBTrack NoneMBTrack, char *str, int len);
+
 	Mb4Query mb4_query_new(const char *Server);
 	void mb4_query_delete(Mb4Query Query);
 	Mb4Metadata mb4_query_query(Mb4Query Query, const char *Resource, const char *ID, int NumParams, char **ParamNames, char **ParamValues);

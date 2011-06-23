@@ -328,6 +328,11 @@ MB4_C_STR_GETTER(NameCredit,namecredit,JoinPhrase,joinphrase)
 MB4_C_STR_GETTER(NameCredit,namecredit,Name,name)
 MB4_C_OBJ_GETTER(NameCredit,namecredit,Artist,artist)
 
+MB4_C_DELETE(NoneMBTrack,nonembtrack)
+MB4_C_STR_GETTER(NoneMBTrack,nonembtrack,Title,title)
+MB4_C_STR_GETTER(NoneMBTrack,nonembtrack,Artist,artist)
+MB4_C_STR_GETTER(NoneMBTrack,nonembtrack,Length,length)
+
 Mb4Query mb4_query_new(const char *Server)
 {
 	return new MusicBrainz4::CQuery(Server ? Server : "www.musicbrainz.org");
