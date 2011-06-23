@@ -35,6 +35,8 @@
 
 namespace MusicBrainz4
 {
+	class CLabelPrivate;
+	
 	class CLifespan;
 	class CAlias;
 	class CRelease;
@@ -71,21 +73,7 @@ namespace MusicBrainz4
 	private:
 		void Cleanup();
 
-		std::string m_ID;
-		std::string m_Type;
-		std::string m_Name;
-		std::string m_SortName;
-		std::string m_LabelCode;
-		std::string m_Disambiguation;
-		std::string m_Country;
-		CLifespan *m_Lifespan;
-		CGenericList<CAlias> *m_AliasList;
-		CGenericList<CRelease> *m_ReleaseList;
-		CGenericList<CRelation> *m_RelationList;
-		CGenericList<CTag> *m_TagList;
-		CGenericList<CUserTag> *m_UserTagList;
-		CRating *m_Rating;
-		CUserRating *m_UserRating;
+		CLabelPrivate * const m_d;
 	};
 }
 
