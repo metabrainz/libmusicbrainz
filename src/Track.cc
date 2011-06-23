@@ -29,8 +29,21 @@
 
 #include "musicbrainz4/Recording.h"
 
+class MusicBrainz4::CTrackPrivate
+{
+	public:
+		CTrackPrivate()
+		:	m_Recording(0)
+		{
+		}
+		
+		int m_Position;
+		std::string m_Title;
+		CRecording *m_Recording;
+};
+
 MusicBrainz4::CTrack::CTrack(const XMLNode& Node)
-:	m_Recording(0)
+:	m_d(new CTrackPrivate)
 {
 	if (!Node.isEmpty())
 	{
@@ -48,15 +61,15 @@ MusicBrainz4::CTrack::CTrack(const XMLNode& Node)
 			{
 				std::stringstream os;
 				os << NodeValue;
-				os >> m_Position;
+				os >> m_d->m_Position;
 			}
 			else if ("title"==NodeName)
 			{
-				m_Title=NodeValue;
+				m_d->m_Title=NodeValue;
 			}
 			else if ("recording"==NodeName)
 			{
-				m_Recording=new CRecording(ChildNode);
+				m_d->m_Recording=new CRecording(ChildNode);
 			}
 			else
 			{
@@ -67,7 +80,7 @@ MusicBrainz4::CTrack::CTrack(const XMLNode& Node)
 }
 
 MusicBrainz4::CTrack::CTrack(const CTrack& Other)
-:	m_Recording(0)
+:	m_d(new CTrackPrivate)
 {
 	*this=Other;
 }
@@ -78,11 +91,11 @@ MusicBrainz4::CTrack& MusicBrainz4::CTrack::operator =(const CTrack& Other)
 	{
 		Cleanup();
 
-		m_Position=Other.m_Position;
-		m_Title=Other.m_Title;
+		m_d->m_Position=Other.m_d->m_Position;
+		m_d->m_Title=Other.m_d->m_Title;
 
-		if (Other.m_Recording)
-			m_Recording=new CRecording(*Other.m_Recording);
+		if (Other.m_d->m_Recording)
+			m_d->m_Recording=new CRecording(*Other.m_d->m_Recording);
 	}
 
 	return *this;
@@ -91,27 +104,29 @@ MusicBrainz4::CTrack& MusicBrainz4::CTrack::operator =(const CTrack& Other)
 MusicBrainz4::CTrack::~CTrack()
 {
 	Cleanup();
+	
+	delete m_d;
 }
 
 void MusicBrainz4::CTrack::Cleanup()
 {
-	delete m_Recording;
-	m_Recording=0;
+	delete m_d->m_Recording;
+	m_d->m_Recording=0;
 }
 
 int MusicBrainz4::CTrack::Position() const
 {
-	return m_Position;
+	return m_d->m_Position;
 }
 
 std::string MusicBrainz4::CTrack::Title() const
 {
-	return m_Title;
+	return m_d->m_Title;
 }
 
 MusicBrainz4::CRecording *MusicBrainz4::CTrack:: Recording() const
 {
-	return m_Recording;
+	return m_d->m_Recording;
 }
 
 std::ostream& operator << (std::ostream& os, const MusicBrainz4::CTrack& Track)
