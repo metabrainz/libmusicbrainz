@@ -94,7 +94,9 @@ void CompileTest()
 	Mb4Disc Disc=0;
 /*
 	Mb4DiscList DiscList=0;
+*/
 	Mb4FreeDBDisc FreeDBDisc=0;
+/*
 	Mb4FreeDBDiscList FreeDBDiscList=0;
 	Mb4ISRC ISRC=0;
 	Mb4ISRCList ISRCList=0;
@@ -218,6 +220,13 @@ void CompileTest()
 	mb4_collection_get_editor(Collection,Str,Size);
 	ReleaseList=mb4_collection_get_releaselist(Collection);
 	mb4_collection_delete(Collection);
+
+	mb4_freedbdisc_get_id(FreeDBDisc,Str,Size);
+	mb4_freedbdisc_get_title(FreeDBDisc,Str,Size);
+	mb4_freedbdisc_get_artist(FreeDBDisc,Str,Size);
+	mb4_freedbdisc_get_category(FreeDBDisc,Str,Size);
+	mb4_freedbdisc_get_year(FreeDBDisc,Str,Size);
+	NoneMBTrackList=mb4_freedbdisc_get_nonembtracklist(FreeDBDisc);
 
 	mb4_alias_list_size(AliasList);
 	Alias=mb4_alias_list_item(AliasList,0);

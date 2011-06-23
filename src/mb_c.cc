@@ -264,7 +264,7 @@ MB4_C_STR_GETTER(FreeDBDisc,freedbdisc,Title,title)
 MB4_C_STR_GETTER(FreeDBDisc,freedbdisc,Artist,artist)
 MB4_C_STR_GETTER(FreeDBDisc,freedbdisc,Category,category)
 MB4_C_STR_GETTER(FreeDBDisc,freedbdisc,Year,year)
-MB4_C_OBJ_GETTER(FreeDBDisc,freedbdisc,NoneMBTrackList,NoneMBTrackList)
+MB4_C_OBJ_GETTER(FreeDBDisc,freedbdisc,NoneMBTrackList,nonembtracklist)
 
 MB4_C_DELETE(ISRC,isrc)
 MB4_C_STR_GETTER(ISRC,isrc,ID,id)
