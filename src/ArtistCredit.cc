@@ -25,19 +25,30 @@
 
 #include "musicbrainz4/ArtistCredit.h"
 
+class MusicBrainz4::CArtistCreditPrivate
+{
+	public:
+		CArtistCreditPrivate()
+		:	m_NameCreditList(0)
+		{
+		}
+		
+		CGenericList<CNameCredit> *m_NameCreditList;
+};
+		
 MusicBrainz4::CArtistCredit::CArtistCredit(const XMLNode& Node)
-:	m_NameCreditList(0)
+:	m_d(new CArtistCreditPrivate)
 {
 	if (!Node.isEmpty())
 	{
 		//std::cout << "Artist credit node: " << std::endl << Node.createXMLString(true) << std::endl;
 
-		m_NameCreditList=new CGenericList<CNameCredit>(Node,"name-credit");
+		m_d->m_NameCreditList=new CGenericList<CNameCredit>(Node,"name-credit");
 	}
 }
 
 MusicBrainz4::CArtistCredit::CArtistCredit(const CArtistCredit& Other)
-:	m_NameCreditList(0)
+:	m_d(new CArtistCreditPrivate)
 {
 	*this=Other;
 }
@@ -48,8 +59,8 @@ MusicBrainz4::CArtistCredit& MusicBrainz4::CArtistCredit::operator =(const CArti
 	{
 		Cleanup();
 
-		if (Other.m_NameCreditList)
-			m_NameCreditList=new CGenericList<CNameCredit>(*Other.m_NameCreditList);
+		if (Other.m_d->m_NameCreditList)
+			m_d->m_NameCreditList=new CGenericList<CNameCredit>(*Other.m_d->m_NameCreditList);
 	}
 
 	return *this;
@@ -58,17 +69,19 @@ MusicBrainz4::CArtistCredit& MusicBrainz4::CArtistCredit::operator =(const CArti
 MusicBrainz4::CArtistCredit::~CArtistCredit()
 {
 	Cleanup();
+	
+	delete m_d;
 }
 
 void MusicBrainz4::CArtistCredit::Cleanup()
 {
-	delete m_NameCreditList;
-	m_NameCreditList=0;
+	delete m_d->m_NameCreditList;
+	m_d->m_NameCreditList=0;
 }
 
 MusicBrainz4::CGenericList<MusicBrainz4::CNameCredit> *MusicBrainz4::CArtistCredit::NameCreditList() const
 {
-	return m_NameCreditList;
+	return m_d->m_NameCreditList;
 }
 
 std::ostream& operator << (std::ostream& os, const MusicBrainz4::CArtistCredit& ArtistCredit)

@@ -35,6 +35,8 @@
 
 namespace MusicBrainz4
 {
+	class CArtistCreditPrivate;
+	
 	class CArtistCredit
 	{
 	public:
@@ -48,7 +50,7 @@ namespace MusicBrainz4
 	private:
 		void Cleanup();
 
-		CGenericList<CNameCredit> *m_NameCreditList;
+		CArtistCreditPrivate *m_d;
 	};
 }
 
