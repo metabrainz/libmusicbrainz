@@ -62,6 +62,7 @@ extern "C"
 	typedef void *Mb4NoneMBTrack;
 	typedef void *Mb4NoneMBTrackList;
 	typedef void *Mb4PUID;
+	typedef void *Mb4PUIDList;
 	typedef void *Mb4Query;
 	typedef void *Mb4Rating;
 	typedef void *Mb4RatingList;
@@ -241,6 +242,21 @@ extern "C"
 	int mb4_rating_get_votescount(Mb4Rating Rating);
 	double mb4_rating_get_rating(Mb4Rating Rating);
 
+	void mb4_recording_delete(Mb4Recording Recording);
+	void mb4_recording_get_id(Mb4Recording Recording, char *str, int len);
+	void mb4_recording_get_title(Mb4Recording Recording, char *str, int len);
+	void mb4_recording_get_length(Mb4Recording Recording, char *str, int len);
+	void mb4_recording_get_disambiguation(Mb4Recording Recording, char *str, int len);
+	Mb4ArtistCredit mb4_recording_get_artistcredit(Mb4Recording Recording);
+	Mb4ReleaseList mb4_recording_get_releaselist(Mb4Recording Recording);
+	Mb4PUIDList mb4_recording_get_puidlist(Mb4Recording Recording);
+	Mb4ISRCList mb4_recording_get_isrclist(Mb4Recording Recording);
+	Mb4RelationList mb4_recording_get_relationlist(Mb4Recording Recording);
+	Mb4TagList mb4_recording_get_taglist(Mb4Recording Recording);
+	Mb4UserTagList mb4_recording_get_usertaglist(Mb4Recording Recording);
+	Mb4Rating mb4_recording_get_rating(Mb4Recording Recording);
+	Mb4UserRating mb4_recording_get_userrating(Mb4Recording Recording);
+
 	void mb4_release_delete(Mb4Release Release);
 	void mb4_release_get_id(Mb4Release Release, char *str, int len);
 	void m4b_release_get_title(Mb4Release Release, char *str, int len);
@@ -290,11 +306,14 @@ extern "C"
 	int mb4_medium_list_size(Mb4MediumList List);
 	Mb4Medium mb4_medium_list_item(Mb4MediumList List, int Item);
 
+	int mb4_namecredit_list_size(Mb4NameCreditList List);
+	Mb4NameCredit mb4_namecredit_list_item(Mb4NameCreditList List, int Item);
+
 	int mb4_nonembtrack_list_size(Mb4NoneMBTrackList List);
 	Mb4NoneMBTrack mb4_nonembtrack_list_item(Mb4NoneMBTrackList List, int Item);
 
-	int mb4_namecredit_list_size(Mb4NameCreditList List);
-	Mb4NameCredit mb4_namecredit_list_item(Mb4NameCreditList List, int Item);
+	int mb4_puid_list_size(Mb4PUIDList List);
+	Mb4PUID mb4_puid_list_item(Mb4PUIDList List, int Item);
 
 	int mb4_recording_list_size(Mb4RecordingList List);
 	Mb4Recording mb4_recording_list_item(Mb4RecordingList List, int Item);
