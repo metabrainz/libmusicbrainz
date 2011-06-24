@@ -23,6 +23,7 @@
 
 ----------------------------------------------------------------------------*/
 
+//http://musicbrainz.org/doc/XML_Web_Service/Version_2
 //http://bugs.musicbrainz.org/browser/mmd-schema/trunk/schema/musicbrainz_mmd-2.0.rng
 //http://wiki.musicbrainz.org/Picard_Tag_Mapping
 
