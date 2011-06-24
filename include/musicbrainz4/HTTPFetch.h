@@ -32,13 +32,13 @@
 namespace MusicBrainz4
 {
 	class CHTTPFetchPrivate;
-	
+
 	class CHTTPFetch
 	{
 	public:
-		CHTTPFetch(const std::string& Host, int Port=80);
+		CHTTPFetch(const std::string& UserAgent, const std::string& Host, int Port=80);
 		~CHTTPFetch();
-	
+
 		void SetUserName(const std::string& UserName);
 		void SetPassword(const std::string& Password);
 		void SetProxyHost(const std::string& ProxyHost);
@@ -50,10 +50,10 @@ namespace MusicBrainz4
 		int Result() const;
 		int Status() const;
 		std::string ErrorMessage() const;
-		
+
 	private:
 		CHTTPFetchPrivate * const m_d;
-		
+
 		static int httpAuth(void *userdata, const char *realm, int attempts, char *username, char *password);
 		static int proxyAuth(void *userdata, const char *realm, int attempts, char *username, char *password);
 		static int httpResponseReader(void *userdata, const char *buf, size_t len);

@@ -15,19 +15,22 @@ int main(int argc, const char *argv[])
 		DiscID[sizeof(DiscID)-1]='\0';
 	}
 
-	Query=mb4_query_new("www.musicbrainz.org");
+	Query=mb4_query_new("ctest",0,0);
 	if (Query)
 	{
 		Mb4Metadata Metadata=NULL;
 
 		printf("Got query\n");
 
+		mb4_query_set_username(Query,"username");
+		mb4_query_set_password(Query,"password");
+
 		Metadata=mb4_query_query(Query,"collection",0,0,NULL,NULL);
 		if (Metadata)
 		{
 			printf("Got collections");
 			mb4_metadata_delete(Metadata);
-			
+
 		}
 		Metadata=mb4_query_query(Query,"discid",DiscID,0,NULL,NULL);
 		if (Metadata)
@@ -281,7 +284,7 @@ void CompileTest()
 	RecordingList=mb4_puid_get_recordinglist(PUID);
 	mb4_puid_delete(PUID);
 
-	Query=mb4_query_new("server");
+	Query=mb4_query_new("useragent", "server",0);
 	mb4_query_set_username(Query,"");
 	mb4_query_set_password(Query,"");
 	mb4_query_set_proxyhost(Query,"");
@@ -372,7 +375,7 @@ void CompileTest()
 	DummyInt=mb4_track_get_length(Track);
 	ArtistCredit=mb4_track_get_artistcredit(Track);
 	mb4_track_delete(Track);
-	
+
 	DummyInt=mb4_userrating_get_userrating(UserRating);
 	mb4_userrating_delete(UserRating);
 

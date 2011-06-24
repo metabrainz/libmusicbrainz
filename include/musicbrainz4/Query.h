@@ -39,13 +39,13 @@
 namespace MusicBrainz4
 {
 	class CQueryPrivate;
-	
+
 	class CQuery
 	{
 	public:
 		typedef std::map<std::string,std::string> tParamMap;
 
-		CQuery(const std::string& Server="www.musicbrainz.org");
+		CQuery(const std::string& UserAgent, const std::string& Server="www.musicbrainz.org", int Port=80);
 		~CQuery();
 
 		void SetUserName(const std::string& UserName);

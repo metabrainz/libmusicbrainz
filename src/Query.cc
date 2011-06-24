@@ -38,15 +38,20 @@
 #include "musicbrainz4/HTTPFetch.h"
 #include "musicbrainz4/Disc.h"
 
+#include "config.h"
+
 class MusicBrainz4::CQueryPrivate
 {
 	public:
 		CQueryPrivate()
-		:	m_ProxyPort(0)
+		:	m_Port(80),
+			m_ProxyPort(0)
 		{
 		}
-		
+
+		std::string m_UserAgent;
 		std::string m_Server;
+		int m_Port;
 		std::string m_UserName;
 		std::string m_Password;
 		std::string m_ProxyHost;
@@ -55,10 +60,12 @@ class MusicBrainz4::CQueryPrivate
 		std::string m_ProxyPassword;
 };
 
-MusicBrainz4::CQuery::CQuery(const std::string& Server)
+MusicBrainz4::CQuery::CQuery(const std::string& UserAgent, const std::string& Server, int Port)
 :	m_d(new CQueryPrivate)
 {
+	m_d->m_UserAgent=UserAgent;
 	m_d->m_Server=Server;
+	m_d->m_Port=Port;
 }
 
 MusicBrainz4::CQuery::~CQuery()
@@ -102,26 +109,31 @@ MusicBrainz4::CMetadata MusicBrainz4::CQuery::PerformQuery(const std::string& Qu
 
 	CMetadata Metadata;
 
-	CHTTPFetch Fetch(m_d->m_Server);
+	std::string UserAgent=m_d->m_UserAgent;
+	if (!UserAgent.empty())
+		UserAgent+=" ";
+	UserAgent+=PACKAGE "/v" VERSION;
+
+	CHTTPFetch Fetch(UserAgent,m_d->m_Server,m_d->m_Port);
 
 	if (!m_d->m_UserName.empty())
 		Fetch.SetUserName(m_d->m_UserName);
-		
+
 	if (!m_d->m_Password.empty())
 		Fetch.SetPassword(m_d->m_Password);
-		
+
 	if (!m_d->m_ProxyHost.empty())
 		Fetch.SetProxyHost(m_d->m_ProxyHost);
-		
+
 	if (0!=m_d->m_ProxyPort)
 		Fetch.SetProxyPort(m_d->m_ProxyPort);
-		
+
 	if (!m_d->m_ProxyUserName.empty())
 		Fetch.SetProxyUserName(m_d->m_ProxyUserName);
-		
+
 	if (!m_d->m_ProxyPassword.empty())
 		Fetch.SetProxyPassword(m_d->m_ProxyPassword);
-		
+
 	int Ret=Fetch.Fetch(Query);
 	std::cout << "Ret: " << Ret << std::endl;
 

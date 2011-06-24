@@ -41,7 +41,7 @@
 
 int main(int argc, const char *argv[])
 {
-	MusicBrainz4::CQuery MB;
+	MusicBrainz4::CQuery MB("MBTest/v1.0");
 
 	std::string DiscID="arIS30RPWowvwNEqsqdDnZzDGhk-";
 

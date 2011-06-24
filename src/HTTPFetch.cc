@@ -32,11 +32,18 @@
 #include "ne_string.h"
 #include "ne_request.h"
 
-#include "config.h"
-
 class MusicBrainz4::CHTTPFetchPrivate
 {
 	public:
+		CHTTPFetchPrivate()
+		:	m_Port(80),
+			m_Result(0),
+			m_Status(0),
+			m_ProxyPort(0)
+		{
+		}
+
+		std::string m_UserAgent;
 		std::string m_Host;
 		int m_Port;
 		std::vector<unsigned char> m_Data;
@@ -51,25 +58,26 @@ class MusicBrainz4::CHTTPFetchPrivate
 		std::string m_ProxyPassword;
 };
 
-MusicBrainz4::CHTTPFetch::CHTTPFetch(const std::string& Host, int Port)
+MusicBrainz4::CHTTPFetch::CHTTPFetch(const std::string& UserAgent, const std::string& Host, int Port)
 :	m_d(new CHTTPFetchPrivate)
 {
+	m_d->m_UserAgent=UserAgent;
 	m_d->m_Host=Host;
 	m_d->m_Port=Port;
 
-	// Parse http_proxy environmnent variable	
+	// Parse http_proxy environmnent variable
 	const char *http_proxy = getenv("http_proxy");
-	if (http_proxy) 
+	if (http_proxy)
 	{
 		ne_uri uri;
-		if (!ne_uri_parse(http_proxy, &uri)) 
+		if (!ne_uri_parse(http_proxy, &uri))
 		{
 			if (uri.host)
-				m_d->m_ProxyHost = uri.host; 
+				m_d->m_ProxyHost = uri.host;
 			if (uri.port)
 				m_d->m_ProxyPort = uri.port;
 
-			if (uri.userinfo) 
+			if (uri.userinfo)
 			{
 				char *pos = strchr(uri.userinfo, ':');
 				if (pos)
@@ -78,7 +86,7 @@ MusicBrainz4::CHTTPFetch::CHTTPFetch(const std::string& Host, int Port)
 					m_d->m_ProxyUserName = uri.userinfo;
 					m_d->m_ProxyPassword = pos + 1;
 				}
-				else 
+				else
 				{
 					m_d->m_ProxyUserName = uri.userinfo;
 				}
@@ -135,17 +143,17 @@ int MusicBrainz4::CHTTPFetch::Fetch(const std::string& URL)
 	ne_session *sess=ne_session_create("http", m_d->m_Host.c_str(), m_d->m_Port);
 	if (sess)
 	{
-		ne_set_useragent(sess, PACKAGE "/v" VERSION);
+		ne_set_useragent(sess, m_d->m_UserAgent.c_str());
 
 		ne_set_server_auth(sess, httpAuth, this);
-		
+
 		// Use proxy server
-		if (!m_d->m_ProxyHost.empty()) 
+		if (!m_d->m_ProxyHost.empty())
 		{
 			ne_session_proxy(sess, m_d->m_ProxyHost.c_str(), m_d->m_ProxyPort);
 			ne_set_proxy_auth(sess, proxyAuth, this);
 		}
-	
+
 		ne_request *req = ne_request_create(sess, "GET", URL.c_str());
 		ne_add_response_body_reader(req, ne_accept_2xx, httpResponseReader, &m_d->m_Data);
 
@@ -169,19 +177,23 @@ int MusicBrainz4::CHTTPFetch::Fetch(const std::string& URL)
 int MusicBrainz4::CHTTPFetch::httpAuth(void *userdata, const char *realm, int attempts,
 					 char *username, char *password)
 {
+	realm=realm;
+
 	MusicBrainz4::CHTTPFetch *Fetch = (MusicBrainz4::CHTTPFetch *)userdata;
 	strncpy(username, Fetch->m_d->m_UserName.c_str(), NE_ABUFSIZ);
 	strncpy(password, Fetch->m_d->m_Password.c_str(), NE_ABUFSIZ);
-	return attempts;  	
+	return attempts;
 }
 
 int MusicBrainz4::CHTTPFetch::proxyAuth(void *userdata, const char *realm, int attempts,
 					 char *username, char *password)
 {
+	realm=realm;
+
 	MusicBrainz4::CHTTPFetch *Fetch = (MusicBrainz4::CHTTPFetch *)userdata;
 	strncpy(username, Fetch->m_d->m_ProxyUserName.c_str(), NE_ABUFSIZ);
 	strncpy(password, Fetch->m_d->m_ProxyPassword.c_str(), NE_ABUFSIZ);
-	return attempts;  	
+	return attempts;
 }
 
 int MusicBrainz4::CHTTPFetch::httpResponseReader(void *userdata, const char *buf, size_t len)

@@ -250,7 +250,7 @@ extern "C"
 	void mb4_puid_get_id(Mb4PUID PUID, char *str, int len);
 	Mb4RecordingList mb4_puid_get_recordinglist(Mb4PUID PUID);
 
-	Mb4Query mb4_query_new(const char *Server);
+	Mb4Query mb4_query_new(const char *UserAgent, const char *Server, int Port);
 	void mb4_query_delete(Mb4Query Query);
 	void mb4_query_set_username(Mb4Query Query, const char *UserName);
 	void mb4_query_set_password(Mb4Query Query, const char *Password);
