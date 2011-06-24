@@ -22,6 +22,13 @@ int main(int argc, const char *argv[])
 
 		printf("Got query\n");
 
+		Metadata=mb4_query_query(Query,"collection",0,0,NULL,NULL);
+		if (Metadata)
+		{
+			printf("Got collections");
+			mb4_metadata_delete(Metadata);
+			
+		}
 		Metadata=mb4_query_query(Query,"discid",DiscID,0,NULL,NULL);
 		if (Metadata)
 		{
@@ -275,6 +282,12 @@ void CompileTest()
 	mb4_puid_delete(PUID);
 
 	Query=mb4_query_new("server");
+	mb4_query_set_username(Query,"");
+	mb4_query_set_password(Query,"");
+	mb4_query_set_proxyhost(Query,"");
+	mb4_query_set_proxyport(Query,0);
+	mb4_query_set_proxyusername(Query,"");
+	mb4_query_set_proxypassword(Query,"");
 	ReleaseList=mb4_query_lookup_discid(Query,"discid");
 	Release=mb4_query_lookup_release(Query,"release");
 	Metadata=mb4_query_query(Query,"resource","id",0,0,0);

@@ -48,6 +48,13 @@ namespace MusicBrainz4
 		CQuery(const std::string& Server="www.musicbrainz.org");
 		~CQuery();
 
+		void SetUserName(const std::string& UserName);
+		void SetPassword(const std::string& Password);
+		void SetProxyHost(const std::string& ProxyHost);
+		void SetProxyPort(int ProxyPort);
+		void SetProxyUserName(const std::string& ProxyUserName);
+		void SetProxyPassword(const std::string& ProxyPassword);
+
 		CGenericList<CRelease> LookupDiscID(const std::string& DiscID);
 		CRelease LookupRelease(const std::string& Release);
 		CMetadata Query(const std::string& Resource,const std::string& ID,const tParamMap& Params=tParamMap());

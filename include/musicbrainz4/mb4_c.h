@@ -252,6 +252,12 @@ extern "C"
 
 	Mb4Query mb4_query_new(const char *Server);
 	void mb4_query_delete(Mb4Query Query);
+	void mb4_query_set_username(Mb4Query Query, const char *UserName);
+	void mb4_query_set_password(Mb4Query Query, const char *Password);
+	void mb4_query_set_proxyhost(Mb4Query Query, const char *ProxyHost);
+	void mb4_query_set_proxyport(Mb4Query Query, int ProxyPort);
+	void mb4_query_set_proxyusername(Mb4Query Query, const char *ProxyUserName);
+	void mb4_query_set_proxypassword(Mb4Query Query, const char *ProxyPassword);
 	Mb4ReleaseList mb4_query_lookup_discid(Mb4Query Query, const char *DiscID);
 	Mb4Release mb4_query_lookup_release(Mb4Query Query, const char *Release);
 	Mb4Metadata mb4_query_query(Mb4Query Query, const char *Resource, const char *ID, int NumParams, char **ParamNames, char **ParamValues);

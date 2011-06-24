@@ -40,7 +40,18 @@
 class MusicBrainz4::CQueryPrivate
 {
 	public:
+		CQueryPrivate()
+		:	m_ProxyPort(0)
+		{
+		}
+		
 		std::string m_Server;
+		std::string m_UserName;
+		std::string m_Password;
+		std::string m_ProxyHost;
+		int m_ProxyPort;
+		std::string m_ProxyUserName;
+		std::string m_ProxyPassword;
 };
 
 MusicBrainz4::CQuery::CQuery(const std::string& Server)
@@ -54,6 +65,36 @@ MusicBrainz4::CQuery::~CQuery()
 	delete m_d;
 }
 
+void MusicBrainz4::CQuery::SetUserName(const std::string& UserName)
+{
+	m_d->m_UserName=UserName;
+}
+
+void MusicBrainz4::CQuery::SetPassword(const std::string& Password)
+{
+	m_d->m_Password=Password;
+}
+
+void MusicBrainz4::CQuery::SetProxyHost(const std::string& ProxyHost)
+{
+	m_d->m_ProxyHost=ProxyHost;
+}
+
+void MusicBrainz4::CQuery::SetProxyPort(int ProxyPort)
+{
+	m_d->m_ProxyPort=ProxyPort;
+}
+
+void MusicBrainz4::CQuery::SetProxyUserName(const std::string& ProxyUserName)
+{
+	m_d->m_ProxyUserName=ProxyUserName;
+}
+
+void MusicBrainz4::CQuery::SetProxyPassword(const std::string& ProxyPassword)
+{
+	m_d->m_ProxyPassword=ProxyPassword;
+}
+
 MusicBrainz4::CMetadata MusicBrainz4::CQuery::PerformQuery(const std::string& Query)
 {
 	WaitRequest();
@@ -62,6 +103,24 @@ MusicBrainz4::CMetadata MusicBrainz4::CQuery::PerformQuery(const std::string& Qu
 
 	CHTTPFetch Fetch(m_d->m_Server);
 
+	if (!m_d->m_UserName.empty())
+		Fetch.SetUserName(m_d->m_UserName);
+		
+	if (!m_d->m_Password.empty())
+		Fetch.SetPassword(m_d->m_Password);
+		
+	if (!m_d->m_ProxyHost.empty())
+		Fetch.SetProxyHost(m_d->m_ProxyHost);
+		
+	if (0!=m_d->m_ProxyPort)
+		Fetch.SetProxyPort(m_d->m_ProxyPort);
+		
+	if (!m_d->m_ProxyUserName.empty())
+		Fetch.SetProxyUserName(m_d->m_ProxyUserName);
+		
+	if (!m_d->m_ProxyPassword.empty())
+		Fetch.SetProxyPassword(m_d->m_ProxyPassword);
+		
 	int Ret=Fetch.Fetch(Query);
 	std::cout << "Ret: " << Ret << std::endl;
 

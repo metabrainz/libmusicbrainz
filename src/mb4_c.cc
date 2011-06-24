@@ -95,7 +95,7 @@ T *GetListItem(void *List, int Item)
 	mb4_##TYPE2##_set_##PROP2(Mb4##TYPE1 o, const char *str) \
 	{ \
 		try { \
-			((TYPE1 *)o)->Set##PROP1(str); \
+			((MusicBrainz4::C##TYPE1 *)o)->Set##PROP1(str); \
 		} \
 		catch (...) { \
 		} \
@@ -106,7 +106,7 @@ T *GetListItem(void *List, int Item)
 	mb4_##TYPE2##_set_##PROP2(Mb4##TYPE1 o, int i) \
 	{ \
 		try { \
-			((TYPE1 *)o)->Set##PROP1(i); \
+			((MusicBrainz4::C##TYPE1 *)o)->Set##PROP1(i); \
 		} \
 		catch (...) { \
 		} \
@@ -364,6 +364,12 @@ Mb4Query mb4_query_new(const char *Server)
 }
 
 MB4_C_DELETE(Query,query)
+MB4_C_STR_SETTER(Query,query,UserName,username)
+MB4_C_STR_SETTER(Query,query,Password,password)
+MB4_C_STR_SETTER(Query,query,ProxyHost,proxyhost)
+MB4_C_INT_SETTER(Query,query,ProxyPort,proxyport)
+MB4_C_STR_SETTER(Query,query,ProxyUserName,proxyusername)
+MB4_C_STR_SETTER(Query,query,ProxyPassword,proxypassword)
 
 Mb4ReleaseList mb4_query_lookup_discid(Mb4Query Query, const char *DiscID)
 {
@@ -389,12 +395,14 @@ Mb4Metadata mb4_query_query(Mb4Query Query, const char *Resource, const char *ID
 
 	for (int count=0;count<NumParams;count++)
 	{
-		Params[ParamName[count]]=ParamValue[count];
+		if (ParamName[count] && ParamValue[count])
+			Params[ParamName[count]]=ParamValue[count];
 	}
 
 	MusicBrainz4::CQuery *TheQuery=reinterpret_cast<MusicBrainz4::CQuery *>(Query);
 	if (TheQuery)
-		return new MusicBrainz4::CMetadata(TheQuery->Query(Resource,ID,Params));
+		return new MusicBrainz4::CMetadata(TheQuery->Query(Resource?Resource:"",
+																									ID?ID:"",Params));
 
 	return 0;
 }

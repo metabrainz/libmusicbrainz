@@ -39,6 +39,12 @@ namespace MusicBrainz4
 		CHTTPFetch(const std::string& Host, int Port=80);
 		~CHTTPFetch();
 	
+		void SetUserName(const std::string& UserName);
+		void SetPassword(const std::string& Password);
+		void SetProxyHost(const std::string& ProxyHost);
+		void SetProxyPort(int ProxyPort);
+		void SetProxyUserName(const std::string& ProxyUserName);
+		void SetProxyPassword(const std::string& ProxyPassword);
 		int Fetch(const std::string& URL);
 		std::vector<unsigned char> Data() const;
 		int Result() const;
@@ -48,6 +54,8 @@ namespace MusicBrainz4
 	private:
 		CHTTPFetchPrivate * const m_d;
 		
+		static int httpAuth(void *userdata, const char *realm, int attempts, char *username, char *password);
+		static int proxyAuth(void *userdata, const char *realm, int attempts, char *username, char *password);
 		static int httpResponseReader(void *userdata, const char *buf, size_t len);
 	};
 }
