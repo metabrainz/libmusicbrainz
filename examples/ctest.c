@@ -25,14 +25,14 @@ int main(int argc, const char *argv[])
 		mb4_query_set_username(Query,"username");
 		mb4_query_set_password(Query,"password");
 
-		Metadata=mb4_query_query(Query,"collection",0,0,NULL,NULL);
+		Metadata=mb4_query_query(Query,"collection",0,0,0,NULL,NULL);
 		if (Metadata)
 		{
 			printf("Got collections");
 			mb4_metadata_delete(Metadata);
 
 		}
-		Metadata=mb4_query_query(Query,"discid",DiscID,0,NULL,NULL);
+		Metadata=mb4_query_query(Query,"discid",DiscID,0,0,NULL,NULL);
 		if (Metadata)
 		{
 			Mb4Disc *Disc=mb4_metadata_get_disc(Metadata);
@@ -293,7 +293,7 @@ void CompileTest()
 	mb4_query_set_proxypassword(Query,"");
 	ReleaseList=mb4_query_lookup_discid(Query,"discid");
 	Release=mb4_query_lookup_release(Query,"release");
-	Metadata=mb4_query_query(Query,"resource","id",0,0,0);
+	Metadata=mb4_query_query(Query,"entity","id","resource",0,0,0);
 	mb4_query_delete(Query);
 
 	DummyInt=mb4_rating_get_votescount(Rating);

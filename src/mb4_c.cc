@@ -389,7 +389,7 @@ Mb4Release mb4_query_lookup_release(Mb4Query Query, const char *Release)
 	return 0;
 }
 
-Mb4Metadata mb4_query_query(Mb4Query Query, const char *Resource, const char *ID, int NumParams, char **ParamName, char **ParamValue)
+Mb4Metadata mb4_query_query(Mb4Query Query, const char *Entity, const char *ID, const char *Resource, int NumParams, char **ParamName, char **ParamValue)
 {
 	MusicBrainz4::CQuery::tParamMap Params;
 
@@ -401,8 +401,10 @@ Mb4Metadata mb4_query_query(Mb4Query Query, const char *Resource, const char *ID
 
 	MusicBrainz4::CQuery *TheQuery=reinterpret_cast<MusicBrainz4::CQuery *>(Query);
 	if (TheQuery)
-		return new MusicBrainz4::CMetadata(TheQuery->Query(Resource?Resource:"",
-																									ID?ID:"",Params));
+		return new MusicBrainz4::CMetadata(TheQuery->Query(Entity?Entity:"",
+																									ID?ID:"",
+																									Resource?Resource:"",
+																									Params));
 
 	return 0;
 }

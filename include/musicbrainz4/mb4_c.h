@@ -260,7 +260,7 @@ extern "C"
 	void mb4_query_set_proxypassword(Mb4Query Query, const char *ProxyPassword);
 	Mb4ReleaseList mb4_query_lookup_discid(Mb4Query Query, const char *DiscID);
 	Mb4Release mb4_query_lookup_release(Mb4Query Query, const char *Release);
-	Mb4Metadata mb4_query_query(Mb4Query Query, const char *Resource, const char *ID, int NumParams, char **ParamNames, char **ParamValues);
+	Mb4Metadata mb4_query_query(Mb4Query Query, const char *Entity, const char *ID, const char *Resource, int NumParams, char **ParamNames, char **ParamValues);
 
 	void mb4_rating_delete(Mb4Rating Rating);
 	int mb4_rating_get_votescount(Mb4Rating Rating);

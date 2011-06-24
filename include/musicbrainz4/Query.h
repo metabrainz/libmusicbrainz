@@ -57,7 +57,7 @@ namespace MusicBrainz4
 
 		CGenericList<CRelease> LookupDiscID(const std::string& DiscID);
 		CRelease LookupRelease(const std::string& Release);
-		CMetadata Query(const std::string& Resource,const std::string& ID,const tParamMap& Params=tParamMap());
+		CMetadata Query(const std::string& Entity,const std::string& ID="",const std::string& Resource="",const tParamMap& Params=tParamMap());
 
 	private:
 		CQueryPrivate * const m_d;

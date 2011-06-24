@@ -160,14 +160,19 @@ MusicBrainz4::CMetadata MusicBrainz4::CQuery::PerformQuery(const std::string& Qu
 
 }
 
-MusicBrainz4::CMetadata MusicBrainz4::CQuery::Query(const std::string& Resource, const std::string& ID, const tParamMap& Params)
+MusicBrainz4::CMetadata MusicBrainz4::CQuery::Query(const std::string& Entity, const std::string& ID, const std::string& Resource, const tParamMap& Params)
 {
 	std::stringstream os;
 
-	os << "/ws/2/" << Resource;
+	os << "/ws/2/" << Entity;
 
 	if (!ID.empty())
+	{
 		os << "/" << ID;
+
+		if (!Resource.empty())
+			os << "/" << Resource;
+	}
 
 	if (!Params.empty())
 	{
@@ -252,7 +257,7 @@ MusicBrainz4::CRelease MusicBrainz4::CQuery::LookupRelease(const std::string& Re
 	tParamMap Params;
 	Params["inc"]="artists labels recordings release-groups url-rels discids artist-credits";
 
-	CMetadata Metadata=Query("release",ReleaseID,Params);
+	CMetadata Metadata=Query("release",ReleaseID,"",Params);
 	if (Metadata.Release())
 		Release=*Metadata.Release();
 
