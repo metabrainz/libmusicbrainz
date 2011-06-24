@@ -46,6 +46,7 @@ class MusicBrainz4::CQueryPrivate
 MusicBrainz4::CQuery::CQuery(const std::string& Server)
 :	m_d(new CQueryPrivate)
 {
+	m_d->m_Server=Server;
 }
 
 MusicBrainz4::CQuery::~CQuery()
