@@ -4,7 +4,7 @@ ADD_EXECUTABLE(mbtest mbtest.cc)
 ADD_EXECUTABLE(ctest ctest.c)
 
 IF(CMAKE_COMPILER_IS_GNUCXX)
-		SET(CMAKE_C_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Werror -Wextra -pedantic-errors")
+		SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Werror -Wextra -pedantic-errors")
 ENDIF(CMAKE_COMPILER_IS_GNUCXX)
 
 IF(CMAKE_COMPILER_IS_GNUCC)
