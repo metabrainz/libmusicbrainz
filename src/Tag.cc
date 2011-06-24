@@ -25,7 +25,7 @@
 
 #include "musicbrainz4/Tag.h"
 
-#include <sstream>
+#include "ParserUtils.h"
 
 class MusicBrainz4::CTagPrivate
 {
@@ -43,9 +43,7 @@ MusicBrainz4::CTag::CTag(const XMLNode& Node)
 
 		if (Node.isAttributeSet("count"))
 		{
-			std::stringstream os;
-			os << Node.getAttribute("type");
-			os >> m_d->m_Count;
+			ProcessItem(Node.getAttribute("type"),m_d->m_Count);
 		}
 
 		for (int count=0;count<Node.nChildNode();count++)

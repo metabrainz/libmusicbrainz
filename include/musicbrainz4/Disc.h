@@ -38,7 +38,7 @@
 namespace MusicBrainz4
 {
 	class CDiscPrivate;
-	
+
 	class CRelease;
 
 	class CDisc
@@ -50,12 +50,12 @@ namespace MusicBrainz4
 		~CDisc();
 
 		std::string ID() const;
-		std::string Sectors() const;
+		int Sectors() const;
 		CGenericList<CRelease> *ReleaseList() const;
 
 	private:
 		void Cleanup();
-		
+
 		CDiscPrivate * const m_d;
 	};
 }

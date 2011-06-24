@@ -36,7 +36,7 @@
 namespace MusicBrainz4
 {
 	class CLabelPrivate;
-	
+
 	class CLifespan;
 	class CAlias;
 	class CRelease;
@@ -58,7 +58,7 @@ namespace MusicBrainz4
 		std::string Type() const;
 		std::string Name() const;
 		std::string SortName() const;
-		std::string LabelCode() const;
+		int LabelCode() const;
 		std::string Disambiguation() const;
 		std::string Country() const;
 		CLifespan *Lifespan() const;

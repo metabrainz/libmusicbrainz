@@ -25,7 +25,7 @@
 
 #include "musicbrainz4/Rating.h"
 
-#include <sstream>
+#include "ParserUtils.h"
 
 class MusicBrainz4::CRatingPrivate
 {
@@ -43,16 +43,12 @@ MusicBrainz4::CRating::CRating(const XMLNode& Node)
 
 		if (Node.isAttributeSet("votes-count"))
 		{
-			std::stringstream os;
-			os << Node.getAttribute("votes-count");
-			os >> m_d->m_VotesCount;
+			ProcessItem(Node.getAttribute("votes-count"),m_d->m_VotesCount);
 		}
 
 		if (Node.getText())
 		{
-			std::stringstream os;
-			os << Node.getText();
-			os >> m_d->m_Rating;
+			ProcessItem(Node.getText(),m_d->m_Rating);
 		}
 	}
 }

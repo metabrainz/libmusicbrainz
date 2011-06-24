@@ -157,7 +157,7 @@ extern "C"
 
 	void mb4_disc_delete(Mb4Disc Disc);
 	void mb4_disc_get_id(Mb4Disc Disc, char *str, int len);
-	void mb4_disc_get_sectors(Mb4Disc Disc, char *str, int len);
+	int mb4_disc_get_sectors(Mb4Disc Disc);
 	Mb4ReleaseList mb4_disc_get_releaselist(Mb4Disc Disc);
 
 	void mb4_freedbdisc_delete(Mb4FreeDBDisc FreeDBDisc);
@@ -177,7 +177,7 @@ extern "C"
 	void mb4_label_get_type(Mb4Label Label, char *str, int len);
 	void mb4_label_get_name(Mb4Label Label, char *str, int len);
 	void mb4_label_get_sortname(Mb4Label Label, char *str, int len);
-	void mb4_label_get_labelcode(Mb4Label Label, char *str, int len);
+	int mb4_label_get_labelcode(Mb4Label Label);
 	void mb4_label_get_disambiguation(Mb4Label Label, char *str, int len);
 	void mb4_label_get_country(Mb4Label Label, char *str, int len);
 	Mb4Lifespan mb4_label_get_lifespan(Mb4Label Label);
@@ -244,7 +244,7 @@ extern "C"
 	void mb4_nonembtrack_delete(Mb4NoneMBTrack NoneMBTrack);
 	void mb4_nonembtrack_get_title(Mb4NoneMBTrack NoneMBTrack, char *str, int len);
 	void mb4_nonembtrack_get_artist(Mb4NoneMBTrack NoneMBTrack, char *str, int len);
-	void mb4_nonembtrack_get_length(Mb4NoneMBTrack NoneMBTrack, char *str, int len);
+	int mb4_nonembtrack_get_length(Mb4NoneMBTrack NoneMBTrack);
 
 	void mb4_puid_delete(Mb4PUID PUID);
 	void mb4_puid_get_id(Mb4PUID PUID, char *str, int len);
@@ -269,7 +269,7 @@ extern "C"
 	void mb4_recording_delete(Mb4Recording Recording);
 	void mb4_recording_get_id(Mb4Recording Recording, char *str, int len);
 	void mb4_recording_get_title(Mb4Recording Recording, char *str, int len);
-	void mb4_recording_get_length(Mb4Recording Recording, char *str, int len);
+	int mb4_recording_get_length(Mb4Recording Recording);
 	void mb4_recording_get_disambiguation(Mb4Recording Recording, char *str, int len);
 	Mb4ArtistCredit mb4_recording_get_artistcredit(Mb4Recording Recording);
 	Mb4ReleaseList mb4_recording_get_releaselist(Mb4Recording Recording);

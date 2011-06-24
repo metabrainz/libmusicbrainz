@@ -184,7 +184,7 @@ void CompileTest()
 	mb4_cdstub_delete(CDStub);
 
 	mb4_disc_get_id(Disc,Str,Size);
-	mb4_disc_get_sectors(Disc,Str,Size);
+	DummyInt=mb4_disc_get_sectors(Disc);
 	ReleaseList=mb4_disc_get_releaselist(Disc);
 	mb4_disc_delete(Disc);
 
@@ -210,7 +210,7 @@ void CompileTest()
 	mb4_label_get_type(Label,Str,Size);
 	mb4_label_get_name(Label,Str,Size);
 	mb4_label_get_sortname(Label,Str,Size);
-	mb4_label_get_labelcode(Label,Str,Size);
+	DummyInt=mb4_label_get_labelcode(Label);
 	mb4_label_get_disambiguation(Label,Str,Size);
 	mb4_label_get_country(Label,Str,Size);
 	Lifespan=mb4_label_get_lifespan(Label);
@@ -272,7 +272,7 @@ void CompileTest()
 
 	mb4_nonembtrack_get_title(NoneMBTrack,Str,Size);
 	mb4_nonembtrack_get_artist(NoneMBTrack,Str,Size);
-	mb4_nonembtrack_get_length(NoneMBTrack,Str,Size);
+	DummyInt=mb4_nonembtrack_get_length(NoneMBTrack);
 	mb4_nonembtrack_delete(NoneMBTrack);
 
 	mb4_namecredit_get_joinphrase(NameCredit,Str,Size);
@@ -302,7 +302,7 @@ void CompileTest()
 
 	mb4_recording_get_id(Recording,Str,Size);
 	mb4_recording_get_title(Recording,Str,Size);
-	mb4_recording_get_length(Recording,Str,Size);
+	DummyInt=mb4_recording_get_length(Recording);
 	mb4_recording_get_disambiguation(Recording,Str,Size);
 	ArtistCredit=mb4_recording_get_artistcredit(Recording);
 	ReleaseList=mb4_recording_get_releaselist(Recording);

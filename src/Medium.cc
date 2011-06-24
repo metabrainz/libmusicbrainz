@@ -25,10 +25,10 @@
 
 #include "musicbrainz4/Medium.h"
 
-#include <sstream>
-
 #include "musicbrainz4/Disc.h"
 #include "musicbrainz4/Track.h"
+
+#include "ParserUtils.h"
 
 class MusicBrainz4::CMediumPrivate
 {
@@ -38,7 +38,7 @@ class MusicBrainz4::CMediumPrivate
 			m_TrackList(0)
 		{
 		}
-		
+
 		std::string m_Title;
 		int m_Position;
 		std::string m_Format;
@@ -67,9 +67,7 @@ MusicBrainz4::CMedium::CMedium(const XMLNode& Node)
 			}
 			else if ("position"==NodeName)
 			{
-				std::stringstream os;
-				os << NodeValue;
-				os >> m_d->m_Position;
+				ProcessItem(NodeValue,m_d->m_Position);
 			}
 			else if ("format"==NodeName)
 			{
@@ -120,7 +118,7 @@ MusicBrainz4::CMedium& MusicBrainz4::CMedium::operator =(const CMedium& Other)
 MusicBrainz4::CMedium::~CMedium()
 {
 	Cleanup();
-	
+
 	delete m_d;
 }
 

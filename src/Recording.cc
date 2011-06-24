@@ -35,11 +35,14 @@
 #include "musicbrainz4/Tag.h"
 #include "musicbrainz4/UserTag.h"
 
+#include "ParserUtils.h"
+
 class MusicBrainz4::CRecordingPrivate
 {
 	public:
 		CRecordingPrivate()
-		:	m_ArtistCredit(0),
+		:	m_Length(0),
+			m_ArtistCredit(0),
 			m_ReleaseList(0),
 			m_PUIDList(0),
 			m_ISRCList(0),
@@ -50,10 +53,10 @@ class MusicBrainz4::CRecordingPrivate
 			m_UserRating(0)
 		{
 		}
-		
+
 		std::string m_ID;
 		std::string m_Title;
-		std::string m_Length;
+		int m_Length;
 		std::string m_Disambiguation;
 		CArtistCredit *m_ArtistCredit;
 		CGenericList<CRelease> *m_ReleaseList;
@@ -90,7 +93,7 @@ MusicBrainz4::CRecording::CRecording(const XMLNode& Node)
 			}
 			else if ("length"==NodeName)
 			{
-				m_d->m_Length=NodeValue;
+				ProcessItem(NodeValue,m_d->m_Length);
 			}
 			else if ("disambiguation"==NodeName)
 			{
@@ -191,7 +194,7 @@ MusicBrainz4::CRecording& MusicBrainz4::CRecording::operator =(const CRecording&
 MusicBrainz4::CRecording::~CRecording()
 {
 	Cleanup();
-	
+
 	delete m_d;
 }
 
@@ -235,7 +238,7 @@ std::string MusicBrainz4::CRecording::Title() const
 	return m_d->m_Title;
 }
 
-std::string MusicBrainz4::CRecording::Length() const
+int MusicBrainz4::CRecording::Length() const
 {
 	return m_d->m_Length;
 }

@@ -25,12 +25,19 @@
 
 #include "musicbrainz4/NoneMBTrack.h"
 
+#include "ParserUtils.h"
+
 class MusicBrainz4::CNoneMBTrackPrivate
 {
 	public:
+		CNoneMBTrackPrivate()
+		:	m_Length(0)
+		{
+		}
+
 		std::string m_Title;
 		std::string m_Artist;
-		std::string m_Length;
+		int m_Length;
 };
 
 MusicBrainz4::CNoneMBTrack::CNoneMBTrack(const XMLNode& Node)
@@ -58,7 +65,7 @@ MusicBrainz4::CNoneMBTrack::CNoneMBTrack(const XMLNode& Node)
 			}
 			else if ("length"==NodeName)
 			{
-				m_d->m_Length=NodeValue;
+				ProcessItem(NodeValue,m_d->m_Length);
 			}
 			else
 			{
@@ -101,7 +108,7 @@ std::string MusicBrainz4::CNoneMBTrack::Artist() const
 	return m_d->m_Artist;
 }
 
-std::string MusicBrainz4::CNoneMBTrack::Length() const
+int MusicBrainz4::CNoneMBTrack::Length() const
 {
 	return m_d->m_Length;
 }

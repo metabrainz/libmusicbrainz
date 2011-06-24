@@ -27,16 +27,19 @@
 
 #include "musicbrainz4/Release.h"
 
+#include "ParserUtils.h"
+
 class MusicBrainz4::CDiscPrivate
 {
 	public:
 		CDiscPrivate()
-		:	m_ReleaseList(0)
+		:	m_Sectors(0),
+			m_ReleaseList(0)
 		{
 		}
-		
+
 		std::string m_ID;
-		std::string m_Sectors;
+		int m_Sectors;
 		CGenericList<CRelease> *m_ReleaseList;
 };
 
@@ -60,7 +63,7 @@ MusicBrainz4::CDisc::CDisc(const XMLNode& Node)
 
 			if ("sectors"==NodeName)
 			{
-				m_d->m_Sectors=NodeValue;
+				ProcessItem(NodeValue,m_d->m_Sectors);
 			}
 			else if ("release-list"==NodeName)
 			{
@@ -99,7 +102,7 @@ MusicBrainz4::CDisc& MusicBrainz4::CDisc::operator =(const CDisc& Other)
 MusicBrainz4::CDisc::~CDisc()
 {
 	Cleanup();
-	
+
 	delete m_d;
 }
 
@@ -114,7 +117,7 @@ std::string MusicBrainz4::CDisc::ID() const
 	return m_d->m_ID;
 }
 
-std::string MusicBrainz4::CDisc::Sectors() const
+int MusicBrainz4::CDisc::Sectors() const
 {
 	return m_d->m_Sectors;
 }

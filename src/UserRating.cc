@@ -25,7 +25,7 @@
 
 #include "musicbrainz4/UserRating.h"
 
-#include <sstream>
+#include "ParserUtils.h"
 
 class MusicBrainz4::CUserRatingPrivate
 {
@@ -42,9 +42,7 @@ MusicBrainz4::CUserRating::CUserRating(const XMLNode& Node)
 
 		if (Node.getText())
 		{
-			std::stringstream os;
-			os << Node.getText();
-			os >> m_d->m_UserRating;
+			ProcessItem(Node.getText(),m_d->m_UserRating);
 		}
 	}
 }

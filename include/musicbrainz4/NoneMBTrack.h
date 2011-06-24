@@ -34,7 +34,7 @@
 namespace MusicBrainz4
 {
 	class CNoneMBTrackPrivate;
-	
+
 	class CNoneMBTrack
 	{
 	public:
@@ -42,10 +42,10 @@ namespace MusicBrainz4
 		CNoneMBTrack(const CNoneMBTrack& Other);
 		CNoneMBTrack& operator =(const CNoneMBTrack& Other);
 		~CNoneMBTrack();
-		
+
 		std::string Title() const;
 		std::string Artist() const;
-		std::string Length() const;
+		int Length() const;
 
 	private:
 		CNoneMBTrackPrivate * const m_d;

@@ -25,10 +25,10 @@
 
 #include "musicbrainz4/Track.h"
 
-#include <sstream>
-
 #include "musicbrainz4/Recording.h"
 #include "musicbrainz4/ArtistCredit.h"
+
+#include "ParserUtils.h"
 
 class MusicBrainz4::CTrackPrivate
 {
@@ -38,7 +38,7 @@ class MusicBrainz4::CTrackPrivate
 			m_ArtistCredit(0)
 		{
 		}
-		
+
 		int m_Position;
 		std::string m_Title;
 		CRecording *m_Recording;
@@ -63,9 +63,7 @@ MusicBrainz4::CTrack::CTrack(const XMLNode& Node)
 
 			if ("position"==NodeName)
 			{
-				std::stringstream os;
-				os << NodeValue;
-				os >> m_d->m_Position;
+				ProcessItem(NodeValue,m_d->m_Position);
 			}
 			else if ("title"==NodeName)
 			{
@@ -77,9 +75,7 @@ MusicBrainz4::CTrack::CTrack(const XMLNode& Node)
 			}
 			else if ("length"==NodeName)
 			{
-				std::stringstream os;
-				os << NodeValue;
-				os >> m_d->m_Length;
+				ProcessItem(NodeValue,m_d->m_Length);
 			}
 			else if ("artist-credit"==NodeName)
 			{
@@ -110,7 +106,7 @@ MusicBrainz4::CTrack& MusicBrainz4::CTrack::operator =(const CTrack& Other)
 
 		if (Other.m_d->m_Recording)
 			m_d->m_Recording=new CRecording(*Other.m_d->m_Recording);
-			
+
 		m_d->m_Length=Other.m_d->m_Length;
 
 		if (Other.m_d->m_ArtistCredit)
@@ -123,7 +119,7 @@ MusicBrainz4::CTrack& MusicBrainz4::CTrack::operator =(const CTrack& Other)
 MusicBrainz4::CTrack::~CTrack()
 {
 	Cleanup();
-	
+
 	delete m_d;
 }
 
@@ -131,7 +127,7 @@ void MusicBrainz4::CTrack::Cleanup()
 {
 	delete m_d->m_Recording;
 	m_d->m_Recording=0;
-	
+
 	delete m_d->m_ArtistCredit;
 	m_d->m_ArtistCredit=0;
 }
@@ -170,11 +166,11 @@ std::ostream& operator << (std::ostream& os, const MusicBrainz4::CTrack& Track)
 
 	if (Track.Recording())
 		os << *Track.Recording() << std::endl;
-			
+
 	os << "\tLength:   " << Track.Length() << std::endl;
 
 	if (Track.ArtistCredit())
 		os << *Track.ArtistCredit() << std::endl;
-			
+
 	return os;
 }

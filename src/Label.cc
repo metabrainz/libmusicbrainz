@@ -36,11 +36,14 @@
 #include "musicbrainz4/Tag.h"
 #include "musicbrainz4/UserTag.h"
 
+#include "ParserUtils.h"
+
 class MusicBrainz4::CLabelPrivate
 {
 	public:
 		CLabelPrivate()
-		:	m_Lifespan(0),
+		:	m_LabelCode(0),
+			m_Lifespan(0),
 			m_AliasList(0),
 			m_ReleaseList(0),
 			m_RelationList(0),
@@ -50,12 +53,12 @@ class MusicBrainz4::CLabelPrivate
 			m_UserRating(0)
 		{
 		}
-		
+
 		std::string m_ID;
 		std::string m_Type;
 		std::string m_Name;
 		std::string m_SortName;
-		std::string m_LabelCode;
+		int m_LabelCode;
 		std::string m_Disambiguation;
 		std::string m_Country;
 		CLifespan *m_Lifespan;
@@ -66,7 +69,7 @@ class MusicBrainz4::CLabelPrivate
 		CGenericList<CUserTag> *m_UserTagList;
 		CRating *m_Rating;
 		CUserRating *m_UserRating;
-};		
+};
 MusicBrainz4::CLabel::CLabel(const XMLNode& Node)
 :	m_d(new CLabelPrivate)
 {
@@ -98,7 +101,7 @@ MusicBrainz4::CLabel::CLabel(const XMLNode& Node)
 			}
 			else if ("label-code"==NodeName)
 			{
-				m_d->m_LabelCode=NodeValue;
+				ProcessItem(NodeValue,m_d->m_LabelCode);
 			}
 			else if ("disambiguation"==NodeName)
 			{
@@ -199,7 +202,7 @@ MusicBrainz4::CLabel& MusicBrainz4::CLabel::operator =(const CLabel& Other)
 MusicBrainz4::CLabel::~CLabel()
 {
 	Cleanup();
-	
+
 	delete m_d;
 }
 
@@ -250,7 +253,7 @@ std::string MusicBrainz4::CLabel::SortName() const
 	return m_d->m_SortName;
 }
 
-std::string MusicBrainz4::CLabel::LabelCode() const
+int MusicBrainz4::CLabel::LabelCode() const
 {
 	return m_d->m_LabelCode;
 }
