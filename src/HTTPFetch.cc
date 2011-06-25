@@ -132,7 +132,7 @@ void MusicBrainz4::CHTTPFetch::SetProxyPassword(const std::string& ProxyPassword
 	m_d->m_ProxyPassword=ProxyPassword;
 }
 
-int MusicBrainz4::CHTTPFetch::Fetch(const std::string& URL)
+int MusicBrainz4::CHTTPFetch::Fetch(const std::string& URL, const std::string& Request)
 {
 	int Ret=0;
 
@@ -154,7 +154,13 @@ int MusicBrainz4::CHTTPFetch::Fetch(const std::string& URL)
 			ne_set_proxy_auth(sess, proxyAuth, this);
 		}
 
-		ne_request *req = ne_request_create(sess, "GET", URL.c_str());
+		ne_request *req = ne_request_create(sess, Request.c_str(), URL.c_str());
+		if (Request=="PUT")
+			ne_set_request_body_buffer(req,0,0);
+
+		if (Request!="GET")
+			ne_set_request_flag(req, NE_REQFLAG_IDEMPOTENT, 0);
+
 		ne_add_response_body_reader(req, ne_accept_2xx, httpResponseReader, &m_d->m_Data);
 
 		m_d->m_Result = ne_request_dispatch(req);

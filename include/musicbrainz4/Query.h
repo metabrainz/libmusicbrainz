@@ -35,6 +35,7 @@
 
 #include <string>
 #include <map>
+#include <vector>
 
 namespace MusicBrainz4
 {
@@ -58,12 +59,16 @@ namespace MusicBrainz4
 		CGenericList<CRelease> LookupDiscID(const std::string& DiscID);
 		CRelease LookupRelease(const std::string& Release);
 		CMetadata Query(const std::string& Entity,const std::string& ID="",const std::string& Resource="",const tParamMap& Params=tParamMap());
+		bool AddCollectionEntries(const std::string& Collection, std::vector<std::string>& Entries);
+		bool DeleteCollectionEntries(const std::string& Collection, std::vector<std::string>& Entries);
 
 	private:
 		CQueryPrivate * const m_d;
 
 		CMetadata PerformQuery(const std::string& Query);
 		void WaitRequest() const;
+		std::string UserAgent() const;
+		bool EditCollection(const std::string& Collection, std::vector<std::string>& Entries, const std::string& Action);
 	};
 }
 

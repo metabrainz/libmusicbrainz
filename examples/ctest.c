@@ -104,6 +104,7 @@ void CompileTest()
 	Mb4Lifespan Lifespan=0;
 	Mb4Medium Medium=0;
 	Mb4MediumList MediumList=0;
+	Mb4Message Message=0;
 	Mb4Metadata Metadata=0;
 	Mb4NameCredit NameCredit=0;
 	Mb4NameCreditList NameCreditList=0;
@@ -239,6 +240,9 @@ void CompileTest()
 	DummyBool=mb4_medium_contains_discid(Medium,"1234");
 	mb4_medium_delete(Medium);
 
+	mb4_message_get_text(Message,Str,Size);
+	mb4_message_delete(Message);
+
 	mb4_metadata_get_generator(Metadata,Str,Size);
 	mb4_metadata_get_created(Metadata,Str,Size);
 	Artist=mb4_metadata_get_artist(Metadata);
@@ -268,6 +272,7 @@ void CompileTest()
 	UserTagList=mb4_metadata_get_usertaglist(Metadata);
 	CollectionList=mb4_metadata_get_collectionlist(Metadata);
 	CDStub=mb4_metadata_get_cdstub(Metadata);
+	Message=mb4_metadata_get_message(Metadata);
 	mb4_metadata_delete(Metadata);
 
 	mb4_nonembtrack_get_title(NoneMBTrack,Str,Size);
@@ -294,6 +299,8 @@ void CompileTest()
 	ReleaseList=mb4_query_lookup_discid(Query,"discid");
 	Release=mb4_query_lookup_release(Query,"release");
 	Metadata=mb4_query_query(Query,"entity","id","resource",0,0,0);
+	DummyBool=mb4_query_add_collection_entries(Query,Collection,0,0);
+	DummyBool=mb4_query_delete_collection_entries(Query,Collection,0,0);
 	mb4_query_delete(Query);
 
 	DummyInt=mb4_rating_get_votescount(Rating);

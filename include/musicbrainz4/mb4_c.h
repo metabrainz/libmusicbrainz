@@ -75,6 +75,7 @@ extern "C"
 	typedef void *Mb4Lifespan;
 	typedef void *Mb4Medium;
 	typedef void *Mb4MediumList;
+	typedef void *Mb4Message;
 	typedef void *Mb4Metadata;
 	typedef void *Mb4NameCredit;
 	typedef void *Mb4NameCreditList;
@@ -205,6 +206,9 @@ extern "C"
 	Mb4TrackList mb4_medium_get_tracklist(Mb4Medium Medium);
 	unsigned char mb4_medium_contains_discid(Mb4Medium Medium, const char *DiscID);
 
+	void mb4_message_delete(Mb4Message Message);
+	void mb4_message_get_text(Mb4Message Message, char *str, int len);
+
 	void mb4_metadata_delete(Mb4Metadata Metadata);
 	void mb4_metadata_get_generator(Mb4Metadata Metadata, char *str, int len);
 	void mb4_metadata_get_created(Mb4Metadata Metadata, char *str, int len);
@@ -235,6 +239,7 @@ extern "C"
 	Mb4UserTagList mb4_metadata_get_usertaglist(Mb4Metadata Metadata);
 	Mb4CollectionList mb4_metadata_get_collectionlist(Mb4Metadata Metadata);
 	Mb4CDStub mb4_metadata_get_cdstub(Mb4Metadata Metadata);
+	Mb4Message mb4_metadata_get_message(Mb4Metadata Metadata);
 
 	void mb4_namecredit_delete(Mb4NameCredit NameCredit);
 	void mb4_namecredit_get_joinphrase(Mb4NameCredit NameCredit, char *str, int len);
@@ -261,6 +266,8 @@ extern "C"
 	Mb4ReleaseList mb4_query_lookup_discid(Mb4Query Query, const char *DiscID);
 	Mb4Release mb4_query_lookup_release(Mb4Query Query, const char *Release);
 	Mb4Metadata mb4_query_query(Mb4Query Query, const char *Entity, const char *ID, const char *Resource, int NumParams, char **ParamNames, char **ParamValues);
+	unsigned char mb4_query_add_collection_entries(Mb4Query Query, const char *Collection, int NumEntries, const char **Entries);
+	unsigned char mb4_query_delete_collection_entries(Mb4Query Query, const char *Collection, int NumEntries, const char **Entries);
 
 	void mb4_rating_delete(Mb4Rating Rating);
 	int mb4_rating_get_votescount(Mb4Rating Rating);

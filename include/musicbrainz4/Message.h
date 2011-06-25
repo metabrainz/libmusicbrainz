@@ -23,41 +23,33 @@
 
 ----------------------------------------------------------------------------*/
 
-#ifndef _MUSICBRAINZ4_HTTP_FETCH_
-#define _MUSICBRAINZ4_HTTP_FETCH_
+#ifndef _MUSICBRAINZ4_MESSAGE_H
+#define _MUSICBRAINZ4_MESSAGE_H
 
 #include <string>
-#include <vector>
+#include <iostream>
+
+#include "musicbrainz4/xmlParser.h"
 
 namespace MusicBrainz4
 {
-	class CHTTPFetchPrivate;
+	class CMessagePrivate;
 
-	class CHTTPFetch
+	class CMessage
 	{
 	public:
-		CHTTPFetch(const std::string& UserAgent, const std::string& Host, int Port=80);
-		~CHTTPFetch();
+		CMessage(const XMLNode& Node);
+		CMessage(const CMessage& Other);
+		CMessage& operator =(const CMessage& Other);
+		~CMessage();
 
-		void SetUserName(const std::string& UserName);
-		void SetPassword(const std::string& Password);
-		void SetProxyHost(const std::string& ProxyHost);
-		void SetProxyPort(int ProxyPort);
-		void SetProxyUserName(const std::string& ProxyUserName);
-		void SetProxyPassword(const std::string& ProxyPassword);
-		int Fetch(const std::string& URL, const std::string& Request="GET");
-		std::vector<unsigned char> Data() const;
-		int Result() const;
-		int Status() const;
-		std::string ErrorMessage() const;
+		std::string Text() const;
 
 	private:
-		CHTTPFetchPrivate * const m_d;
-
-		static int httpAuth(void *userdata, const char *realm, int attempts, char *username, char *password);
-		static int proxyAuth(void *userdata, const char *realm, int attempts, char *username, char *password);
-		static int httpResponseReader(void *userdata, const char *buf, size_t len);
+		CMessagePrivate * const m_d;
 	};
 }
+
+std::ostream& operator << (std::ostream& os, const MusicBrainz4::CMessage& Message);
 
 #endif

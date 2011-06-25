@@ -38,10 +38,51 @@
 #include "musicbrainz4/HTTPFetch.h"
 #include "musicbrainz4/Track.h"
 #include "musicbrainz4/Recording.h"
+#include "musicbrainz4/Collection.h"
 
 int main(int argc, const char *argv[])
 {
 	MusicBrainz4::CQuery MB("MBTest/v1.0");
+
+	if (argc>1)
+	{
+		std::cout << "Setting username: '" << argv[1] << "'" << std::endl;
+		MB.SetUserName(argv[1]);
+	}
+
+	if (argc>2)
+	{
+		std::cout << "Setting password: '" << argv[2] << "'" << std::endl;
+		MB.SetPassword(argv[2]);
+	}
+
+	MusicBrainz4::CMetadata Metadata=MB.Query("collection");
+	MusicBrainz4::CGenericList<MusicBrainz4::CCollection> *CollectionList=Metadata.CollectionList();
+	if (CollectionList)
+	{
+		std::list<MusicBrainz4::CCollection> Collections=CollectionList->Items();
+		MusicBrainz4::CCollection Collection=*(Collections.begin());
+		std::cout << "ID is " << Collection.ID() << std::endl;
+
+		MB.Query("collection",Collection.ID(),"releases");
+
+		std::vector<std::string> Releases;
+		Releases.push_back("b5748ac9-f38e-48f7-a8a4-8b43cab025bc");
+		Releases.push_back("f6335672-c521-4129-86c3-490d20533e08");
+		bool Ret=MB.AddCollectionEntries(Collection.ID(),Releases);
+		std::cout << "AddCollectionEntries returns " << std::boolalpha << Ret << std::endl;
+
+		MB.Query("collection",Collection.ID(),"releases");
+
+		Releases.clear();
+		Releases.push_back("b5748ac9-f38e-48f7-a8a4-8b43cab025bc");
+		Ret=MB.DeleteCollectionEntries(Collection.ID(),Releases);
+		std::cout << "DeleteCollectionEntries returns " << std::boolalpha << Ret << std::endl;
+
+		MB.Query("collection",Collection.ID(),"releases");
+	}
+
+	return 0;
 
 	std::string DiscID="arIS30RPWowvwNEqsqdDnZzDGhk-";
 

@@ -16,6 +16,7 @@
 #include "musicbrainz4/LabelInfo.h"
 #include "musicbrainz4/Lifespan.h"
 #include "musicbrainz4/Medium.h"
+#include "musicbrainz4/Message.h"
 #include "musicbrainz4/Metadata.h"
 #include "musicbrainz4/NameCredit.h"
 #include "musicbrainz4/NoneMBTrack.h"
@@ -313,6 +314,9 @@ unsigned char mb4_medium_contains_discid(Mb4Medium Medium, const char *DiscID)
 	return Ret;
 }
 
+MB4_C_DELETE(Message,message)
+MB4_C_STR_GETTER(Message,message,Text,text)
+
 MB4_C_DELETE(Metadata,metadata)
 MB4_C_STR_GETTER(Metadata,metadata,Generator,generator)
 MB4_C_STR_GETTER(Metadata,metadata,Created,created)
@@ -343,6 +347,7 @@ MB4_C_OBJ_GETTER(Metadata,metadata,TagList,taglist)
 MB4_C_OBJ_GETTER(Metadata,metadata,UserTagList,usertaglist)
 MB4_C_OBJ_GETTER(Metadata,metadata,CollectionList,collectionlist)
 MB4_C_OBJ_GETTER(Metadata,metadata,CDStub,cdstub)
+MB4_C_OBJ_GETTER(Metadata,metadata,Message,message)
 
 MB4_C_DELETE(NameCredit,namecredit)
 MB4_C_STR_GETTER(NameCredit,namecredit,JoinPhrase,joinphrase)
@@ -405,6 +410,48 @@ Mb4Metadata mb4_query_query(Mb4Query Query, const char *Entity, const char *ID, 
 																									ID?ID:"",
 																									Resource?Resource:"",
 																									Params));
+
+	return 0;
+}
+
+unsigned char mb4_query_add_collection_entries(Mb4Query Query, const char *Collection, int NumEntries, const char **Entries)
+{
+	std::vector<std::string> VecEntries;
+
+	MusicBrainz4::CQuery *TheQuery=reinterpret_cast<MusicBrainz4::CQuery *>(Query);
+	if (TheQuery)
+	{
+		for (int count=0;count<NumEntries;count++)
+		{
+			if (Entries && Entries[count])
+			{
+				VecEntries.push_back(Entries[count]);
+			}
+		}
+
+		return TheQuery->AddCollectionEntries(Collection,VecEntries)?1:0;
+	}
+
+	return 0;
+}
+
+unsigned char mb4_query_delete_collection_entries(Mb4Query Query, const char *Collection, int NumEntries, const char **Entries)
+{
+	std::vector<std::string> VecEntries;
+
+	MusicBrainz4::CQuery *TheQuery=reinterpret_cast<MusicBrainz4::CQuery *>(Query);
+	if (TheQuery)
+	{
+		for (int count=0;count<NumEntries;count++)
+		{
+			if (Entries && Entries[count])
+			{
+				VecEntries.push_back(Entries[count]);
+			}
+		}
+
+		return TheQuery->AddCollectionEntries(Collection,VecEntries)?1:0;
+	}
 
 	return 0;
 }

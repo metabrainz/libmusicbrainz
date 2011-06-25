@@ -37,6 +37,7 @@
 
 #include "musicbrainz4/HTTPFetch.h"
 #include "musicbrainz4/Disc.h"
+#include "musicbrainz4/Message.h"
 
 #include "config.h"
 
@@ -109,12 +110,7 @@ MusicBrainz4::CMetadata MusicBrainz4::CQuery::PerformQuery(const std::string& Qu
 
 	CMetadata Metadata;
 
-	std::string UserAgent=m_d->m_UserAgent;
-	if (!UserAgent.empty())
-		UserAgent+=" ";
-	UserAgent+=PACKAGE "/v" VERSION;
-
-	CHTTPFetch Fetch(UserAgent,m_d->m_Server,m_d->m_Port);
+	CHTTPFetch Fetch(UserAgent(),m_d->m_Server,m_d->m_Port);
 
 	if (!m_d->m_UserName.empty())
 		Fetch.SetUserName(m_d->m_UserName);
@@ -292,3 +288,91 @@ void MusicBrainz4::CQuery::WaitRequest() const
 	}
 }
 
+bool MusicBrainz4::CQuery::AddCollectionEntries(const std::string& Collection, std::vector<std::string>& Entries)
+{
+	return EditCollection(Collection,Entries,"PUT");
+}
+
+bool MusicBrainz4::CQuery::DeleteCollectionEntries(const std::string& Collection, std::vector<std::string>& Entries)
+{
+	return EditCollection(Collection,Entries,"DELETE");
+}
+
+bool MusicBrainz4::CQuery::EditCollection(const std::string& Collection, std::vector<std::string>& Entries, const std::string& Action)
+{
+	bool RetVal=false;
+
+	std::string Query;
+
+	Query="/ws/2/collection/"+Collection+"/releases/";
+
+	std::vector<std::string>::const_iterator ThisRelease=Entries.begin();
+	while(ThisRelease!=Entries.end())
+	{
+		if (ThisRelease!=Entries.begin())
+			Query+=";";
+
+		Query+=*ThisRelease;
+
+		++ThisRelease;
+	}
+
+	Query+="?client="+m_d->m_UserAgent;
+
+	std::cout << "Query is '" << Query << "'" << std::endl;
+
+	CHTTPFetch Fetch(UserAgent(),m_d->m_Server,m_d->m_Port);
+
+	if (!m_d->m_UserName.empty())
+		Fetch.SetUserName(m_d->m_UserName);
+
+	if (!m_d->m_Password.empty())
+		Fetch.SetPassword(m_d->m_Password);
+
+	if (!m_d->m_ProxyHost.empty())
+		Fetch.SetProxyHost(m_d->m_ProxyHost);
+
+	if (0!=m_d->m_ProxyPort)
+		Fetch.SetProxyPort(m_d->m_ProxyPort);
+
+	if (!m_d->m_ProxyUserName.empty())
+		Fetch.SetProxyUserName(m_d->m_ProxyUserName);
+
+	if (!m_d->m_ProxyPassword.empty())
+		Fetch.SetProxyPassword(m_d->m_ProxyPassword);
+
+	int Ret=Fetch.Fetch(Query,Action);
+	std::cout << "Ret: " << Ret << std::endl;
+	if (Ret>0)
+	{
+		std::vector<unsigned char> Data=Fetch.Data();
+		std::string strData(Data.begin(),Data.end());
+
+		std::cout << "Ret is '" << strData << "'" << std::endl;
+		XMLResults Results;
+		XMLNode TopNode=XMLNode::parseString(strData.c_str(), 0, &Results);
+		if (Results.error==eXMLErrorNone)
+		{
+			XMLNode MetadataNode=TopNode.getChildNode("metadata");
+			if (!MetadataNode.isEmpty())
+			{
+				CMetadata Metadata(MetadataNode);
+
+				if (Metadata.Message() && Metadata.Message()->Text()=="OK")
+					RetVal=true;
+			}
+		}
+	}
+
+	return RetVal;
+}
+
+std::string MusicBrainz4::CQuery::UserAgent() const
+{
+	std::string UserAgent=m_d->m_UserAgent;
+	if (!UserAgent.empty())
+		UserAgent+=" ";
+	UserAgent+=PACKAGE "/v" VERSION;
+
+	return UserAgent;
+}

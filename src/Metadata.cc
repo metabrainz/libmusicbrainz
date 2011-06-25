@@ -44,6 +44,7 @@
 #include "musicbrainz4/UserTag.h"
 #include "musicbrainz4/LabelInfo.h"
 #include "musicbrainz4/CDStub.h"
+#include "musicbrainz4/Message.h"
 
 class MusicBrainz4::CMetadataPrivate
 {
@@ -75,10 +76,11 @@ class MusicBrainz4::CMetadataPrivate
 			m_TagList(0),
 			m_UserTagList(0),
 			m_CollectionList(0),
-			m_CDStub(0)
+			m_CDStub(0),
+			m_Message(0)
 		{
 		}
-		
+
 		std::string m_Generator;
 		std::string m_Created;
 		CArtist *m_Artist;
@@ -108,6 +110,7 @@ class MusicBrainz4::CMetadataPrivate
 		CGenericList<CUserTag> *m_UserTagList;
 		CGenericList<CCollection> *m_CollectionList;
 		CCDStub *m_CDStub;
+		CMessage *m_Message;
 };
 
 MusicBrainz4::CMetadata::CMetadata(const XMLNode& Node)
@@ -235,6 +238,10 @@ MusicBrainz4::CMetadata::CMetadata(const XMLNode& Node)
 			{
 				m_d->m_CDStub=new CCDStub(ChildNode);
 			}
+			else if ("message"==NodeName)
+			{
+				m_d->m_Message=new CMessage(ChildNode);
+			}
 			else
 			{
 				std::cerr << "Unrecognised metadata node: '" << NodeName << "'" << std::endl;
@@ -338,6 +345,9 @@ MusicBrainz4::CMetadata& MusicBrainz4::CMetadata::operator =(const CMetadata& Ot
 
 		if (Other.m_d->m_CDStub)
 			m_d->m_CDStub=new CCDStub(*Other.m_d->m_CDStub);
+
+		if (Other.m_d->m_Message)
+			m_d->m_Message=new CMessage(*Other.m_d->m_Message);
 	}
 
 	return *this;
@@ -346,7 +356,7 @@ MusicBrainz4::CMetadata& MusicBrainz4::CMetadata::operator =(const CMetadata& Ot
 MusicBrainz4::CMetadata::~CMetadata()
 {
 	Cleanup();
-	
+
 	delete m_d;
 }
 
@@ -432,6 +442,9 @@ void MusicBrainz4::CMetadata::Cleanup()
 
 	delete m_d->m_CDStub;
 	m_d->m_CDStub=0;
+
+	delete m_d->m_Message;
+	m_d->m_Message=0;
 }
 
 std::string MusicBrainz4::CMetadata::Generator() const
@@ -579,6 +592,11 @@ MusicBrainz4::CCDStub *MusicBrainz4::CMetadata::CDStub() const
 	return m_d->m_CDStub;
 }
 
+MusicBrainz4::CMessage *MusicBrainz4::CMetadata::Message() const
+{
+	return m_d->m_Message;
+}
+
 std::ostream& operator << (std::ostream& os, const MusicBrainz4::CMetadata& Metadata)
 {
 	os << "Metadata:" << std::endl;
@@ -663,6 +681,9 @@ std::ostream& operator << (std::ostream& os, const MusicBrainz4::CMetadata& Meta
 
 	if (Metadata.CDStub())
 		os << *Metadata.CDStub() << std::endl;
+
+	if (Metadata.Message())
+		os << *Metadata.Message() << std::endl;
 
 	return os;
 }

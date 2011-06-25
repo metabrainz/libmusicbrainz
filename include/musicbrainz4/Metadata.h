@@ -35,7 +35,7 @@
 namespace MusicBrainz4
 {
 	class CMetadataPrivate;
-	
+
 	class CArtist;
 	class CRelease;
 	class CReleaseGroup;
@@ -62,6 +62,7 @@ namespace MusicBrainz4
 	class CUserTag;
 	class CCollection;
 	class CCDStub;
+	class CMessage;
 
 	class CMetadata
 	{
@@ -100,10 +101,11 @@ namespace MusicBrainz4
 		CGenericList<CUserTag> *UserTagList() const;
 		CGenericList<CCollection> *CollectionList() const;
 		CCDStub *CDStub() const;
+		CMessage *Message() const;
 
 	private:
 		void Cleanup();
-		
+
 		CMetadataPrivate * const m_d;
 	};
 }
