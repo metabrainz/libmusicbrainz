@@ -46,7 +46,7 @@ class MusicBrainz4::CReleasePrivate
 			m_RelationList(0)
 		{
 		}
-		
+
 		std::string m_ID;
 		std::string m_Title;
 		std::string m_Status;
@@ -200,7 +200,7 @@ MusicBrainz4::CRelease& MusicBrainz4::CRelease::operator =(const CRelease& Other
 MusicBrainz4::CRelease::~CRelease()
 {
 	Cleanup();
-	
+
 	delete m_d;
 }
 
@@ -309,16 +309,19 @@ MusicBrainz4::CGenericList<MusicBrainz4::CMedium> MusicBrainz4::CRelease::MediaM
 {
 	CGenericList<MusicBrainz4::CMedium> Ret;
 
-	std::list<MusicBrainz4::CMedium> Media=m_d->m_MediumList->Items();
-	std::list<MusicBrainz4::CMedium>::const_iterator ThisMedium=Media.begin();
-	while (ThisMedium!=Media.end())
+	if (m_d->m_MediumList)
 	{
-		MusicBrainz4::CMedium Medium=(*ThisMedium);
+		std::list<MusicBrainz4::CMedium> Media=m_d->m_MediumList->Items();
+		std::list<MusicBrainz4::CMedium>::const_iterator ThisMedium=Media.begin();
+		while (ThisMedium!=Media.end())
+		{
+			MusicBrainz4::CMedium Medium=(*ThisMedium);
 
-		if (Medium.ContainsDiscID(DiscID))
-			Ret.push_back(Medium);
+			if (Medium.ContainsDiscID(DiscID))
+				Ret.push_back(Medium);
 
-		++ThisMedium;
+			++ThisMedium;
+		}
 	}
 
 	return Ret;
