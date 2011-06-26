@@ -151,7 +151,7 @@ T *GetListItem(void *List, int Item)
 	}
 
 #define MB4_C_BOOL_GETTER(TYPE1, TYPE2, PROP1, PROP2) \
-	int \
+	unsigned char \
 	mb4_##TYPE2##_get_##PROP2(Mb##TYPE1 o) \
 	{ \
 		try { \
