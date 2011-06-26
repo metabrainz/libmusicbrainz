@@ -160,16 +160,19 @@ bool MusicBrainz4::CMedium::ContainsDiscID(const std::string& DiscID) const
 {
 	bool RetVal=false;
 
-	std::list<CDisc> DiscList=m_d->m_DiscList->Items();
-	std::list<CDisc>::const_iterator ThisDisc=DiscList.begin();
-	while (!RetVal && ThisDisc!=DiscList.end())
+	if (m_d->m_DiscList)
 	{
-		CDisc Disc=*ThisDisc;
+		std::list<CDisc> DiscList=m_d->m_DiscList->Items();
+		std::list<CDisc>::const_iterator ThisDisc=DiscList.begin();
+		while (!RetVal && ThisDisc!=DiscList.end())
+		{
+			CDisc Disc=*ThisDisc;
 
-		if (Disc.ID()==DiscID)
-			RetVal=true;
+			if (Disc.ID()==DiscID)
+				RetVal=true;
 
-		++ThisDisc;
+			++ThisDisc;
+		}
 	}
 
 	return RetVal;
