@@ -28,14 +28,14 @@
 	Things you should delete using the appropriate mb4_xxx_delete() function:
 
 	* The query object you create to do the actual work
-	* Anything returned from one of the mb4_query_xxx() functions
+	* Any object or list returned from one of the mb4_query_xxx() functions
 	* Any list item retrieved from mb4_xxxx_list_item() functions
 	* The return from mb4_release_media_matching_discid() function
 
 	Everything else remains managed by the library, and should not be deleted
 
-	If in doubt, valgrind is a useful way to spot leaks
-	or things being deleted when they shouldn't be
+	If in doubt, valgrind is a useful way to spot leaks or things being deleted
+	when they shouldn't be.
 
 */
 
@@ -267,8 +267,7 @@ extern "C"
  *
  * @param Artist Artist object
  *
- * @return Alias list. This object <b>must</b> be deleted once
- *				finished with.
+ * @return Alias list.
  */
 	Mb4AliasList mb4_artist_get_aliaslist(Mb4Artist Artist);
 
@@ -277,8 +276,7 @@ extern "C"
  *
  * @param Artist Artist object
  *
- * @return Recording list. This object <b>must</b> be deleted once
- *				finished with.
+ * @return Recording list.
  */
 	Mb4RecordingList mb4_artist_get_recordinglist(Mb4Artist Artist);
 
@@ -287,8 +285,7 @@ extern "C"
  *
  * @param Artist Artist object
  *
- * @return Release list. This object <b>must</b> be deleted once
- *				finished with.
+ * @return Release list.
  */
 	Mb4ReleaseList mb4_artist_get_releaselist(Mb4Artist Artist);
 
@@ -297,8 +294,7 @@ extern "C"
  *
  * @param Artist Artist object
  *
- * @return ReleaseGroup list. This object <b>must</b> be deleted once
- *				finished with.
+ * @return ReleaseGroup list.
  */
 	Mb4ReleaseGroupList mb4_artist_get_releasegrouplist(Mb4Artist Artist);
 
@@ -307,8 +303,7 @@ extern "C"
  *
  * @param Artist Artist object
  *
- * @return Label list. This object <b>must</b> be deleted once
- *				finished with.
+ * @return Label list.
  */
 	Mb4LabelList mb4_artist_get_labellist(Mb4Artist Artist);
 
@@ -317,8 +312,7 @@ extern "C"
  *
  * @param Artist Artist object
  *
- * @return Work list. This object <b>must</b> be deleted once
- *				finished with.
+ * @return Work list.
  */
 	Mb4WorkList mb4_artist_get_worklist(Mb4Artist Artist);
 
@@ -327,8 +321,7 @@ extern "C"
  *
  * @param Artist Artist object
  *
- * @return Relation list. This object <b>must</b> be deleted once
- *				finished with.
+ * @return Relation list.
  */
 	Mb4RelationList mb4_artist_get_relationlist(Mb4Artist Artist);
 
@@ -337,8 +330,7 @@ extern "C"
  *
  * @param Artist Artist object
  *
- * @return Tag list. This object <b>must</b> be deleted once
- *				finished with.
+ * @return Tag list.
  */
 	Mb4TagList mb4_artist_get_taglist(Mb4Artist Artist);
 
@@ -347,8 +339,7 @@ extern "C"
  *
  * @param Artist Artist object
  *
- * @return UserTag list. This object <b>must</b> be deleted once
- *				finished with.
+ * @return UserTag list.
  */
 	Mb4UserTagList mb4_artist_get_usertaglist(Mb4Artist Artist);
 
@@ -383,8 +374,7 @@ extern "C"
  *
  * @param ArtistCredit ArtistCredit object
  *
- * @return NameCredit list. This object <b>must</b> be deleted once
- *				finished with.
+ * @return NameCredit list.
  */
 	Mb4NameCreditList mb4_artistcredit_get_namecreditlist(Mb4ArtistCredit ArtistCredit);
 
@@ -463,8 +453,7 @@ extern "C"
  *
  * @param CDStub CDStub object
  *
- * @return NoneMBTrack list. This object <b>must</b> be deleted once
- *				finished with.
+ * @return NoneMBTrack list.
  */
 	Mb4NoneMBTrackList mb4_cdstub_get_nonembtracklist(Mb4CDStub CDStub);
 
@@ -508,8 +497,7 @@ extern "C"
  *
  * @param Collection Collection object
  *
- * @return Release list. This object <b>must</b> be deleted once
- *				finished with.
+ * @return Release list.
  */
 	Mb4ReleaseList mb4_collection_get_releaselist(Mb4Collection Collection);
 
@@ -522,7 +510,7 @@ extern "C"
 	void mb4_disc_delete(Mb4Disc Disc);
 
 /**
- * @see MusicBrainz4::Disc::ID
+ * @see MusicBrainz4::CDisc::ID
  *
  * @param Disc Disc object
  * @param str Returned string
@@ -531,7 +519,7 @@ extern "C"
 	void mb4_disc_get_id(Mb4Disc Disc, char *str, int len);
 
 /**
- * @see MusicBrainz4::Disc::Sectors
+ * @see MusicBrainz4::CDisc::Sectors
  *
  * @param Disc Disc object
  *
@@ -540,12 +528,11 @@ extern "C"
 	int mb4_disc_get_sectors(Mb4Disc Disc);
 
 /**
- * @see MusicBrainz4::Disc::ReleaseList
+ * @see MusicBrainz4::CDisc::ReleaseList
  *
  * @param Disc Disc object
  *
- * @return Release list. This object <b>must</b> be deleted once
- *				finished with.
+ * @return Release list.
  */
 	Mb4ReleaseList mb4_disc_get_releaselist(Mb4Disc Disc);
 
@@ -607,8 +594,7 @@ extern "C"
  *
  * @param FreeDBDisc FreeDBDisc object
  *
- * @return NoneMBTrack list. This object <b>must</b> be deleted once
- *				finished with.
+ * @return NoneMBTrack list.
  */
 	Mb4NoneMBTrackList mb4_freedbdisc_get_nonembtracklist(Mb4FreeDBDisc FreeDBDisc);
 
@@ -634,8 +620,7 @@ extern "C"
  *
  * @param ISRC ISRC object
  *
- * @return Recording list. This object <b>must</b> be deleted once
- *				finished with.
+ * @return Recording list.
  */
 	Mb4RecordingList mb4_isrc_get_recordinglist(Mb4ISRC ISRC);
 
@@ -724,8 +709,7 @@ extern "C"
  *
  * @param Label Label object
  *
- * @return Alias list. This object <b>must</b> be deleted once
- *				finished with.
+ * @return Alias list.
  */
 	Mb4AliasList mb4_label_get_aliaslist(Mb4Label Label);
 
@@ -734,8 +718,7 @@ extern "C"
  *
  * @param Label Label object
  *
- * @return Release list. This object <b>must</b> be deleted once
- *				finished with.
+ * @return Release list.
  */
 	Mb4ReleaseList mb4_label_get_releaselist(Mb4Label Label);
 
@@ -744,8 +727,7 @@ extern "C"
  *
  * @param Label Label object
  *
- * @return Relation list. This object <b>must</b> be deleted once
- *				finished with.
+ * @return Relation list.
  */
 	Mb4RelationList mb4_label_get_relationlist(Mb4Label Label);
 
@@ -754,8 +736,7 @@ extern "C"
  *
  * @param Label Label object
  *
- * @return Tag list. This object <b>must</b> be deleted once
- *				finished with.
+ * @return Tag list.
  */
 	Mb4TagList mb4_label_get_taglist(Mb4Label Label);
 
@@ -764,8 +745,7 @@ extern "C"
  *
  * @param Label Label object
  *
- * @return UserTag list. This object <b>must</b> be deleted once
- *				finished with.
+ * @return UserTag list.
  */
 	Mb4UserTagList mb4_label_get_usertaglist(Mb4Label Label);
 
@@ -789,59 +769,51 @@ extern "C"
 
 
 /**
- * Delete a LabelInfo /+object
+ * Delete a LabelInfo object
  *
  * @param LabelInfo Object to delete
  */
 	void mb4_labelinfo_delete(Mb4LabelInfo LabelInfo);
 
 /**
+ * @see MusicBrainz4::CLabelInfo::CatalogNumber
  *
- *
- * @see
- *
- * @param object
+ * @param LabelInfo LabelInfo object
  * @param str Returned string
  * @param len Number of characters available in return string
  */
 	void mb4_labelinfo_get_catalognumber(Mb4LabelInfo LabelInfo, char *str, int len);
 
 /**
+ * @see MusicBrainz4::CLabelInfo::Label
  *
+ * @param LabelInfo LabelInfo object
  *
- * @see
- *
- * @param
- * @param
- * @param
+ * @return Label object
  */
 	Mb4Label mb4_labelinfo_get_label(Mb4LabelInfo LabelInfo);
 
 
 /**
- * Delete an object
+ * Delete a Lifespan object
  *
  * @param Lifespan Object to delete
  */
 	void mb4_lifespan_delete(Mb4Lifespan Lifespan);
 
 /**
+ * @see MusicBrainz4::CLifespan::Begin
  *
- *
- * @see
- *
- * @param object
+ * @param Lifespan Lifespan object
  * @param str Returned string
  * @param len Number of characters available in return string
  */
 	void mb4_lifespan_get_begin(Mb4Lifespan Lifespan, char *str, int len);
 
 /**
+ * @see MusicBrainz4::CLifespan::End
  *
- *
- * @see
- *
- * @param object
+ * @param Lifespan Lifespan object
  * @param str Returned string
  * @param len Number of characters available in return string
  */
@@ -849,432 +821,359 @@ extern "C"
 
 
 /**
- * Delete an object
+ * Delete a Medium object
  *
  * @param Medium Object to delete
  */
 	void mb4_medium_delete(Mb4Medium Medium);
 
 /**
+ * @see MusicBrainz4::CMedium::Title
  *
- *
- * @see
- *
- * @param object
+ * @param Medium Medium object
  * @param str Returned string
  * @param len Number of characters available in return string
  */
 	void mb4_medium_get_title(Mb4Medium Medium, char *str, int len);
 
 /**
+ * @see MusicBrainz4::CMedium::Position
  *
+ * @param Medium Medium object
  *
- * @see
- *
- * @param
- * @param
- * @param
+ * @return Returned position
  */
 	int mb4_medium_get_position(Mb4Medium Medium);
 
 /**
+ * @see MusicBrainz4::CMedium::Format
  *
- *
- * @see
- *
- * @param object
+ * @param Medium Medium object
  * @param str Returned string
  * @param len Number of characters available in return string
  */
 	void mb4_medium_get_format(Mb4Medium Medium, char *str, int len);
 
 /**
+ * @see MusicBrainz4::CMedium::DiscList
  *
+ * @param Medium Medium object
  *
- * @see
- *
- * @param
- * @param
- * @param
+ * @return DiscList object
  */
 	Mb4DiscList mb4_medium_get_disclist(Mb4Medium Medium);
 
 /**
+ * @see MusicBrainz4::CMedium::TrackList
  *
+ * @param Medium Medium object
  *
- * @see
- *
- * @param
- * @param
- * @param
+ * @return TrackList object
  */
 	Mb4TrackList mb4_medium_get_tracklist(Mb4Medium Medium);
 
 /**
+ * @see MusicBrainz4::CMedium::ContainsDiscID
  *
+ * @param Medium Medium object
+ * @param DiscID DiscID to check
  *
- * @see
- *
- * @param object
- * @param str Returned string
- * @param len Number of characters available in return string
+ * @return 1 if DiscID found, 0 otherwise
  */
 	unsigned char mb4_medium_contains_discid(Mb4Medium Medium, const char *DiscID);
 
 
 /**
- * Delete an object
+ * Delete a Message object
  *
  * @param Message Object to delete
  */
 	void mb4_message_delete(Mb4Message Message);
 
 /**
+ * @see MusicBrainz4::CMessage::Text
  *
- *
- * @see
- *
- * @param
- * @param
- * @param
+ * @param Message Message object
+ * @param str Returned string
+ * @param len Number of characters available in return string
  */
 	void mb4_message_get_text(Mb4Message Message, char *str, int len);
 
 
 /**
- * Delete an object
+ * Delete a Metadata object
  *
  * @param Metadata Object to delete
  */
 	void mb4_metadata_delete(Mb4Metadata Metadata);
 
 /**
+ * @see MusicBrainz4::CMetadata::Generator
  *
- *
- * @see
- *
- * @param
- * @param
- * @param
+ * @param Metadata Metadata object
+ * @param str Returned string
+ * @param len Number of characters available in return string
  */
 	void mb4_metadata_get_generator(Mb4Metadata Metadata, char *str, int len);
 
 /**
+ * @see MusicBrainz4::CMetadata::Created
  *
- *
- * @see
- *
- * @param
- * @param
- * @param
+ * @param Metadata Metadata object
+ * @param str Returned string
+ * @param len Number of characters available in return string
  */
 	void mb4_metadata_get_created(Mb4Metadata Metadata, char *str, int len);
 
 /**
+ * @see MusicBrainz4::CMetadata::Artist
  *
+ * @param Metadata Metadata object
  *
- * @see
- *
- * @param
- * @param
- * @param
+ * @return Artist object
  */
 	Mb4Artist mb4_metadata_get_artist(Mb4Metadata Metadata);
 
 /**
+ * @see MusicBrainz4::CMetadata::Release
  *
+ * @param Metadata Metadata object
  *
- * @see
- *
- * @param
- * @param
- * @param
+ * @return Release object
  */
 	Mb4Release mb4_metadata_get_release(Mb4Metadata Metadata);
 
 /**
+ * @see MusicBrainz4::CMetadata::ReleaseGroup
  *
+ * @param Metadata Metadata object
  *
- * @see
- *
- * @param
- * @param
- * @param
+ * @return ReleaseGroup object
  */
 	Mb4ReleaseGroup mb4_metadata_get_releasegroup(Mb4Metadata Metadata);
 
 /**
+ * @see MusicBrainz4::CMetadata::Recording
  *
+ * @param Metadata Metadata object
  *
- * @see
- *
- * @param
- * @param
- * @param
+ * @return Recording object
  */
 	Mb4Recording mb4_metadata_get_recording(Mb4Metadata Metadata);
 
 /**
+ * @see MusicBrainz4::CMetadata::Label
  *
+ * @param Metadata Metadata object
  *
- * @see
- *
- * @param
- * @param
- * @param
+ * @return Label object
  */
 	Mb4Label mb4_metadata_get_label(Mb4Metadata Metadata);
 
 /**
+ * @see MusicBrainz4::CMetadata::Work
  *
+ * @param Metadata Metadata object
  *
- * @see
- *
- * @param
- * @param
- * @param
+ * @return Work object
  */
 	Mb4Work mb4_metadata_get_work(Mb4Metadata Metadata);
 
 /**
+ * @see MusicBrainz4::CMetadata::PUID
  *
+ * @param Metadata Metadata object
  *
- * @see
- *
- * @param
- * @param
- * @param
+ * @return PUID object
  */
 	Mb4PUID mb4_metadata_get_puid(Mb4Metadata Metadata);
 
 /**
+ * @see MusicBrainz4::CMetadata::ISRC
  *
+ * @param Metadata Metadata object
  *
- * @see
- *
- * @param
- * @param
- * @param
+ * @return ISRC object
  */
 	Mb4ISRC mb4_metadata_get_isrc(Mb4Metadata Metadata);
 
 /**
+ * @see MusicBrainz4::CMetadata::Disc
  *
+ * @param Metadata Metadata object
  *
- * @see
- *
- * @param
- * @param
- * @param
+ * @return Disc object
  */
 	Mb4Disc mb4_metadata_get_disc(Mb4Metadata Metadata);
 
 /**
+ * @see MusicBrainz4::CMetadata::LabelInfoList
  *
+ * @param Metadata Metadata object
  *
- * @see
- *
- * @param
- * @param
- * @param
+ * @return LabelInfo list
  */
 	Mb4LabelInfoList mb4_metadata_get_labelinfolist(Mb4Metadata Metadata);
 
 /**
+ * @see MusicBrainz4::CMetadata::Rating
  *
+ * @param Metadata Metadata object
  *
- * @see
- *
- * @param
- * @param
- * @param
+ * @return Rating object
  */
 	Mb4Rating mb4_metadata_get_rating(Mb4Metadata Metadata);
 
 /**
+ * @see MusicBrainz4::CMetadata::UserRating
  *
+ * @param Metadata Metadata object
  *
- * @see
- *
- * @param
- * @param
- * @param
+ * @return UserRating object
  */
 	Mb4UserRating mb4_metadata_get_userrating(Mb4Metadata Metadata);
 
 /**
+ * @see MusicBrainz4::CMetadata::Collection
  *
+ * @param Metadata Metadata object
  *
- * @see
- *
- * @param
- * @param
- * @param
+ * @return Collection object
  */
 	Mb4Collection mb4_metadata_get_collection(Mb4Metadata Metadata);
 
 /**
+ * @see MusicBrainz4::CMetadata::ArtistList
  *
+ * @param Metadata Metadata object
  *
- * @see
- *
- * @param
- * @param
- * @param
+ * @return Artist list
  */
 	Mb4ArtistList mb4_metadata_get_artistlist(Mb4Metadata Metadata);
 
 /**
+ * @see MusicBrainz4::CMetadata::ReleaseList
  *
+ * @param Metadata Metadata object
  *
- * @see
- *
- * @param
- * @param
- * @param
+ * @return Release list
  */
 	Mb4ReleaseList mb4_metadata_get_releaselist(Mb4Metadata Metadata);
 
 /**
+ * @see MusicBrainz4::CMetadata::ReleaseGroupList
  *
+ * @param Metadata Metadata object
  *
- * @see
- *
- * @param
- * @param
- * @param
+ * @return ReleaseGroup list
  */
 	Mb4ReleaseGroupList mb4_metadata_get_releasegrouplist(Mb4Metadata Metadata);
 
 /**
+ * @see MusicBrainz4::CMetadata::RecordingList
  *
+ * @param Metadata Metadata object
  *
- * @see
- *
- * @param
- * @param
- * @param
+ * @return Recording list
  */
 	Mb4RecordingList mb4_metadata_get_recordinglist(Mb4Metadata Metadata);
 
 /**
+ * @see MusicBrainz4::CMetadata::LabelList
  *
+ * @param Metadata Metadata object
  *
- * @see
- *
- * @param
- * @param
- * @param
+ * @return Label list
  */
 	Mb4LabelList mb4_metadata_get_labellist(Mb4Metadata Metadata);
 
 /**
+ * @see MusicBrainz4::CMetadata::WorkList
  *
+ * @param Metadata Metadata object
  *
- * @see
- *
- * @param
- * @param
- * @param
+ * @return Work list
  */
 	Mb4WorkList mb4_metadata_get_worklist(Mb4Metadata Metadata);
 
 /**
+ * @see MusicBrainz4::CMetadata::ISRC
  *
+ * @param Metadata Metadata object
  *
- * @see
- *
- * @param
- * @param
- * @param
+ * @return ISRC list
  */
 	Mb4ISRCList mb4_metadata_get_isrclist(Mb4Metadata Metadata);
 
 /**
+ * @see MusicBrainz4::CMetadata::AnnotationList
  *
+ * @param Metadata Metadata object
  *
- * @see
- *
- * @param
- * @param
- * @param
+ * @return Annotation list
  */
 	Mb4AnnotationList mb4_metadata_get_annotationlist(Mb4Metadata Metadata);
 
 /**
+ * @see MusicBrainz4::CMetadata::CDStubList
  *
+ * @param Metadata Metadata object
  *
- * @see
- *
- * @param
- * @param
- * @param
+ * @return CDStub list
  */
 	Mb4CDStubList mb4_metadata_get_cdstublist(Mb4Metadata Metadata);
 
 /**
+ * @see MusicBrainz4::CMetadata::FreeDBDiscList
  *
+ * @param Metadata Metadata object
  *
- * @see
- *
- * @param
- * @param
- * @param
+ * @return FreeFBDisc list
  */
 	Mb4FreeDBDiscList mb4_metadata_get_freedbdisclist(Mb4Metadata Metadata);
 
 /**
+ * @see MusicBrainz4::CMetadata::TagList
  *
+ * @param Metadata Metadata object
  *
- * @see
- *
- * @param
- * @param
- * @param
+ * @return Tag list
  */
 	Mb4TagList mb4_metadata_get_taglist(Mb4Metadata Metadata);
 
 /**
+ * @see MusicBrainz4::CMetadata::UserTagList
  *
+ * @param Metadata Metadata object
  *
- * @see
- *
- * @param
- * @param
- * @param
+ * @return UserTag list
  */
 	Mb4UserTagList mb4_metadata_get_usertaglist(Mb4Metadata Metadata);
 
 /**
+ * @see MusicBrainz4::CMetadata::CollectionList
  *
+ * @param Metadata Metadata object
  *
- * @see
- *
- * @param
- * @param
- * @param
+ * @return Collection list
  */
 	Mb4CollectionList mb4_metadata_get_collectionlist(Mb4Metadata Metadata);
 
 /**
+ * @see MusicBrainz4::CMetadata::CDStub
  *
+ * @param Metadata Metadata object
  *
- * @see
- *
- * @param
- * @param
- * @param
+ * @return CDStub object
  */
 	Mb4CDStub mb4_metadata_get_cdstub(Mb4Metadata Metadata);
 
 /**
+ * @see MusicBrainz4::CMetadata::Message
  *
+ * @param Metadata Metadata object
  *
- * @see
- *
- * @param
- * @param
- * @param
+ * @return Message object
  */
 	Mb4Message mb4_metadata_get_message(Mb4Metadata Metadata);
 
@@ -1399,7 +1298,7 @@ extern "C"
  * @param Server Server to use, pass null to use the default server
  * @param Port Port to use, pass 0 to use the default port
  *
- * @return The newly create Query object. This object <b>must</b> be deleted once
+ * @return The newly created Query object. This object <b>must</b> be deleted once
  *				finished with.
  */
 
@@ -1753,7 +1652,7 @@ extern "C"
  * @param
  * @param
  */
-	void m4b_release_get_title(Mb4Release Release, char *str, int len);
+	void mb4_release_get_title(Mb4Release Release, char *str, int len);
 
 /**
  *
@@ -1764,7 +1663,7 @@ extern "C"
  * @param
  * @param
  */
-	void m4b_release_get_status(Mb4Release Release, char *str, int len);
+	void mb4_release_get_status(Mb4Release Release, char *str, int len);
 
 /**
  *
@@ -1775,7 +1674,7 @@ extern "C"
  * @param
  * @param
  */
-	void m4b_release_get_quality(Mb4Release Release, char *str, int len);
+	void mb4_release_get_quality(Mb4Release Release, char *str, int len);
 
 /**
  *
@@ -1786,7 +1685,7 @@ extern "C"
  * @param
  * @param
  */
-	void m4b_release_get_disambiguation(Mb4Release Release, char *str, int len);
+	void mb4_release_get_disambiguation(Mb4Release Release, char *str, int len);
 
 /**
  *
@@ -1797,7 +1696,7 @@ extern "C"
  * @param
  * @param
  */
-	void m4b_release_get_packaging(Mb4Release Release, char *str, int len);
+	void mb4_release_get_packaging(Mb4Release Release, char *str, int len);
 
 /**
  *
@@ -1819,7 +1718,7 @@ extern "C"
  * @param
  * @param
  */
-	void m4b_release_get_date(Mb4Release Release, char *str, int len);
+	void mb4_release_get_date(Mb4Release Release, char *str, int len);
 
 /**
  *
@@ -1830,7 +1729,7 @@ extern "C"
  * @param
  * @param
  */
-	void m4b_release_get_country(Mb4Release Release, char *str, int len);
+	void mb4_release_get_country(Mb4Release Release, char *str, int len);
 
 /**
  *
@@ -1841,7 +1740,7 @@ extern "C"
  * @param
  * @param
  */
-	void m4b_release_get_barcode(Mb4Release Release, char *str, int len);
+	void mb4_release_get_barcode(Mb4Release Release, char *str, int len);
 
 /**
  *
@@ -1852,7 +1751,7 @@ extern "C"
  * @param
  * @param
  */
-	void m4b_release_get_asin(Mb4Release Release, char *str, int len);
+	void mb4_release_get_asin(Mb4Release Release, char *str, int len);
 
 /**
  *
