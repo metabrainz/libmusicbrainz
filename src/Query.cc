@@ -131,14 +131,14 @@ MusicBrainz4::CMetadata MusicBrainz4::CQuery::PerformQuery(const std::string& Qu
 		Fetch.SetProxyPassword(m_d->m_ProxyPassword);
 
 	int Ret=Fetch.Fetch(Query);
-	std::cout << "Ret: " << Ret << std::endl;
+	//std::cout << "Ret: " << Ret << std::endl;
 
 	if (Ret>0)
 	{
 		std::vector<unsigned char> Data=Fetch.Data();
 		std::string strData(Data.begin(),Data.end());
 
-		std::cout << "Ret is '" << strData << "'" << std::endl;
+		//std::cout << "Ret is '" << strData << "'" << std::endl;
 
 		XMLResults Results;
 		XMLNode TopNode=XMLNode::parseString(strData.c_str(), 0, &Results);
@@ -225,7 +225,7 @@ MusicBrainz4::CMetadata MusicBrainz4::CQuery::Query(const std::string& Entity, c
 		}
 	}
 
-	std::cout << "Query is '" << os.str() << "'" << std::endl;
+	//std::cout << "Query is '" << os.str() << "'" << std::endl;
 
 	return PerformQuery(os.str());
 }
@@ -319,7 +319,7 @@ bool MusicBrainz4::CQuery::EditCollection(const std::string& CollectionID, std::
 
 	Query+="?client="+m_d->m_UserAgent;
 
-	std::cout << "Query is '" << Query << "'" << std::endl;
+	//std::cout << "Query is '" << Query << "'" << std::endl;
 
 	CHTTPFetch Fetch(UserAgent(),m_d->m_Server,m_d->m_Port);
 
@@ -342,13 +342,13 @@ bool MusicBrainz4::CQuery::EditCollection(const std::string& CollectionID, std::
 		Fetch.SetProxyPassword(m_d->m_ProxyPassword);
 
 	int Ret=Fetch.Fetch(Query,Action);
-	std::cout << "Ret: " << Ret << std::endl;
+	//std::cout << "Ret: " << Ret << std::endl;
 	if (Ret>0)
 	{
 		std::vector<unsigned char> Data=Fetch.Data();
 		std::string strData(Data.begin(),Data.end());
 
-		std::cout << "Ret is '" << strData << "'" << std::endl;
+		//std::cout << "Ret is '" << strData << "'" << std::endl;
 		XMLResults Results;
 		XMLNode TopNode=XMLNode::parseString(strData.c_str(), 0, &Results);
 		if (Results.error==eXMLErrorNone)
