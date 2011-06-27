@@ -36,8 +36,8 @@
 namespace MusicBrainz4
 {
 	class CCDStubPrivate;
-	
-	class CNoneMBTrack;
+
+	class CNonMBTrack;
 
 	class CCDStub
 	{
@@ -52,7 +52,7 @@ namespace MusicBrainz4
 		std::string Artist() const;
 		std::string Barcode() const;
 		std::string Comment() const;
-		CGenericList<CNoneMBTrack> *NoneMBTrackList() const;
+		CGenericList<CNonMBTrack> *NonMBTrackList() const;
 
 	private:
 		void Cleanup();

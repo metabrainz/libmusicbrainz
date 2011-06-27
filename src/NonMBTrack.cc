@@ -23,14 +23,14 @@
 
 ----------------------------------------------------------------------------*/
 
-#include "musicbrainz4/NoneMBTrack.h"
+#include "musicbrainz4/NonMBTrack.h"
 
 #include "ParserUtils.h"
 
-class MusicBrainz4::CNoneMBTrackPrivate
+class MusicBrainz4::CNonMBTrackPrivate
 {
 	public:
-		CNoneMBTrackPrivate()
+		CNonMBTrackPrivate()
 		:	m_Length(0)
 		{
 		}
@@ -40,12 +40,12 @@ class MusicBrainz4::CNoneMBTrackPrivate
 		int m_Length;
 };
 
-MusicBrainz4::CNoneMBTrack::CNoneMBTrack(const XMLNode& Node)
-:	m_d(new CNoneMBTrackPrivate)
+MusicBrainz4::CNonMBTrack::CNonMBTrack(const XMLNode& Node)
+:	m_d(new CNonMBTrackPrivate)
 {
 	if (!Node.isEmpty())
 	{
-		//std::cout << "NoneMBTrack node: " << std::endl << Node.createXMLString(true) << std::endl;
+		//std::cout << "NonMBTrack node: " << std::endl << Node.createXMLString(true) << std::endl;
 
 		for (int count=0;count<Node.nChildNode();count++)
 		{
@@ -75,13 +75,13 @@ MusicBrainz4::CNoneMBTrack::CNoneMBTrack(const XMLNode& Node)
 	}
 }
 
-MusicBrainz4::CNoneMBTrack::CNoneMBTrack(const CNoneMBTrack& Other)
-:	m_d(new CNoneMBTrackPrivate)
+MusicBrainz4::CNonMBTrack::CNonMBTrack(const CNonMBTrack& Other)
+:	m_d(new CNonMBTrackPrivate)
 {
 	*this=Other;
 }
 
-MusicBrainz4::CNoneMBTrack& MusicBrainz4::CNoneMBTrack::operator =(const CNoneMBTrack& Other)
+MusicBrainz4::CNonMBTrack& MusicBrainz4::CNonMBTrack::operator =(const CNonMBTrack& Other)
 {
 	if (this!=&Other)
 	{
@@ -93,33 +93,33 @@ MusicBrainz4::CNoneMBTrack& MusicBrainz4::CNoneMBTrack::operator =(const CNoneMB
 	return *this;
 }
 
-MusicBrainz4::CNoneMBTrack::~CNoneMBTrack()
+MusicBrainz4::CNonMBTrack::~CNonMBTrack()
 {
 	delete m_d;
 }
 
-std::string MusicBrainz4::CNoneMBTrack::Title() const
+std::string MusicBrainz4::CNonMBTrack::Title() const
 {
 	return m_d->m_Title;
 }
 
-std::string MusicBrainz4::CNoneMBTrack::Artist() const
+std::string MusicBrainz4::CNonMBTrack::Artist() const
 {
 	return m_d->m_Artist;
 }
 
-int MusicBrainz4::CNoneMBTrack::Length() const
+int MusicBrainz4::CNonMBTrack::Length() const
 {
 	return m_d->m_Length;
 }
 
-std::ostream& operator << (std::ostream& os, const MusicBrainz4::CNoneMBTrack& NoneMBTrack)
+std::ostream& operator << (std::ostream& os, const MusicBrainz4::CNonMBTrack& NonMBTrack)
 {
-	os << "NoneMBTrack:" << std::endl;
+	os << "NonMBTrack:" << std::endl;
 
-	os << "\tTitle:  " << NoneMBTrack.Title() << std::endl;
-	os << "\tArtist: " << NoneMBTrack.Artist() << std::endl;
-	os << "\tLength: " << NoneMBTrack.Length() << std::endl;
+	os << "\tTitle:  " << NonMBTrack.Title() << std::endl;
+	os << "\tArtist: " << NonMBTrack.Artist() << std::endl;
+	os << "\tLength: " << NonMBTrack.Length() << std::endl;
 
 	return os;
 }

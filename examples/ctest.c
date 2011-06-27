@@ -117,8 +117,8 @@ void CompileTest()
 	Mb4Metadata Metadata=0;
 	Mb4NameCredit NameCredit=0;
 	Mb4NameCreditList NameCreditList=0;
-	Mb4NoneMBTrack NoneMBTrack=0;
-	Mb4NoneMBTrackList NoneMBTrackList=0;
+	Mb4NonMBTrack NonMBTrack=0;
+	Mb4NonMBTrackList NonMBTrackList=0;
 	Mb4PUID PUID=0;
 	Mb4PUIDList PUIDList=0;
 	Mb4Query Query=0;
@@ -190,7 +190,7 @@ void CompileTest()
 	mb4_cdstub_get_artist(CDStub,Str,Size);
 	mb4_cdstub_get_barcode(CDStub,Str,Size);
 	mb4_cdstub_get_comment(CDStub,Str,Size);
-	NoneMBTrackList=mb4_cdstub_get_nonembtracklist(CDStub);
+	NonMBTrackList=mb4_cdstub_get_nonmbtracklist(CDStub);
 	mb4_cdstub_delete(CDStub);
 
 	mb4_disc_get_id(Disc,Str,Size);
@@ -209,7 +209,7 @@ void CompileTest()
 	mb4_freedbdisc_get_artist(FreeDBDisc,Str,Size);
 	mb4_freedbdisc_get_category(FreeDBDisc,Str,Size);
 	mb4_freedbdisc_get_year(FreeDBDisc,Str,Size);
-	NoneMBTrackList=mb4_freedbdisc_get_nonembtracklist(FreeDBDisc);
+	NonMBTrackList=mb4_freedbdisc_get_nonmbtracklist(FreeDBDisc);
 	mb4_freedbdisc_delete(FreeDBDisc);
 
 	mb4_isrc_get_id(ISRC,Str,Size);
@@ -284,10 +284,10 @@ void CompileTest()
 	Message=mb4_metadata_get_message(Metadata);
 	mb4_metadata_delete(Metadata);
 
-	mb4_nonembtrack_get_title(NoneMBTrack,Str,Size);
-	mb4_nonembtrack_get_artist(NoneMBTrack,Str,Size);
-	DummyInt=mb4_nonembtrack_get_length(NoneMBTrack);
-	mb4_nonembtrack_delete(NoneMBTrack);
+	mb4_nonmbtrack_get_title(NonMBTrack,Str,Size);
+	mb4_nonmbtrack_get_artist(NonMBTrack,Str,Size);
+	DummyInt=mb4_nonmbtrack_get_length(NonMBTrack);
+	mb4_nonmbtrack_delete(NonMBTrack);
 
 	mb4_namecredit_get_joinphrase(NameCredit,Str,Size);
 	mb4_namecredit_get_name(NameCredit,Str,Size);
@@ -463,9 +463,9 @@ void CompileTest()
 	NameCredit=mb4_namecredit_list_item(NameCreditList,0);
 	mb4_namecredit_list_delete(NameCreditList);
 
-	mb4_nonembtrack_list_size(NoneMBTrackList);
-	NoneMBTrack=mb4_nonembtrack_list_item(NoneMBTrackList,0);
-	mb4_nonembtrack_list_delete(NoneMBTrackList);
+	mb4_nonmbtrack_list_size(NonMBTrackList);
+	NonMBTrack=mb4_nonmbtrack_list_item(NonMBTrackList,0);
+	mb4_nonmbtrack_list_delete(NonMBTrackList);
 
 	mb4_puid_list_size(PUIDList);
 	PUID=mb4_puid_list_item(PUIDList,0);

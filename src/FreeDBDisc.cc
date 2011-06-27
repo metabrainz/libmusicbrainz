@@ -25,22 +25,22 @@
 
 #include "musicbrainz4/FreeDBDisc.h"
 
-#include "musicbrainz4/NoneMBTrack.h"
+#include "musicbrainz4/NonMBTrack.h"
 
 class MusicBrainz4::CFreeDBDiscPrivate
 {
 	public:
 		CFreeDBDiscPrivate()
-		:	m_NoneMBTrackList(0)
+		:	m_NonMBTrackList(0)
 		{
 		}
-		
+
 		std::string m_ID;
 		std::string m_Title;
 		std::string m_Artist;
 		std::string m_Category;
 		std::string m_Year;
-		CGenericList<CNoneMBTrack> *m_NoneMBTrackList;
+		CGenericList<CNonMBTrack> *m_NonMBTrackList;
 };
 
 MusicBrainz4::CFreeDBDisc::CFreeDBDisc(const XMLNode& Node)
@@ -79,7 +79,7 @@ MusicBrainz4::CFreeDBDisc::CFreeDBDisc(const XMLNode& Node)
 			}
 			else if ("nonmb-track-list"==NodeName)
 			{
-				m_d->m_NoneMBTrackList=new CGenericList<CNoneMBTrack>(ChildNode,"track");
+				m_d->m_NonMBTrackList=new CGenericList<CNonMBTrack>(ChildNode,"track");
 			}
 			else
 			{
@@ -107,8 +107,8 @@ MusicBrainz4::CFreeDBDisc& MusicBrainz4::CFreeDBDisc::operator =(const CFreeDBDi
 		m_d->m_Category=Other.m_d->m_Category;
 		m_d->m_Year=Other.m_d->m_Year;
 
-		if (Other.m_d->m_NoneMBTrackList)
-			m_d->m_NoneMBTrackList=new CGenericList<CNoneMBTrack>(*Other.m_d->m_NoneMBTrackList);
+		if (Other.m_d->m_NonMBTrackList)
+			m_d->m_NonMBTrackList=new CGenericList<CNonMBTrack>(*Other.m_d->m_NonMBTrackList);
 	}
 
 	return *this;
@@ -117,14 +117,14 @@ MusicBrainz4::CFreeDBDisc& MusicBrainz4::CFreeDBDisc::operator =(const CFreeDBDi
 MusicBrainz4::CFreeDBDisc::~CFreeDBDisc()
 {
 	Cleanup();
-	
+
 	delete m_d;
 }
 
 void MusicBrainz4::CFreeDBDisc::Cleanup()
 {
-	delete m_d->m_NoneMBTrackList;
-	m_d->m_NoneMBTrackList=0;
+	delete m_d->m_NonMBTrackList;
+	m_d->m_NonMBTrackList=0;
 }
 
 std::string MusicBrainz4::CFreeDBDisc::ID() const
@@ -152,9 +152,9 @@ std::string MusicBrainz4::CFreeDBDisc::Year() const
 	return m_d->m_Year;
 }
 
-MusicBrainz4::CGenericList<MusicBrainz4::CNoneMBTrack> *MusicBrainz4::CFreeDBDisc::NoneMBTrackList() const
+MusicBrainz4::CGenericList<MusicBrainz4::CNonMBTrack> *MusicBrainz4::CFreeDBDisc::NonMBTrackList() const
 {
-	return m_d->m_NoneMBTrackList;
+	return m_d->m_NonMBTrackList;
 }
 
 std::ostream& operator << (std::ostream& os, const MusicBrainz4::CFreeDBDisc& FreeDBDisc)
@@ -167,8 +167,8 @@ std::ostream& operator << (std::ostream& os, const MusicBrainz4::CFreeDBDisc& Fr
 	os << "\tCategory: " << FreeDBDisc.Category() << std::endl;
 	os << "\tYear:     " << FreeDBDisc.Year() << std::endl;
 
-	if (FreeDBDisc.NoneMBTrackList())
-		os << *FreeDBDisc.NoneMBTrackList() << std::endl;
+	if (FreeDBDisc.NonMBTrackList())
+		os << *FreeDBDisc.NonMBTrackList() << std::endl;
 
 	return os;
 }

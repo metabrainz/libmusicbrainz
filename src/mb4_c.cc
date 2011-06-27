@@ -19,7 +19,7 @@
 #include "musicbrainz4/Message.h"
 #include "musicbrainz4/Metadata.h"
 #include "musicbrainz4/NameCredit.h"
-#include "musicbrainz4/NoneMBTrack.h"
+#include "musicbrainz4/NonMBTrack.h"
 #include "musicbrainz4/PUID.h"
 #include "musicbrainz4/Query.h"
 #include "musicbrainz4/Rating.h"
@@ -255,7 +255,7 @@ MB4_C_STR_GETTER(CDStub,cdstub,Title,title)
 MB4_C_STR_GETTER(CDStub,cdstub,Artist,artist)
 MB4_C_STR_GETTER(CDStub,cdstub,Barcode,barcode)
 MB4_C_STR_GETTER(CDStub,cdstub,Comment,comment)
-MB4_C_OBJ_GETTER(CDStub,cdstub,NoneMBTrackList,nonembtracklist)
+MB4_C_OBJ_GETTER(CDStub,cdstub,NonMBTrackList,nonmbtracklist)
 
 MB4_C_DELETE(Collection,collection)
 MB4_C_STR_GETTER(Collection,collection,ID,id)
@@ -274,7 +274,7 @@ MB4_C_STR_GETTER(FreeDBDisc,freedbdisc,Title,title)
 MB4_C_STR_GETTER(FreeDBDisc,freedbdisc,Artist,artist)
 MB4_C_STR_GETTER(FreeDBDisc,freedbdisc,Category,category)
 MB4_C_STR_GETTER(FreeDBDisc,freedbdisc,Year,year)
-MB4_C_OBJ_GETTER(FreeDBDisc,freedbdisc,NoneMBTrackList,nonembtracklist)
+MB4_C_OBJ_GETTER(FreeDBDisc,freedbdisc,NonMBTrackList,nonmbtracklist)
 
 MB4_C_DELETE(ISRC,isrc)
 MB4_C_STR_GETTER(ISRC,isrc,ID,id)
@@ -363,10 +363,10 @@ MB4_C_STR_GETTER(NameCredit,namecredit,JoinPhrase,joinphrase)
 MB4_C_STR_GETTER(NameCredit,namecredit,Name,name)
 MB4_C_OBJ_GETTER(NameCredit,namecredit,Artist,artist)
 
-MB4_C_DELETE(NoneMBTrack,nonembtrack)
-MB4_C_STR_GETTER(NoneMBTrack,nonembtrack,Title,title)
-MB4_C_STR_GETTER(NoneMBTrack,nonembtrack,Artist,artist)
-MB4_C_INT_GETTER(NoneMBTrack,nonembtrack,Length,length)
+MB4_C_DELETE(NonMBTrack,nonmbtrack)
+MB4_C_STR_GETTER(NonMBTrack,nonmbtrack,Title,title)
+MB4_C_STR_GETTER(NonMBTrack,nonmbtrack,Artist,artist)
+MB4_C_INT_GETTER(NonMBTrack,nonmbtrack,Length,length)
 
 MB4_C_DELETE(PUID,puid)
 MB4_C_STR_GETTER(PUID,puid,ID,id)
@@ -586,7 +586,7 @@ MB4_C_LIST_GETTER(Label,label)
 MB4_C_LIST_GETTER(LabelInfo,labelinfo)
 MB4_C_LIST_GETTER(Medium,medium)
 MB4_C_LIST_GETTER(NameCredit,namecredit)
-MB4_C_LIST_GETTER(NoneMBTrack,nonembtrack)
+MB4_C_LIST_GETTER(NonMBTrack,nonmbtrack)
 MB4_C_LIST_GETTER(PUID,puid)
 MB4_C_LIST_GETTER(Recording,recording)
 MB4_C_LIST_GETTER(Relation,relation)

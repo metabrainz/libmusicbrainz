@@ -79,8 +79,8 @@ extern "C"
 	typedef void *Mb4Metadata;
 	typedef void *Mb4NameCredit;
 	typedef void *Mb4NameCreditList;
-	typedef void *Mb4NoneMBTrack;
-	typedef void *Mb4NoneMBTrackList;
+	typedef void *Mb4NonMBTrack;
+	typedef void *Mb4NonMBTrackList;
 	typedef void *Mb4PUID;
 	typedef void *Mb4PUIDList;
 	typedef void *Mb4Query;
@@ -486,13 +486,13 @@ extern "C"
 	int mb4_cdstub_get_comment(Mb4CDStub CDStub, char *str, int len);
 
 /**
- * @see MusicBrainz4::CCDStub::NoneMBTrackList
+ * @see MusicBrainz4::CCDStub::NonMBTrackList
  *
  * @param CDStub #Mb4CDStub object
  *
- * @return #Mb4NoneMBTrackList.
+ * @return #Mb4NonMBTrackList.
  */
-	Mb4NoneMBTrackList mb4_cdstub_get_nonembtracklist(Mb4CDStub CDStub);
+	Mb4NonMBTrackList mb4_cdstub_get_nonmbtracklist(Mb4CDStub CDStub);
 
 
 /**
@@ -644,13 +644,13 @@ extern "C"
 	int mb4_freedbdisc_get_year(Mb4FreeDBDisc FreeDBDisc, char *str, int len);
 
 /**
- * @see MusicBrainz4::CFreeDBDisc::NoneMBTrackList
+ * @see MusicBrainz4::CFreeDBDisc::NonMBTrackList
  *
  * @param FreeDBDisc #Mb4FreeDBDisc object
  *
- * @return #Mb4NoneMBTrackList.
+ * @return #Mb4NonMBTrackList.
  */
-	Mb4NoneMBTrackList mb4_freedbdisc_get_nonembtracklist(Mb4FreeDBDisc FreeDBDisc);
+	Mb4NonMBTrackList mb4_freedbdisc_get_nonmbtracklist(Mb4FreeDBDisc FreeDBDisc);
 
 
 /**
@@ -1296,42 +1296,42 @@ extern "C"
 	Mb4Artist mb4_namecredit_get_artist(Mb4NameCredit NameCredit);
 
 /**
- * Delete a #Mb4NoneMBTrack object
+ * Delete a #Mb4NonMBTrack object
  *
- * @param NoneMBTrack Object to delete
+ * @param NonMBTrack Object to delete
  */
-	void mb4_nonembtrack_delete(Mb4NoneMBTrack NoneMBTrack);
+	void mb4_nonmbtrack_delete(Mb4NonMBTrack NonMBTrack);
 
 /**
- * @see MusicBrainz4::CNoneMBTrack::Title
+ * @see MusicBrainz4::CNonMBTrack::Title
  *
- * @param NoneMBTrack #Mb4NoneMBTrack object
+ * @param NonMBTrack #Mb4NonMBTrack object
  * @param str Returned string
  * @param len Number of characters available in return string
  *
  * @return The number of characters in the string to copy (not including terminating NULL)
  */
-	int mb4_nonembtrack_get_title(Mb4NoneMBTrack NoneMBTrack, char *str, int len);
+	int mb4_nonmbtrack_get_title(Mb4NonMBTrack NonMBTrack, char *str, int len);
 
 /**
- * @see MusicBrainz4::CNoneMBTrack::Artist
+ * @see MusicBrainz4::CNonMBTrack::Artist
  *
- * @param NoneMBTrack #Mb4NoneMBTrack object
+ * @param NonMBTrack #Mb4NonMBTrack object
  * @param str Returned string
  * @param len Number of characters available in return string
  *
  * @return The number of characters in the string to copy (not including terminating NULL)
  */
-	int mb4_nonembtrack_get_artist(Mb4NoneMBTrack NoneMBTrack, char *str, int len);
+	int mb4_nonmbtrack_get_artist(Mb4NonMBTrack NonMBTrack, char *str, int len);
 
 /**
- * @see MusicBrainz4::CNoneMBTrack::Length
+ * @see MusicBrainz4::CNonMBTrack::Length
  *
- * @param NoneMBTrack #Mb4NoneMBTrack object
+ * @param NonMBTrack #Mb4NonMBTrack object
  *
  * @return Returned length
  */
-	int mb4_nonembtrack_get_length(Mb4NoneMBTrack NoneMBTrack);
+	int mb4_nonmbtrack_get_length(Mb4NonMBTrack NonMBTrack);
 
 
 /**
@@ -2695,29 +2695,29 @@ extern "C"
 	Mb4NameCredit mb4_namecredit_list_item(Mb4NameCreditList List, int Item);
 
 /**
- * Delete a #Mb4NoneMBTrackList
+ * Delete a #Mb4NonMBTrackList
  *
  * @param List List to delete
  */
-	void mb4_nonembtrack_list_delete(Mb4NoneMBTrackList List);
+	void mb4_nonmbtrack_list_delete(Mb4NonMBTrackList List);
 
 /**
- *	Return the number of entries in a #Mb4NoneMBTrackList
+ *	Return the number of entries in a #Mb4NonMBTrackList
  *
  * @param	List List to use
  */
-	int mb4_nonembtrack_list_size(Mb4NoneMBTrackList List);
+	int mb4_nonmbtrack_list_size(Mb4NonMBTrackList List);
 
 /**
- *	Returns an entry from a #Mb4NoneMBTrackList
+ *	Returns an entry from a #Mb4NonMBTrackList
  *
  * @param List List to use
  * @param Item Item number to return
  *
- * @return A #Mb4NoneMBTrack object. This object <b>must</b> be deleted once
+ * @return A #Mb4NonMBTrack object. This object <b>must</b> be deleted once
  *				finished with.
  */
-	Mb4NoneMBTrack mb4_nonembtrack_list_item(Mb4NoneMBTrackList List, int Item);
+	Mb4NonMBTrack mb4_nonmbtrack_list_item(Mb4NonMBTrackList List, int Item);
 
 /**
  * Delete a #Mb4PUIDList

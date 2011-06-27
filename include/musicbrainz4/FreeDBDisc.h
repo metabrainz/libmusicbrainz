@@ -36,8 +36,8 @@
 namespace MusicBrainz4
 {
 	class CFreeDBDiscPrivate;
-	
-	class CNoneMBTrack;
+
+	class CNonMBTrack;
 
 	class CFreeDBDisc
 	{
@@ -52,7 +52,7 @@ namespace MusicBrainz4
 		std::string Artist() const;
 		std::string Category() const;
 		std::string Year() const;
-		CGenericList<CNoneMBTrack> *NoneMBTrackList() const;
+		CGenericList<CNonMBTrack> *NonMBTrackList() const;
 
 	private:
 		void Cleanup();

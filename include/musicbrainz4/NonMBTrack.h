@@ -23,8 +23,8 @@
 
 ----------------------------------------------------------------------------*/
 
-#ifndef _MUSICBRAINZ4_NONE_MB_TRACK_H
-#define _MUSICBRAINZ4_NONE_MB_TRACK_H
+#ifndef _MUSICBRAINZ4_NON_MB_TRACK_H
+#define _MUSICBRAINZ4_NON_MB_TRACK_H
 
 #include <string>
 #include <iostream>
@@ -33,25 +33,25 @@
 
 namespace MusicBrainz4
 {
-	class CNoneMBTrackPrivate;
+	class CNonMBTrackPrivate;
 
-	class CNoneMBTrack
+	class CNonMBTrack
 	{
 	public:
-		CNoneMBTrack(const XMLNode& Node);
-		CNoneMBTrack(const CNoneMBTrack& Other);
-		CNoneMBTrack& operator =(const CNoneMBTrack& Other);
-		~CNoneMBTrack();
+		CNonMBTrack(const XMLNode& Node);
+		CNonMBTrack(const CNonMBTrack& Other);
+		CNonMBTrack& operator =(const CNonMBTrack& Other);
+		~CNonMBTrack();
 
 		std::string Title() const;
 		std::string Artist() const;
 		int Length() const;
 
 	private:
-		CNoneMBTrackPrivate * const m_d;
+		CNonMBTrackPrivate * const m_d;
 	};
 }
 
-std::ostream& operator << (std::ostream& os, const MusicBrainz4::CNoneMBTrack& NoneMBTrack);
+std::ostream& operator << (std::ostream& os, const MusicBrainz4::CNonMBTrack& NonMBTrack);
 
 #endif
