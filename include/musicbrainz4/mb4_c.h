@@ -117,8 +117,10 @@ extern "C"
  * @param Alias #Mb4Alias object
  * @param str Returned string
  * @param len Number of characters available in return string
+ *
+ * @return The number of characters in the string to copy (not including terminating NULL)
  */
-	void mb4_alias_get_type(Mb4Alias Alias, char *str, int len);
+	int mb4_alias_get_type(Mb4Alias Alias, char *str, int len);
 
 /**
  * @see MusicBrainz4::CAlias::Script
@@ -126,8 +128,10 @@ extern "C"
  * @param Alias #Mb4Alias object
  * @param str Returned string
  * @param len Number of characters available in return string
+ *
+ * @return The number of characters in the string to copy (not including terminating NULL)
  */
-	void mb4_alias_get_script(Mb4Alias Alias, char *str, int len);
+	int mb4_alias_get_script(Mb4Alias Alias, char *str, int len);
 
 /**
  * @see MusicBrainz4::CAlias::Text
@@ -135,8 +139,10 @@ extern "C"
  * @param Alias #Mb4Alias object
  * @param str Returned string
  * @param len Number of characters available in return string
+ *
+ * @return The number of characters in the string to copy (not including terminating NULL)
  */
-	void mb4_alias_get_text(Mb4Alias Alias, char *str, int len);
+	int mb4_alias_get_text(Mb4Alias Alias, char *str, int len);
 
 
 /**
@@ -152,8 +158,10 @@ extern "C"
  * @param Annotation #Mb4Annotation object
  * @param str Returned string
  * @param len Number of characters available in return string
+ *
+ * @return The number of characters in the string to copy (not including terminating NULL)
  */
-	void mb4_annotation_get_type(Mb4Annotation Annotation, char *str, int len);
+	int mb4_annotation_get_type(Mb4Annotation Annotation, char *str, int len);
 
 /**
  * @see MusicBrainz4::CAnnotation::Entity
@@ -161,8 +169,10 @@ extern "C"
  * @param Annotation #Mb4Annotation object
  * @param str Returned string
  * @param len Number of characters available in return string
+ *
+ * @return The number of characters in the string to copy (not including terminating NULL)
  */
-	void mb4_annotation_get_entity(Mb4Annotation Annotation, char *str, int len);
+	int mb4_annotation_get_entity(Mb4Annotation Annotation, char *str, int len);
 
 /**
  * @see MusicBrainz4::CAnnotation::Name
@@ -170,8 +180,10 @@ extern "C"
  * @param Annotation #Mb4Annotation object
  * @param str Returned string
  * @param len Number of characters available in return string
+ *
+ * @return The number of characters in the string to copy (not including terminating NULL)
  */
-	void mb4_annotation_get_name(Mb4Annotation Annotation, char *str, int len);
+	int mb4_annotation_get_name(Mb4Annotation Annotation, char *str, int len);
 
 /**
  * @see MusicBrainz4::CAnnotation::Text
@@ -179,8 +191,10 @@ extern "C"
  * @param Annotation #Mb4Annotation object
  * @param str Returned string
  * @param len Number of characters available in return string
+ *
+ * @return The number of characters in the string to copy (not including terminating NULL)
  */
-	void mb4_annotation_get_text(Mb4Annotation Annotation, char *str, int len);
+	int mb4_annotation_get_text(Mb4Annotation Annotation, char *str, int len);
 
 
 /**
@@ -196,8 +210,10 @@ extern "C"
  * @param Artist #Mb4Artist object
  * @param str Returned string
  * @param len Number of characters available in return string
+ *
+ * @return The number of characters in the string to copy (not including terminating NULL)
  */
-	void mb4_artist_get_id(Mb4Artist Artist, char *str, int len);
+	int mb4_artist_get_id(Mb4Artist Artist, char *str, int len);
 
 /**
  * @see MusicBrainz4::CArtist::Type
@@ -205,8 +221,10 @@ extern "C"
  * @param Artist #Mb4Artist object
  * @param str Returned string
  * @param len Number of characters available in return string
+ *
+ * @return The number of characters in the string to copy (not including terminating NULL)
  */
-	void mb4_artist_get_type(Mb4Artist Artist, char *str, int len);
+	int mb4_artist_get_type(Mb4Artist Artist, char *str, int len);
 
 /**
  * @see MusicBrainz4::CArtist::Name
@@ -214,8 +232,10 @@ extern "C"
  * @param Artist #Mb4Artist object
  * @param str Returned string
  * @param len Number of characters available in return string
+ *
+ * @return The number of characters in the string to copy (not including terminating NULL)
  */
-	void mb4_artist_get_name(Mb4Artist Artist, char *str, int len);
+	int mb4_artist_get_name(Mb4Artist Artist, char *str, int len);
 
 /**
  * @see MusicBrainz4::CArtist::SortName
@@ -223,8 +243,10 @@ extern "C"
  * @param Artist #Mb4Artist object
  * @param str Returned string
  * @param len Number of characters available in return string
+ *
+ * @return The number of characters in the string to copy (not including terminating NULL)
  */
-	void mb4_artist_get_sortname(Mb4Artist Artist, char *str, int len);
+	int mb4_artist_get_sortname(Mb4Artist Artist, char *str, int len);
 
 /**
  * @see MusicBrainz4::CArtist::Gender
@@ -232,8 +254,10 @@ extern "C"
  * @param Artist #Mb4Artist object
  * @param str Returned string
  * @param len Number of characters available in return string
+ *
+ * @return The number of characters in the string to copy (not including terminating NULL)
  */
-	void mb4_artist_get_gender(Mb4Artist Artist, char *str, int len);
+	int mb4_artist_get_gender(Mb4Artist Artist, char *str, int len);
 
 /**
  * @see MusicBrainz4::CArtist::Country
@@ -241,8 +265,10 @@ extern "C"
  * @param Artist #Mb4Artist object
  * @param str Returned string
  * @param len Number of characters available in return string
+ *
+ * @return The number of characters in the string to copy (not including terminating NULL)
  */
-	void mb4_artist_get_country(Mb4Artist Artist, char *str, int len);
+	int mb4_artist_get_country(Mb4Artist Artist, char *str, int len);
 
 /**
  * @see MusicBrainz4::CArtist::Disambiguation
@@ -250,8 +276,10 @@ extern "C"
  * @param Artist #Mb4Artist object
  * @param str Returned string
  * @param len Number of characters available in return string
+ *
+ * @return The number of characters in the string to copy (not including terminating NULL)
  */
-	void mb4_artist_get_disambiguation(Mb4Artist Artist, char *str, int len);
+	int mb4_artist_get_disambiguation(Mb4Artist Artist, char *str, int len);
 
 /**
  * @see MusicBrainz4::CArtist::Lifespan
@@ -390,8 +418,10 @@ extern "C"
  * @param Attribute #Mb4Attribute object
  * @param str Returned string
  * @param len Number of characters available in return string
+ *
+ * @return The number of characters in the string to copy (not including terminating NULL)
  */
-	void mb4_attribute_get_text(Mb4Attribute Attribute, char *str, int len);
+	int mb4_attribute_get_text(Mb4Attribute Attribute, char *str, int len);
 
 /**
  * Delete a #Mb4CDStub object
@@ -406,8 +436,10 @@ extern "C"
  * @param CDStub #Mb4CDStub object
  * @param str Returned string
  * @param len Number of characters available in return string
+ *
+ * @return The number of characters in the string to copy (not including terminating NULL)
  */
-	void mb4_cdstub_get_id(Mb4CDStub CDStub, char *str, int len);
+	int mb4_cdstub_get_id(Mb4CDStub CDStub, char *str, int len);
 
 /**
  * @see MusicBrainz4::CCDStub::Title
@@ -415,8 +447,10 @@ extern "C"
  * @param CDStub #Mb4CDStub object
  * @param str Returned string
  * @param len Number of characters available in return string
+ *
+ * @return The number of characters in the string to copy (not including terminating NULL)
  */
-	void mb4_cdstub_get_title(Mb4CDStub CDStub, char *str, int len);
+	int mb4_cdstub_get_title(Mb4CDStub CDStub, char *str, int len);
 
 /**
  * @see MusicBrainz4::CCDStub::Artist
@@ -424,8 +458,10 @@ extern "C"
  * @param CDStub #Mb4CDStub object
  * @param str Returned string
  * @param len Number of characters available in return string
+ *
+ * @return The number of characters in the string to copy (not including terminating NULL)
  */
-	void mb4_cdstub_get_artist(Mb4CDStub CDStub, char *str, int len);
+	int mb4_cdstub_get_artist(Mb4CDStub CDStub, char *str, int len);
 
 /**
  * @see MusicBrainz4::CCDStub::Barcode
@@ -433,8 +469,10 @@ extern "C"
  * @param CDStub #Mb4CDStub object
  * @param str Returned string
  * @param len Number of characters available in return string
+ *
+ * @return The number of characters in the string to copy (not including terminating NULL)
  */
-	void mb4_cdstub_get_barcode(Mb4CDStub CDStub, char *str, int len);
+	int mb4_cdstub_get_barcode(Mb4CDStub CDStub, char *str, int len);
 
 /**
  * @see MusicBrainz4::CCDStub::Comment
@@ -442,8 +480,10 @@ extern "C"
  * @param CDStub #Mb4CDStub object
  * @param str Returned string
  * @param len Number of characters available in return string
+ *
+ * @return The number of characters in the string to copy (not including terminating NULL)
  */
-	void mb4_cdstub_get_comment(Mb4CDStub CDStub, char *str, int len);
+	int mb4_cdstub_get_comment(Mb4CDStub CDStub, char *str, int len);
 
 /**
  * @see MusicBrainz4::CCDStub::NoneMBTrackList
@@ -468,8 +508,10 @@ extern "C"
  * @param Collection #Mb4Collection object
  * @param str Returned string
  * @param len Number of characters available in return string
+ *
+ * @return The number of characters in the string to copy (not including terminating NULL)
  */
-	void mb4_collection_get_id(Mb4Collection Collection, char *str, int len);
+	int mb4_collection_get_id(Mb4Collection Collection, char *str, int len);
 
 /**
  * @see MusicBrainz4::CCollection::Name
@@ -477,8 +519,10 @@ extern "C"
  * @param Collection #Mb4Collection object
  * @param str Returned string
  * @param len Number of characters available in return string
+ *
+ * @return The number of characters in the string to copy (not including terminating NULL)
  */
-	void mb4_collection_get_name(Mb4Collection Collection, char *str, int len);
+	int mb4_collection_get_name(Mb4Collection Collection, char *str, int len);
 
 /**
  * @see MusicBrainz4::CCollection::Editor
@@ -486,8 +530,10 @@ extern "C"
  * @param Collection #Mb4Collection object
  * @param str Returned string
  * @param len Number of characters available in return string
+ *
+ * @return The number of characters in the string to copy (not including terminating NULL)
  */
-	void mb4_collection_get_editor(Mb4Collection Collection, char *str, int len);
+	int mb4_collection_get_editor(Mb4Collection Collection, char *str, int len);
 
 /**
  * @see MusicBrainz4::CCollection::ReleaseList
@@ -511,8 +557,10 @@ extern "C"
  * @param Disc #Mb4Disc object
  * @param str Returned string
  * @param len Number of characters available in return string
+ *
+ * @return The number of characters in the string to copy (not including terminating NULL)
  */
-	void mb4_disc_get_id(Mb4Disc Disc, char *str, int len);
+	int mb4_disc_get_id(Mb4Disc Disc, char *str, int len);
 
 /**
  * @see MusicBrainz4::CDisc::Sectors
@@ -546,8 +594,10 @@ extern "C"
  * @param FreeDBDisc #Mb4FreeDBDisc object
  * @param str Returned string
  * @param len Number of characters available in return string
+ *
+ * @return The number of characters in the string to copy (not including terminating NULL)
  */
-	void mb4_freedbdisc_get_id(Mb4FreeDBDisc FreeDBDisc, char *str, int len);
+	int mb4_freedbdisc_get_id(Mb4FreeDBDisc FreeDBDisc, char *str, int len);
 
 /**
  * @see MusicBrainz4::CFreeDBDisc::Title
@@ -555,8 +605,10 @@ extern "C"
  * @param FreeDBDisc #Mb4FreeDBDisc object
  * @param str Returned string
  * @param len Number of characters available in return string
+ *
+ * @return The number of characters in the string to copy (not including terminating NULL)
  */
-	void mb4_freedbdisc_get_title(Mb4FreeDBDisc FreeDBDisc, char *str, int len);
+	int mb4_freedbdisc_get_title(Mb4FreeDBDisc FreeDBDisc, char *str, int len);
 
 /**
  * @see MusicBrainz4::CFreeDBDisc::Artist
@@ -564,8 +616,10 @@ extern "C"
  * @param FreeDBDisc #Mb4FreeDBDisc object
  * @param str Returned string
  * @param len Number of characters available in return string
+ *
+ * @return The number of characters in the string to copy (not including terminating NULL)
  */
-	void mb4_freedbdisc_get_artist(Mb4FreeDBDisc FreeDBDisc, char *str, int len);
+	int mb4_freedbdisc_get_artist(Mb4FreeDBDisc FreeDBDisc, char *str, int len);
 
 /**
  * @see MusicBrainz4::CFreeDBDisc::Category
@@ -573,8 +627,10 @@ extern "C"
  * @param FreeDBDisc #Mb4FreeDBDisc object
  * @param str Returned string
  * @param len Number of characters available in return string
+ *
+ * @return The number of characters in the string to copy (not including terminating NULL)
  */
-	void mb4_freedbdisc_get_category(Mb4FreeDBDisc FreeDBDisc, char *str, int len);
+	int mb4_freedbdisc_get_category(Mb4FreeDBDisc FreeDBDisc, char *str, int len);
 
 /**
  * @see MusicBrainz4::CFreeDBDisc::Year
@@ -582,8 +638,10 @@ extern "C"
  * @param FreeDBDisc #Mb4FreeDBDisc object
  * @param str Returned string
  * @param len Number of characters available in return string
+ *
+ * @return The number of characters in the string to copy (not including terminating NULL)
  */
-	void mb4_freedbdisc_get_year(Mb4FreeDBDisc FreeDBDisc, char *str, int len);
+	int mb4_freedbdisc_get_year(Mb4FreeDBDisc FreeDBDisc, char *str, int len);
 
 /**
  * @see MusicBrainz4::CFreeDBDisc::NoneMBTrackList
@@ -608,8 +666,10 @@ extern "C"
  * @param ISRC #Mb4ISRC object
  * @param str Returned string
  * @param len Number of characters available in return string
+ *
+ * @return The number of characters in the string to copy (not including terminating NULL)
  */
-	void mb4_isrc_get_id(Mb4ISRC ISRC, char *str, int len);
+	int mb4_isrc_get_id(Mb4ISRC ISRC, char *str, int len);
 
 /**
  * @see MusicBrainz4::CISRC::RecordingList
@@ -634,8 +694,10 @@ extern "C"
  * @param Label #Mb4Label object
  * @param str Returned string
  * @param len Number of characters available in return string
+ *
+ * @return The number of characters in the string to copy (not including terminating NULL)
  */
-	void mb4_label_get_id(Mb4Label Label, char *str, int len);
+	int mb4_label_get_id(Mb4Label Label, char *str, int len);
 
 /**
  * @see MusicBrainz4::CLabel::Type
@@ -643,8 +705,10 @@ extern "C"
  * @param Label #Mb4Label object
  * @param str Returned string
  * @param len Number of characters available in return string
+ *
+ * @return The number of characters in the string to copy (not including terminating NULL)
  */
-	void mb4_label_get_type(Mb4Label Label, char *str, int len);
+	int mb4_label_get_type(Mb4Label Label, char *str, int len);
 
 /**
  * @see MusicBrainz4::CLabel::Name
@@ -652,8 +716,10 @@ extern "C"
  * @param Label #Mb4Label object
  * @param str Returned string
  * @param len Number of characters available in return string
+ *
+ * @return The number of characters in the string to copy (not including terminating NULL)
  */
-	void mb4_label_get_name(Mb4Label Label, char *str, int len);
+	int mb4_label_get_name(Mb4Label Label, char *str, int len);
 
 /**
  * @see MusicBrainz4::CLabel::SortName
@@ -661,8 +727,10 @@ extern "C"
  * @param Label #Mb4Label object
  * @param str Returned string
  * @param len Number of characters available in return string
+ *
+ * @return The number of characters in the string to copy (not including terminating NULL)
  */
-	void mb4_label_get_sortname(Mb4Label Label, char *str, int len);
+	int mb4_label_get_sortname(Mb4Label Label, char *str, int len);
 
 /**
  * @see MusicBrainz4::CLabel::LabelCode
@@ -679,8 +747,10 @@ extern "C"
  * @param Label #Mb4Label object
  * @param str Returned string
  * @param len Number of characters available in return string
+ *
+ * @return The number of characters in the string to copy (not including terminating NULL)
  */
-	void mb4_label_get_disambiguation(Mb4Label Label, char *str, int len);
+	int mb4_label_get_disambiguation(Mb4Label Label, char *str, int len);
 
 /**
  * @see MusicBrainz4::CLabel::Country
@@ -688,8 +758,10 @@ extern "C"
  * @param Label #Mb4Label object
  * @param str Returned string
  * @param len Number of characters available in return string
+ *
+ * @return The number of characters in the string to copy (not including terminating NULL)
  */
-	void mb4_label_get_country(Mb4Label Label, char *str, int len);
+	int mb4_label_get_country(Mb4Label Label, char *str, int len);
 
 /**
  * @see MusicBrainz4::CLabel::Lifespan
@@ -776,8 +848,10 @@ extern "C"
  * @param LabelInfo #Mb4LabelInfo object
  * @param str Returned string
  * @param len Number of characters available in return string
+ *
+ * @return The number of characters in the string to copy (not including terminating NULL)
  */
-	void mb4_labelinfo_get_catalognumber(Mb4LabelInfo LabelInfo, char *str, int len);
+	int mb4_labelinfo_get_catalognumber(Mb4LabelInfo LabelInfo, char *str, int len);
 
 /**
  * @see MusicBrainz4::CLabelInfo::Label
@@ -801,8 +875,10 @@ extern "C"
  * @param Lifespan #Mb4Lifespan object
  * @param str Returned string
  * @param len Number of characters available in return string
+ *
+ * @return The number of characters in the string to copy (not including terminating NULL)
  */
-	void mb4_lifespan_get_begin(Mb4Lifespan Lifespan, char *str, int len);
+	int mb4_lifespan_get_begin(Mb4Lifespan Lifespan, char *str, int len);
 
 /**
  * @see MusicBrainz4::CLifespan::End
@@ -810,8 +886,10 @@ extern "C"
  * @param Lifespan #Mb4Lifespan object
  * @param str Returned string
  * @param len Number of characters available in return string
+ *
+ * @return The number of characters in the string to copy (not including terminating NULL)
  */
-	void mb4_lifespan_get_end(Mb4Lifespan Lifespan, char *str, int len);
+	int mb4_lifespan_get_end(Mb4Lifespan Lifespan, char *str, int len);
 
 
 /**
@@ -827,8 +905,10 @@ extern "C"
  * @param Medium #Mb4Medium object
  * @param str Returned string
  * @param len Number of characters available in return string
+ *
+ * @return The number of characters in the string to copy (not including terminating NULL)
  */
-	void mb4_medium_get_title(Mb4Medium Medium, char *str, int len);
+	int mb4_medium_get_title(Mb4Medium Medium, char *str, int len);
 
 /**
  * @see MusicBrainz4::CMedium::Position
@@ -845,8 +925,10 @@ extern "C"
  * @param Medium #Mb4Medium object
  * @param str Returned string
  * @param len Number of characters available in return string
+ *
+ * @return The number of characters in the string to copy (not including terminating NULL)
  */
-	void mb4_medium_get_format(Mb4Medium Medium, char *str, int len);
+	int mb4_medium_get_format(Mb4Medium Medium, char *str, int len);
 
 /**
  * @see MusicBrainz4::CMedium::DiscList
@@ -889,8 +971,10 @@ extern "C"
  * @param Message #Mb4Message object
  * @param str Returned string
  * @param len Number of characters available in return string
+ *
+ * @return The number of characters in the string to copy (not including terminating NULL)
  */
-	void mb4_message_get_text(Mb4Message Message, char *str, int len);
+	int mb4_message_get_text(Mb4Message Message, char *str, int len);
 
 /**
  * Delete a #Mb4Metadata object
@@ -905,8 +989,10 @@ extern "C"
  * @param Metadata #Mb4Metadata object
  * @param str Returned string
  * @param len Number of characters available in return string
+ *
+ * @return The number of characters in the string to copy (not including terminating NULL)
  */
-	void mb4_metadata_get_generator(Mb4Metadata Metadata, char *str, int len);
+	int mb4_metadata_get_generator(Mb4Metadata Metadata, char *str, int len);
 
 /**
  * @see MusicBrainz4::CMetadata::Created
@@ -914,8 +1000,10 @@ extern "C"
  * @param Metadata #Mb4Metadata object
  * @param str Returned string
  * @param len Number of characters available in return string
+ *
+ * @return The number of characters in the string to copy (not including terminating NULL)
  */
-	void mb4_metadata_get_created(Mb4Metadata Metadata, char *str, int len);
+	int mb4_metadata_get_created(Mb4Metadata Metadata, char *str, int len);
 
 /**
  * @see MusicBrainz4::CMetadata::Artist
@@ -1182,8 +1270,10 @@ extern "C"
  * @param NameCredit #Mb4NameCredit object
  * @param str Returned string
  * @param len Number of characters available in return string
+ *
+ * @return The number of characters in the string to copy (not including terminating NULL)
  */
-	void mb4_namecredit_get_joinphrase(Mb4NameCredit NameCredit, char *str, int len);
+	int mb4_namecredit_get_joinphrase(Mb4NameCredit NameCredit, char *str, int len);
 
 /**
  * @see MusicBrainz4::CNameCredit::Name
@@ -1191,8 +1281,10 @@ extern "C"
  * @param NameCredit #Mb4NameCredit object
  * @param str Returned string
  * @param len Number of characters available in return string
+ *
+ * @return The number of characters in the string to copy (not including terminating NULL)
  */
-	void mb4_namecredit_get_name(Mb4NameCredit NameCredit, char *str, int len);
+	int mb4_namecredit_get_name(Mb4NameCredit NameCredit, char *str, int len);
 
 /**
  * @see MusicBrainz4::CNameCredit::Artist
@@ -1216,8 +1308,10 @@ extern "C"
  * @param NoneMBTrack #Mb4NoneMBTrack object
  * @param str Returned string
  * @param len Number of characters available in return string
+ *
+ * @return The number of characters in the string to copy (not including terminating NULL)
  */
-	void mb4_nonembtrack_get_title(Mb4NoneMBTrack NoneMBTrack, char *str, int len);
+	int mb4_nonembtrack_get_title(Mb4NoneMBTrack NoneMBTrack, char *str, int len);
 
 /**
  * @see MusicBrainz4::CNoneMBTrack::Artist
@@ -1225,8 +1319,10 @@ extern "C"
  * @param NoneMBTrack #Mb4NoneMBTrack object
  * @param str Returned string
  * @param len Number of characters available in return string
+ *
+ * @return The number of characters in the string to copy (not including terminating NULL)
  */
-	void mb4_nonembtrack_get_artist(Mb4NoneMBTrack NoneMBTrack, char *str, int len);
+	int mb4_nonembtrack_get_artist(Mb4NoneMBTrack NoneMBTrack, char *str, int len);
 
 /**
  * @see MusicBrainz4::CNoneMBTrack::Length
@@ -1251,8 +1347,10 @@ extern "C"
  * @param PUID #Mb4PUID object
  * @param str Returned string
  * @param len Number of characters available in return string
+ *
+ * @return The number of characters in the string to copy (not including terminating NULL)
  */
-	void mb4_puid_get_id(Mb4PUID PUID, char *str, int len);
+	int mb4_puid_get_id(Mb4PUID PUID, char *str, int len);
 
 /**
  * @see MusicBrainz4::CPUID::RecordingList
@@ -1457,8 +1555,10 @@ extern "C"
  * @param Recording #Mb4Recording object
  * @param str Returned string
  * @param len Number of characters available in return string
+ *
+ * @return The number of characters in the string to copy (not including terminating NULL)
  */
-	void mb4_recording_get_id(Mb4Recording Recording, char *str, int len);
+	int mb4_recording_get_id(Mb4Recording Recording, char *str, int len);
 
 /**
  * @see MusicBrainz4::CRecording::Title
@@ -1466,8 +1566,10 @@ extern "C"
  * @param Recording #Mb4Recording object
  * @param str Returned string
  * @param len Number of characters available in return string
+ *
+ * @return The number of characters in the string to copy (not including terminating NULL)
  */
-	void mb4_recording_get_title(Mb4Recording Recording, char *str, int len);
+	int mb4_recording_get_title(Mb4Recording Recording, char *str, int len);
 
 /**
  * @see MusicBrainz4::CRecording::Length
@@ -1484,8 +1586,10 @@ extern "C"
  * @param Recording #Mb4Recording object
  * @param str Returned string
  * @param len Number of characters available in return string
+ *
+ * @return The number of characters in the string to copy (not including terminating NULL)
  */
-	void mb4_recording_get_disambiguation(Mb4Recording Recording, char *str, int len);
+	int mb4_recording_get_disambiguation(Mb4Recording Recording, char *str, int len);
 
 /**
  * @see MusicBrainz4::CRecording::ArtistCredit
@@ -1581,8 +1685,10 @@ extern "C"
  * @param Relation #Mb4Relation object
  * @param str Returned string
  * @param len Number of characters available in return string
+ *
+ * @return The number of characters in the string to copy (not including terminating NULL)
  */
-	void mb4_relation_get_type(Mb4Relation Relation, char *str, int len);
+	int mb4_relation_get_type(Mb4Relation Relation, char *str, int len);
 
 /**
  * @see MusicBrainz4::CRelation::Target
@@ -1590,8 +1696,10 @@ extern "C"
  * @param Relation #Mb4Relation object
  * @param str Returned string
  * @param len Number of characters available in return string
+ *
+ * @return The number of characters in the string to copy (not including terminating NULL)
  */
-	void mb4_relation_get_target(Mb4Relation Relation, char *str, int len);
+	int mb4_relation_get_target(Mb4Relation Relation, char *str, int len);
 
 /**
  * @see MusicBrainz4::CRelation::Direction
@@ -1599,8 +1707,10 @@ extern "C"
  * @param Relation #Mb4Relation object
  * @param str Returned string
  * @param len Number of characters available in return string
+ *
+ * @return The number of characters in the string to copy (not including terminating NULL)
  */
-	void mb4_relation_get_direction(Mb4Relation Relation, char *str, int len);
+	int mb4_relation_get_direction(Mb4Relation Relation, char *str, int len);
 
 /**
  * @see MusicBrainz4::CRelation::AttributeList
@@ -1617,8 +1727,10 @@ extern "C"
  * @param Relation #Mb4Relation object
  * @param str Returned string
  * @param len Number of characters available in return string
+ *
+ * @return The number of characters in the string to copy (not including terminating NULL)
  */
-	void mb4_relation_get_begin(Mb4Relation Relation, char *str, int len);
+	int mb4_relation_get_begin(Mb4Relation Relation, char *str, int len);
 
 /**
  * @see MusicBrainz4::CRelation::End
@@ -1626,8 +1738,10 @@ extern "C"
  * @param Relation #Mb4Relation object
  * @param str Returned string
  * @param len Number of characters available in return string
+ *
+ * @return The number of characters in the string to copy (not including terminating NULL)
  */
-	void mb4_relation_get_end(Mb4Relation Relation, char *str, int len);
+	int mb4_relation_get_end(Mb4Relation Relation, char *str, int len);
 
 /**
  * @see MusicBrainz4::CRelation::Artist
@@ -1697,8 +1811,10 @@ extern "C"
  * @param Release #Mb4Release object
  * @param str Returned string
  * @param len Number of characters available in return string
+ *
+ * @return The number of characters in the string to copy (not including terminating NULL)
  */
-	void mb4_release_get_id(Mb4Release Release, char *str, int len);
+	int mb4_release_get_id(Mb4Release Release, char *str, int len);
 
 /**
  * @see MusicBrainz4::CRelease::Title
@@ -1706,8 +1822,10 @@ extern "C"
  * @param Release #Mb4Release object
  * @param str Returned string
  * @param len Number of characters available in return string
+ *
+ * @return The number of characters in the string to copy (not including terminating NULL)
  */
-	void mb4_release_get_title(Mb4Release Release, char *str, int len);
+	int mb4_release_get_title(Mb4Release Release, char *str, int len);
 
 /**
  * @see MusicBrainz4::CRelease::Status
@@ -1715,8 +1833,10 @@ extern "C"
  * @param Release #Mb4Release object
  * @param str Returned string
  * @param len Number of characters available in return string
+ *
+ * @return The number of characters in the string to copy (not including terminating NULL)
  */
-	void mb4_release_get_status(Mb4Release Release, char *str, int len);
+	int mb4_release_get_status(Mb4Release Release, char *str, int len);
 
 /**
  * @see MusicBrainz4::CRelease::Quality
@@ -1724,8 +1844,10 @@ extern "C"
  * @param Release #Mb4Release object
  * @param str Returned string
  * @param len Number of characters available in return string
+ *
+ * @return The number of characters in the string to copy (not including terminating NULL)
  */
-	void mb4_release_get_quality(Mb4Release Release, char *str, int len);
+	int mb4_release_get_quality(Mb4Release Release, char *str, int len);
 
 /**
  * @see MusicBrainz4::CRelease::Disambiguation
@@ -1733,8 +1855,10 @@ extern "C"
  * @param Release #Mb4Release object
  * @param str Returned string
  * @param len Number of characters available in return string
+ *
+ * @return The number of characters in the string to copy (not including terminating NULL)
  */
-	void mb4_release_get_disambiguation(Mb4Release Release, char *str, int len);
+	int mb4_release_get_disambiguation(Mb4Release Release, char *str, int len);
 
 /**
  * @see MusicBrainz4::CRelease::Packaging
@@ -1742,8 +1866,10 @@ extern "C"
  * @param Release #Mb4Release object
  * @param str Returned string
  * @param len Number of characters available in return string
+ *
+ * @return The number of characters in the string to copy (not including terminating NULL)
  */
-	void mb4_release_get_packaging(Mb4Release Release, char *str, int len);
+	int mb4_release_get_packaging(Mb4Release Release, char *str, int len);
 
 /**
  * @see MusicBrainz4::CRelease::TextRepresentation
@@ -1778,8 +1904,10 @@ extern "C"
  * @param Release #Mb4Release object
  * @param str Returned string
  * @param len Number of characters available in return string
+ *
+ * @return The number of characters in the string to copy (not including terminating NULL)
  */
-	void mb4_release_get_date(Mb4Release Release, char *str, int len);
+	int mb4_release_get_date(Mb4Release Release, char *str, int len);
 
 /**
  * @see MusicBrainz4::CRelease::Country
@@ -1787,8 +1915,10 @@ extern "C"
  * @param Release #Mb4Release object
  * @param str Returned string
  * @param len Number of characters available in return string
+ *
+ * @return The number of characters in the string to copy (not including terminating NULL)
  */
-	void mb4_release_get_country(Mb4Release Release, char *str, int len);
+	int mb4_release_get_country(Mb4Release Release, char *str, int len);
 
 /**
  * @see MusicBrainz4::CRelease::Barcode
@@ -1796,8 +1926,10 @@ extern "C"
  * @param Release #Mb4Release object
  * @param str Returned string
  * @param len Number of characters available in return string
+ *
+ * @return The number of characters in the string to copy (not including terminating NULL)
  */
-	void mb4_release_get_barcode(Mb4Release Release, char *str, int len);
+	int mb4_release_get_barcode(Mb4Release Release, char *str, int len);
 
 /**
  * @see MusicBrainz4::CRelease::ASIN
@@ -1805,8 +1937,10 @@ extern "C"
  * @param Release #Mb4Release object
  * @param str Returned string
  * @param len Number of characters available in return string
+ *
+ * @return The number of characters in the string to copy (not including terminating NULL)
  */
-	void mb4_release_get_asin(Mb4Release Release, char *str, int len);
+	int mb4_release_get_asin(Mb4Release Release, char *str, int len);
 
 /**
  * @see MusicBrainz4::CRelease::LabelInfoList
@@ -1859,8 +1993,10 @@ extern "C"
  * @param ReleaseGroup #Mb4ReleaseGroup object
  * @param str Returned string
  * @param len Number of characters available in return string
+ *
+ * @return The number of characters in the string to copy (not including terminating NULL)
  */
-	void mb4_releasegroup_get_id(Mb4ReleaseGroup ReleaseGroup, char *str, int len);
+	int mb4_releasegroup_get_id(Mb4ReleaseGroup ReleaseGroup, char *str, int len);
 
 /**
  * @see MusicBrainz4::CReleaseGroup::Type
@@ -1868,8 +2004,10 @@ extern "C"
  * @param ReleaseGroup #Mb4ReleaseGroup object
  * @param str Returned string
  * @param len Number of characters available in return string
+ *
+ * @return The number of characters in the string to copy (not including terminating NULL)
  */
-	void mb4_releasegroup_get_type(Mb4ReleaseGroup ReleaseGroup, char *str, int len);
+	int mb4_releasegroup_get_type(Mb4ReleaseGroup ReleaseGroup, char *str, int len);
 
 /**
  * @see MusicBrainz4::CReleaseGroup::Title
@@ -1877,8 +2015,10 @@ extern "C"
  * @param ReleaseGroup #Mb4ReleaseGroup object
  * @param str Returned string
  * @param len Number of characters available in return string
+ *
+ * @return The number of characters in the string to copy (not including terminating NULL)
  */
-	void mb4_releasegroup_get_title(Mb4ReleaseGroup ReleaseGroup, char *str, int len);
+	int mb4_releasegroup_get_title(Mb4ReleaseGroup ReleaseGroup, char *str, int len);
 
 /**
  * @see MusicBrainz4::CReleaseGroup::Comment
@@ -1886,8 +2026,10 @@ extern "C"
  * @param ReleaseGroup #Mb4ReleaseGroup object
  * @param str Returned string
  * @param len Number of characters available in return string
+ *
+ * @return The number of characters in the string to copy (not including terminating NULL)
  */
-	void mb4_releasegroup_get_comment(Mb4ReleaseGroup ReleaseGroup, char *str, int len);
+	int mb4_releasegroup_get_comment(Mb4ReleaseGroup ReleaseGroup, char *str, int len);
 
 /**
  * @see MusicBrainz4::CReleaseGroup::ArtistCredit
@@ -1974,8 +2116,10 @@ extern "C"
  * @param Tag #Mb4Tag object
  * @param str Returned string
  * @param len Number of characters available in return string
+ *
+ * @return The number of characters in the string to copy (not including terminating NULL)
  */
-	void mb4_tag_get_name(Mb4Tag Tag, char *str, int len);
+	int mb4_tag_get_name(Mb4Tag Tag, char *str, int len);
 
 
 /**
@@ -1991,8 +2135,10 @@ extern "C"
  * @param TextRepresentation #Mb4TextRepresentation object
  * @param str Returned string
  * @param len Number of characters available in return string
+ *
+ * @return The number of characters in the string to copy (not including terminating NULL)
  */
-	void mb4_textrepresentation_get_language(Mb4TextRepresentation TextRepresentation, char *str, int len);
+	int mb4_textrepresentation_get_language(Mb4TextRepresentation TextRepresentation, char *str, int len);
 
 /**
  * @see MusicBrainz4::CTextRepresentation::Script
@@ -2000,8 +2146,10 @@ extern "C"
  * @param TextRepresentation #Mb4TextRepresentation object
  * @param str Returned string
  * @param len Number of characters available in return string
+ *
+ * @return The number of characters in the string to copy (not including terminating NULL)
  */
-	void mb4_textrepresentation_get_script(Mb4TextRepresentation TextRepresentation, char *str, int len);
+	int mb4_textrepresentation_get_script(Mb4TextRepresentation TextRepresentation, char *str, int len);
 
 
 /**
@@ -2026,8 +2174,10 @@ extern "C"
  * @param Track #Mb4Track object
  * @param str Returned string
  * @param len Number of characters available in return string
+ *
+ * @return The number of characters in the string to copy (not including terminating NULL)
  */
-	void mb4_track_get_title(Mb4Track Track, char *str, int len);
+	int mb4_track_get_title(Mb4Track Track, char *str, int len);
 
 /**
  * @see MusicBrainz4::CTrack::Recording
@@ -2087,8 +2237,10 @@ extern "C"
  * @param UserTag #Mb4UserTag object
  * @param str Returned string
  * @param len Number of characters available in return string
+ *
+ * @return The number of characters in the string to copy (not including terminating NULL)
  */
-	void mb4_usertag_get_name(Mb4UserTag UserTag, char *str, int len);
+	int mb4_usertag_get_name(Mb4UserTag UserTag, char *str, int len);
 
 
 /**
@@ -2104,8 +2256,10 @@ extern "C"
  * @param Work #Mb4Work object
  * @param str Returned string
  * @param len Number of characters available in return string
+ *
+ * @return The number of characters in the string to copy (not including terminating NULL)
  */
-	void mb4_work_get_id(Mb4Work Work, char *str, int len);
+	int mb4_work_get_id(Mb4Work Work, char *str, int len);
 
 /**
  * @see MusicBrainz4::CWork::Type
@@ -2113,8 +2267,10 @@ extern "C"
  * @param Work #Mb4Work object
  * @param str Returned string
  * @param len Number of characters available in return string
+ *
+ * @return The number of characters in the string to copy (not including terminating NULL)
  */
-	void mb4_work_get_type(Mb4Work Work, char *str, int len);
+	int mb4_work_get_type(Mb4Work Work, char *str, int len);
 
 /**
  * @see MusicBrainz4::CWork::Title
@@ -2122,8 +2278,10 @@ extern "C"
  * @param Work #Mb4Work object
  * @param str Returned string
  * @param len Number of characters available in return string
+ *
+ * @return The number of characters in the string to copy (not including terminating NULL)
  */
-	void mb4_work_get_title(Mb4Work Work, char *str, int len);
+	int mb4_work_get_title(Mb4Work Work, char *str, int len);
 
 /**
  * @see MusicBrainz4::CWork::ArtistCredit
@@ -2140,8 +2298,10 @@ extern "C"
  * @param Work #Mb4Work object
  * @param str Returned string
  * @param len Number of characters available in return string
+ *
+ * @return The number of characters in the string to copy (not including terminating NULL)
  */
-	void mb4_work_get_iswc(Mb4Work Work, char *str, int len);
+	int mb4_work_get_iswc(Mb4Work Work, char *str, int len);
 
 /**
  * @see MusicBrainz4::CWork::Disambiguation
@@ -2149,8 +2309,10 @@ extern "C"
  * @param Work #Mb4Work object
  * @param str Returned string
  * @param len Number of characters available in return string
+ *
+ * @return The number of characters in the string to copy (not including terminating NULL)
  */
-	void mb4_work_get_disambiguation(Mb4Work Work, char *str, int len);
+	int mb4_work_get_disambiguation(Mb4Work Work, char *str, int len);
 
 /**
  * @see MusicBrainz4::CWork::AliasList

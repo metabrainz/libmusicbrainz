@@ -114,16 +114,25 @@ T *GetListItem(void *List, int Item)
 	}
 
 #define MB4_C_STR_GETTER(TYPE1, TYPE2, PROP1, PROP2) \
-	void \
+	int \
 	mb4_##TYPE2##_get_##PROP2(Mb4##TYPE1 o, char *str, int len) \
 	{ \
-		try { \
-			strncpy(str, ((MusicBrainz4::C##TYPE1 *)o)->PROP1().c_str(), len); \
-			str[len-1]='\0'; \
+		int ret=0; \
+		if (o) \
+		{ \
+			try { \
+				ret=((MusicBrainz4::C##TYPE1 *)o)->PROP1().length(); \
+				if (str && len) \
+				{ \
+					strncpy(str, ((MusicBrainz4::C##TYPE1 *)o)->PROP1().c_str(), len); \
+					str[len-1]='\0'; \
+				} \
+			} \
+			catch (...) { \
+				str[0] = '\0'; \
+			} \
 		} \
-		catch (...) { \
-			str[0] = '\0'; \
-		} \
+		return ret; \
 	}
 
 #define MB4_C_INT_GETTER(TYPE1, TYPE2, PROP1, PROP2) \

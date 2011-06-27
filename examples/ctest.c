@@ -40,7 +40,16 @@ int main(int argc, const char *argv[])
 
 			if (Disc)
 			{
+				int Len=0;
+				char *Buff=0;
 				Mb4ReleaseList ReleaseList=mb4_disc_get_releaselist(Disc);
+
+				Len=mb4_disc_get_id(Disc,Buff,Len);
+				printf("Len is %d\n",Len);
+				Buff=malloc(Len+1);
+				Len=mb4_disc_get_id(Disc,Buff,Len+1);
+				printf("Len is %d (%s)\n",Len,Buff);
+				free(Buff);
 
 				printf("Got disc\n");
 
