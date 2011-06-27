@@ -288,23 +288,23 @@ void MusicBrainz4::CQuery::WaitRequest() const
 	}
 }
 
-bool MusicBrainz4::CQuery::AddCollectionEntries(const std::string& Collection, std::vector<std::string>& Entries)
+bool MusicBrainz4::CQuery::AddCollectionEntries(const std::string& CollectionID, std::vector<std::string>& Entries)
 {
-	return EditCollection(Collection,Entries,"PUT");
+	return EditCollection(CollectionID,Entries,"PUT");
 }
 
-bool MusicBrainz4::CQuery::DeleteCollectionEntries(const std::string& Collection, std::vector<std::string>& Entries)
+bool MusicBrainz4::CQuery::DeleteCollectionEntries(const std::string& CollectionID, std::vector<std::string>& Entries)
 {
-	return EditCollection(Collection,Entries,"DELETE");
+	return EditCollection(CollectionID,Entries,"DELETE");
 }
 
-bool MusicBrainz4::CQuery::EditCollection(const std::string& Collection, std::vector<std::string>& Entries, const std::string& Action)
+bool MusicBrainz4::CQuery::EditCollection(const std::string& CollectionID, std::vector<std::string>& Entries, const std::string& Action)
 {
 	bool RetVal=false;
 
 	std::string Query;
 
-	Query="/ws/2/collection/"+Collection+"/releases/";
+	Query="/ws/2/collection/"+CollectionID+"/releases/";
 
 	std::vector<std::string>::const_iterator ThisRelease=Entries.begin();
 	while(ThisRelease!=Entries.end())
