@@ -46,6 +46,9 @@
  * The main entry point to the library is the MusicBrainz4::CQuery object.
  *
  * For details of the C interface, see the documentation for the file mb4_c.h.
+ *
+ * Please report any issues with this library at
+ * <a target="_blank" href="http://tickets.musicbrainz.org/">http://tickets.musicbrainz.org/</a>.
  */
 
 namespace MusicBrainz4
@@ -59,13 +62,18 @@ namespace MusicBrainz4
 	 * MusicBrainz service, and parsing the results. The resultant objects can be used
 	 * to retrieve information appropriate to the query.
 	 *
-	 * For information on generating queries, see the documentation for the
+	 * For information on generating queries and the expected responses, see the
+	 * documentation for the
 	 * <a target="_blank" href="http://musicbrainz.org/doc/XML_Web_Service/Version_2">web service</a>.
 	 *
-	 * @b Note it is the responsibility of the caller to validate any pointers returned
+	 * @b Note It is the responsibility of the caller to validate any pointers returned
 	 * from the library. It is valid for a pointer to be NULL if the information was not
 	 * present in the response from the MusicBrainz service.
 	 *
+	 * @b Note The ownership of any pointers returned from the C++ interfaces remains
+	 * with the library. The caller should not delete any pointer returned from the
+	 * library. Users of the C library should take note of the documentation for each
+	 * individual function in mb4_c.h
 	 */
 	class CQuery
 	{
