@@ -5,6 +5,7 @@
 #include "musicbrainz4/ReleaseGroup.h"
 #include "musicbrainz4/Track.h"
 #include "musicbrainz4/Recording.h"
+#include "musicbrainz4/Disc.h"
 
 int main(int argc, const char *argv[])
 {
@@ -14,56 +15,66 @@ int main(int argc, const char *argv[])
 
 		MusicBrainz4::CQuery Query("cdlookuptest/v1.0");
 
-		MusicBrainz4::CGenericList<MusicBrainz4::CRelease> ReleaseList=Query.LookupDiscID(DiscID);
-
-		std::list<MusicBrainz4::CRelease> Releases=ReleaseList.Items();
-
-		std::cout << "Found " << Releases.size() << " release(s)" << std::endl;
-
-		for (std::list<MusicBrainz4::CRelease>::const_iterator ThisRelease=Releases.begin();ThisRelease!=Releases.end();ThisRelease++)
+		MusicBrainz4::CMetadata Metadata=Query.Query("discid",DiscID);
+		if (Metadata.Disc() && Metadata.Disc()->ReleaseList())
 		{
-			MusicBrainz4::CRelease Release=(*ThisRelease);
+			MusicBrainz4::CGenericList<MusicBrainz4::CRelease> *ReleaseList=Metadata.Disc()->ReleaseList();
+			std::list<MusicBrainz4::CRelease> Releases=ReleaseList->Items();
 
-			std::cout << "Basic release: " << std::endl << Release << std::endl;
+			std::cout << "Found " << Releases.size() << " release(s)" << std::endl;
 
-			//The releases returned from LookupDiscID don't contain full information
-
-			MusicBrainz4::CRelease FullRelease=Query.LookupRelease(Release.ID());
-
-			//However, these releases will include information for all media in the release
-			//So we need to filter out the only the media we want.
-
-			MusicBrainz4::CGenericList<MusicBrainz4::CMedium> MediaList=FullRelease.MediaMatchingDiscID(DiscID);
-			std::list<MusicBrainz4::CMedium> Media=MediaList.Items();
-
-			if (Media.size())
+			for (std::list<MusicBrainz4::CRelease>::const_iterator ThisRelease=Releases.begin();ThisRelease!=Releases.end();ThisRelease++)
 			{
-				if (FullRelease.ReleaseGroup())
-					std::cout << "Release group title: '" << FullRelease.ReleaseGroup()->Title() << "'" << std::endl;
-				else
-					std::cout << "No release group for this release" << std::endl;
+				MusicBrainz4::CRelease Release=(*ThisRelease);
 
-				std::cout << "Found " << Media.size() << " media item(s)" << std::endl;
+				std::cout << "Basic release: " << std::endl << Release << std::endl;
 
-				for (std::list<MusicBrainz4::CMedium>::const_iterator ThisMedium=Media.begin();ThisMedium!=Media.end();ThisMedium++)
+				//The releases returned from LookupDiscID don't contain full information
+
+				MusicBrainz4::CQuery::tParamMap Params;
+				Params["inc"]="artists labels recordings release-groups url-rels discids artist-credits";
+
+				Metadata=Query.Query("release",Release.ID(),"",Params);
+				if (Metadata.Release())
 				{
-					MusicBrainz4::CMedium Medium=(*ThisMedium);
+					MusicBrainz4::CRelease *FullRelease=Metadata.Release();
 
-					std::cout << "Found media: '" << Medium.Title() << "', position " << Medium.Position() << std::endl;
+					//However, these releases will include information for all media in the release
+					//So we need to filter out the only the media we want.
 
-					MusicBrainz4::CGenericList<MusicBrainz4::CTrack> *TrackList=Medium.TrackList();
-					if (TrackList)
+					MusicBrainz4::CGenericList<MusicBrainz4::CMedium> MediaList=FullRelease->MediaMatchingDiscID(DiscID);
+					std::list<MusicBrainz4::CMedium> Media=MediaList.Items();
+
+					if (Media.size())
 					{
-						std::list<MusicBrainz4::CTrack> Tracks=TrackList->Items();
-						for (std::list<MusicBrainz4::CTrack>::const_iterator ThisTrack=Tracks.begin();ThisTrack!=Tracks.end();ThisTrack++)
-						{
-							MusicBrainz4::CTrack Track=(*ThisTrack);
-							MusicBrainz4::CRecording *Recording=Track.Recording();
+						if (FullRelease->ReleaseGroup())
+							std::cout << "Release group title: '" << FullRelease->ReleaseGroup()->Title() << "'" << std::endl;
+						else
+							std::cout << "No release group for this release" << std::endl;
 
-							if (Recording)
-								std::cout << "Track: " << Track.Position() << " - '" << Recording->Title() << "'" << std::endl;
-							else
-								std::cout << "Track: " << Track.Position() << " - '" << Track.Title() << "'" << std::endl;
+						std::cout << "Found " << Media.size() << " media item(s)" << std::endl;
+
+						for (std::list<MusicBrainz4::CMedium>::const_iterator ThisMedium=Media.begin();ThisMedium!=Media.end();ThisMedium++)
+						{
+							MusicBrainz4::CMedium Medium=(*ThisMedium);
+
+							std::cout << "Found media: '" << Medium.Title() << "', position " << Medium.Position() << std::endl;
+
+							MusicBrainz4::CGenericList<MusicBrainz4::CTrack> *TrackList=Medium.TrackList();
+							if (TrackList)
+							{
+								std::list<MusicBrainz4::CTrack> Tracks=TrackList->Items();
+								for (std::list<MusicBrainz4::CTrack>::const_iterator ThisTrack=Tracks.begin();ThisTrack!=Tracks.end();ThisTrack++)
+								{
+									MusicBrainz4::CTrack Track=(*ThisTrack);
+									MusicBrainz4::CRecording *Recording=Track.Recording();
+
+									if (Recording)
+										std::cout << "Track: " << Track.Position() << " - '" << Recording->Title() << "'" << std::endl;
+									else
+										std::cout << "Track: " << Track.Position() << " - '" << Track.Title() << "'" << std::endl;
+								}
+							}
 						}
 					}
 				}
