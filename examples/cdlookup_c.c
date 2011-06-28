@@ -110,18 +110,26 @@ int main(int argc, const char *argv[])
 
 																printf("Track: %d - '%s'\n",mb4_track_get_position(Track),TrackTitle);
 
+																/* We must delete anything we retrieve from a list */
+
 																mb4_track_delete(Track);
 															}
 														}
+
+														/* We must delete anything we retrieve from a list */
 
 														mb4_medium_delete(Medium);
 													}
 												}
 											}
 
+											/* We must delete the result of 'media_matching_discid' */
+
 											mb4_medium_list_delete(MediumList);
 										}
 									}
+
+									/* We must delete anything returned from the query methods */
 
 									mb4_metadata_delete(Metadata2);
 								}
@@ -131,15 +139,20 @@ int main(int argc, const char *argv[])
 								free(ParamNames[0]);
 								free(ParamNames);
 
+								/* We must delete anything we retrieve from a list */
+
 								mb4_release_delete(Release);
 							}
 						}
 					}
 				}
 
+				/* We must delete anything returned from the query methods */
+
 				mb4_metadata_delete(Metadata1);
 			}
 
+			/* We must delete the original query object */
 			mb4_query_delete(Query);
 		}
 	}
