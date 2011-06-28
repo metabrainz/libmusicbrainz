@@ -251,6 +251,8 @@ namespace MusicBrainz4
 		void WaitRequest() const;
 		std::string UserAgent() const;
 		bool EditCollection(const std::string& CollectionID, std::vector<std::string>& Entries, const std::string& Action);
+		std::string URIEscape(const std::string& URI);
+		std::string URLEncode(const std::map<std::string,std::string>& Params);
 	};
 }
 

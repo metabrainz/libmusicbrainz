@@ -35,6 +35,8 @@
 #include <string.h>
 #include <sys/time.h>
 
+#include <ne_uri.h>
+
 #include "musicbrainz4/HTTPFetch.h"
 #include "musicbrainz4/Disc.h"
 #include "musicbrainz4/Message.h"
@@ -171,59 +173,7 @@ MusicBrainz4::CMetadata MusicBrainz4::CQuery::Query(const std::string& Entity, c
 	}
 
 	if (!Params.empty())
-	{
-		bool FirstParam=true;
-
-		std::map<std::string,std::string>::const_iterator ThisParam=Params.begin();
-		while (ThisParam!=Params.end())
-		{
-			std::string Name=(*ThisParam).first;
-			std::string Values=(*ThisParam).second;
-
-			if (FirstParam)
-			{
-				os << "?";
-				FirstParam=false;
-			}
-			else
-				os << "&";
-
-			os << Name;
-
-			if (!Values.empty())
-			{
-				bool FirstValue=true;
-
-				os << "=";
-
-				std::string::size_type ThisSpace=Values.find(" ");
-				while (ThisSpace!=std::string::npos)
-				{
-					std::string ThisValue=Values.substr(0,ThisSpace);
-
-					if (FirstValue)
-						FirstValue=false;
-					else
-						os << "+";
-
-					os << ThisValue;
-					Values=Values.substr(ThisSpace+1);
-
-					ThisSpace=Values.find(" ");
-				}
-
-				if (!Values.empty())
-				{
-					if (!FirstValue)
-						os << "+";
-
-					os << Values;
-				}
-			}
-
-			++ThisParam;
-		}
-	}
+		os << "?" << URLEncode(Params);
 
 	//std::cout << "Query is '" << os.str() << "'" << std::endl;
 
@@ -375,4 +325,29 @@ std::string MusicBrainz4::CQuery::UserAgent() const
 	UserAgent+=PACKAGE "/v" VERSION;
 
 	return UserAgent;
+}
+
+std::string MusicBrainz4::CQuery::URIEscape(const std::string &URI)
+{
+	char *EscURIStr = ne_path_escape(URI.c_str());
+	std::string EscURI((const char *)EscURIStr);
+	free(EscURIStr);
+	return EscURI;
+}
+
+std::string MusicBrainz4::CQuery::URLEncode(const std::map<std::string,std::string>& Params)
+{
+	std::string EncodedStr;
+
+	for (std::map<std::string,std::string>::const_iterator i = Params.begin(); i != Params.end(); i++)
+	{
+		std::string Name = (*i).first;
+		std::string Value = (*i).second;
+
+		if (i!=Params.begin())
+			EncodedStr += "&";
+
+		EncodedStr += Name + "=" + URIEscape(Value);
+	}
+	return EncodedStr;
 }
