@@ -41,7 +41,7 @@
  * @mainpage libmusicbrainz4
  *
  * This is the documentation for libmusicbrainz4, a library for retrieving data from
- * the <a target="_blank" href="http://www.musicbrainz.org">MusicBrainz</a> service.
+ * the <a target="_blank" href="http://musicbrainz.org">MusicBrainz</a> service.
  *
  * The main entry point to the library is the MusicBrainz4::CQuery object.
  *
@@ -86,12 +86,12 @@ namespace MusicBrainz4
 		 * This is the constructor for the MusicBrainz::CQuery object.
 		 *
 		 * @param UserAgent User agent to use in any queries and submissions
-		 * @param Server Server to be used (defaults to www.musicbrainz.org if not specified)
+		 * @param Server Server to be used (defaults to musicbrainz.org if not specified)
 		 * @param Port Port to use (defaults to 80 if not specified)
 		 *
 		 */
 
-		CQuery(const std::string& UserAgent, const std::string& Server="www.musicbrainz.org", int Port=80);
+		CQuery(const std::string& UserAgent, const std::string& Server="musicbrainz.org", int Port=80);
 
 		~CQuery();
 

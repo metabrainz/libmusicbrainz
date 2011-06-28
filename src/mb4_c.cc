@@ -374,7 +374,7 @@ MB4_C_OBJ_GETTER(PUID,puid,RecordingList,recordinglist)
 
 Mb4Query mb4_query_new(const char *UserAgent, const char *Server, int Port)
 {
-	return new MusicBrainz4::CQuery(UserAgent, Server ? Server : "www.musicbrainz.org", Port!=0 ? Port : 80);
+	return new MusicBrainz4::CQuery(UserAgent, Server ? Server : "musicbrainz.org", Port!=0 ? Port : 80);
 }
 
 MB4_C_DELETE(Query,query)

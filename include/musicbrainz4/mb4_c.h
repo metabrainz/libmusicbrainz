@@ -1444,7 +1444,7 @@ extern "C"
 	void mb4_query_set_proxypassword(Mb4Query Query, const char *ProxyPassword);
 
 /**
- *	Return aList of releases that match the specified Disc ID
+ *	Return a list of releases that match the specified Disc ID
  *
  * @see MusicBrainz4::CQuery::LookupDiscID
  *
@@ -1488,7 +1488,7 @@ extern "C"
 	Mb4Metadata mb4_query_query(Mb4Query Query, const char *Entity, const char *ID, const char *Resource, int NumParams, char **ParamNames, char **ParamValues);
 
 /**
- *	Add aList of releases to a collection
+ *	Add a list of releases to a collection
  *
  * @see MusicBrainz4::CQuery::AddCollectionEntries
  *
@@ -1502,7 +1502,7 @@ extern "C"
 	unsigned char mb4_query_add_collection_entries(Mb4Query Query, const char *Collection, int NumEntries, const char **Entries);
 
 /**
- *	Delete aList of releases from a collection
+ *	Delete a list of releases from a collection
  *
  * @see MusicBrainz4::CQuery::AddCollectionEntries
  *
