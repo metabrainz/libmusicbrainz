@@ -25,6 +25,8 @@
 
 #include "musicbrainz4/HTTPFetch.h"
 
+#include <stdlib.h>
+
 #include <string.h>
 
 #include "ne_session.h"
