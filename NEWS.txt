@@ -1,3 +1,8 @@
+Changes for libmusicbrainz 4.0.0 alpha 1
+----------------------------------------
+
+   - Rewritten from scratch for NGS
+
 Changes for libmusicbrainz 3.0.4
 --------------------------------
 
@@ -80,7 +85,7 @@ Changes for libmusicbrainz 2.1.2
    - Re-added the python bindings and changed the binding's version number to
      match the version of this lib.
    - Fixed bug # 1224562: libmusicbrainz fails to post large RDF. This fixes
-     problems looking up CDs with large numbers of tracks. (This was also  
+     problems looking up CDs with large numbers of tracks. (This was also
      bug # 725701 ignores blank tracks)
 
    The included perl bindings had the following changes:
@@ -111,14 +116,14 @@ Changes for libmusicbrainz 2.1.0
 
    - moved the python bindings into a new seperate project
    - rewrote the mp3 duration detection code to be more robust
-     by making it vastly easier. In the process the bitzi 
+     by making it vastly easier. In the process the bitzi
      related code has been tossed. This should make the libary
      smaller and the mp3 duration checking faster.
    - Due to the bitzi code being removed, the SHA1 and Bitprint
      related functions have been removed.
    - Added query items for Release Dates/Countries, Amazon Asins and Amazon cover art URLs
    - Move include files into include/musicbrainz so that the example
-     files will compile outside of the libmusicbrainz client 
+     files will compile outside of the libmusicbrainz client
      source tree.
 
 Changes for libmusicbrainz 2.0.2
@@ -134,7 +139,7 @@ Changes for libmusicbrainz 2.0.1
    - Threading handled correctly in python wrapper
    - New perl bindings
    - Had client use HTTP 1.0 rather than HTTP 1.1
-   
+
 
 Changes for libmusicbrainz 2.0.0
 -------------------------------------
@@ -148,9 +153,9 @@ Changes for libmusicbrainz 2.0.0-pre4
 
    - Two new functions have been added:
        mb_GetFragmentFromURL - Retrieve a fragment from a URI
-       mb_GetOrdinalFromList - Retrieve a list ordinal from a given list -- 
-                               this is sometimes needed to determine the 
-                               location of an item in a list. (e.g. a track in 
+       mb_GetOrdinalFromList - Retrieve a list ordinal from a given list --
+                               this is sometimes needed to determine the
+                               location of an item in a list. (e.g. a track in
                                an album in order to find the track number)
    - The TRM code has been updated for TRM B#er.
    - New queries have been added to queries.h in order to support the improved
@@ -163,7 +168,7 @@ Changes from version 1.1.0 to version 2.0.0-pre1
 
    - Added authentication support
    - Added new queries
-   - Added support for submitting client version to the server 
+   - Added support for submitting client version to the server
      during TRM submits
    - Updated client code for TRM B#er
 
