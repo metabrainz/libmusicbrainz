@@ -13,7 +13,7 @@ int main(int argc, const char *argv[])
 	{
 		std::string DiscID=argv[1];
 
-		MusicBrainz4::CQuery Query("cdlookuptest/v1.0");
+		MusicBrainz4::CQuery Query("cdlookupexample/v1.0");
 
 		MusicBrainz4::CMetadata Metadata=Query.Query("discid",DiscID);
 		if (Metadata.Disc() && Metadata.Disc()->ReleaseList())

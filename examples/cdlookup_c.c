@@ -10,7 +10,7 @@ int main(int argc, const char *argv[])
 	{
 		const char *DiscID=argv[1];
 
-		Mb4Query Query=mb4_query_new("cdlookuptest/v1.0",NULL,0);
+		Mb4Query Query=mb4_query_new("cdlookupcexample/v1.0",NULL,0);
 		if (Query)
 		{
 			Mb4Metadata Metadata1=mb4_query_query(Query,"discid",DiscID,"",0,NULL,NULL);
