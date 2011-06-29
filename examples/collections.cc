@@ -11,7 +11,7 @@ void ListCollection(MusicBrainz4::CQuery& MB, const std::string& CollectionID)
 
 int main(int argc, const char *argv[])
 {
-	MusicBrainz4::CQuery MB("collectionexample/v1.0");
+	MusicBrainz4::CQuery MB("collectionexample/v1.0","test.musicbrainz.org");
 
 	if (argc>1)
 	{
@@ -50,7 +50,12 @@ int main(int argc, const char *argv[])
 		}
 	}
 	else
-		std::cout << "Usage: " << argv[0] << " username [password]" << std::endl;
+	{
+		std::cout << "Usage: " << argv[0] << " username [password]" << std::endl << std::endl <<
+			"Note that this example uses test.musicbrainz.org by default." << std::endl <<
+			"You may need to create an account there." << std::endl;
+	}
+
 
 	return 0;
 }
