@@ -71,6 +71,10 @@ int main(int argc, const char *argv[])
 												Mb4ReleaseGroup ReleaseGroup=mb4_release_get_releasegroup(FullRelease);
 												if (ReleaseGroup)
 												{
+													/* One way of getting a string, just use a buffer that
+													 * you're pretty sure will accomodate the whole string
+													 */
+
 													char Title[256];
 
 													mb4_releasegroup_get_title(ReleaseGroup,Title,sizeof(Title));
@@ -86,11 +90,24 @@ int main(int argc, const char *argv[])
 													Mb4Medium Medium=mb4_medium_list_item(MediumList,ThisMedium);
 													if (Medium)
 													{
-														char MediumTitle[256];
+														int AllocSize=10;
+														char *MediumTitle=malloc(AllocSize);
+														int RequiredSize;
 
 														Mb4TrackList TrackList=mb4_medium_get_tracklist(Medium);
 
-														mb4_medium_get_title(Medium,MediumTitle,sizeof(MediumTitle));
+														/* Another way of getting a string. Preallocate a buffer
+														 * and check if if was big enough when retrieving string.
+														 * If not, reallocate it to be big enough and get it again.
+														 */
+
+														RequiredSize=mb4_medium_get_title(Medium,MediumTitle,AllocSize);
+														if (RequiredSize>AllocSize)
+														{
+															MediumTitle=realloc(MediumTitle,RequiredSize+1);
+															mb4_medium_get_title(Medium,MediumTitle,RequiredSize+1);
+														}
+
 														printf("Found media: '%s', position %d\n",MediumTitle,mb4_medium_get_position(Medium));
 
 														if (TrackList)
@@ -99,24 +116,43 @@ int main(int argc, const char *argv[])
 
 															for (ThisTrack=0;ThisTrack<mb4_track_list_size(TrackList);ThisTrack++)
 															{
-																char TrackTitle[256];
+																char *TrackTitle=0;
+																int RequiredLength=0;
+
 																Mb4Track Track=mb4_track_list_item(TrackList,ThisTrack);
 																Mb4Recording Recording=mb4_track_get_recording(Track);
 
+																/* Yet another way of getting string. Call it once to
+																 * find out how long the buffer needs to be, allocate
+																 * enough space and then call again.
+																 */
+
 																if (Recording)
-																	mb4_recording_get_title(Recording,TrackTitle,sizeof(TrackTitle));
+																{
+																	RequiredLength=mb4_recording_get_title(Recording,TrackTitle,0);
+																	TrackTitle=malloc(RequiredLength+1);
+																	mb4_recording_get_title(Recording,TrackTitle,RequiredLength+1);
+																}
 																else
-																	mb4_track_get_title(Track,TrackTitle,sizeof(TrackTitle));
+																{
+																	RequiredLength=mb4_track_get_title(Track,TrackTitle,0);
+																	TrackTitle=malloc(RequiredLength+1);
+																	mb4_track_get_title(Track,TrackTitle,RequiredLength+1);
+																}
 
 																printf("Track: %d - '%s'\n",mb4_track_get_position(Track),TrackTitle);
 
 																/* We must delete anything we retrieve from a list */
+
+																free(TrackTitle);
 
 																mb4_track_delete(Track);
 															}
 														}
 
 														/* We must delete anything we retrieve from a list */
+
+														free(MediumTitle);
 
 														mb4_medium_delete(Medium);
 													}
