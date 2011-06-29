@@ -34,7 +34,8 @@ class MusicBrainz4::CMediumPrivate
 {
 	public:
 		CMediumPrivate()
-		:	m_DiscList(0),
+		:	m_Position(0),
+			m_DiscList(0),
 			m_TrackList(0)
 		{
 		}
