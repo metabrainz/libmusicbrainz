@@ -6,8 +6,6 @@ void DoSearch(const std::string& Entity, const std::string Search)
 {
 	MusicBrainz4::CQuery Query("queryexample/v1.0");
 
-	//Search for all releases by Kate Bush
-
 	MusicBrainz4::CQuery::tParamMap Params;
 	Params["query"]=Search;
 	Params["limit"]="10";
@@ -22,7 +20,15 @@ int main(int argc, const char *argv[])
 	argc=argc;
 	argv=argv;
 
+	//Search for all releases by Kate Bush
+
 	DoSearch("release","artist:\"Kate Bush\"");
+
+	//Search for all releases with 'sensual' in the title
+
 	DoSearch("release","release:sensual");
+
+	//Search for all artists with 'john' in the name
+
 	DoSearch("artist","artist:john");
 }
