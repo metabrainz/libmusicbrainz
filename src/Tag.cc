@@ -43,7 +43,7 @@ MusicBrainz4::CTag::CTag(const XMLNode& Node)
 
 		if (Node.isAttributeSet("count"))
 		{
-			ProcessItem(Node.getAttribute("type"),m_d->m_Count);
+			ProcessItem(Node.getAttribute("count"),m_d->m_Count);
 		}
 
 		for (int count=0;count<Node.nChildNode();count++)
