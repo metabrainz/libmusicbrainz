@@ -30,6 +30,11 @@
 class MusicBrainz4::CTagPrivate
 {
 	public:
+		CTagPrivate()
+		:	m_Count(0)
+		{
+		}
+
 		int m_Count;
 		std::string m_Name;
 };

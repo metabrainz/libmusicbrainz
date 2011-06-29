@@ -30,6 +30,12 @@
 class MusicBrainz4::CRatingPrivate
 {
 	public:
+		CRatingPrivate()
+		:	m_VotesCount(0),
+			m_Rating(0.0)
+		{
+		}
+
 		int m_VotesCount;
 		double m_Rating;
 };

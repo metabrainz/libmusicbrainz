@@ -30,6 +30,11 @@
 class MusicBrainz4::CUserRatingPrivate
 {
 	public:
+		CUserRatingPrivate()
+		:	m_UserRating(0)
+		{
+		}
+
 		int m_UserRating;
 };
 

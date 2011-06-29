@@ -34,7 +34,9 @@ class MusicBrainz4::CTrackPrivate
 {
 	public:
 		CTrackPrivate()
-		:	m_Recording(0),
+		:	m_Position(0),
+			m_Recording(0),
+			m_Length(0),
 			m_ArtistCredit(0)
 		{
 		}
