@@ -2,6 +2,11 @@
 
 #include "musicbrainz4/Query.h"
 
+/* For further information, see the web service search documentation:
+ *
+ * http://wiki.musicbrainz.org/Text_Search_Syntax
+ */
+
 void DoSearch(const std::string& Entity, const std::string Search)
 {
 	MusicBrainz4::CQuery Query("queryexample/v1.0");
