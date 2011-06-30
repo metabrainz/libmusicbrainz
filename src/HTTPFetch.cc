@@ -63,7 +63,12 @@ MusicBrainz4::CHTTPFetch::CHTTPFetch(const std::string& UserAgent, const std::st
 :	m_d(new CHTTPFetchPrivate)
 {
 	m_d->m_UserAgent=UserAgent;
-	m_d->m_Host=Host;
+
+	for (std::string::size_type Pos=0;Pos<m_d->m_UserAgent.length();Pos++)
+		if (m_d->m_UserAgent[Pos]=='-')
+			m_d->m_UserAgent[Pos]='/';
+
+ 	m_d->m_Host=Host;
 	m_d->m_Port=Port;
 
 	// Parse http_proxy environmnent variable
