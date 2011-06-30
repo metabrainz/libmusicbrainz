@@ -1,18 +1,27 @@
 Credits
 =======
 
+The following people have contributed to libmusicbrainz4:
+	Andy Hawkins <andy at gently dot org dot uk>
+		- Created the C++ implementation (based on libmusicbrainz3) and the
+			C bindings.
+		- Updated examples
+
+  Lukáš Lalinský <lalinsky at gmail dot com>
+  	- Advised on documentation and examples required.
+
 The following people have contributed to libmusicbrainz3:
 
   Lukáš Lalinský <lalinsky at gmail dot com>
     - Created the C++ implementation (based on python-musicbrainz2) and the
       C bindings.
-    - CppUnit test suite. 
-  
+    - CppUnit test suite.
+
   Matthias Friedrich <matt at mafr dot de>
     - Design and documentation for the original Python implementation.
     - Autotools/libtool build system.
 
-    
+
 The following people have contributed to the original libmusicbrainz2:
 
   Adam Wozniak <adam at mudlist dot eorbit dot net>
@@ -34,7 +43,7 @@ The following people have contributed to the original libmusicbrainz2:
    - support for FreeBSD, NetBSD, OpenBSD, Solaris and Win32/Cygwin
 
   Mark A Mankins <raider at dnaco dot net>
-   - improved Netscape support 
+   - improved Netscape support
 
   Rick Bradey <roundeye at bellsouth dot net>
    - support Linux 2 dot 2 kernel and -l command line option
@@ -55,7 +64,7 @@ The following people have contributed to the original libmusicbrainz2:
   David W. Gray <david at thegray dot com>
    - cmd.dsp and added support for exporting the C++ interface in Win32
 
-  Alexey Zakhlestine <indy at mgupp dot ru> 
+  Alexey Zakhlestine <indy at mgupp dot ru>
    - Supplied a patch compile this lib under BeOS
 
   Brian Reichert <reichert at numachi dot com>
@@ -65,12 +74,12 @@ The following people have contributed to the original libmusicbrainz2:
    - A small browser launch patch.
 
   Patrick Mauritz <oxygene at studentenbude dot ath dot cx>
-   - A patch to allow building mb_client from a different directory. 
+   - A patch to allow building mb_client from a different directory.
 
   Chris Gray <cgray4 at cs dot mcgill dot ca>
-   - A patch to keep the trm stuff from crashing. 
+   - A patch to keep the trm stuff from crashing.
 
-  Myers Carpenter <myers at maski dot org> 
+  Myers Carpenter <myers at maski dot org>
    - Added track duration queries to queries.h
    - Added all the python and debian support
 
@@ -102,7 +111,7 @@ The following people have contributed to the original libmusicbrainz2:
 
   Ryan McCabe <ryan at numb dot org>
    - Supplied a patch to fix pointer issues in comhttpsocket.cpp and
-     comsocket.cpp on 64-bit architectures. 
-  
--- 
+     comsocket.cpp on 64-bit architectures.
+
+--
 

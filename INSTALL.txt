@@ -13,28 +13,17 @@ Before you start, make sure you have installed following libraries:
  * Neon -- HTTP client library
    http://www.webdav.org/neon/
 
- * libdiscid -- library for calculating MusicBrainz discids
-   http://musicbrainz.org/doc/libdiscid
-    
- * (optional) CppUnit -- C++ unit testing framework
-   http://cppunit.sourceforge.net/cppunit-wiki
- 
 Building
 ========
 
 Once you have installed all dependencies, you can compile the
 library:
-    
+
    cmake .
    make
-  
-If you also have cppunit, use the following commands to build and run
-the test suite:
-  
-   make check
-    
+
 And to install the built library run (as root):
-  
+
    make install
 
 CMake Options
