@@ -22,11 +22,6 @@ library:
    cmake .
    make
 
-If you also have cppunit, use the following commands to build and run
-the test suite:
-
-   make check
-
 And to install the built library run (as root):
 
    make install

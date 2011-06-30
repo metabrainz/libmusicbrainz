@@ -1,4 +1,4 @@
-Changes for libmusicbrainz 4.0.0 alpha 1
+Changes for libmusicbrainz 4.0.0 beta 1
 ----------------------------------------
 
    - Rewritten from scratch for NGS
