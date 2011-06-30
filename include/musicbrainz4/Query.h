@@ -66,6 +66,9 @@ namespace MusicBrainz4
 	 * documentation for the
 	 * <a target="_blank" href="http://musicbrainz.org/doc/XML_Web_Service/Version_2">web service</a>.
 	 *
+	 * For information on search syntax, see the documentation for
+	 * <a target="_blank" href="http://wiki.musicbrainz.org/Text_Search_Syntax">search syntax</a>.
+	 *
 	 * @b Note It is the responsibility of the caller to validate any pointers returned
 	 * from the library. It is valid for a pointer to be NULL if the information was not
 	 * present in the response from the MusicBrainz service.
