@@ -199,6 +199,13 @@ namespace MusicBrainz4
 		 * @param ReleaseID MusicBrainz release ID to lookup
 		 *
 		 * @return MusicBrainz::CRelease object
+		 *
+		 * @throw CConnectionError An error occurred connecting to the web server
+		 * @throw CTimeoutError A timeout occurred when connecting to the web server
+		 * @throw CAuthenticationError An authentication error occurred
+		 * @throw CFetchError An error occurred fetching data
+		 * @throw CRequestError The request was invalid
+		 * @throw CResourceNotFoundError The requested resource was not found
 		 */
 
 		CRelease LookupRelease(const std::string& ReleaseID);
@@ -230,6 +237,13 @@ namespace MusicBrainz4
 		 * @param Params Map of parameters to add to the query (e.g. inc)
 		 *
 		 * @return MusicBrainz4::CMetadata object
+		 *
+		 * @throw CConnectionError An error occurred connecting to the web server
+		 * @throw CTimeoutError A timeout occurred when connecting to the web server
+		 * @throw CAuthenticationError An authentication error occurred
+		 * @throw CFetchError An error occurred fetching data
+		 * @throw CRequestError The request was invalid
+		 * @throw CResourceNotFoundError The requested resource was not found
 		 */
 
 		CMetadata Query(const std::string& Entity,const std::string& ID="",const std::string& Resource="",const tParamMap& Params=tParamMap());
@@ -243,6 +257,13 @@ namespace MusicBrainz4
 		 * @param Entries List of MusicBrainz Release IDs to add to the collection
 		 *
 		 * @return true if successful, false otherwise
+		 *
+		 * @throw CConnectionError An error occurred connecting to the web server
+		 * @throw CTimeoutError A timeout occurred when connecting to the web server
+		 * @throw CAuthenticationError An authentication error occurred
+		 * @throw CFetchError An error occurred fetching data
+		 * @throw CRequestError The request was invalid
+		 * @throw CResourceNotFoundError The requested resource was not found
 		 */
 
 		bool AddCollectionEntries(const std::string& CollectionID, std::vector<std::string>& Entries);
@@ -256,6 +277,13 @@ namespace MusicBrainz4
 		 * @param Entries List of MusicBrainz Release IDs to delete from the collection
 		 *
 		 * @return true if successful, false otherwise
+		 *
+		 * @throw CConnectionError An error occurred connecting to the web server
+		 * @throw CTimeoutError A timeout occurred when connecting to the web server
+		 * @throw CAuthenticationError An authentication error occurred
+		 * @throw CFetchError An error occurred fetching data
+		 * @throw CRequestError The request was invalid
+		 * @throw CResourceNotFoundError The requested resource was not found
 		 */
 
 		bool DeleteCollectionEntries(const std::string& CollectionID, std::vector<std::string>& Entries);

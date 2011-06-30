@@ -1552,8 +1552,6 @@ extern "C"
  * @see MusicBrainz4::CQuery::LastErrorMessage
  *
  * @param Query #Mb4Query object
- *
- * @param Query #Mb4Query object
  * @param str Returned string
  * @param len Number of characters available in return string
  *
