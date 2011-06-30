@@ -14,7 +14,7 @@ int main(int argc, const char *argv[])
 	{
 		std::string DiscID=argv[1];
 
-		MusicBrainz4::CQuery Query("cdlookupexample/v1.0");
+		MusicBrainz4::CQuery Query("cdlookupexample-1.0");
 
 		try
 		{

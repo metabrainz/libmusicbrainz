@@ -12,7 +12,7 @@ void ListCollection(MusicBrainz4::CQuery& Query, const std::string& CollectionID
 
 int main(int argc, const char *argv[])
 {
-	MusicBrainz4::CQuery Query("collectionexample/v1.0","test.musicbrainz.org");
+	MusicBrainz4::CQuery Query("collectionexample-1.0","test.musicbrainz.org");
 
 	if (argc>1)
 	{

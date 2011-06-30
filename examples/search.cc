@@ -10,7 +10,7 @@
 
 void DoSearch(const std::string& Entity, const std::string Search)
 {
-	MusicBrainz4::CQuery Query("queryexample/v1.0");
+	MusicBrainz4::CQuery Query("queryexample-1.0");
 
 	MusicBrainz4::CQuery::tParamMap Params;
 	Params["query"]=Search;
