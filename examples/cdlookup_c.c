@@ -14,6 +14,14 @@ int main(int argc, const char *argv[])
 		if (Query)
 		{
 			Mb4Metadata Metadata1=mb4_query_query(Query,"discid",DiscID,"",0,NULL,NULL);
+			char ErrorMessage[256];
+
+			tQueryResult Result=mb4_query_get_lastresult(Query);
+			int HTTPCode=mb4_query_get_lasthttpcode(Query);
+
+			mb4_query_get_lasterrormessage(Query,ErrorMessage,sizeof(ErrorMessage));
+			printf("Result: %d\nHTTPCode: %d\nErrorMessage: '%s'\n",Result,HTTPCode,ErrorMessage);
+
 			if (Metadata1)
 			{
 				Mb4Disc Disc=mb4_metadata_get_disc(Metadata1);

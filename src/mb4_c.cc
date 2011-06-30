@@ -387,58 +387,86 @@ MB4_C_STR_SETTER(Query,query,ProxyPassword,proxypassword)
 
 Mb4ReleaseList mb4_query_lookup_discid(Mb4Query Query, const char *DiscID)
 {
-	MusicBrainz4::CQuery *TheQuery=reinterpret_cast<MusicBrainz4::CQuery *>(Query);
-	if (TheQuery)
-		return new MusicBrainz4::CGenericList<MusicBrainz4::CRelease>(TheQuery->LookupDiscID(DiscID));
+	try
+	{
+		MusicBrainz4::CQuery *TheQuery=reinterpret_cast<MusicBrainz4::CQuery *>(Query);
+		if (TheQuery)
+			return new MusicBrainz4::CGenericList<MusicBrainz4::CRelease>(TheQuery->LookupDiscID(DiscID));
+	}
+
+	catch(...)
+	{
+	}
 
 	return 0;
 }
 
 Mb4Release mb4_query_lookup_release(Mb4Query Query, const char *Release)
 {
-	MusicBrainz4::CQuery *TheQuery=reinterpret_cast<MusicBrainz4::CQuery *>(Query);
-	if (TheQuery)
-		return new MusicBrainz4::CRelease(TheQuery->LookupRelease(Release));
+	try
+	{
+		MusicBrainz4::CQuery *TheQuery=reinterpret_cast<MusicBrainz4::CQuery *>(Query);
+		if (TheQuery)
+			return new MusicBrainz4::CRelease(TheQuery->LookupRelease(Release));
+	}
+
+	catch(...)
+	{
+	}
 
 	return 0;
 }
 
 Mb4Metadata mb4_query_query(Mb4Query Query, const char *Entity, const char *ID, const char *Resource, int NumParams, char **ParamName, char **ParamValue)
 {
-	MusicBrainz4::CQuery::tParamMap Params;
-
-	for (int count=0;count<NumParams;count++)
+	try
 	{
-		if (ParamName[count] && ParamValue[count])
-			Params[ParamName[count]]=ParamValue[count];
+		MusicBrainz4::CQuery::tParamMap Params;
+
+		for (int count=0;count<NumParams;count++)
+		{
+			if (ParamName[count] && ParamValue[count])
+				Params[ParamName[count]]=ParamValue[count];
+		}
+
+		MusicBrainz4::CQuery *TheQuery=reinterpret_cast<MusicBrainz4::CQuery *>(Query);
+		if (TheQuery)
+			return new MusicBrainz4::CMetadata(TheQuery->Query(Entity?Entity:"",
+																										ID?ID:"",
+																										Resource?Resource:"",
+																										Params));
 	}
 
-	MusicBrainz4::CQuery *TheQuery=reinterpret_cast<MusicBrainz4::CQuery *>(Query);
-	if (TheQuery)
-		return new MusicBrainz4::CMetadata(TheQuery->Query(Entity?Entity:"",
-																									ID?ID:"",
-																									Resource?Resource:"",
-																									Params));
+	catch(...)
+	{
+	}
 
 	return 0;
 }
 
 unsigned char mb4_query_add_collection_entries(Mb4Query Query, const char *Collection, int NumEntries, const char **Entries)
 {
-	std::vector<std::string> VecEntries;
-
-	MusicBrainz4::CQuery *TheQuery=reinterpret_cast<MusicBrainz4::CQuery *>(Query);
-	if (TheQuery)
+	try
 	{
-		for (int count=0;count<NumEntries;count++)
-		{
-			if (Entries && Entries[count])
-			{
-				VecEntries.push_back(Entries[count]);
-			}
-		}
+		std::vector<std::string> VecEntries;
 
-		return TheQuery->AddCollectionEntries(Collection,VecEntries)?1:0;
+		MusicBrainz4::CQuery *TheQuery=reinterpret_cast<MusicBrainz4::CQuery *>(Query);
+		if (TheQuery)
+		{
+			for (int count=0;count<NumEntries;count++)
+			{
+				if (Entries && Entries[count])
+				{
+					VecEntries.push_back(Entries[count]);
+				}
+			}
+
+			return TheQuery->AddCollectionEntries(Collection,VecEntries)?1:0;
+		}
+	}
+
+	catch(...)
+	{
 	}
 
 	return 0;
@@ -446,24 +474,47 @@ unsigned char mb4_query_add_collection_entries(Mb4Query Query, const char *Colle
 
 unsigned char mb4_query_delete_collection_entries(Mb4Query Query, const char *Collection, int NumEntries, const char **Entries)
 {
-	std::vector<std::string> VecEntries;
-
-	MusicBrainz4::CQuery *TheQuery=reinterpret_cast<MusicBrainz4::CQuery *>(Query);
-	if (TheQuery)
+	try
 	{
-		for (int count=0;count<NumEntries;count++)
-		{
-			if (Entries && Entries[count])
-			{
-				VecEntries.push_back(Entries[count]);
-			}
-		}
+		std::vector<std::string> VecEntries;
 
-		return TheQuery->AddCollectionEntries(Collection,VecEntries)?1:0;
+		MusicBrainz4::CQuery *TheQuery=reinterpret_cast<MusicBrainz4::CQuery *>(Query);
+		if (TheQuery)
+		{
+			for (int count=0;count<NumEntries;count++)
+			{
+				if (Entries && Entries[count])
+				{
+					VecEntries.push_back(Entries[count]);
+				}
+			}
+
+			return TheQuery->AddCollectionEntries(Collection,VecEntries)?1:0;
+		}
+	}
+
+	catch(...)
+	{
 	}
 
 	return 0;
 }
+
+tQueryResult mb4_query_get_lastresult(Mb4Query o)
+{
+	try
+	{
+		return (tQueryResult)((MusicBrainz4::CQuery *)o)->LastResult();
+	}
+
+	catch (...)
+	{
+		return eQuery_FetchError;
+	}
+}
+
+MB4_C_INT_GETTER(Query,query,LastHTTPCode,lasthttpcode)
+MB4_C_STR_GETTER(Query,query,LastErrorMessage,lasterrormessage)
 
 MB4_C_DELETE(Rating,rating)
 MB4_C_INT_GETTER(Rating,rating,VotesCount,votescount)

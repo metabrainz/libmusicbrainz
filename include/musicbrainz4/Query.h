@@ -81,6 +81,22 @@ namespace MusicBrainz4
 		typedef std::map<std::string,std::string> tParamMap;
 
 		/**
+		 * @brief Enumerated type for query status
+		 *
+		 * Enumerated type for query status
+		 */
+		enum tQueryResult
+		{
+			eQuery_Success=0,
+			eQuery_ConnectionError,
+			eQuery_Timeout,
+			eQuery_AuthenticationError,
+			eQuery_FetchError,
+			eQuery_RequestError,
+			eQuery_ResourceNotFound
+		};
+
+		/**
 		 * @brief Constructor for MusicBrainz::CQuery object
 		 *
 		 * This is the constructor for the MusicBrainz::CQuery object.
@@ -243,6 +259,34 @@ namespace MusicBrainz4
 		 */
 
 		bool DeleteCollectionEntries(const std::string& CollectionID, std::vector<std::string>& Entries);
+
+		/**
+		 * @brief Return result of the last query
+		 *
+		 * Return the result of the last query
+		 *
+		 * @return Result of last query
+		 */
+
+		CQuery::tQueryResult LastResult() const;
+
+		/**
+		 * @brief Return HTTP code of the last query
+		 *
+		 * Return the HTTP code of the last query
+		 *
+		 * @return HTTP code of last query
+		 */
+		int LastHTTPCode() const;
+
+		/**
+		 * @brief Return error message from the last query
+		 *
+		 * Return the error message from the last query
+		 *
+		 * @return Error message from last query
+		 */
+		std::string LastErrorMessage() const;
 
 	private:
 		CQueryPrivate * const m_d;

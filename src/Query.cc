@@ -48,7 +48,9 @@ class MusicBrainz4::CQueryPrivate
 	public:
 		CQueryPrivate()
 		:	m_Port(80),
-			m_ProxyPort(0)
+			m_ProxyPort(0),
+			m_LastResult(CQuery::eQuery_Success),
+			m_LastHTTPCode(200)
 		{
 		}
 
@@ -61,6 +63,9 @@ class MusicBrainz4::CQueryPrivate
 		int m_ProxyPort;
 		std::string m_ProxyUserName;
 		std::string m_ProxyPassword;
+		CQuery::tQueryResult m_LastResult;
+		int m_LastHTTPCode;
+		std::string m_LastErrorMessage;
 };
 
 MusicBrainz4::CQuery::CQuery(const std::string& UserAgent, const std::string& Server, int Port)
@@ -132,30 +137,86 @@ MusicBrainz4::CMetadata MusicBrainz4::CQuery::PerformQuery(const std::string& Qu
 	if (!m_d->m_ProxyPassword.empty())
 		Fetch.SetProxyPassword(m_d->m_ProxyPassword);
 
-	int Ret=Fetch.Fetch(Query);
-	//std::cout << "Ret: " << Ret << std::endl;
-
-	if (Ret>0)
+	try
 	{
-		std::vector<unsigned char> Data=Fetch.Data();
-		std::string strData(Data.begin(),Data.end());
+		int Ret=Fetch.Fetch(Query);
+		//std::cout << "Ret: " << Ret << std::endl;
 
-		//std::cout << "Ret is '" << strData << "'" << std::endl;
-
-		XMLResults Results;
-		XMLNode TopNode=XMLNode::parseString(strData.c_str(), 0, &Results);
-		if (Results.error==eXMLErrorNone)
+		if (Ret>0)
 		{
-			XMLNode MetadataNode=TopNode.getChildNode("metadata");
-			if (!MetadataNode.isEmpty())
+			std::vector<unsigned char> Data=Fetch.Data();
+			std::string strData(Data.begin(),Data.end());
+
+			//std::cout << "Ret is '" << strData << "'" << std::endl;
+
+			XMLResults Results;
+			XMLNode TopNode=XMLNode::parseString(strData.c_str(), 0, &Results);
+			if (Results.error==eXMLErrorNone)
 			{
-				Metadata=CMetadata(MetadataNode);
+				XMLNode MetadataNode=TopNode.getChildNode("metadata");
+				if (!MetadataNode.isEmpty())
+				{
+					Metadata=CMetadata(MetadataNode);
+				}
 			}
 		}
 	}
 
-	return Metadata;
+	catch (CConnectionError& Error)
+	{
+		m_d->m_LastResult=CQuery::eQuery_ConnectionError;
+		m_d->m_LastHTTPCode=Fetch.Status();
+		m_d->m_LastErrorMessage=Fetch.ErrorMessage();
 
+		throw;
+	}
+
+	catch (CTimeoutError& Error)
+	{
+		m_d->m_LastResult=CQuery::eQuery_Timeout;
+		m_d->m_LastHTTPCode=Fetch.Status();
+		m_d->m_LastErrorMessage=Fetch.ErrorMessage();
+
+		throw;
+	}
+
+	catch (CAuthenticationError& Error)
+	{
+		m_d->m_LastResult=CQuery::eQuery_AuthenticationError;
+		m_d->m_LastHTTPCode=Fetch.Status();
+		m_d->m_LastErrorMessage=Fetch.ErrorMessage();
+
+		throw;
+	}
+
+	catch (CFetchError& Error)
+	{
+		m_d->m_LastResult=CQuery::eQuery_FetchError;
+		m_d->m_LastHTTPCode=Fetch.Status();
+		m_d->m_LastErrorMessage=Fetch.ErrorMessage();
+
+		throw;
+	}
+
+	catch (CRequestError& Error)
+	{
+		m_d->m_LastResult=CQuery::eQuery_RequestError;
+		m_d->m_LastHTTPCode=Fetch.Status();
+		m_d->m_LastErrorMessage=Fetch.ErrorMessage();
+
+		throw;
+	}
+
+	catch (CResourceNotFoundError& Error)
+	{
+		m_d->m_LastResult=CQuery::eQuery_ResourceNotFound;
+		m_d->m_LastHTTPCode=Fetch.Status();
+		m_d->m_LastErrorMessage=Fetch.ErrorMessage();
+
+		throw;
+	}
+
+	return Metadata;
 }
 
 MusicBrainz4::CMetadata MusicBrainz4::CQuery::Query(const std::string& Entity, const std::string& ID, const std::string& Resource, const tParamMap& Params)
@@ -291,27 +352,84 @@ bool MusicBrainz4::CQuery::EditCollection(const std::string& CollectionID, std::
 	if (!m_d->m_ProxyPassword.empty())
 		Fetch.SetProxyPassword(m_d->m_ProxyPassword);
 
-	int Ret=Fetch.Fetch(Query,Action);
-	//std::cout << "Ret: " << Ret << std::endl;
-	if (Ret>0)
+	try
 	{
-		std::vector<unsigned char> Data=Fetch.Data();
-		std::string strData(Data.begin(),Data.end());
-
-		//std::cout << "Ret is '" << strData << "'" << std::endl;
-		XMLResults Results;
-		XMLNode TopNode=XMLNode::parseString(strData.c_str(), 0, &Results);
-		if (Results.error==eXMLErrorNone)
+		int Ret=Fetch.Fetch(Query,Action);
+		//std::cout << "Ret: " << Ret << std::endl;
+		if (Ret>0)
 		{
-			XMLNode MetadataNode=TopNode.getChildNode("metadata");
-			if (!MetadataNode.isEmpty())
-			{
-				CMetadata Metadata(MetadataNode);
+			std::vector<unsigned char> Data=Fetch.Data();
+			std::string strData(Data.begin(),Data.end());
 
-				if (Metadata.Message() && Metadata.Message()->Text()=="OK")
-					RetVal=true;
+			//std::cout << "Ret is '" << strData << "'" << std::endl;
+			XMLResults Results;
+			XMLNode TopNode=XMLNode::parseString(strData.c_str(), 0, &Results);
+			if (Results.error==eXMLErrorNone)
+			{
+				XMLNode MetadataNode=TopNode.getChildNode("metadata");
+				if (!MetadataNode.isEmpty())
+				{
+					CMetadata Metadata(MetadataNode);
+
+					if (Metadata.Message() && Metadata.Message()->Text()=="OK")
+						RetVal=true;
+				}
 			}
 		}
+	}
+
+	catch (CConnectionError& Error)
+	{
+		m_d->m_LastResult=CQuery::eQuery_ConnectionError;
+		m_d->m_LastHTTPCode=Fetch.Status();
+		m_d->m_LastErrorMessage=Fetch.ErrorMessage();
+
+		throw;
+	}
+
+	catch (CTimeoutError& Error)
+	{
+		m_d->m_LastResult=CQuery::eQuery_Timeout;
+		m_d->m_LastHTTPCode=Fetch.Status();
+		m_d->m_LastErrorMessage=Fetch.ErrorMessage();
+
+		throw;
+	}
+
+	catch (CAuthenticationError& Error)
+	{
+		m_d->m_LastResult=CQuery::eQuery_AuthenticationError;
+		m_d->m_LastHTTPCode=Fetch.Status();
+		m_d->m_LastErrorMessage=Fetch.ErrorMessage();
+
+		throw;
+	}
+
+	catch (CFetchError& Error)
+	{
+		m_d->m_LastResult=CQuery::eQuery_FetchError;
+		m_d->m_LastHTTPCode=Fetch.Status();
+		m_d->m_LastErrorMessage=Fetch.ErrorMessage();
+
+		throw;
+	}
+
+	catch (CRequestError& Error)
+	{
+		m_d->m_LastResult=CQuery::eQuery_RequestError;
+		m_d->m_LastHTTPCode=Fetch.Status();
+		m_d->m_LastErrorMessage=Fetch.ErrorMessage();
+
+		throw;
+	}
+
+	catch (CResourceNotFoundError& Error)
+	{
+		m_d->m_LastResult=CQuery::eQuery_ResourceNotFound;
+		m_d->m_LastHTTPCode=Fetch.Status();
+		m_d->m_LastErrorMessage=Fetch.ErrorMessage();
+
+		throw;
 	}
 
 	return RetVal;
@@ -351,3 +469,19 @@ std::string MusicBrainz4::CQuery::URLEncode(const std::map<std::string,std::stri
 	}
 	return EncodedStr;
 }
+
+MusicBrainz4::CQuery::tQueryResult MusicBrainz4::CQuery::LastResult() const
+{
+	return m_d->m_LastResult;
+}
+
+int MusicBrainz4::CQuery::LastHTTPCode() const
+{
+	return m_d->m_LastHTTPCode;
+}
+
+std::string MusicBrainz4::CQuery::LastErrorMessage() const
+{
+	return m_d->m_LastErrorMessage;
+}
+

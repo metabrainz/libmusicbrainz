@@ -1516,6 +1516,52 @@ extern "C"
 	unsigned char mb4_query_delete_collection_entries(Mb4Query Query, const char *Collection, int NumEntries, const char **Entries);
 
 /**
+ * @see MusicBrainz4::CQuery::tQueryResult
+ */
+
+	typedef enum
+	{
+			eQuery_Success=0,
+			eQuery_ConnectionError,
+			eQuery_Timeout,
+			eQuery_AuthenticationError,
+			eQuery_FetchError,
+			eQuery_RequestError,
+			eQuery_ResourceNotFound
+	} tQueryResult;
+
+/**
+ * @see MusicBrainz4::CQuery::LastResult
+ *
+ * @param Query #Mb4Query object
+ *
+ * @return Last query result code
+ */
+	tQueryResult mb4_query_get_lastresult(Mb4Query Query);
+
+/**
+ * @see MusicBrainz4::CQuery::LastHTTPCode
+ *
+ * @param Query #Mb4Query object
+ *
+ * @return Last HTTP response code
+ */
+	int mb4_query_get_lasthttpcode(Mb4Query Query);
+
+/**
+ * @see MusicBrainz4::CQuery::LastErrorMessage
+ *
+ * @param Query #Mb4Query object
+ *
+ * @param Query #Mb4Query object
+ * @param str Returned string
+ * @param len Number of characters available in return string
+ *
+ * @return The number of characters in the string to copy (not including terminating NULL)
+ */
+	int mb4_query_get_lasterrormessage(Mb4Query Query, char *str, int len);
+
+/**
  * Delete a #Mb4Rating object
  *
  * @param Rating Object to delete

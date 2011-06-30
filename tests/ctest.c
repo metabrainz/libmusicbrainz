@@ -146,6 +146,7 @@ void CompileTest()
 	int DummyInt=0;
 	double DummyDouble=0;
 	unsigned char DummyBool=0;
+	tQueryResult DummyResult=eQuery_Success;
 
 	mb4_alias_get_type(Alias,Str,Size);
 	mb4_alias_get_script(Alias,Str,Size);
@@ -310,6 +311,9 @@ void CompileTest()
 	Metadata=mb4_query_query(Query,"entity","id","resource",0,0,0);
 	DummyBool=mb4_query_add_collection_entries(Query,Collection,0,0);
 	DummyBool=mb4_query_delete_collection_entries(Query,Collection,0,0);
+	DummyResult=mb4_query_get_lastresult(Query);
+	DummyInt=mb4_query_get_lasthttpcode(Query);
+	mb4_query_get_lasterrormessage(Query,Str,Size);
 	mb4_query_delete(Query);
 
 	DummyInt=mb4_rating_get_votescount(Rating);

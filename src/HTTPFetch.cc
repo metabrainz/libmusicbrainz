@@ -26,7 +26,6 @@
 #include "musicbrainz4/HTTPFetch.h"
 
 #include <stdlib.h>
-
 #include <string.h>
 
 #include "ne_session.h"
@@ -175,6 +174,52 @@ int MusicBrainz4::CHTTPFetch::Fetch(const std::string& URL, const std::string& R
 		m_d->m_ErrorMessage = ne_get_error(sess);
 
 		ne_session_destroy(sess);
+
+		switch (m_d->m_Result)
+		{
+			case NE_OK:
+				break;
+
+			case NE_CONNECT:
+			case NE_LOOKUP:
+				throw CConnectionError(m_d->m_ErrorMessage);
+				break;
+
+			case NE_TIMEOUT:
+				throw CTimeoutError(m_d->m_ErrorMessage);
+				break;
+
+			case NE_AUTH:
+			case NE_PROXYAUTH:
+				throw CAuthenticationError(m_d->m_ErrorMessage);
+				break;
+
+			default:
+				throw CFetchError(m_d->m_ErrorMessage);
+				break;
+		}
+
+		switch (m_d->m_Status)
+		{
+			case 200:
+				break;
+
+			case 400:
+				throw CRequestError(m_d->m_ErrorMessage);
+				break;
+
+			case 401:
+				throw CAuthenticationError(m_d->m_ErrorMessage);
+				break;
+
+			case 404:
+				throw CResourceNotFoundError(m_d->m_ErrorMessage);
+				break;
+
+			default:
+				throw CFetchError(m_d->m_ErrorMessage);
+				break;
+		}
 	}
 
 	ne_sock_exit();

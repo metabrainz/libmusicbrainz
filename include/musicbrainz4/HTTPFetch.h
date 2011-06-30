@@ -33,6 +33,83 @@ namespace MusicBrainz4
 {
 	class CHTTPFetchPrivate;
 
+	class CExceptionBase: public std::exception
+	{
+	public:
+		CExceptionBase(const std::string& ErrorMessage, const std::string& Exception)
+		:	m_ErrorMessage(ErrorMessage),
+			m_Exception(Exception)
+		{
+			m_FullMessage=m_Exception + ": " + m_ErrorMessage;
+		}
+
+		virtual ~CExceptionBase() throw() {};
+
+	  virtual const char* what() const throw()
+	  {
+	    return m_FullMessage.c_str();
+	  }
+
+	 private:
+		std::string m_ErrorMessage;
+		std::string m_Exception;
+		std::string m_FullMessage;
+	};
+
+	class CConnectionError: public CExceptionBase
+	{
+	public:
+			CConnectionError(const std::string& ErrorMessage)
+			: CExceptionBase(ErrorMessage,"Connection error")
+			{
+			}
+	};
+
+	class CTimeoutError: public CExceptionBase
+	{
+	public:
+			CTimeoutError(const std::string& ErrorMessage)
+			: CExceptionBase(ErrorMessage,"Timeout error")
+			{
+			}
+	};
+
+	class CAuthenticationError: public CExceptionBase
+	{
+	public:
+			CAuthenticationError(const std::string& ErrorMessage)
+			: CExceptionBase(ErrorMessage,"Authentication error")
+			{
+			}
+	};
+
+	class CFetchError: public CExceptionBase
+	{
+	public:
+			CFetchError(const std::string& ErrorMessage)
+			: CExceptionBase(ErrorMessage,"Fetch error")
+			{
+			}
+	};
+
+	class CRequestError: public CExceptionBase
+	{
+	public:
+			CRequestError(const std::string& ErrorMessage)
+			: CExceptionBase(ErrorMessage,"Request error")
+			{
+			}
+	};
+
+	class CResourceNotFoundError: public CExceptionBase
+	{
+	public:
+			CResourceNotFoundError(const std::string& ErrorMessage)
+			: CExceptionBase(ErrorMessage,"Resource not found error")
+			{
+			}
+	};
+
 	class CHTTPFetch
 	{
 	public:
