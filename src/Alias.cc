@@ -28,8 +28,7 @@
 class MusicBrainz4::CAliasPrivate
 {
 public:
-		std::string m_Type;
-		std::string m_Script;
+		std::string m_Locale;
 		std::string m_Text;
 };
 
@@ -40,11 +39,8 @@ MusicBrainz4::CAlias::CAlias(const XMLNode& Node)
 	{
 		//std::cout << "Relation node: " << std::endl << Node.createXMLString(true) << std::endl;
 
-		if (Node.isAttributeSet("type"))
-			m_d->m_Type=Node.getAttribute("type");
-
-		if (Node.isAttributeSet("script"))
-			m_d->m_Script=Node.getAttribute("script");
+		if (Node.isAttributeSet("locale"))
+			m_d->m_Locale=Node.getAttribute("locale");
 
 		if (Node.getText())
 			m_d->m_Text=Node.getText();
@@ -61,8 +57,7 @@ MusicBrainz4::CAlias& MusicBrainz4::CAlias::operator =(const CAlias& Other)
 {
 	if (this!=&Other)
 	{
-		m_d->m_Type=Other.m_d->m_Type;
-		m_d->m_Script=Other.m_d->m_Type;
+		m_d->m_Locale=Other.m_d->m_Locale;
 		m_d->m_Text=Other.m_d->m_Text;
 	}
 
@@ -74,14 +69,9 @@ MusicBrainz4::CAlias::~CAlias()
 	delete m_d;
 }
 
-std::string MusicBrainz4::CAlias::Type() const
+std::string MusicBrainz4::CAlias::Locale() const
 {
-	return m_d->m_Type;
-}
-
-std::string MusicBrainz4::CAlias::Script() const
-{
-	return m_d->m_Script;
+	return m_d->m_Locale;
 }
 
 std::string MusicBrainz4::CAlias::Text() const
@@ -93,8 +83,7 @@ std::ostream& operator << (std::ostream& os, const MusicBrainz4::CAlias& Alias)
 {
 	os << "Alias:" << std::endl;
 
-	os << "\tType:   " << Alias.Type() << std::endl;
-	os << "\tScript: " << Alias.Script() << std::endl;
+	os << "\tLocale: " << Alias.Locale() << std::endl;
 	os << "\tText:   " << Alias.Text() << std::endl;
 
 	return os;

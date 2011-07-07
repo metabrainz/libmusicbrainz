@@ -148,8 +148,7 @@ void CompileTest()
 	unsigned char DummyBool=0;
 	tQueryResult DummyResult=eQuery_Success;
 
-	mb4_alias_get_type(Alias,Str,Size);
-	mb4_alias_get_script(Alias,Str,Size);
+	mb4_alias_get_locale(Alias,Str,Size);
 	mb4_alias_get_text(Alias,Str,Size);
 	mb4_alias_delete(Alias);
 

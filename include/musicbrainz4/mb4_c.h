@@ -112,7 +112,7 @@ extern "C"
 	void mb4_alias_delete(Mb4Alias Alias);
 
 /**
- * @see MusicBrainz4::CAlias::Type
+ * @see MusicBrainz4::CAlias::Locale
  *
  * @param Alias #Mb4Alias object
  * @param str Returned string
@@ -120,18 +120,7 @@ extern "C"
  *
  * @return The number of characters in the string to copy (not including terminating NULL)
  */
-	int mb4_alias_get_type(Mb4Alias Alias, char *str, int len);
-
-/**
- * @see MusicBrainz4::CAlias::Script
- *
- * @param Alias #Mb4Alias object
- * @param str Returned string
- * @param len Number of characters available in return string
- *
- * @return The number of characters in the string to copy (not including terminating NULL)
- */
-	int mb4_alias_get_script(Mb4Alias Alias, char *str, int len);
+	int mb4_alias_get_locale(Mb4Alias Alias, char *str, int len);
 
 /**
  * @see MusicBrainz4::CAlias::Text

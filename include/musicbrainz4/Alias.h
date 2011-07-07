@@ -34,7 +34,7 @@
 namespace MusicBrainz4
 {
 	class CAliasPrivate;
-	
+
 	class CAlias
 	{
 	public:
@@ -43,8 +43,7 @@ namespace MusicBrainz4
 		CAlias& operator =(const CAlias& Other);
 		~CAlias();
 
-		std::string Type() const;
-		std::string Script() const;
+		std::string Locale() const;
 		std::string Text() const;
 
 	private:
