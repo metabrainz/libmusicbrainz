@@ -2054,6 +2054,17 @@ extern "C"
 	int mb4_releasegroup_get_type(Mb4ReleaseGroup ReleaseGroup, char *str, int len);
 
 /**
+ * @see MusicBrainz4::CReleaseGroup::FirstReleaseDate
+ *
+ * @param ReleaseGroup #Mb4ReleaseGroup object
+ * @param str Returned string
+ * @param len Number of characters available in return string
+ *
+ * @return The number of characters in the string to copy (not including terminating NULL)
+ */
+	int mb4_releasegroup_get_firstreleasedate(Mb4ReleaseGroup ReleaseGroup, char *str, int len);
+
+/**
  * @see MusicBrainz4::CReleaseGroup::Title
  *
  * @param ReleaseGroup #Mb4ReleaseGroup object

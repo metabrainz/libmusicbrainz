@@ -370,6 +370,7 @@ void CompileTest()
 
 	mb4_releasegroup_get_id(ReleaseGroup,Str,Size);
 	mb4_releasegroup_get_type(ReleaseGroup,Str,Size);
+	mb4_releasegroup_get_firstreleasedate(ReleaseGroup,Str,Size);
 	mb4_releasegroup_get_title(ReleaseGroup,Str,Size);
 	mb4_releasegroup_get_comment(ReleaseGroup,Str,Size);
 	ArtistCredit=mb4_releasegroup_get_artistcredit(ReleaseGroup);
