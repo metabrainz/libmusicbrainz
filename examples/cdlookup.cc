@@ -38,7 +38,6 @@ int main(int argc, const char *argv[])
 					Params["inc"]="artists labels recordings release-groups url-rels discids artist-credits";
 
 					std::string ReleaseID=Release.ID();
-					ReleaseID[0]='6';
 
 					Metadata=Query.Query("release",ReleaseID,"",Params);
 					if (Metadata.Release())
