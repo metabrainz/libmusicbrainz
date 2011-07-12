@@ -49,6 +49,79 @@
  *
  * Please report any issues with this library at
  * <a target="_blank" href="http://tickets.musicbrainz.org/">http://tickets.musicbrainz.org/</a>.
+ *
+ * A brief example showing how to lookup a list of releases matching a disc id
+ *
+ * @code
+		MusicBrainz4::CQuery Query("cdlookupexample-1.0");
+
+		try
+		{
+			MusicBrainz4::CMetadata Metadata=Query.Query("discid",DiscID);
+			if (Metadata.Disc() && Metadata.Disc()->ReleaseList())
+			{
+				MusicBrainz4::CGenericList<MusicBrainz4::CRelease> *ReleaseList=Metadata.Disc()->ReleaseList();
+				std::list<MusicBrainz4::CRelease> Releases=ReleaseList->Items();
+
+				std::cout << "Found " << Releases.size() << " release(s)" << std::endl;
+
+				for (std::list<MusicBrainz4::CRelease>::const_iterator ThisRelease=Releases.begin();ThisRelease!=Releases.end();ThisRelease++)
+				{
+					MusicBrainz4::CRelease Release=(*ThisRelease);
+
+					std::cout << "Basic release: " << std::endl << Release << std::endl;
+				}
+			}
+		}
+
+		catch (MusicBrainz4::CConnectionError& Error)
+		{
+			std::cout << "Connection Exception: '" << Error.what() << "'" << std::endl;
+			std::cout << "LastResult: " << Query.LastResult() << std::endl;
+			std::cout << "LastHTTPCode: " << Query.LastHTTPCode() << std::endl;
+			std::cout << "LastErrorMessage: " << Query.LastErrorMessage() << std::endl;
+		}
+
+		catch (MusicBrainz4::CTimeoutError& Error)
+		{
+			std::cout << "Timeout Exception: '" << Error.what() << "'" << std::endl;
+			std::cout << "LastResult: " << Query.LastResult() << std::endl;
+			std::cout << "LastHTTPCode: " << Query.LastHTTPCode() << std::endl;
+			std::cout << "LastErrorMessage: " << Query.LastErrorMessage() << std::endl;
+		}
+
+		catch (MusicBrainz4::CAuthenticationError& Error)
+		{
+			std::cout << "Authentication Exception: '" << Error.what() << "'" << std::endl;
+			std::cout << "LastResult: " << Query.LastResult() << std::endl;
+			std::cout << "LastHTTPCode: " << Query.LastHTTPCode() << std::endl;
+			std::cout << "LastErrorMessage: " << Query.LastErrorMessage() << std::endl;
+		}
+
+		catch (MusicBrainz4::CFetchError& Error)
+		{
+			std::cout << "Fetch Exception: '" << Error.what() << "'" << std::endl;
+			std::cout << "LastResult: " << Query.LastResult() << std::endl;
+			std::cout << "LastHTTPCode: " << Query.LastHTTPCode() << std::endl;
+			std::cout << "LastErrorMessage: " << Query.LastErrorMessage() << std::endl;
+		}
+
+		catch (MusicBrainz4::CRequestError& Error)
+		{
+			std::cout << "Request Exception: '" << Error.what() << "'" << std::endl;
+			std::cout << "LastResult: " << Query.LastResult() << std::endl;
+			std::cout << "LastHTTPCode: " << Query.LastHTTPCode() << std::endl;
+			std::cout << "LastErrorMessage: " << Query.LastErrorMessage() << std::endl;
+		}
+
+		catch (MusicBrainz4::CResourceNotFoundError& Error)
+		{
+			std::cout << "ResourceNotFound Exception: '" << Error.what() << "'" << std::endl;
+			std::cout << "LastResult: " << Query.LastResult() << std::endl;
+			std::cout << "LastHTTPCode: " << Query.LastHTTPCode() << std::endl;
+			std::cout << "LastErrorMessage: " << Query.LastErrorMessage() << std::endl;
+		}
+		@endcode
  */
 
 namespace MusicBrainz4
