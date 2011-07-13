@@ -212,8 +212,7 @@ T *GetListItem(void *List, int Item)
 	}
 
 MB4_C_DELETE(Alias,alias)
-MB4_C_STR_GETTER(Alias,alias,Type,type)
-MB4_C_STR_GETTER(Alias,alias,Script,script)
+MB4_C_STR_GETTER(Alias,alias,Locale,locale)
 MB4_C_STR_GETTER(Alias,alias,Text,text)
 
 MB4_C_DELETE(Annotation,annotation)
@@ -579,6 +578,7 @@ Mb4MediumList mb4_release_media_matching_discid(Mb4Release Release, const char *
 MB4_C_DELETE(ReleaseGroup,releasegroup)
 MB4_C_STR_GETTER(ReleaseGroup,releasegroup,ID,id)
 MB4_C_STR_GETTER(ReleaseGroup,releasegroup,Type,type)
+MB4_C_STR_GETTER(ReleaseGroup,releasegroup,FirstReleaseDate,firstreleasedate)
 MB4_C_STR_GETTER(ReleaseGroup,releasegroup,Title,title)
 MB4_C_STR_GETTER(ReleaseGroup,releasegroup,Comment,comment)
 MB4_C_OBJ_GETTER(ReleaseGroup,releasegroup,ArtistCredit,artistcredit)
