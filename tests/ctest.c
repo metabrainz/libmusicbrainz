@@ -148,8 +148,7 @@ void CompileTest()
 	unsigned char DummyBool=0;
 	tQueryResult DummyResult=eQuery_Success;
 
-	mb4_alias_get_type(Alias,Str,Size);
-	mb4_alias_get_script(Alias,Str,Size);
+	mb4_alias_get_locale(Alias,Str,Size);
 	mb4_alias_get_text(Alias,Str,Size);
 	mb4_alias_delete(Alias);
 
@@ -370,6 +369,7 @@ void CompileTest()
 
 	mb4_releasegroup_get_id(ReleaseGroup,Str,Size);
 	mb4_releasegroup_get_type(ReleaseGroup,Str,Size);
+	mb4_releasegroup_get_firstreleasedate(ReleaseGroup,Str,Size);
 	mb4_releasegroup_get_title(ReleaseGroup,Str,Size);
 	mb4_releasegroup_get_comment(ReleaseGroup,Str,Size);
 	ArtistCredit=mb4_releasegroup_get_artistcredit(ReleaseGroup);

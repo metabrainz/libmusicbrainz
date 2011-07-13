@@ -46,11 +46,12 @@ class MusicBrainz4::CReleaseGroupPrivate
 			m_UserRating(0)
 		{
 		}
-		
+
 		std::string m_ID;
 		std::string m_Type;
 		std::string m_Title;
 		std::string m_Comment;
+		std::string m_FirstReleaseDate;
 		CArtistCredit *m_ArtistCredit;
 		CGenericList<CRelease> *m_ReleaseList;
 		CGenericList<CRelation> *m_RelationList;
@@ -88,6 +89,10 @@ MusicBrainz4::CReleaseGroup::CReleaseGroup(const XMLNode& Node)
 			else if ("comment"==NodeName)
 			{
 				m_d->m_Comment=NodeValue;
+			}
+			else if ("first-release-date"==NodeName)
+			{
+				m_d->m_FirstReleaseDate=NodeValue;
 			}
 			else if ("artist-credit"==NodeName)
 			{
@@ -141,6 +146,7 @@ MusicBrainz4::CReleaseGroup& MusicBrainz4::CReleaseGroup::operator =(const CRele
 		m_d->m_Type=Other.m_d->m_Type;
 		m_d->m_Title=Other.m_d->m_Title;
 		m_d->m_Comment=Other.m_d->m_Comment;
+		m_d->m_FirstReleaseDate=Other.m_d->m_FirstReleaseDate;
 
 		if (Other.m_d->m_ArtistCredit)
 			m_d->m_ArtistCredit=new CArtistCredit(*Other.m_d->m_ArtistCredit);
@@ -170,7 +176,7 @@ MusicBrainz4::CReleaseGroup& MusicBrainz4::CReleaseGroup::operator =(const CRele
 MusicBrainz4::CReleaseGroup::~CReleaseGroup()
 {
 	Cleanup();
-	
+
 	delete m_d;
 }
 
@@ -218,6 +224,11 @@ std::string MusicBrainz4::CReleaseGroup::Comment() const
 	return m_d->m_Comment;
 }
 
+std::string MusicBrainz4::CReleaseGroup::FirstReleaseDate() const
+{
+	return m_d->m_FirstReleaseDate;
+}
+
 MusicBrainz4::CArtistCredit *MusicBrainz4::CReleaseGroup::ArtistCredit() const
 {
 	return m_d->m_ArtistCredit;
@@ -257,10 +268,11 @@ std::ostream& operator << (std::ostream& os, const MusicBrainz4::CReleaseGroup& 
 {
 	os << "Release group:" << std::endl;
 
-	os << "\tID:      " << ReleaseGroup.ID() << std::endl;
-	os << "\tType:    " << ReleaseGroup.Type() << std::endl;
-	os << "\tTitle:   " << ReleaseGroup.Title() << std::endl;
-	os << "\tComment: " << ReleaseGroup.Comment() << std::endl;
+	os << "\tID:                 " << ReleaseGroup.ID() << std::endl;
+	os << "\tType:               " << ReleaseGroup.Type() << std::endl;
+	os << "\tTitle:              " << ReleaseGroup.Title() << std::endl;
+	os << "\tComment:            " << ReleaseGroup.Comment() << std::endl;
+	os << "\tFirst release date: " << ReleaseGroup.FirstReleaseDate() << std::endl;
 
 	if (ReleaseGroup.ArtistCredit())
 		os << *ReleaseGroup.ArtistCredit() << std::endl;

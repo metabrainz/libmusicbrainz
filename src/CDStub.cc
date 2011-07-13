@@ -77,7 +77,7 @@ MusicBrainz4::CCDStub::CCDStub(const XMLNode& Node)
 			{
 				m_d->m_Comment=NodeValue;
 			}
-			else if ("nonmb-track-list"==NodeName)
+			else if ("track-list"==NodeName)
 			{
 				m_d->m_NonMBTrackList=new CGenericList<CNonMBTrack>(ChildNode,"track");
 			}

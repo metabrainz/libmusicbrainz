@@ -36,7 +36,7 @@
 namespace MusicBrainz4
 {
 	class CReleaseGroupPrivate;
-	
+
 	class CArtistCredit;
 	class CRelease;
 	class CRelation;
@@ -57,6 +57,7 @@ namespace MusicBrainz4
 		std::string Type() const;
 		std::string Title() const;
 		std::string Comment() const;
+		std::string FirstReleaseDate() const;
 		CArtistCredit *ArtistCredit() const;
 		CGenericList<CRelease> *ReleaseList() const;
 		CGenericList<CRelation> *RelationList() const;

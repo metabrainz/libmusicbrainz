@@ -181,7 +181,7 @@ MusicBrainz4::CArtist::CArtist(const CArtist& Other)
 	*this=Other;
 }
 
-MusicBrainz4::CArtist::CArtist& MusicBrainz4::CArtist::operator =(const CArtist& Other)
+MusicBrainz4::CArtist& MusicBrainz4::CArtist::operator =(const CArtist& Other)
 {
 	if (this!=&Other)
 	{

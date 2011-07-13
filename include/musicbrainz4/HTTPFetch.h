@@ -149,8 +149,8 @@ namespace MusicBrainz4
 		 * Constructor
 		 *
 		 * @param UserAgent User agent string to send
-		 * @Host Host name to connect to
-		 * @Port Port to connect to (80 by default)
+		 * @param Host Host name to connect to
+		 * @param Port Port to connect to (80 by default)
 		 */
 
 
