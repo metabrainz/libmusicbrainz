@@ -28,8 +28,6 @@
 #include "musicbrainz4/Disc.h"
 #include "musicbrainz4/Track.h"
 
-#include "ParserUtils.h"
-
 class MusicBrainz4::CMediumPrivate
 {
 	public:
@@ -48,50 +46,20 @@ class MusicBrainz4::CMediumPrivate
 };
 
 MusicBrainz4::CMedium::CMedium(const XMLNode& Node)
-:	m_d(new CMediumPrivate)
+:	CEntity(),
+	m_d(new CMediumPrivate)
 {
 	if (!Node.isEmpty())
 	{
 		//std::cout << "Medium node: " << std::endl << Node.createXMLString(true) << std::endl;
 
-		for (int count=0;count<Node.nChildNode();count++)
-		{
-			XMLNode ChildNode=Node.getChildNode(count);
-			std::string NodeName=ChildNode.getName();
-			std::string NodeValue;
-			if (ChildNode.getText())
-				NodeValue=ChildNode.getText();
-
-			if ("title"==NodeName)
-			{
-				m_d->m_Title=NodeValue;
-			}
-			else if ("position"==NodeName)
-			{
-				ProcessItem(NodeValue,m_d->m_Position);
-			}
-			else if ("format"==NodeName)
-			{
-				m_d->m_Format=NodeValue;
-			}
-			else if ("disc-list"==NodeName)
-			{
-				m_d->m_DiscList=new CGenericList<CDisc>(ChildNode,"disc");
-			}
-			else if ("track-list"==NodeName)
-			{
-				m_d->m_TrackList=new CGenericList<CTrack>(ChildNode,"track");
-			}
-			else
-			{
-				std::cerr << "Unrecognised medium node: '" << NodeName << "'" << std::endl;
-			}
-		}
+		Parse(Node);
 	}
 }
 
 MusicBrainz4::CMedium::CMedium(const CMedium& Other)
-:	m_d(new CMediumPrivate)
+:	CEntity(),
+	m_d(new CMediumPrivate)
 {
 	*this=Other;
 }
@@ -130,6 +98,51 @@ void MusicBrainz4::CMedium::Cleanup()
 
 	delete m_d->m_TrackList;
 	m_d->m_TrackList=0;
+}
+
+bool MusicBrainz4::CMedium::ParseAttribute(const std::string& Name, const std::string& /*Value*/)
+{
+	bool RetVal=true;
+
+	std::cerr << "Unrecognised medium attribute: '" << Name << "'" << std::endl;
+	RetVal=false;
+
+	return RetVal;
+}
+
+bool MusicBrainz4::CMedium::ParseElement(const XMLNode& Node)
+{
+	bool RetVal=true;
+
+	std::string NodeName=Node.getName();
+
+	if ("title"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_Title);
+	}
+	else if ("position"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_Position);
+	}
+	else if ("format"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_Format);
+	}
+	else if ("disc-list"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_DiscList);
+	}
+	else if ("track-list"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_TrackList);
+	}
+	else
+	{
+		std::cerr << "Unrecognised medium element: '" << NodeName << "'" << std::endl;
+		RetVal=false;
+	}
+
+	return RetVal;
 }
 
 std::string MusicBrainz4::CMedium::Title() const
@@ -182,6 +195,10 @@ bool MusicBrainz4::CMedium::ContainsDiscID(const std::string& DiscID) const
 std::ostream& operator << (std::ostream& os, const MusicBrainz4::CMedium& Medium)
 {
 	os << "Medium:" << std::endl;
+
+	MusicBrainz4::CEntity *Base=(MusicBrainz4::CEntity *)&Medium;
+
+	os << *Base << std::endl;
 
 	os << "\tTitle:    " << Medium.Title() << std::endl;
 	os << "\tPosition: " << Medium.Position() << std::endl;

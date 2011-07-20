@@ -31,44 +31,27 @@ class MusicBrainz4::CISRCPrivate
 		CISRCPrivate()
 		:	m_RecordingList(0)
 		{
-		}		
+		}
 
 		std::string m_ID;
 		CGenericList<CRecording> *m_RecordingList;
 };
 
 MusicBrainz4::CISRC::CISRC(const XMLNode& Node)
-:	m_d(new CISRCPrivate)
+:	CEntity(),
+	m_d(new CISRCPrivate)
 {
 	if (!Node.isEmpty())
 	{
 		//std::cout << "ISRC node: " << std::endl << Node.createXMLString(true) << std::endl;
 
-		if (Node.isAttributeSet("id"))
-			m_d->m_ID=Node.getAttribute("id");
-
-		for (int count=0;count<Node.nChildNode();count++)
-		{
-			XMLNode ChildNode=Node.getChildNode(count);
-			std::string NodeName=ChildNode.getName();
-			std::string NodeValue;
-			if (ChildNode.getText())
-				NodeValue=ChildNode.getText();
-
-			if ("recording-list"==NodeName)
-			{
-				m_d->m_RecordingList=new CGenericList<CRecording>(ChildNode,"recording");
-			}
-			else
-			{
-				std::cerr << "Unrecognised ISRC node: '" << NodeName << "'" << std::endl;
-			}
-		}
+		Parse(Node);
 	}
 }
 
 MusicBrainz4::CISRC::CISRC(const CISRC& Other)
-:	m_d(new CISRCPrivate)
+:	CEntity(),
+	m_d(new CISRCPrivate)
 {
 	*this=Other;
 }
@@ -91,7 +74,7 @@ MusicBrainz4::CISRC& MusicBrainz4::CISRC::operator =(const CISRC& Other)
 MusicBrainz4::CISRC::~CISRC()
 {
 	Cleanup();
-	
+
 	delete m_d;
 }
 
@@ -99,6 +82,40 @@ void MusicBrainz4::CISRC::Cleanup()
 {
 	delete m_d->m_RecordingList;
 	m_d->m_RecordingList=0;
+}
+
+bool MusicBrainz4::CISRC::ParseAttribute(const std::string& Name, const std::string& Value)
+{
+	bool RetVal=true;
+
+	if ("id"==Name)
+		m_d->m_ID=Value;
+	else
+	{
+		std::cerr << "Unrecognised isrc attribute: '" << Name << "'" << std::endl;
+		RetVal=false;
+	}
+
+	return RetVal;
+}
+
+bool MusicBrainz4::CISRC::ParseElement(const XMLNode& Node)
+{
+	bool RetVal=true;
+
+	std::string NodeName=Node.getName();
+
+	if ("recording-list"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_RecordingList);
+	}
+	else
+	{
+		std::cerr << "Unrecognised ISRC element: '" << NodeName << "'" << std::endl;
+		RetVal=false;
+	}
+
+	return RetVal;
 }
 
 std::string MusicBrainz4::CISRC::ID() const
@@ -114,6 +131,10 @@ MusicBrainz4::CGenericList<MusicBrainz4::CRecording> *MusicBrainz4::CISRC::Recor
 std::ostream& operator << (std::ostream& os, const MusicBrainz4::CISRC& ISRC)
 {
 	os << "ISRC:" << std::endl;
+
+	MusicBrainz4::CEntity *Base=(MusicBrainz4::CEntity *)&ISRC;
+
+	os << *Base << std::endl;
 
 	os << "\tID: " << ISRC.ID() << std::endl;
 

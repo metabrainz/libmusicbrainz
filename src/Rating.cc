@@ -25,8 +25,6 @@
 
 #include "musicbrainz4/Rating.h"
 
-#include "ParserUtils.h"
-
 class MusicBrainz4::CRatingPrivate
 {
 	public:
@@ -41,26 +39,25 @@ class MusicBrainz4::CRatingPrivate
 };
 
 MusicBrainz4::CRating::CRating(const XMLNode& Node)
-:	m_d(new CRatingPrivate)
+:	CEntity(),
+	m_d(new CRatingPrivate)
 {
 	if (!Node.isEmpty())
 	{
 		//std::cout << "Rating node: " << std::endl << Node.createXMLString(true) << std::endl;
 
-		if (Node.isAttributeSet("votes-count"))
-		{
-			ProcessItem(Node.getAttribute("votes-count"),m_d->m_VotesCount);
-		}
+		Parse(Node);
 
 		if (Node.getText())
 		{
-			ProcessItem(Node.getText(),m_d->m_Rating);
+			ProcessItem(Node,m_d->m_Rating);
 		}
 	}
 }
 
 MusicBrainz4::CRating::CRating(const CRating& Other)
-:	m_d(new CRatingPrivate)
+:	CEntity(),
+	m_d(new CRatingPrivate)
 {
 	*this=Other;
 }
@@ -69,6 +66,8 @@ MusicBrainz4::CRating& MusicBrainz4::CRating::operator =(const CRating& Other)
 {
 	if (this!=&Other)
 	{
+		CEntity::operator =(Other);
+
 		m_d->m_VotesCount=Other.m_d->m_VotesCount;
 		m_d->m_Rating=Other.m_d->m_Rating;
 	}
@@ -79,6 +78,35 @@ MusicBrainz4::CRating& MusicBrainz4::CRating::operator =(const CRating& Other)
 MusicBrainz4::CRating::~CRating()
 {
 	delete m_d;
+}
+
+bool MusicBrainz4::CRating::ParseAttribute(const std::string& Name, const std::string& Value)
+{
+	bool RetVal=true;
+
+	if ("votes-count"==Name)
+	{
+		RetVal=ProcessItem(Value,m_d->m_VotesCount);
+	}
+	else
+	{
+		std::cerr << "Unrecognised rating attribute: '" << Name << "'" << std::endl;
+		RetVal=false;
+	}
+
+	return RetVal;
+}
+
+bool MusicBrainz4::CRating::ParseElement(const XMLNode& Node)
+{
+	bool RetVal=true;
+
+	std::string NodeName=Node.getName();
+
+	std::cerr << "Unrecognised rating attribute: '" << NodeName << "'" << std::endl;
+	RetVal=false;
+
+	return RetVal;
 }
 
 int MusicBrainz4::CRating::VotesCount() const
@@ -94,6 +122,10 @@ double MusicBrainz4::CRating::Rating() const
 std::ostream& operator << (std::ostream& os, const MusicBrainz4::CRating& Rating)
 {
 	os << "Rating:" << std::endl;
+
+	MusicBrainz4::CEntity *Base=(MusicBrainz4::CEntity *)&Rating;
+
+	os << *Base << std::endl;
 
 	os << "\tVotes count: " << Rating.VotesCount() << std::endl;
 	os << "\tRating:      " << Rating.Rating() << std::endl;

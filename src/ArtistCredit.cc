@@ -32,23 +32,27 @@ class MusicBrainz4::CArtistCreditPrivate
 		:	m_NameCreditList(0)
 		{
 		}
-		
+
 		CGenericList<CNameCredit> *m_NameCreditList;
 };
-		
+
 MusicBrainz4::CArtistCredit::CArtistCredit(const XMLNode& Node)
-:	m_d(new CArtistCreditPrivate)
+:	CEntity(),
+	m_d(new CArtistCreditPrivate)
 {
 	if (!Node.isEmpty())
 	{
 		//std::cout << "Artist credit node: " << std::endl << Node.createXMLString(true) << std::endl;
 
-		m_d->m_NameCreditList=new CGenericList<CNameCredit>(Node,"name-credit");
+		Parse(Node);
+
+		m_d->m_NameCreditList=new CGenericList<CNameCredit>(Node);
 	}
 }
 
 MusicBrainz4::CArtistCredit::CArtistCredit(const CArtistCredit& Other)
-:	m_d(new CArtistCreditPrivate)
+:	CEntity(),
+	m_d(new CArtistCreditPrivate)
 {
 	*this=Other;
 }
@@ -69,7 +73,7 @@ MusicBrainz4::CArtistCredit& MusicBrainz4::CArtistCredit::operator =(const CArti
 MusicBrainz4::CArtistCredit::~CArtistCredit()
 {
 	Cleanup();
-	
+
 	delete m_d;
 }
 
@@ -77,6 +81,37 @@ void MusicBrainz4::CArtistCredit::Cleanup()
 {
 	delete m_d->m_NameCreditList;
 	m_d->m_NameCreditList=0;
+}
+
+bool MusicBrainz4::CArtistCredit::ParseAttribute(const std::string& Name, const std::string& /*Value*/)
+{
+	bool RetVal=true;
+
+	std::cerr << "Unrecognised artistcredit attribute: '" << Name << "'" << std::endl;
+	RetVal=false;
+
+
+	return RetVal;
+}
+
+bool MusicBrainz4::CArtistCredit::ParseElement(const XMLNode& Node)
+{
+	bool RetVal=true;
+
+	std::string NodeName=Node.getName();
+
+	if ("name-credit"==NodeName)
+	{
+		//The artist credit element is a special case, in that all it contains is a list of name-credits
+		//Parsing of this list is handled in the constructor
+	}
+	else
+	{
+		std::cerr << "Unrecognised artistcredit element: '" << NodeName << "'" << std::endl;
+		RetVal=false;
+	}
+
+	return RetVal;
 }
 
 MusicBrainz4::CGenericList<MusicBrainz4::CNameCredit> *MusicBrainz4::CArtistCredit::NameCreditList() const
@@ -87,6 +122,10 @@ MusicBrainz4::CGenericList<MusicBrainz4::CNameCredit> *MusicBrainz4::CArtistCred
 std::ostream& operator << (std::ostream& os, const MusicBrainz4::CArtistCredit& ArtistCredit)
 {
 	os << "Artist credit:" << std::endl;
+
+	MusicBrainz4::CEntity *Base=(MusicBrainz4::CEntity *)&ArtistCredit;
+
+	os << *Base << std::endl;
 
 	if (ArtistCredit.NameCreditList())
 		os << *ArtistCredit.NameCreditList() << std::endl;

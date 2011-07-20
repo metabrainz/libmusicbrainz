@@ -36,8 +36,6 @@
 #include "musicbrainz4/Tag.h"
 #include "musicbrainz4/UserTag.h"
 
-#include "ParserUtils.h"
-
 class MusicBrainz4::CLabelPrivate
 {
 	public:
@@ -71,88 +69,20 @@ class MusicBrainz4::CLabelPrivate
 		CUserRating *m_UserRating;
 };
 MusicBrainz4::CLabel::CLabel(const XMLNode& Node)
-:	m_d(new CLabelPrivate)
+:	CEntity(),
+	m_d(new CLabelPrivate)
 {
 	if (!Node.isEmpty())
 	{
 		//std::cout << "Label node: " << std::endl << Node.createXMLString(true) << std::endl;
 
-		if (Node.isAttributeSet("id"))
-			m_d->m_ID=Node.getAttribute("id");
-
-		if (Node.isAttributeSet("type"))
-			m_d->m_Type=Node.getAttribute("type");
-
-		for (int count=0;count<Node.nChildNode();count++)
-		{
-			XMLNode ChildNode=Node.getChildNode(count);
-			std::string NodeName=ChildNode.getName();
-			std::string NodeValue;
-			if (ChildNode.getText())
-				NodeValue=ChildNode.getText();
-
-			if ("name"==NodeName)
-			{
-				m_d->m_Name=NodeValue;
-			}
-			else if ("sort-name"==NodeName)
-			{
-				m_d->m_SortName=NodeValue;
-			}
-			else if ("label-code"==NodeName)
-			{
-				ProcessItem(NodeValue,m_d->m_LabelCode);
-			}
-			else if ("disambiguation"==NodeName)
-			{
-				m_d->m_Disambiguation=NodeValue;
-			}
-			else if ("country"==NodeName)
-			{
-				m_d->m_Country=NodeValue;
-			}
-			else if ("life-span"==NodeName)
-			{
-				m_d->m_Lifespan=new CLifespan(ChildNode);
-			}
-			else if ("alias-list"==NodeName)
-			{
-				m_d->m_AliasList=new CGenericList<CAlias>(ChildNode,"alias");
-			}
-			else if ("release-list"==NodeName)
-			{
-				m_d->m_ReleaseList=new CGenericList<CRelease>(ChildNode,"release");
-			}
-			else if ("relation-list"==NodeName)
-			{
-				m_d->m_RelationList=new CGenericList<CRelation>(ChildNode,"relation");
-			}
-			else if ("tag-list"==NodeName)
-			{
-				m_d->m_TagList=new CGenericList<CTag>(ChildNode,"tag");
-			}
-			else if ("user-tag-list"==NodeName)
-			{
-				m_d->m_UserTagList=new CGenericList<CUserTag>(ChildNode,"user-tag");
-			}
-			else if ("rating"==NodeName)
-			{
-				m_d->m_Rating=new CRating(ChildNode);
-			}
-			else if ("user-rating"==NodeName)
-			{
-				m_d->m_UserRating=new CUserRating(ChildNode);
-			}
-			else
-			{
-				std::cerr << "Unrecognised label node: '" << NodeName << "'" << std::endl;
-			}
-		}
+		Parse(Node);
 	}
 }
 
 MusicBrainz4::CLabel::CLabel(const CLabel& Other)
-:	m_d(new CLabelPrivate)
+:	CEntity(),
+	m_d(new CLabelPrivate)
 {
 	*this=Other;
 }
@@ -233,6 +163,90 @@ void MusicBrainz4::CLabel::Cleanup()
 	m_d->m_UserRating=0;
 }
 
+bool MusicBrainz4::CLabel::ParseAttribute(const std::string& Name, const std::string& Value)
+{
+	bool RetVal=true;
+
+	if ("id"==Name)
+		m_d->m_ID=Value;
+	else if ("type"==Name)
+		m_d->m_Type=Value;
+	else
+	{
+		std::cerr << "Unrecognised label attribute: '" << Name << "'" << std::endl;
+		RetVal=false;
+	}
+
+	return RetVal;
+}
+
+bool MusicBrainz4::CLabel::ParseElement(const XMLNode& Node)
+{
+	bool RetVal=true;
+
+	std::string NodeName=Node.getName();
+
+	if ("name"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_Name);
+	}
+	else if ("sort-name"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_SortName);
+	}
+	else if ("label-code"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_LabelCode);
+	}
+	else if ("disambiguation"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_Disambiguation);
+	}
+	else if ("country"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_Country);
+	}
+	else if ("life-span"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_Lifespan);
+	}
+	else if ("alias-list"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_AliasList);
+	}
+	else if ("release-list"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_ReleaseList);
+	}
+	else if ("relation-list"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_RelationList);
+	}
+	else if ("tag-list"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_TagList);
+	}
+	else if ("user-tag-list"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_UserTagList);
+	}
+	else if ("rating"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_Rating);
+	}
+	else if ("user-rating"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_UserRating);
+	}
+	else
+	{
+		std::cerr << "Unrecognised label element: '" << NodeName << "'" << std::endl;
+		RetVal=false;
+	}
+
+	return RetVal;
+}
+
 std::string MusicBrainz4::CLabel::ID() const
 {
 	return m_d->m_ID;
@@ -311,6 +325,10 @@ MusicBrainz4::CUserRating *MusicBrainz4::CLabel::UserRating() const
 std::ostream& operator << (std::ostream& os, const MusicBrainz4::CLabel& Label)
 {
 	os << "Label:" << std::endl;
+
+	MusicBrainz4::CEntity *Base=(MusicBrainz4::CEntity *)&Label;
+
+	os << *Base << std::endl;
 
 	os << "\tID:             " << Label.ID() << std::endl;
 	os << "\tType:           " << Label.Type() << std::endl;

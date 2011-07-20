@@ -1,4 +1,4 @@
-/* --------------------------------------------------------------------------
+ /* --------------------------------------------------------------------------
 
    libmusicbrainz4 - Client library to access MusicBrainz
 
@@ -64,6 +64,7 @@ extern "C"
 	typedef void *Mb4CollectionList;
 	typedef void *Mb4Disc;
 	typedef void *Mb4DiscList;
+	typedef void *Mb4Entity;
 	typedef void *Mb4FreeDBDisc;
 	typedef void *Mb4FreeDBDiscList;
 	typedef void *Mb4ISRC;
@@ -103,6 +104,14 @@ extern "C"
 	typedef void *Mb4UserTagList;
 	typedef void *Mb4Work;
 	typedef void *Mb4WorkList;
+
+	int mb4_entity_ext_attributes_size(Mb4Entity Entity);
+	int mb4_entity_ext_attribute_name(Mb4Entity Entity, int Item, char *str, int len);
+	int mb4_entity_ext_attribute_value(Mb4Entity Entity, int Item, char *str, int len);
+
+	int mb4_entity_ext_elements_size(Mb4Entity Entity);
+	int mb4_entity_ext_element_name(Mb4Entity Entity, int Item, char *str, int len);
+	int mb4_entity_ext_element_value(Mb4Entity Entity, int Item, char *str, int len);
 
 /**
  * delete an #Mb4Alias object
@@ -971,6 +980,28 @@ extern "C"
  * @param Metadata Object to delete
  */
 	void mb4_metadata_delete(Mb4Metadata Metadata);
+
+/**
+ * @see MusicBrainz4::CMetadata::XMLNS
+ *
+ * @param Metadata #Mb4Metadata object
+ * @param str Returned string
+ * @param len Number of characters available in return string
+ *
+ * @return The number of characters in the string to copy (not including terminating NULL)
+ */
+	int mb4_metadata_get_xmlns(Mb4Metadata Metadata, char *str, int len);
+
+/**
+ * @see MusicBrainz4::CMetadata::XMLNSExt
+ *
+ * @param Metadata #Mb4Metadata object
+ * @param str Returned string
+ * @param len Number of characters available in return string
+ *
+ * @return The number of characters in the string to copy (not including terminating NULL)
+ */
+	int mb4_metadata_get_xmlnsext(Mb4Metadata Metadata, char *str, int len);
 
 /**
  * @see MusicBrainz4::CMetadata::Generator

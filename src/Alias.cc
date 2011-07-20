@@ -33,22 +33,23 @@ public:
 };
 
 MusicBrainz4::CAlias::CAlias(const XMLNode& Node)
-:	m_d(new CAliasPrivate)
+:	CEntity(),
+	m_d(new CAliasPrivate)
 {
 	if (!Node.isEmpty())
 	{
-		//std::cout << "Relation node: " << std::endl << Node.createXMLString(true) << std::endl;
+		//std::cout << "Alias node: " << std::endl << Node.createXMLString(true) << std::endl;
 
-		if (Node.isAttributeSet("locale"))
-			m_d->m_Locale=Node.getAttribute("locale");
+		Parse(Node);
 
 		if (Node.getText())
-			m_d->m_Text=Node.getText();
+			ProcessItem(Node,m_d->m_Text);
 	}
 }
 
 MusicBrainz4::CAlias::CAlias(const CAlias& Other)
-:	m_d(new CAliasPrivate)
+:	CEntity(),
+	m_d(new CAliasPrivate)
 {
 	*this=Other;
 }
@@ -69,6 +70,33 @@ MusicBrainz4::CAlias::~CAlias()
 	delete m_d;
 }
 
+bool MusicBrainz4::CAlias::ParseAttribute(const std::string& Name, const std::string& Value)
+{
+	bool RetVal=true;
+
+	if ("locale"==Name)
+		m_d->m_Locale=Value;
+	else
+	{
+		std::cerr << "Unrecognised alias attribute: '" << Name << "'" << std::endl;
+		RetVal=false;
+	}
+
+	return RetVal;
+
+}
+
+bool MusicBrainz4::CAlias::ParseElement(const XMLNode& Node)
+{
+	bool RetVal=true;
+
+	std::string NodeName=Node.getName();
+	std::cerr << "Unrecognised alias element: '" << NodeName << std::endl;
+	RetVal=false;
+
+	return RetVal;
+}
+
 std::string MusicBrainz4::CAlias::Locale() const
 {
 	return m_d->m_Locale;
@@ -82,6 +110,10 @@ std::string MusicBrainz4::CAlias::Text() const
 std::ostream& operator << (std::ostream& os, const MusicBrainz4::CAlias& Alias)
 {
 	os << "Alias:" << std::endl;
+
+	MusicBrainz4::CEntity *Base=(MusicBrainz4::CEntity *)&Alias;
+
+	os << *Base << std::endl;
 
 	os << "\tLocale: " << Alias.Locale() << std::endl;
 	os << "\tText:   " << Alias.Text() << std::endl;

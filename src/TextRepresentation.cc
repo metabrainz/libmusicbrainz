@@ -33,34 +33,20 @@ class MusicBrainz4::CTextRepresentationPrivate
 };
 
 MusicBrainz4::CTextRepresentation::CTextRepresentation(const XMLNode& Node)
-:	m_d(new CTextRepresentationPrivate)
+:	CEntity(),
+	m_d(new CTextRepresentationPrivate)
 {
 	if (!Node.isEmpty())
 	{
 		//std::cout << "Text representation node: " << std::endl << Node.createXMLString(true) << std::endl;
 
-		for (int count=0;count<Node.nChildNode();count++)
-		{
-			XMLNode ChildNode=Node.getChildNode(count);
-			std::string NodeName=ChildNode.getName();
-			std::string NodeValue;
-			if (ChildNode.getText())
-				NodeValue=ChildNode.getText();
-
-			if ("language"==NodeName)
-			{
-				m_d->m_Language=NodeValue;
-			}
-			else if ("script"==NodeName)
-			{
-				m_d->m_Script=NodeValue;
-			}
-		}
+		Parse(Node);
 	}
 }
 
 MusicBrainz4::CTextRepresentation::CTextRepresentation(const CTextRepresentation& Other)
-:	m_d(new CTextRepresentationPrivate)
+:	CEntity(),
+	m_d(new CTextRepresentationPrivate)
 {
 	*this=Other;
 }
@@ -81,6 +67,39 @@ MusicBrainz4::CTextRepresentation::~CTextRepresentation()
 	delete m_d;
 }
 
+bool MusicBrainz4::CTextRepresentation::ParseAttribute(const std::string& Name, const std::string& /*Value*/)
+{
+	bool RetVal=true;
+
+	std::cerr << "Unrecognised textrepresentation attribute: '" << Name << "'" << std::endl;
+	RetVal=false;
+
+	return RetVal;
+}
+
+bool MusicBrainz4::CTextRepresentation::ParseElement(const XMLNode& Node)
+{
+	bool RetVal=true;
+
+	std::string NodeName=Node.getName();
+
+	if ("language"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_Language);
+	}
+	else if ("script"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_Script);
+	}
+	else
+	{
+		std::cerr << "Unrecognised textrepresentation element: '" << NodeName << "'" << std::endl;
+		RetVal=false;
+	}
+
+	return RetVal;
+}
+
 std::string MusicBrainz4::CTextRepresentation::Language() const
 {
 	return m_d->m_Language;
@@ -94,6 +113,10 @@ std::string MusicBrainz4::CTextRepresentation::Script() const
 std::ostream& operator << (std::ostream& os, const MusicBrainz4::CTextRepresentation& TextRepresentation)
 {
 	os << "\tText Representation:" << std::endl;
+
+	MusicBrainz4::CEntity *Base=(MusicBrainz4::CEntity *)&TextRepresentation;
+
+	os << *Base << std::endl;
 
 	os << "\t\tLanguage: " << TextRepresentation.Language() << std::endl;
 	os << "\t\tScript:   " << TextRepresentation.Script() << std::endl;

@@ -26,6 +26,7 @@
 #ifndef _MUSICBRAINZ4_COLLECTION_H
 #define _MUSICBRAINZ4_COLLECTION_H
 
+#include "musicbrainz4/Entity.h"
 #include "musicbrainz4/GenericList.h"
 
 #include "musicbrainz4/xmlParser.h"
@@ -33,10 +34,10 @@
 namespace MusicBrainz4
 {
 	class CCollectionPrivate;
-	
+
 	class CRelease;
 
-	class CCollection
+	class CCollection: public CEntity
 	{
 	public:
 		CCollection(const XMLNode& Node);
@@ -53,6 +54,9 @@ namespace MusicBrainz4
 		void Cleanup();
 
 		CCollectionPrivate * const m_d;
+
+		virtual bool ParseAttribute(const std::string& Name, const std::string& Value);
+		virtual bool ParseElement(const XMLNode& Node);
 	};
 }
 

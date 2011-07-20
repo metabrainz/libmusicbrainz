@@ -29,6 +29,7 @@
 #include <string>
 #include <iostream>
 
+#include "musicbrainz4/Entity.h"
 #include "musicbrainz4/GenericList.h"
 
 #include "musicbrainz4/xmlParser.h"
@@ -36,11 +37,11 @@
 namespace MusicBrainz4
 {
 	class CMediumPrivate;
-	
+
 	class CDisc;
 	class CTrack;
 
-	class CMedium
+	class CMedium: public CEntity
 	{
 	public:
 		CMedium(const XMLNode& Node=XMLNode::emptyNode());
@@ -60,6 +61,9 @@ namespace MusicBrainz4
 		void Cleanup();
 
 		CMediumPrivate * const m_d;
+
+		virtual bool ParseAttribute(const std::string& Name, const std::string& Value);
+		virtual bool ParseElement(const XMLNode& Node);
 	};
 }
 

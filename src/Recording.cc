@@ -35,8 +35,6 @@
 #include "musicbrainz4/Tag.h"
 #include "musicbrainz4/UserTag.h"
 
-#include "ParserUtils.h"
-
 class MusicBrainz4::CRecordingPrivate
 {
 	public:
@@ -70,81 +68,20 @@ class MusicBrainz4::CRecordingPrivate
 };
 
 MusicBrainz4::CRecording::CRecording(const XMLNode& Node)
-:	m_d(new CRecordingPrivate)
+:	CEntity(),
+	m_d(new CRecordingPrivate)
 {
 	if (!Node.isEmpty())
 	{
-		//std::cout << "Medium node: " << std::endl << Node.createXMLString(true) << std::endl;
+		//std::cout << "Metadata node: " << std::endl << Node.createXMLString(true) << std::endl;
 
-		if (Node.isAttributeSet("id"))
-			m_d->m_ID=Node.getAttribute("id");
-
-		for (int count=0;count<Node.nChildNode();count++)
-		{
-			XMLNode ChildNode=Node.getChildNode(count);
-			std::string NodeName=ChildNode.getName();
-			std::string NodeValue;
-			if (ChildNode.getText())
-				NodeValue=ChildNode.getText();
-
-			if ("title"==NodeName)
-			{
-				m_d->m_Title=NodeValue;
-			}
-			else if ("length"==NodeName)
-			{
-				ProcessItem(NodeValue,m_d->m_Length);
-			}
-			else if ("disambiguation"==NodeName)
-			{
-				m_d->m_Disambiguation=NodeValue;
-			}
-			else if ("artist-credit"==NodeName)
-			{
-				m_d->m_ArtistCredit=new CArtistCredit(ChildNode);
-			}
-			else if ("release-list"==NodeName)
-			{
-				m_d->m_ReleaseList=new CGenericList<CRelease>(ChildNode,"release");
-			}
-			else if ("puid-list"==NodeName)
-			{
-				m_d->m_PUIDList=new CGenericList<CPUID>(ChildNode,"puid");
-			}
-			else if ("isrc-list"==NodeName)
-			{
-				m_d->m_ISRCList=new CGenericList<CISRC>(ChildNode,"isrc");
-			}
-			else if ("relation-list"==NodeName)
-			{
-				m_d->m_RelationList=new CGenericList<CRelation>(ChildNode,"relation");
-			}
-			else if ("tag-list"==NodeName)
-			{
-				m_d->m_TagList=new CGenericList<CTag>(ChildNode,"tag");
-			}
-			else if ("user-tag-list"==NodeName)
-			{
-				m_d->m_UserTagList=new CGenericList<CUserTag>(ChildNode,"user-tag");
-			}
-			else if ("rating"==NodeName)
-			{
-				m_d->m_Rating=new CRating(ChildNode);
-			}
-			else if ("user-rating"==NodeName)
-			{
-				m_d->m_UserRating=new CUserRating(ChildNode);
-			}
-			else
-			{
-				std::cerr << "Unrecognised recording node: '" << NodeName << "'" << std::endl;
-			}
-		}
+		Parse(Node);
 	}
 }
 
 MusicBrainz4::CRecording::CRecording(const CRecording& Other)
-:	m_d(new CRecordingPrivate)
+:	CEntity(),
+	m_d(new CRecordingPrivate)
 {
 	*this=Other;
 }
@@ -154,6 +91,8 @@ MusicBrainz4::CRecording& MusicBrainz4::CRecording::operator =(const CRecording&
 	if (this!=&Other)
 	{
 		Cleanup();
+
+		CEntity::operator =(Other);
 
 		m_d->m_ID=Other.m_d->m_ID;
 		m_d->m_Title=Other.m_d->m_Title;
@@ -196,6 +135,84 @@ MusicBrainz4::CRecording::~CRecording()
 	Cleanup();
 
 	delete m_d;
+}
+
+bool MusicBrainz4::CRecording::ParseAttribute(const std::string& Name, const std::string& Value)
+{
+	bool RetVal=true;
+
+	if ("id"==Name)
+		m_d->m_ID=Value;
+	else
+	{
+		std::cerr << "Unrecognised recording attribute: '" << Name << "'" << std::endl;
+		RetVal=false;
+	}
+
+	return RetVal;
+}
+
+bool MusicBrainz4::CRecording::ParseElement(const XMLNode& Node)
+{
+	bool RetVal=true;
+
+	std::string NodeName=Node.getName();
+
+	if ("title"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_Title);
+	}
+	else if ("length"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_Length);
+	}
+	else if ("disambiguation"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_Disambiguation);
+	}
+	else if ("artist-credit"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_ArtistCredit);
+	}
+	else if ("release-list"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_ReleaseList);
+	}
+	else if ("puid-list"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_PUIDList);
+	}
+	else if ("isrc-list"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_ISRCList);
+	}
+	else if ("relation-list"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_RelationList);
+	}
+	else if ("tag-list"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_TagList);
+	}
+	else if ("user-tag-list"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_UserTagList);
+	}
+	else if ("rating"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_Rating);
+	}
+	else if ("user-rating"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_UserRating);
+	}
+	else
+	{
+		std::cerr << "Unrecognised recording element: '" << NodeName << "'" << std::endl;
+		RetVal=false;
+	}
+
+	return RetVal;
 }
 
 void MusicBrainz4::CRecording::Cleanup()
@@ -296,6 +313,10 @@ MusicBrainz4::CUserRating *MusicBrainz4::CRecording::UserRating() const
 std::ostream& operator << (std::ostream& os, const MusicBrainz4::CRecording& Recording)
 {
 	os << "Recording:" << std::endl;
+
+	MusicBrainz4::CEntity *Base=(MusicBrainz4::CEntity *)&Recording;
+
+	os << *Base << std::endl;
 
 	os << "\tID:             " << Recording.ID() << std::endl;
 	os << "\tTitle:          " << Recording.Title() << std::endl;

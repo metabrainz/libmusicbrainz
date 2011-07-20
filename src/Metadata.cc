@@ -81,6 +81,8 @@ class MusicBrainz4::CMetadataPrivate
 		{
 		}
 
+		std::string m_XMLNS;
+		std::string m_XMLNSExt;
 		std::string m_Generator;
 		std::string m_Created;
 		CArtist *m_Artist;
@@ -114,144 +116,20 @@ class MusicBrainz4::CMetadataPrivate
 };
 
 MusicBrainz4::CMetadata::CMetadata(const XMLNode& Node)
-:	m_d(new CMetadataPrivate)
+:	CEntity(),
+	m_d(new CMetadataPrivate)
 {
 	if (!Node.isEmpty())
 	{
 		//std::cout << "Metadata node: " << std::endl << Node.createXMLString(true) << std::endl;
 
-		if (Node.isAttributeSet("generator"))
-			m_d->m_Generator=Node.getAttribute("generator");
-
-		if (Node.isAttributeSet("created"))
-			m_d->m_Created=Node.getAttribute("created");
-
-		for (int count=0;count<Node.nChildNode();count++)
-		{
-			XMLNode ChildNode=Node.getChildNode(count);
-			std::string NodeName=ChildNode.getName();
-			std::string NodeValue;
-			if (ChildNode.getText())
-				NodeValue=ChildNode.getText();
-
-			if ("artist"==NodeName)
-			{
-				m_d->m_Artist=new CArtist(ChildNode);
-			}
-			else if ("release"==NodeName)
-			{
-				m_d->m_Release=new CRelease(ChildNode);
-			}
-			else if ("release-group"==NodeName)
-			{
-				m_d->m_ReleaseGroup=new CReleaseGroup(ChildNode);
-			}
-			else if ("recording"==NodeName)
-			{
-				m_d->m_Recording=new CRecording(ChildNode);
-			}
-			else if ("label"==NodeName)
-			{
-				m_d->m_Label=new CLabel(ChildNode);
-			}
-			else if ("work"==NodeName)
-			{
-				m_d->m_Work=new CWork(ChildNode);
-			}
-			else if ("puid"==NodeName)
-			{
-				m_d->m_PUID=new CPUID(ChildNode);
-			}
-			else if ("isrc"==NodeName)
-			{
-				m_d->m_ISRC=new CISRC(ChildNode);
-			}
-			else if ("disc"==NodeName)
-			{
-				m_d->m_Disc=new CDisc(ChildNode);
-			}
-			else if ("rating"==NodeName)
-			{
-				m_d->m_Rating=new CRating(ChildNode);
-			}
-			else if ("user-rating"==NodeName)
-			{
-				m_d->m_UserRating=new CUserRating(ChildNode);
-			}
-			else if ("collection"==NodeName)
-			{
-				m_d->m_Collection=new CCollection(ChildNode);
-			}
-			else if ("artist-list"==NodeName)
-			{
-				m_d->m_ArtistList=new CGenericList<CArtist>(ChildNode,"artist");
-			}
-			else if ("release-list"==NodeName)
-			{
-				m_d->m_ReleaseList=new CGenericList<CRelease>(ChildNode,"release");
-			}
-			else if ("release-group-list"==NodeName)
-			{
-				m_d->m_ReleaseGroupList=new CGenericList<CReleaseGroup>(ChildNode,"release-group");
-			}
-			else if ("recording-list"==NodeName)
-			{
-				m_d->m_RecordingList=new CGenericList<CRecording>(ChildNode,"recording");
-			}
-			else if ("label-list"==NodeName)
-			{
-				m_d->m_LabelList=new CGenericList<CLabel>(ChildNode,"label");
-			}
-			else if ("work-list"==NodeName)
-			{
-				m_d->m_WorkList=new CGenericList<CWork>(ChildNode,"work");
-			}
-			else if ("isrc-list"==NodeName)
-			{
-				m_d->m_ISRCList=new CGenericList<CISRC>(ChildNode,"isrc");
-			}
-			else if ("annotation-list"==NodeName)
-			{
-				m_d->m_AnnotationList=new CGenericList<CAnnotation>(ChildNode,"annotation");
-			}
-			else if ("cdstub-list"==NodeName)
-			{
-				m_d->m_CDStubList=new CGenericList<CCDStub>(ChildNode,"ctstub");
-			}
-			else if ("freedb-disc-list"==NodeName)
-			{
-				m_d->m_FreeDBDiscList=new CGenericList<CFreeDBDisc>(ChildNode,"freedb-disc");
-			}
-			else if ("tag-list"==NodeName)
-			{
-				m_d->m_TagList=new CGenericList<CTag>(ChildNode,"tag");
-			}
-			else if ("user-tag-list"==NodeName)
-			{
-				m_d->m_UserTagList=new CGenericList<CUserTag>(ChildNode,"user-tag");
-			}
-			else if ("collection-list"==NodeName)
-			{
-				m_d->m_CollectionList=new CGenericList<CCollection>(ChildNode,"collection");
-			}
-			else if ("cdstub"==NodeName)
-			{
-				m_d->m_CDStub=new CCDStub(ChildNode);
-			}
-			else if ("message"==NodeName)
-			{
-				m_d->m_Message=new CMessage(ChildNode);
-			}
-			else
-			{
-				std::cerr << "Unrecognised metadata node: '" << NodeName << "'" << std::endl;
-			}
-		}
+		Parse(Node);
 	}
 }
 
 MusicBrainz4::CMetadata::CMetadata(const CMetadata& Other)
-:	m_d(new CMetadataPrivate)
+:	CEntity(),
+	m_d(new CMetadataPrivate)
 {
 	*this=Other;
 }
@@ -262,6 +140,10 @@ MusicBrainz4::CMetadata& MusicBrainz4::CMetadata::operator =(const CMetadata& Ot
 	{
 		Cleanup();
 
+		CEntity::operator =(Other);
+
+		m_d->m_XMLNS=Other.m_d->m_XMLNS;
+		m_d->m_XMLNSExt=Other.m_d->m_XMLNSExt;
 		m_d->m_Generator=Other.m_d->m_Generator;
 		m_d->m_Created=Other.m_d->m_Created;
 
@@ -447,6 +329,160 @@ void MusicBrainz4::CMetadata::Cleanup()
 	m_d->m_Message=0;
 }
 
+bool MusicBrainz4::CMetadata::ParseAttribute(const std::string& Name, const std::string& Value)
+{
+	bool RetVal=true;
+
+	if ("xmlns"==Name)
+		m_d->m_XMLNS=Value;
+	else if ("xmlns:ext"==Name)
+		m_d->m_XMLNSExt=Value;
+	else if ("generator"==Name)
+		m_d->m_Generator=Value;
+	else if ("created"==Name)
+		m_d->m_Created=Value;
+	else
+	{
+		std::cerr << "Unrecognised metadata attribute: '" << Name << "'" << std::endl;
+		RetVal=false;
+	}
+
+	return RetVal;
+}
+
+bool MusicBrainz4::CMetadata::ParseElement(const XMLNode& Node)
+{
+	bool RetVal=true;
+
+	std::string NodeName=Node.getName();
+
+	if ("artist"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_Artist);
+	}
+	else if ("release"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_Release);
+	}
+	else if ("release-group"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_ReleaseGroup);
+	}
+	else if ("recording"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_Recording);
+	}
+	else if ("label"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_Label);
+	}
+	else if ("work"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_Work);
+	}
+	else if ("puid"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_PUID);
+	}
+	else if ("isrc"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_ISRC);
+	}
+	else if ("disc"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_Disc);
+	}
+	else if ("rating"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_Rating);
+	}
+	else if ("user-rating"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_UserRating);
+	}
+	else if ("collection"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_Collection);
+	}
+	else if ("artist-list"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_ArtistList);
+	}
+	else if ("release-list"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_ReleaseList);
+	}
+	else if ("release-group-list"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_ReleaseGroupList);
+	}
+	else if ("recording-list"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_RecordingList);
+	}
+	else if ("label-list"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_LabelList);
+	}
+	else if ("work-list"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_WorkList);
+	}
+	else if ("isrc-list"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_ISRCList);
+	}
+	else if ("annotation-list"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_AnnotationList);
+	}
+	else if ("cdstub-list"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_CDStubList);
+	}
+	else if ("freedb-disc-list"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_FreeDBDiscList);
+	}
+	else if ("tag-list"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_TagList);
+	}
+	else if ("user-tag-list"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_UserTagList);
+	}
+	else if ("collection-list"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_CollectionList);
+	}
+	else if ("cdstub"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_CDStub);
+	}
+	else if ("message"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_Message);
+	}
+	else
+	{
+		std::cerr << "Unrecognised metadata element: '" << NodeName << "'" << std::endl;
+		RetVal=false;
+	}
+
+	return RetVal;
+}
+
+std::string MusicBrainz4::CMetadata::XMLNS() const
+{
+	return m_d->m_XMLNS;
+}
+
+std::string MusicBrainz4::CMetadata::XMLNSExt() const
+{
+	return m_d->m_XMLNSExt;
+}
+
 std::string MusicBrainz4::CMetadata::Generator() const
 {
 	return m_d->m_Generator;
@@ -601,8 +637,14 @@ std::ostream& operator << (std::ostream& os, const MusicBrainz4::CMetadata& Meta
 {
 	os << "Metadata:" << std::endl;
 
-	os << Metadata.Generator() << std::endl;
-	os << Metadata.Created() << std::endl;
+	MusicBrainz4::CEntity *Base=(MusicBrainz4::CEntity *)&Metadata;
+
+	os << *Base << std::endl;
+
+	os << "XMLNS:     " << Metadata.XMLNS() << std::endl;
+	os << "XMLNS-Ext: " << Metadata.XMLNSExt() << std::endl;
+	os << "Generator: " << Metadata.Generator() << std::endl;
+	os << "Created:   " << Metadata.Created() << std::endl;
 
 	if (Metadata.Artist())
 		os << *Metadata.Artist() << std::endl;

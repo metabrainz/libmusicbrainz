@@ -28,6 +28,7 @@
 
 #include <string>
 
+#include "musicbrainz4/Entity.h"
 #include "musicbrainz4/GenericList.h"
 
 #include "musicbrainz4/xmlParser.h"
@@ -35,7 +36,7 @@
 namespace MusicBrainz4
 {
 	class CWorkPrivate;
-	
+
 	class CArtistCredit;
 	class CISWC;
 	class CAlias;
@@ -45,7 +46,7 @@ namespace MusicBrainz4
 	class CRating;
 	class CUserRating;
 
-	class CWork
+	class CWork: public CEntity
 	{
 	public:
 		CWork(const XMLNode& Node=XMLNode::emptyNode());
@@ -70,6 +71,9 @@ namespace MusicBrainz4
 		void Cleanup();
 
 		CWorkPrivate * const m_d;
+
+		virtual bool ParseAttribute(const std::string& Name, const std::string& Value);
+		virtual bool ParseElement(const XMLNode& Node);
 	};
 }
 

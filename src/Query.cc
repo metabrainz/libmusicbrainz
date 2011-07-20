@@ -147,7 +147,7 @@ MusicBrainz4::CMetadata MusicBrainz4::CQuery::PerformQuery(const std::string& Qu
 			std::vector<unsigned char> Data=Fetch.Data();
 			std::string strData(Data.begin(),Data.end());
 
-			//std::cout << "Ret is '" << strData << "'" << std::endl;
+			std::cout << "Ret is '" << strData << "'" << std::endl;
 
 			XMLResults Results;
 			XMLNode TopNode=XMLNode::parseString(strData.c_str(), 0, &Results);
@@ -236,7 +236,7 @@ MusicBrainz4::CMetadata MusicBrainz4::CQuery::Query(const std::string& Entity, c
 	if (!Params.empty())
 		os << "?" << URLEncode(Params);
 
-	//std::cout << "Query is '" << os.str() << "'" << std::endl;
+	std::cout << "Query is '" << os.str() << "'" << std::endl;
 
 	return PerformQuery(os.str());
 }

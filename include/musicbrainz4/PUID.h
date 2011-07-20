@@ -28,8 +28,8 @@
 
 #include <string>
 
+#include "musicbrainz4/Entity.h"
 #include "musicbrainz4/GenericList.h"
-
 #include "musicbrainz4/Recording.h"
 
 #include "musicbrainz4/xmlParser.h"
@@ -37,8 +37,8 @@
 namespace MusicBrainz4
 {
 	class CPUIDPrivate;
-	
-	class CPUID
+
+	class CPUID: public CEntity
 	{
 	public:
 		CPUID(const XMLNode& Node=XMLNode::emptyNode());
@@ -51,8 +51,11 @@ namespace MusicBrainz4
 
 	private:
 		void Cleanup();
-		
+
 		CPUIDPrivate * const m_d;
+
+		virtual bool ParseAttribute(const std::string& Name, const std::string& Value);
+		virtual bool ParseElement(const XMLNode& Node);
 	};
 }
 

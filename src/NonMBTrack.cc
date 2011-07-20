@@ -25,8 +25,6 @@
 
 #include "musicbrainz4/NonMBTrack.h"
 
-#include "ParserUtils.h"
-
 class MusicBrainz4::CNonMBTrackPrivate
 {
 	public:
@@ -41,42 +39,20 @@ class MusicBrainz4::CNonMBTrackPrivate
 };
 
 MusicBrainz4::CNonMBTrack::CNonMBTrack(const XMLNode& Node)
-:	m_d(new CNonMBTrackPrivate)
+:	CEntity(),
+	m_d(new CNonMBTrackPrivate)
 {
 	if (!Node.isEmpty())
 	{
 		//std::cout << "NonMBTrack node: " << std::endl << Node.createXMLString(true) << std::endl;
 
-		for (int count=0;count<Node.nChildNode();count++)
-		{
-			XMLNode ChildNode=Node.getChildNode(count);
-			std::string NodeName=ChildNode.getName();
-			std::string NodeValue;
-			if (ChildNode.getText())
-				NodeValue=ChildNode.getText();
-
-			if ("title"==NodeName)
-			{
-				m_d->m_Title=NodeValue;
-			}
-			else if ("artist"==NodeName)
-			{
-				m_d->m_Artist=NodeValue;
-			}
-			else if ("length"==NodeName)
-			{
-				ProcessItem(NodeValue,m_d->m_Length);
-			}
-			else
-			{
-				std::cerr << "Unrecognised none MB track node: '" << NodeName << "'" << std::endl;
-			}
-		}
+		Parse(Node);
 	}
 }
 
 MusicBrainz4::CNonMBTrack::CNonMBTrack(const CNonMBTrack& Other)
-:	m_d(new CNonMBTrackPrivate)
+:	CEntity(),
+	m_d(new CNonMBTrackPrivate)
 {
 	*this=Other;
 }
@@ -85,6 +61,8 @@ MusicBrainz4::CNonMBTrack& MusicBrainz4::CNonMBTrack::operator =(const CNonMBTra
 {
 	if (this!=&Other)
 	{
+		CEntity::operator =(Other);
+
 		m_d->m_Title=Other.m_d->m_Title;
 		m_d->m_Artist=Other.m_d->m_Artist;
 		m_d->m_Length=Other.m_d->m_Length;
@@ -96,6 +74,43 @@ MusicBrainz4::CNonMBTrack& MusicBrainz4::CNonMBTrack::operator =(const CNonMBTra
 MusicBrainz4::CNonMBTrack::~CNonMBTrack()
 {
 	delete m_d;
+}
+
+bool MusicBrainz4::CNonMBTrack::ParseAttribute(const std::string& Name, const std::string& /*Value*/)
+{
+	bool RetVal=true;
+
+	std::cerr << "Unrecognised non MB track attribute: '" << Name << "'" << std::endl;
+	RetVal=false;
+
+	return RetVal;
+}
+
+bool MusicBrainz4::CNonMBTrack::ParseElement(const XMLNode& Node)
+{
+	bool RetVal=true;
+
+	std::string NodeName=Node.getName();
+
+	if ("title"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_Title);
+	}
+	else if ("artist"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_Artist);
+	}
+	else if ("length"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_Length);
+	}
+	else
+	{
+		std::cerr << "Unrecognised non MB track element: '" << NodeName << "'" << std::endl;
+		RetVal=false;
+	}
+
+	return RetVal;
 }
 
 std::string MusicBrainz4::CNonMBTrack::Title() const
@@ -116,6 +131,10 @@ int MusicBrainz4::CNonMBTrack::Length() const
 std::ostream& operator << (std::ostream& os, const MusicBrainz4::CNonMBTrack& NonMBTrack)
 {
 	os << "NonMBTrack:" << std::endl;
+
+	MusicBrainz4::CEntity *Base=(MusicBrainz4::CEntity *)&NonMBTrack;
+
+	os << *Base << std::endl;
 
 	os << "\tTitle:  " << NonMBTrack.Title() << std::endl;
 	os << "\tArtist: " << NonMBTrack.Artist() << std::endl;

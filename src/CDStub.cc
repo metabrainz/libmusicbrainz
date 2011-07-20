@@ -44,53 +44,20 @@ class MusicBrainz4::CCDStubPrivate
 };
 
 MusicBrainz4::CCDStub::CCDStub(const XMLNode& Node)
-:	m_d(new CCDStubPrivate)
+:	CEntity(),
+	m_d(new CCDStubPrivate)
 {
 	if (!Node.isEmpty())
 	{
 		//std::cout << "CDStub node: " << std::endl << Node.createXMLString(true) << std::endl;
 
-		if (Node.isAttributeSet("id"))
-			m_d->m_ID=Node.getAttribute("id");
-
-		for (int count=0;count<Node.nChildNode();count++)
-		{
-			XMLNode ChildNode=Node.getChildNode(count);
-			std::string NodeName=ChildNode.getName();
-			std::string NodeValue;
-			if (ChildNode.getText())
-				NodeValue=ChildNode.getText();
-
-			if ("title"==NodeName)
-			{
-				m_d->m_Title=NodeValue;
-			}
-			else if ("artist"==NodeName)
-			{
-				m_d->m_Artist=NodeValue;
-			}
-			else if ("barcode"==NodeName)
-			{
-				m_d->m_Barcode=NodeValue;
-			}
-			else if ("comment"==NodeName)
-			{
-				m_d->m_Comment=NodeValue;
-			}
-			else if ("track-list"==NodeName)
-			{
-				m_d->m_NonMBTrackList=new CGenericList<CNonMBTrack>(ChildNode,"track");
-			}
-			else
-			{
-				std::cerr << "Unrecognised cd stub node: '" << NodeName << "'" << std::endl;
-			}
-		}
+		Parse(Node);
 	}
 }
 
 MusicBrainz4::CCDStub::CCDStub(const CCDStub& Other)
-:	m_d(new CCDStubPrivate)
+:	CEntity(),
+	m_d(new CCDStubPrivate)
 {
 	*this=Other;
 }
@@ -127,6 +94,56 @@ void MusicBrainz4::CCDStub::Cleanup()
 	m_d->m_NonMBTrackList=0;
 }
 
+bool MusicBrainz4::CCDStub::ParseAttribute(const std::string& Name, const std::string& Value)
+{
+	bool RetVal=true;
+
+	if ("id"==Name)
+		m_d->m_ID=Value;
+	else
+	{
+		std::cerr << "Unrecognised cdstub attribute: '" << Name << "'" << std::endl;
+		RetVal=false;
+	}
+
+	return RetVal;
+}
+
+bool MusicBrainz4::CCDStub::ParseElement(const XMLNode& Node)
+{
+	bool RetVal=true;
+
+	std::string NodeName=Node.getName();
+
+	if ("title"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_Title);
+	}
+	else if ("artist"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_Artist);
+	}
+	else if ("barcode"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_Barcode);
+	}
+	else if ("comment"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_Comment);
+	}
+	else if ("track-list"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_NonMBTrackList);
+	}
+	else
+	{
+		std::cerr << "Unrecognised cd stub element: '" << NodeName << "'" << std::endl;
+		RetVal=false;
+	}
+
+	return RetVal;
+}
+
 std::string MusicBrainz4::CCDStub::ID() const
 {
 	return m_d->m_ID;
@@ -160,6 +177,10 @@ MusicBrainz4::CGenericList<MusicBrainz4::CNonMBTrack> *MusicBrainz4::CCDStub::No
 std::ostream& operator << (std::ostream& os, const MusicBrainz4::CCDStub& CDStub)
 {
 	os << "CDStub:" << std::endl;
+
+	MusicBrainz4::CEntity *Base=(MusicBrainz4::CEntity *)&CDStub;
+
+	os << *Base << std::endl;
 
 	os << "\tID:      " << CDStub.ID() << std::endl;
 	os << "\tTitle:   " << CDStub.Title() << std::endl;

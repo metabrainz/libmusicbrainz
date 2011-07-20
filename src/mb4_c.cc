@@ -34,6 +34,50 @@
 #include "musicbrainz4/UserTag.h"
 #include "musicbrainz4/Work.h"
 
+std::string GetMapName(std::map<std::string,std::string> Map, int Item)
+{
+	std::string Ret;
+
+	if (Item<(int)Map.size())
+	{
+		std::map<std::string,std::string>::const_iterator ThisItem=Map.begin();
+
+		int count=0;
+
+		while (count<Item)
+		{
+			++count;
+			++ThisItem;
+		}
+
+		Ret=(*ThisItem).first;
+	}
+
+	return Ret;
+}
+
+std::string GetMapValue(std::map<std::string,std::string> Map, int Item)
+{
+	std::string Ret;
+
+	if (Item<(int)Map.size())
+	{
+		std::map<std::string,std::string>::const_iterator ThisItem=Map.begin();
+
+		int count=0;
+
+		while (count<Item)
+		{
+			++count;
+			++ThisItem;
+		}
+
+		Ret=(*ThisItem).second;
+	}
+
+	return Ret;
+}
+
 template <class T>
 int GetListSize(void *List)
 {
@@ -211,6 +255,44 @@ T *GetListItem(void *List, int Item)
 		} \
 	}
 
+#define MB4_C_EXT_GETTER(PROP1, PROP2) \
+	int \
+	mb4_entity_ext_##PROP2##s_size(Mb4Entity o) \
+	{ \
+		return ((MusicBrainz4::CEntity *)o)->Ext##PROP1##s().size(); \
+	} \
+	int \
+	mb4_entity_ext_##PROP2##_name(Mb4Entity o, int Item, char *str, int len) \
+	{ \
+		int ret; \
+		std::map<std::string,std::string> Items=((MusicBrainz4::CEntity *)o)->Ext##PROP1##s(); \
+		std::string Name=GetMapName(Items,Item); \
+		ret=Name.length(); \
+		if (str && len) \
+		{ \
+			strncpy(str, Name.c_str(), len); \
+			str[len-1]='\0'; \
+		} \
+		return ret; \
+	} \
+	int \
+	mb4_entity_ext_##PROP2##_value(Mb4Entity o, int Item, char *str, int len) \
+	{ \
+		int ret; \
+		std::map<std::string,std::string> Items=((MusicBrainz4::CEntity *)o)->Ext##PROP1##s(); \
+		std::string Name=GetMapValue(Items,Item); \
+		ret=Name.length(); \
+		if (str && len) \
+		{ \
+			strncpy(str, Name.c_str(), len); \
+			str[len-1]='\0'; \
+		} \
+		return ret; \
+	} \
+
+MB4_C_EXT_GETTER(Attribute,attribute)
+MB4_C_EXT_GETTER(Element,element)
+
 MB4_C_DELETE(Alias,alias)
 MB4_C_STR_GETTER(Alias,alias,Locale,locale)
 MB4_C_STR_GETTER(Alias,alias,Text,text)
@@ -326,6 +408,8 @@ MB4_C_DELETE(Message,message)
 MB4_C_STR_GETTER(Message,message,Text,text)
 
 MB4_C_DELETE(Metadata,metadata)
+MB4_C_STR_GETTER(Metadata,metadata,XMLNS,xmlns)
+MB4_C_STR_GETTER(Metadata,metadata,XMLNSExt,xmlnsext)
 MB4_C_STR_GETTER(Metadata,metadata,Generator,generator)
 MB4_C_STR_GETTER(Metadata,metadata,Created,created)
 MB4_C_OBJ_GETTER(Metadata,metadata,Artist,artist)

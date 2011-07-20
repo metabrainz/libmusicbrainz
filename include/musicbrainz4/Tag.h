@@ -29,13 +29,15 @@
 #include <string>
 #include <iostream>
 
+#include "musicbrainz4/Entity.h"
+
 #include "musicbrainz4/xmlParser.h"
 
 namespace MusicBrainz4
 {
 	class CTagPrivate;
-	
-	class CTag
+
+	class CTag: public CEntity
 	{
 	public:
 		CTag(const XMLNode& Node);
@@ -48,6 +50,9 @@ namespace MusicBrainz4
 
 	private:
 		CTagPrivate * const m_d;
+
+		virtual bool ParseAttribute(const std::string& Name, const std::string& Value);
+		virtual bool ParseElement(const XMLNode& Node);
 	};
 }
 

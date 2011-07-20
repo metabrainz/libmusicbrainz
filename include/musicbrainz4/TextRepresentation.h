@@ -29,26 +29,30 @@
 #include <iostream>
 #include <string>
 
+#include "musicbrainz4/Entity.h"
+
 #include "musicbrainz4/xmlParser.h"
 
 namespace MusicBrainz4
 {
 	class CTextRepresentationPrivate;
-	
-	class CTextRepresentation
+
+	class CTextRepresentation: public CEntity
 	{
 	public:
 		CTextRepresentation(const XMLNode& Node=XMLNode::emptyNode());
 		CTextRepresentation(const CTextRepresentation& Other);
 		CTextRepresentation& operator =(const CTextRepresentation& Other);
 		~CTextRepresentation();
-		
+
 		std::string Language() const;
 		std::string Script() const;
 
 	private:
 		CTextRepresentationPrivate * const m_d;
 
+		virtual bool ParseAttribute(const std::string& Name, const std::string& Value);
+		virtual bool ParseElement(const XMLNode& Node);
 	};
 }
 

@@ -35,43 +35,26 @@ class MusicBrainz4::CPUIDPrivate
 		:	m_RecordingList(0)
 		{
 		}
-		
+
 		std::string m_ID;
 		CGenericList<CRecording> *m_RecordingList;
 };
 
 MusicBrainz4::CPUID::CPUID(const XMLNode& Node)
-:	m_d(new CPUIDPrivate)
+:	CEntity(),
+	m_d(new CPUIDPrivate)
 {
 	if (!Node.isEmpty())
 	{
 		//std::cout << "PUID node: " << std::endl << Node.createXMLString(true) << std::endl;
 
-		if (Node.isAttributeSet("id"))
-			m_d->m_ID=Node.getAttribute("id");
-
-		for (int count=0;count<Node.nChildNode();count++)
-		{
-			XMLNode ChildNode=Node.getChildNode(count);
-			std::string NodeName=ChildNode.getName();
-			std::string NodeValue;
-			if (ChildNode.getText())
-				NodeValue=ChildNode.getText();
-
-			if ("recording-list"==NodeName)
-			{
-				m_d->m_RecordingList=new CGenericList<CRecording>(ChildNode,"recording");
-			}
-			else
-			{
-				std::cerr << "Unrecognised PUID node: '" << NodeName << "'" << std::endl;
-			}
-		}
+		Parse(Node);
 	}
 }
 
 MusicBrainz4::CPUID::CPUID(const CPUID& Other)
-:	m_d(new CPUIDPrivate)
+:	CEntity(),
+	m_d(new CPUIDPrivate)
 {
 	*this=Other;
 }
@@ -94,7 +77,7 @@ MusicBrainz4::CPUID& MusicBrainz4::CPUID::operator =(const CPUID& Other)
 MusicBrainz4::CPUID::~CPUID()
 {
 	Cleanup();
-	
+
 	delete m_d;
 }
 
@@ -102,6 +85,40 @@ void MusicBrainz4::CPUID::Cleanup()
 {
 	delete m_d->m_RecordingList;
 	m_d->m_RecordingList=0;
+}
+
+bool MusicBrainz4::CPUID::ParseAttribute(const std::string& Name, const std::string& Value)
+{
+	bool RetVal=true;
+
+	if ("id"==Name)
+		m_d->m_ID=Value;
+	else
+	{
+		std::cerr << "Unrecognised puid attribute: '" << Name << "'" << std::endl;
+		RetVal=false;
+	}
+
+	return RetVal;
+}
+
+bool MusicBrainz4::CPUID::ParseElement(const XMLNode& Node)
+{
+	bool RetVal=true;
+
+	std::string NodeName=Node.getName();
+
+	if ("recording-list"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_RecordingList);
+	}
+	else
+	{
+		std::cerr << "Unrecognised PUID element: '" << NodeName << "'" << std::endl;
+		RetVal=false;
+	}
+
+	return RetVal;
 }
 
 std::string MusicBrainz4::CPUID::ID() const
@@ -117,6 +134,10 @@ MusicBrainz4::CGenericList<MusicBrainz4::CRecording> *MusicBrainz4::CPUID::Recor
 std::ostream& operator << (std::ostream& os, const MusicBrainz4::CPUID& PUID)
 {
 	os << "PUID:" << std::endl;
+
+	MusicBrainz4::CEntity *Base=(MusicBrainz4::CEntity *)&PUID;
+
+	os << *Base << std::endl;
 
 	os << "\tID: " << PUID.ID() << std::endl;
 

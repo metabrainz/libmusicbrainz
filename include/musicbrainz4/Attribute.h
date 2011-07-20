@@ -29,13 +29,15 @@
 #include <string>
 #include <iostream>
 
+#include "musicbrainz4/Entity.h"
+
 #include "musicbrainz4/xmlParser.h"
 
 namespace MusicBrainz4
 {
 	class CAttributePrivate;
-	
-	class CAttribute
+
+	class CAttribute: public CEntity
 	{
 	public:
 		CAttribute(const XMLNode& Node=XMLNode::emptyNode());
@@ -47,6 +49,9 @@ namespace MusicBrainz4
 
 	private:
 		CAttributePrivate * const m_d;
+
+		virtual bool ParseAttribute(const std::string& Name, const std::string& Value);
+		virtual bool ParseElement(const XMLNode& Node);
 	};
 }
 

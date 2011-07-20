@@ -28,8 +28,6 @@
 #include "musicbrainz4/Recording.h"
 #include "musicbrainz4/ArtistCredit.h"
 
-#include "ParserUtils.h"
-
 class MusicBrainz4::CTrackPrivate
 {
 	public:
@@ -49,50 +47,20 @@ class MusicBrainz4::CTrackPrivate
 };
 
 MusicBrainz4::CTrack::CTrack(const XMLNode& Node)
-:	m_d(new CTrackPrivate)
+:	CEntity(),
+	m_d(new CTrackPrivate)
 {
 	if (!Node.isEmpty())
 	{
 		//std::cout << "Track node: " << std::endl << Node.createXMLString(true) << std::endl;
 
-		for (int count=0;count<Node.nChildNode();count++)
-		{
-			XMLNode ChildNode=Node.getChildNode(count);
-			std::string NodeName=ChildNode.getName();
-			std::string NodeValue;
-			if (ChildNode.getText())
-				NodeValue=ChildNode.getText();
-
-			if ("position"==NodeName)
-			{
-				ProcessItem(NodeValue,m_d->m_Position);
-			}
-			else if ("title"==NodeName)
-			{
-				m_d->m_Title=NodeValue;
-			}
-			else if ("recording"==NodeName)
-			{
-				m_d->m_Recording=new CRecording(ChildNode);
-			}
-			else if ("length"==NodeName)
-			{
-				ProcessItem(NodeValue,m_d->m_Length);
-			}
-			else if ("artist-credit"==NodeName)
-			{
-				m_d->m_ArtistCredit=new CArtistCredit(ChildNode);
-			}
-			else
-			{
-				std::cerr << "Unrecognised track node: '" << NodeName << "'" << std::endl;
-			}
-		}
+		Parse(Node);
 	}
 }
 
 MusicBrainz4::CTrack::CTrack(const CTrack& Other)
-:	m_d(new CTrackPrivate)
+:	CEntity(),
+	m_d(new CTrackPrivate)
 {
 	*this=Other;
 }
@@ -134,6 +102,51 @@ void MusicBrainz4::CTrack::Cleanup()
 	m_d->m_ArtistCredit=0;
 }
 
+bool MusicBrainz4::CTrack::ParseAttribute(const std::string& Name, const std::string& /*Value*/)
+{
+	bool RetVal=true;
+
+	std::cerr << "Unrecognised track attribute: '" << Name << "'" << std::endl;
+	RetVal=false;
+
+	return RetVal;
+}
+
+bool MusicBrainz4::CTrack::ParseElement(const XMLNode& Node)
+{
+	bool RetVal=true;
+
+	std::string NodeName=Node.getName();
+
+	if ("position"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_Position);
+	}
+	else if ("title"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_Title);
+	}
+	else if ("recording"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_Recording);
+	}
+	else if ("length"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_Length);
+	}
+	else if ("artist-credit"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_ArtistCredit);
+	}
+	else
+	{
+		std::cerr << "Unrecognised track element: '" << NodeName << "'" << std::endl;
+		RetVal=false;
+	}
+
+	return RetVal;
+}
+
 int MusicBrainz4::CTrack::Position() const
 {
 	return m_d->m_Position;
@@ -162,6 +175,10 @@ MusicBrainz4::CArtistCredit *MusicBrainz4::CTrack::ArtistCredit() const
 std::ostream& operator << (std::ostream& os, const MusicBrainz4::CTrack& Track)
 {
 	os << "Track:" << std::endl;
+
+	MusicBrainz4::CEntity *Base=(MusicBrainz4::CEntity *)&Track;
+
+	os << *Base << std::endl;
 
 	os << "\tPosition: " << Track.Position() << std::endl;
 	os << "\tTitle:    " << Track.Title() << std::endl;

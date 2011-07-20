@@ -25,8 +25,6 @@
 
 #include "musicbrainz4/UserRating.h"
 
-#include "ParserUtils.h"
-
 class MusicBrainz4::CUserRatingPrivate
 {
 	public:
@@ -39,21 +37,25 @@ class MusicBrainz4::CUserRatingPrivate
 };
 
 MusicBrainz4::CUserRating::CUserRating(const XMLNode& Node)
-:	m_d(new CUserRatingPrivate)
+:	CEntity(),
+	m_d(new CUserRatingPrivate)
 {
 	if (!Node.isEmpty())
 	{
 		//std::cout << "User rating node: " << std::endl << Node.createXMLString(true) << std::endl;
 
+		Parse(Node);
+
 		if (Node.getText())
 		{
-			ProcessItem(Node.getText(),m_d->m_UserRating);
+			ProcessItem(Node,m_d->m_UserRating);
 		}
 	}
 }
 
 MusicBrainz4::CUserRating::CUserRating(const CUserRating& Other)
-:	m_d(new CUserRatingPrivate)
+:	CEntity(),
+	m_d(new CUserRatingPrivate)
 {
 	*this=Other;
 }
@@ -73,6 +75,28 @@ MusicBrainz4::CUserRating::~CUserRating()
 	delete m_d;
 }
 
+bool MusicBrainz4::CUserRating::ParseAttribute(const std::string& Name, const std::string& /*Value*/)
+{
+	bool RetVal=true;
+
+	std::cerr << "Unrecognised userrating attribute: '" << Name << "'" << std::endl;
+	RetVal=false;
+
+	return RetVal;
+}
+
+bool MusicBrainz4::CUserRating::ParseElement(const XMLNode& Node)
+{
+	bool RetVal=true;
+
+	std::string Name=Node.getName();
+
+	std::cerr << "Unrecognised userrating element: '" << Name << "'" << std::endl;
+	RetVal=false;
+
+	return RetVal;
+}
+
 int MusicBrainz4::CUserRating::UserRating() const
 {
 	return m_d->m_UserRating;
@@ -81,6 +105,10 @@ int MusicBrainz4::CUserRating::UserRating() const
 std::ostream& operator << (std::ostream& os, const MusicBrainz4::CUserRating& UserRating)
 {
 	os << "User rating:" << std::endl;
+
+	MusicBrainz4::CEntity *Base=(MusicBrainz4::CEntity *)&UserRating;
+
+	os << *Base << std::endl;
 
 	os << "\tRating: " << UserRating.UserRating() << std::endl;
 

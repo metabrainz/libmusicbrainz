@@ -27,6 +27,7 @@
 #define _MUSICBRAINZ4_DISC_H
 
 #include "musicbrainz4/GenericList.h"
+#include "musicbrainz4/Entity.h"
 
 #include "musicbrainz4/Lifespan.h"
 
@@ -41,7 +42,7 @@ namespace MusicBrainz4
 
 	class CRelease;
 
-	class CDisc
+	class CDisc: public CEntity
 	{
 	public:
 		CDisc(const XMLNode& Node=XMLNode::emptyNode());
@@ -57,6 +58,9 @@ namespace MusicBrainz4
 		void Cleanup();
 
 		CDiscPrivate * const m_d;
+
+		virtual bool ParseAttribute(const std::string& Name, const std::string& Value);
+		virtual bool ParseElement(const XMLNode& Node);
 	};
 }
 

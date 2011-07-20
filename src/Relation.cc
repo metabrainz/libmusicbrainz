@@ -46,7 +46,7 @@ class MusicBrainz4::CRelationPrivate
 			m_Work(0)
 		{
 		}
-		
+
 		std::string m_Type;
 		std::string m_Target;
 		std::string m_Direction;
@@ -62,77 +62,20 @@ class MusicBrainz4::CRelationPrivate
 };
 
 MusicBrainz4::CRelation::CRelation(const XMLNode& Node)
-:	m_d(new CRelationPrivate)
+:	CEntity(),
+	m_d(new CRelationPrivate)
 {
 	if (!Node.isEmpty())
 	{
 		//std::cout << "Relation node: " << std::endl << Node.createXMLString(true) << std::endl;
 
-		if (Node.isAttributeSet("type"))
-			m_d->m_Type=Node.getAttribute("type");
-
-		for (int count=0;count<Node.nChildNode();count++)
-		{
-			XMLNode ChildNode=Node.getChildNode(count);
-			std::string NodeName=ChildNode.getName();
-			std::string NodeValue;
-			if (ChildNode.getText())
-				NodeValue=ChildNode.getText();
-
-			if ("target"==NodeName)
-			{
-				m_d->m_Target=NodeValue;
-			}
-			else if ("direction"==NodeName)
-			{
-				m_d->m_Direction=NodeValue;
-			}
-			else if ("attribute-list"==NodeName)
-			{
-				m_d->m_AttributeList=new CGenericList<CAttribute>(ChildNode,"attribute");
-			}
-			else if ("begin"==NodeName)
-			{
-				m_d->m_Begin=NodeValue;
-			}
-			else if ("end"==NodeName)
-			{
-				m_d->m_End=NodeValue;
-			}
-			else if ("artist"==NodeName)
-			{
-				m_d->m_Artist=new CArtist(ChildNode);
-			}
-			else if ("release"==NodeName)
-			{
-				m_d->m_Release=new CRelease(ChildNode);
-			}
-			else if ("release-group"==NodeName)
-			{
-				m_d->m_ReleaseGroup=new CReleaseGroup(ChildNode);
-			}
-			else if ("recording"==NodeName)
-			{
-				m_d->m_Recording=new CRecording(ChildNode);
-			}
-			else if ("label"==NodeName)
-			{
-				m_d->m_Label=new CLabel(ChildNode);
-			}
-			else if ("work"==NodeName)
-			{
-				m_d->m_Work=new CWork(ChildNode);
-			}
-			else
-			{
-				std::cerr << "Unrecognised relation node: '" << NodeName << "'" << std::endl;
-			}
-		}
+		Parse(Node);
 	}
 }
 
 MusicBrainz4::CRelation::CRelation(const CRelation& Other)
-:	m_d(new CRelationPrivate)
+:	CEntity(),
+	m_d(new CRelationPrivate)
 {
 	*this=Other;
 }
@@ -178,7 +121,7 @@ MusicBrainz4::CRelation& MusicBrainz4::CRelation::operator =(const CRelation& Ot
 MusicBrainz4::CRelation::~CRelation()
 {
 	Cleanup();
-	
+
 	delete m_d;
 }
 
@@ -204,6 +147,80 @@ void MusicBrainz4::CRelation::Cleanup()
 
 	delete m_d->m_Work;
 	m_d->m_Work=0;
+}
+
+bool MusicBrainz4::CRelation::ParseAttribute(const std::string& Name, const std::string& Value)
+{
+	bool RetVal=true;
+
+	if ("type"==Name)
+		m_d->m_Type=Value;
+	else
+	{
+		std::cerr << "Unrecognised relation attribute: '" << Name << "'" << std::endl;
+		RetVal=false;
+	}
+
+	return RetVal;
+}
+
+bool MusicBrainz4::CRelation::ParseElement(const XMLNode& Node)
+{
+	bool RetVal=true;
+
+	std::string NodeName=Node.getName();
+
+	if ("target"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_Target);
+	}
+	else if ("direction"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_Direction);
+	}
+	else if ("attribute-list"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_AttributeList);
+	}
+	else if ("begin"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_Begin);
+	}
+	else if ("end"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_End);
+	}
+	else if ("artist"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_Artist);
+	}
+	else if ("release"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_Release);
+	}
+	else if ("release-group"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_ReleaseGroup);
+	}
+	else if ("recording"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_Recording);
+	}
+	else if ("label"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_Label);
+	}
+	else if ("work"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_Work);
+	}
+	else
+	{
+		std::cerr << "Unrecognised relation element: '" << NodeName << "'" << std::endl;
+		RetVal=false;
+	}
+
+	return RetVal;
 }
 
 std::string MusicBrainz4::CRelation::Type() const
@@ -269,6 +286,10 @@ MusicBrainz4::CWork *MusicBrainz4::CRelation::Work() const
 std::ostream& operator << (std::ostream& os, const MusicBrainz4::CRelation& Relation)
 {
 	os << "Relation:" << std::endl;
+
+	MusicBrainz4::CEntity *Base=(MusicBrainz4::CEntity *)&Relation;
+
+	os << *Base << std::endl;
 
 	os << "\tType:      " << Relation.Type() << std::endl;
 	os << "\tTarget:    " << Relation.Target() << std::endl;

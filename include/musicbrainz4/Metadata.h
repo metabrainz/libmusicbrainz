@@ -27,6 +27,7 @@
 #define _MUSICBRAINZ4_METADATA_H
 
 #include "musicbrainz4/GenericList.h"
+#include "musicbrainz4/Entity.h"
 
 #include "musicbrainz4/xmlParser.h"
 
@@ -64,7 +65,7 @@ namespace MusicBrainz4
 	class CCDStub;
 	class CMessage;
 
-	class CMetadata
+	class CMetadata: public CEntity
 	{
 	public:
 		CMetadata(const XMLNode& Node=XMLNode::emptyNode());
@@ -72,6 +73,8 @@ namespace MusicBrainz4
 		CMetadata& operator =(const CMetadata& Other);
 		~CMetadata();
 
+		std::string XMLNS() const;
+		std::string XMLNSExt() const;
 		std::string Generator() const;
 		std::string Created() const;
 		CArtist *Artist() const;
@@ -107,6 +110,9 @@ namespace MusicBrainz4
 		void Cleanup();
 
 		CMetadataPrivate * const m_d;
+
+		virtual bool ParseAttribute(const std::string& Name, const std::string& Value);
+		virtual bool ParseElement(const XMLNode& Node);
 	};
 }
 

@@ -35,45 +35,20 @@ public:
 };
 
 MusicBrainz4::CAnnotation::CAnnotation(const XMLNode& Node)
-:	m_d(new CAnnotationPrivate)
+:	CEntity(),
+	m_d(new CAnnotationPrivate)
 {
 	if (!Node.isEmpty())
 	{
 		//std::cout << "Annotation node: " << std::endl << Node.createXMLString(true) << std::endl;
 
-		if (Node.isAttributeSet("type"))
-			m_d->m_Type=Node.getAttribute("type");
-
-		for (int count=0;count<Node.nChildNode();count++)
-		{
-			XMLNode ChildNode=Node.getChildNode(count);
-			std::string NodeName=ChildNode.getName();
-			std::string NodeValue;
-			if (ChildNode.getText())
-				NodeValue=ChildNode.getText();
-
-			if ("entity"==NodeName)
-			{
-				m_d->m_Entity=NodeValue;
-			}
-			else if ("name"==NodeName)
-			{
-				m_d->m_Name=NodeValue;
-			}
-			else if ("text"==NodeName)
-			{
-				m_d->m_Text=NodeValue;
-			}
-			else
-			{
-				std::cerr << "Unrecognised annotatio  node: '" << NodeName << "'" << std::endl;
-			}
-		}
+		Parse(Node);
 	}
 }
 
 MusicBrainz4::CAnnotation::CAnnotation(const CAnnotation& Other)
-:	m_d(new CAnnotationPrivate)
+:	CEntity(),
+	m_d(new CAnnotationPrivate)
 {
 	*this=Other;
 }
@@ -94,6 +69,48 @@ MusicBrainz4::CAnnotation& MusicBrainz4::CAnnotation::operator =(const CAnnotati
 MusicBrainz4::CAnnotation::~CAnnotation()
 {
 	delete m_d;
+}
+
+bool MusicBrainz4::CAnnotation::ParseAttribute(const std::string& Name, const std::string& Value)
+{
+	bool RetVal=true;
+
+	if ("type"==Name)
+		m_d->m_Type=Value;
+	else
+	{
+		std::cerr << "Unrecognised annotation attribute: '" << Name << "'" << std::endl;
+		RetVal=false;
+	}
+
+	return RetVal;
+}
+
+bool MusicBrainz4::CAnnotation::ParseElement(const XMLNode& Node)
+{
+	bool RetVal=true;
+
+	std::string NodeName=Node.getName();
+
+	if ("entity"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_Entity);
+	}
+	else if ("name"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_Name);
+	}
+	else if ("text"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_Text);
+	}
+	else
+	{
+		std::cerr << "Unrecognised annotation element: '" << NodeName << "'" << std::endl;
+		RetVal=false;
+	}
+
+	return RetVal;
 }
 
 std::string MusicBrainz4::CAnnotation::Type() const
@@ -119,6 +136,10 @@ std::string MusicBrainz4::CAnnotation::Text() const
 std::ostream& operator << (std::ostream& os, const MusicBrainz4::CAnnotation& Annotation)
 {
 	os << "Annotation:" << std::endl;
+
+	MusicBrainz4::CEntity *Base=(MusicBrainz4::CEntity *)&Annotation;
+
+	os << *Base << std::endl;
 
 	os << "\tType:    " << Annotation.Type() << std::endl;
 	os << "\tEntity: " << Annotation.Entity() << std::endl;

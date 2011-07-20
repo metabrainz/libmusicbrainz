@@ -29,25 +29,30 @@
 #include <string>
 #include <iostream>
 
+#include "musicbrainz4/Entity.h"
+
 #include "musicbrainz4/xmlParser.h"
 
 namespace MusicBrainz4
 {
 	class CLifespanPrivate;
-	
-	class CLifespan
+
+	class CLifespan: public CEntity
 	{
 	public:
 		CLifespan(const XMLNode& Node=XMLNode::emptyNode());
 		CLifespan(const CLifespan& Other);
 		CLifespan& operator =(const CLifespan& Other);
 		~CLifespan();
-		
+
 		std::string Begin() const;
 		std::string End() const;
 
 	private:
 		CLifespanPrivate * const m_d;
+
+		virtual bool ParseAttribute(const std::string& Name, const std::string& Value);
+		virtual bool ParseElement(const XMLNode& Node);
 	};
 }
 

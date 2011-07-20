@@ -148,6 +148,14 @@ void CompileTest()
 	unsigned char DummyBool=0;
 	tQueryResult DummyResult=eQuery_Success;
 
+	DummyInt=mb4_entity_ext_attributes_size(Alias);
+	DummyInt=mb4_entity_ext_attribute_name(Alias, 0, Str, Size);
+	DummyInt=mb4_entity_ext_attribute_value(Alias, 0, Str, Size);
+
+	DummyInt=mb4_entity_ext_elements_size(Alias);
+	DummyInt=mb4_entity_ext_element_name(Alias, 0, Str, Size);
+	DummyInt=mb4_entity_ext_element_value(Alias, 0, Str, Size);
+
 	mb4_alias_get_locale(Alias,Str,Size);
 	mb4_alias_get_text(Alias,Str,Size);
 	mb4_alias_delete(Alias);
@@ -252,6 +260,8 @@ void CompileTest()
 	mb4_message_get_text(Message,Str,Size);
 	mb4_message_delete(Message);
 
+	mb4_metadata_get_xmlns(Metadata,Str,Size);
+	mb4_metadata_get_xmlnsext(Metadata,Str,Size);
 	mb4_metadata_get_generator(Metadata,Str,Size);
 	mb4_metadata_get_created(Metadata,Str,Size);
 	Artist=mb4_metadata_get_artist(Metadata);

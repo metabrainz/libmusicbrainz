@@ -32,34 +32,20 @@ class MusicBrainz4::CUserTagPrivate
 };
 
 MusicBrainz4::CUserTag::CUserTag(const XMLNode& Node)
-:	m_d(new CUserTagPrivate)
+:	CEntity(),
+	m_d(new CUserTagPrivate)
 {
 	if (!Node.isEmpty())
 	{
 		//std::cout << "UserTag node: " << std::endl << Node.createXMLString(true) << std::endl;
 
-		for (int count=0;count<Node.nChildNode();count++)
-		{
-			XMLNode ChildNode=Node.getChildNode(count);
-			std::string NodeName=ChildNode.getName();
-			std::string NodeValue;
-			if (ChildNode.getText())
-				NodeValue=ChildNode.getText();
-
-			if ("name"==NodeName)
-			{
-				m_d->m_Name=NodeValue;
-			}
-			else
-			{
-				std::cerr << "Unrecognised UserTag node: '" << NodeName << "'" << std::endl;
-			}
-		}
+		Parse(Node);
 	}
 }
 
 MusicBrainz4::CUserTag::CUserTag(const CUserTag& Other)
-:	m_d(new CUserTagPrivate)
+:	CEntity(),
+	m_d(new CUserTagPrivate)
 {
 	*this=Other;
 }
@@ -79,6 +65,35 @@ MusicBrainz4::CUserTag::~CUserTag()
 	delete m_d;
 }
 
+bool MusicBrainz4::CUserTag::ParseAttribute(const std::string& Name, const std::string& /*Value*/)
+{
+	bool RetVal=true;
+
+	std::cerr << "Unrecognised usertag attribute: '" << Name << "'" << std::endl;
+	RetVal=false;
+
+	return RetVal;
+}
+
+bool MusicBrainz4::CUserTag::ParseElement(const XMLNode& Node)
+{
+	bool RetVal=true;
+
+	std::string NodeName=Node.getName();
+
+	if ("name"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_Name);
+	}
+	else
+	{
+		std::cerr << "Unrecognised UserTag element: '" << NodeName << "'" << std::endl;
+		RetVal=false;
+	}
+
+	return RetVal;
+}
+
 std::string MusicBrainz4::CUserTag::Name() const
 {
 	return m_d->m_Name;
@@ -87,6 +102,10 @@ std::string MusicBrainz4::CUserTag::Name() const
 std::ostream& operator << (std::ostream& os, const MusicBrainz4::CUserTag& UserTag)
 {
 	os << "UserTag:" << std::endl;
+
+	MusicBrainz4::CEntity *Base=(MusicBrainz4::CEntity *)&UserTag;
+
+	os << *Base << std::endl;
 
 	os << "\tName:  " << UserTag.Name() << std::endl;
 

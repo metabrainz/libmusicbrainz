@@ -26,17 +26,18 @@
 #ifndef _MUSICBRAINZ4_RELEASE_H
 #define _MUSICBRAINZ4_RELEASE_H
 
+#include "musicbrainz4/Entity.h"
 #include "musicbrainz4/GenericList.h"
+
+#include "musicbrainz4/xmlParser.h"
 
 #include <string>
 #include <iostream>
 
-#include "musicbrainz4/xmlParser.h"
-
 namespace MusicBrainz4
 {
 	class CReleasePrivate;
-	
+
 	class CTextRepresentation;
 	class CArtistCredit;
 	class CReleaseGroup;
@@ -44,7 +45,7 @@ namespace MusicBrainz4
 	class CMedium;
 	class CRelation;
 
-	class CRelease
+	class CRelease: public CEntity
 	{
 	public:
 		CRelease(const XMLNode& Node=XMLNode::emptyNode());
@@ -75,6 +76,9 @@ namespace MusicBrainz4
 		void Cleanup();
 
 		CReleasePrivate * const m_d;
+
+		virtual bool ParseAttribute(const std::string& Name, const std::string& Value);
+		virtual bool ParseElement(const XMLNode& Node);
 	};
 }
 

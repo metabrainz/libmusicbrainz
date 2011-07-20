@@ -29,6 +29,7 @@
 #include <string>
 #include <iostream>
 
+#include "musicbrainz4/Entity.h"
 #include "musicbrainz4/GenericList.h"
 
 #include "musicbrainz4/xmlParser.h"
@@ -39,7 +40,7 @@ namespace MusicBrainz4
 
 	class CNonMBTrack;
 
-	class CFreeDBDisc
+	class CFreeDBDisc: public CEntity
 	{
 	public:
 		CFreeDBDisc(const XMLNode& Node);
@@ -58,6 +59,9 @@ namespace MusicBrainz4
 		void Cleanup();
 
 		CFreeDBDiscPrivate * const m_d;
+
+		virtual bool ParseAttribute(const std::string& Name, const std::string& Value);
+		virtual bool ParseElement(const XMLNode& Node);
 	};
 }
 

@@ -62,76 +62,20 @@ class MusicBrainz4::CReleaseGroupPrivate
 };
 
 MusicBrainz4::CReleaseGroup::CReleaseGroup(const XMLNode& Node)
-:	m_d(new CReleaseGroupPrivate)
+:	CEntity(),
+	m_d(new CReleaseGroupPrivate)
 {
 	if (!Node.isEmpty())
 	{
 		//std::cout << "Name credit node: " << std::endl << Node.createXMLString(true) << std::endl;
 
-		if (Node.isAttributeSet("id"))
-			m_d->m_ID=Node.getAttribute("id");
-
-		if (Node.isAttributeSet("type"))
-			m_d->m_Type=Node.getAttribute("type");
-
-		for (int count=0;count<Node.nChildNode();count++)
-		{
-			XMLNode ChildNode=Node.getChildNode(count);
-			std::string NodeName=ChildNode.getName();
-			std::string NodeValue;
-			if (ChildNode.getText())
-				NodeValue=ChildNode.getText();
-
-			if ("title"==NodeName)
-			{
-				m_d->m_Title=NodeValue;
-			}
-			else if ("comment"==NodeName)
-			{
-				m_d->m_Comment=NodeValue;
-			}
-			else if ("first-release-date"==NodeName)
-			{
-				m_d->m_FirstReleaseDate=NodeValue;
-			}
-			else if ("artist-credit"==NodeName)
-			{
-				m_d->m_ArtistCredit=new CArtistCredit(ChildNode);
-			}
-			else if ("release-list"==NodeName)
-			{
-				m_d->m_ReleaseList=new CGenericList<CRelease>(ChildNode,"release");
-			}
-			else if ("relation-list"==NodeName)
-			{
-				m_d->m_RelationList=new CGenericList<CRelation>(ChildNode,"relation");
-			}
-			else if ("tag-list"==NodeName)
-			{
-				m_d->m_TagList=new CGenericList<CTag>(ChildNode,"tag");
-			}
-			else if ("user-tag-list"==NodeName)
-			{
-				m_d->m_UserTagList=new CGenericList<CUserTag>(ChildNode,"user-tag");
-			}
-			else if ("rating"==NodeName)
-			{
-				m_d->m_Rating=new CRating(ChildNode);
-			}
-			else if ("user-rating"==NodeName)
-			{
-				m_d->m_UserRating=new CUserRating(ChildNode);
-			}
-			else
-			{
-				std::cerr << "Unrecognised release group node: '" << NodeName << "'" << std::endl;
-			}
-		}
+		Parse(Node);
 	}
 }
 
 MusicBrainz4::CReleaseGroup::CReleaseGroup(const CReleaseGroup& Other)
-:	m_d(new CReleaseGroupPrivate)
+:	CEntity(),
+	m_d(new CReleaseGroupPrivate)
 {
 	*this=Other;
 }
@@ -204,6 +148,78 @@ void MusicBrainz4::CReleaseGroup::Cleanup()
 	m_d->m_UserRating=0;
 }
 
+bool MusicBrainz4::CReleaseGroup::ParseAttribute(const std::string& Name, const std::string& Value)
+{
+	bool RetVal=true;
+
+	if ("id"==Name)
+		m_d->m_ID=Value;
+	else if ("type"==Name)
+		m_d->m_Type=Value;
+	else
+	{
+		std::cerr << "Unrecognised releasegroup attribute: '" << Name << "'" << std::endl;
+		RetVal=false;
+	}
+
+	return RetVal;
+}
+
+bool MusicBrainz4::CReleaseGroup::ParseElement(const XMLNode& Node)
+{
+	bool RetVal=true;
+
+	std::string NodeName=Node.getName();
+
+	if ("title"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_Title);
+	}
+	else if ("comment"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_Comment);
+	}
+	else if ("first-release-date"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_FirstReleaseDate);
+	}
+	else if ("artist-credit"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_ArtistCredit);
+	}
+	else if ("release-list"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_ReleaseList);
+	}
+	else if ("relation-list"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_RelationList);
+	}
+	else if ("tag-list"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_TagList);
+	}
+	else if ("user-tag-list"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_UserTagList);
+	}
+	else if ("rating"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_Rating);
+	}
+	else if ("user-rating"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_UserRating);
+	}
+	else
+	{
+		std::cerr << "Unrecognised release group element: '" << NodeName << "'" << std::endl;
+		RetVal=false;
+	}
+
+	return RetVal;
+}
+
 std::string MusicBrainz4::CReleaseGroup::ID() const
 {
 	return m_d->m_ID;
@@ -267,6 +283,10 @@ MusicBrainz4::CUserRating *MusicBrainz4::CReleaseGroup::UserRating() const
 std::ostream& operator << (std::ostream& os, const MusicBrainz4::CReleaseGroup& ReleaseGroup)
 {
 	os << "Release group:" << std::endl;
+
+	MusicBrainz4::CEntity *Base=(MusicBrainz4::CEntity *)&ReleaseGroup;
+
+	os << *Base << std::endl;
 
 	os << "\tID:                 " << ReleaseGroup.ID() << std::endl;
 	os << "\tType:               " << ReleaseGroup.Type() << std::endl;

@@ -26,8 +26,8 @@
 #ifndef _MUSICBRAINZ4_ISRC_H
 #define _MUSICBRAINZ4_ISRC_H
 
+#include "musicbrainz4/Entity.h"
 #include "musicbrainz4/GenericList.h"
-
 #include "musicbrainz4/Recording.h"
 
 #include "musicbrainz4/xmlParser.h"
@@ -35,8 +35,8 @@
 namespace MusicBrainz4
 {
 	class CISRCPrivate;
-	
-	class CISRC
+
+	class CISRC: public CEntity
 	{
 	public:
 		CISRC(const XMLNode& Node=XMLNode::emptyNode());
@@ -51,6 +51,9 @@ namespace MusicBrainz4
 		void Cleanup();
 
 		CISRCPrivate * const m_d;
+
+		virtual bool ParseAttribute(const std::string& Name, const std::string& Value);
+		virtual bool ParseElement(const XMLNode& Node);
 	};
 }
 

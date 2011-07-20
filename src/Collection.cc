@@ -34,52 +34,27 @@ class MusicBrainz4::CCollectionPrivate
 		:	 m_ReleaseList(0)
 		{
 		}
-		
+
 		std::string m_ID;
 		std::string m_Name;
 		std::string m_Editor;
 		CGenericList<CRelease> *m_ReleaseList;
-};		
+};
 MusicBrainz4::CCollection::CCollection(const XMLNode& Node)
-:	m_d(new CCollectionPrivate)
+:	CEntity(),
+	m_d(new CCollectionPrivate)
 {
 	if (!Node.isEmpty())
 	{
 		//std::cout << "Medium node: " << std::endl << Node.createXMLString(true) << std::endl;
 
-		if (Node.isAttributeSet("id"))
-			m_d->m_ID=Node.getAttribute("id");
-
-		for (int count=0;count<Node.nChildNode();count++)
-		{
-			XMLNode ChildNode=Node.getChildNode(count);
-			std::string NodeName=ChildNode.getName();
-			std::string NodeValue;
-			if (ChildNode.getText())
-				NodeValue=ChildNode.getText();
-
-			if ("name"==NodeName)
-			{
-				m_d->m_Name=NodeValue;
-			}
-			else if ("editor"==NodeName)
-			{
-				m_d->m_Editor=NodeValue;
-			}
-			else if ("release-list"==NodeName)
-			{
-				m_d->m_ReleaseList=new CGenericList<CRelease>(ChildNode,"release");
-			}
-			else
-			{
-				std::cerr << "Unrecognised collection node: '" << NodeName << "'" << std::endl;
-			}
-		}
+		Parse(Node);
 	}
 }
 
 MusicBrainz4::CCollection::CCollection(const CCollection& Other)
-:	m_d(new CCollectionPrivate)
+:	CEntity(),
+	m_d(new CCollectionPrivate)
 {
 	*this=Other;
 }
@@ -104,7 +79,7 @@ MusicBrainz4::CCollection& MusicBrainz4::CCollection::operator =(const CCollecti
 MusicBrainz4::CCollection::~CCollection()
 {
 	Cleanup();
-	
+
 	delete m_d;
 }
 
@@ -112,6 +87,47 @@ void MusicBrainz4::CCollection::Cleanup()
 {
 	delete m_d->m_ReleaseList;
 	m_d->m_ReleaseList=0;
+}
+
+bool MusicBrainz4::CCollection::ParseAttribute(const std::string& Name, const std::string& Value)
+{
+	bool RetVal=true;
+
+	if ("id"==Name)
+		m_d->m_ID=Value;
+	else
+	{
+		std::cerr << "Unrecognised collection attribute: '" << Name << "'" << std::endl;
+		RetVal=false;
+	}
+
+	return RetVal;
+}
+
+bool MusicBrainz4::CCollection::ParseElement(const XMLNode& Node)
+{
+	bool RetVal=true;
+
+	std::string NodeName=Node.getName();
+
+	if ("name"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_Name);
+	}
+	else if ("editor"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_Editor);
+	}
+	else if ("release-list"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_ReleaseList);
+	}
+	else
+	{
+		std::cerr << "Unrecognised collection element: '" << NodeName << "'" << std::endl;
+		RetVal=false;
+	}
+	return RetVal;
 }
 
 std::string MusicBrainz4::CCollection::ID() const
@@ -137,6 +153,10 @@ MusicBrainz4::CGenericList<MusicBrainz4::CRelease> *MusicBrainz4::CCollection::R
 std::ostream& operator << (std::ostream& os, const MusicBrainz4::CCollection& Collection)
 {
 	os << "Collection:" << std::endl;
+
+	MusicBrainz4::CEntity *Base=(MusicBrainz4::CEntity *)&Collection;
+
+	os << *Base << std::endl;
 
 	os << "\tID:  " << Collection.ID() << std::endl;
 	os << "\tName: " << Collection.Name() << std::endl;

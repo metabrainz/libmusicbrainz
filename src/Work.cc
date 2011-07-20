@@ -46,7 +46,7 @@ class MusicBrainz4::CWorkPrivate
 			m_UserRating(0)
 		{
 		}
-		
+
 		std::string m_ID;
 		std::string m_Type;
 		std::string m_Title;
@@ -62,76 +62,20 @@ class MusicBrainz4::CWorkPrivate
 };
 
 MusicBrainz4::CWork::CWork(const XMLNode& Node)
-:	m_d(new CWorkPrivate)
+:	CEntity(),
+	m_d(new CWorkPrivate)
 {
 	if (!Node.isEmpty())
 	{
 		//std::cout << "Work node: " << std::endl << Node.createXMLString(true) << std::endl;
 
-		if (Node.isAttributeSet("id"))
-			m_d->m_ID=Node.getAttribute("id");
-
-		if (Node.isAttributeSet("type"))
-			m_d->m_Type=Node.getAttribute("type");
-
-		for (int count=0;count<Node.nChildNode();count++)
-		{
-			XMLNode ChildNode=Node.getChildNode(count);
-			std::string NodeName=ChildNode.getName();
-			std::string NodeValue;
-			if (ChildNode.getText())
-				NodeValue=ChildNode.getText();
-
-			if ("title"==NodeName)
-			{
-				m_d->m_Title=NodeValue;
-			}
-			else if ("artist-credit"==NodeName)
-			{
-				m_d->m_ArtistCredit=new CArtistCredit(ChildNode);
-			}
-			else if ("iswc"==NodeName)
-			{
-				m_d->m_ISWC=NodeValue;
-			}
-			else if ("disambiguation"==NodeName)
-			{
-				m_d->m_Disambiguation=NodeValue;
-			}
-			else if ("alias-list"==NodeName)
-			{
-				m_d->m_AliasList=new CGenericList<CAlias>(ChildNode,"alias");
-			}
-			else if ("relation-list"==NodeName)
-			{
-				m_d->m_RelationList=new CGenericList<CRelation>(ChildNode,"relation");
-			}
-			else if ("tag-list"==NodeName)
-			{
-				m_d->m_TagList=new CGenericList<CTag>(ChildNode,"tag");
-			}
-			else if ("user-tag-list"==NodeName)
-			{
-				m_d->m_UserTagList=new CGenericList<CUserTag>(ChildNode,"user-tag");
-			}
-			else if ("rating"==NodeName)
-			{
-				m_d->m_Rating=new CRating(ChildNode);
-			}
-			else if ("user-rating"==NodeName)
-			{
-				m_d->m_UserRating=new CUserRating(ChildNode);
-			}
-			else
-			{
-				std::cerr << "Unrecognised work node: '" << NodeName << "'" << std::endl;
-			}
-		}
+		Parse(Node);
 	}
 }
 
 MusicBrainz4::CWork::CWork(const CWork& Other)
-:	m_d(new CWorkPrivate)
+:	CEntity(),
+	m_d(new CWorkPrivate)
 {
 	*this=Other;
 }
@@ -177,7 +121,7 @@ MusicBrainz4::CWork& MusicBrainz4::CWork::operator =(const CWork& Other)
 MusicBrainz4::CWork::~CWork()
 {
 	Cleanup();
-	
+
 	delete m_d;
 }
 
@@ -203,6 +147,78 @@ void MusicBrainz4::CWork::Cleanup()
 
 	delete m_d->m_UserRating;
 	m_d->m_UserRating=0;
+}
+
+bool MusicBrainz4::CWork::ParseAttribute(const std::string& Name, const std::string& Value)
+{
+	bool RetVal=true;
+
+	if ("id"==Name)
+		m_d->m_ID=Value;
+	else if ("type"==Name)
+		m_d->m_Type=Value;
+	else
+	{
+		std::cerr << "Unrecognised work attribute: '" << Name << "'" << std::endl;
+		RetVal=false;
+	}
+
+	return RetVal;
+}
+
+bool MusicBrainz4::CWork::ParseElement(const XMLNode& Node)
+{
+	bool RetVal=true;
+
+	std::string NodeName=Node.getName();
+
+	if ("title"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_Title);
+	}
+	else if ("artist-credit"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_ArtistCredit);
+	}
+	else if ("iswc"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_ISWC);
+	}
+	else if ("disambiguation"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_Disambiguation);
+	}
+	else if ("alias-list"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_AliasList);
+	}
+	else if ("relation-list"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_RelationList);
+	}
+	else if ("tag-list"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_TagList);
+	}
+	else if ("user-tag-list"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_UserTagList);
+	}
+	else if ("rating"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_Rating);
+	}
+	else if ("user-rating"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_UserRating);
+	}
+	else
+	{
+		std::cerr << "Unrecognised work element: '" << NodeName << "'" << std::endl;
+		RetVal=false;
+	}
+
+	return RetVal;
 }
 
 std::string MusicBrainz4::CWork::ID() const
@@ -268,6 +284,10 @@ MusicBrainz4::CUserRating *MusicBrainz4::CWork::UserRating() const
 std::ostream& operator << (std::ostream& os, const MusicBrainz4::CWork& Work)
 {
 	os << "Work:" << std::endl;
+
+	MusicBrainz4::CEntity *Base=(MusicBrainz4::CEntity *)&Work;
+
+	os << *Base << std::endl;
 
 	os << "\tID:             " << Work.ID() << std::endl;
 	os << "\tWork:           " << Work.Type() << std::endl;

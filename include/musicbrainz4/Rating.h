@@ -28,13 +28,15 @@
 
 #include <iostream>
 
+#include "musicbrainz4/Entity.h"
+
 #include "musicbrainz4/xmlParser.h"
 
 namespace MusicBrainz4
 {
 	class CRatingPrivate;
-	
-	class CRating
+
+	class CRating: public CEntity
 	{
 	public:
 		CRating(const XMLNode& Node=XMLNode::emptyNode());
@@ -47,6 +49,9 @@ namespace MusicBrainz4
 
 	private:
 		CRatingPrivate * const m_d;
+
+		virtual bool ParseAttribute(const std::string& Name, const std::string& Value);
+		virtual bool ParseElement(const XMLNode& Node);
 	};
 }
 

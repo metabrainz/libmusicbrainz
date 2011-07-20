@@ -66,93 +66,20 @@ class MusicBrainz4::CReleasePrivate
 };
 
 MusicBrainz4::CRelease::CRelease(const XMLNode& Node)
-:	m_d(new CReleasePrivate)
+:	CEntity(),
+	m_d(new CReleasePrivate)
 {
 	if (!Node.isEmpty())
 	{
 		//std::cout << "Release node: " << std::endl << Node.createXMLString(true) << std::endl;
 
-		if (Node.isAttributeSet("id"))
-			m_d->m_ID=Node.getAttribute("id");
-
-		for (int count=0;count<Node.nChildNode();count++)
-		{
-			XMLNode ChildNode=Node.getChildNode(count);
-			std::string NodeName=ChildNode.getName();
-			std::string NodeValue;
-			if (ChildNode.getText())
-				NodeValue=ChildNode.getText();
-
-			if ("title"==NodeName)
-			{
-				m_d->m_Title=NodeValue;
-			}
-			else if ("status"==NodeName)
-			{
-				m_d->m_Status=NodeValue;
-			}
-			else if ("quality"==NodeName)
-			{
-				m_d->m_Quality=NodeValue;
-			}
-			else if ("disambiguation"==NodeName)
-			{
-				m_d->m_Disambiguation=NodeValue;
-			}
-			else if ("packaging"==NodeName)
-			{
-				m_d->m_Packaging=NodeValue;
-			}
-			else if ("text-representation"==NodeName)
-			{
-				m_d->m_TextRepresentation=new CTextRepresentation(ChildNode);
-			}
-			else if ("artist-credit"==NodeName)
-			{
-				m_d->m_ArtistCredit=new CArtistCredit(ChildNode);
-			}
-			else if ("release-group"==NodeName)
-			{
-				m_d->m_ReleaseGroup=new CReleaseGroup(ChildNode);
-			}
-			else if ("date"==NodeName)
-			{
-				m_d->m_Date=NodeValue;
-			}
-			else if ("country"==NodeName)
-			{
-				m_d->m_Country=NodeValue;
-			}
-			else if ("barcode"==NodeName)
-			{
-				m_d->m_Barcode=NodeValue;
-			}
-			else if ("asin"==NodeName)
-			{
-				m_d->m_ASIN=NodeValue;
-			}
-			else if ("label-info-list"==NodeName)
-			{
-				m_d->m_LabelInfoList=new CGenericList<CLabelInfo>(ChildNode,"label-info");
-			}
-			else if ("medium-list"==NodeName)
-			{
-				m_d->m_MediumList=new CGenericList<CMedium>(ChildNode,"medium");
-			}
-			else if ("relation-list"==NodeName)
-			{
-				m_d->m_RelationList=new CGenericList<CRelation>(ChildNode,"relation");
-			}
-			else
-			{
-				std::cerr << "Unrecognised release node: '" << NodeName << "'" << std::endl;
-			}
-		}
+		Parse(Node);
 	}
 }
 
 MusicBrainz4::CRelease::CRelease(const CRelease& Other)
-:	m_d(new CReleasePrivate)
+:	CEntity(),
+	m_d(new CReleasePrivate)
 {
 	*this=Other;
 }
@@ -223,6 +150,96 @@ void MusicBrainz4::CRelease::Cleanup()
 
 	delete m_d->m_RelationList;
 	m_d->m_RelationList=0;
+}
+
+bool MusicBrainz4::CRelease::ParseAttribute(const std::string& Name, const std::string& Value)
+{
+	bool RetVal=true;
+
+	if ("id"==Name)
+		m_d->m_ID=Value;
+	else
+	{
+		std::cerr << "Unrecognised release attribute: '" << Name << "'" << std::endl;
+		RetVal=false;
+	}
+
+	return RetVal;
+}
+
+bool MusicBrainz4::CRelease::ParseElement(const XMLNode& Node)
+{
+	bool RetVal=true;
+
+	std::string NodeName=Node.getName();
+
+	if ("title"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_Title);
+	}
+	else if ("status"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_Status);
+	}
+	else if ("quality"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_Quality);
+	}
+	else if ("disambiguation"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_Disambiguation);
+	}
+	else if ("packaging"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_Packaging);
+	}
+	else if ("text-representation"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_TextRepresentation);
+	}
+	else if ("artist-credit"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_ArtistCredit);
+	}
+	else if ("release-group"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_ReleaseGroup);
+	}
+	else if ("date"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_Date);
+	}
+	else if ("country"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_Country);
+	}
+	else if ("barcode"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_Barcode);
+	}
+	else if ("asin"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_ASIN);
+	}
+	else if ("label-info-list"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_LabelInfoList);
+	}
+	else if ("medium-list"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_MediumList);
+	}
+	else if ("relation-list"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_RelationList);
+	}
+	else
+	{
+		std::cerr << "Unrecognised release element: '" << NodeName << "'" << std::endl;
+		RetVal=false;
+	}
+
+	return RetVal;
 }
 
 std::string MusicBrainz4::CRelease::ID() const
@@ -330,6 +347,10 @@ MusicBrainz4::CGenericList<MusicBrainz4::CMedium> MusicBrainz4::CRelease::MediaM
 std::ostream& operator << (std::ostream& os, const MusicBrainz4::CRelease& Release)
 {
 	os << "Release:" << std::endl;
+
+	MusicBrainz4::CEntity *Base=(MusicBrainz4::CEntity *)&Release;
+
+	os << *Base << std::endl;
 
 	os << "\tID:                  " << Release.ID() << std::endl;
 	os << "\tTitle:               " << Release.Title() << std::endl;

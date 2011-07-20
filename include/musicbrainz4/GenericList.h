@@ -26,6 +26,8 @@
 #ifndef _MUSICBRAINZ4_GENERIC_LIST_H
 #define _MUSICBRAINZ4_GENERIC_LIST_H
 
+#include "musicbrainz4/Entity.h"
+
 #include "musicbrainz4/xmlParser.h"
 
 #include <list>
@@ -35,40 +37,75 @@
 namespace MusicBrainz4
 {
 	template <class T>
-	class CGenericList
+	class CGenericList: public CEntity
 	{
 	public:
-		CGenericList(const XMLNode& Node=XMLNode::emptyNode(), const std::string& SubNodeName="")
-		:	m_SubNodeName(SubNodeName)
+		CGenericList(const XMLNode& Node=XMLNode::emptyNode())
+		:	CEntity(),
+			m_Offset(0),
+			m_Count(0)
 		{
 			if (!Node.isEmpty())
 			{
-				/* std::cout << m_SubNodeName << " node: " << std::endl << Node.createXMLString(true) << std::endl; */
+				//std::cout << "List node: " << std::endl << Node.createXMLString(true) << std::endl;
 
-				int nItems=Node.nChildNode(SubNodeName.c_str());
-
-				for (int count=0;count<nItems;count++)
-				{
-					XMLNode ItemNode=Node.getChildNode(SubNodeName.c_str(),count);
-					m_Items.push_back(T(ItemNode));
-				}
+				Parse(Node);
 			}
 		}
 
-		std::string SubNodeName() const { return m_SubNodeName; }
 		std::list<T> Items() const { return m_Items; }
 		void push_back(T Item) { return m_Items.push_back(Item); }
+		int Offset() const { return m_Offset; }
+		int Count() const { return m_Count; }
 
 	private:
-		std::string m_SubNodeName;
 		std::list<T> m_Items;
+		int m_Offset;
+		int m_Count;
+
+		virtual bool ParseAttribute(const std::string& Name, const std::string& Value)
+		{
+			bool RetVal=true;
+
+			if ("offset"==Name)
+				ProcessItem(Value,m_Offset);
+			else if ("count"==Name)
+				ProcessItem(Value,m_Count);
+			else
+			{
+				std::cerr << "Unrecognised list attribute: '" << Name << "'" << std::endl;
+				RetVal=false;
+			}
+
+			return RetVal;
+		}
+
+		virtual bool ParseElement(const XMLNode& Node)
+		{
+			bool RetVal=true;
+
+			T *Item=0;
+
+			RetVal=ProcessItem(Node,Item);
+			if (RetVal)
+			{
+				m_Items.push_back(*Item);
+			}
+
+			delete Item;
+
+			return RetVal;
+		}
 	};
 }
 
 template <class T>
 std::ostream& operator << (std::ostream& os, MusicBrainz4::CGenericList<T>& List)
 {
-	os << List.SubNodeName() << " list:" << std::endl;
+	os << "List:" << std::endl;
+
+	os << "Offset: " << List.Offset() << std::endl;
+	os << "Count:  " << List.Count() << std::endl;
 
 	std::list<T> Items=List.Items();
 	typename std::list<T>::const_iterator ThisItem=Items.begin();

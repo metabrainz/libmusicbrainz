@@ -79,104 +79,20 @@ class MusicBrainz4::CArtistPrivate
 };
 
 MusicBrainz4::CArtist::CArtist(const XMLNode& Node)
-:	m_d(new CArtistPrivate)
+:	CEntity(),
+	m_d(new CArtistPrivate)
 {
 	if (!Node.isEmpty())
 	{
 		//std::cout << "Artist node: " << std::endl << Node.createXMLString(true) << std::endl;
 
-		if (Node.isAttributeSet("id"))
-			m_d->m_ID=Node.getAttribute("id");
-
-		if (Node.isAttributeSet("type"))
-			m_d->m_Type=Node.getAttribute("type");
-
-		for (int count=0;count<Node.nChildNode();count++)
-		{
-			XMLNode ChildNode=Node.getChildNode(count);
-			std::string NodeName=ChildNode.getName();
-			std::string NodeValue;
-			if (ChildNode.getText())
-				NodeValue=ChildNode.getText();
-
-			if ("name"==NodeName)
-			{
-				m_d->m_Name=NodeValue;
-			}
-			else if ("sort-name"==NodeName)
-			{
-				m_d->m_SortName=NodeValue;
-			}
-			else if ("gender"==NodeName)
-			{
-				m_d->m_Gender=NodeValue;
-			}
-			else if ("country"==NodeName)
-			{
-				m_d->m_Country=NodeValue;
-			}
-			else if ("disambiguation"==NodeName)
-			{
-				m_d->m_Disambiguation=NodeValue;
-			}
-			else if ("life-span"==NodeName)
-			{
-				m_d->m_Lifespan=new CLifespan(ChildNode);
-			}
-			else if ("alias-list"==NodeName)
-			{
-				m_d->m_AliasList=new CGenericList<CAlias>(ChildNode,"alias");
-			}
-			else if ("recording-list"==NodeName)
-			{
-				m_d->m_RecordingList=new CGenericList<CRecording>(ChildNode,"recording");
-			}
-			else if ("release-list"==NodeName)
-			{
-				m_d->m_ReleaseList=new CGenericList<CRelease>(ChildNode,"release");
-			}
-			else if ("release-group-list"==NodeName)
-			{
-				m_d->m_ReleaseGroupList=new CGenericList<CReleaseGroup>(ChildNode,"release");
-			}
-			else if ("label-list"==NodeName)
-			{
-				m_d->m_LabelList=new CGenericList<CLabel>(ChildNode,"label");
-			}
-			else if ("work-list"==NodeName)
-			{
-				m_d->m_WorkList=new CGenericList<CWork>(ChildNode,"work");
-			}
-			else if ("relation-list"==NodeName)
-			{
-				m_d->m_RelationList=new CGenericList<CRelation>(ChildNode,"relation");
-			}
-			else if ("tag-list"==NodeName)
-			{
-				m_d->m_TagList=new CGenericList<CTag>(ChildNode,"tag");
-			}
-			else if ("user-tag-list"==NodeName)
-			{
-				m_d->m_UserTagList=new CGenericList<CUserTag>(ChildNode,"user-tag");
-			}
-			else if ("rating"==NodeName)
-			{
-				m_d->m_Rating=new CRating(ChildNode);
-			}
-			else if ("user-rating"==NodeName)
-			{
-				m_d->m_UserRating=new CUserRating(ChildNode);
-			}
-			else
-			{
-				std::cerr << "Unrecognised artist node: '" << NodeName << "'" << std::endl;
-			}
-		}
+		Parse(Node);
 	}
 }
 
 MusicBrainz4::CArtist::CArtist(const CArtist& Other)
-:	m_d(new CArtistPrivate)
+:	CEntity(),
+	m_d(new CArtistPrivate)
 {
 	*this=Other;
 }
@@ -186,6 +102,8 @@ MusicBrainz4::CArtist& MusicBrainz4::CArtist::operator =(const CArtist& Other)
 	if (this!=&Other)
 	{
 		Cleanup();
+
+		CEntity::operator =(Other);
 
 		m_d->m_ID=Other.m_d->m_ID;
 		m_d->m_Type=Other.m_d->m_Type;
@@ -238,7 +156,7 @@ MusicBrainz4::CArtist& MusicBrainz4::CArtist::operator =(const CArtist& Other)
 MusicBrainz4::CArtist::~CArtist()
 {
 	Cleanup();
-	
+
 	delete m_d;
 }
 
@@ -279,6 +197,105 @@ void MusicBrainz4::CArtist::Cleanup()
 
 	delete m_d->m_UserRating;
 	m_d->m_UserRating=0;
+}
+
+bool MusicBrainz4::CArtist::ParseAttribute(const std::string& Name, const std::string& Value)
+{
+	bool RetVal=true;
+
+	if ("id"==Name)
+		m_d->m_ID=Value;
+	else if ("type"==Name)
+		m_d->m_Type=Value;
+	else
+	{
+		std::cerr << "Unrecognised artist attribute: '" << Name << "'" << std::endl;
+	}
+
+	return RetVal;
+}
+
+bool MusicBrainz4::CArtist::ParseElement(const XMLNode& Node)
+{
+	bool RetVal=true;
+
+	std::string NodeName=Node.getName();
+
+	if ("name"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_Name);
+	}
+	else if ("sort-name"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_SortName);
+	}
+	else if ("gender"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_Gender);
+	}
+	else if ("country"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_Country);
+	}
+	else if ("disambiguation"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_Disambiguation);
+	}
+	else if ("life-span"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_Lifespan);
+	}
+	else if ("alias-list"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_AliasList);
+	}
+	else if ("recording-list"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_RecordingList);
+	}
+	else if ("release-list"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_ReleaseList);
+	}
+	else if ("release-group-list"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_ReleaseGroupList);
+	}
+	else if ("label-list"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_LabelList);
+	}
+	else if ("work-list"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_WorkList);
+	}
+	else if ("relation-list"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_RelationList);
+	}
+	else if ("tag-list"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_TagList);
+	}
+	else if ("user-tag-list"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_UserTagList);
+	}
+	else if ("rating"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_Rating);
+	}
+	else if ("user-rating"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_UserRating);
+	}
+	else
+	{
+		std::cerr << "Unrecognised artist element: '" << NodeName << "'" << std::endl;
+		RetVal=false;
+	}
+
+	return RetVal;
 }
 
 std::string MusicBrainz4::CArtist::ID() const
@@ -379,6 +396,10 @@ MusicBrainz4::CUserRating *MusicBrainz4::CArtist::UserRating() const
 std::ostream& operator << (std::ostream& os, const MusicBrainz4::CArtist& Artist)
 {
 	os << "Artist:" << std::endl;
+
+	MusicBrainz4::CEntity *Base=(MusicBrainz4::CEntity *)&Artist;
+
+	os << *Base << std::endl;
 
 	os << "\tID:             " << Artist.ID() << std::endl;
 	os << "\tType:           " << Artist.Type() << std::endl;

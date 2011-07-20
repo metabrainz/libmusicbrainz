@@ -32,28 +32,20 @@ public:
 };
 
 MusicBrainz4::CMessage::CMessage(const XMLNode& Node)
-:	m_d(new CMessagePrivate)
+:	CEntity(),
+	m_d(new CMessagePrivate)
 {
 	if (!Node.isEmpty())
 	{
 		//std::cout << "Message node: " << std::endl << Node.createXMLString(true) << std::endl;
 
-		for (int count=0;count<Node.nChildNode();count++)
-		{
-			XMLNode ChildNode=Node.getChildNode(count);
-			std::string NodeName=ChildNode.getName();
-			std::string NodeValue;
-			if (ChildNode.getText())
-				NodeValue=ChildNode.getText();
-
-			if (NodeName=="text")
-				m_d->m_Text=NodeValue;
-		}
+		Parse(Node);
 	}
 }
 
 MusicBrainz4::CMessage::CMessage(const CMessage& Other)
-:	m_d(new CMessagePrivate)
+:	CEntity(),
+	m_d(new CMessagePrivate)
 {
 	*this=Other;
 }
@@ -73,6 +65,33 @@ MusicBrainz4::CMessage::~CMessage()
 	delete m_d;
 }
 
+bool MusicBrainz4::CMessage::ParseAttribute(const std::string& Name, const std::string& /*Value*/)
+{
+	bool RetVal=true;
+
+	std::cerr << "Unrecognised message attribute: '" << Name << "'" << std::endl;
+	RetVal=false;
+
+	return RetVal;
+}
+
+bool MusicBrainz4::CMessage::ParseElement(const XMLNode& Node)
+{
+	bool RetVal=true;
+
+	std::string NodeName=Node.getName();
+
+	if (NodeName=="text")
+		RetVal=ProcessItem(Node,m_d->m_Text);
+	else
+	{
+		std::cerr << "Unrecognised message element: '" << NodeName << "'" << std::endl;
+		RetVal=false;
+	}
+
+	return RetVal;
+}
+
 std::string MusicBrainz4::CMessage::Text() const
 {
 	return m_d->m_Text;
@@ -81,6 +100,10 @@ std::string MusicBrainz4::CMessage::Text() const
 std::ostream& operator << (std::ostream& os, const MusicBrainz4::CMessage& Message)
 {
 	os << "Message:" << std::endl;
+
+	MusicBrainz4::CEntity *Base=(MusicBrainz4::CEntity *)&Message;
+
+	os << *Base << std::endl;
 
 	os << "\tText: " << Message.Text() << std::endl;
 

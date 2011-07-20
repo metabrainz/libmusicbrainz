@@ -29,16 +29,18 @@
 #include <string>
 #include <iostream>
 
+#include "musicbrainz4/Entity.h"
+
 #include "musicbrainz4/xmlParser.h"
 
 namespace MusicBrainz4
 {
 	class CTrackPrivate;
-	
+
 	class CRecording;
 	class CArtistCredit;
 
-	class CTrack
+	class CTrack: public CEntity
 	{
 	public:
 		CTrack(const XMLNode& Node=XMLNode::emptyNode());
@@ -56,6 +58,9 @@ namespace MusicBrainz4
 		void Cleanup();
 
 		CTrackPrivate * const m_d;
+
+		virtual bool ParseAttribute(const std::string& Name, const std::string& Value);
+		virtual bool ParseElement(const XMLNode& Node);
 	};
 }
 

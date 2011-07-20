@@ -30,21 +30,25 @@ class MusicBrainz4::CAttributePrivate
 	public:
 		std::string m_Text;
 };
-		
+
 MusicBrainz4::CAttribute::CAttribute(const XMLNode& Node)
-:	m_d(new CAttributePrivate)
+:	CEntity(),
+	m_d(new CAttributePrivate)
 {
 	if (!Node.isEmpty())
 	{
 		//std::cout << "Attribute node: " << std::endl << Node.createXMLString(true) << std::endl;
 
+		Parse(Node);
+
 		if (Node.getText())
-			m_d->m_Text=Node.getText();
+			ProcessItem(Node,m_d->m_Text);
 	}
 }
 
 MusicBrainz4::CAttribute::CAttribute(const CAttribute& Other)
-:	m_d(new CAttributePrivate)
+:	CEntity(),
+	m_d(new CAttributePrivate)
 {
 	*this=Other;
 }
@@ -64,6 +68,28 @@ MusicBrainz4::CAttribute::~CAttribute()
 	delete m_d;
 }
 
+bool MusicBrainz4::CAttribute::ParseAttribute(const std::string& Name, const std::string& /*Value*/)
+{
+	bool RetVal=true;
+
+	std::cerr << "Unrecognised attribute attribute: '" << Name << "'" << std::endl;
+	RetVal=false;
+
+	return RetVal;
+}
+
+bool MusicBrainz4::CAttribute::ParseElement(const XMLNode& Node)
+{
+	bool RetVal=true;
+
+	std::string NodeName=Node.getName();
+
+	std::cerr << "Unrecognised attribute element: '" << NodeName << "'" << std::endl;
+	RetVal=false;
+
+	return RetVal;
+}
+
 std::string MusicBrainz4::CAttribute::Text() const
 {
 	return m_d->m_Text;
@@ -72,6 +98,10 @@ std::string MusicBrainz4::CAttribute::Text() const
 std::ostream& operator << (std::ostream& os, const MusicBrainz4::CAttribute& Attribute)
 {
 	os << "Attribute:" << std::endl;
+
+	MusicBrainz4::CEntity *Base=(MusicBrainz4::CEntity *)&Attribute;
+
+	os << *Base << std::endl;
 
 	os << "\tText: " << Attribute.Text() << std::endl;
 

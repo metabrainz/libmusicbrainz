@@ -29,6 +29,7 @@
 #include <string>
 #include <iostream>
 
+#include "musicbrainz4/Entity.h"
 #include "musicbrainz4/GenericList.h"
 
 #include "musicbrainz4/xmlParser.h"
@@ -46,7 +47,7 @@ namespace MusicBrainz4
 	class CRating;
 	class CUserRating;
 
-	class CLabel
+	class CLabel: public CEntity
 	{
 	public:
 		CLabel(const XMLNode& Node=XMLNode::emptyNode());
@@ -74,6 +75,9 @@ namespace MusicBrainz4
 		void Cleanup();
 
 		CLabelPrivate * const m_d;
+
+		virtual bool ParseAttribute(const std::string& Name, const std::string& Value);
+		virtual bool ParseElement(const XMLNode& Node);
 	};
 }
 

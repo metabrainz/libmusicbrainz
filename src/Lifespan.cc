@@ -31,40 +31,22 @@ class MusicBrainz4::CLifespanPrivate
 		std::string m_Begin;
 		std::string m_End;
 };
-		
+
 MusicBrainz4::CLifespan::CLifespan(const XMLNode& Node)
-:	m_d(new CLifespanPrivate)
+:	CEntity(),
+	m_d(new CLifespanPrivate)
 {
 	if (!Node.isEmpty())
 	{
 		//std::cout << "Lifespan node: " << std::endl << Node.createXMLString(true) << std::endl;
 
-		for (int count=0;count<Node.nChildNode();count++)
-		{
-			XMLNode ChildNode=Node.getChildNode(count);
-			std::string NodeName=ChildNode.getName();
-			std::string NodeValue;
-			if (ChildNode.getText())
-				NodeValue=ChildNode.getText();
-
-			if ("begin"==NodeName)
-			{
-				m_d->m_Begin=NodeValue;
-			}
-			else if ("end"==NodeName)
-			{
-				m_d->m_End=NodeValue;
-			}
-			else
-			{
-				std::cerr << "Unrecognised lifespan node: '" << NodeName << "'" << std::endl;
-			}
-		}
+		Parse(Node);
 	}
 }
 
 MusicBrainz4::CLifespan::CLifespan(const CLifespan& Other)
-:	m_d(new CLifespanPrivate)
+:	CEntity(),
+	m_d(new CLifespanPrivate)
 {
 	*this=Other;
 }
@@ -85,6 +67,39 @@ MusicBrainz4::CLifespan::~CLifespan()
 	delete m_d;
 }
 
+bool MusicBrainz4::CLifespan::ParseAttribute(const std::string& Name, const std::string& /*Value*/)
+{
+	bool RetVal=true;
+
+	std::cerr << "Unrecognised lifespan attribute: '" << Name << "'" << std::endl;
+	RetVal=false;
+
+	return RetVal;
+}
+
+bool MusicBrainz4::CLifespan::ParseElement(const XMLNode& Node)
+{
+	bool RetVal=true;
+
+	std::string NodeName=Node.getName();
+
+	if ("begin"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_Begin);
+	}
+	else if ("end"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_End);
+	}
+	else
+	{
+		std::cerr << "Unrecognised lifespan element: '" << NodeName << "'" << std::endl;
+		RetVal=false;
+	}
+
+	return RetVal;
+}
+
 std::string MusicBrainz4::CLifespan::Begin() const
 {
 	return m_d->m_Begin;
@@ -98,6 +113,10 @@ std::string MusicBrainz4::CLifespan::End() const
 std::ostream& operator << (std::ostream& os, const MusicBrainz4::CLifespan& Lifespan)
 {
 	os << "Lifespan:" << std::endl;
+
+	MusicBrainz4::CEntity *Base=(MusicBrainz4::CEntity *)&Lifespan;
+
+	os << *Base << std::endl;
 
 	os << "\tBegin: " << Lifespan.Begin() << std::endl;
 	os << "\tEnd:   " << Lifespan.End() << std::endl;

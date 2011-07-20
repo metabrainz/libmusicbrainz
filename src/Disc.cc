@@ -27,8 +27,6 @@
 
 #include "musicbrainz4/Release.h"
 
-#include "ParserUtils.h"
-
 class MusicBrainz4::CDiscPrivate
 {
 	public:
@@ -44,41 +42,20 @@ class MusicBrainz4::CDiscPrivate
 };
 
 MusicBrainz4::CDisc::CDisc(const XMLNode& Node)
-:	m_d(new CDiscPrivate)
+:	CEntity(),
+	m_d(new CDiscPrivate)
 {
 	if (!Node.isEmpty())
 	{
 		//std::cout << "Disc node: " << std::endl << Node.createXMLString(true) << std::endl;
 
-		if (Node.isAttributeSet("id"))
-			m_d->m_ID=Node.getAttribute("id");
-
-		for (int count=0;count<Node.nChildNode();count++)
-		{
-			XMLNode ChildNode=Node.getChildNode(count);
-			std::string NodeName=ChildNode.getName();
-			std::string NodeValue;
-			if (ChildNode.getText())
-				NodeValue=ChildNode.getText();
-
-			if ("sectors"==NodeName)
-			{
-				ProcessItem(NodeValue,m_d->m_Sectors);
-			}
-			else if ("release-list"==NodeName)
-			{
-				m_d->m_ReleaseList=new CGenericList<CRelease>(ChildNode,"release");
-			}
-			else
-			{
-				std::cerr << "Unrecognised disc node: '" << NodeName << "'" << std::endl;
-			}
-		}
+		Parse(Node);
 	}
 }
 
 MusicBrainz4::CDisc::CDisc(const CDisc& Other)
-:	m_d(new CDiscPrivate)
+:	CEntity(),
+	m_d(new CDiscPrivate)
 {
 	*this=Other;
 }
@@ -88,6 +65,8 @@ MusicBrainz4::CDisc& MusicBrainz4::CDisc::operator =(const CDisc& Other)
 	if (this!=&Other)
 	{
 		Cleanup();
+
+		CEntity::operator =(Other);
 
 		m_d->m_ID=Other.m_d->m_ID;
 		m_d->m_Sectors=Other.m_d->m_Sectors;
@@ -104,6 +83,44 @@ MusicBrainz4::CDisc::~CDisc()
 	Cleanup();
 
 	delete m_d;
+}
+
+bool MusicBrainz4::CDisc::ParseAttribute(const std::string& Name, const std::string& Value)
+{
+	bool RetVal=true;
+
+	if ("id"==Name)
+		RetVal=ProcessItem(Value,m_d->m_ID);
+	else
+	{
+		std::cerr << "Unrecognised disc attribute: '" << Name << "'" << std::endl;
+		RetVal=false;
+	}
+
+	return RetVal;
+}
+
+bool MusicBrainz4::CDisc::ParseElement(const XMLNode& Node)
+{
+	bool RetVal=true;
+
+	std::string NodeName=Node.getName();
+
+	if ("sectors"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_Sectors);
+	}
+	else if ("release-list"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_ReleaseList);
+	}
+	else
+	{
+		std::cerr << "Unrecognised disc element: '" << NodeName << "'" << std::endl;
+		RetVal=false;
+	}
+
+	return RetVal;
 }
 
 void MusicBrainz4::CDisc::Cleanup()
@@ -130,6 +147,10 @@ MusicBrainz4::CGenericList<MusicBrainz4::CRelease> *MusicBrainz4::CDisc::Release
 std::ostream& operator << (std::ostream& os, const MusicBrainz4::CDisc& Disc)
 {
 	os << "Disc:" << std::endl;
+
+	MusicBrainz4::CEntity *Base=(MusicBrainz4::CEntity *)&Disc;
+
+	os << *Base << std::endl;
 
 	os << "\tID:      " << Disc.ID() << std::endl;
 	os << "\tSectors: " << Disc.Sectors() << std::endl;

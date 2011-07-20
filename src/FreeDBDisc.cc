@@ -44,53 +44,20 @@ class MusicBrainz4::CFreeDBDiscPrivate
 };
 
 MusicBrainz4::CFreeDBDisc::CFreeDBDisc(const XMLNode& Node)
-:	m_d(new CFreeDBDiscPrivate)
+:	CEntity(),
+	m_d(new CFreeDBDiscPrivate)
 {
 	if (!Node.isEmpty())
 	{
 		//std::cout << "FreeDBDisc node: " << std::endl << Node.createXMLString(true) << std::endl;
 
-		if (Node.isAttributeSet("id"))
-			m_d->m_ID=Node.getAttribute("id");
-
-		for (int count=0;count<Node.nChildNode();count++)
-		{
-			XMLNode ChildNode=Node.getChildNode(count);
-			std::string NodeName=ChildNode.getName();
-			std::string NodeValue;
-			if (ChildNode.getText())
-				NodeValue=ChildNode.getText();
-
-			if ("title"==NodeName)
-			{
-				m_d->m_Title=NodeValue;
-			}
-			else if ("artist"==NodeName)
-			{
-				m_d->m_Artist=NodeValue;
-			}
-			else if ("category"==NodeName)
-			{
-				m_d->m_Category=NodeValue;
-			}
-			else if ("year"==NodeName)
-			{
-				m_d->m_Year=NodeValue;
-			}
-			else if ("nonmb-track-list"==NodeName)
-			{
-				m_d->m_NonMBTrackList=new CGenericList<CNonMBTrack>(ChildNode,"track");
-			}
-			else
-			{
-				std::cerr << "Unrecognised cd stub node: '" << NodeName << "'" << std::endl;
-			}
-		}
+		Parse(Node);
 	}
 }
 
 MusicBrainz4::CFreeDBDisc::CFreeDBDisc(const CFreeDBDisc& Other)
-:	m_d(new CFreeDBDiscPrivate)
+:	CEntity(),
+	m_d(new CFreeDBDiscPrivate)
 {
 	*this=Other;
 }
@@ -127,6 +94,57 @@ void MusicBrainz4::CFreeDBDisc::Cleanup()
 	m_d->m_NonMBTrackList=0;
 }
 
+bool MusicBrainz4::CFreeDBDisc::ParseAttribute(const std::string& Name, const std::string& Value)
+{
+	bool RetVal=true;
+
+
+	if ("id"==Name)
+		m_d->m_ID=Value;
+	else
+	{
+		std::cerr << "Unrecognised freedb disc attribute: '" << Name << "'" << std::endl;
+		RetVal=false;
+	}
+
+	return RetVal;
+}
+
+bool MusicBrainz4::CFreeDBDisc::ParseElement(const XMLNode& Node)
+{
+	bool RetVal=true;
+
+	std::string NodeName=Node.getName();
+
+	if ("title"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_Title);
+	}
+	else if ("artist"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_Artist);
+	}
+	else if ("category"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_Category);
+	}
+	else if ("year"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_Year);
+	}
+	else if ("nonmb-track-list"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_NonMBTrackList);
+	}
+	else
+	{
+		std::cerr << "Unrecognised freedb disc element: '" << NodeName << "'" << std::endl;
+		RetVal=false;
+	}
+
+	return RetVal;
+}
+
 std::string MusicBrainz4::CFreeDBDisc::ID() const
 {
 	return m_d->m_ID;
@@ -160,6 +178,10 @@ MusicBrainz4::CGenericList<MusicBrainz4::CNonMBTrack> *MusicBrainz4::CFreeDBDisc
 std::ostream& operator << (std::ostream& os, const MusicBrainz4::CFreeDBDisc& FreeDBDisc)
 {
 	os << "FreeDBDisc:" << std::endl;
+
+	MusicBrainz4::CEntity *Base=(MusicBrainz4::CEntity *)&FreeDBDisc;
+
+	os << *Base << std::endl;
 
 	os << "\tID:       " << FreeDBDisc.ID() << std::endl;
 	os << "\tTitle:    " << FreeDBDisc.Title() << std::endl;
