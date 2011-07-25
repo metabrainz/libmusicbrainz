@@ -672,6 +672,7 @@ MB4_C_OBJ_GETTER(ReleaseGroup,releasegroup,TagList,taglist)
 MB4_C_OBJ_GETTER(ReleaseGroup,releasegroup,UserTagList,usertaglist)
 MB4_C_OBJ_GETTER(ReleaseGroup,releasegroup,Rating,rating)
 MB4_C_OBJ_GETTER(ReleaseGroup,releasegroup,UserRating,userrating)
+MB4_C_STR_GETTER(ReleaseGroup,releasegroup,Disambiguation,disambiguation)
 
 MB4_C_DELETE(Tag,tag)
 MB4_C_INT_GETTER(Tag,tag,Count,count)

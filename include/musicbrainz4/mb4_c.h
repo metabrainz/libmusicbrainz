@@ -2170,6 +2170,17 @@ extern "C"
 	Mb4UserRating mb4_releasegroup_get_userrating(Mb4ReleaseGroup ReleaseGroup);
 
 /**
+ * @see MusicBrainz4::CReleaseGroup::Disambiguation
+ *
+ * @param ReleaseGroup #Mb4ReleaseGroup object
+ * @param str Returned string
+ * @param len Number of characters available in return string
+ *
+ * @return The number of characters in the string to copy (not including terminating NULL)
+ */
+	int mb4_releasegroup_get_disambiguation(Mb4ReleaseGroup ReleaseGroup, char *str, int len);
+
+/**
  * Delete a #Mb4Tag object
  *
  * @param Tag Object to delete

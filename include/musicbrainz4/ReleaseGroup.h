@@ -66,6 +66,7 @@ namespace MusicBrainz4
 		CGenericList<CUserTag> *UserTagList() const;
 		CRating *Rating() const;
 		CUserRating *UserRating() const;
+		std::string Disambiguation() const;
 
 	private:
 		void Cleanup();

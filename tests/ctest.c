@@ -389,6 +389,7 @@ void CompileTest()
 	UserTagList=mb4_releasegroup_get_usertaglist(ReleaseGroup);
 	Rating=mb4_releasegroup_get_rating(ReleaseGroup);
 	UserRating=mb4_releasegroup_get_userrating(ReleaseGroup);
+	mb4_releasegroup_get_disambiguation(ReleaseGroup,Str,Size);
 	mb4_releasegroup_delete(ReleaseGroup);
 
 	DummyInt=mb4_tag_get_count(Tag);

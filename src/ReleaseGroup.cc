@@ -59,6 +59,7 @@ class MusicBrainz4::CReleaseGroupPrivate
 		CGenericList<CUserTag> *m_UserTagList;
 		CRating *m_Rating;
 		CUserRating *m_UserRating;
+		std::string m_Disambiguation;
 };
 
 MusicBrainz4::CReleaseGroup::CReleaseGroup(const XMLNode& Node)
@@ -112,6 +113,8 @@ MusicBrainz4::CReleaseGroup& MusicBrainz4::CReleaseGroup::operator =(const CRele
 
 		if (Other.m_d->m_UserRating)
 			m_d->m_UserRating=new CUserRating(*Other.m_d->m_UserRating);
+
+		m_d->m_Disambiguation=Other.m_d->m_Disambiguation;
 	}
 
 	return *this;
@@ -211,6 +214,10 @@ bool MusicBrainz4::CReleaseGroup::ParseElement(const XMLNode& Node)
 	{
 		RetVal=ProcessItem(Node,m_d->m_UserRating);
 	}
+	else if ("disambiguation"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_Disambiguation);
+	}
 	else
 	{
 		std::cerr << "Unrecognised release group element: '" << NodeName << "'" << std::endl;
@@ -280,6 +287,11 @@ MusicBrainz4::CUserRating *MusicBrainz4::CReleaseGroup::UserRating() const
 	return m_d->m_UserRating;
 }
 
+std::string MusicBrainz4::CReleaseGroup::Disambiguation() const
+{
+	return m_d->m_Disambiguation;
+}
+
 std::ostream& operator << (std::ostream& os, const MusicBrainz4::CReleaseGroup& ReleaseGroup)
 {
 	os << "Release group:" << std::endl;
@@ -314,6 +326,8 @@ std::ostream& operator << (std::ostream& os, const MusicBrainz4::CReleaseGroup& 
 
 	if (ReleaseGroup.UserRating())
 		os << *ReleaseGroup.UserRating() << std::endl;
+
+	os << "\tDisambiguation:     " << ReleaseGroup.Disambiguation() << std::endl;
 
 	return os;
 }
