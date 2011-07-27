@@ -65,10 +65,10 @@ int main(int argc, const char *argv[])
 
 					std::string ReleaseID=Release->ID();
 
-					Metadata=Query.Query("release",ReleaseID,"",Params);
-					if (Metadata.Release())
+					MusicBrainz4::CMetadata Metadata2=Query.Query("release",ReleaseID,"",Params);
+					if (Metadata2.Release())
 					{
-						MusicBrainz4::CRelease *FullRelease=Metadata.Release();
+						MusicBrainz4::CRelease *FullRelease=Metadata2.Release();
 
 						//However, these releases will include information for all media in the release
 						//So we need to filter out the only the media we want.
