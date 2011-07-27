@@ -26,6 +26,7 @@
 
 #include "musicbrainz4/Query.h"
 #include "musicbrainz4/Medium.h"
+#include "musicbrainz4/MediumList.h"
 #include "musicbrainz4/ReleaseGroup.h"
 #include "musicbrainz4/Track.h"
 #include "musicbrainz4/TrackList.h"
@@ -72,25 +73,24 @@ int main(int argc, const char *argv[])
 						//However, these releases will include information for all media in the release
 						//So we need to filter out the only the media we want.
 
-						MusicBrainz4::CGenericList<MusicBrainz4::CMedium> MediaList=FullRelease->MediaMatchingDiscID(DiscID);
-						std::list<MusicBrainz4::CMedium> Media=MediaList.Items();
+						MusicBrainz4::CMediumList MediaList=FullRelease->MediaMatchingDiscID(DiscID);
 
-						if (Media.size())
+						if (0!=MediaList.NumItems())
 						{
 							if (FullRelease->ReleaseGroup())
 								std::cout << "Release group title: '" << FullRelease->ReleaseGroup()->Title() << "'" << std::endl;
 							else
 								std::cout << "No release group for this release" << std::endl;
 
-							std::cout << "Found " << Media.size() << " media item(s)" << std::endl;
+							std::cout << "Found " << MediaList.NumItems() << " media item(s)" << std::endl;
 
-							for (std::list<MusicBrainz4::CMedium>::const_iterator ThisMedium=Media.begin();ThisMedium!=Media.end();ThisMedium++)
+							for (int count=0;count<MediaList.NumItems();count++)
 							{
-								MusicBrainz4::CMedium Medium=(*ThisMedium);
+								MusicBrainz4::CMedium *Medium=MediaList.Item(count);
 
-								std::cout << "Found media: '" << Medium.Title() << "', position " << Medium.Position() << std::endl;
+								std::cout << "Found media: '" << Medium->Title() << "', position " << Medium->Position() << std::endl;
 
-								MusicBrainz4::CTrackList *TrackList=Medium.TrackList();
+								MusicBrainz4::CTrackList *TrackList=Medium->TrackList();
 								if (TrackList)
 								{
 									for (int count=0;count<TrackList->NumItems();count++)

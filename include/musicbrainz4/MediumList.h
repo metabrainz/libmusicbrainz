@@ -41,7 +41,7 @@ namespace MusicBrainz4
 	class CMediumList: public CList
 	{
 	public:
-		CMediumList(const XMLNode& Node);
+		CMediumList(const XMLNode& Node=XMLNode::emptyNode());
 		CMediumList(const CMediumList& Other);
 		CMediumList& operator =(const CMediumList& Other);
 		virtual ~CMediumList();

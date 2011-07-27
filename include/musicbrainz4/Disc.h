@@ -25,7 +25,6 @@
 #ifndef _MUSICBRAINZ4_DISC_H
 #define _MUSICBRAINZ4_DISC_H
 
-#include "musicbrainz4/GenericList.h"
 #include "musicbrainz4/Entity.h"
 
 #include "musicbrainz4/Lifespan.h"

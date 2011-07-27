@@ -26,7 +26,6 @@
 #define _MUSICBRAINZ4_COLLECTION_H
 
 #include "musicbrainz4/Entity.h"
-#include "musicbrainz4/GenericList.h"
 
 #include "musicbrainz4/xmlParser.h"
 

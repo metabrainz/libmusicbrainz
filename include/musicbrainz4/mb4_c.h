@@ -27,8 +27,7 @@
 	Things you should delete using the appropriate mb4_xxx_delete() function:
 
 	* The query object you create to do the actual work
-	* Any object orList returned from one of the mb4_query_xxx() functions
-	* AnyList item retrieved from mb4_xxxx_list_item() functions
+	* Any object or list returned from one of the mb4_query_xxx() functions
 	* The return from mb4_release_media_matching_discid() function
 
 	Everything else remains managed by the library, and should not be deleted
@@ -2462,8 +2461,7 @@ extern "C"
  * @param List List to use
  * @param Item Item number to return
  *
- * @return #Mb4Alias object. This object <b>must</b> be deleted once
- *				finished with.
+ * @return #Mb4Alias object.
  */
 	Mb4Alias mb4_alias_list_item(Mb4AliasList List, int Item);
 
@@ -2488,8 +2486,7 @@ extern "C"
  * @param List List to use
  * @param Item Item number to return
  *
- * @return An #Mb4Annotation object. This object <b>must</b> be deleted once
- *				finished with.
+ * @return An #Mb4Annotation object.
  */
 	Mb4Annotation mb4_annotation_list_item(Mb4AnnotationList List, int Item);
 
@@ -2513,8 +2510,7 @@ extern "C"
  * @param List List to use
  * @param Item Item number to return
  *
- * @return An #Mb4Artist object. This object <b>must</b> be deleted once
- *				finished with.
+ * @return An #Mb4Artist object.
  */
 	Mb4Artist mb4_artist_list_item(Mb4ArtistList List, int Item);
 
@@ -2538,8 +2534,7 @@ extern "C"
  * @param List List to use
  * @param Item Item number to return
  *
- * @return An #Mb4Attribute object. This object <b>must</b> be deleted once
- *				finished with.
+ * @return An #Mb4Attribute object.
  */
 	Mb4Attribute mb4_attribute_list_item(Mb4AttributeList List, int Item);
 
@@ -2563,8 +2558,7 @@ extern "C"
  * @param List List to use
  * @param Item Item number to return
  *
- * @return A #Mb4CDStub object. This object <b>must</b> be deleted once
- *				finished with.
+ * @return A #Mb4CDStub object.
  */
 	Mb4CDStub mb4_cdstub_list_item(Mb4CDStubList List, int Item);
 
@@ -2588,8 +2582,7 @@ extern "C"
  * @param List List to use
  * @param Item Item number to return
  *
- * @return A #Mb4Collection object. This object <b>must</b> be deleted once
- *				finished with.
+ * @return A #Mb4Collection object.
  */
 	Mb4Collection mb4_collection_list_item(Mb4CollectionList List, int Item);
 
@@ -2613,8 +2606,7 @@ extern "C"
  * @param List List to use
  * @param Item Item number to return
  *
- * @return A #Mb4Disc object. This object <b>must</b> be deleted once
- *				finished with.
+ * @return A #Mb4Disc object.
  */
 	Mb4Disc mb4_disc_list_item(Mb4DiscList List, int Item);
 
@@ -2638,8 +2630,7 @@ extern "C"
  * @param List List to use
  * @param Item Item number to return
  *
- * @return A #Mb4FreeDBDisc object. This object <b>must</b> be deleted once
- *				finished with.
+ * @return A #Mb4FreeDBDisc object.
  */
 	Mb4FreeDBDisc mb4_freedbdisc_list_item(Mb4FreeDBDiscList List, int Item);
 
@@ -2663,8 +2654,7 @@ extern "C"
  * @param List List to use
  * @param Item Item number to return
  *
- * @return An #Mb4ISRC object. This object <b>must</b> be deleted once
- *				finished with.
+ * @return An #Mb4ISRC object.
  */
 	Mb4ISRC mb4_isrc_list_item(Mb4ISRCList List, int Item);
 
@@ -2688,8 +2678,7 @@ extern "C"
  * @param List List to use
  * @param Item Item number to return
  *
- * @return A #Mb4Label object. This object <b>must</b> be deleted once
- *				finished with.
+ * @return A #Mb4Label object.
  */
 	Mb4Label mb4_label_list_item(Mb4LabelList List, int Item);
 
@@ -2713,8 +2702,7 @@ extern "C"
  * @param List List to use
  * @param Item Item number to return
  *
- * @return A #Mb4LabelInfo object. This object <b>must</b> be deleted once
- *				finished with.
+ * @return A #Mb4LabelInfo object.
  */
 	Mb4LabelInfo mb4_labelinfo_list_item(Mb4LabelInfoList List, int Item);
 
@@ -2738,8 +2726,7 @@ extern "C"
  * @param List List to use
  * @param Item Item number to return
  *
- * @return A #Mb4Medium object. This object <b>must</b> be deleted once
- *				finished with.
+ * @return A #Mb4Medium object.
  */
 	Mb4Medium mb4_medium_list_item(Mb4MediumList List, int Item);
 
@@ -2763,8 +2750,7 @@ extern "C"
  * @param List List to use
  * @param Item Item number to return
  *
- * @return A #Mb4NameCredit object. This object <b>must</b> be deleted once
- *				finished with.
+ * @return A #Mb4NameCredit object.
  */
 	Mb4NameCredit mb4_namecredit_list_item(Mb4NameCreditList List, int Item);
 
@@ -2788,8 +2774,7 @@ extern "C"
  * @param List List to use
  * @param Item Item number to return
  *
- * @return A #Mb4NonMBTrack object. This object <b>must</b> be deleted once
- *				finished with.
+ * @return A #Mb4NonMBTrack object.
  */
 	Mb4NonMBTrack mb4_nonmbtrack_list_item(Mb4NonMBTrackList List, int Item);
 
@@ -2813,8 +2798,7 @@ extern "C"
  * @param List List to use
  * @param Item Item number to return
  *
- * @return A #Mb4PUID object. This object <b>must</b> be deleted once
- *				finished with.
+ * @return A #Mb4PUID object.
  */
 	Mb4PUID mb4_puid_list_item(Mb4PUIDList List, int Item);
 
@@ -2838,8 +2822,7 @@ extern "C"
  * @param List List to use
  * @param Item Item number to return
  *
- * @return A #Mb4Recording object. This object <b>must</b> be deleted once
- *				finished with.
+ * @return A #Mb4Recording object.
  */
 	Mb4Recording mb4_recording_list_item(Mb4RecordingList List, int Item);
 
@@ -2863,8 +2846,7 @@ extern "C"
  * @param List List to use
  * @param Item Item number to return
  *
- * @return A #Mb4Relation object. This object <b>must</b> be deleted once
- *				finished with.
+ * @return A #Mb4Relation object.
  */
 	Mb4Relation mb4_relation_list_item(Mb4RelationList List, int Item);
 
@@ -2888,8 +2870,7 @@ extern "C"
  * @param List List to use
  * @param Item Item number to return
  *
- * @return A #Mb4Release object. This object <b>must</b> be deleted once
- *				finished with.
+ * @return A #Mb4Release object.
  */
 	Mb4Release mb4_release_list_item(Mb4ReleaseList List, int Item);
 
@@ -2913,8 +2894,7 @@ extern "C"
  * @param List List to use
  * @param Item Item number to return
  *
- * @return A #Mb4ReleaseGroup object. This object <b>must</b> be deleted once
- *				finished with.
+ * @return A #Mb4ReleaseGroup object.
  */
 	Mb4ReleaseGroup mb4_releasegroup_list_item(Mb4ReleaseGroupList List, int Item);
 
@@ -2938,8 +2918,7 @@ extern "C"
  * @param List List to use
  * @param Item Item number to return
  *
- * @return A #Mb4Tag object. This object <b>must</b> be deleted once
- *				finished with.
+ * @return A #Mb4Tag object.
  */
 	Mb4Tag mb4_tag_list_item(Mb4TagList List, int Item);
 
@@ -2963,8 +2942,7 @@ extern "C"
  * @param List List to use
  * @param Item Item number to return
  *
- * @return A #Mb4Track object. This object <b>must</b> be deleted once
- *				finished with.
+ * @return A #Mb4Track object.
  */
 	Mb4Track mb4_track_list_item(Mb4TrackList List, int Item);
 
@@ -2988,8 +2966,7 @@ extern "C"
  * @param List List to use
  * @param Item Item number to return
  *
- * @return A #Mb4UserTag object. This object <b>must</b> be deleted once
- *				finished with.
+ * @return A #Mb4UserTag object.
  */
 	Mb4UserTag mb4_usertag_list_item(Mb4UserTagList List, int Item);
 
@@ -3013,8 +2990,7 @@ extern "C"
  * @param List List to use
  * @param Item Item number to return
  *
- * @return A #Mb4Work object. This object <b>must</b> be deleted once
- *				finished with.
+ * @return A #Mb4Work object.
  */
 	Mb4Work mb4_work_list_item(Mb4WorkList List, int Item);
 

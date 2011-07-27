@@ -107,8 +107,6 @@ int main(int argc, const char *argv[])
 
 					mb4_artist_get_sortname(Artist,Name,sizeof(Name));
 					printf("Artist sort is '%s'\n",Name);
-
-					mb4_artist_delete(Artist);
 				}
 				else
 				{

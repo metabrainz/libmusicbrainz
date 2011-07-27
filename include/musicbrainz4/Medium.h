@@ -29,7 +29,6 @@
 #include <iostream>
 
 #include "musicbrainz4/Entity.h"
-#include "musicbrainz4/GenericList.h"
 
 #include "musicbrainz4/xmlParser.h"
 

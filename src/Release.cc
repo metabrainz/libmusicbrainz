@@ -334,9 +334,9 @@ MusicBrainz4::CRelationList *MusicBrainz4::CRelease::RelationList() const
 	return m_d->m_RelationList;
 }
 
-MusicBrainz4::CGenericList<MusicBrainz4::CMedium> MusicBrainz4::CRelease::MediaMatchingDiscID(const std::string& DiscID) const
+MusicBrainz4::CMediumList MusicBrainz4::CRelease::MediaMatchingDiscID(const std::string& DiscID) const
 {
-	CGenericList<MusicBrainz4::CMedium> Ret;
+	MusicBrainz4::CMediumList Ret;
 
 	if (m_d->m_MediumList)
 	{
@@ -345,7 +345,7 @@ MusicBrainz4::CGenericList<MusicBrainz4::CMedium> MusicBrainz4::CRelease::MediaM
 			MusicBrainz4::CMedium *Medium=m_d->m_MediumList->Item(count);
 
 			if (Medium->ContainsDiscID(DiscID))
-				Ret.push_back(*Medium);
+				Ret.AddItem(new MusicBrainz4::CMedium(*Medium));
 		}
 	}
 

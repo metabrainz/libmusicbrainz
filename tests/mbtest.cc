@@ -31,6 +31,7 @@
 #include "musicbrainz4/Release.h"
 #include "musicbrainz4/ReleaseGroup.h"
 #include "musicbrainz4/Medium.h"
+#include "musicbrainz4/MediumList.h"
 #include "musicbrainz4/NameCredit.h"
 #include "musicbrainz4/ArtistCredit.h"
 #include "musicbrainz4/Artist.h"
@@ -104,14 +105,13 @@ int main(int argc, const char *argv[])
 
 		std::cout << std::endl << std::endl << "Media matching " << DiscID << ":" << std::endl;
 
-		MusicBrainz4::CGenericList<MusicBrainz4::CMedium> MediaList=FullRelease.MediaMatchingDiscID(DiscID);
-		std::list<MusicBrainz4::CMedium> Media=MediaList.Items();
-		std::list<MusicBrainz4::CMedium>::const_iterator ThisMedium=Media.begin();
-		while (ThisMedium!=Media.end())
-		{
-			std::cout << *ThisMedium << std::endl;
+		MusicBrainz4::CMediumList MediaList=FullRelease.MediaMatchingDiscID(DiscID);
 
-			++ThisMedium;
+		for (int count=0;count<MediaList.NumItems();count++)
+		{
+			MusicBrainz4::CMedium *Medium=MediaList.Item(count);
+
+			std::cout << *Medium << std::endl;
 		}
 
 		std::cout << std::endl << std::endl;

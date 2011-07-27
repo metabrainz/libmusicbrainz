@@ -26,7 +26,6 @@
 #define _MUSICBRAINZ4_RELEASE_H
 
 #include "musicbrainz4/Entity.h"
-#include "musicbrainz4/GenericList.h"
 
 #include "musicbrainz4/xmlParser.h"
 
@@ -72,7 +71,7 @@ namespace MusicBrainz4
 		CMediumList *MediumList() const;
 		CRelationList *RelationList() const;
 
-		CGenericList<CMedium> MediaMatchingDiscID(const std::string& DiscID) const;
+		CMediumList MediaMatchingDiscID(const std::string& DiscID) const;
 
 		virtual std::string ElementName() const;
 

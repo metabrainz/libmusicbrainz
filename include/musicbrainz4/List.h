@@ -48,13 +48,13 @@ namespace MusicBrainz4
 		int Offset() const;
 		int Count() const;
 
+		void AddItem(CEntity *Item);
+
 		virtual std::string ElementName() const;
 
 	protected:
 		virtual bool ParseAttribute(const std::string& Name, const std::string& Value);
 		virtual bool ParseElement(const XMLNode& Node);
-
-		void AddItem(CEntity *Item);
 
 	private:
 		CListPrivate *m_d;

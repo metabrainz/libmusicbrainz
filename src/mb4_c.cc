@@ -27,36 +27,58 @@
 #include <string.h>
 
 #include "musicbrainz4/Alias.h"
+#include "musicbrainz4/AliasList.h"
 #include "musicbrainz4/Annotation.h"
+#include "musicbrainz4/AnnotationList.h"
 #include "musicbrainz4/Artist.h"
+#include "musicbrainz4/ArtistList.h"
 #include "musicbrainz4/ArtistCredit.h"
 #include "musicbrainz4/Attribute.h"
+#include "musicbrainz4/AttributeList.h"
 #include "musicbrainz4/CDStub.h"
+#include "musicbrainz4/CDStubList.h"
 #include "musicbrainz4/Collection.h"
+#include "musicbrainz4/CollectionList.h"
 #include "musicbrainz4/Disc.h"
+#include "musicbrainz4/DiscList.h"
 #include "musicbrainz4/FreeDBDisc.h"
+#include "musicbrainz4/FreeDBDiscList.h"
 #include "musicbrainz4/ISRC.h"
+#include "musicbrainz4/ISRCList.h"
 #include "musicbrainz4/Label.h"
+#include "musicbrainz4/LabelList.h"
 #include "musicbrainz4/LabelInfo.h"
+#include "musicbrainz4/LabelInfoList.h"
 #include "musicbrainz4/Lifespan.h"
 #include "musicbrainz4/Medium.h"
+#include "musicbrainz4/MediumList.h"
 #include "musicbrainz4/Message.h"
 #include "musicbrainz4/Metadata.h"
 #include "musicbrainz4/NameCredit.h"
+#include "musicbrainz4/NameCreditList.h"
 #include "musicbrainz4/NonMBTrack.h"
+#include "musicbrainz4/NonMBTrackList.h"
 #include "musicbrainz4/PUID.h"
+#include "musicbrainz4/PUIDList.h"
 #include "musicbrainz4/Query.h"
 #include "musicbrainz4/Rating.h"
 #include "musicbrainz4/Recording.h"
+#include "musicbrainz4/RecordingList.h"
 #include "musicbrainz4/Relation.h"
+#include "musicbrainz4/RelationList.h"
 #include "musicbrainz4/Release.h"
 #include "musicbrainz4/ReleaseGroup.h"
+#include "musicbrainz4/ReleaseGroupList.h"
 #include "musicbrainz4/Tag.h"
+#include "musicbrainz4/TagList.h"
 #include "musicbrainz4/TextRepresentation.h"
 #include "musicbrainz4/Track.h"
+#include "musicbrainz4/TrackList.h"
 #include "musicbrainz4/UserRating.h"
 #include "musicbrainz4/UserTag.h"
+#include "musicbrainz4/UserTagList.h"
 #include "musicbrainz4/Work.h"
+#include "musicbrainz4/WorkList.h"
 
 std::string GetMapName(std::map<std::string,std::string> Map, int Item)
 {
@@ -97,48 +119,6 @@ std::string GetMapValue(std::map<std::string,std::string> Map, int Item)
 		}
 
 		Ret=(*ThisItem).second;
-	}
-
-	return Ret;
-}
-
-template <class T>
-int GetListSize(void *List)
-{
-	int Ret=0;
-
-	if (List)
-	{
-		MusicBrainz4::CGenericList<T> *TheList=reinterpret_cast<MusicBrainz4::CGenericList<T> *>(List);
-		Ret=TheList->Items().size();
-	}
-
-	return Ret;
-}
-
-template <class T>
-T *GetListItem(void *List, int Item)
-{
-	T *Ret=0;
-
-	if (List)
-	{
-		MusicBrainz4::CGenericList<T> *TheList=reinterpret_cast<MusicBrainz4::CGenericList<T> *>(List);
-		if (Item<(int)TheList->Items().size())
-		{
-			std::list<T> Items=TheList->Items();
-			typename std::list<T>::const_iterator ThisItem=Items.begin();
-
-			int count=0;
-
-			while (count<Item)
-			{
-				++count;
-				++ThisItem;
-			}
-
-			Ret=new T(*ThisItem);
-		}
 	}
 
 	return Ret;
@@ -255,13 +235,13 @@ T *GetListItem(void *List, int Item)
 	void \
 	mb4_##TYPE2##_list_delete(Mb4##TYPE1 o) \
 	{ \
-		delete (MusicBrainz4::CGenericList<MusicBrainz4::C##TYPE1> *)o; \
+		delete (MusicBrainz4::C##TYPE1##List *)o; \
 	} \
 	int \
 	mb4_##TYPE2##_list_size(Mb4##TYPE1##List List) \
 	{ \
 		try { \
-			return GetListSize<MusicBrainz4::C##TYPE1>(List); \
+			return ((MusicBrainz4::C##TYPE1##List *)List)->NumItems(); \
 		} \
 		catch (...) { \
 			return 0; \
@@ -272,7 +252,7 @@ T *GetListItem(void *List, int Item)
 	mb4_##TYPE2##_list_item(Mb4##TYPE1##List List, int Item) \
 	{ \
 		try { \
-			return GetListItem<MusicBrainz4::C##TYPE1>(List,Item); \
+			return ((MusicBrainz4::C##TYPE1##List *)List)->Item(Item); \
 		} \
 		catch (...) { \
 			return (Mb4##TYPE1)0; \
@@ -678,7 +658,7 @@ Mb4MediumList mb4_release_media_matching_discid(Mb4Release Release, const char *
 {
 	MusicBrainz4::CRelease *TheRelease=reinterpret_cast<MusicBrainz4::CRelease *>(Release);
 	if (TheRelease)
-		return new MusicBrainz4::CGenericList<MusicBrainz4::CMedium>(TheRelease->MediaMatchingDiscID(DiscID));
+		return new MusicBrainz4::CMediumList(TheRelease->MediaMatchingDiscID(DiscID));
 
 	return 0;
 }
