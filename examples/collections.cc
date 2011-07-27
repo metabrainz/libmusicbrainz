@@ -29,27 +29,32 @@ int main(int argc, const char *argv[])
 			if (CollectionList)
 			{
 				std::list<MusicBrainz4::CCollection> Collections=CollectionList->Items();
-				MusicBrainz4::CCollection Collection=*(Collections.begin());
-				std::cout << "Collection ID is " << Collection.ID() << std::endl;
+				if (!Collections.empty())
+				{
+					MusicBrainz4::CCollection Collection=*(Collections.begin());
+					std::cout << "Collection ID is " << Collection.ID() << std::endl;
 
-				ListCollection(Query,Collection.ID());
+					ListCollection(Query,Collection.ID());
 
-				std::vector<std::string> Releases;
-				Releases.push_back("b5748ac9-f38e-48f7-a8a4-8b43cab025bc");
-				Releases.push_back("f6335672-c521-4129-86c3-490d20533e08");
-				bool Ret=Query.AddCollectionEntries(Collection.ID(),Releases);
+					std::vector<std::string> Releases;
+					Releases.push_back("b5748ac9-f38e-48f7-a8a4-8b43cab025bc");
+					Releases.push_back("f6335672-c521-4129-86c3-490d20533e08");
+					bool Ret=Query.AddCollectionEntries(Collection.ID(),Releases);
 
-				std::cout << "AddCollectionEntries returns " << std::boolalpha << Ret << std::endl;
+					std::cout << "AddCollectionEntries returns " << std::boolalpha << Ret << std::endl;
 
-				ListCollection(Query,Collection.ID());
+					ListCollection(Query,Collection.ID());
 
-				Releases.clear();
-				Releases.push_back("b5748ac9-f38e-48f7-a8a4-8b43cab025bc");
-				Ret=Query.DeleteCollectionEntries(Collection.ID(),Releases);
+					Releases.clear();
+					Releases.push_back("b5748ac9-f38e-48f7-a8a4-8b43cab025bc");
+					Ret=Query.DeleteCollectionEntries(Collection.ID(),Releases);
 
-				std::cout << "DeleteCollectionEntries returns " << std::boolalpha << Ret << std::endl;
+					std::cout << "DeleteCollectionEntries returns " << std::boolalpha << Ret << std::endl;
 
-				ListCollection(Query,Collection.ID());
+					ListCollection(Query,Collection.ID());
+				}
+				else
+					std::cout << "No collections found" << std::endl;
 			}
 		}
 
