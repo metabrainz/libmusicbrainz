@@ -15,9 +15,8 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    Lesser General Public License for more details.
 
-   You should have received a copy of the GNU Lesser General Public
-   License along with this library; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+   You should have received a copy of the GNU General Public License
+   along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
      $Id$
 
@@ -31,8 +30,9 @@
 #include "musicbrainz4/ArtistCredit.h"
 #include "musicbrainz4/ReleaseGroup.h"
 #include "musicbrainz4/Medium.h"
-#include "musicbrainz4/LabelInfo.h"
-#include "musicbrainz4/Relation.h"
+#include "musicbrainz4/LabelInfoList.h"
+#include "musicbrainz4/RelationList.h"
+#include "musicbrainz4/MediumList.h"
 
 class MusicBrainz4::CReleasePrivate
 {
@@ -60,9 +60,9 @@ class MusicBrainz4::CReleasePrivate
 		std::string m_Country;
 		std::string m_Barcode;
 		std::string m_ASIN;
-		CGenericList<CLabelInfo> *m_LabelInfoList;
-		CGenericList<CMedium> *m_MediumList;
-		CGenericList<CRelation> *m_RelationList;
+		CLabelInfoList *m_LabelInfoList;
+		CMediumList *m_MediumList;
+		CRelationList *m_RelationList;
 };
 
 MusicBrainz4::CRelease::CRelease(const XMLNode& Node)
@@ -90,6 +90,8 @@ MusicBrainz4::CRelease& MusicBrainz4::CRelease::operator =(const CRelease& Other
 	{
 		Cleanup();
 
+		CEntity::operator =(Other);
+
 		m_d->m_ID=Other.m_d->m_ID;
 		m_d->m_Title=Other.m_d->m_Title;
 		m_d->m_Status=Other.m_d->m_Status;
@@ -112,13 +114,13 @@ MusicBrainz4::CRelease& MusicBrainz4::CRelease::operator =(const CRelease& Other
 		m_d->m_ASIN=Other.m_d->m_ASIN;
 
 		if (Other.m_d->m_LabelInfoList)
-			m_d->m_LabelInfoList=new CGenericList<CLabelInfo>(*Other.m_d->m_LabelInfoList);
+			m_d->m_LabelInfoList=new CLabelInfoList(*Other.m_d->m_LabelInfoList);
 
 		if (Other.m_d->m_MediumList)
-			m_d->m_MediumList=new CGenericList<CMedium>(*Other.m_d->m_MediumList);
+			m_d->m_MediumList=new CMediumList(*Other.m_d->m_MediumList);
 
 		if (Other.m_d->m_RelationList)
-			m_d->m_RelationList=new CGenericList<CRelation>(*Other.m_d->m_RelationList);
+			m_d->m_RelationList=new CRelationList(*Other.m_d->m_RelationList);
 	}
 
 	return *this;
@@ -150,6 +152,11 @@ void MusicBrainz4::CRelease::Cleanup()
 
 	delete m_d->m_RelationList;
 	m_d->m_RelationList=0;
+}
+
+MusicBrainz4::CRelease *MusicBrainz4::CRelease::Clone()
+{
+	return new CRelease(*this);
 }
 
 bool MusicBrainz4::CRelease::ParseAttribute(const std::string& Name, const std::string& Value)
@@ -242,6 +249,11 @@ bool MusicBrainz4::CRelease::ParseElement(const XMLNode& Node)
 	return RetVal;
 }
 
+std::string MusicBrainz4::CRelease::ElementName() const
+{
+	return "release";
+}
+
 std::string MusicBrainz4::CRelease::ID() const
 {
 	return m_d->m_ID;
@@ -307,17 +319,17 @@ std::string MusicBrainz4::CRelease::ASIN() const
 	return m_d->m_ASIN;
 }
 
-MusicBrainz4::CGenericList<MusicBrainz4::CLabelInfo> *MusicBrainz4::CRelease::LabelInfoList() const
+MusicBrainz4::CLabelInfoList *MusicBrainz4::CRelease::LabelInfoList() const
 {
 	return m_d->m_LabelInfoList;
 }
 
-MusicBrainz4::CGenericList<MusicBrainz4::CMedium> *MusicBrainz4::CRelease::MediumList() const
+MusicBrainz4::CMediumList *MusicBrainz4::CRelease::MediumList() const
 {
 	return m_d->m_MediumList;
 }
 
-MusicBrainz4::CGenericList<MusicBrainz4::CRelation> *MusicBrainz4::CRelease::RelationList() const
+MusicBrainz4::CRelationList *MusicBrainz4::CRelease::RelationList() const
 {
 	return m_d->m_RelationList;
 }
@@ -328,16 +340,12 @@ MusicBrainz4::CGenericList<MusicBrainz4::CMedium> MusicBrainz4::CRelease::MediaM
 
 	if (m_d->m_MediumList)
 	{
-		std::list<MusicBrainz4::CMedium> Media=m_d->m_MediumList->Items();
-		std::list<MusicBrainz4::CMedium>::const_iterator ThisMedium=Media.begin();
-		while (ThisMedium!=Media.end())
+		for (int count=0;count<m_d->m_MediumList->NumItems();count++)
 		{
-			MusicBrainz4::CMedium Medium=(*ThisMedium);
+			MusicBrainz4::CMedium *Medium=m_d->m_MediumList->Item(count);
 
-			if (Medium.ContainsDiscID(DiscID))
-				Ret.push_back(Medium);
-
-			++ThisMedium;
+			if (Medium->ContainsDiscID(DiscID))
+				Ret.push_back(*Medium);
 		}
 	}
 

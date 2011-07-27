@@ -15,9 +15,8 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    Lesser General Public License for more details.
 
-   You should have received a copy of the GNU Lesser General Public
-   License along with this library; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+   You should have received a copy of the GNU General Public License
+   along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
      $Id$
 
@@ -28,12 +27,12 @@
 #include "musicbrainz4/ArtistCredit.h"
 #include "musicbrainz4/Rating.h"
 #include "musicbrainz4/UserRating.h"
-#include "musicbrainz4/Release.h"
-#include "musicbrainz4/PUID.h"
-#include "musicbrainz4/ISRC.h"
-#include "musicbrainz4/Relation.h"
-#include "musicbrainz4/Tag.h"
-#include "musicbrainz4/UserTag.h"
+#include "musicbrainz4/ReleaseList.h"
+#include "musicbrainz4/PUIDList.h"
+#include "musicbrainz4/ISRCList.h"
+#include "musicbrainz4/RelationList.h"
+#include "musicbrainz4/TagList.h"
+#include "musicbrainz4/UserTagList.h"
 
 class MusicBrainz4::CRecordingPrivate
 {
@@ -57,12 +56,12 @@ class MusicBrainz4::CRecordingPrivate
 		int m_Length;
 		std::string m_Disambiguation;
 		CArtistCredit *m_ArtistCredit;
-		CGenericList<CRelease> *m_ReleaseList;
-		CGenericList<CPUID> *m_PUIDList;
-		CGenericList<CISRC> *m_ISRCList;
-		CGenericList<CRelation> *m_RelationList;
-		CGenericList<CTag> *m_TagList;
-		CGenericList<CUserTag> *m_UserTagList;
+		CReleaseList *m_ReleaseList;
+		CPUIDList *m_PUIDList;
+		CISRCList *m_ISRCList;
+		CRelationList *m_RelationList;
+		CTagList *m_TagList;
+		CUserTagList *m_UserTagList;
 		CRating *m_Rating;
 		CUserRating *m_UserRating;
 };
@@ -103,22 +102,22 @@ MusicBrainz4::CRecording& MusicBrainz4::CRecording::operator =(const CRecording&
 			m_d->m_ArtistCredit=new CArtistCredit(*Other.m_d->m_ArtistCredit);
 
 		if (Other.m_d->m_ReleaseList)
-			m_d->m_ReleaseList=new CGenericList<CRelease>(*Other.m_d->m_ReleaseList);
+			m_d->m_ReleaseList=new CReleaseList(*Other.m_d->m_ReleaseList);
 
 		if (Other.m_d->m_PUIDList)
-			m_d->m_PUIDList=new CGenericList<CPUID>(*Other.m_d->m_PUIDList);
+			m_d->m_PUIDList=new CPUIDList(*Other.m_d->m_PUIDList);
 
 		if (Other.m_d->m_ISRCList)
-			m_d->m_ISRCList=new CGenericList<CISRC>(*Other.m_d->m_ISRCList);
+			m_d->m_ISRCList=new CISRCList(*Other.m_d->m_ISRCList);
 
 		if (Other.m_d->m_RelationList)
-			m_d->m_RelationList=new CGenericList<CRelation>(*Other.m_d->m_RelationList);
+			m_d->m_RelationList=new CRelationList(*Other.m_d->m_RelationList);
 
 		if (Other.m_d->m_TagList)
-			m_d->m_TagList=new CGenericList<CTag>(*Other.m_d->m_TagList);
+			m_d->m_TagList=new CTagList(*Other.m_d->m_TagList);
 
 		if (Other.m_d->m_UserTagList)
-			m_d->m_UserTagList=new CGenericList<CUserTag>(*Other.m_d->m_UserTagList);
+			m_d->m_UserTagList=new CUserTagList(*Other.m_d->m_UserTagList);
 
 		if (Other.m_d->m_Rating)
 			m_d->m_Rating=new CRating(*Other.m_d->m_Rating);
@@ -135,6 +134,11 @@ MusicBrainz4::CRecording::~CRecording()
 	Cleanup();
 
 	delete m_d;
+}
+
+MusicBrainz4::CRecording *MusicBrainz4::CRecording::Clone()
+{
+	return new CRecording(*this);
 }
 
 bool MusicBrainz4::CRecording::ParseAttribute(const std::string& Name, const std::string& Value)
@@ -215,6 +219,11 @@ bool MusicBrainz4::CRecording::ParseElement(const XMLNode& Node)
 	return RetVal;
 }
 
+std::string MusicBrainz4::CRecording::ElementName() const
+{
+	return "recording";
+}
+
 void MusicBrainz4::CRecording::Cleanup()
 {
 	delete m_d->m_ArtistCredit;
@@ -270,32 +279,32 @@ MusicBrainz4::CArtistCredit *MusicBrainz4::CRecording::ArtistCredit() const
 	return m_d->m_ArtistCredit;
 }
 
-MusicBrainz4::CGenericList<MusicBrainz4::CRelease> *MusicBrainz4::CRecording::ReleaseList() const
+MusicBrainz4::CReleaseList *MusicBrainz4::CRecording::ReleaseList() const
 {
 	return m_d->m_ReleaseList;
 }
 
-MusicBrainz4::CGenericList<MusicBrainz4::CPUID> *MusicBrainz4::CRecording::PUIDList() const
+MusicBrainz4::CPUIDList *MusicBrainz4::CRecording::PUIDList() const
 {
 	return m_d->m_PUIDList;
 }
 
-MusicBrainz4::CGenericList<MusicBrainz4::CISRC> *MusicBrainz4::CRecording::ISRCList() const
+MusicBrainz4::CISRCList *MusicBrainz4::CRecording::ISRCList() const
 {
 	return m_d->m_ISRCList;
 }
 
-MusicBrainz4::CGenericList<MusicBrainz4::CRelation> *MusicBrainz4::CRecording::RelationList() const
+MusicBrainz4::CRelationList *MusicBrainz4::CRecording::RelationList() const
 {
 	return m_d->m_RelationList;
 }
 
-MusicBrainz4::CGenericList<MusicBrainz4::CTag> *MusicBrainz4::CRecording::TagList() const
+MusicBrainz4::CTagList *MusicBrainz4::CRecording::TagList() const
 {
 	return m_d->m_TagList;
 }
 
-MusicBrainz4::CGenericList<MusicBrainz4::CUserTag> *MusicBrainz4::CRecording::UserTagList() const
+MusicBrainz4::CUserTagList *MusicBrainz4::CRecording::UserTagList() const
 {
 	return m_d->m_UserTagList;
 }

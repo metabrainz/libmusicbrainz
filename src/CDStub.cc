@@ -15,9 +15,8 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    Lesser General Public License for more details.
 
-   You should have received a copy of the GNU Lesser General Public
-   License along with this library; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+   You should have received a copy of the GNU General Public License
+   along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
      $Id$
 
@@ -25,7 +24,7 @@
 
 #include "musicbrainz4/CDStub.h"
 
-#include "musicbrainz4/NonMBTrack.h"
+#include "musicbrainz4/NonMBTrackList.h"
 
 class MusicBrainz4::CCDStubPrivate
 {
@@ -40,7 +39,7 @@ class MusicBrainz4::CCDStubPrivate
 		std::string m_Artist;
 		std::string m_Barcode;
 		std::string m_Comment;
-		CGenericList<CNonMBTrack> *m_NonMBTrackList;
+		CNonMBTrackList *m_NonMBTrackList;
 };
 
 MusicBrainz4::CCDStub::CCDStub(const XMLNode& Node)
@@ -68,6 +67,8 @@ MusicBrainz4::CCDStub& MusicBrainz4::CCDStub::operator =(const CCDStub& Other)
 	{
 		Cleanup();
 
+		CEntity::operator =(Other);
+
 		m_d->m_ID=Other.m_d->m_ID;
 		m_d->m_Title=Other.m_d->m_Title;
 		m_d->m_Artist=Other.m_d->m_Artist;
@@ -75,7 +76,7 @@ MusicBrainz4::CCDStub& MusicBrainz4::CCDStub::operator =(const CCDStub& Other)
 		m_d->m_Comment=Other.m_d->m_Comment;
 
 		if (Other.m_d->m_NonMBTrackList)
-			m_d->m_NonMBTrackList=new CGenericList<CNonMBTrack>(*Other.m_d->m_NonMBTrackList);
+			m_d->m_NonMBTrackList=new CNonMBTrackList(*Other.m_d->m_NonMBTrackList);
 	}
 
 	return *this;
@@ -92,6 +93,11 @@ void MusicBrainz4::CCDStub::Cleanup()
 {
 	delete m_d->m_NonMBTrackList;
 	m_d->m_NonMBTrackList=0;
+}
+
+MusicBrainz4::CCDStub *MusicBrainz4::CCDStub::Clone()
+{
+	return new CCDStub(*this);
 }
 
 bool MusicBrainz4::CCDStub::ParseAttribute(const std::string& Name, const std::string& Value)
@@ -144,6 +150,11 @@ bool MusicBrainz4::CCDStub::ParseElement(const XMLNode& Node)
 	return RetVal;
 }
 
+std::string MusicBrainz4::CCDStub::ElementName() const
+{
+	return "cdstub";
+}
+
 std::string MusicBrainz4::CCDStub::ID() const
 {
 	return m_d->m_ID;
@@ -169,7 +180,7 @@ std::string MusicBrainz4::CCDStub::Comment() const
 	return m_d->m_Comment;
 }
 
-MusicBrainz4::CGenericList<MusicBrainz4::CNonMBTrack> *MusicBrainz4::CCDStub::NonMBTrackList() const
+MusicBrainz4::CNonMBTrackList *MusicBrainz4::CCDStub::NonMBTrackList() const
 {
 	return m_d->m_NonMBTrackList;
 }

@@ -1,3 +1,27 @@
+/* --------------------------------------------------------------------------
+
+   libmusicbrainz4 - Client library to access MusicBrainz
+
+   Copyright (C) 2011 Andrew Hawkins
+
+   This file is part of libmusicbrainz4.
+
+   This library is free software; you can redistribute it and/or
+   modify it under the terms of v2 of the GNU Lesser General Public
+   License as published by the Free Software Foundation.
+
+   Flactag is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+   Lesser General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this library.  If not, see <http://www.gnu.org/licenses/>.
+
+     $Id$
+
+----------------------------------------------------------------------------*/
+
 #include "musicbrainz4/mb4_c.h"
 
 #include <string.h>
@@ -474,7 +498,7 @@ Mb4ReleaseList mb4_query_lookup_discid(Mb4Query Query, const char *DiscID)
 	{
 		MusicBrainz4::CQuery *TheQuery=reinterpret_cast<MusicBrainz4::CQuery *>(Query);
 		if (TheQuery)
-			return new MusicBrainz4::CGenericList<MusicBrainz4::CRelease>(TheQuery->LookupDiscID(DiscID));
+			return new MusicBrainz4::CReleaseList(TheQuery->LookupDiscID(DiscID));
 	}
 
 	catch(...)
@@ -664,7 +688,7 @@ MB4_C_STR_GETTER(ReleaseGroup,releasegroup,ID,id)
 MB4_C_STR_GETTER(ReleaseGroup,releasegroup,Type,type)
 MB4_C_STR_GETTER(ReleaseGroup,releasegroup,FirstReleaseDate,firstreleasedate)
 MB4_C_STR_GETTER(ReleaseGroup,releasegroup,Title,title)
-MB4_C_STR_GETTER(ReleaseGroup,releasegroup,Comment,comment)
+MB4_C_STR_GETTER(ReleaseGroup,releasegroup,Disambiguation,disambiguation)
 MB4_C_OBJ_GETTER(ReleaseGroup,releasegroup,ArtistCredit,artistcredit)
 MB4_C_OBJ_GETTER(ReleaseGroup,releasegroup,ReleaseList,releaselist)
 MB4_C_OBJ_GETTER(ReleaseGroup,releasegroup,RelationList,relationlist)
@@ -672,7 +696,6 @@ MB4_C_OBJ_GETTER(ReleaseGroup,releasegroup,TagList,taglist)
 MB4_C_OBJ_GETTER(ReleaseGroup,releasegroup,UserTagList,usertaglist)
 MB4_C_OBJ_GETTER(ReleaseGroup,releasegroup,Rating,rating)
 MB4_C_OBJ_GETTER(ReleaseGroup,releasegroup,UserRating,userrating)
-MB4_C_STR_GETTER(ReleaseGroup,releasegroup,Disambiguation,disambiguation)
 
 MB4_C_DELETE(Tag,tag)
 MB4_C_INT_GETTER(Tag,tag,Count,count)

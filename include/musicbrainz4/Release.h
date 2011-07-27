@@ -15,9 +15,8 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    Lesser General Public License for more details.
 
-   You should have received a copy of the GNU Lesser General Public
-   License along with this library; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+   You should have received a copy of the GNU General Public License
+   along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
      $Id$
 
@@ -41,9 +40,10 @@ namespace MusicBrainz4
 	class CTextRepresentation;
 	class CArtistCredit;
 	class CReleaseGroup;
-	class CLabelInfo;
+	class CLabelInfoList;
 	class CMedium;
-	class CRelation;
+	class CRelationList;
+	class CMediumList;
 
 	class CRelease: public CEntity
 	{
@@ -51,7 +51,9 @@ namespace MusicBrainz4
 		CRelease(const XMLNode& Node=XMLNode::emptyNode());
 		CRelease(const CRelease& Other);
 		CRelease& operator =(const CRelease& Other);
-		~CRelease();
+		virtual ~CRelease();
+
+		virtual CRelease *Clone();
 
 		std::string ID() const;
 		std::string Title() const;
@@ -66,19 +68,22 @@ namespace MusicBrainz4
 		std::string Country() const;
 		std::string Barcode() const;
 		std::string ASIN() const;
-		CGenericList<CLabelInfo> *LabelInfoList() const;
-		CGenericList<CMedium> *MediumList() const;
-		CGenericList<CRelation> *RelationList() const;
+		CLabelInfoList *LabelInfoList() const;
+		CMediumList *MediumList() const;
+		CRelationList *RelationList() const;
 
 		CGenericList<CMedium> MediaMatchingDiscID(const std::string& DiscID) const;
+
+		virtual std::string ElementName() const;
+
+	protected:
+		virtual bool ParseAttribute(const std::string& Name, const std::string& Value);
+		virtual bool ParseElement(const XMLNode& Node);
 
 	private:
 		void Cleanup();
 
 		CReleasePrivate * const m_d;
-
-		virtual bool ParseAttribute(const std::string& Name, const std::string& Value);
-		virtual bool ParseElement(const XMLNode& Node);
 	};
 }
 

@@ -15,9 +15,8 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    Lesser General Public License for more details.
 
-   You should have received a copy of the GNU Lesser General Public
-   License along with this library; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+   You should have received a copy of the GNU General Public License
+   along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
      $Id$
 
@@ -25,7 +24,7 @@
 
 #include "musicbrainz4/FreeDBDisc.h"
 
-#include "musicbrainz4/NonMBTrack.h"
+#include "musicbrainz4/NonMBTrackList.h"
 
 class MusicBrainz4::CFreeDBDiscPrivate
 {
@@ -40,7 +39,7 @@ class MusicBrainz4::CFreeDBDiscPrivate
 		std::string m_Artist;
 		std::string m_Category;
 		std::string m_Year;
-		CGenericList<CNonMBTrack> *m_NonMBTrackList;
+		CNonMBTrackList *m_NonMBTrackList;
 };
 
 MusicBrainz4::CFreeDBDisc::CFreeDBDisc(const XMLNode& Node)
@@ -68,6 +67,8 @@ MusicBrainz4::CFreeDBDisc& MusicBrainz4::CFreeDBDisc::operator =(const CFreeDBDi
 	{
 		Cleanup();
 
+		CEntity::operator =(Other);
+
 		m_d->m_ID=Other.m_d->m_ID;
 		m_d->m_Title=Other.m_d->m_Title;
 		m_d->m_Artist=Other.m_d->m_Artist;
@@ -75,7 +76,7 @@ MusicBrainz4::CFreeDBDisc& MusicBrainz4::CFreeDBDisc::operator =(const CFreeDBDi
 		m_d->m_Year=Other.m_d->m_Year;
 
 		if (Other.m_d->m_NonMBTrackList)
-			m_d->m_NonMBTrackList=new CGenericList<CNonMBTrack>(*Other.m_d->m_NonMBTrackList);
+			m_d->m_NonMBTrackList=new CNonMBTrackList(*Other.m_d->m_NonMBTrackList);
 	}
 
 	return *this;
@@ -92,6 +93,11 @@ void MusicBrainz4::CFreeDBDisc::Cleanup()
 {
 	delete m_d->m_NonMBTrackList;
 	m_d->m_NonMBTrackList=0;
+}
+
+MusicBrainz4::CFreeDBDisc *MusicBrainz4::CFreeDBDisc::Clone()
+{
+	return new CFreeDBDisc(*this);
 }
 
 bool MusicBrainz4::CFreeDBDisc::ParseAttribute(const std::string& Name, const std::string& Value)
@@ -145,6 +151,11 @@ bool MusicBrainz4::CFreeDBDisc::ParseElement(const XMLNode& Node)
 	return RetVal;
 }
 
+std::string MusicBrainz4::CFreeDBDisc::ElementName() const
+{
+	return "freedb-disc";
+}
+
 std::string MusicBrainz4::CFreeDBDisc::ID() const
 {
 	return m_d->m_ID;
@@ -170,7 +181,7 @@ std::string MusicBrainz4::CFreeDBDisc::Year() const
 	return m_d->m_Year;
 }
 
-MusicBrainz4::CGenericList<MusicBrainz4::CNonMBTrack> *MusicBrainz4::CFreeDBDisc::NonMBTrackList() const
+MusicBrainz4::CNonMBTrackList *MusicBrainz4::CFreeDBDisc::NonMBTrackList() const
 {
 	return m_d->m_NonMBTrackList;
 }

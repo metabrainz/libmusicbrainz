@@ -15,9 +15,8 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    Lesser General Public License for more details.
 
-   You should have received a copy of the GNU Lesser General Public
-   License along with this library; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+   You should have received a copy of the GNU General Public License
+   along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
      $Id$
 
@@ -38,15 +37,15 @@ namespace MusicBrainz4
 {
 	class CArtistPrivate;
 	class CLifespan;
-	class CAlias;
-	class CRecording;
-	class CRelease;
-	class CReleaseGroup;
-	class CLabel;
-	class CWork;
-	class CRelation;
-	class CTag;
-	class CUserTag;
+	class CAliasList;
+	class CRecordingList;
+	class CReleaseList;
+	class CReleaseGroupList;
+	class CLabelList;
+	class CWorkList;
+	class CRelationList;
+	class CTagList;
+	class CUserTagList;
 	class CRating;
 	class CUserRating;
 
@@ -58,6 +57,8 @@ namespace MusicBrainz4
 		CArtist& operator =(const CArtist& Other);
 		virtual ~CArtist();
 
+		virtual CArtist *Clone();
+
 		std::string ID() const;
 		std::string Type() const;
 		std::string Name() const;
@@ -66,17 +67,19 @@ namespace MusicBrainz4
 		std::string Country() const;
 		std::string Disambiguation() const;
 		CLifespan *Lifespan() const;
-		CGenericList<CAlias> *AliasList() const;
-		CGenericList<CRecording> *RecordingList() const;
-		CGenericList<CRelease> *ReleaseList() const;
-		CGenericList<CReleaseGroup> *ReleaseGroupList() const;
-		CGenericList<CLabel> *LabelList() const;
-		CGenericList<CWork> *WorkList() const;
-		CGenericList<CRelation> *RelationList() const;
-		CGenericList<CTag> *TagList() const;
-		CGenericList<CUserTag> *UserTagList() const;
+		CAliasList *AliasList() const;
+		CRecordingList *RecordingList() const;
+		CReleaseList *ReleaseList() const;
+		CReleaseGroupList *ReleaseGroupList() const;
+		CLabelList *LabelList() const;
+		CWorkList *WorkList() const;
+		CRelationList *RelationList() const;
+		CTagList *TagList() const;
+		CUserTagList *UserTagList() const;
 		CRating *Rating() const;
 		CUserRating *UserRating() const;
+
+		virtual std::string ElementName() const;
 
 	protected:
 		virtual bool ParseAttribute(const std::string& Name, const std::string& Value);

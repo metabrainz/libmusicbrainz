@@ -15,9 +15,8 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    Lesser General Public License for more details.
 
-   You should have received a copy of the GNU Lesser General Public
-   License along with this library; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+   You should have received a copy of the GNU General Public License
+   along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
      $Id$
 
@@ -64,6 +63,8 @@ MusicBrainz4::CUserRating& MusicBrainz4::CUserRating::operator =(const CUserRati
 {
 	if (this!=&Other)
 	{
+		CEntity::operator =(Other);
+
 		m_d->m_UserRating=Other.m_d->m_UserRating;
 	}
 
@@ -73,6 +74,11 @@ MusicBrainz4::CUserRating& MusicBrainz4::CUserRating::operator =(const CUserRati
 MusicBrainz4::CUserRating::~CUserRating()
 {
 	delete m_d;
+}
+
+MusicBrainz4::CUserRating *MusicBrainz4::CUserRating::Clone()
+{
+	return new CUserRating(*this);
 }
 
 bool MusicBrainz4::CUserRating::ParseAttribute(const std::string& Name, const std::string& /*Value*/)
@@ -95,6 +101,11 @@ bool MusicBrainz4::CUserRating::ParseElement(const XMLNode& Node)
 	RetVal=false;
 
 	return RetVal;
+}
+
+std::string MusicBrainz4::CUserRating::ElementName() const
+{
+	return "user-rating";
 }
 
 int MusicBrainz4::CUserRating::UserRating() const

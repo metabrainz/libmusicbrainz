@@ -15,9 +15,8 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    Lesser General Public License for more details.
 
-   You should have received a copy of the GNU Lesser General Public
-   License along with this library; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+   You should have received a copy of the GNU General Public License
+   along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
      $Id$
 
@@ -39,12 +38,12 @@ namespace MusicBrainz4
 	class CRecordingPrivate;
 
 	class CArtistCredit;
-	class CRelease;
-	class CPUID;
-	class CISRC;
-	class CRelation;
-	class CTag;
-	class CUserTag;
+	class CReleaseList;
+	class CPUIDList;
+	class CISRCList;
+	class CRelationList;
+	class CTagList;
+	class CUserTagList;
 	class CRating;
 	class CUserRating;
 
@@ -54,29 +53,34 @@ namespace MusicBrainz4
 		CRecording(const XMLNode& Node=XMLNode::emptyNode());
 		CRecording(const CRecording& Other);
 		CRecording& operator =(const CRecording& Other);
-		~CRecording();
+		virtual ~CRecording();
+
+		virtual CRecording *Clone();
 
 		std::string ID() const;
 		std::string Title() const;
 		int Length() const;
 		std::string Disambiguation() const;
 		CArtistCredit *ArtistCredit() const;
-		CGenericList<CRelease> *ReleaseList() const;
-		CGenericList<CPUID> *PUIDList() const;
-		CGenericList<CISRC> *ISRCList() const;
-		CGenericList<CRelation> *RelationList() const;
-		CGenericList<CTag> *TagList() const;
-		CGenericList<CUserTag> *UserTagList() const;
+		CReleaseList *ReleaseList() const;
+		CPUIDList *PUIDList() const;
+		CISRCList *ISRCList() const;
+		CRelationList *RelationList() const;
+		CTagList *TagList() const;
+		CUserTagList *UserTagList() const;
 		CRating *Rating() const;
 		CUserRating *UserRating() const;
+
+		virtual std::string ElementName() const;
+
+	protected:
+		virtual bool ParseAttribute(const std::string& Name, const std::string& Value);
+		virtual bool ParseElement(const XMLNode& Node);
 
 	private:
 		void Cleanup();
 
 		CRecordingPrivate * const m_d;
-
-		virtual bool ParseAttribute(const std::string& Name, const std::string& Value);
-		virtual bool ParseElement(const XMLNode& Node);
 	};
 }
 

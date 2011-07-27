@@ -15,9 +15,8 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    Lesser General Public License for more details.
 
-   You should have received a copy of the GNU Lesser General Public
-   License along with this library; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+   You should have received a copy of the GNU General Public License
+   along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
      $Id$
 
@@ -29,7 +28,6 @@
 #include <iostream>
 
 #include "musicbrainz4/Entity.h"
-#include "musicbrainz4/NameCredit.h"
 #include "musicbrainz4/GenericList.h"
 
 #include "musicbrainz4/xmlParser.h"
@@ -38,23 +36,30 @@ namespace MusicBrainz4
 {
 	class CArtistCreditPrivate;
 
+	class CNameCreditList;
+
 	class CArtistCredit: public CEntity
 	{
 	public:
 		CArtistCredit(const XMLNode& Node=XMLNode::emptyNode());
 		CArtistCredit(const CArtistCredit& Other);
 		CArtistCredit& operator =(const CArtistCredit& Other);
-		~CArtistCredit();
+		virtual ~CArtistCredit();
 
-		CGenericList<CNameCredit> *NameCreditList() const;
+		virtual CArtistCredit *Clone();
+
+		CNameCreditList *NameCreditList() const;
+
+		virtual std::string ElementName() const;
+
+	protected:
+		virtual bool ParseAttribute(const std::string& Name, const std::string& Value);
+		virtual bool ParseElement(const XMLNode& Node);
 
 	private:
 		void Cleanup();
 
 		CArtistCreditPrivate * const m_d;
-
-		virtual bool ParseAttribute(const std::string& Name, const std::string& Value);
-		virtual bool ParseElement(const XMLNode& Node);
 	};
 }
 

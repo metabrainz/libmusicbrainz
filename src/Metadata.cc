@@ -15,9 +15,8 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    Lesser General Public License for more details.
 
-   You should have received a copy of the GNU Lesser General Public
-   License along with this library; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+   You should have received a copy of the GNU General Public License
+   along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
      $Id$
 
@@ -26,24 +25,32 @@
 #include "musicbrainz4/Metadata.h"
 
 #include "musicbrainz4/Artist.h"
+#include "musicbrainz4/ArtistList.h"
 #include "musicbrainz4/Release.h"
+#include "musicbrainz4/ReleaseList.h"
 #include "musicbrainz4/ReleaseGroup.h"
+#include "musicbrainz4/ReleaseGroupList.h"
 #include "musicbrainz4/Recording.h"
+#include "musicbrainz4/RecordingList.h"
 #include "musicbrainz4/Label.h"
+#include "musicbrainz4/LabelList.h"
 #include "musicbrainz4/Work.h"
+#include "musicbrainz4/WorkList.h"
 #include "musicbrainz4/PUID.h"
 #include "musicbrainz4/ISRC.h"
+#include "musicbrainz4/ISRCList.h"
 #include "musicbrainz4/Disc.h"
 #include "musicbrainz4/Rating.h"
 #include "musicbrainz4/UserRating.h"
 #include "musicbrainz4/Collection.h"
-#include "musicbrainz4/Annotation.h"
+#include "musicbrainz4/CollectionList.h"
+#include "musicbrainz4/AnnotationList.h"
 #include "musicbrainz4/CDStub.h"
-#include "musicbrainz4/FreeDBDisc.h"
-#include "musicbrainz4/Tag.h"
-#include "musicbrainz4/UserTag.h"
-#include "musicbrainz4/LabelInfo.h"
-#include "musicbrainz4/CDStub.h"
+#include "musicbrainz4/CDStubList.h"
+#include "musicbrainz4/FreeDBDiscList.h"
+#include "musicbrainz4/TagList.h"
+#include "musicbrainz4/UserTagList.h"
+#include "musicbrainz4/LabelInfoList.h"
 #include "musicbrainz4/Message.h"
 
 class MusicBrainz4::CMetadataPrivate
@@ -94,23 +101,23 @@ class MusicBrainz4::CMetadataPrivate
 		CPUID *m_PUID;
 		CISRC *m_ISRC;
 		CDisc *m_Disc;
-		CGenericList<CLabelInfo> *m_LabelInfoList;
+		CLabelInfoList *m_LabelInfoList;
 		CRating *m_Rating;
 		CUserRating *m_UserRating;
 		CCollection *m_Collection;
-		CGenericList<CArtist> *m_ArtistList;
-		CGenericList<CRelease> *m_ReleaseList;
-		CGenericList<CReleaseGroup> *m_ReleaseGroupList;
-		CGenericList<CRecording> *m_RecordingList;
-		CGenericList<CLabel> *m_LabelList;
-		CGenericList<CWork> *m_WorkList;
-		CGenericList<CISRC> *m_ISRCList;
-		CGenericList<CAnnotation> *m_AnnotationList;
-		CGenericList<CCDStub> *m_CDStubList;
-		CGenericList<CFreeDBDisc> *m_FreeDBDiscList;
-		CGenericList<CTag> *m_TagList;
-		CGenericList<CUserTag> *m_UserTagList;
-		CGenericList<CCollection> *m_CollectionList;
+		CArtistList *m_ArtistList;
+		CReleaseList *m_ReleaseList;
+		CReleaseGroupList *m_ReleaseGroupList;
+		CRecordingList *m_RecordingList;
+		CLabelList *m_LabelList;
+		CWorkList *m_WorkList;
+		CISRCList *m_ISRCList;
+		CAnnotationList *m_AnnotationList;
+		CCDStubList *m_CDStubList;
+		CFreeDBDiscList *m_FreeDBDiscList;
+		CTagList *m_TagList;
+		CUserTagList *m_UserTagList;
+		CCollectionList *m_CollectionList;
 		CCDStub *m_CDStub;
 		CMessage *m_Message;
 };
@@ -175,7 +182,7 @@ MusicBrainz4::CMetadata& MusicBrainz4::CMetadata::operator =(const CMetadata& Ot
 			m_d->m_Disc=new CDisc(*Other.m_d->m_Disc);
 
 		if (Other.m_d->m_LabelInfoList)
-			m_d->m_LabelInfoList=new CGenericList<CLabelInfo>(*Other.m_d->m_LabelInfoList);
+			m_d->m_LabelInfoList=new CLabelInfoList(*Other.m_d->m_LabelInfoList);
 
 		if (Other.m_d->m_Rating)
 			m_d->m_Rating=new CRating(*Other.m_d->m_Rating);
@@ -187,43 +194,43 @@ MusicBrainz4::CMetadata& MusicBrainz4::CMetadata::operator =(const CMetadata& Ot
 			m_d->m_Collection=new CCollection(*Other.m_d->m_Collection);
 
 		if (Other.m_d->m_ArtistList)
-			m_d->m_ArtistList=new CGenericList<CArtist>(*Other.m_d->m_ArtistList);
+			m_d->m_ArtistList=new CArtistList(*Other.m_d->m_ArtistList);
 
 		if (Other.m_d->m_ReleaseList)
-			m_d->m_ReleaseList=new CGenericList<CRelease>(*Other.m_d->m_ReleaseList);
+			m_d->m_ReleaseList=new CReleaseList(*Other.m_d->m_ReleaseList);
 
 		if (Other.m_d->m_ReleaseGroupList)
-			m_d->m_ReleaseGroupList=new CGenericList<CReleaseGroup>(*Other.m_d->m_ReleaseGroupList);
+			m_d->m_ReleaseGroupList=new CReleaseGroupList(*Other.m_d->m_ReleaseGroupList);
 
 		if (Other.m_d->m_RecordingList)
-			m_d->m_RecordingList=new CGenericList<CRecording>(*Other.m_d->m_RecordingList);
+			m_d->m_RecordingList=new CRecordingList(*Other.m_d->m_RecordingList);
 
 		if (Other.m_d->m_LabelList)
-			m_d->m_LabelList=new CGenericList<CLabel>(*Other.m_d->m_LabelList);
+			m_d->m_LabelList=new CLabelList(*Other.m_d->m_LabelList);
 
 		if (Other.m_d->m_WorkList)
-			m_d->m_WorkList=new CGenericList<CWork>(*Other.m_d->m_WorkList);
+			m_d->m_WorkList=new CWorkList(*Other.m_d->m_WorkList);
 
 		if (Other.m_d->m_ISRCList)
-			m_d->m_ISRCList=new CGenericList<CISRC>(*Other.m_d->m_ISRCList);
+			m_d->m_ISRCList=new CISRCList(*Other.m_d->m_ISRCList);
 
 		if (Other.m_d->m_AnnotationList)
-			m_d->m_AnnotationList=new CGenericList<CAnnotation>(*Other.m_d->m_AnnotationList);
+			m_d->m_AnnotationList=new CAnnotationList(*Other.m_d->m_AnnotationList);
 
 		if (Other.m_d->m_CDStubList)
-			m_d->m_CDStubList=new CGenericList<CCDStub>(*Other.m_d->m_CDStubList);
+			m_d->m_CDStubList=new CCDStubList(*Other.m_d->m_CDStubList);
 
 		if (Other.m_d->m_FreeDBDiscList)
-			m_d->m_FreeDBDiscList=new CGenericList<CFreeDBDisc>(*Other.m_d->m_FreeDBDiscList);
+			m_d->m_FreeDBDiscList=new CFreeDBDiscList(*Other.m_d->m_FreeDBDiscList);
 
 		if (Other.m_d->m_TagList)
-			m_d->m_TagList=new CGenericList<CTag>(*Other.m_d->m_TagList);
+			m_d->m_TagList=new CTagList(*Other.m_d->m_TagList);
 
 		if (Other.m_d->m_UserTagList)
-			m_d->m_UserTagList=new CGenericList<CUserTag>(*Other.m_d->m_UserTagList);
+			m_d->m_UserTagList=new CUserTagList(*Other.m_d->m_UserTagList);
 
 		if (Other.m_d->m_CollectionList)
-			m_d->m_CollectionList=new CGenericList<CCollection>(*Other.m_d->m_CollectionList);
+			m_d->m_CollectionList=new CCollectionList(*Other.m_d->m_CollectionList);
 
 		if (Other.m_d->m_CDStub)
 			m_d->m_CDStub=new CCDStub(*Other.m_d->m_CDStub);
@@ -327,6 +334,11 @@ void MusicBrainz4::CMetadata::Cleanup()
 
 	delete m_d->m_Message;
 	m_d->m_Message=0;
+}
+
+MusicBrainz4::CMetadata *MusicBrainz4::CMetadata::Clone()
+{
+	return new CMetadata(*this);
 }
 
 bool MusicBrainz4::CMetadata::ParseAttribute(const std::string& Name, const std::string& Value)
@@ -473,6 +485,11 @@ bool MusicBrainz4::CMetadata::ParseElement(const XMLNode& Node)
 	return RetVal;
 }
 
+std::string MusicBrainz4::CMetadata::ElementName() const
+{
+	return "metadata";
+}
+
 std::string MusicBrainz4::CMetadata::XMLNS() const
 {
 	return m_d->m_XMLNS;
@@ -538,7 +555,7 @@ MusicBrainz4::CDisc *MusicBrainz4::CMetadata::Disc() const
 	return m_d->m_Disc;
 }
 
-MusicBrainz4::CGenericList<MusicBrainz4::CLabelInfo> *MusicBrainz4::CMetadata::LabelInfoList() const
+MusicBrainz4::CLabelInfoList *MusicBrainz4::CMetadata::LabelInfoList() const
 {
 	return m_d->m_LabelInfoList;
 }
@@ -558,67 +575,67 @@ MusicBrainz4::CCollection *MusicBrainz4::CMetadata::Collection() const
 	return m_d->m_Collection;
 }
 
-MusicBrainz4::CGenericList<MusicBrainz4::CArtist> *MusicBrainz4::CMetadata::ArtistList() const
+MusicBrainz4::CArtistList *MusicBrainz4::CMetadata::ArtistList() const
 {
 	return m_d->m_ArtistList;
 }
 
-MusicBrainz4::CGenericList<MusicBrainz4::CRelease> *MusicBrainz4::CMetadata::ReleaseList() const
+MusicBrainz4::CReleaseList *MusicBrainz4::CMetadata::ReleaseList() const
 {
 	return m_d->m_ReleaseList;
 }
 
-MusicBrainz4::CGenericList<MusicBrainz4::CReleaseGroup> *MusicBrainz4::CMetadata::ReleaseGroupList() const
+MusicBrainz4::CReleaseGroupList *MusicBrainz4::CMetadata::ReleaseGroupList() const
 {
 	return m_d->m_ReleaseGroupList;
 }
 
-MusicBrainz4::CGenericList<MusicBrainz4::CRecording> *MusicBrainz4::CMetadata::RecordingList() const
+MusicBrainz4::CRecordingList *MusicBrainz4::CMetadata::RecordingList() const
 {
 	return m_d->m_RecordingList;
 }
 
-MusicBrainz4::CGenericList<MusicBrainz4::CLabel> *MusicBrainz4::CMetadata::LabelList() const
+MusicBrainz4::CLabelList *MusicBrainz4::CMetadata::LabelList() const
 {
 	return m_d->m_LabelList;
 }
 
-MusicBrainz4::CGenericList<MusicBrainz4::CWork> *MusicBrainz4::CMetadata::WorkList() const
+MusicBrainz4::CWorkList *MusicBrainz4::CMetadata::WorkList() const
 {
 	return m_d->m_WorkList;
 }
 
-MusicBrainz4::CGenericList<MusicBrainz4::CISRC> *MusicBrainz4::CMetadata::ISRCList() const
+MusicBrainz4::CISRCList *MusicBrainz4::CMetadata::ISRCList() const
 {
 	return m_d->m_ISRCList;
 }
 
-MusicBrainz4::CGenericList<MusicBrainz4::CAnnotation> *MusicBrainz4::CMetadata::AnnotationList() const
+MusicBrainz4::CAnnotationList *MusicBrainz4::CMetadata::AnnotationList() const
 {
 	return m_d->m_AnnotationList;
 }
 
-MusicBrainz4::CGenericList<MusicBrainz4::CCDStub> *MusicBrainz4::CMetadata::CDStubList() const
+MusicBrainz4::CCDStubList *MusicBrainz4::CMetadata::CDStubList() const
 {
 	return m_d->m_CDStubList;
 }
 
-MusicBrainz4::CGenericList<MusicBrainz4::CFreeDBDisc> *MusicBrainz4::CMetadata::FreeDBDiscList() const
+MusicBrainz4::CFreeDBDiscList *MusicBrainz4::CMetadata::FreeDBDiscList() const
 {
 	return m_d->m_FreeDBDiscList;
 }
 
-MusicBrainz4::CGenericList<MusicBrainz4::CTag> *MusicBrainz4::CMetadata::TagList() const
+MusicBrainz4::CTagList *MusicBrainz4::CMetadata::TagList() const
 {
 	return m_d->m_TagList;
 }
 
-MusicBrainz4::CGenericList<MusicBrainz4::CUserTag> *MusicBrainz4::CMetadata::UserTagList() const
+MusicBrainz4::CUserTagList *MusicBrainz4::CMetadata::UserTagList() const
 {
 	return m_d->m_UserTagList;
 }
 
-MusicBrainz4::CGenericList<MusicBrainz4::CCollection> *MusicBrainz4::CMetadata::CollectionList() const
+MusicBrainz4::CCollectionList *MusicBrainz4::CMetadata::CollectionList() const
 {
 	return m_d->m_CollectionList;
 }

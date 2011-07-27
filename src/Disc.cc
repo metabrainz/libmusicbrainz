@@ -15,9 +15,8 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    Lesser General Public License for more details.
 
-   You should have received a copy of the GNU Lesser General Public
-   License along with this library; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+   You should have received a copy of the GNU General Public License
+   along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
      $Id$
 
@@ -25,7 +24,7 @@
 
 #include "musicbrainz4/Disc.h"
 
-#include "musicbrainz4/Release.h"
+#include "musicbrainz4/ReleaseList.h"
 
 class MusicBrainz4::CDiscPrivate
 {
@@ -38,7 +37,7 @@ class MusicBrainz4::CDiscPrivate
 
 		std::string m_ID;
 		int m_Sectors;
-		CGenericList<CRelease> *m_ReleaseList;
+		CReleaseList *m_ReleaseList;
 };
 
 MusicBrainz4::CDisc::CDisc(const XMLNode& Node)
@@ -72,7 +71,7 @@ MusicBrainz4::CDisc& MusicBrainz4::CDisc::operator =(const CDisc& Other)
 		m_d->m_Sectors=Other.m_d->m_Sectors;
 
 		if (Other.m_d->m_ReleaseList)
-			m_d->m_ReleaseList=new CGenericList<CRelease>(*Other.m_d->m_ReleaseList);
+			m_d->m_ReleaseList=new CReleaseList(*Other.m_d->m_ReleaseList);
 	}
 
 	return *this;
@@ -83,6 +82,17 @@ MusicBrainz4::CDisc::~CDisc()
 	Cleanup();
 
 	delete m_d;
+}
+
+void MusicBrainz4::CDisc::Cleanup()
+{
+	delete m_d->m_ReleaseList;
+	m_d->m_ReleaseList=0;
+}
+
+MusicBrainz4::CDisc *MusicBrainz4::CDisc::Clone()
+{
+	return new CDisc(*this);
 }
 
 bool MusicBrainz4::CDisc::ParseAttribute(const std::string& Name, const std::string& Value)
@@ -123,10 +133,9 @@ bool MusicBrainz4::CDisc::ParseElement(const XMLNode& Node)
 	return RetVal;
 }
 
-void MusicBrainz4::CDisc::Cleanup()
+std::string MusicBrainz4::CDisc::ElementName() const
 {
-	delete m_d->m_ReleaseList;
-	m_d->m_ReleaseList=0;
+	return "disc";
 }
 
 std::string MusicBrainz4::CDisc::ID() const
@@ -139,7 +148,7 @@ int MusicBrainz4::CDisc::Sectors() const
 	return m_d->m_Sectors;
 }
 
-MusicBrainz4::CGenericList<MusicBrainz4::CRelease> *MusicBrainz4::CDisc::ReleaseList() const
+MusicBrainz4::CReleaseList *MusicBrainz4::CDisc::ReleaseList() const
 {
 	return m_d->m_ReleaseList;
 }

@@ -15,9 +15,8 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    Lesser General Public License for more details.
 
-   You should have received a copy of the GNU Lesser General Public
-   License along with this library; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+   You should have received a copy of the GNU General Public License
+   along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
      $Id$
 
@@ -43,18 +42,23 @@ namespace MusicBrainz4
 		CAnnotation(const XMLNode& Node);
 		CAnnotation(const CAnnotation& Other);
 		CAnnotation& operator =(const CAnnotation& Other);
-		~CAnnotation();
+		virtual ~CAnnotation();
+
+		virtual CAnnotation *Clone();
 
 		std::string Type() const;
 		std::string Entity() const;
 		std::string Name() const;
 		std::string Text() const;
 
-	private:
-		CAnnotationPrivate * const m_d;
+		virtual std::string ElementName() const;
 
+	protected:
 		virtual bool ParseAttribute(const std::string& Name, const std::string& Value);
 		virtual bool ParseElement(const XMLNode& Node);
+
+	private:
+		CAnnotationPrivate * const m_d;
 	};
 }
 

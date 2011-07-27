@@ -15,9 +15,8 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    Lesser General Public License for more details.
 
-   You should have received a copy of the GNU Lesser General Public
-   License along with this library; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+   You should have received a copy of the GNU General Public License
+   along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
      $Id$
 
@@ -25,7 +24,7 @@
 
 #include "musicbrainz4/Collection.h"
 
-#include "musicbrainz4/Release.h"
+#include "musicbrainz4/ReleaseList.h"
 
 class MusicBrainz4::CCollectionPrivate
 {
@@ -38,7 +37,7 @@ class MusicBrainz4::CCollectionPrivate
 		std::string m_ID;
 		std::string m_Name;
 		std::string m_Editor;
-		CGenericList<CRelease> *m_ReleaseList;
+		CReleaseList *m_ReleaseList;
 };
 MusicBrainz4::CCollection::CCollection(const XMLNode& Node)
 :	CEntity(),
@@ -65,12 +64,14 @@ MusicBrainz4::CCollection& MusicBrainz4::CCollection::operator =(const CCollecti
 	{
 		Cleanup();
 
+		CEntity::operator =(Other);
+
 		m_d->m_ID=Other.m_d->m_ID;
 		m_d->m_Name=Other.m_d->m_Name;
 		m_d->m_Editor=Other.m_d->m_Editor;
 
 		if (Other.m_d->m_ReleaseList)
-			m_d->m_ReleaseList=new CGenericList<CRelease>(*Other.m_d->m_ReleaseList);
+			m_d->m_ReleaseList=new CReleaseList(*Other.m_d->m_ReleaseList);
 	}
 
 	return *this;
@@ -87,6 +88,11 @@ void MusicBrainz4::CCollection::Cleanup()
 {
 	delete m_d->m_ReleaseList;
 	m_d->m_ReleaseList=0;
+}
+
+MusicBrainz4::CCollection *MusicBrainz4::CCollection::Clone()
+{
+	return new CCollection(*this);
 }
 
 bool MusicBrainz4::CCollection::ParseAttribute(const std::string& Name, const std::string& Value)
@@ -130,6 +136,11 @@ bool MusicBrainz4::CCollection::ParseElement(const XMLNode& Node)
 	return RetVal;
 }
 
+std::string MusicBrainz4::CCollection::ElementName() const
+{
+	return "collection";
+}
+
 std::string MusicBrainz4::CCollection::ID() const
 {
 	return m_d->m_ID;
@@ -145,7 +156,7 @@ std::string MusicBrainz4::CCollection::Editor() const
 	return m_d->m_Editor;
 }
 
-MusicBrainz4::CGenericList<MusicBrainz4::CRelease> *MusicBrainz4::CCollection::ReleaseList() const
+MusicBrainz4::CReleaseList *MusicBrainz4::CCollection::ReleaseList() const
 {
 	return m_d->m_ReleaseList;
 }

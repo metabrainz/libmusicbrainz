@@ -15,9 +15,8 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    Lesser General Public License for more details.
 
-   You should have received a copy of the GNU Lesser General Public
-   License along with this library; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+   You should have received a copy of the GNU General Public License
+   along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
      $Id$
 
@@ -76,6 +75,11 @@ MusicBrainz4::CNonMBTrack::~CNonMBTrack()
 	delete m_d;
 }
 
+MusicBrainz4::CNonMBTrack *MusicBrainz4::CNonMBTrack::Clone()
+{
+	return new CNonMBTrack(*this);
+}
+
 bool MusicBrainz4::CNonMBTrack::ParseAttribute(const std::string& Name, const std::string& /*Value*/)
 {
 	bool RetVal=true;
@@ -111,6 +115,11 @@ bool MusicBrainz4::CNonMBTrack::ParseElement(const XMLNode& Node)
 	}
 
 	return RetVal;
+}
+
+std::string MusicBrainz4::CNonMBTrack::ElementName() const
+{
+	return "track";
 }
 
 std::string MusicBrainz4::CNonMBTrack::Title() const

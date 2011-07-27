@@ -15,9 +15,8 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    Lesser General Public License for more details.
 
-   You should have received a copy of the GNU Lesser General Public
-   License along with this library; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+   You should have received a copy of the GNU General Public License
+   along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
      $Id$
 
@@ -43,16 +42,21 @@ namespace MusicBrainz4
 		CTag(const XMLNode& Node);
 		CTag(const CTag& Other);
 		CTag& operator =(const CTag& Other);
-		~CTag();
+		virtual ~CTag();
+
+		virtual CTag *Clone();
 
 		int Count() const;
 		std::string Name() const;
 
-	private:
-		CTagPrivate * const m_d;
+		virtual std::string ElementName() const;
 
+	protected:
 		virtual bool ParseAttribute(const std::string& Name, const std::string& Value);
 		virtual bool ParseElement(const XMLNode& Node);
+
+	private:
+		CTagPrivate * const m_d;
 	};
 }
 

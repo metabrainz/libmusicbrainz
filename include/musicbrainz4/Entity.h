@@ -15,9 +15,8 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    Lesser General Public License for more details.
 
-   You should have received a copy of the GNU Lesser General Public
-   License along with this library; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+   You should have received a copy of the GNU General Public License
+   along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
      $Id$
 
@@ -44,6 +43,8 @@ namespace MusicBrainz4
 		CEntity(const CEntity& Other);
 		CEntity& operator =(const CEntity& Other);
 		virtual ~CEntity();
+
+		virtual CEntity *Clone()=0;
 
 		bool Parse(const XMLNode& Node);
 
@@ -108,13 +109,15 @@ namespace MusicBrainz4
 
 		}
 
+		virtual std::string ElementName() const =0;
+		virtual bool ParseAttribute(const std::string& Name, const std::string& Value)=0;
+		virtual bool ParseElement(const XMLNode& Node)=0;
+
 	private:
 		CEntityPrivate *m_d;
 
 		void Cleanup();
 
-		virtual bool ParseAttribute(const std::string& Name, const std::string& Value)=0;
-		virtual bool ParseElement(const XMLNode& Node)=0;
 	};
 }
 

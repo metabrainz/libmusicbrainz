@@ -15,9 +15,8 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    Lesser General Public License for more details.
 
-   You should have received a copy of the GNU Lesser General Public
-   License along with this library; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+   You should have received a copy of the GNU General Public License
+   along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
      $Id$
 
@@ -38,31 +37,33 @@ namespace MusicBrainz4
 	class CMetadataPrivate;
 
 	class CArtist;
+	class CArtistList;
 	class CRelease;
+	class CReleaseList;
 	class CReleaseGroup;
 	class CRecording;
 	class CLabel;
-	class CWork;
+	class CWorkList;
 	class CPUID;
 	class CISRC;
+	class CISRCList;
 	class CDisc;
-	class CLabelInfo;
+	class CLabelInfoList;
 	class CRating;
 	class CUserRating;
 	class CCollection;
 	class CArtist;
-	class CRelease;
-	class CReleaseGroup;
-	class CRecording;
-	class CLabel;
+	class CReleaseGroupList;
+	class CRecordingList;
+	class CLabelList;
 	class CWork;
-	class CAnnotation;
+	class CAnnotationList;
 	class CCDStub;
-	class CFreeDBDisc;
-	class CTag;
-	class CUserTag;
-	class CCollection;
-	class CCDStub;
+	class CCDStubList;
+	class CFreeDBDiscList;
+	class CTagList;
+	class CUserTagList;
+	class CCollectionList;
 	class CMessage;
 
 	class CMetadata: public CEntity
@@ -71,7 +72,9 @@ namespace MusicBrainz4
 		CMetadata(const XMLNode& Node=XMLNode::emptyNode());
 		CMetadata(const CMetadata& Other);
 		CMetadata& operator =(const CMetadata& Other);
-		~CMetadata();
+		virtual ~CMetadata();
+
+		virtual CMetadata *Clone();
 
 		std::string XMLNS() const;
 		std::string XMLNSExt() const;
@@ -86,33 +89,36 @@ namespace MusicBrainz4
 		CPUID *PUID() const;
 		CISRC *ISRC() const;
 		CDisc *Disc() const;
-		CGenericList<CLabelInfo> *LabelInfoList() const;
+		CLabelInfoList *LabelInfoList() const;
 		CRating *Rating() const;
 		CUserRating *UserRating() const;
 		CCollection *Collection() const;
-		CGenericList<CArtist> *ArtistList() const;
-		CGenericList<CRelease> *ReleaseList() const;
-		CGenericList<CReleaseGroup> *ReleaseGroupList() const;
-		CGenericList<CRecording> *RecordingList() const;
-		CGenericList<CLabel> *LabelList() const;
-		CGenericList<CWork> *WorkList() const;
-		CGenericList<CISRC> *ISRCList() const;
-		CGenericList<CAnnotation> *AnnotationList() const;
-		CGenericList<CCDStub> *CDStubList() const;
-		CGenericList<CFreeDBDisc> *FreeDBDiscList() const;
-		CGenericList<CTag> *TagList() const;
-		CGenericList<CUserTag> *UserTagList() const;
-		CGenericList<CCollection> *CollectionList() const;
+		CArtistList *ArtistList() const;
+		CReleaseList *ReleaseList() const;
+		CReleaseGroupList *ReleaseGroupList() const;
+		CRecordingList *RecordingList() const;
+		CLabelList *LabelList() const;
+		CWorkList *WorkList() const;
+		CISRCList *ISRCList() const;
+		CAnnotationList *AnnotationList() const;
+		CCDStubList *CDStubList() const;
+		CFreeDBDiscList *FreeDBDiscList() const;
+		CTagList *TagList() const;
+		CUserTagList *UserTagList() const;
+		CCollectionList *CollectionList() const;
 		CCDStub *CDStub() const;
 		CMessage *Message() const;
+
+		virtual std::string ElementName() const;
+
+	protected:
+		virtual bool ParseAttribute(const std::string& Name, const std::string& Value);
+		virtual bool ParseElement(const XMLNode& Node);
 
 	private:
 		void Cleanup();
 
 		CMetadataPrivate * const m_d;
-
-		virtual bool ParseAttribute(const std::string& Name, const std::string& Value);
-		virtual bool ParseElement(const XMLNode& Node);
 	};
 }
 

@@ -426,7 +426,6 @@ XMLNode XMLNode::openFileHelper(XMLCSTR filename, XMLCSTR tag)
 #else
         printf("%s",message);
 #endif
-        exit(255);
     }
     return xnode;
 }
@@ -599,7 +598,7 @@ XMLError XMLNode::writeToFile(XMLCSTR filename, const char *encoding, char nForm
     if (!f) return eXMLErrorCannotOpenWriteFile;
 #ifdef _XMLWIDECHAR
     unsigned char h[2]={ 0xFF, 0xFE };
-    if (!fwrite(h,2,1,f)) 
+    if (!fwrite(h,2,1,f))
     {
     	fclose(f);
     	return eXMLErrorCannotWriteFile;
@@ -618,8 +617,8 @@ XMLError XMLNode::writeToFile(XMLCSTR filename, const char *encoding, char nForm
         if (characterEncoding==char_encoding_UTF8)
         {
             // header so that windows recognize the file as UTF-8:
-            unsigned char h[3]={0xEF,0xBB,0xBF}; 
-            if (!fwrite(h,3,1,f)) 
+            unsigned char h[3]={0xEF,0xBB,0xBF};
+            if (!fwrite(h,3,1,f))
             {
             	fclose(f);
                 return eXMLErrorCannotWriteFile;
@@ -628,7 +627,7 @@ XMLError XMLNode::writeToFile(XMLCSTR filename, const char *encoding, char nForm
         } else if (characterEncoding==char_encoding_ShiftJIS) encoding="SHIFT-JIS";
 
         if (!encoding) encoding="ISO-8859-1";
-        if (fprintf(f,"<?xml version=\"1.0\" encoding=\"%s\"?>\n",encoding)<0) 
+        if (fprintf(f,"<?xml version=\"1.0\" encoding=\"%s\"?>\n",encoding)<0)
         {
         	fclose(f);
             return eXMLErrorCannotWriteFile;
@@ -637,8 +636,8 @@ XMLError XMLNode::writeToFile(XMLCSTR filename, const char *encoding, char nForm
     {
         if (characterEncoding==char_encoding_UTF8)
         {
-            unsigned char h[3]={0xEF,0xBB,0xBF}; 
-            if (!fwrite(h,3,1,f)) 
+            unsigned char h[3]={0xEF,0xBB,0xBF};
+            if (!fwrite(h,3,1,f))
             {
             	fclose(f);
                 return eXMLErrorCannotWriteFile;
@@ -648,13 +647,13 @@ XMLError XMLNode::writeToFile(XMLCSTR filename, const char *encoding, char nForm
 #endif
     int i;
     XMLSTR t=createXMLString(nFormat,&i);
-    if (!fwrite(t,sizeof(XMLCHAR)*i,1,f)) 
+    if (!fwrite(t,sizeof(XMLCHAR)*i,1,f))
     {
        free(t);
        fclose(f);
        return eXMLErrorCannotWriteFile;
     }
-    if (fclose(f)!=0) 
+    if (fclose(f)!=0)
     {
    	    free(t);
         return eXMLErrorCannotWriteFile;

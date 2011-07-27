@@ -1,3 +1,27 @@
+/* --------------------------------------------------------------------------
+
+   libmusicbrainz4 - Client library to access MusicBrainz
+
+   Copyright (C) 2011 Andrew Hawkins
+
+   This file is part of libmusicbrainz4.
+
+   This library is free software; you can redistribute it and/or
+   modify it under the terms of v2 of the GNU Lesser General Public
+   License as published by the Free Software Foundation.
+
+   Flactag is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+   Lesser General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this library.  If not, see <http://www.gnu.org/licenses/>.
+
+     $Id: Lifespan.cc 13211 2011-07-20 16:15:03Z adhawkins $
+
+----------------------------------------------------------------------------*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -381,7 +405,7 @@ void CompileTest()
 	mb4_releasegroup_get_type(ReleaseGroup,Str,Size);
 	mb4_releasegroup_get_firstreleasedate(ReleaseGroup,Str,Size);
 	mb4_releasegroup_get_title(ReleaseGroup,Str,Size);
-	mb4_releasegroup_get_comment(ReleaseGroup,Str,Size);
+	mb4_releasegroup_get_disambiguation(ReleaseGroup,Str,Size);
 	ArtistCredit=mb4_releasegroup_get_artistcredit(ReleaseGroup);
 	ReleaseList=mb4_releasegroup_get_releaselist(ReleaseGroup);
 	RelationList=mb4_releasegroup_get_relationlist(ReleaseGroup);
@@ -389,7 +413,6 @@ void CompileTest()
 	UserTagList=mb4_releasegroup_get_usertaglist(ReleaseGroup);
 	Rating=mb4_releasegroup_get_rating(ReleaseGroup);
 	UserRating=mb4_releasegroup_get_userrating(ReleaseGroup);
-	mb4_releasegroup_get_disambiguation(ReleaseGroup,Str,Size);
 	mb4_releasegroup_delete(ReleaseGroup);
 
 	DummyInt=mb4_tag_get_count(Tag);

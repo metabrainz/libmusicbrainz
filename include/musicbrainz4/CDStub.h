@@ -15,9 +15,8 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    Lesser General Public License for more details.
 
-   You should have received a copy of the GNU Lesser General Public
-   License along with this library; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+   You should have received a copy of the GNU General Public License
+   along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
      $Id$
 
@@ -38,7 +37,7 @@ namespace MusicBrainz4
 {
 	class CCDStubPrivate;
 
-	class CNonMBTrack;
+	class CNonMBTrackList;
 
 	class CCDStub: public CEntity
 	{
@@ -46,22 +45,27 @@ namespace MusicBrainz4
 		CCDStub(const XMLNode& Node);
 		CCDStub(const CCDStub& Other);
 		CCDStub& operator =(const CCDStub& Other);
-		~CCDStub();
+		virtual ~CCDStub();
+
+		virtual CCDStub *Clone();
 
 		std::string ID() const;
 		std::string Title() const;
 		std::string Artist() const;
 		std::string Barcode() const;
 		std::string Comment() const;
-		CGenericList<CNonMBTrack> *NonMBTrackList() const;
+		CNonMBTrackList *NonMBTrackList() const;
+
+		virtual std::string ElementName() const;
+
+	protected:
+		virtual bool ParseAttribute(const std::string& Name, const std::string& Value);
+		virtual bool ParseElement(const XMLNode& Node);
 
 	private:
 		void Cleanup();
 
 		CCDStubPrivate * const m_d;
-
-		virtual bool ParseAttribute(const std::string& Name, const std::string& Value);
-		virtual bool ParseElement(const XMLNode& Node);
 	};
 }
 

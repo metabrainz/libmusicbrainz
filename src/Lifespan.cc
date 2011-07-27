@@ -15,9 +15,8 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    Lesser General Public License for more details.
 
-   You should have received a copy of the GNU Lesser General Public
-   License along with this library; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+   You should have received a copy of the GNU General Public License
+   along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
      $Id$
 
@@ -55,6 +54,8 @@ MusicBrainz4::CLifespan& MusicBrainz4::CLifespan::operator =(const CLifespan& Ot
 {
 	if (this!=&Other)
 	{
+		CEntity::operator =(Other);
+
 		m_d->m_Begin=Other.m_d->m_Begin;
 		m_d->m_End=Other.m_d->m_End;
 	}
@@ -65,6 +66,11 @@ MusicBrainz4::CLifespan& MusicBrainz4::CLifespan::operator =(const CLifespan& Ot
 MusicBrainz4::CLifespan::~CLifespan()
 {
 	delete m_d;
+}
+
+MusicBrainz4::CLifespan *MusicBrainz4::CLifespan::Clone()
+{
+	return new CLifespan(*this);
 }
 
 bool MusicBrainz4::CLifespan::ParseAttribute(const std::string& Name, const std::string& /*Value*/)
@@ -98,6 +104,11 @@ bool MusicBrainz4::CLifespan::ParseElement(const XMLNode& Node)
 	}
 
 	return RetVal;
+}
+
+std::string MusicBrainz4::CLifespan::ElementName() const
+{
+	return "life-span";
 }
 
 std::string MusicBrainz4::CLifespan::Begin() const

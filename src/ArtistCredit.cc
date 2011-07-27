@@ -15,15 +15,16 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    Lesser General Public License for more details.
 
-   You should have received a copy of the GNU Lesser General Public
-   License along with this library; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+   You should have received a copy of the GNU General Public License
+   along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
      $Id$
 
 ----------------------------------------------------------------------------*/
 
 #include "musicbrainz4/ArtistCredit.h"
+
+#include "musicbrainz4/NameCreditList.h"
 
 class MusicBrainz4::CArtistCreditPrivate
 {
@@ -33,7 +34,7 @@ class MusicBrainz4::CArtistCreditPrivate
 		{
 		}
 
-		CGenericList<CNameCredit> *m_NameCreditList;
+		CNameCreditList *m_NameCreditList;
 };
 
 MusicBrainz4::CArtistCredit::CArtistCredit(const XMLNode& Node)
@@ -46,7 +47,7 @@ MusicBrainz4::CArtistCredit::CArtistCredit(const XMLNode& Node)
 
 		Parse(Node);
 
-		m_d->m_NameCreditList=new CGenericList<CNameCredit>(Node);
+		m_d->m_NameCreditList=new CNameCreditList(Node);
 	}
 }
 
@@ -63,8 +64,10 @@ MusicBrainz4::CArtistCredit& MusicBrainz4::CArtistCredit::operator =(const CArti
 	{
 		Cleanup();
 
+		CEntity::operator =(Other);
+
 		if (Other.m_d->m_NameCreditList)
-			m_d->m_NameCreditList=new CGenericList<CNameCredit>(*Other.m_d->m_NameCreditList);
+			m_d->m_NameCreditList=new CNameCreditList(*Other.m_d->m_NameCreditList);
 	}
 
 	return *this;
@@ -81,6 +84,11 @@ void MusicBrainz4::CArtistCredit::Cleanup()
 {
 	delete m_d->m_NameCreditList;
 	m_d->m_NameCreditList=0;
+}
+
+MusicBrainz4::CArtistCredit *MusicBrainz4::CArtistCredit::Clone()
+{
+	return new CArtistCredit(*this);
 }
 
 bool MusicBrainz4::CArtistCredit::ParseAttribute(const std::string& Name, const std::string& /*Value*/)
@@ -114,7 +122,12 @@ bool MusicBrainz4::CArtistCredit::ParseElement(const XMLNode& Node)
 	return RetVal;
 }
 
-MusicBrainz4::CGenericList<MusicBrainz4::CNameCredit> *MusicBrainz4::CArtistCredit::NameCreditList() const
+std::string MusicBrainz4::CArtistCredit::ElementName() const
+{
+	return "artist-credit";
+}
+
+MusicBrainz4::CNameCreditList *MusicBrainz4::CArtistCredit::NameCreditList() const
 {
 	return m_d->m_NameCreditList;
 }

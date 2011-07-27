@@ -15,9 +15,8 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    Lesser General Public License for more details.
 
-   You should have received a copy of the GNU Lesser General Public
-   License along with this library; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+   You should have received a copy of the GNU General Public License
+   along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
      $Id$
 
@@ -35,7 +34,7 @@ namespace MusicBrainz4
 {
 	class CCollectionPrivate;
 
-	class CRelease;
+	class CReleaseList;
 
 	class CCollection: public CEntity
 	{
@@ -43,20 +42,25 @@ namespace MusicBrainz4
 		CCollection(const XMLNode& Node);
 		CCollection(const CCollection& Other);
 		CCollection& operator =(const CCollection& Other);
-		~CCollection();
+		virtual ~CCollection();
+
+		virtual CCollection *Clone();
 
 		std::string ID() const;
 		std::string Name() const;
 		std::string Editor() const;
-		CGenericList<CRelease> *ReleaseList() const;
+		CReleaseList *ReleaseList() const;
+
+		virtual std::string ElementName() const;
+
+	protected:
+		virtual bool ParseAttribute(const std::string& Name, const std::string& Value);
+		virtual bool ParseElement(const XMLNode& Node);
 
 	private:
 		void Cleanup();
 
 		CCollectionPrivate * const m_d;
-
-		virtual bool ParseAttribute(const std::string& Name, const std::string& Value);
-		virtual bool ParseElement(const XMLNode& Node);
 	};
 }
 

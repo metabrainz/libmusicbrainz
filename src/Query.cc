@@ -15,9 +15,8 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    Lesser General Public License for more details.
 
-   You should have received a copy of the GNU Lesser General Public
-   License along with this library; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+   You should have received a copy of the GNU General Public License
+   along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
      $Id$
 
@@ -40,6 +39,8 @@
 #include "musicbrainz4/HTTPFetch.h"
 #include "musicbrainz4/Disc.h"
 #include "musicbrainz4/Message.h"
+#include "musicbrainz4/ReleaseList.h"
+#include "musicbrainz4/Release.h"
 
 #include "config.h"
 
@@ -241,12 +242,12 @@ MusicBrainz4::CMetadata MusicBrainz4::CQuery::Query(const std::string& Entity, c
 	return PerformQuery(os.str());
 }
 
-MusicBrainz4::CGenericList<MusicBrainz4::CRelease> MusicBrainz4::CQuery::LookupDiscID(const std::string& DiscID)
+MusicBrainz4::CReleaseList MusicBrainz4::CQuery::LookupDiscID(const std::string& DiscID)
 {
 	//Will this work soon (and return disc IDs as well)?
 	//http://musicbrainz.org/ws/2/discid/arIS30RPWowvwNEqsqdDnZzDGhk-?inc=artists+labels+recordings+release-groups+artist-credits
 
-	MusicBrainz4::CGenericList<MusicBrainz4::CRelease> ReleaseList;
+	MusicBrainz4::CReleaseList ReleaseList;
 
 	CMetadata Metadata=Query("discid",DiscID);
 

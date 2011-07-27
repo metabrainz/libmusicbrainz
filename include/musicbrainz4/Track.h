@@ -15,9 +15,8 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    Lesser General Public License for more details.
 
-   You should have received a copy of the GNU Lesser General Public
-   License along with this library; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+   You should have received a copy of the GNU General Public License
+   along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
      $Id$
 
@@ -46,7 +45,9 @@ namespace MusicBrainz4
 		CTrack(const XMLNode& Node=XMLNode::emptyNode());
 		CTrack(const CTrack& Other);
 		CTrack& operator =(const CTrack& Other);
-		~CTrack();
+		virtual ~CTrack();
+
+		virtual CTrack *Clone();
 
 		int Position() const;
 		std::string Title() const;
@@ -54,13 +55,16 @@ namespace MusicBrainz4
 		int Length() const;
 		CArtistCredit *ArtistCredit() const;
 
+		virtual std::string ElementName() const;
+
+	protected:
+		virtual bool ParseAttribute(const std::string& Name, const std::string& Value);
+		virtual bool ParseElement(const XMLNode& Node);
+
 	private:
 		void Cleanup();
 
 		CTrackPrivate * const m_d;
-
-		virtual bool ParseAttribute(const std::string& Name, const std::string& Value);
-		virtual bool ParseElement(const XMLNode& Node);
 	};
 }
 

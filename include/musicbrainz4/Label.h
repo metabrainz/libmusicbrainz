@@ -15,9 +15,8 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    Lesser General Public License for more details.
 
-   You should have received a copy of the GNU Lesser General Public
-   License along with this library; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+   You should have received a copy of the GNU General Public License
+   along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
      $Id$
 
@@ -39,11 +38,11 @@ namespace MusicBrainz4
 	class CLabelPrivate;
 
 	class CLifespan;
-	class CAlias;
-	class CRelease;
-	class CRelation;
-	class CTag;
-	class CUserTag;
+	class CAliasList;
+	class CReleaseList;
+	class CRelationList;
+	class CTagList;
+	class CUserTagList;
 	class CRating;
 	class CUserRating;
 
@@ -53,7 +52,9 @@ namespace MusicBrainz4
 		CLabel(const XMLNode& Node=XMLNode::emptyNode());
 		CLabel(const CLabel& Other);
 		CLabel& operator =(const CLabel& Other);
-		~CLabel();
+		virtual ~CLabel();
+
+		virtual CLabel *Clone();
 
 		std::string ID() const;
 		std::string Type() const;
@@ -63,21 +64,24 @@ namespace MusicBrainz4
 		std::string Disambiguation() const;
 		std::string Country() const;
 		CLifespan *Lifespan() const;
-		CGenericList<CAlias> *AliasList() const;
-		CGenericList<CRelease> *ReleaseList() const;
-		CGenericList<CRelation> *RelationList() const;
-		CGenericList<CTag> *TagList() const;
-		CGenericList<CUserTag> *UserTagList() const;
+		CAliasList *AliasList() const;
+		CReleaseList *ReleaseList() const;
+		CRelationList *RelationList() const;
+		CTagList *TagList() const;
+		CUserTagList *UserTagList() const;
 		CRating *Rating() const;
 		CUserRating *UserRating() const;
+
+		virtual std::string ElementName() const;
+
+	protected:
+		virtual bool ParseAttribute(const std::string& Name, const std::string& Value);
+		virtual bool ParseElement(const XMLNode& Node);
 
 	private:
 		void Cleanup();
 
 		CLabelPrivate * const m_d;
-
-		virtual bool ParseAttribute(const std::string& Name, const std::string& Value);
-		virtual bool ParseElement(const XMLNode& Node);
 	};
 }
 

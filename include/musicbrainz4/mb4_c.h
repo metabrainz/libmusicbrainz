@@ -1,4 +1,4 @@
- /* --------------------------------------------------------------------------
+/* --------------------------------------------------------------------------
 
    libmusicbrainz4 - Client library to access MusicBrainz
 
@@ -15,9 +15,8 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    Lesser General Public License for more details.
 
-   You should have received a copy of the GNU Lesser General Public
-   License along with this library; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+   You should have received a copy of the GNU General Public License
+   along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
      $Id$
 
@@ -2096,7 +2095,7 @@ extern "C"
 	int mb4_releasegroup_get_title(Mb4ReleaseGroup ReleaseGroup, char *str, int len);
 
 /**
- * @see MusicBrainz4::CReleaseGroup::Comment
+ * @see MusicBrainz4::CReleaseGroup::Disambiguation
  *
  * @param ReleaseGroup #Mb4ReleaseGroup object
  * @param str Returned string
@@ -2104,7 +2103,7 @@ extern "C"
  *
  * @return The number of characters in the string to copy (not including terminating NULL)
  */
-	int mb4_releasegroup_get_comment(Mb4ReleaseGroup ReleaseGroup, char *str, int len);
+	int mb4_releasegroup_get_disambiguation(Mb4ReleaseGroup ReleaseGroup, char *str, int len);
 
 /**
  * @see MusicBrainz4::CReleaseGroup::ArtistCredit
@@ -2168,17 +2167,6 @@ extern "C"
  * @return #Mb4UserRating object
  */
 	Mb4UserRating mb4_releasegroup_get_userrating(Mb4ReleaseGroup ReleaseGroup);
-
-/**
- * @see MusicBrainz4::CReleaseGroup::Disambiguation
- *
- * @param ReleaseGroup #Mb4ReleaseGroup object
- * @param str Returned string
- * @param len Number of characters available in return string
- *
- * @return The number of characters in the string to copy (not including terminating NULL)
- */
-	int mb4_releasegroup_get_disambiguation(Mb4ReleaseGroup ReleaseGroup, char *str, int len);
 
 /**
  * Delete a #Mb4Tag object

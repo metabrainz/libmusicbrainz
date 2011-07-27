@@ -15,9 +15,8 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    Lesser General Public License for more details.
 
-   You should have received a copy of the GNU Lesser General Public
-   License along with this library; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+   You should have received a copy of the GNU General Public License
+   along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
      $Id$
 
@@ -26,7 +25,7 @@
 #include "musicbrainz4/PUID.h"
 
 #include "musicbrainz4/GenericList.h"
-#include "musicbrainz4/Recording.h"
+#include "musicbrainz4/RecordingList.h"
 
 class MusicBrainz4::CPUIDPrivate
 {
@@ -37,7 +36,7 @@ class MusicBrainz4::CPUIDPrivate
 		}
 
 		std::string m_ID;
-		CGenericList<CRecording> *m_RecordingList;
+		CRecordingList *m_RecordingList;
 };
 
 MusicBrainz4::CPUID::CPUID(const XMLNode& Node)
@@ -65,10 +64,12 @@ MusicBrainz4::CPUID& MusicBrainz4::CPUID::operator =(const CPUID& Other)
 	{
 		Cleanup();
 
+		CEntity::operator =(Other);
+
 		m_d->m_ID=Other.m_d->m_ID;
 
 		if (Other.m_d->m_RecordingList)
-			m_d->m_RecordingList=new CGenericList<CRecording>(*Other.m_d->m_RecordingList);
+			m_d->m_RecordingList=new CRecordingList(*Other.m_d->m_RecordingList);
 	}
 
 	return *this;
@@ -85,6 +86,11 @@ void MusicBrainz4::CPUID::Cleanup()
 {
 	delete m_d->m_RecordingList;
 	m_d->m_RecordingList=0;
+}
+
+MusicBrainz4::CPUID *MusicBrainz4::CPUID::Clone()
+{
+	return new CPUID(*this);
 }
 
 bool MusicBrainz4::CPUID::ParseAttribute(const std::string& Name, const std::string& Value)
@@ -121,12 +127,17 @@ bool MusicBrainz4::CPUID::ParseElement(const XMLNode& Node)
 	return RetVal;
 }
 
+std::string MusicBrainz4::CPUID::ElementName() const
+{
+	return "puid";
+}
+
 std::string MusicBrainz4::CPUID::ID() const
 {
 	return m_d->m_ID;
 }
 
-MusicBrainz4::CGenericList<MusicBrainz4::CRecording> *MusicBrainz4::CPUID::RecordingList() const
+MusicBrainz4::CRecordingList *MusicBrainz4::CPUID::RecordingList() const
 {
 	return m_d->m_RecordingList;
 }

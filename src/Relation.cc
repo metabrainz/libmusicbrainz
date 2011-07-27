@@ -15,9 +15,8 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    Lesser General Public License for more details.
 
-   You should have received a copy of the GNU Lesser General Public
-   License along with this library; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+   You should have received a copy of the GNU General Public License
+   along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
      $Id$
 
@@ -31,7 +30,7 @@
 #include "musicbrainz4/Recording.h"
 #include "musicbrainz4/Label.h"
 #include "musicbrainz4/Work.h"
-#include "musicbrainz4/Attribute.h"
+#include "musicbrainz4/AttributeList.h"
 
 class MusicBrainz4::CRelationPrivate
 {
@@ -50,7 +49,7 @@ class MusicBrainz4::CRelationPrivate
 		std::string m_Type;
 		std::string m_Target;
 		std::string m_Direction;
-		CGenericList<CAttribute> *m_AttributeList;
+		CAttributeList *m_AttributeList;
 		std::string m_Begin;
 		std::string m_End;
 		CArtist *m_Artist;
@@ -86,12 +85,14 @@ MusicBrainz4::CRelation& MusicBrainz4::CRelation::operator =(const CRelation& Ot
 	{
 		Cleanup();
 
+		CEntity::operator =(Other);
+
 		m_d->m_Type=Other.m_d->m_Type;
 		m_d->m_Target=Other.m_d->m_Target;
 		m_d->m_Direction=Other.m_d->m_Direction;
 
 		if (Other.m_d->m_AttributeList)
-			m_d->m_AttributeList=new CGenericList<CAttribute>(*Other.m_d->m_AttributeList);
+			m_d->m_AttributeList=new CAttributeList(*Other.m_d->m_AttributeList);
 
 		m_d->m_Begin=Other.m_d->m_Begin;
 		m_d->m_End=Other.m_d->m_End;
@@ -147,6 +148,11 @@ void MusicBrainz4::CRelation::Cleanup()
 
 	delete m_d->m_Work;
 	m_d->m_Work=0;
+}
+
+MusicBrainz4::CRelation *MusicBrainz4::CRelation::Clone()
+{
+	return new CRelation(*this);
 }
 
 bool MusicBrainz4::CRelation::ParseAttribute(const std::string& Name, const std::string& Value)
@@ -223,6 +229,11 @@ bool MusicBrainz4::CRelation::ParseElement(const XMLNode& Node)
 	return RetVal;
 }
 
+std::string MusicBrainz4::CRelation::ElementName() const
+{
+	return "relation";
+}
+
 std::string MusicBrainz4::CRelation::Type() const
 {
 	return m_d->m_Type;
@@ -238,7 +249,7 @@ std::string MusicBrainz4::CRelation::Direction() const
 	return m_d->m_Direction;
 }
 
-MusicBrainz4::CGenericList<MusicBrainz4::CAttribute> *MusicBrainz4::CRelation::AttributeList() const
+MusicBrainz4::CAttributeList *MusicBrainz4::CRelation::AttributeList() const
 {
 	return m_d->m_AttributeList;
 }

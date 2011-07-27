@@ -15,9 +15,8 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    Lesser General Public License for more details.
 
-   You should have received a copy of the GNU Lesser General Public
-   License along with this library; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+   You should have received a copy of the GNU General Public License
+   along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
      $Id$
 
@@ -55,6 +54,8 @@ MusicBrainz4::CTextRepresentation& MusicBrainz4::CTextRepresentation::operator =
 {
 	if (this!=&Other)
 	{
+		CEntity::operator =(Other);
+
 		m_d->m_Language=Other.m_d->m_Language;
 		m_d->m_Script=Other.m_d->m_Script;
 	}
@@ -65,6 +66,11 @@ MusicBrainz4::CTextRepresentation& MusicBrainz4::CTextRepresentation::operator =
 MusicBrainz4::CTextRepresentation::~CTextRepresentation()
 {
 	delete m_d;
+}
+
+MusicBrainz4::CTextRepresentation *MusicBrainz4::CTextRepresentation::Clone()
+{
+	return new CTextRepresentation(*this);
 }
 
 bool MusicBrainz4::CTextRepresentation::ParseAttribute(const std::string& Name, const std::string& /*Value*/)
@@ -98,6 +104,11 @@ bool MusicBrainz4::CTextRepresentation::ParseElement(const XMLNode& Node)
 	}
 
 	return RetVal;
+}
+
+std::string MusicBrainz4::CTextRepresentation::ElementName() const
+{
+	return "text-representation";
 }
 
 std::string MusicBrainz4::CTextRepresentation::Language() const

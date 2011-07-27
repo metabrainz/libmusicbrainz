@@ -15,9 +15,8 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    Lesser General Public License for more details.
 
-   You should have received a copy of the GNU Lesser General Public
-   License along with this library; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+   You should have received a copy of the GNU General Public License
+   along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
      $Id$
 
@@ -65,6 +64,8 @@ MusicBrainz4::CNameCredit& MusicBrainz4::CNameCredit::operator =(const CNameCred
 	{
 		Cleanup();
 
+		CEntity::operator =(Other);
+
 		m_d->m_JoinPhrase=Other.m_d->m_JoinPhrase;
 		m_d->m_Name=Other.m_d->m_Name;
 
@@ -86,6 +87,11 @@ void MusicBrainz4::CNameCredit::Cleanup()
 {
 	delete m_d->m_Artist;
 	m_d->m_Artist=0;
+}
+
+MusicBrainz4::CNameCredit *MusicBrainz4::CNameCredit::Clone()
+{
+	return new CNameCredit(*this);
 }
 
 bool MusicBrainz4::CNameCredit::ParseAttribute(const std::string& Name, const std::string& Value)
@@ -125,6 +131,11 @@ bool MusicBrainz4::CNameCredit::ParseElement(const XMLNode& Node)
 	}
 
 	return RetVal;
+}
+
+std::string MusicBrainz4::CNameCredit::ElementName() const
+{
+	return "name-credit";
 }
 
 std::string MusicBrainz4::CNameCredit::JoinPhrase() const

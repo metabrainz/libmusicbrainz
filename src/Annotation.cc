@@ -15,9 +15,8 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    Lesser General Public License for more details.
 
-   You should have received a copy of the GNU Lesser General Public
-   License along with this library; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+   You should have received a copy of the GNU General Public License
+   along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
      $Id$
 
@@ -57,6 +56,8 @@ MusicBrainz4::CAnnotation& MusicBrainz4::CAnnotation::operator =(const CAnnotati
 {
 	if (this!=&Other)
 	{
+		CEntity::operator =(Other);
+
 		m_d->m_Type=Other.m_d->m_Type;
 		m_d->m_Entity=Other.m_d->m_Entity;
 		m_d->m_Name=Other.m_d->m_Name;
@@ -69,6 +70,11 @@ MusicBrainz4::CAnnotation& MusicBrainz4::CAnnotation::operator =(const CAnnotati
 MusicBrainz4::CAnnotation::~CAnnotation()
 {
 	delete m_d;
+}
+
+MusicBrainz4::CAnnotation *MusicBrainz4::CAnnotation::Clone()
+{
+	return new CAnnotation(*this);
 }
 
 bool MusicBrainz4::CAnnotation::ParseAttribute(const std::string& Name, const std::string& Value)
@@ -111,6 +117,11 @@ bool MusicBrainz4::CAnnotation::ParseElement(const XMLNode& Node)
 	}
 
 	return RetVal;
+}
+
+std::string MusicBrainz4::CAnnotation::ElementName() const
+{
+	return "annotation";
 }
 
 std::string MusicBrainz4::CAnnotation::Type() const

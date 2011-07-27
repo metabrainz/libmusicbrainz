@@ -15,9 +15,8 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    Lesser General Public License for more details.
 
-   You should have received a copy of the GNU Lesser General Public
-   License along with this library; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+   You should have received a copy of the GNU General Public License
+   along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
      $Id$
 
@@ -38,8 +37,8 @@ namespace MusicBrainz4
 {
 	class CMediumPrivate;
 
-	class CDisc;
-	class CTrack;
+	class CDiscList;
+	class CTrackList;
 
 	class CMedium: public CEntity
 	{
@@ -47,23 +46,28 @@ namespace MusicBrainz4
 		CMedium(const XMLNode& Node=XMLNode::emptyNode());
 		CMedium(const CMedium& Other);
 		CMedium& operator =(const CMedium& Other);
-		~CMedium();
+		virtual ~CMedium();
+
+		virtual CMedium *Clone();
 
 		std::string Title() const;
 		int Position() const;
 		std::string Format() const;
-		CGenericList<CDisc> *DiscList() const;
-		CGenericList<CTrack> *TrackList() const;
+		CDiscList *DiscList() const;
+		CTrackList *TrackList() const;
 
 		bool ContainsDiscID(const std::string& DiscID) const;
+
+		virtual std::string ElementName() const;
+
+	protected:
+		virtual bool ParseAttribute(const std::string& Name, const std::string& Value);
+		virtual bool ParseElement(const XMLNode& Node);
 
 	private:
 		void Cleanup();
 
 		CMediumPrivate * const m_d;
-
-		virtual bool ParseAttribute(const std::string& Name, const std::string& Value);
-		virtual bool ParseElement(const XMLNode& Node);
 	};
 }
 
