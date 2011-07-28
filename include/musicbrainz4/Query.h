@@ -353,7 +353,7 @@ namespace MusicBrainz4
 		 * @throw CResourceNotFoundError The requested resource was not found
 		 */
 
-		bool AddCollectionEntries(const std::string& CollectionID, std::vector<std::string>& Entries);
+		bool AddCollectionEntries(const std::string& CollectionID, const std::vector<std::string>& Entries);
 
 		/**
 		 * @brief Delete entries from the specified collection
@@ -373,7 +373,7 @@ namespace MusicBrainz4
 		 * @throw CResourceNotFoundError The requested resource was not found
 		 */
 
-		bool DeleteCollectionEntries(const std::string& CollectionID, std::vector<std::string>& Entries);
+		bool DeleteCollectionEntries(const std::string& CollectionID, const std::vector<std::string>& Entries);
 
 		/**
 		 * @brief Return result of the last query
@@ -409,7 +409,7 @@ namespace MusicBrainz4
 		CMetadata PerformQuery(const std::string& Query);
 		void WaitRequest() const;
 		std::string UserAgent() const;
-		bool EditCollection(const std::string& CollectionID, std::vector<std::string>& Entries, const std::string& Action);
+		bool EditCollection(const std::string& CollectionID, const std::vector<std::string>& Entries, const std::string& Action);
 		std::string URIEscape(const std::string& URI);
 		std::string URLEncode(const std::map<std::string,std::string>& Params);
 	};
