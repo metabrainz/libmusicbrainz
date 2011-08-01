@@ -22,46 +22,16 @@
 
 ----------------------------------------------------------------------------*/
 
-#ifndef _MUSICBRAINZ4_UserTag_LIST_H
-#define _MUSICBRAINZ4_UserTag_LIST_H
+#ifndef _MUSICBRAINZ4_USERTAG_LIST_H
+#define _MUSICBRAINZ4_USERTAG_LIST_H
 
-#include <string>
-#include <iostream>
-
-#include "musicbrainz4/Entity.h"
-#include "musicbrainz4/List.h"
-
-#include "musicbrainz4/xmlParser.h"
+#include "musicbrainz4/ListImpl.h"
 
 namespace MusicBrainz4
 {
 	class CUserTag;
-	class CUserTagListPrivate;
 
-	class CUserTagList: public CList
-	{
-	public:
-		CUserTagList(const XMLNode& Node);
-		CUserTagList(const CUserTagList& Other);
-		CUserTagList& operator =(const CUserTagList& Other);
-		virtual ~CUserTagList();
-
-		virtual CUserTagList *Clone();
-
-		CUserTag *Item(int Item) const;
-
-
-		virtual std::string ElementName() const;
-
-	protected:
-		virtual bool ParseAttribute(const std::string& Name, const std::string& Value);
-		virtual bool ParseElement(const XMLNode& Node);
-
-	private:
-		CUserTagListPrivate * const m_d;
-	};
+	typedef CListImpl<CUserTag> CUserTagList;
 }
-
-std::ostream& operator << (std::ostream& os, const MusicBrainz4::CUserTagList& MediumList);
 
 #endif

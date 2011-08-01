@@ -34,45 +34,4 @@ namespace MusicBrainz4
 	typedef CListImpl<CRelease> CReleaseList;
 }
 
-#if 0
-
-#include <string>
-#include <iostream>
-
-#include "musicbrainz4/Entity.h"
-#include "musicbrainz4/List.h"
-
-#include "musicbrainz4/xmlParser.h"
-
-namespace MusicBrainz4
-{
-	class CRelease;
-	class CReleaseListPrivate;
-
-	class CReleaseList: public CList
-	{
-	public:
-		CReleaseList(const XMLNode& Node=XMLNode::emptyNode());
-		CReleaseList(const CReleaseList& Other);
-		CReleaseList& operator =(const CReleaseList& Other);
-		virtual ~CReleaseList();
-
-		virtual CReleaseList *Clone();
-
-		CRelease *Item(int Item) const;
-
-		virtual std::ostream& Serialise(std::ostream& os) const;
-		static std::string GetElementName();
-
-	protected:
-		virtual bool ParseAttribute(const std::string& Name, const std::string& Value);
-		virtual bool ParseElement(const XMLNode& Node);
-
-	private:
-		CReleaseListPrivate * const m_d;
-	};
-}
-
-#endif
-
 #endif

@@ -28,8 +28,18 @@
 #include <string>
 #include <iostream>
 
+namespace MusicBrainz4
+{
+	class CRecording;
+}
+
 #include "musicbrainz4/Entity.h"
 #include "musicbrainz4/ReleaseList.h"
+#include "musicbrainz4/PUIDList.h"
+#include "musicbrainz4/ISRCList.h"
+#include "musicbrainz4/RelationList.h"
+#include "musicbrainz4/TagList.h"
+#include "musicbrainz4/UserTagList.h"
 
 #include "musicbrainz4/xmlParser.h"
 
@@ -38,11 +48,6 @@ namespace MusicBrainz4
 	class CRecordingPrivate;
 
 	class CArtistCredit;
-	class CPUIDList;
-	class CISRCList;
-	class CRelationList;
-	class CTagList;
-	class CUserTagList;
 	class CRating;
 	class CUserRating;
 

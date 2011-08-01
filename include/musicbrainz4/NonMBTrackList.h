@@ -25,43 +25,13 @@
 #ifndef _MUSICBRAINZ4_NONMBTRACK_LIST_H
 #define _MUSICBRAINZ4_NONMBTRACK_LIST_H
 
-#include <string>
-#include <iostream>
-
-#include "musicbrainz4/Entity.h"
-#include "musicbrainz4/List.h"
-
-#include "musicbrainz4/xmlParser.h"
+#include "musicbrainz4/ListImpl.h"
 
 namespace MusicBrainz4
 {
 	class CNonMBTrack;
-	class CNonMBTrackListPrivate;
 
-	class CNonMBTrackList: public CList
-	{
-	public:
-		CNonMBTrackList(const XMLNode& Node);
-		CNonMBTrackList(const CNonMBTrackList& Other);
-		CNonMBTrackList& operator =(const CNonMBTrackList& Other);
-		virtual ~CNonMBTrackList();
-
-		virtual CNonMBTrackList *Clone();
-
-		CNonMBTrack *Item(int Item) const;
-
-
-		virtual std::string ElementName() const;
-
-	protected:
-		virtual bool ParseAttribute(const std::string& Name, const std::string& Value);
-		virtual bool ParseElement(const XMLNode& Node);
-
-	private:
-		CNonMBTrackListPrivate * const m_d;
-	};
+	typedef CListImpl<CNonMBTrack> CNonMBTrackList;
 }
-
-std::ostream& operator << (std::ostream& os, const MusicBrainz4::CNonMBTrackList& MediumList);
 
 #endif

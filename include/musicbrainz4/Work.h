@@ -28,6 +28,10 @@
 #include <string>
 
 #include "musicbrainz4/Entity.h"
+#include "musicbrainz4/AliasList.h"
+#include "musicbrainz4/RelationList.h"
+#include "musicbrainz4/TagList.h"
+#include "musicbrainz4/UserTagList.h"
 
 #include "musicbrainz4/xmlParser.h"
 
@@ -37,10 +41,6 @@ namespace MusicBrainz4
 
 	class CArtistCredit;
 	class CISWC;
-	class CAliasList;
-	class CRelationList;
-	class CTagList;
-	class CUserTagList;
 	class CRating;
 	class CUserRating;
 

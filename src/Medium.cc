@@ -26,6 +26,7 @@
 
 #include "musicbrainz4/Disc.h"
 #include "musicbrainz4/DiscList.h"
+#include "musicbrainz4/Track.h"
 #include "musicbrainz4/TrackList.h"
 
 class MusicBrainz4::CMediumPrivate

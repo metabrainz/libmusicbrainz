@@ -25,41 +25,13 @@
 #ifndef _MUSICBRAINZ4_ATTRIBUTE_LIST_H
 #define _MUSICBRAINZ4_ATTRIBUTE_LIST_H
 
-#include <string>
-#include <iostream>
-
-#include "musicbrainz4/Entity.h"
-#include "musicbrainz4/List.h"
-
-#include "musicbrainz4/xmlParser.h"
+#include "musicbrainz4/ListImpl.h"
 
 namespace MusicBrainz4
 {
 	class CAttribute;
-	class CAttributeListPrivate;
 
-	class CAttributeList: public CList
-	{
-	public:
-		CAttributeList(const XMLNode& Node);
-		CAttributeList(const CAttributeList& Other);
-		CAttributeList& operator =(const CAttributeList& Other);
-		virtual ~CAttributeList();
-
-		virtual CAttributeList *Clone();
-
-		CAttribute *Item(int Item) const;
-
-		virtual std::ostream& Serialise(std::ostream& os) const;
-		static std::string GetElementName();
-
-	protected:
-		virtual bool ParseAttribute(const std::string& Name, const std::string& Value);
-		virtual bool ParseElement(const XMLNode& Node);
-
-	private:
-		CAttributeListPrivate * const m_d;
-	};
+	typedef CListImpl<CAttribute> CAttributeList;
 }
 
 #endif

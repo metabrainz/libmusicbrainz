@@ -29,14 +29,13 @@
 #include <iostream>
 
 #include "musicbrainz4/Entity.h"
+#include "musicbrainz4/NonMBTrackList.h"
 
 #include "musicbrainz4/xmlParser.h"
 
 namespace MusicBrainz4
 {
 	class CCDStubPrivate;
-
-	class CNonMBTrackList;
 
 	class CCDStub: public CEntity
 	{

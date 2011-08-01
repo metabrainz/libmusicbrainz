@@ -25,41 +25,13 @@
 #ifndef _MUSICBRAINZ4_NAMECREDIT_LIST_H
 #define _MUSICBRAINZ4_NAMECREDIT_LIST_H
 
-#include <string>
-#include <iostream>
-
-#include "musicbrainz4/Entity.h"
-#include "musicbrainz4/List.h"
-
-#include "musicbrainz4/xmlParser.h"
+#include "musicbrainz4/ListImpl.h"
 
 namespace MusicBrainz4
 {
 	class CNameCredit;
-	class CNameCreditListPrivate;
 
-	class CNameCreditList: public CList
-	{
-	public:
-		CNameCreditList(const XMLNode& Node);
-		CNameCreditList(const CNameCreditList& Other);
-		CNameCreditList& operator =(const CNameCreditList& Other);
-		virtual ~CNameCreditList();
-
-		virtual CNameCreditList *Clone();
-
-		CNameCredit *Item(int Item) const;
-
-		virtual std::ostream& Serialise(std::ostream& os) const;
-		static std::string GetElementName();
-
-	protected:
-		virtual bool ParseAttribute(const std::string& Name, const std::string& Value);
-		virtual bool ParseElement(const XMLNode& Node);
-
-	private:
-		CNameCreditListPrivate * const m_d;
-	};
+	typedef CListImpl<CNameCredit> CNameCreditList;
 }
 
 #endif

@@ -25,41 +25,13 @@
 #ifndef _MUSICBRAINZ4_ALIAS_LIST_H
 #define _MUSICBRAINZ4_ALIAS_LIST_H
 
-#include <string>
-#include <iostream>
-
-#include "musicbrainz4/Entity.h"
-#include "musicbrainz4/List.h"
-
-#include "musicbrainz4/xmlParser.h"
+#include "musicbrainz4/ListImpl.h"
 
 namespace MusicBrainz4
 {
 	class CAlias;
-	class CAliasListPrivate;
 
-	class CAliasList: public CList
-	{
-	public:
-		CAliasList(const XMLNode& Node);
-		CAliasList(const CAliasList& Other);
-		CAliasList& operator =(const CAliasList& Other);
-		virtual ~CAliasList();
-
-		virtual CAliasList *Clone();
-
-		CAlias *Item(int Item) const;
-
-		virtual std::ostream& Serialise(std::ostream& os) const;
-		static std::string GetElementName();
-
-	protected:
-		virtual bool ParseAttribute(const std::string& Name, const std::string& Value);
-		virtual bool ParseElement(const XMLNode& Node);
-
-	private:
-		CAliasListPrivate * const m_d;
-	};
+	typedef CListImpl<CAlias> CAliasList;
 }
 
 #endif

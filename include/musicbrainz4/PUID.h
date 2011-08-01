@@ -28,14 +28,13 @@
 #include <string>
 
 #include "musicbrainz4/Entity.h"
+#include "musicbrainz4/RecordingList.h"
 
 #include "musicbrainz4/xmlParser.h"
 
 namespace MusicBrainz4
 {
 	class CPUIDPrivate;
-
-	class CRecordingList;
 
 	class CPUID: public CEntity
 	{

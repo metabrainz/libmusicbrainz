@@ -29,10 +29,15 @@
 #include "musicbrainz4/Lifespan.h"
 #include "musicbrainz4/Rating.h"
 #include "musicbrainz4/UserRating.h"
+#include "musicbrainz4/Alias.h"
 #include "musicbrainz4/AliasList.h"
+#include "musicbrainz4/Release.h"
 #include "musicbrainz4/ReleaseList.h"
+#include "musicbrainz4/Relation.h"
 #include "musicbrainz4/RelationList.h"
+#include "musicbrainz4/Tag.h"
 #include "musicbrainz4/TagList.h"
+#include "musicbrainz4/UserTag.h"
 #include "musicbrainz4/UserTagList.h"
 
 class MusicBrainz4::CLabelPrivate

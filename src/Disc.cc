@@ -25,6 +25,7 @@
 #include "musicbrainz4/Disc.h"
 
 #include "musicbrainz4/ReleaseList.h"
+#include "musicbrainz4/Release.h"
 
 class MusicBrainz4::CDiscPrivate
 {

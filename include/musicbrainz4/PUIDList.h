@@ -25,43 +25,13 @@
 #ifndef _MUSICBRAINZ4_PUID_LIST_H
 #define _MUSICBRAINZ4_PUID_LIST_H
 
-#include <string>
-#include <iostream>
-
-#include "musicbrainz4/Entity.h"
-#include "musicbrainz4/List.h"
-
-#include "musicbrainz4/xmlParser.h"
+#include "musicbrainz4/ListImpl.h"
 
 namespace MusicBrainz4
 {
 	class CPUID;
-	class CPUIDListPrivate;
 
-	class CPUIDList: public CList
-	{
-	public:
-		CPUIDList(const XMLNode& Node);
-		CPUIDList(const CPUIDList& Other);
-		CPUIDList& operator =(const CPUIDList& Other);
-		virtual ~CPUIDList();
-
-		virtual CPUIDList *Clone();
-
-		CPUID *Item(int Item) const;
-
-
-		virtual std::string ElementName() const;
-
-	protected:
-		virtual bool ParseAttribute(const std::string& Name, const std::string& Value);
-		virtual bool ParseElement(const XMLNode& Node);
-
-	private:
-		CPUIDListPrivate * const m_d;
-	};
+	typedef CListImpl<CPUID> CPUIDList;
 }
-
-std::ostream& operator << (std::ostream& os, const MusicBrainz4::CPUIDList& MediumList);
 
 #endif

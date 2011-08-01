@@ -25,41 +25,13 @@
 #ifndef _MUSICBRAINZ4_ISRC_LIST_H
 #define _MUSICBRAINZ4_ISRC_LIST_H
 
-#include <string>
-#include <iostream>
-
-#include "musicbrainz4/Entity.h"
-#include "musicbrainz4/List.h"
-
-#include "musicbrainz4/xmlParser.h"
+#include "musicbrainz4/ListImpl.h"
 
 namespace MusicBrainz4
 {
 	class CISRC;
-	class CISRCListPrivate;
 
-	class CISRCList: public CList
-	{
-	public:
-		CISRCList(const XMLNode& Node);
-		CISRCList(const CISRCList& Other);
-		CISRCList& operator =(const CISRCList& Other);
-		virtual ~CISRCList();
-
-		virtual CISRCList *Clone();
-
-		CISRC *Item(int Item) const;
-
-		virtual std::ostream& Serialise(std::ostream& os) const;
-		static std::string GetElementName();
-
-	protected:
-		virtual bool ParseAttribute(const std::string& Name, const std::string& Value);
-		virtual bool ParseElement(const XMLNode& Node);
-
-	private:
-		CISRCListPrivate * const m_d;
-	};
+	typedef CListImpl<CISRC> CISRCList;
 }
 
 #endif

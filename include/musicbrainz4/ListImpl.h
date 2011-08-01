@@ -26,7 +26,6 @@
 #define _MUSICBRAINZ4_LIST_IMPL_H
 
 #include "musicbrainz4/List.h"
-#include "Release.h"
 
 namespace MusicBrainz4
 {

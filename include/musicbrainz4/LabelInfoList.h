@@ -25,43 +25,13 @@
 #ifndef _MUSICBRAINZ4_LABELINFO_LIST_H
 #define _MUSICBRAINZ4_LABELINFO_LIST_H
 
-#include <string>
-#include <iostream>
-
-#include "musicbrainz4/Entity.h"
-#include "musicbrainz4/List.h"
-
-#include "musicbrainz4/xmlParser.h"
+#include "musicbrainz4/ListImpl.h"
 
 namespace MusicBrainz4
 {
 	class CLabelInfo;
-	class CLabelInfoListPrivate;
 
-	class CLabelInfoList: public CList
-	{
-	public:
-		CLabelInfoList(const XMLNode& Node);
-		CLabelInfoList(const CLabelInfoList& Other);
-		CLabelInfoList& operator =(const CLabelInfoList& Other);
-		virtual ~CLabelInfoList();
-
-		virtual CLabelInfoList *Clone();
-
-		CLabelInfo *Item(int Item) const;
-
-
-		virtual std::string ElementName() const;
-
-	protected:
-		virtual bool ParseAttribute(const std::string& Name, const std::string& Value);
-		virtual bool ParseElement(const XMLNode& Node);
-
-	private:
-		CLabelInfoListPrivate * const m_d;
-	};
+	typedef CListImpl<CLabelInfo> CLabelInfoList;
 }
-
-std::ostream& operator << (std::ostream& os, const MusicBrainz4::CLabelInfoList& MediumList);
 
 #endif

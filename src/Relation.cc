@@ -31,6 +31,7 @@
 #include "musicbrainz4/Label.h"
 #include "musicbrainz4/Work.h"
 #include "musicbrainz4/AttributeList.h"
+#include "musicbrainz4/Attribute.h"
 
 class MusicBrainz4::CRelationPrivate
 {

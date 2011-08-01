@@ -28,11 +28,17 @@
 #include "musicbrainz4/Rating.h"
 #include "musicbrainz4/UserRating.h"
 #include "musicbrainz4/ReleaseList.h"
+#include "musicbrainz4/Release.h"
 #include "musicbrainz4/PUIDList.h"
+#include "musicbrainz4/PUID.h"
 #include "musicbrainz4/ISRCList.h"
+#include "musicbrainz4/ISRC.h"
 #include "musicbrainz4/RelationList.h"
+#include "musicbrainz4/Relation.h"
 #include "musicbrainz4/TagList.h"
+#include "musicbrainz4/Tag.h"
 #include "musicbrainz4/UserTagList.h"
+#include "musicbrainz4/UserTag.h"
 
 class MusicBrainz4::CRecordingPrivate
 {

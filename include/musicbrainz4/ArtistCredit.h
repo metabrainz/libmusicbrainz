@@ -28,14 +28,13 @@
 #include <iostream>
 
 #include "musicbrainz4/Entity.h"
+#include "musicbrainz4/NameCreditList.h"
 
 #include "musicbrainz4/xmlParser.h"
 
 namespace MusicBrainz4
 {
 	class CArtistCreditPrivate;
-
-	class CNameCreditList;
 
 	class CArtistCredit: public CEntity
 	{

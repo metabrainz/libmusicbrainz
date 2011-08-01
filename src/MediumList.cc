@@ -38,7 +38,7 @@ class MusicBrainz4::CMediumListPrivate
 };
 
 MusicBrainz4::CMediumList::CMediumList(const XMLNode& Node)
-:	CList(),
+:	CListImpl<CMedium>(),
 	m_d(new CMediumListPrivate)
 {
 	if (!Node.isEmpty())
@@ -50,7 +50,7 @@ MusicBrainz4::CMediumList::CMediumList(const XMLNode& Node)
 }
 
 MusicBrainz4::CMediumList::CMediumList(const CMediumList& Other)
-:	CList(),
+:	CListImpl<CMedium>(),
 	m_d(new CMediumListPrivate)
 {
 	*this=Other;
@@ -60,7 +60,7 @@ MusicBrainz4::CMediumList& MusicBrainz4::CMediumList::operator =(const CMediumLi
 {
 	if (this!=&Other)
 	{
-		CList::operator =(Other);
+		CListImpl<CMedium>::operator =(Other);
 
 		m_d->m_TrackCount=Other.m_d->m_TrackCount;
 	}
@@ -80,7 +80,7 @@ MusicBrainz4::CMediumList *MusicBrainz4::CMediumList::Clone()
 
 bool MusicBrainz4::CMediumList::ParseAttribute(const std::string& Name, const std::string& Value)
 {
-	return CList::ParseAttribute(Name,Value);
+	return CListImpl<CMedium>::ParseAttribute(Name,Value);
 }
 
 bool MusicBrainz4::CMediumList::ParseElement(const XMLNode& Node)
@@ -93,17 +93,9 @@ bool MusicBrainz4::CMediumList::ParseElement(const XMLNode& Node)
 	{
 		RetVal=ProcessItem(Node,m_d->m_TrackCount);
 	}
-	else if ("medium"==NodeName)
-	{
-		CMedium *Item=0;
-
-		RetVal=ProcessItem(Node,Item);
-		if (RetVal)
-			AddItem(Item);
-	}
 	else
 	{
-		RetVal=CList::ParseElement(Node);
+		RetVal=CListImpl<CMedium>::ParseElement(Node);
 	}
 
 	return RetVal;
@@ -119,25 +111,13 @@ int MusicBrainz4::CMediumList::TrackCount() const
 	return m_d->m_TrackCount;
 }
 
-MusicBrainz4::CMedium *MusicBrainz4::CMediumList::Item(int Item) const
-{
-	return dynamic_cast<CMedium *>(CList::Item(Item));
-}
-
 std::ostream& MusicBrainz4::CMediumList::Serialise(std::ostream& os) const
 {
 	os << "Medium list:" << std::endl;
 
-	CList::Serialise(os);
-
 	os << "\tTrack count: " << TrackCount() << std::endl;
 
-	for (int count=0;count<NumItems();count++)
-	{
-		MusicBrainz4::CMedium *ThisItem=Item(count);
-
-		os << *ThisItem;
-	}
+	CListImpl<CMedium>::Serialise(os);
 
 	return os;
 }

@@ -25,41 +25,13 @@
 #ifndef _MUSICBRAINZ4_COLLECTION_LIST_H
 #define _MUSICBRAINZ4_COLLECTION_LIST_H
 
-#include <string>
-#include <iostream>
-
-#include "musicbrainz4/Entity.h"
-#include "musicbrainz4/List.h"
-
-#include "musicbrainz4/xmlParser.h"
+#include "musicbrainz4/ListImpl.h"
 
 namespace MusicBrainz4
 {
 	class CCollection;
-	class CCollectionListPrivate;
 
-	class CCollectionList: public CList
-	{
-	public:
-		CCollectionList(const XMLNode& Node);
-		CCollectionList(const CCollectionList& Other);
-		CCollectionList& operator =(const CCollectionList& Other);
-		virtual ~CCollectionList();
-
-		virtual CCollectionList *Clone();
-
-		CCollection *Item(int Item) const;
-
-		virtual std::ostream& Serialise(std::ostream& os) const;
-		static std::string GetElementName();
-
-	protected:
-		virtual bool ParseAttribute(const std::string& Name, const std::string& Value);
-		virtual bool ParseElement(const XMLNode& Node);
-
-	private:
-		CCollectionListPrivate * const m_d;
-	};
+	typedef CListImpl<CCollection> CCollectionList;
 }
 
 #endif

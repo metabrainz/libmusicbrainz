@@ -33,7 +33,7 @@ class MusicBrainz4::CRelationListPrivate
 };
 
 MusicBrainz4::CRelationList::CRelationList(const XMLNode& Node)
-:	CList(),
+:	CListImpl<CRelation>(),
 	m_d(new CRelationListPrivate)
 {
 	if (!Node.isEmpty())
@@ -45,7 +45,7 @@ MusicBrainz4::CRelationList::CRelationList(const XMLNode& Node)
 }
 
 MusicBrainz4::CRelationList::CRelationList(const CRelationList& Other)
-:	CList(),
+:	CListImpl<CRelation>(),
 	m_d(new CRelationListPrivate)
 {
 	*this=Other;
@@ -55,7 +55,7 @@ MusicBrainz4::CRelationList& MusicBrainz4::CRelationList::operator =(const CRela
 {
 	if (this!=&Other)
 	{
-		CList::operator =(Other);
+		CListImpl<CRelation>::operator =(Other);
 
 		m_d->m_TargetType=Other.m_d->m_TargetType;
 	}
@@ -80,34 +80,17 @@ bool MusicBrainz4::CRelationList::ParseAttribute(const std::string& Name, const 
 	if ("target-type"==Name)
 		RetVal=ProcessItem(Name,m_d->m_TargetType);
 	else
-		RetVal=CList::ParseAttribute(Name,Value);
+		RetVal=CListImpl<CRelation>::ParseAttribute(Name,Value);
 
 	return RetVal;
 }
 
 bool MusicBrainz4::CRelationList::ParseElement(const XMLNode& Node)
 {
-	bool RetVal=true;
-
-	std::string NodeName=Node.getName();
-
-	if ("relation"==NodeName)
-	{
-		CRelation *Item=0;
-
-		RetVal=ProcessItem(Node,Item);
-		if (RetVal)
-			AddItem(Item);
-	}
-	else
-	{
-		RetVal=CList::ParseElement(Node);
-	}
-
-	return RetVal;
+	return CListImpl<CRelation>::ParseElement(Node);
 }
 
-std::string MusicBrainz4::CRelationList::ElementName() const
+std::string MusicBrainz4::CRelationList::GetElementName()
 {
 	return "relation-list";
 }
@@ -117,27 +100,13 @@ std::string MusicBrainz4::CRelationList::TargetType() const
 	return m_d->m_TargetType;
 }
 
-MusicBrainz4::CRelation *MusicBrainz4::CRelationList::Item(int Item) const
-{
-	return dynamic_cast<CRelation *>(CList::Item(Item));
-}
-
-std::ostream& operator << (std::ostream& os, const MusicBrainz4::CRelationList& RelationList)
+std::ostream& MusicBrainz4::CRelationList::Serialise(std::ostream& os) const
 {
 	os << "Relation list:" << std::endl;
 
-	MusicBrainz4::CList *Base=(MusicBrainz4::CList *)&RelationList;
+	os << "\tTarget type: " << TargetType() << std::endl;
 
-	os << *Base << std::endl;
-
-	os << "\tTarget type: " << RelationList.TargetType() << std::endl;
-
-	for (int count=0;count<RelationList.NumItems();count++)
-	{
-		MusicBrainz4::CRelation *Item=RelationList.Item(count);
-
-		os << *Item;
-	}
+	CListImpl<CRelation>::Serialise(os);
 
 	return os;
 }

@@ -22,14 +22,13 @@
 
 ----------------------------------------------------------------------------*/
 
-#ifndef _MUSICBRAINZ4_Relation_LIST_H
-#define _MUSICBRAINZ4_Relation_LIST_H
+#ifndef _MUSICBRAINZ4_RELATION_LIST_H
+#define _MUSICBRAINZ4_RELATION_LIST_H
 
 #include <string>
 #include <iostream>
 
-#include "musicbrainz4/Entity.h"
-#include "musicbrainz4/List.h"
+#include "musicbrainz4/ListImpl.h"
 
 #include "musicbrainz4/xmlParser.h"
 
@@ -38,7 +37,7 @@ namespace MusicBrainz4
 	class CRelation;
 	class CRelationListPrivate;
 
-	class CRelationList: public CList
+	class CRelationList: public CListImpl<CRelation>
 	{
 	public:
 		CRelationList(const XMLNode& Node);
@@ -50,9 +49,8 @@ namespace MusicBrainz4
 
 		std::string TargetType() const;
 
-		CRelation *Item(int Item) const;
-
-		virtual std::string ElementName() const;
+		virtual std::ostream& Serialise(std::ostream& os) const;
+		static std::string GetElementName();
 
 	protected:
 		virtual bool ParseAttribute(const std::string& Name, const std::string& Value);
@@ -62,7 +60,5 @@ namespace MusicBrainz4
 		CRelationListPrivate * const m_d;
 	};
 }
-
-std::ostream& operator << (std::ostream& os, const MusicBrainz4::CRelationList& RelationList);
 
 #endif

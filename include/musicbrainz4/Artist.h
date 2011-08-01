@@ -30,6 +30,14 @@
 
 #include "musicbrainz4/Entity.h"
 #include "musicbrainz4/ReleaseList.h"
+#include "musicbrainz4/AliasList.h"
+#include "musicbrainz4/RecordingList.h"
+#include "musicbrainz4/ReleaseGroupList.h"
+#include "musicbrainz4/LabelList.h"
+#include "musicbrainz4/WorkList.h"
+#include "musicbrainz4/RelationList.h"
+#include "musicbrainz4/TagList.h"
+#include "musicbrainz4/UserTagList.h"
 
 #include "musicbrainz4/xmlParser.h"
 
@@ -37,14 +45,6 @@ namespace MusicBrainz4
 {
 	class CArtistPrivate;
 	class CLifespan;
-	class CAliasList;
-	class CRecordingList;
-	class CReleaseGroupList;
-	class CLabelList;
-	class CWorkList;
-	class CRelationList;
-	class CTagList;
-	class CUserTagList;
 	class CRating;
 	class CUserRating;
 

@@ -27,6 +27,19 @@
 
 #include "musicbrainz4/Entity.h"
 #include "musicbrainz4/ReleaseList.h"
+#include "musicbrainz4/ArtistList.h"
+#include "musicbrainz4/WorkList.h"
+#include "musicbrainz4/ISRCList.h"
+#include "musicbrainz4/LabelInfoList.h"
+#include "musicbrainz4/ReleaseGroupList.h"
+#include "musicbrainz4/RecordingList.h"
+#include "musicbrainz4/LabelList.h"
+#include "musicbrainz4/AnnotationList.h"
+#include "musicbrainz4/CDStubList.h"
+#include "musicbrainz4/FreeDBDiscList.h"
+#include "musicbrainz4/TagList.h"
+#include "musicbrainz4/UserTagList.h"
+#include "musicbrainz4/CollectionList.h"
 
 #include "musicbrainz4/xmlParser.h"
 
@@ -37,32 +50,19 @@ namespace MusicBrainz4
 	class CMetadataPrivate;
 
 	class CArtist;
-	class CArtistList;
 	class CRelease;
 	class CReleaseGroup;
 	class CRecording;
 	class CLabel;
-	class CWorkList;
 	class CPUID;
 	class CISRC;
-	class CISRCList;
 	class CDisc;
-	class CLabelInfoList;
 	class CRating;
 	class CUserRating;
 	class CCollection;
 	class CArtist;
-	class CReleaseGroupList;
-	class CRecordingList;
-	class CLabelList;
 	class CWork;
-	class CAnnotationList;
 	class CCDStub;
-	class CCDStubList;
-	class CFreeDBDiscList;
-	class CTagList;
-	class CUserTagList;
-	class CCollectionList;
 	class CMessage;
 
 	class CMetadata: public CEntity

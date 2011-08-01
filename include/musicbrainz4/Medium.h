@@ -29,15 +29,14 @@
 #include <iostream>
 
 #include "musicbrainz4/Entity.h"
+#include "musicbrainz4/DiscList.h"
+#include "musicbrainz4/TrackList.h"
 
 #include "musicbrainz4/xmlParser.h"
 
 namespace MusicBrainz4
 {
 	class CMediumPrivate;
-
-	class CDiscList;
-	class CTrackList;
 
 	class CMedium: public CEntity
 	{

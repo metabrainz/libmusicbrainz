@@ -25,6 +25,7 @@
 #include "musicbrainz4/CDStub.h"
 
 #include "musicbrainz4/NonMBTrackList.h"
+#include "musicbrainz4/NonMBTrack.h"
 
 class MusicBrainz4::CCDStubPrivate
 {

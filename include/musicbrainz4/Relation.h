@@ -29,6 +29,7 @@
 #include <iostream>
 
 #include "musicbrainz4/Entity.h"
+#include "musicbrainz4/AttributeList.h"
 
 #include "musicbrainz4/xmlParser.h"
 
@@ -36,7 +37,6 @@ namespace MusicBrainz4
 {
 	class CRelationPrivate;
 
-	class CAttributeList;
 	class CArtist;
 	class CRelease;
 	class CReleaseGroup;

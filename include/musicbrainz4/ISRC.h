@@ -26,14 +26,13 @@
 #define _MUSICBRAINZ4_ISRC_H
 
 #include "musicbrainz4/Entity.h"
+#include "musicbrainz4/RecordingList.h"
 
 #include "musicbrainz4/xmlParser.h"
 
 namespace MusicBrainz4
 {
 	class CISRCPrivate;
-
-	class CRecordingList;
 
 	class CISRC: public CEntity
 	{

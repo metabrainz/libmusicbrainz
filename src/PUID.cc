@@ -25,6 +25,7 @@
 #include "musicbrainz4/PUID.h"
 
 #include "musicbrainz4/RecordingList.h"
+#include "musicbrainz4/Recording.h"
 
 class MusicBrainz4::CPUIDPrivate
 {

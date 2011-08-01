@@ -22,46 +22,16 @@
 
 ----------------------------------------------------------------------------*/
 
-#ifndef _MUSICBRAINZ4_Work_LIST_H
-#define _MUSICBRAINZ4_Work_LIST_H
+#ifndef _MUSICBRAINZ4_WORK_LIST_H
+#define _MUSICBRAINZ4_WORK_LIST_H
 
-#include <string>
-#include <iostream>
-
-#include "musicbrainz4/Entity.h"
-#include "musicbrainz4/List.h"
-
-#include "musicbrainz4/xmlParser.h"
+#include "musicbrainz4/ListImpl.h"
 
 namespace MusicBrainz4
 {
 	class CWork;
-	class CWorkListPrivate;
 
-	class CWorkList: public CList
-	{
-	public:
-		CWorkList(const XMLNode& Node);
-		CWorkList(const CWorkList& Other);
-		CWorkList& operator =(const CWorkList& Other);
-		virtual ~CWorkList();
-
-		virtual CWorkList *Clone();
-
-		CWork *Item(int Item) const;
-
-
-		virtual std::string ElementName() const;
-
-	protected:
-		virtual bool ParseAttribute(const std::string& Name, const std::string& Value);
-		virtual bool ParseElement(const XMLNode& Node);
-
-	private:
-		CWorkListPrivate * const m_d;
-	};
+	typedef CListImpl<CWork> CWorkList;
 }
-
-std::ostream& operator << (std::ostream& os, const MusicBrainz4::CWorkList& MediumList);
 
 #endif

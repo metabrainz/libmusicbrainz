@@ -26,6 +26,9 @@
 #define _MUSICBRAINZ4_RELEASE_H
 
 #include "musicbrainz4/Entity.h"
+#include "musicbrainz4/LabelInfoList.h"
+#include "musicbrainz4/RelationList.h"
+#include "musicbrainz4/MediumList.h"
 
 #include "musicbrainz4/xmlParser.h"
 
@@ -39,10 +42,7 @@ namespace MusicBrainz4
 	class CTextRepresentation;
 	class CArtistCredit;
 	class CReleaseGroup;
-	class CLabelInfoList;
 	class CMedium;
-	class CRelationList;
-	class CMediumList;
 
 	class CRelease: public CEntity
 	{

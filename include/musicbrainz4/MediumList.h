@@ -28,8 +28,7 @@
 #include <string>
 #include <iostream>
 
-#include "musicbrainz4/Entity.h"
-#include "musicbrainz4/List.h"
+#include "musicbrainz4/ListImpl.h"
 
 #include "musicbrainz4/xmlParser.h"
 
@@ -38,7 +37,7 @@ namespace MusicBrainz4
 	class CMedium;
 	class CMediumListPrivate;
 
-	class CMediumList: public CList
+	class CMediumList: public CListImpl<CMedium>
 	{
 	public:
 		CMediumList(const XMLNode& Node=XMLNode::emptyNode());
@@ -49,8 +48,6 @@ namespace MusicBrainz4
 		virtual CMediumList *Clone();
 
 		int TrackCount() const;
-
-		CMedium *Item(int Item) const;
 
 		virtual std::ostream& Serialise(std::ostream& os) const;
 		static std::string GetElementName();

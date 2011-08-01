@@ -25,6 +25,7 @@
 #include "musicbrainz4/ArtistCredit.h"
 
 #include "musicbrainz4/NameCreditList.h"
+#include "musicbrainz4/NameCredit.h"
 
 class MusicBrainz4::CArtistCreditPrivate
 {

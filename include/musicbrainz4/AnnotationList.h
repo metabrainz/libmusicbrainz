@@ -25,41 +25,13 @@
 #ifndef _MUSICBRAINZ4_ANNOTATION_LIST_H
 #define _MUSICBRAINZ4_ANNOTATION_LIST_H
 
-#include <string>
-#include <iostream>
-
-#include "musicbrainz4/Entity.h"
-#include "musicbrainz4/List.h"
-
-#include "musicbrainz4/xmlParser.h"
+#include "musicbrainz4/ListImpl.h"
 
 namespace MusicBrainz4
 {
 	class CAnnotation;
-	class CAnnotationListPrivate;
 
-	class CAnnotationList: public CList
-	{
-	public:
-		CAnnotationList(const XMLNode& Node);
-		CAnnotationList(const CAnnotationList& Other);
-		CAnnotationList& operator =(const CAnnotationList& Other);
-		virtual ~CAnnotationList();
-
-		virtual CAnnotationList *Clone();
-
-		CAnnotation *Item(int Item) const;
-
-		virtual std::ostream& Serialise(std::ostream& os) const;
-		static std::string GetElementName();
-
-	protected:
-		virtual bool ParseAttribute(const std::string& Name, const std::string& Value);
-		virtual bool ParseElement(const XMLNode& Node);
-
-	private:
-		CAnnotationListPrivate * const m_d;
-	};
+	typedef CListImpl<CAnnotation> CAnnotationList;
 }
 
 #endif

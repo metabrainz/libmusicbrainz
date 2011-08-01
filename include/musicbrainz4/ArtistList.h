@@ -25,41 +25,13 @@
 #ifndef _MUSICBRAINZ4_ARTIST_LIST_H
 #define _MUSICBRAINZ4_ARTIST_LIST_H
 
-#include <string>
-#include <iostream>
-
-#include "musicbrainz4/Entity.h"
-#include "musicbrainz4/List.h"
-
-#include "musicbrainz4/xmlParser.h"
+#include "musicbrainz4/ListImpl.h"
 
 namespace MusicBrainz4
 {
 	class CArtist;
-	class CArtistListPrivate;
 
-	class CArtistList: public CList
-	{
-	public:
-		CArtistList(const XMLNode& Node);
-		CArtistList(const CArtistList& Other);
-		CArtistList& operator =(const CArtistList& Other);
-		virtual ~CArtistList();
-
-		virtual CArtistList *Clone();
-
-		CArtist *Item(int Item) const;
-
-		virtual std::ostream& Serialise(std::ostream& os) const;
-		static std::string GetElementName();
-
-	protected:
-		virtual bool ParseAttribute(const std::string& Name, const std::string& Value);
-		virtual bool ParseElement(const XMLNode& Node);
-
-	private:
-		CArtistListPrivate * const m_d;
-	};
+	typedef CListImpl<CArtist> CArtistList;
 }
 
 #endif

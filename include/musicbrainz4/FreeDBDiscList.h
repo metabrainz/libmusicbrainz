@@ -25,41 +25,13 @@
 #ifndef _MUSICBRAINZ4_FREEDBDISC_LIST_H
 #define _MUSICBRAINZ4_FREEDBDISC_LIST_H
 
-#include <string>
-#include <iostream>
-
-#include "musicbrainz4/Entity.h"
-#include "musicbrainz4/List.h"
-
-#include "musicbrainz4/xmlParser.h"
+#include "musicbrainz4/ListImpl.h"
 
 namespace MusicBrainz4
 {
 	class CFreeDBDisc;
-	class CFreeDBDiscListPrivate;
 
-	class CFreeDBDiscList: public CList
-	{
-	public:
-		CFreeDBDiscList(const XMLNode& Node);
-		CFreeDBDiscList(const CFreeDBDiscList& Other);
-		CFreeDBDiscList& operator =(const CFreeDBDiscList& Other);
-		virtual ~CFreeDBDiscList();
-
-		virtual CFreeDBDiscList *Clone();
-
-		CFreeDBDisc *Item(int Item) const;
-
-		virtual std::ostream& Serialise(std::ostream& os) const;
-		static std::string GetElementName();
-
-	protected:
-		virtual bool ParseAttribute(const std::string& Name, const std::string& Value);
-		virtual bool ParseElement(const XMLNode& Node);
-
-	private:
-		CFreeDBDiscListPrivate * const m_d;
-	};
+	typedef CListImpl<CFreeDBDisc> CFreeDBDiscList;
 }
 
 #endif

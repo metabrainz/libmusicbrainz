@@ -31,8 +31,11 @@
 #include "musicbrainz4/ReleaseGroup.h"
 #include "musicbrainz4/Medium.h"
 #include "musicbrainz4/LabelInfoList.h"
+#include "musicbrainz4/LabelInfo.h"
 #include "musicbrainz4/RelationList.h"
+#include "musicbrainz4/Relation.h"
 #include "musicbrainz4/MediumList.h"
+#include "musicbrainz4/Medium.h"
 
 class MusicBrainz4::CReleasePrivate
 {

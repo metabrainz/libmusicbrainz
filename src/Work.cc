@@ -26,9 +26,12 @@
 
 #include "musicbrainz4/ArtistCredit.h"
 #include "musicbrainz4/AliasList.h"
+#include "musicbrainz4/Alias.h"
 #include "musicbrainz4/RelationList.h"
 #include "musicbrainz4/TagList.h"
+#include "musicbrainz4/Tag.h"
 #include "musicbrainz4/UserTagList.h"
+#include "musicbrainz4/UserTag.h"
 #include "musicbrainz4/Rating.h"
 #include "musicbrainz4/UserRating.h"
 

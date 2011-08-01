@@ -25,6 +25,7 @@
 #include "musicbrainz4/Collection.h"
 
 #include "musicbrainz4/ReleaseList.h"
+#include "musicbrainz4/Release.h"
 
 class MusicBrainz4::CCollectionPrivate
 {

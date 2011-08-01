@@ -25,41 +25,13 @@
 #ifndef _MUSICBRAINZ4_CDSTUB_LIST_H
 #define _MUSICBRAINZ4_CDSTUB_LIST_H
 
-#include <string>
-#include <iostream>
-
-#include "musicbrainz4/Entity.h"
-#include "musicbrainz4/List.h"
-
-#include "musicbrainz4/xmlParser.h"
+#include "musicbrainz4/ListImpl.h"
 
 namespace MusicBrainz4
 {
 	class CCDStub;
-	class CCDStubListPrivate;
 
-	class CCDStubList: public CList
-	{
-	public:
-		CCDStubList(const XMLNode& Node);
-		CCDStubList(const CCDStubList& Other);
-		CCDStubList& operator =(const CCDStubList& Other);
-		virtual ~CCDStubList();
-
-		virtual CCDStubList *Clone();
-
-		CCDStub *Item(int Item) const;
-
-		virtual std::ostream& Serialise(std::ostream& os) const;
-		static std::string GetElementName();
-
-	protected:
-		virtual bool ParseAttribute(const std::string& Name, const std::string& Value);
-		virtual bool ParseElement(const XMLNode& Node);
-
-	private:
-		CCDStubListPrivate * const m_d;
-	};
+	typedef CListImpl<CCDStub> CCDStubList;
 }
 
 #endif
