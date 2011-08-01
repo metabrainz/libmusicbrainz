@@ -97,7 +97,7 @@ bool MusicBrainz4::CLabelList::ParseElement(const XMLNode& Node)
 	return RetVal;
 }
 
-std::string MusicBrainz4::CLabelList::ElementName() const
+std::string MusicBrainz4::CLabelList::GetElementName()
 {
 	return "label-list";
 }
@@ -107,19 +107,17 @@ MusicBrainz4::CLabel *MusicBrainz4::CLabelList::Item(int Item) const
 	return dynamic_cast<CLabel *>(CList::Item(Item));
 }
 
-std::ostream& operator << (std::ostream& os, const MusicBrainz4::CLabelList& LabelList)
+std::ostream& MusicBrainz4::CLabelList::Serialise(std::ostream& os) const
 {
 	os << "Label list:" << std::endl;
 
-	MusicBrainz4::CList *Base=(MusicBrainz4::CList *)&LabelList;
+	CList::Serialise(os);
 
-	os << *Base << std::endl;
-
-	for (int count=0;count<LabelList.NumItems();count++)
+	for (int count=0;count<NumItems();count++)
 	{
-		MusicBrainz4::CLabel *Item=LabelList.Item(count);
+		MusicBrainz4::CLabel *ThisItem=Item(count);
 
-		os << *Item;
+		os << *ThisItem;
 	}
 
 	return os;

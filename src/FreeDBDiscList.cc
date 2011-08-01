@@ -97,7 +97,7 @@ bool MusicBrainz4::CFreeDBDiscList::ParseElement(const XMLNode& Node)
 	return RetVal;
 }
 
-std::string MusicBrainz4::CFreeDBDiscList::ElementName() const
+std::string MusicBrainz4::CFreeDBDiscList::GetElementName()
 {
 	return "freedb-disc-list";
 }
@@ -107,19 +107,17 @@ MusicBrainz4::CFreeDBDisc *MusicBrainz4::CFreeDBDiscList::Item(int Item) const
 	return dynamic_cast<CFreeDBDisc *>(CList::Item(Item));
 }
 
-std::ostream& operator << (std::ostream& os, const MusicBrainz4::CFreeDBDiscList& FreeDBDiscList)
+std::ostream& MusicBrainz4::CFreeDBDiscList::Serialise(std::ostream& os) const
 {
 	os << "Disc list:" << std::endl;
 
-	MusicBrainz4::CList *Base=(MusicBrainz4::CList *)&FreeDBDiscList;
+	CList::Serialise(os);
 
-	os << *Base << std::endl;
-
-	for (int count=0;count<FreeDBDiscList.NumItems();count++)
+	for (int count=0;count<NumItems();count++)
 	{
-		MusicBrainz4::CFreeDBDisc *Item=FreeDBDiscList.Item(count);
+		MusicBrainz4::CFreeDBDisc *ThisItem=Item(count);
 
-		os << *Item;
+		os << *ThisItem;
 	}
 
 	return os;

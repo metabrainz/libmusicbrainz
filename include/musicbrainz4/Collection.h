@@ -26,14 +26,13 @@
 #define _MUSICBRAINZ4_COLLECTION_H
 
 #include "musicbrainz4/Entity.h"
+#include "musicbrainz4/ReleaseList.h"
 
 #include "musicbrainz4/xmlParser.h"
 
 namespace MusicBrainz4
 {
 	class CCollectionPrivate;
-
-	class CReleaseList;
 
 	class CCollection: public CEntity
 	{
@@ -50,7 +49,8 @@ namespace MusicBrainz4
 		std::string Editor() const;
 		CReleaseList *ReleaseList() const;
 
-		virtual std::string ElementName() const;
+		virtual std::ostream& Serialise(std::ostream& os) const;
+		static std::string GetElementName();
 
 	protected:
 		virtual bool ParseAttribute(const std::string& Name, const std::string& Value);
@@ -62,7 +62,5 @@ namespace MusicBrainz4
 		CCollectionPrivate * const m_d;
 	};
 }
-
-std::ostream& operator << (std::ostream& os, const MusicBrainz4::CCollection& Collection);
 
 #endif

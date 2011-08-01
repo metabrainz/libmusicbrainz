@@ -253,7 +253,7 @@ bool MusicBrainz4::CLabel::ParseElement(const XMLNode& Node)
 	return RetVal;
 }
 
-std::string MusicBrainz4::CLabel::ElementName() const
+std::string MusicBrainz4::CLabel::GetElementName()
 {
 	return "label";
 }
@@ -333,45 +333,43 @@ MusicBrainz4::CUserRating *MusicBrainz4::CLabel::UserRating() const
 	return m_d->m_UserRating;
 }
 
-std::ostream& operator << (std::ostream& os, const MusicBrainz4::CLabel& Label)
+std::ostream& MusicBrainz4::CLabel::Serialise(std::ostream& os) const
 {
 	os << "Label:" << std::endl;
 
-	MusicBrainz4::CEntity *Base=(MusicBrainz4::CEntity *)&Label;
+	CEntity::Serialise(os);
 
-	os << *Base << std::endl;
+	os << "\tID:             " << ID() << std::endl;
+	os << "\tType:           " << Type() << std::endl;
+	os << "\tName:           " << Name() << std::endl;
+	os << "\tSort name:      " << SortName() << std::endl;
+	os << "\tLabel code:     " << LabelCode() << std::endl;
+	os << "\tDisambiguation: " << Disambiguation() << std::endl;
+	os << "\tCountry:        " << Country() << std::endl;
 
-	os << "\tID:             " << Label.ID() << std::endl;
-	os << "\tType:           " << Label.Type() << std::endl;
-	os << "\tName:           " << Label.Name() << std::endl;
-	os << "\tSort name:      " << Label.SortName() << std::endl;
-	os << "\tLabel code:     " << Label.LabelCode() << std::endl;
-	os << "\tDisambiguation: " << Label.Disambiguation() << std::endl;
-	os << "\tCountry:        " << Label.Country() << std::endl;
+	if (Lifespan())
+		os << *Lifespan() << std::endl;
 
-	if (Label.Lifespan())
-		os << *Label.Lifespan() << std::endl;
+	if (AliasList())
+		os << *AliasList() << std::endl;
 
-	if (Label.AliasList())
-		os << *Label.AliasList() << std::endl;
+	if (ReleaseList())
+		os << *ReleaseList() << std::endl;
 
-	if (Label.ReleaseList())
-		os << *Label.ReleaseList() << std::endl;
+	if (RelationList())
+		os << *RelationList() << std::endl;
 
-	if (Label.RelationList())
-		os << *Label.RelationList() << std::endl;
+	if (TagList())
+		os << *TagList() << std::endl;
 
-	if (Label.TagList())
-		os << *Label.TagList() << std::endl;
+	if (UserTagList())
+		os << *UserTagList() << std::endl;
 
-	if (Label.UserTagList())
-		os << *Label.UserTagList() << std::endl;
+	if (Rating())
+		os << *Rating() << std::endl;
 
-	if (Label.Rating())
-		os << *Label.Rating() << std::endl;
-
-	if (Label.UserRating())
-		os << *Label.UserRating() << std::endl;
+	if (UserRating())
+		os << *UserRating() << std::endl;
 
 	return os;
 }

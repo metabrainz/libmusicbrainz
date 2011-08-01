@@ -219,7 +219,7 @@ bool MusicBrainz4::CRecording::ParseElement(const XMLNode& Node)
 	return RetVal;
 }
 
-std::string MusicBrainz4::CRecording::ElementName() const
+std::string MusicBrainz4::CRecording::GetElementName()
 {
 	return "recording";
 }
@@ -319,45 +319,43 @@ MusicBrainz4::CUserRating *MusicBrainz4::CRecording::UserRating() const
 	return m_d->m_UserRating;
 }
 
-std::ostream& operator << (std::ostream& os, const MusicBrainz4::CRecording& Recording)
+std::ostream& MusicBrainz4::CRecording::Serialise(std::ostream& os) const
 {
 	os << "Recording:" << std::endl;
 
-	MusicBrainz4::CEntity *Base=(MusicBrainz4::CEntity *)&Recording;
+	CEntity::Serialise(os);
 
-	os << *Base << std::endl;
+	os << "\tID:             " << ID() << std::endl;
+	os << "\tTitle:          " << Title() << std::endl;
+	os << "\tLength:         " << Length() << std::endl;
+	os << "\tDisambiguation: " << Disambiguation() << std::endl;
 
-	os << "\tID:             " << Recording.ID() << std::endl;
-	os << "\tTitle:          " << Recording.Title() << std::endl;
-	os << "\tLength:         " << Recording.Length() << std::endl;
-	os << "\tDisambiguation: " << Recording.Disambiguation() << std::endl;
+	if (ArtistCredit())
+		os << *ArtistCredit() << std::endl;
 
-	if (Recording.ArtistCredit())
-		os << *Recording.ArtistCredit() << std::endl;
+	if (ReleaseList())
+		os << *ReleaseList() << std::endl;
 
-	if (Recording.ReleaseList())
-		os << *Recording.ReleaseList() << std::endl;
+	if (PUIDList())
+		os << *PUIDList() << std::endl;
 
-	if (Recording.PUIDList())
-		os << *Recording.PUIDList() << std::endl;
+	if (ISRCList())
+		os << *ISRCList() << std::endl;
 
-	if (Recording.ISRCList())
-		os << *Recording.ISRCList() << std::endl;
+	if (RelationList())
+		os << *RelationList() << std::endl;
 
-	if (Recording.RelationList())
-		os << *Recording.RelationList() << std::endl;
+	if (TagList())
+		os << *TagList() << std::endl;
 
-	if (Recording.TagList())
-		os << *Recording.TagList() << std::endl;
+	if (UserTagList())
+		os << *UserTagList() << std::endl;
 
-	if (Recording.UserTagList())
-		os << *Recording.UserTagList() << std::endl;
+	if (Rating())
+		os << *Rating() << std::endl;
 
-	if (Recording.Rating())
-		os << *Recording.Rating() << std::endl;
-
-	if (Recording.UserRating())
-		os << *Recording.UserRating() << std::endl;
+	if (UserRating())
+		os << *UserRating() << std::endl;
 
 	return os;
 }

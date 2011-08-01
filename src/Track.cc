@@ -153,7 +153,7 @@ bool MusicBrainz4::CTrack::ParseElement(const XMLNode& Node)
 	return RetVal;
 }
 
-std::string MusicBrainz4::CTrack::ElementName() const
+std::string MusicBrainz4::CTrack::GetElementName()
 {
 	return "track";
 }
@@ -183,24 +183,22 @@ MusicBrainz4::CArtistCredit *MusicBrainz4::CTrack::ArtistCredit() const
 	return m_d->m_ArtistCredit;
 }
 
-std::ostream& operator << (std::ostream& os, const MusicBrainz4::CTrack& Track)
+std::ostream& MusicBrainz4::CTrack::Serialise(std::ostream& os) const
 {
 	os << "Track:" << std::endl;
 
-	MusicBrainz4::CEntity *Base=(MusicBrainz4::CEntity *)&Track;
+	CEntity::Serialise(os);
 
-	os << *Base << std::endl;
+	os << "\tPosition: " << Position() << std::endl;
+	os << "\tTitle:    " << Title() << std::endl;
 
-	os << "\tPosition: " << Track.Position() << std::endl;
-	os << "\tTitle:    " << Track.Title() << std::endl;
+	if (Recording())
+		os << *Recording() << std::endl;
 
-	if (Track.Recording())
-		os << *Track.Recording() << std::endl;
+	os << "\tLength:   " << Length() << std::endl;
 
-	os << "\tLength:   " << Track.Length() << std::endl;
-
-	if (Track.ArtistCredit())
-		os << *Track.ArtistCredit() << std::endl;
+	if (ArtistCredit())
+		os << *ArtistCredit() << std::endl;
 
 	return os;
 }

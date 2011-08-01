@@ -109,7 +109,7 @@ bool MusicBrainz4::CMediumList::ParseElement(const XMLNode& Node)
 	return RetVal;
 }
 
-std::string MusicBrainz4::CMediumList::ElementName() const
+std::string MusicBrainz4::CMediumList::GetElementName()
 {
 	return "medium-list";
 }
@@ -124,21 +124,19 @@ MusicBrainz4::CMedium *MusicBrainz4::CMediumList::Item(int Item) const
 	return dynamic_cast<CMedium *>(CList::Item(Item));
 }
 
-std::ostream& operator << (std::ostream& os, const MusicBrainz4::CMediumList& MediumList)
+std::ostream& MusicBrainz4::CMediumList::Serialise(std::ostream& os) const
 {
 	os << "Medium list:" << std::endl;
 
-	MusicBrainz4::CList *Base=(MusicBrainz4::CList *)&MediumList;
+	CList::Serialise(os);
 
-	os << *Base << std::endl;
+	os << "\tTrack count: " << TrackCount() << std::endl;
 
-	os << "\tTrack count: " << MediumList.TrackCount() << std::endl;
-
-	for (int count=0;count<MediumList.NumItems();count++)
+	for (int count=0;count<NumItems();count++)
 	{
-		MusicBrainz4::CMedium *Item=MediumList.Item(count);
+		MusicBrainz4::CMedium *ThisItem=Item(count);
 
-		os << *Item;
+		os << *ThisItem;
 	}
 
 	return os;

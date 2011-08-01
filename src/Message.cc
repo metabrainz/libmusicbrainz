@@ -98,7 +98,7 @@ bool MusicBrainz4::CMessage::ParseElement(const XMLNode& Node)
 	return RetVal;
 }
 
-std::string MusicBrainz4::CMessage::ElementName() const
+std::string MusicBrainz4::CMessage::GetElementName()
 {
 	return "message";
 }
@@ -108,15 +108,13 @@ std::string MusicBrainz4::CMessage::Text() const
 	return m_d->m_Text;
 }
 
-std::ostream& operator << (std::ostream& os, const MusicBrainz4::CMessage& Message)
+std::ostream& MusicBrainz4::CMessage::Serialise(std::ostream& os) const
 {
 	os << "Message:" << std::endl;
 
-	MusicBrainz4::CEntity *Base=(MusicBrainz4::CEntity *)&Message;
+	CEntity::Serialise(os);
 
-	os << *Base << std::endl;
-
-	os << "\tText: " << Message.Text() << std::endl;
+	os << "\tText: " << Text() << std::endl;
 
 	return os;
 }

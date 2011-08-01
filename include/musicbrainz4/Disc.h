@@ -26,6 +26,7 @@
 #define _MUSICBRAINZ4_DISC_H
 
 #include "musicbrainz4/Entity.h"
+#include "musicbrainz4/ReleaseList.h"
 
 #include "musicbrainz4/Lifespan.h"
 
@@ -37,8 +38,6 @@
 namespace MusicBrainz4
 {
 	class CDiscPrivate;
-
-	class CReleaseList;
 
 	class CDisc: public CEntity
 	{
@@ -54,7 +53,8 @@ namespace MusicBrainz4
 		int Sectors() const;
 		CReleaseList *ReleaseList() const;
 
-		virtual std::string ElementName() const;
+		virtual std::ostream& Serialise(std::ostream& os) const;
+		static std::string GetElementName();
 
 	protected:
 		virtual bool ParseAttribute(const std::string& Name, const std::string& Value);
@@ -66,7 +66,5 @@ namespace MusicBrainz4
 		CDiscPrivate * const m_d;
 	};
 }
-
-std::ostream& operator << (std::ostream& os, const MusicBrainz4::CDisc& Disc);
 
 #endif

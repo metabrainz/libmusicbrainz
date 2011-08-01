@@ -126,7 +126,7 @@ bool MusicBrainz4::CPUID::ParseElement(const XMLNode& Node)
 	return RetVal;
 }
 
-std::string MusicBrainz4::CPUID::ElementName() const
+std::string MusicBrainz4::CPUID::GetElementName()
 {
 	return "puid";
 }
@@ -141,18 +141,16 @@ MusicBrainz4::CRecordingList *MusicBrainz4::CPUID::RecordingList() const
 	return m_d->m_RecordingList;
 }
 
-std::ostream& operator << (std::ostream& os, const MusicBrainz4::CPUID& PUID)
+std::ostream& MusicBrainz4::CPUID::Serialise(std::ostream& os) const
 {
 	os << "PUID:" << std::endl;
 
-	MusicBrainz4::CEntity *Base=(MusicBrainz4::CEntity *)&PUID;
+	CEntity::Serialise(os);
 
-	os << *Base << std::endl;
+	os << "\tID: " << ID() << std::endl;
 
-	os << "\tID: " << PUID.ID() << std::endl;
-
-	if (PUID.RecordingList())
-		os << *PUID.RecordingList() << std::endl;
+	if (RecordingList())
+		os << *RecordingList() << std::endl;
 
 	return os;
 }

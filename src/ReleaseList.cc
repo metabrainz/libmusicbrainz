@@ -22,6 +22,8 @@
 
 ----------------------------------------------------------------------------*/
 
+#if 0
+
 #include "musicbrainz4/ReleaseList.h"
 
 #include "musicbrainz4/Release.h"
@@ -124,3 +126,5 @@ std::ostream& operator << (std::ostream& os, const MusicBrainz4::CReleaseList& R
 
 	return os;
 }
+
+#endif

@@ -29,6 +29,7 @@
 #include <iostream>
 
 #include "musicbrainz4/Entity.h"
+#include "musicbrainz4/ReleaseList.h"
 
 #include "musicbrainz4/xmlParser.h"
 
@@ -37,7 +38,6 @@ namespace MusicBrainz4
 	class CReleaseGroupPrivate;
 
 	class CArtistCredit;
-	class CReleaseList;
 	class CRelationList;
 	class CTagList;
 	class CUserTagList;
@@ -67,7 +67,8 @@ namespace MusicBrainz4
 		CRating *Rating() const;
 		CUserRating *UserRating() const;
 
-		virtual std::string ElementName() const;
+		virtual std::ostream& Serialise(std::ostream& os) const;
+		static std::string GetElementName();
 
 	protected:
 		virtual bool ParseAttribute(const std::string& Name, const std::string& Value);
@@ -79,7 +80,5 @@ namespace MusicBrainz4
 		CReleaseGroupPrivate * const m_d;
 	};
 }
-
-std::ostream& operator << (std::ostream& os, const MusicBrainz4::CReleaseGroup& ReleaseGroup);
 
 #endif

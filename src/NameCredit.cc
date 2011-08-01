@@ -133,7 +133,7 @@ bool MusicBrainz4::CNameCredit::ParseElement(const XMLNode& Node)
 	return RetVal;
 }
 
-std::string MusicBrainz4::CNameCredit::ElementName() const
+std::string MusicBrainz4::CNameCredit::GetElementName()
 {
 	return "name-credit";
 }
@@ -153,19 +153,17 @@ MusicBrainz4::CArtist *MusicBrainz4::CNameCredit::Artist() const
 	return m_d->m_Artist;
 }
 
-std::ostream& operator << (std::ostream& os, const MusicBrainz4::CNameCredit& NameCredit)
+std::ostream& MusicBrainz4::CNameCredit::Serialise(std::ostream& os) const
 {
 	os << "Name credit:" << std::endl;
 
-	MusicBrainz4::CEntity *Base=(MusicBrainz4::CEntity *)&NameCredit;
+	CEntity::Serialise(os);
 
-	os << *Base << std::endl;
+	os << "\tJoin phrase: " << JoinPhrase() << std::endl;
+	os << "\tName:        " << Name() << std::endl;
 
-	os << "\tJoin phrase: " << NameCredit.JoinPhrase() << std::endl;
-	os << "\tName:        " << NameCredit.Name() << std::endl;
-
-	if (NameCredit.Artist())
-		os << *NameCredit.Artist() << std::endl;
+	if (Artist())
+		os << *Artist() << std::endl;
 
 	return os;
 }

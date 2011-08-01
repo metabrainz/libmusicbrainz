@@ -97,7 +97,7 @@ bool MusicBrainz4::CDiscList::ParseElement(const XMLNode& Node)
 	return RetVal;
 }
 
-std::string MusicBrainz4::CDiscList::ElementName() const
+std::string MusicBrainz4::CDiscList::GetElementName()
 {
 	return "disc-list";
 }
@@ -107,19 +107,17 @@ MusicBrainz4::CDisc *MusicBrainz4::CDiscList::Item(int Item) const
 	return dynamic_cast<CDisc *>(CList::Item(Item));
 }
 
-std::ostream& operator << (std::ostream& os, const MusicBrainz4::CDiscList& DiscList)
+std::ostream& MusicBrainz4::CDiscList::Serialise(std::ostream& os) const
 {
 	os << "Disc list:" << std::endl;
 
-	MusicBrainz4::CList *Base=(MusicBrainz4::CList *)&DiscList;
+	CList::Serialise(os);
 
-	os << *Base << std::endl;
-
-	for (int count=0;count<DiscList.NumItems();count++)
+	for (int count=0;count<NumItems();count++)
 	{
-		MusicBrainz4::CDisc *Item=DiscList.Item(count);
+		MusicBrainz4::CDisc *ThisItem=Item(count);
 
-		os << *Item;
+		os << *ThisItem;
 	}
 
 	return os;

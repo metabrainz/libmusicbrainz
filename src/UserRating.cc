@@ -103,7 +103,7 @@ bool MusicBrainz4::CUserRating::ParseElement(const XMLNode& Node)
 	return RetVal;
 }
 
-std::string MusicBrainz4::CUserRating::ElementName() const
+std::string MusicBrainz4::CUserRating::GetElementName()
 {
 	return "user-rating";
 }
@@ -113,15 +113,13 @@ int MusicBrainz4::CUserRating::UserRating() const
 	return m_d->m_UserRating;
 }
 
-std::ostream& operator << (std::ostream& os, const MusicBrainz4::CUserRating& UserRating)
+std::ostream& MusicBrainz4::CUserRating::Serialise(std::ostream& os) const
 {
 	os << "User rating:" << std::endl;
 
-	MusicBrainz4::CEntity *Base=(MusicBrainz4::CEntity *)&UserRating;
+	CEntity::Serialise(os);
 
-	os << *Base << std::endl;
-
-	os << "\tRating: " << UserRating.UserRating() << std::endl;
+	os << "\tRating: " << UserRating() << std::endl;
 
 	return os;
 }

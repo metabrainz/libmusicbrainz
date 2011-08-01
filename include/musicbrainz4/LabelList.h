@@ -50,8 +50,8 @@ namespace MusicBrainz4
 
 		CLabel *Item(int Item) const;
 
-
-		virtual std::string ElementName() const;
+		virtual std::ostream& Serialise(std::ostream& os) const;
+		static std::string GetElementName();
 
 	protected:
 		virtual bool ParseAttribute(const std::string& Name, const std::string& Value);
@@ -61,7 +61,5 @@ namespace MusicBrainz4
 		CLabelListPrivate * const m_d;
 	};
 }
-
-std::ostream& operator << (std::ostream& os, const MusicBrainz4::CLabelList& MediumList);
 
 #endif

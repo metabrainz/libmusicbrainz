@@ -125,7 +125,7 @@ bool MusicBrainz4::CLabelInfo::ParseElement(const XMLNode& Node)
 	return RetVal;
 }
 
-std::string MusicBrainz4::CLabelInfo::ElementName() const
+std::string MusicBrainz4::CLabelInfo::GetElementName()
 {
 	return "label-info";
 }
@@ -140,18 +140,16 @@ MusicBrainz4::CLabel *MusicBrainz4::CLabelInfo::Label() const
 	return m_d->m_Label;
 }
 
-std::ostream& operator << (std::ostream& os, const MusicBrainz4::CLabelInfo& LabelInfo)
+std::ostream& MusicBrainz4::CLabelInfo::Serialise(std::ostream& os) const
 {
 	os << "Label info:" << std::endl;
 
-	MusicBrainz4::CEntity *Base=(MusicBrainz4::CEntity *)&LabelInfo;
+	CEntity::Serialise(os);
 
-	os << *Base << std::endl;
+	os << "\tCatalog number: " << CatalogNumber() << std::endl;
 
-	os << "\tCatalog number: " << LabelInfo.CatalogNumber() << std::endl;
-
-	if (LabelInfo.Label())
-		os << *LabelInfo.Label() << std::endl;
+	if (Label())
+		os << *Label() << std::endl;
 
 	return os;
 }

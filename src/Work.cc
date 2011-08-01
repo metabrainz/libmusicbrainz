@@ -227,7 +227,7 @@ bool MusicBrainz4::CWork::ParseElement(const XMLNode& Node)
 	return RetVal;
 }
 
-std::string MusicBrainz4::CWork::ElementName() const
+std::string MusicBrainz4::CWork::GetElementName()
 {
 	return "work";
 }
@@ -292,39 +292,39 @@ MusicBrainz4::CUserRating *MusicBrainz4::CWork::UserRating() const
 	return m_d->m_UserRating;
 }
 
-std::ostream& operator << (std::ostream& os, const MusicBrainz4::CWork& Work)
+std::ostream& MusicBrainz4::CWork::Serialise(std::ostream& os) const
 {
 	os << "Work:" << std::endl;
 
-	MusicBrainz4::CEntity *Base=(MusicBrainz4::CEntity *)&Work;
+	CEntity::Serialise(os);
 
-	os << *Base << std::endl;
+	os << "\tID:             " << ID() << std::endl;
+	os << "\tWork:           " << Type() << std::endl;
+	os << "\tTitle:          " << Title() << std::endl;
 
-	os << "\tID:             " << Work.ID() << std::endl;
-	os << "\tWork:           " << Work.Type() << std::endl;
-	os << "\tTitle:          " << Work.Title() << std::endl;
-	if (Work.ArtistCredit())
-		os << Work.ArtistCredit() << std::endl;
-	os << "\tISWC:           " << Work.ISWC() << std::endl;
+	if (ArtistCredit())
+		os << ArtistCredit() << std::endl;
 
-	os << "\tDisambiguation: " << Work.Disambiguation() << std::endl;
-	if (Work.AliasList())
-		os << Work.AliasList() << std::endl;
+	os << "\tISWC:           " << ISWC() << std::endl;
+	os << "\tDisambiguation: " << Disambiguation() << std::endl;
 
-	if (Work.RelationList())
-		os << Work.RelationList() << std::endl;
+	if (AliasList())
+		os << AliasList() << std::endl;
 
-	if (Work.TagList())
-		os << Work.TagList() << std::endl;
+	if (RelationList())
+		os << RelationList() << std::endl;
 
-	if (Work.UserTagList())
-		os << Work.UserTagList() << std::endl;
+	if (TagList())
+		os << TagList() << std::endl;
 
-	if (Work.Rating())
-		os << Work.Rating() << std::endl;
+	if (UserTagList())
+		os << UserTagList() << std::endl;
 
-	if (Work.UserRating())
-		os << Work.UserRating() << std::endl;
+	if (Rating())
+		os << Rating() << std::endl;
+
+	if (UserRating())
+		os << UserRating() << std::endl;
 
 	return os;
 }

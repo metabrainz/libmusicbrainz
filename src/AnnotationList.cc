@@ -97,7 +97,7 @@ bool MusicBrainz4::CAnnotationList::ParseElement(const XMLNode& Node)
 	return RetVal;
 }
 
-std::string MusicBrainz4::CAnnotationList::ElementName() const
+std::string MusicBrainz4::CAnnotationList::GetElementName()
 {
 	return "annotation-list";
 }
@@ -107,19 +107,17 @@ MusicBrainz4::CAnnotation *MusicBrainz4::CAnnotationList::Item(int Item) const
 	return dynamic_cast<CAnnotation *>(CList::Item(Item));
 }
 
-std::ostream& operator << (std::ostream& os, const MusicBrainz4::CAnnotationList& AnnotationList)
+std::ostream& MusicBrainz4::CAnnotationList::Serialise(std::ostream& os) const
 {
 	os << "Annotation list:" << std::endl;
 
-	MusicBrainz4::CList *Base=(MusicBrainz4::CList *)&AnnotationList;
+	CList::Serialise(os);
 
-	os << *Base << std::endl;
-
-	for (int count=0;count<AnnotationList.NumItems();count++)
+	for (int count=0;count<NumItems();count++)
 	{
-		MusicBrainz4::CAnnotation *Item=AnnotationList.Item(count);
+		MusicBrainz4::CAnnotation *ThisItem=Item(count);
 
-		os << *Item;
+		os << *ThisItem;
 	}
 
 	return os;

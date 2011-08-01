@@ -136,7 +136,7 @@ bool MusicBrainz4::CCollection::ParseElement(const XMLNode& Node)
 	return RetVal;
 }
 
-std::string MusicBrainz4::CCollection::ElementName() const
+std::string MusicBrainz4::CCollection::GetElementName()
 {
 	return "collection";
 }
@@ -161,20 +161,18 @@ MusicBrainz4::CReleaseList *MusicBrainz4::CCollection::ReleaseList() const
 	return m_d->m_ReleaseList;
 }
 
-std::ostream& operator << (std::ostream& os, const MusicBrainz4::CCollection& Collection)
+std::ostream& MusicBrainz4::CCollection::Serialise(std::ostream& os) const
 {
 	os << "Collection:" << std::endl;
 
-	MusicBrainz4::CEntity *Base=(MusicBrainz4::CEntity *)&Collection;
+	CEntity::Serialise(os);
 
-	os << *Base << std::endl;
+	os << "\tID:     " << ID() << std::endl;
+	os << "\tName:   " << Name() << std::endl;
+	os << "\tEditor: " << Editor() << std::endl;
 
-	os << "\tID:  " << Collection.ID() << std::endl;
-	os << "\tName: " << Collection.Name() << std::endl;
-	os << "\tEditor: " << Collection.Editor() << std::endl;
-
-	if (Collection.ReleaseList())
-		os << *Collection.ReleaseList() << std::endl;
+	if (ReleaseList())
+		os << *ReleaseList() << std::endl;
 
 	return os;
 }

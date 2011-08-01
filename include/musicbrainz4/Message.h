@@ -48,7 +48,8 @@ namespace MusicBrainz4
 
 		std::string Text() const;
 
-		virtual std::string ElementName() const;
+		virtual std::ostream& Serialise(std::ostream& os) const;
+		static std::string GetElementName();
 
 	protected:
 		virtual bool ParseAttribute(const std::string& Name, const std::string& Value);
@@ -58,7 +59,5 @@ namespace MusicBrainz4
 		CMessagePrivate * const m_d;
 	};
 }
-
-std::ostream& operator << (std::ostream& os, const MusicBrainz4::CMessage& Message);
 
 #endif

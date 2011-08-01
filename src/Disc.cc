@@ -133,7 +133,7 @@ bool MusicBrainz4::CDisc::ParseElement(const XMLNode& Node)
 	return RetVal;
 }
 
-std::string MusicBrainz4::CDisc::ElementName() const
+std::string MusicBrainz4::CDisc::GetElementName()
 {
 	return "disc";
 }
@@ -153,19 +153,17 @@ MusicBrainz4::CReleaseList *MusicBrainz4::CDisc::ReleaseList() const
 	return m_d->m_ReleaseList;
 }
 
-std::ostream& operator << (std::ostream& os, const MusicBrainz4::CDisc& Disc)
+std::ostream& MusicBrainz4::CDisc::Serialise(std::ostream& os) const
 {
 	os << "Disc:" << std::endl;
 
-	MusicBrainz4::CEntity *Base=(MusicBrainz4::CEntity *)&Disc;
+	CEntity::Serialise(os);
 
-	os << *Base << std::endl;
+	os << "\tID:      " << ID() << std::endl;
+	os << "\tSectors: " << Sectors() << std::endl;
 
-	os << "\tID:      " << Disc.ID() << std::endl;
-	os << "\tSectors: " << Disc.Sectors() << std::endl;
-
-	if (Disc.ReleaseList())
-		os << *Disc.ReleaseList() << std::endl;
+	if (ReleaseList())
+		os << *ReleaseList() << std::endl;
 
 	return os;
 }

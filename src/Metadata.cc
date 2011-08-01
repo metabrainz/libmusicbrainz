@@ -485,7 +485,7 @@ bool MusicBrainz4::CMetadata::ParseElement(const XMLNode& Node)
 	return RetVal;
 }
 
-std::string MusicBrainz4::CMetadata::ElementName() const
+std::string MusicBrainz4::CMetadata::GetElementName()
 {
 	return "metadata";
 }
@@ -650,99 +650,97 @@ MusicBrainz4::CMessage *MusicBrainz4::CMetadata::Message() const
 	return m_d->m_Message;
 }
 
-std::ostream& operator << (std::ostream& os, const MusicBrainz4::CMetadata& Metadata)
+std::ostream& MusicBrainz4::CMetadata::Serialise(std::ostream& os) const
 {
 	os << "Metadata:" << std::endl;
 
-	MusicBrainz4::CEntity *Base=(MusicBrainz4::CEntity *)&Metadata;
+	CEntity::Serialise(os);
 
-	os << *Base << std::endl;
+	os << "XMLNS:     " << XMLNS() << std::endl;
+	os << "XMLNS-Ext: " << XMLNSExt() << std::endl;
+	os << "Generator: " << Generator() << std::endl;
+	os << "Created:   " << Created() << std::endl;
 
-	os << "XMLNS:     " << Metadata.XMLNS() << std::endl;
-	os << "XMLNS-Ext: " << Metadata.XMLNSExt() << std::endl;
-	os << "Generator: " << Metadata.Generator() << std::endl;
-	os << "Created:   " << Metadata.Created() << std::endl;
+	if (Artist())
+		os << *Artist() << std::endl;
 
-	if (Metadata.Artist())
-		os << *Metadata.Artist() << std::endl;
+	if (Release())
+		os << *Release() << std::endl;
 
-	if (Metadata.Release())
-		os << *Metadata.Release() << std::endl;
+	if (ReleaseGroup())
+		os << *ReleaseGroup() << std::endl;
 
-	if (Metadata.ReleaseGroup())
-		os << *Metadata.ReleaseGroup() << std::endl;
+	if (Recording())
+		os << *Recording() << std::endl;
 
-	if (Metadata.Recording())
-		os << *Metadata.Recording() << std::endl;
+	if (Label())
+		os << *Label() << std::endl;
 
-	if (Metadata.Label())
-		os << *Metadata.Label() << std::endl;
+	if (Work())
+		os << *Work() << std::endl;
 
-	if (Metadata.Work())
-		os << *Metadata.Work() << std::endl;
+	if (PUID())
+		os << *PUID() << std::endl;
 
-	if (Metadata.PUID())
-		os << *Metadata.PUID() << std::endl;
+	if (ISRC())
+		os << *ISRC() << std::endl;
 
-	if (Metadata.ISRC())
-		os << *Metadata.ISRC() << std::endl;
+	if (Disc())
+		os << *Disc() << std::endl;
 
-	if (Metadata.Disc())
-		os << *Metadata.Disc() << std::endl;
+	if (LabelInfoList())
+		os << *LabelInfoList() << std::endl;
 
-	if (Metadata.LabelInfoList())
-		os << *Metadata.LabelInfoList() << std::endl;
+	if (UserRating())
+		os << *UserRating() << std::endl;
 
-	if (Metadata.UserRating())
-		os << *Metadata.UserRating() << std::endl;
+	if (Collection())
+		os << *Collection() << std::endl;
 
-	if (Metadata.Collection())
-		os << *Metadata.Collection() << std::endl;
+	if (ArtistList())
+		os << *ArtistList() << std::endl;
 
-	if (Metadata.ArtistList())
-		os << *Metadata.ArtistList() << std::endl;
+	if (ReleaseList())
+		os << *ReleaseList() << std::endl;
 
-	if (Metadata.ReleaseList())
-		os << *Metadata.ReleaseList() << std::endl;
+	if (ReleaseGroupList())
+		os << *ReleaseGroupList() << std::endl;
 
-	if (Metadata.ReleaseGroupList())
-		os << *Metadata.ReleaseGroupList() << std::endl;
+	if (RecordingList())
+		os << *RecordingList() << std::endl;
 
-	if (Metadata.RecordingList())
-		os << *Metadata.RecordingList() << std::endl;
+	if (LabelList())
+		os << *LabelList() << std::endl;
 
-	if (Metadata.LabelList())
-		os << *Metadata.LabelList() << std::endl;
+	if (WorkList())
+		os << *WorkList() << std::endl;
 
-	if (Metadata.WorkList())
-		os << *Metadata.WorkList() << std::endl;
+	if (ISRCList())
+		os << *ISRCList() << std::endl;
 
-	if (Metadata.ISRCList())
-		os << *Metadata.ISRCList() << std::endl;
+	if (AnnotationList())
+		os << *AnnotationList() << std::endl;
 
-	if (Metadata.AnnotationList())
-		os << *Metadata.AnnotationList() << std::endl;
+	if (CDStubList())
+		os << *CDStubList() << std::endl;
 
-	if (Metadata.CDStubList())
-		os << *Metadata.CDStubList() << std::endl;
+	if (FreeDBDiscList())
+		os << *FreeDBDiscList() << std::endl;
 
-	if (Metadata.FreeDBDiscList())
-		os << *Metadata.FreeDBDiscList() << std::endl;
+	if (TagList())
+		os << *TagList() << std::endl;
 
-	if (Metadata.TagList())
-		os << *Metadata.TagList() << std::endl;
+	if (UserTagList())
+		os << *UserTagList() << std::endl;
 
-	if (Metadata.UserTagList())
-		os << *Metadata.UserTagList() << std::endl;
+	if (CollectionList())
+		os << *CollectionList() << std::endl;
 
-	if (Metadata.CollectionList())
-		os << *Metadata.CollectionList() << std::endl;
+	if (CDStub())
+		os << *CDStub() << std::endl;
 
-	if (Metadata.CDStub())
-		os << *Metadata.CDStub() << std::endl;
-
-	if (Metadata.Message())
-		os << *Metadata.Message() << std::endl;
+	if (Message())
+		os << *Message() << std::endl;
 
 	return os;
 }

@@ -100,7 +100,7 @@ bool MusicBrainz4::CUserTag::ParseElement(const XMLNode& Node)
 	return RetVal;
 }
 
-std::string MusicBrainz4::CUserTag::ElementName() const
+std::string MusicBrainz4::CUserTag::GetElementName()
 {
 	return "user-tag";
 }
@@ -110,15 +110,13 @@ std::string MusicBrainz4::CUserTag::Name() const
 	return m_d->m_Name;
 }
 
-std::ostream& operator << (std::ostream& os, const MusicBrainz4::CUserTag& UserTag)
+std::ostream& MusicBrainz4::CUserTag::Serialise(std::ostream& os) const
 {
 	os << "UserTag:" << std::endl;
 
-	MusicBrainz4::CEntity *Base=(MusicBrainz4::CEntity *)&UserTag;
+	CEntity::Serialise(os);
 
-	os << *Base << std::endl;
-
-	os << "\tName:  " << UserTag.Name() << std::endl;
+	os << "\tName:  " << Name() << std::endl;
 
 	return os;
 }

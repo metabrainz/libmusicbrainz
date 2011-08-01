@@ -103,7 +103,7 @@ bool MusicBrainz4::CAlias::ParseElement(const XMLNode& Node)
 	return RetVal;
 }
 
-std::string MusicBrainz4::CAlias::ElementName() const
+std::string MusicBrainz4::CAlias::GetElementName()
 {
 	return "alias";
 }
@@ -118,16 +118,14 @@ std::string MusicBrainz4::CAlias::Text() const
 	return m_d->m_Text;
 }
 
-std::ostream& operator << (std::ostream& os, const MusicBrainz4::CAlias& Alias)
+std::ostream& MusicBrainz4::CAlias::Serialise(std::ostream& os) const
 {
 	os << "Alias:" << std::endl;
 
-	MusicBrainz4::CEntity *Base=(MusicBrainz4::CEntity *)&Alias;
+	CEntity::Serialise(os);
 
-	os << *Base << std::endl;
-
-	os << "\tLocale: " << Alias.Locale() << std::endl;
-	os << "\tText:   " << Alias.Text() << std::endl;
+	os << "\tLocale: " << Locale() << std::endl;
+	os << "\tText:   " << Text() << std::endl;
 
 	return os;
 }

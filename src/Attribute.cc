@@ -96,7 +96,7 @@ bool MusicBrainz4::CAttribute::ParseElement(const XMLNode& Node)
 	return RetVal;
 }
 
-std::string MusicBrainz4::CAttribute::ElementName() const
+std::string MusicBrainz4::CAttribute::GetElementName()
 {
 	return "attribute";
 }
@@ -106,15 +106,13 @@ std::string MusicBrainz4::CAttribute::Text() const
 	return m_d->m_Text;
 }
 
-std::ostream& operator << (std::ostream& os, const MusicBrainz4::CAttribute& Attribute)
+std::ostream& MusicBrainz4::CAttribute::Serialise(std::ostream& os) const
 {
 	os << "Attribute:" << std::endl;
 
-	MusicBrainz4::CEntity *Base=(MusicBrainz4::CEntity *)&Attribute;
+	CEntity::Serialise(os);
 
-	os << *Base << std::endl;
-
-	os << "\tText: " << Attribute.Text() << std::endl;
+	os << "\tText: " << Text() << std::endl;
 
 	return os;
 }

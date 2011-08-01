@@ -150,7 +150,7 @@ bool MusicBrainz4::CCDStub::ParseElement(const XMLNode& Node)
 	return RetVal;
 }
 
-std::string MusicBrainz4::CCDStub::ElementName() const
+std::string MusicBrainz4::CCDStub::GetElementName()
 {
 	return "cdstub";
 }
@@ -185,22 +185,20 @@ MusicBrainz4::CNonMBTrackList *MusicBrainz4::CCDStub::NonMBTrackList() const
 	return m_d->m_NonMBTrackList;
 }
 
-std::ostream& operator << (std::ostream& os, const MusicBrainz4::CCDStub& CDStub)
+std::ostream& MusicBrainz4::CCDStub::Serialise(std::ostream& os) const
 {
 	os << "CDStub:" << std::endl;
 
-	MusicBrainz4::CEntity *Base=(MusicBrainz4::CEntity *)&CDStub;
+	CEntity::Serialise(os);
 
-	os << *Base << std::endl;
+	os << "\tID:      " << ID() << std::endl;
+	os << "\tTitle:   " << Title() << std::endl;
+	os << "\tArtist:  " << Artist() << std::endl;
+	os << "\tBarcode: " << Barcode() << std::endl;
+	os << "\tComment: " << Comment() << std::endl;
 
-	os << "\tID:      " << CDStub.ID() << std::endl;
-	os << "\tTitle:   " << CDStub.Title() << std::endl;
-	os << "\tArtist:  " << CDStub.Artist() << std::endl;
-	os << "\tBarcode: " << CDStub.Barcode() << std::endl;
-	os << "\tComment: " << CDStub.Comment() << std::endl;
-
-	if (CDStub.NonMBTrackList())
-		os << *CDStub.NonMBTrackList() << std::endl;
+	if (NonMBTrackList())
+		os << *NonMBTrackList() << std::endl;
 
 	return os;
 }

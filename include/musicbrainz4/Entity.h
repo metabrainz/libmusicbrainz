@@ -51,6 +51,9 @@ namespace MusicBrainz4
 		std::map<std::string,std::string> ExtAttributes() const;
 		std::map<std::string,std::string> ExtElements() const;
 
+		virtual std::ostream& Serialise(std::ostream& os) const;
+		static std::string GetElementName();
+
 	protected:
 		template<typename T>
 		bool ProcessItem(const XMLNode& Node, T* & RetVal)
@@ -109,7 +112,6 @@ namespace MusicBrainz4
 
 		}
 
-		virtual std::string ElementName() const =0;
 		virtual bool ParseAttribute(const std::string& Name, const std::string& Value)=0;
 		virtual bool ParseElement(const XMLNode& Node)=0;
 

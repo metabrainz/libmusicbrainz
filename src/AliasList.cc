@@ -97,7 +97,7 @@ bool MusicBrainz4::CAliasList::ParseElement(const XMLNode& Node)
 	return RetVal;
 }
 
-std::string MusicBrainz4::CAliasList::ElementName() const
+std::string MusicBrainz4::CAliasList::GetElementName()
 {
 	return "alias-list";
 }
@@ -107,19 +107,17 @@ MusicBrainz4::CAlias *MusicBrainz4::CAliasList::Item(int Item) const
 	return dynamic_cast<CAlias *>(CList::Item(Item));
 }
 
-std::ostream& operator << (std::ostream& os, const MusicBrainz4::CAliasList& AliasList)
+std::ostream& MusicBrainz4::CAliasList::Serialise(std::ostream& os) const
 {
 	os << "Alias list:" << std::endl;
 
-	MusicBrainz4::CList *Base=(MusicBrainz4::CList *)&AliasList;
+	CList::Serialise(os);
 
-	os << *Base << std::endl;
-
-	for (int count=0;count<AliasList.NumItems();count++)
+	for (int count=0;count<NumItems();count++)
 	{
-		MusicBrainz4::CAlias *Item=AliasList.Item(count);
+		MusicBrainz4::CAlias *ThisItem=Item(count);
 
-		os << *Item;
+		os << *ThisItem;
 	}
 
 	return os;

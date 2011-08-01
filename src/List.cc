@@ -126,7 +126,7 @@ bool MusicBrainz4::CList::ParseElement(const XMLNode& Node)
 	return RetVal;
 }
 
-std::string MusicBrainz4::CList::ElementName() const
+std::string MusicBrainz4::CList::GetElementName()
 {
 	return "";
 }
@@ -161,11 +161,11 @@ int MusicBrainz4::CList::Count() const
 	return m_d->m_Count;
 }
 
-std::ostream& operator << (std::ostream& os, const MusicBrainz4::CList& List)
+std::ostream& MusicBrainz4::CList::Serialise(std::ostream& os) const
 {
 	os << "List: " << std::endl;
-	os << "Offset: " << List.Offset() << std::endl;
-	os << "Count:  " << List.Count() << std::endl;
+	os << "Offset: " << Offset() << std::endl;
+	os << "Count:  " << Count() << std::endl;
 
 	return os;
 }

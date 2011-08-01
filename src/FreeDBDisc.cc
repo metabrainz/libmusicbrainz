@@ -151,7 +151,7 @@ bool MusicBrainz4::CFreeDBDisc::ParseElement(const XMLNode& Node)
 	return RetVal;
 }
 
-std::string MusicBrainz4::CFreeDBDisc::ElementName() const
+std::string MusicBrainz4::CFreeDBDisc::GetElementName()
 {
 	return "freedb-disc";
 }
@@ -186,22 +186,20 @@ MusicBrainz4::CNonMBTrackList *MusicBrainz4::CFreeDBDisc::NonMBTrackList() const
 	return m_d->m_NonMBTrackList;
 }
 
-std::ostream& operator << (std::ostream& os, const MusicBrainz4::CFreeDBDisc& FreeDBDisc)
+std::ostream& MusicBrainz4::CFreeDBDisc::Serialise(std::ostream& os) const
 {
 	os << "FreeDBDisc:" << std::endl;
 
-	MusicBrainz4::CEntity *Base=(MusicBrainz4::CEntity *)&FreeDBDisc;
+	CEntity::Serialise(os);
 
-	os << *Base << std::endl;
+	os << "\tID:       " << ID() << std::endl;
+	os << "\tTitle:    " << Title() << std::endl;
+	os << "\tArtist:   " << Artist() << std::endl;
+	os << "\tCategory: " << Category() << std::endl;
+	os << "\tYear:     " << Year() << std::endl;
 
-	os << "\tID:       " << FreeDBDisc.ID() << std::endl;
-	os << "\tTitle:    " << FreeDBDisc.Title() << std::endl;
-	os << "\tArtist:   " << FreeDBDisc.Artist() << std::endl;
-	os << "\tCategory: " << FreeDBDisc.Category() << std::endl;
-	os << "\tYear:     " << FreeDBDisc.Year() << std::endl;
-
-	if (FreeDBDisc.NonMBTrackList())
-		os << *FreeDBDisc.NonMBTrackList() << std::endl;
+	if (NonMBTrackList())
+		os << *NonMBTrackList() << std::endl;
 
 	return os;
 }

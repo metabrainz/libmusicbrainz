@@ -106,7 +106,7 @@ bool MusicBrainz4::CLifespan::ParseElement(const XMLNode& Node)
 	return RetVal;
 }
 
-std::string MusicBrainz4::CLifespan::ElementName() const
+std::string MusicBrainz4::CLifespan::GetElementName()
 {
 	return "life-span";
 }
@@ -121,16 +121,14 @@ std::string MusicBrainz4::CLifespan::End() const
 	return m_d->m_End;
 }
 
-std::ostream& operator << (std::ostream& os, const MusicBrainz4::CLifespan& Lifespan)
+std::ostream& MusicBrainz4::CLifespan::Serialise(std::ostream& os) const
 {
 	os << "Lifespan:" << std::endl;
 
-	MusicBrainz4::CEntity *Base=(MusicBrainz4::CEntity *)&Lifespan;
+	CEntity::Serialise(os);
 
-	os << *Base << std::endl;
-
-	os << "\tBegin: " << Lifespan.Begin() << std::endl;
-	os << "\tEnd:   " << Lifespan.End() << std::endl;
+	os << "\tBegin: " << Begin() << std::endl;
+	os << "\tEnd:   " << End() << std::endl;
 
 	return os;
 }

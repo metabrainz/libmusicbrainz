@@ -97,7 +97,7 @@ bool MusicBrainz4::CArtistList::ParseElement(const XMLNode& Node)
 	return RetVal;
 }
 
-std::string MusicBrainz4::CArtistList::ElementName() const
+std::string MusicBrainz4::CArtistList::GetElementName()
 {
 	return "artist-list";
 }
@@ -107,19 +107,17 @@ MusicBrainz4::CArtist *MusicBrainz4::CArtistList::Item(int Item) const
 	return dynamic_cast<CArtist *>(CList::Item(Item));
 }
 
-std::ostream& operator << (std::ostream& os, const MusicBrainz4::CArtistList& ArtistList)
+std::ostream& MusicBrainz4::CArtistList::Serialise(std::ostream& os) const
 {
 	os << "Artist list:" << std::endl;
 
-	MusicBrainz4::CList *Base=(MusicBrainz4::CList *)&ArtistList;
+	CList::Serialise(os);
 
-	os << *Base << std::endl;
-
-	for (int count=0;count<ArtistList.NumItems();count++)
+	for (int count=0;count<NumItems();count++)
 	{
-		MusicBrainz4::CArtist *Item=ArtistList.Item(count);
+		MusicBrainz4::CArtist *ThisItem=Item(count);
 
-		os << *Item;
+		os << *ThisItem;
 	}
 
 	return os;

@@ -49,7 +49,8 @@ namespace MusicBrainz4
 		int Count() const;
 		std::string Name() const;
 
-		virtual std::string ElementName() const;
+		virtual std::ostream& Serialise(std::ostream& os) const;
+		static std::string GetElementName();
 
 	protected:
 		virtual bool ParseAttribute(const std::string& Name, const std::string& Value);
@@ -59,7 +60,5 @@ namespace MusicBrainz4
 		CTagPrivate * const m_d;
 	};
 }
-
-std::ostream& operator << (std::ostream& os, const MusicBrainz4::CTag& Tag);
 
 #endif

@@ -122,12 +122,12 @@ std::map<std::string,std::string> MusicBrainz4::CEntity::ExtElements() const
 	return m_d->m_ExtElements;
 }
 
-std::ostream& operator << (std::ostream& os, const MusicBrainz4::CEntity& Entity)
+std::ostream& MusicBrainz4::CEntity::Serialise(std::ostream& os) const
 {
-	if (!Entity.ExtAttributes().empty())
+	if (!ExtAttributes().empty())
 	{
 		std::cout << "Ext attrs: " << std::endl;
-		std::map<std::string,std::string> ExtAttrs=Entity.ExtAttributes();
+		std::map<std::string,std::string> ExtAttrs=ExtAttributes();
 		std::map<std::string,std::string>::const_iterator ThisExtAttr=ExtAttrs.begin();
 		while (ThisExtAttr!=ExtAttrs.end())
 		{
@@ -137,12 +137,12 @@ std::ostream& operator << (std::ostream& os, const MusicBrainz4::CEntity& Entity
 		}
 	}
 
-	if (!Entity.ExtElements().empty())
+	if (!ExtElements().empty())
 	{
 		std::cout << "Ext elements: " << std::endl;
-		std::map<std::string,std::string> ExtElements=Entity.ExtElements();
-		std::map<std::string,std::string>::const_iterator ThisExtElement=ExtElements.begin();
-		while (ThisExtElement!=ExtElements.end())
+		std::map<std::string,std::string> ExtElems=ExtElements();
+		std::map<std::string,std::string>::const_iterator ThisExtElement=ExtElems.begin();
+		while (ThisExtElement!=ExtElems.end())
 		{
 			os << (*ThisExtElement).first << " = " << (*ThisExtElement).second << std::endl;
 
@@ -152,3 +152,9 @@ std::ostream& operator << (std::ostream& os, const MusicBrainz4::CEntity& Entity
 
 	return os;
 }
+
+std::ostream& operator << (std::ostream& os, const MusicBrainz4::CEntity& Entity)
+{
+	return Entity.Serialise(os);
+}
+

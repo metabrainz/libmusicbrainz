@@ -67,7 +67,8 @@ namespace MusicBrainz4
 		CRating *Rating() const;
 		CUserRating *UserRating() const;
 
-		virtual std::string ElementName() const;
+		virtual std::ostream& Serialise(std::ostream& os) const;
+		static std::string GetElementName();
 
 	protected:
 		virtual bool ParseAttribute(const std::string& Name, const std::string& Value);
@@ -79,8 +80,6 @@ namespace MusicBrainz4
 		CWorkPrivate * const m_d;
 	};
 }
-
-std::ostream& operator << (std::ostream& os, const MusicBrainz4::CWork& Work);
 
 #endif
 

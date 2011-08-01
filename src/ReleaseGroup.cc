@@ -226,7 +226,7 @@ bool MusicBrainz4::CReleaseGroup::ParseElement(const XMLNode& Node)
 	return RetVal;
 }
 
-std::string MusicBrainz4::CReleaseGroup::ElementName() const
+std::string MusicBrainz4::CReleaseGroup::GetElementName()
 {
 	return "release-group";
 }
@@ -291,40 +291,38 @@ MusicBrainz4::CUserRating *MusicBrainz4::CReleaseGroup::UserRating() const
 	return m_d->m_UserRating;
 }
 
-std::ostream& operator << (std::ostream& os, const MusicBrainz4::CReleaseGroup& ReleaseGroup)
+std::ostream& MusicBrainz4::CReleaseGroup::Serialise(std::ostream& os) const
 {
 	os << "Release group:" << std::endl;
 
-	MusicBrainz4::CEntity *Base=(MusicBrainz4::CEntity *)&ReleaseGroup;
+	CEntity::Serialise(os);
 
-	os << *Base << std::endl;
+	os << "\tID:                 " << ID() << std::endl;
+	os << "\tType:               " << Type() << std::endl;
+	os << "\tTitle:              " << Title() << std::endl;
+	os << "\tDisambiguation:     " << Disambiguation() << std::endl;
+	os << "\tFirst release date: " << FirstReleaseDate() << std::endl;
 
-	os << "\tID:                 " << ReleaseGroup.ID() << std::endl;
-	os << "\tType:               " << ReleaseGroup.Type() << std::endl;
-	os << "\tTitle:              " << ReleaseGroup.Title() << std::endl;
-	os << "\tDisambiguation:     " << ReleaseGroup.Disambiguation() << std::endl;
-	os << "\tFirst release date: " << ReleaseGroup.FirstReleaseDate() << std::endl;
+	if (ArtistCredit())
+		os << *ArtistCredit() << std::endl;
 
-	if (ReleaseGroup.ArtistCredit())
-		os << *ReleaseGroup.ArtistCredit() << std::endl;
+	if (ReleaseList())
+		os << *ReleaseList() << std::endl;
 
-	if (ReleaseGroup.ReleaseList())
-		os << *ReleaseGroup.ReleaseList() << std::endl;
+	if (RelationList())
+		os << *RelationList() << std::endl;
 
-	if (ReleaseGroup.RelationList())
-		os << *ReleaseGroup.RelationList() << std::endl;
+	if (TagList())
+		os << *TagList() << std::endl;
 
-	if (ReleaseGroup.TagList())
-		os << *ReleaseGroup.TagList() << std::endl;
+	if (UserTagList())
+		os << *UserTagList() << std::endl;
 
-	if (ReleaseGroup.UserTagList())
-		os << *ReleaseGroup.UserTagList() << std::endl;
+	if (Rating())
+		os << *Rating() << std::endl;
 
-	if (ReleaseGroup.Rating())
-		os << *ReleaseGroup.Rating() << std::endl;
-
-	if (ReleaseGroup.UserRating())
-		os << *ReleaseGroup.UserRating() << std::endl;
+	if (UserRating())
+		os << *UserRating() << std::endl;
 
 	return os;
 }

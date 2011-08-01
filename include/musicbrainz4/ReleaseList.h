@@ -22,8 +22,19 @@
 
 ----------------------------------------------------------------------------*/
 
-#ifndef _MUSICBRAINZ4_Release_LIST_H
-#define _MUSICBRAINZ4_Release_LIST_H
+#ifndef _MUSICBRAINZ4_RELEASE_LIST_H
+#define _MUSICBRAINZ4_RELEASE_LIST_H
+
+#include "musicbrainz4/ListImpl.h"
+
+namespace MusicBrainz4
+{
+	class CRelease;
+
+	typedef CListImpl<CRelease> CReleaseList;
+}
+
+#if 0
 
 #include <string>
 #include <iostream>
@@ -50,8 +61,8 @@ namespace MusicBrainz4
 
 		CRelease *Item(int Item) const;
 
-
-		virtual std::string ElementName() const;
+		virtual std::ostream& Serialise(std::ostream& os) const;
+		static std::string GetElementName();
 
 	protected:
 		virtual bool ParseAttribute(const std::string& Name, const std::string& Value);
@@ -62,6 +73,6 @@ namespace MusicBrainz4
 	};
 }
 
-std::ostream& operator << (std::ostream& os, const MusicBrainz4::CReleaseList& MediumList);
+#endif
 
 #endif

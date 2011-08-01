@@ -152,7 +152,7 @@ bool MusicBrainz4::CMedium::ParseElement(const XMLNode& Node)
 	return RetVal;
 }
 
-std::string MusicBrainz4::CMedium::ElementName() const
+std::string MusicBrainz4::CMedium::GetElementName()
 {
 	return "medium";
 }
@@ -200,23 +200,21 @@ bool MusicBrainz4::CMedium::ContainsDiscID(const std::string& DiscID) const
 	return RetVal;
 }
 
-std::ostream& operator << (std::ostream& os, const MusicBrainz4::CMedium& Medium)
+std::ostream& MusicBrainz4::CMedium::Serialise(std::ostream& os) const
 {
 	os << "Medium:" << std::endl;
 
-	MusicBrainz4::CEntity *Base=(MusicBrainz4::CEntity *)&Medium;
+	CEntity::Serialise(os);
 
-	os << *Base << std::endl;
+	os << "\tTitle:    " << Title() << std::endl;
+	os << "\tPosition: " << Position() << std::endl;
+	os << "\tFormat:   " << Format() << std::endl;
 
-	os << "\tTitle:    " << Medium.Title() << std::endl;
-	os << "\tPosition: " << Medium.Position() << std::endl;
-	os << "\tFormat:   " << Medium.Format() << std::endl;
+	if (DiscList())
+		os << *DiscList() << std::endl;
 
-	if (Medium.DiscList())
-		os << *Medium.DiscList() << std::endl;
-
-	if (Medium.TrackList())
-		os << *Medium.TrackList() << std::endl;
+	if (TrackList())
+		os << *TrackList() << std::endl;
 
 	return os;
 }

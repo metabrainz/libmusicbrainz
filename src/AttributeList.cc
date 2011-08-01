@@ -97,7 +97,7 @@ bool MusicBrainz4::CAttributeList::ParseElement(const XMLNode& Node)
 	return RetVal;
 }
 
-std::string MusicBrainz4::CAttributeList::ElementName() const
+std::string MusicBrainz4::CAttributeList::GetElementName()
 {
 	return "attribute-list";
 }
@@ -107,19 +107,17 @@ MusicBrainz4::CAttribute *MusicBrainz4::CAttributeList::Item(int Item) const
 	return dynamic_cast<CAttribute *>(CList::Item(Item));
 }
 
-std::ostream& operator << (std::ostream& os, const MusicBrainz4::CAttributeList& AttributeList)
+std::ostream& MusicBrainz4::CAttributeList::Serialise(std::ostream& os) const
 {
 	os << "Attribute list:" << std::endl;
 
-	MusicBrainz4::CList *Base=(MusicBrainz4::CList *)&AttributeList;
+	CList::Serialise(os);
 
-	os << *Base << std::endl;
-
-	for (int count=0;count<AttributeList.NumItems();count++)
+	for (int count=0;count<NumItems();count++)
 	{
-		MusicBrainz4::CAttribute *Item=AttributeList.Item(count);
+		MusicBrainz4::CAttribute *ThisItem=Item(count);
 
-		os << *Item;
+		os << *ThisItem;
 	}
 
 	return os;

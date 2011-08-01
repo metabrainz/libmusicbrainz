@@ -106,7 +106,7 @@ bool MusicBrainz4::CTextRepresentation::ParseElement(const XMLNode& Node)
 	return RetVal;
 }
 
-std::string MusicBrainz4::CTextRepresentation::ElementName() const
+std::string MusicBrainz4::CTextRepresentation::GetElementName()
 {
 	return "text-representation";
 }
@@ -121,16 +121,14 @@ std::string MusicBrainz4::CTextRepresentation::Script() const
 	return m_d->m_Script;
 }
 
-std::ostream& operator << (std::ostream& os, const MusicBrainz4::CTextRepresentation& TextRepresentation)
+std::ostream& MusicBrainz4::CTextRepresentation::Serialise(std::ostream& os) const
 {
 	os << "\tText Representation:" << std::endl;
 
-	MusicBrainz4::CEntity *Base=(MusicBrainz4::CEntity *)&TextRepresentation;
+	CEntity::Serialise(os);
 
-	os << *Base << std::endl;
-
-	os << "\t\tLanguage: " << TextRepresentation.Language() << std::endl;
-	os << "\t\tScript:   " << TextRepresentation.Script() << std::endl;
+	os << "\t\tLanguage: " << Language() << std::endl;
+	os << "\t\tScript:   " << Script() << std::endl;
 
 	return os;
 }

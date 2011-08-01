@@ -249,7 +249,7 @@ bool MusicBrainz4::CRelease::ParseElement(const XMLNode& Node)
 	return RetVal;
 }
 
-std::string MusicBrainz4::CRelease::ElementName() const
+std::string MusicBrainz4::CRelease::GetElementName()
 {
 	return "release";
 }
@@ -352,43 +352,41 @@ MusicBrainz4::CMediumList MusicBrainz4::CRelease::MediaMatchingDiscID(const std:
 	return Ret;
 }
 
-std::ostream& operator << (std::ostream& os, const MusicBrainz4::CRelease& Release)
+std::ostream& MusicBrainz4::CRelease::Serialise(std::ostream& os) const
 {
 	os << "Release:" << std::endl;
 
-	MusicBrainz4::CEntity *Base=(MusicBrainz4::CEntity *)&Release;
+	CEntity::Serialise(os);
 
-	os << *Base << std::endl;
+	os << "\tID:                  " << ID() << std::endl;
+	os << "\tTitle:               " << Title() << std::endl;
+	os << "\tStatus:              " << Status() << std::endl;
+	os << "\tQuality:             " << Quality() << std::endl;
+	os << "\tDisambiguation:      " << Disambiguation() << std::endl;
+	os << "\tPackaging:           " << Packaging() << std::endl;
 
-	os << "\tID:                  " << Release.ID() << std::endl;
-	os << "\tTitle:               " << Release.Title() << std::endl;
-	os << "\tStatus:              " << Release.Status() << std::endl;
-	os << "\tQuality:             " << Release.Quality() << std::endl;
-	os << "\tDisambiguation:      " << Release.Disambiguation() << std::endl;
-	os << "\tPackaging:           " << Release.Packaging() << std::endl;
+	if (TextRepresentation())
+		os << *TextRepresentation();
 
-	if (Release.TextRepresentation())
-		os << *Release.TextRepresentation();
+	if (ArtistCredit())
+		os << *ArtistCredit() << std::endl;
 
-	if (Release.ArtistCredit())
-		os << *Release.ArtistCredit() << std::endl;
+	if (ReleaseGroup())
+		os << *ReleaseGroup() << std::endl;
 
-	if (Release.ReleaseGroup())
-		os << *Release.ReleaseGroup() << std::endl;
+	os << "\tDate:                " << Date() << std::endl;
+	os << "\tCountry:             " << Country() << std::endl;
+	os << "\tBarcode:             " << Barcode() << std::endl;
+	os << "\tASIN:                " << ASIN() << std::endl;
 
-	os << "\tDate:                " << Release.Date() << std::endl;
-	os << "\tCountry:             " << Release.Country() << std::endl;
-	os << "\tBarcode:             " << Release.Barcode() << std::endl;
-	os << "\tASIN:                " << Release.ASIN() << std::endl;
+	if (LabelInfoList())
+		os << *LabelInfoList() << std::endl;
 
-	if (Release.LabelInfoList())
-		os << *Release.LabelInfoList() << std::endl;
+	if (MediumList())
+		os << *MediumList() << std::endl;
 
-	if (Release.MediumList())
-		os << *Release.MediumList() << std::endl;
-
-	if (Release.RelationList())
-		os << *Release.RelationList() << std::endl;
+	if (RelationList())
+		os << *RelationList() << std::endl;
 
 	return os;
 }

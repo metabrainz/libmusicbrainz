@@ -229,7 +229,7 @@ bool MusicBrainz4::CRelation::ParseElement(const XMLNode& Node)
 	return RetVal;
 }
 
-std::string MusicBrainz4::CRelation::ElementName() const
+std::string MusicBrainz4::CRelation::GetElementName()
 {
 	return "relation";
 }
@@ -294,38 +294,39 @@ MusicBrainz4::CWork *MusicBrainz4::CRelation::Work() const
 	return m_d->m_Work;
 }
 
-std::ostream& operator << (std::ostream& os, const MusicBrainz4::CRelation& Relation)
+std::ostream& MusicBrainz4::CRelation::Serialise(std::ostream& os) const
 {
 	os << "Relation:" << std::endl;
 
-	MusicBrainz4::CEntity *Base=(MusicBrainz4::CEntity *)&Relation;
+	CEntity::Serialise(os);
 
-	os << *Base << std::endl;
+	os << "\tType:      " << Type() << std::endl;
+	os << "\tTarget:    " << Target() << std::endl;
+	os << "\tDirection: " << Direction() << std::endl;
 
-	os << "\tType:      " << Relation.Type() << std::endl;
-	os << "\tTarget:    " << Relation.Target() << std::endl;
-	os << "\tDirection: " << Relation.Direction() << std::endl;
-	os << Relation.AttributeList() << std::endl;
-	os << "\tBegin:     " << Relation.Begin() << std::endl;
-	os << "\tEnd:       " << Relation.End() << std::endl;
+	if (AttributeList())
+		os << AttributeList() << std::endl;
 
-	if (Relation.Artist())
-		os << *Relation.Artist() << std::endl;
+	os << "\tBegin:     " << Begin() << std::endl;
+	os << "\tEnd:       " << End() << std::endl;
 
-	if (Relation.Release())
-		os << *Relation.Release() << std::endl;
+	if (Artist())
+		os << *Artist() << std::endl;
 
-	if (Relation.ReleaseGroup())
-		os << *Relation.ReleaseGroup() << std::endl;
+	if (Release())
+		os << *Release() << std::endl;
 
-	if (Relation.Recording())
-		os << *Relation.Recording() << std::endl;
+	if (ReleaseGroup())
+		os << *ReleaseGroup() << std::endl;
 
-	if (Relation.Label())
-		os << *Relation.Label() << std::endl;
+	if (Recording())
+		os << *Recording() << std::endl;
 
-	if (Relation.Work())
-		os << *Relation.Work() << std::endl;
+	if (Label())
+		os << *Label() << std::endl;
+
+	if (Work())
+		os << *Work() << std::endl;
 
 	return os;
 }

@@ -117,7 +117,7 @@ bool MusicBrainz4::CNonMBTrack::ParseElement(const XMLNode& Node)
 	return RetVal;
 }
 
-std::string MusicBrainz4::CNonMBTrack::ElementName() const
+std::string MusicBrainz4::CNonMBTrack::GetElementName()
 {
 	return "track";
 }
@@ -137,17 +137,15 @@ int MusicBrainz4::CNonMBTrack::Length() const
 	return m_d->m_Length;
 }
 
-std::ostream& operator << (std::ostream& os, const MusicBrainz4::CNonMBTrack& NonMBTrack)
+std::ostream& MusicBrainz4::CNonMBTrack::Serialise(std::ostream& os) const
 {
 	os << "NonMBTrack:" << std::endl;
 
-	MusicBrainz4::CEntity *Base=(MusicBrainz4::CEntity *)&NonMBTrack;
+	CEntity::Serialise(os);
 
-	os << *Base << std::endl;
-
-	os << "\tTitle:  " << NonMBTrack.Title() << std::endl;
-	os << "\tArtist: " << NonMBTrack.Artist() << std::endl;
-	os << "\tLength: " << NonMBTrack.Length() << std::endl;
+	os << "\tTitle:  " << Title() << std::endl;
+	os << "\tArtist: " << Artist() << std::endl;
+	os << "\tLength: " << Length() << std::endl;
 
 	return os;
 }

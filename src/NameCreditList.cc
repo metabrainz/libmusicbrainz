@@ -97,7 +97,7 @@ bool MusicBrainz4::CNameCreditList::ParseElement(const XMLNode& Node)
 	return RetVal;
 }
 
-std::string MusicBrainz4::CNameCreditList::ElementName() const
+std::string MusicBrainz4::CNameCreditList::GetElementName()
 {
 	return "name-credit-list";
 }
@@ -107,19 +107,17 @@ MusicBrainz4::CNameCredit *MusicBrainz4::CNameCreditList::Item(int Item) const
 	return dynamic_cast<CNameCredit *>(CList::Item(Item));
 }
 
-std::ostream& operator << (std::ostream& os, const MusicBrainz4::CNameCreditList& NameCreditList)
+std::ostream& MusicBrainz4::CNameCreditList::Serialise(std::ostream& os) const
 {
 	os << "NameCredit list:" << std::endl;
 
-	MusicBrainz4::CList *Base=(MusicBrainz4::CList *)&NameCreditList;
+	CList::Serialise(os);
 
-	os << *Base << std::endl;
-
-	for (int count=0;count<NameCreditList.NumItems();count++)
+	for (int count=0;count<NumItems();count++)
 	{
-		MusicBrainz4::CNameCredit *Item=NameCreditList.Item(count);
+		MusicBrainz4::CNameCredit *ThisItem=Item(count);
 
-		os << *Item;
+		os << *ThisItem;
 	}
 
 	return os;

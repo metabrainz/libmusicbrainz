@@ -97,7 +97,7 @@ bool MusicBrainz4::CCDStubList::ParseElement(const XMLNode& Node)
 	return RetVal;
 }
 
-std::string MusicBrainz4::CCDStubList::ElementName() const
+std::string MusicBrainz4::CCDStubList::GetElementName()
 {
 	return "cdstub-list";
 }
@@ -107,19 +107,17 @@ MusicBrainz4::CCDStub *MusicBrainz4::CCDStubList::Item(int Item) const
 	return dynamic_cast<CCDStub *>(CList::Item(Item));
 }
 
-std::ostream& operator << (std::ostream& os, const MusicBrainz4::CCDStubList& CDStubList)
+std::ostream& MusicBrainz4::CCDStubList::Serialise(std::ostream& os) const
 {
 	os << "CDStub list:" << std::endl;
 
-	MusicBrainz4::CList *Base=(MusicBrainz4::CList *)&CDStubList;
+	CList::Serialise(os);
 
-	os << *Base << std::endl;
-
-	for (int count=0;count<CDStubList.NumItems();count++)
+	for (int count=0;count<NumItems();count++)
 	{
-		MusicBrainz4::CCDStub *Item=CDStubList.Item(count);
+		MusicBrainz4::CCDStub *ThisItem=Item(count);
 
-		os << *Item;
+		os << *ThisItem;
 	}
 
 	return os;

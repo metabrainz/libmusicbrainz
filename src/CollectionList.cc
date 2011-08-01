@@ -97,7 +97,7 @@ bool MusicBrainz4::CCollectionList::ParseElement(const XMLNode& Node)
 	return RetVal;
 }
 
-std::string MusicBrainz4::CCollectionList::ElementName() const
+std::string MusicBrainz4::CCollectionList::GetElementName()
 {
 	return "collection-list";
 }
@@ -107,19 +107,17 @@ MusicBrainz4::CCollection *MusicBrainz4::CCollectionList::Item(int Item) const
 	return dynamic_cast<CCollection *>(CList::Item(Item));
 }
 
-std::ostream& operator << (std::ostream& os, const MusicBrainz4::CCollectionList& CollectionList)
+std::ostream& MusicBrainz4::CCollectionList::Serialise(std::ostream& os) const
 {
 	os << "Collection list:" << std::endl;
 
-	MusicBrainz4::CList *Base=(MusicBrainz4::CList *)&CollectionList;
+	CList::Serialise(os);
 
-	os << *Base << std::endl;
-
-	for (int count=0;count<CollectionList.NumItems();count++)
+	for (int count=0;count<NumItems();count++)
 	{
-		MusicBrainz4::CCollection *Item=CollectionList.Item(count);
+		MusicBrainz4::CCollection *ThisItem=Item(count);
 
-		os << *Item;
+		os << *ThisItem;
 	}
 
 	return os;

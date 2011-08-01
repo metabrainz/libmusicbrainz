@@ -97,7 +97,7 @@ bool MusicBrainz4::CISRCList::ParseElement(const XMLNode& Node)
 	return RetVal;
 }
 
-std::string MusicBrainz4::CISRCList::ElementName() const
+std::string MusicBrainz4::CISRCList::GetElementName()
 {
 	return "isrc-list";
 }
@@ -107,19 +107,17 @@ MusicBrainz4::CISRC *MusicBrainz4::CISRCList::Item(int Item) const
 	return dynamic_cast<CISRC *>(CList::Item(Item));
 }
 
-std::ostream& operator << (std::ostream& os, const MusicBrainz4::CISRCList& ISRCList)
+std::ostream& MusicBrainz4::CISRCList::Serialise(std::ostream& os) const
 {
 	os << "ISRC list:" << std::endl;
 
-	MusicBrainz4::CList *Base=(MusicBrainz4::CList *)&ISRCList;
+	CList::Serialise(os);
 
-	os << *Base << std::endl;
-
-	for (int count=0;count<ISRCList.NumItems();count++)
+	for (int count=0;count<NumItems();count++)
 	{
-		MusicBrainz4::CISRC *Item=ISRCList.Item(count);
+		MusicBrainz4::CISRC *ThisItem=Item(count);
 
-		os << *Item;
+		os << *ThisItem;
 	}
 
 	return os;

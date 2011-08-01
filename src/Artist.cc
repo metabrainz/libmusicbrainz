@@ -302,7 +302,7 @@ bool MusicBrainz4::CArtist::ParseElement(const XMLNode& Node)
 	return RetVal;
 }
 
-std::string MusicBrainz4::CArtist::ElementName() const
+std::string MusicBrainz4::CArtist::GetElementName()
 {
 	return "artist";
 }
@@ -402,57 +402,55 @@ MusicBrainz4::CUserRating *MusicBrainz4::CArtist::UserRating() const
 	return m_d->m_UserRating;
 }
 
-std::ostream& operator << (std::ostream& os, const MusicBrainz4::CArtist& Artist)
+std::ostream& MusicBrainz4::CArtist::Serialise(std::ostream& os) const
 {
 	os << "Artist:" << std::endl;
 
-	MusicBrainz4::CEntity *Base=(MusicBrainz4::CEntity *)&Artist;
+	CEntity::Serialise(os);
 
-	os << *Base << std::endl;
+	os << "\tID:             " << ID() << std::endl;
+	os << "\tType:           " << Type() << std::endl;
+	os << "\tName:           " << Name() << std::endl;
+	os << "\tSort name:      " << SortName() << std::endl;
+	os << "\tGender:         " << Gender() << std::endl;
+	os << "\tCountry:        " << Country() << std::endl;
+	os << "\tDisambiguation: " << Disambiguation() << std::endl;
 
-	os << "\tID:             " << Artist.ID() << std::endl;
-	os << "\tType:           " << Artist.Type() << std::endl;
-	os << "\tName:           " << Artist.Name() << std::endl;
-	os << "\tSort name:      " << Artist.SortName() << std::endl;
-	os << "\tGender:         " << Artist.Gender() << std::endl;
-	os << "\tCountry:        " << Artist.Country() << std::endl;
-	os << "\tDisambiguation: " << Artist.Disambiguation() << std::endl;
+	if (Lifespan())
+		os << *Lifespan() << std::endl;
 
-	if (Artist.Lifespan())
-		os << *Artist.Lifespan() << std::endl;
+	if (AliasList())
+		os << *AliasList() << std::endl;
 
-	if (Artist.AliasList())
-		os << *Artist.AliasList() << std::endl;
+	if (RecordingList())
+		os << *RecordingList() << std::endl;
 
-	if (Artist.RecordingList())
-		os << *Artist.RecordingList() << std::endl;
+	if (ReleaseList())
+		os << *ReleaseList() << std::endl;
 
-	if (Artist.ReleaseList())
-		os << *Artist.ReleaseList() << std::endl;
+	if (ReleaseGroupList())
+		os << *ReleaseGroupList() << std::endl;
 
-	if (Artist.ReleaseGroupList())
-		os << *Artist.ReleaseGroupList() << std::endl;
+	if (LabelList())
+		os << *LabelList() << std::endl;
 
-	if (Artist.LabelList())
-		os << *Artist.LabelList() << std::endl;
+	if (WorkList())
+		os << *WorkList() << std::endl;
 
-	if (Artist.WorkList())
-		os << *Artist.WorkList() << std::endl;
+	if (RelationList())
+		os << *RelationList() << std::endl;
 
-	if (Artist.RelationList())
-		os << *Artist.RelationList() << std::endl;
+	if (TagList())
+		os << *TagList() << std::endl;
 
-	if (Artist.TagList())
-		os << *Artist.TagList() << std::endl;
+	if (UserTagList())
+		os << *UserTagList() << std::endl;
 
-	if (Artist.UserTagList())
-		os << *Artist.UserTagList() << std::endl;
+	if (Rating())
+		os << *Rating() << std::endl;
 
-	if (Artist.Rating())
-		os << *Artist.Rating() << std::endl;
-
-	if (Artist.UserRating())
-		os << *Artist.UserRating() << std::endl;
+	if (UserRating())
+		os << *UserRating() << std::endl;
 
 	return os;
 }

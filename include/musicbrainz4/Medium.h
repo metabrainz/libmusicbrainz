@@ -57,7 +57,8 @@ namespace MusicBrainz4
 
 		bool ContainsDiscID(const std::string& DiscID) const;
 
-		virtual std::string ElementName() const;
+		virtual std::ostream& Serialise(std::ostream& os) const;
+		static std::string GetElementName();
 
 	protected:
 		virtual bool ParseAttribute(const std::string& Name, const std::string& Value);
@@ -69,7 +70,5 @@ namespace MusicBrainz4
 		CMediumPrivate * const m_d;
 	};
 }
-
-std::ostream& operator << (std::ostream& os, const MusicBrainz4::CMedium& Medium);
 
 #endif

@@ -119,7 +119,7 @@ bool MusicBrainz4::CAnnotation::ParseElement(const XMLNode& Node)
 	return RetVal;
 }
 
-std::string MusicBrainz4::CAnnotation::ElementName() const
+std::string MusicBrainz4::CAnnotation::GetElementName()
 {
 	return "annotation";
 }
@@ -144,18 +144,16 @@ std::string MusicBrainz4::CAnnotation::Text() const
 	return m_d->m_Text;
 }
 
-std::ostream& operator << (std::ostream& os, const MusicBrainz4::CAnnotation& Annotation)
+std::ostream& MusicBrainz4::CAnnotation::Serialise(std::ostream& os) const
 {
 	os << "Annotation:" << std::endl;
 
-	MusicBrainz4::CEntity *Base=(MusicBrainz4::CEntity *)&Annotation;
+	CEntity::Serialise(os);
 
-	os << *Base << std::endl;
-
-	os << "\tType:    " << Annotation.Type() << std::endl;
-	os << "\tEntity: " << Annotation.Entity() << std::endl;
-	os << "\tName:   " << Annotation.Name() << std::endl;
-	os << "\tText:   " << Annotation.Text() << std::endl;
+	os << "\tType:   " << Type() << std::endl;
+	os << "\tEntity: " << Entity() << std::endl;
+	os << "\tName:   " << Name() << std::endl;
+	os << "\tText:   " << Text() << std::endl;
 
 	return os;
 }
