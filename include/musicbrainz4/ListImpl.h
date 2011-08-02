@@ -69,33 +69,6 @@ namespace MusicBrainz4
 			return new CListImpl<T>(*this);
 		}
 
-		bool ParseAttribute(const std::string& Name, const std::string& Value)
-		{
-			return CList::ParseAttribute(Name,Value);
-		}
-
-		bool ParseElement(const XMLNode& Node)
-		{
-			bool RetVal=true;
-
-			std::string NodeName=Node.getName();
-
-			if (T::GetElementName()==NodeName)
-			{
-				T *Item=0;
-
-				RetVal=ProcessItem(Node,Item);
-				if (RetVal)
-					AddItem(Item);
-			}
-			else
-			{
-				RetVal=CList::ParseElement(Node);
-			}
-
-			return RetVal;
-		}
-
 		virtual std::ostream& Serialise(std::ostream& os) const
 		{
 			os << T::GetElementName() << " List (impl):" << std::endl;
@@ -120,6 +93,32 @@ namespace MusicBrainz4
 		T *Item(int Item) const
 		{
 			return dynamic_cast<T *>(CList::Item(Item));
+		}
+
+		void AddItem(T *Item)
+		{
+			CList::AddItem(Item);
+		}
+
+	protected:
+		bool ParseElement(const XMLNode& Node)
+		{
+			bool RetVal=true;
+
+			std::string NodeName=Node.getName();
+
+			if (T::GetElementName()==NodeName)
+			{
+				T *Item=0;
+
+				RetVal=ProcessItem(Node,Item);
+				if (RetVal)
+					AddItem(Item);
+			}
+			else
+				RetVal=CList::ParseElement(Node);
+
+			return RetVal;
 		}
 
 	};
