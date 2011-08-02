@@ -143,10 +143,13 @@ std::string GetMapValue(std::map<std::string,std::string> Map, int Item)
 	void \
 	mb4_##TYPE2##_set_##PROP2(Mb4##TYPE1 o, const char *str) \
 	{ \
-		try { \
-			((MusicBrainz4::C##TYPE1 *)o)->Set##PROP1(str); \
-		} \
-		catch (...) { \
+		if (o) \
+		{ \
+			try { \
+				((MusicBrainz4::C##TYPE1 *)o)->Set##PROP1(str); \
+			} \
+			catch (...) { \
+			} \
 		} \
 	}
 
@@ -154,10 +157,13 @@ std::string GetMapValue(std::map<std::string,std::string> Map, int Item)
 	void \
 	mb4_##TYPE2##_set_##PROP2(Mb4##TYPE1 o, int i) \
 	{ \
-		try { \
-			((MusicBrainz4::C##TYPE1 *)o)->Set##PROP1(i); \
-		} \
-		catch (...) { \
+		if (o) \
+		{ \
+			try { \
+				((MusicBrainz4::C##TYPE1 *)o)->Set##PROP1(i); \
+			} \
+			catch (...) { \
+			} \
 		} \
 	}
 
@@ -187,35 +193,44 @@ std::string GetMapValue(std::map<std::string,std::string> Map, int Item)
 	int \
 	mb4_##TYPE2##_get_##PROP2(Mb4##TYPE1 o) \
 	{ \
-		try { \
-			return ((MusicBrainz4::C##TYPE1 *)o)->PROP1(); \
+		if (o) \
+		{ \
+			try { \
+				return ((MusicBrainz4::C##TYPE1 *)o)->PROP1(); \
+			} \
+			catch (...) { \
+			} \
 		} \
-		catch (...) { \
-			return 0; \
-		} \
+		return 0; \
 	}
 
 #define MB4_C_DOUBLE_GETTER(TYPE1, TYPE2, PROP1, PROP2) \
 	double \
 	mb4_##TYPE2##_get_##PROP2(Mb4##TYPE1 o) \
 	{ \
-		try { \
-			return ((MusicBrainz4::C##TYPE1 *)o)->PROP1(); \
+		if (o) \
+		{ \
+			try { \
+				return ((MusicBrainz4::C##TYPE1 *)o)->PROP1(); \
+			} \
+			catch (...) { \
+			} \
 		} \
-		catch (...) { \
-			return 0; \
-		} \
+		return 0; \
 	}
 
 #define MB4_C_BOOL_GETTER(TYPE1, TYPE2, PROP1, PROP2) \
 	unsigned char \
 	mb4_##TYPE2##_get_##PROP2(Mb##TYPE1 o) \
 	{ \
-		try { \
-			return ((TYPE1 *)o)->PROP1() ? 1 : 0; \
-		} \
-		catch (...) { \
-			return 0; \
+		if (o) \
+		{ \
+			try { \
+				return ((TYPE1 *)o)->PROP1() ? 1 : 0; \
+			} \
+			catch (...) { \
+				return 0; \
+			} \
 		} \
 	}
 
@@ -223,12 +238,15 @@ std::string GetMapValue(std::map<std::string,std::string> Map, int Item)
 	Mb4##PROP1 \
 	mb4_##TYPE2##_get_##PROP2(Mb4##TYPE1 o) \
 	{ \
-		try { \
-			return (Mb4##PROP1)((MusicBrainz4::C##TYPE1 *)o)->PROP1(); \
+		if (o) \
+		{ \
+			try { \
+				return (Mb4##PROP1)((MusicBrainz4::C##TYPE1 *)o)->PROP1(); \
+			} \
+			catch (...) { \
+			} \
 		} \
-		catch (...) { \
-			return (Mb4##PROP1)0; \
-		} \
+		return (Mb4##PROP1)0; \
 	}
 
 #define MB4_C_LIST_GETTER(TYPE1, TYPE2) \
@@ -240,56 +258,74 @@ std::string GetMapValue(std::map<std::string,std::string> Map, int Item)
 	int \
 	mb4_##TYPE2##_list_size(Mb4##TYPE1##List List) \
 	{ \
-		try { \
-			return ((MusicBrainz4::C##TYPE1##List *)List)->NumItems(); \
+		if (List) \
+		{ \
+			try { \
+				return ((MusicBrainz4::C##TYPE1##List *)List)->NumItems(); \
+			} \
+			catch (...) { \
+				return 0; \
+			} \
 		} \
-		catch (...) { \
-			return 0; \
-		} \
+		return 0; \
 	} \
  \
 	Mb4##TYPE1 \
 	mb4_##TYPE2##_list_item(Mb4##TYPE1##List List, int Item) \
 	{ \
-		try { \
-			return ((MusicBrainz4::C##TYPE1##List *)List)->Item(Item); \
+		if (List) \
+		{ \
+			try { \
+				return ((MusicBrainz4::C##TYPE1##List *)List)->Item(Item); \
+			} \
+			catch (...) { \
+				return (Mb4##TYPE1)0; \
+			} \
 		} \
-		catch (...) { \
-			return (Mb4##TYPE1)0; \
-		} \
+		return (Mb4##TYPE1)0; \
 	}
 
 #define MB4_C_EXT_GETTER(PROP1, PROP2) \
 	int \
 	mb4_entity_ext_##PROP2##s_size(Mb4Entity o) \
 	{ \
-		return ((MusicBrainz4::CEntity *)o)->Ext##PROP1##s().size(); \
+		if (o) \
+		{ \
+			return ((MusicBrainz4::CEntity *)o)->Ext##PROP1##s().size(); \
+		} \
+		return 0; \
 	} \
 	int \
 	mb4_entity_ext_##PROP2##_name(Mb4Entity o, int Item, char *str, int len) \
 	{ \
-		int ret; \
-		std::map<std::string,std::string> Items=((MusicBrainz4::CEntity *)o)->Ext##PROP1##s(); \
-		std::string Name=GetMapName(Items,Item); \
-		ret=Name.length(); \
-		if (str && len) \
+		int ret=0; \
+		if (0) \
 		{ \
-			strncpy(str, Name.c_str(), len); \
-			str[len-1]='\0'; \
+			std::map<std::string,std::string> Items=((MusicBrainz4::CEntity *)o)->Ext##PROP1##s(); \
+			std::string Name=GetMapName(Items,Item); \
+			ret=Name.length(); \
+			if (str && len) \
+			{ \
+				strncpy(str, Name.c_str(), len); \
+				str[len-1]='\0'; \
+			} \
 		} \
 		return ret; \
 	} \
 	int \
 	mb4_entity_ext_##PROP2##_value(Mb4Entity o, int Item, char *str, int len) \
 	{ \
-		int ret; \
-		std::map<std::string,std::string> Items=((MusicBrainz4::CEntity *)o)->Ext##PROP1##s(); \
-		std::string Name=GetMapValue(Items,Item); \
-		ret=Name.length(); \
-		if (str && len) \
+		int ret=0; \
+		if (o) \
 		{ \
-			strncpy(str, Name.c_str(), len); \
-			str[len-1]='\0'; \
+			std::map<std::string,std::string> Items=((MusicBrainz4::CEntity *)o)->Ext##PROP1##s(); \
+			std::string Name=GetMapValue(Items,Item); \
+			ret=Name.length(); \
+			if (str && len) \
+			{ \
+				strncpy(str, Name.c_str(), len); \
+				str[len-1]='\0'; \
+			} \
 		} \
 		return ret; \
 	} \
@@ -401,9 +437,12 @@ unsigned char mb4_medium_contains_discid(Mb4Medium Medium, const char *DiscID)
 {
 	unsigned char Ret=0;
 
-	MusicBrainz4::CMedium *TheMedium=reinterpret_cast<MusicBrainz4::CMedium *>(Medium);
-	if (TheMedium)
-		Ret=TheMedium->ContainsDiscID(DiscID);
+	if (Medium)
+	{
+		MusicBrainz4::CMedium *TheMedium=reinterpret_cast<MusicBrainz4::CMedium *>(Medium);
+		if (TheMedium)
+			Ret=TheMedium->ContainsDiscID(DiscID);
+	}
 
 	return Ret;
 }
@@ -474,15 +513,18 @@ MB4_C_STR_SETTER(Query,query,ProxyPassword,proxypassword)
 
 Mb4ReleaseList mb4_query_lookup_discid(Mb4Query Query, const char *DiscID)
 {
-	try
+	if (Query)
 	{
-		MusicBrainz4::CQuery *TheQuery=reinterpret_cast<MusicBrainz4::CQuery *>(Query);
-		if (TheQuery)
-			return new MusicBrainz4::CReleaseList(TheQuery->LookupDiscID(DiscID));
-	}
+		try
+		{
+			MusicBrainz4::CQuery *TheQuery=reinterpret_cast<MusicBrainz4::CQuery *>(Query);
+			if (TheQuery)
+				return new MusicBrainz4::CReleaseList(TheQuery->LookupDiscID(DiscID));
+		}
 
-	catch(...)
-	{
+		catch(...)
+		{
+		}
 	}
 
 	return 0;
@@ -490,15 +532,18 @@ Mb4ReleaseList mb4_query_lookup_discid(Mb4Query Query, const char *DiscID)
 
 Mb4Release mb4_query_lookup_release(Mb4Query Query, const char *Release)
 {
-	try
+	if (Query)
 	{
-		MusicBrainz4::CQuery *TheQuery=reinterpret_cast<MusicBrainz4::CQuery *>(Query);
-		if (TheQuery)
-			return new MusicBrainz4::CRelease(TheQuery->LookupRelease(Release));
-	}
+		try
+		{
+			MusicBrainz4::CQuery *TheQuery=reinterpret_cast<MusicBrainz4::CQuery *>(Query);
+			if (TheQuery)
+				return new MusicBrainz4::CRelease(TheQuery->LookupRelease(Release));
+		}
 
-	catch(...)
-	{
+		catch(...)
+		{
+		}
 	}
 
 	return 0;
@@ -506,26 +551,29 @@ Mb4Release mb4_query_lookup_release(Mb4Query Query, const char *Release)
 
 Mb4Metadata mb4_query_query(Mb4Query Query, const char *Entity, const char *ID, const char *Resource, int NumParams, char **ParamName, char **ParamValue)
 {
-	try
+	if (Query)
 	{
-		MusicBrainz4::CQuery::tParamMap Params;
-
-		for (int count=0;count<NumParams;count++)
+		try
 		{
-			if (ParamName[count] && ParamValue[count])
-				Params[ParamName[count]]=ParamValue[count];
+			MusicBrainz4::CQuery::tParamMap Params;
+
+			for (int count=0;count<NumParams;count++)
+			{
+				if (ParamName[count] && ParamValue[count])
+					Params[ParamName[count]]=ParamValue[count];
+			}
+
+			MusicBrainz4::CQuery *TheQuery=reinterpret_cast<MusicBrainz4::CQuery *>(Query);
+			if (TheQuery)
+				return new MusicBrainz4::CMetadata(TheQuery->Query(Entity?Entity:"",
+																											ID?ID:"",
+																											Resource?Resource:"",
+																											Params));
 		}
 
-		MusicBrainz4::CQuery *TheQuery=reinterpret_cast<MusicBrainz4::CQuery *>(Query);
-		if (TheQuery)
-			return new MusicBrainz4::CMetadata(TheQuery->Query(Entity?Entity:"",
-																										ID?ID:"",
-																										Resource?Resource:"",
-																										Params));
-	}
-
-	catch(...)
-	{
+		catch(...)
+		{
+		}
 	}
 
 	return 0;
@@ -533,27 +581,30 @@ Mb4Metadata mb4_query_query(Mb4Query Query, const char *Entity, const char *ID, 
 
 unsigned char mb4_query_add_collection_entries(Mb4Query Query, const char *Collection, int NumEntries, const char **Entries)
 {
-	try
+	if (Query)
 	{
-		std::vector<std::string> VecEntries;
-
-		MusicBrainz4::CQuery *TheQuery=reinterpret_cast<MusicBrainz4::CQuery *>(Query);
-		if (TheQuery)
+		try
 		{
-			for (int count=0;count<NumEntries;count++)
+			std::vector<std::string> VecEntries;
+
+			MusicBrainz4::CQuery *TheQuery=reinterpret_cast<MusicBrainz4::CQuery *>(Query);
+			if (TheQuery)
 			{
-				if (Entries && Entries[count])
+				for (int count=0;count<NumEntries;count++)
 				{
-					VecEntries.push_back(Entries[count]);
+					if (Entries && Entries[count])
+					{
+						VecEntries.push_back(Entries[count]);
+					}
 				}
+
+				return TheQuery->AddCollectionEntries(Collection,VecEntries)?1:0;
 			}
-
-			return TheQuery->AddCollectionEntries(Collection,VecEntries)?1:0;
 		}
-	}
 
-	catch(...)
-	{
+		catch(...)
+		{
+		}
 	}
 
 	return 0;
@@ -561,27 +612,30 @@ unsigned char mb4_query_add_collection_entries(Mb4Query Query, const char *Colle
 
 unsigned char mb4_query_delete_collection_entries(Mb4Query Query, const char *Collection, int NumEntries, const char **Entries)
 {
-	try
+	if (Query)
 	{
-		std::vector<std::string> VecEntries;
-
-		MusicBrainz4::CQuery *TheQuery=reinterpret_cast<MusicBrainz4::CQuery *>(Query);
-		if (TheQuery)
+		try
 		{
-			for (int count=0;count<NumEntries;count++)
+			std::vector<std::string> VecEntries;
+
+			MusicBrainz4::CQuery *TheQuery=reinterpret_cast<MusicBrainz4::CQuery *>(Query);
+			if (TheQuery)
 			{
-				if (Entries && Entries[count])
+				for (int count=0;count<NumEntries;count++)
 				{
-					VecEntries.push_back(Entries[count]);
+					if (Entries && Entries[count])
+					{
+						VecEntries.push_back(Entries[count]);
+					}
 				}
+
+				return TheQuery->AddCollectionEntries(Collection,VecEntries)?1:0;
 			}
-
-			return TheQuery->AddCollectionEntries(Collection,VecEntries)?1:0;
 		}
-	}
 
-	catch(...)
-	{
+		catch(...)
+		{
+		}
 	}
 
 	return 0;
@@ -589,15 +643,19 @@ unsigned char mb4_query_delete_collection_entries(Mb4Query Query, const char *Co
 
 tQueryResult mb4_query_get_lastresult(Mb4Query o)
 {
-	try
+	if (o)
 	{
-		return (tQueryResult)((MusicBrainz4::CQuery *)o)->LastResult();
+		try
+		{
+			return (tQueryResult)((MusicBrainz4::CQuery *)o)->LastResult();
+		}
+
+		catch (...)
+		{
+		}
 	}
 
-	catch (...)
-	{
-		return eQuery_FetchError;
-	}
+	return eQuery_FetchError;
 }
 
 MB4_C_INT_GETTER(Query,query,LastHTTPCode,lasthttpcode)
@@ -656,9 +714,12 @@ MB4_C_OBJ_GETTER(Release,release,RelationList,relationlist)
 
 Mb4MediumList mb4_release_media_matching_discid(Mb4Release Release, const char *DiscID)
 {
-	MusicBrainz4::CRelease *TheRelease=reinterpret_cast<MusicBrainz4::CRelease *>(Release);
-	if (TheRelease)
-		return new MusicBrainz4::CMediumList(TheRelease->MediaMatchingDiscID(DiscID));
+	if (Release)
+	{
+		MusicBrainz4::CRelease *TheRelease=reinterpret_cast<MusicBrainz4::CRelease *>(Release);
+		if (TheRelease)
+			return new MusicBrainz4::CMediumList(TheRelease->MediaMatchingDiscID(DiscID));
+	}
 
 	return 0;
 }
