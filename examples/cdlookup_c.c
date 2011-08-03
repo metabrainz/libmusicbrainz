@@ -54,6 +54,7 @@ int main(int argc, const char *argv[])
 					Mb4ReleaseList ReleaseList=mb4_disc_get_releaselist(Disc);
 					if (ReleaseList)
 					{
+						Mb4ReleaseList CloneReleaseList=mb4_release_list_clone(ReleaseList);
 						int ThisRelease=0;
 
 						printf("Found %d release(s)\n",mb4_release_list_size(ReleaseList));
@@ -200,6 +201,8 @@ int main(int argc, const char *argv[])
 								free(ParamNames);
 							}
 						}
+
+						mb4_release_list_delete(CloneReleaseList);
 					}
 				}
 

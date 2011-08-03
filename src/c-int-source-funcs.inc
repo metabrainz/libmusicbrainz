@@ -100,19 +100,20 @@ std::string GetMapValue(std::map<std::string,std::string> Map, int Item)
 	return Ret;
 }
 
-#define MB4_C_NEW_NOARGS(TYPE1, TYPE2) \
-	Mb4##TYPE1 \
-	mb4_##TYPE2##_new() \
-	{ \
-		TYPE1 *o = new TYPE1(); \
-		return (Mb4##TYPE1)o; \
-	}
-
 #define MB4_C_DELETE(TYPE1, TYPE2) \
 	void \
 	mb4_##TYPE2##_delete(Mb4##TYPE1 o) \
 	{ \
 		delete (MusicBrainz4::C##TYPE1 *)o; \
+	}
+
+#define MB4_C_CLONE(TYPE1, TYPE2) \
+	Mb4##TYPE1 \
+	mb4_##TYPE2##_clone(Mb4##TYPE1 o) \
+	{ \
+		if (o) \
+			return (Mb4##TYPE1)(((MusicBrainz4::C##TYPE1 *)o)->Clone()); \
+		return 0;\
 	}
 
 #define MB4_C_STR_SETTER(TYPE1, TYPE2, PROP1, PROP2) \
