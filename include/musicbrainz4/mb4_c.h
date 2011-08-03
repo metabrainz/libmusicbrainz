@@ -2515,6 +2515,20 @@ extern "C"
 	Mb4Artist mb4_artist_list_item(Mb4ArtistList List, int Item);
 
 /**
+ *	Return the count of entries in an #Mb4ArtistList
+ *
+ * @param	List List to use
+ */
+	int mb4_artist_list_count(Mb4ArtistList List);
+
+/**
+ *	Return the offset of entries in an #Mb4ArtistList
+ *
+ * @param	List List to use
+ */
+	int mb4_artist_list_offset(Mb4ArtistList List);
+
+/**
  * Delete an #Mb4AttributeList
  *
  * @param List List to delete
