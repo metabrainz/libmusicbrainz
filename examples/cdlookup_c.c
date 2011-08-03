@@ -174,19 +174,11 @@ int main(int argc, const char *argv[])
 
 																printf("Track: %d - '%s'\n",mb4_track_get_position(Track),TrackTitle);
 
-																/* We must delete anything we retrieve from a list */
-
 																free(TrackTitle);
-
-																mb4_track_delete(Track);
 															}
 														}
 
-														/* We must delete anything we retrieve from a list */
-
 														free(MediumTitle);
-
-														mb4_medium_delete(Medium);
 													}
 												}
 											}
@@ -206,10 +198,6 @@ int main(int argc, const char *argv[])
 								free(ParamValues);
 								free(ParamNames[0]);
 								free(ParamNames);
-
-								/* We must delete anything we retrieve from a list */
-
-								mb4_release_delete(Release);
 							}
 						}
 					}
