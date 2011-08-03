@@ -1,8 +1,20 @@
 SET(CMAKE_INCLUDE_CURRENT_DIR ON)
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/.. ${CMAKE_CURRENT_SOURCE_DIR}/../include ${NEON_INCLUDE_DIR})
 
-FILE(GLOB _sources ${CMAKE_CURRENT_SOURCE_DIR}/*.cc ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp)
-ADD_LIBRARY(musicbrainz4 SHARED ${_sources})
+FILE(GLOB _sources ${CMAKE_CURRENT_SOURCE_DIR}/*.cc ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp ${CMAKE_CURRENT_SOURCE_DIR}/mb4_c.cc)
+
+ADD_EXECUTABLE(make-c-interface make-c-interface.cc xmlParser.cpp)
+
+ADD_CUSTOM_COMMAND(
+	OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/mb4_c.cc ${CMAKE_CURRENT_BINARY_DIR}/mb4_c.h
+	COMMAND make-c-interface ${CMAKE_CURRENT_SOURCE_DIR} cinterface.xml ${CMAKE_CURRENT_BINARY_DIR} mb4_c.cc mb4_c.h
+	COMMAND cp ${CMAKE_CURRENT_BINARY_DIR}/mb4_c.h ${CMAKE_CURRENT_BINARY_DIR}/../include/musicbrainz4
+	DEPENDS make-c-interface cinterface.xml
+)
+
+ADD_CUSTOM_TARGET(src_gen DEPENDS mb4_c.h)
+
+ADD_LIBRARY(musicbrainz4 SHARED ${_sources} mb4_c.cc)
 
 SET_TARGET_PROPERTIES(musicbrainz4 PROPERTIES
     VERSION ${musicbrainz4_VERSION}

@@ -40,7 +40,8 @@ ADD_SUBDIRECTORY(tests)
 ADD_SUBDIRECTORY(examples)
 
 ADD_CUSTOM_TARGET(docs
-    doxygen
+	doxygen
+	DEPENDS src_gen
 )
 
 ADD_CUSTOM_TARGET(dist
