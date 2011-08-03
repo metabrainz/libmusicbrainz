@@ -172,6 +172,8 @@ std::string GetMapValue(std::map<std::string,std::string> Map, int Item)
 	mb4_##TYPE2##_get_##PROP2(Mb4##TYPE1 o, char *str, int len) \
 	{ \
 		int ret=0; \
+		if (str) \
+			*str=0; \
 		if (o) \
 		{ \
 			try { \
@@ -283,7 +285,37 @@ std::string GetMapValue(std::map<std::string,std::string> Map, int Item)
 			} \
 		} \
 		return (Mb4##TYPE1)0; \
-	}
+	} \
+	int \
+	mb4_##TYPE2##_list_count(Mb4##TYPE1##List List) \
+	{ \
+		if (List) \
+		{ \
+			try { \
+				return ((MusicBrainz4::C##TYPE1##List *)List)->Count(); \
+			} \
+			catch (...) { \
+				return 0; \
+			} \
+		} \
+		return 0; \
+	} \
+ \
+	int \
+	mb4_##TYPE2##_list_offset(Mb4##TYPE1##List List) \
+	{ \
+		if (List) \
+		{ \
+			try { \
+				return ((MusicBrainz4::C##TYPE1##List *)List)->Offset(); \
+			} \
+			catch (...) { \
+				return 0; \
+			} \
+		} \
+		return 0; \
+	} \
+ \
 
 #define MB4_C_EXT_GETTER(PROP1, PROP2) \
 	int \
@@ -299,7 +331,9 @@ std::string GetMapValue(std::map<std::string,std::string> Map, int Item)
 	mb4_entity_ext_##PROP2##_name(Mb4Entity o, int Item, char *str, int len) \
 	{ \
 		int ret=0; \
-		if (0) \
+		if (str) \
+			*str=0; \
+		if (o) \
 		{ \
 			std::map<std::string,std::string> Items=((MusicBrainz4::CEntity *)o)->Ext##PROP1##s(); \
 			std::string Name=GetMapName(Items,Item); \
@@ -316,6 +350,8 @@ std::string GetMapValue(std::map<std::string,std::string> Map, int Item)
 	mb4_entity_ext_##PROP2##_value(Mb4Entity o, int Item, char *str, int len) \
 	{ \
 		int ret=0; \
+		if (str) \
+			*str=0; \
 		if (o) \
 		{ \
 			std::map<std::string,std::string> Items=((MusicBrainz4::CEntity *)o)->Ext##PROP1##s(); \
