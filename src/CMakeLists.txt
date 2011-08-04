@@ -1,7 +1,11 @@
 SET(CMAKE_INCLUDE_CURRENT_DIR ON)
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/.. ${CMAKE_CURRENT_SOURCE_DIR}/../include ${NEON_INCLUDE_DIR})
 
-FILE(GLOB _sources ${CMAKE_CURRENT_SOURCE_DIR}/*.cc ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp ${CMAKE_CURRENT_SOURCE_DIR}/mb4_c.cc)
+SET(_sources Alias.cc Annotation.cc Artist.cc ArtistCredit.cc Attribute.cc CDStub.cc Collection.cc
+	Disc.cc Entity.cc FreeDBDisc.cc HTTPFetch.cc ISRC.cc Label.cc LabelInfo.cc Lifespan.cc List.cc
+	mb4_c.cc Medium.cc MediumList.cc Message.cc Metadata.cc NameCredit.cc NonMBTrack.cc PUID.cc
+	Query.cc Rating.cc Recording.cc Relation.cc RelationList.cc Release.cc ReleaseGroup.cc Tag.cc
+	TextRepresentation.cc Track.cc UserRating.cc UserTag.cc Work.cc xmlParser.cpp)
 
 ADD_EXECUTABLE(make-c-interface make-c-interface.cc xmlParser.cpp)
 
@@ -14,7 +18,7 @@ ADD_CUSTOM_COMMAND(
 
 ADD_CUSTOM_TARGET(src_gen DEPENDS mb4_c.h)
 
-ADD_LIBRARY(musicbrainz4 SHARED ${_sources} mb4_c.cc)
+ADD_LIBRARY(musicbrainz4 SHARED ${_sources})
 
 SET_TARGET_PROPERTIES(musicbrainz4 PROPERTIES
     VERSION ${musicbrainz4_VERSION}
