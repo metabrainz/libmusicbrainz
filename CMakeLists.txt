@@ -41,8 +41,9 @@ ADD_SUBDIRECTORY(examples)
 
 ADD_CUSTOM_TARGET(docs
 	doxygen
-	DEPENDS src_gen
 )
+
+ADD_DEPENDENCIES(docs src_gen)
 
 ADD_CUSTOM_TARGET(dist
     rm -rf "libmusicbrainz-${PROJECT_VERSION}"

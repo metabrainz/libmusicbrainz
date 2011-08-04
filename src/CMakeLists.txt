@@ -10,9 +10,9 @@ SET(_sources Alias.cc Annotation.cc Artist.cc ArtistCredit.cc Attribute.cc CDStu
 ADD_EXECUTABLE(make-c-interface make-c-interface.cc xmlParser.cpp)
 
 ADD_CUSTOM_COMMAND(
-	OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/mb4_c.cc ${CMAKE_CURRENT_BINARY_DIR}/mb4_c.h
+	OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/mb4_c.cc ${CMAKE_CURRENT_BINARY_DIR}/mb4_c.h ${CMAKE_CURRENT_BINARY_DIR}/../include/musicbrainz4/mb4_c.h
 	COMMAND make-c-interface ${CMAKE_CURRENT_SOURCE_DIR} cinterface.xml ${CMAKE_CURRENT_BINARY_DIR} mb4_c.cc mb4_c.h
-	COMMAND cp ${CMAKE_CURRENT_BINARY_DIR}/mb4_c.h ${CMAKE_CURRENT_BINARY_DIR}/../include/musicbrainz4
+	COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_CURRENT_BINARY_DIR}/mb4_c.h ${CMAKE_CURRENT_BINARY_DIR}/../include/musicbrainz4
 	DEPENDS make-c-interface cinterface.xml *.inc
 )
 
