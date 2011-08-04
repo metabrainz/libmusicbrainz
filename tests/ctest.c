@@ -596,4 +596,9 @@ void CompileTest()
 	Work=mb4_work_list_item(WorkList,0);
 	WorkList=mb4_work_list_clone(WorkList);
 	mb4_work_list_delete(WorkList);
+
+	DummyInt=DummyInt;
+	DummyDouble=DummyDouble;
+	DummyBool=DummyBool;
+	DummyResult=DummyResult;
 }
