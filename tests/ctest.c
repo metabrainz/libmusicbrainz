@@ -481,120 +481,164 @@ void CompileTest()
 	mb4_alias_list_size(AliasList);
 	Alias=mb4_alias_list_item(AliasList,0);
 	AliasList=mb4_alias_clone(AliasList);
+	DummyInt=mb4_alias_list_get_count(AliasList);
+	DummyInt=mb4_alias_list_get_offset(AliasList);
 	mb4_alias_list_delete(AliasList);
 
 	mb4_annotation_list_size(AnnotationList);
 	Annotation=mb4_annotation_list_item(AnnotationList,0);
 	AnnotationList=mb4_annotation_list_clone(AnnotationList);
+	DummyInt=mb4_annotation_list_get_count(AnnotationList);
+	DummyInt=mb4_annotation_list_get_offset(AnnotationList);
 	mb4_annotation_list_delete(AnnotationList);
 
 	DummyInt=mb4_artist_list_size(ArtistList);
 	Artist=mb4_artist_list_item(ArtistList,0);
-	DummyInt=mb4_artist_list_count(ArtistList);
-	DummyInt=mb4_artist_list_offset(ArtistList);
 	ArtistList=mb4_artist_list_clone(ArtistList);
+	DummyInt=mb4_artist_list_get_count(ArtistList);
+	DummyInt=mb4_artist_list_get_offset(ArtistList);
 	mb4_artist_list_delete(ArtistList);
 
 	DummyInt=mb4_attribute_list_size(AttributeList);
 	Attribute=mb4_attribute_list_item(AttributeList,0);
 	AttributeList=mb4_attribute_list_clone(AttributeList);
+	DummyInt=mb4_attribute_list_get_count(AttributeList);
+	DummyInt=mb4_attribute_list_get_offset(AttributeList);
 	mb4_attribute_list_delete(AttributeList);
 
 	DummyInt=mb4_cdstub_list_size(CDStubList);
 	CDStub=mb4_cdstub_list_item(CDStubList,0);
 	CDStubList=mb4_cdstub_list_clone(CDStubList);
+	DummyInt=mb4_cdstub_list_get_count(CDStubList);
+	DummyInt=mb4_cdstub_list_get_offset(CDStubList);
 	mb4_cdstub_list_delete(CDStubList);
 
 	DummyInt=mb4_collection_list_size(CollectionList);
 	Collection=mb4_collection_list_item(CollectionList,0);
 	CollectionList=mb4_collection_list_clone(CollectionList);
+	DummyInt=mb4_collection_list_get_count(CollectionList);
+	DummyInt=mb4_collection_list_get_offset(CollectionList);
 	mb4_collection_list_delete(CollectionList);
 
 	DummyInt=mb4_disc_list_size(DiscList);
 	Disc=mb4_disc_list_item(DiscList,0);
 	DiscList=mb4_disc_list_clone(DiscList);
+	DummyInt=mb4_disc_list_get_count(DiscList);
+	DummyInt=mb4_disc_list_get_offset(DiscList);
 	mb4_disc_list_delete(DiscList);
 
 	DummyInt=mb4_freedbdisc_list_size(FreeDBDiscList);
 	FreeDBDisc=mb4_freedbdisc_list_item(FreeDBDiscList,0);
 	FreeDBDiscList=mb4_freedbdisc_list_clone(FreeDBDiscList);
+	DummyInt=mb4_freedbdisc_list_get_count(FreeDBDiscList);
+	DummyInt=mb4_freedbdisc_list_get_offset(FreeDBDiscList);
 	mb4_freedbdisc_list_delete(FreeDBDiscList);
 
 	DummyInt=mb4_isrc_list_size(ISRCList);
 	ISRC=mb4_isrc_list_item(ISRCList,0);
 	ISRCList=mb4_isrc_list_clone(ISRCList);
+	DummyInt=mb4_isrc_list_get_count(ISRCList);
+	DummyInt=mb4_isrc_list_get_offset(ISRCList);
 	mb4_isrc_list_delete(ISRCList);
 
 	DummyInt=mb4_label_list_size(LabelList);
 	Label=mb4_label_list_item(LabelList,0);
 	LabelList=mb4_label_list_clone(LabelList);
+	DummyInt=mb4_label_list_get_count(LabelList);
+	DummyInt=mb4_label_list_get_offset(LabelList);
 	mb4_label_list_delete(LabelList);
 
 	DummyInt=mb4_labelinfo_list_size(LabelInfoList);
 	LabelInfo=mb4_labelinfo_list_item(LabelInfoList,0);
 	LabelInfoList=mb4_labelinfo_list_clone(LabelInfoList);
+	DummyInt=mb4_labelinfo_list_get_count(LabelInfoList);
+	DummyInt=mb4_labelinfo_list_get_offset(LabelInfoList);
 	mb4_labelinfo_list_delete(LabelInfoList);
 
 	DummyInt=mb4_medium_list_size(MediumList);
 	Medium=mb4_medium_list_item(MediumList,0);
 	DummyInt=mb4_medium_list_get_trackcount(MediumList);
 	MediumList=mb4_medium_list_clone(MediumList);
+	DummyInt=mb4_medium_list_get_count(MediumList);
+	DummyInt=mb4_medium_list_get_offset(MediumList);
 	mb4_medium_list_delete(MediumList);
 
 	DummyInt=mb4_namecredit_list_size(NameCreditList);
 	NameCredit=mb4_namecredit_list_item(NameCreditList,0);
 	NameCreditList=mb4_namecredit_list_clone(NameCreditList);
+	DummyInt=mb4_namecredit_list_get_count(NameCreditList);
+	DummyInt=mb4_namecredit_list_get_offset(NameCreditList);
 	mb4_namecredit_list_delete(NameCreditList);
 
 	DummyInt=mb4_nonmbtrack_list_size(NonMBTrackList);
 	NonMBTrack=mb4_nonmbtrack_list_item(NonMBTrackList,0);
 	NonMBTrackList=mb4_nonmbtrack_list_clone(NonMBTrackList);
+	DummyInt=mb4_nonmbtrack_list_get_count(NonMBTrackList);
+	DummyInt=mb4_nonmbtrack_list_get_offset(NonMBTrackList);
 	mb4_nonmbtrack_list_delete(NonMBTrackList);
 
 	DummyInt=mb4_puid_list_size(PUIDList);
 	PUID=mb4_puid_list_item(PUIDList,0);
 	PUIDList=mb4_puid_list_clone(PUIDList);
+	DummyInt=mb4_puid_list_get_count(PUIDList);
+	DummyInt=mb4_puid_list_get_offset(PUIDList);
 	mb4_puid_list_delete(PUIDList);
 
 	DummyInt=mb4_recording_list_size(RecordingList);
 	Recording=mb4_recording_list_item(RecordingList,0);
 	RecordingList=mb4_recording_list_clone(RecordingList);
+	DummyInt=mb4_recording_list_get_count(RecordingList);
+	DummyInt=mb4_recording_list_get_offset(RecordingList);
 	mb4_recording_list_delete(RecordingList);
 
 	DummyInt=mb4_relation_list_size(RelationList);
 	Relation=mb4_relation_list_item(RelationList,0);
 	DummyInt=mb4_relation_list_get_targettype(RelationList,Str,Size);
 	RelationList=mb4_relation_list_clone(RelationList);
+	DummyInt=mb4_relation_list_get_count(RelationList);
+	DummyInt=mb4_relation_list_get_offset(RelationList);
 	mb4_relation_list_delete(RelationList);
 
 	DummyInt=mb4_release_list_size(ReleaseList);
 	Release=mb4_release_list_item(ReleaseList,0);
 	ReleaseList=mb4_release_list_clone(ReleaseList);
+	DummyInt=mb4_release_list_get_count(ReleaseList);
+	DummyInt=mb4_release_list_get_offset(ReleaseList);
 	mb4_release_list_delete(ReleaseList);
 
 	DummyInt=mb4_releasegroup_list_size(ReleaseGroupList);
 	ReleaseGroup=mb4_releasegroup_list_item(ReleaseGroupList,0);
 	ReleaseGroupList=mb4_releasegroup_list_clone(ReleaseGroupList);
+	DummyInt=mb4_releasegroup_list_get_count(ReleaseGroupList);
+	DummyInt=mb4_releasegroup_list_get_offset(ReleaseGroupList);
 	mb4_releasegroup_list_delete(ReleaseGroupList);
 
 	DummyInt=mb4_tag_list_size(TagList);
 	Tag=mb4_tag_list_item(TagList,0);
 	TagList=mb4_tag_list_clone(TagList);
+	DummyInt=mb4_tag_list_get_count(TagList);
+	DummyInt=mb4_tag_list_get_offset(TagList);
 	mb4_tag_list_delete(TagList);
 
 	DummyInt=mb4_track_list_size(TrackList);
 	Track=mb4_track_list_item(TrackList,0);
 	TrackList=mb4_track_list_clone(TrackList);
+	DummyInt=mb4_track_list_get_count(TrackList);
+	DummyInt=mb4_track_list_get_offset(TrackList);
 	mb4_track_list_delete(TrackList);
 
 	DummyInt=mb4_usertag_list_size(UserTagList);
 	UserTag=mb4_usertag_list_item(UserTagList,0);
 	UserTagList=mb4_usertag_list_clone(UserTagList);
+	DummyInt=mb4_usertag_list_get_count(UserTagList);
+	DummyInt=mb4_usertag_list_get_offset(UserTagList);
 	mb4_usertag_list_delete(UserTagList);
 
 	DummyInt=mb4_work_list_size(WorkList);
 	Work=mb4_work_list_item(WorkList,0);
 	WorkList=mb4_work_list_clone(WorkList);
+	DummyInt=mb4_work_list_get_count(WorkList);
+	DummyInt=mb4_work_list_get_offset(WorkList);
 	mb4_work_list_delete(WorkList);
 
 	DummyInt=DummyInt;
