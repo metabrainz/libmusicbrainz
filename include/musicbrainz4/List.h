@@ -44,7 +44,6 @@ namespace MusicBrainz4
 		virtual CList *Clone();
 
 		int NumItems() const;
-		CEntity *Item(int Item) const;
 		int Offset() const;
 		int Count() const;
 
@@ -56,6 +55,7 @@ namespace MusicBrainz4
 		virtual bool ParseElement(const XMLNode& Node);
 
 		void AddItem(CEntity *Item);
+		CEntity *Item(int Item) const;
 
 	private:
 		CListPrivate *m_d;
