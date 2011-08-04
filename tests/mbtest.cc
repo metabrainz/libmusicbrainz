@@ -27,7 +27,6 @@
 #include <strings.h>
 
 #include "musicbrainz4/Query.h"
-#include "musicbrainz4/GenericList.h"
 #include "musicbrainz4/Release.h"
 #include "musicbrainz4/ReleaseGroup.h"
 #include "musicbrainz4/Medium.h"
