@@ -54,6 +54,11 @@ int main(int argc, const char *argv[])
 					Mb4ReleaseList ReleaseList=mb4_disc_get_releaselist(Disc);
 					if (ReleaseList)
 					{
+						/*
+						 *if we want to keep an object around for a while, we can
+						 *clone it. We are now responsible for deleting the object
+						*/
+
 						Mb4ReleaseList CloneReleaseList=mb4_release_list_clone(ReleaseList);
 						int ThisRelease=0;
 
@@ -201,6 +206,8 @@ int main(int argc, const char *argv[])
 								free(ParamNames);
 							}
 						}
+
+						/* We must delete anything we have cloned */
 
 						mb4_release_list_delete(CloneReleaseList);
 					}
