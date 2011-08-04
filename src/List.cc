@@ -53,7 +53,7 @@ MusicBrainz4::CList::CList(const CList& Other)
 	*this=Other;
 }
 
-MusicBrainz4::CList::CList& MusicBrainz4::CList::operator =(const CList& Other)
+MusicBrainz4::CList& MusicBrainz4::CList::operator =(const CList& Other)
 {
 	if (this!=&Other)
 	{
