@@ -180,7 +180,7 @@ extern "C"
 		<property name="id" uppername="ID" type="string"/>
 		<property name="recordinglist" uppername="RecordingList" type="object"/>
 	</class>
-	<class name="query" clone="false">
+	<class name="query">
 		<property name="lasthttpcode" uppername="LastHTTPCode" type="integer"/>
 		<property name="lasterrormessage" uppername="LastErrorMessage" type="string"/>
 	</class>

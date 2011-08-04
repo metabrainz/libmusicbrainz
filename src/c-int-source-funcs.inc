@@ -112,7 +112,7 @@ std::string GetMapValue(std::map<std::string,std::string> Map, int Item)
 	mb4_##TYPE2##_clone(Mb4##TYPE1 o) \
 	{ \
 		if (o) \
-			return (Mb4##TYPE1)(((MusicBrainz4::C##TYPE1 *)o)->Clone()); \
+			return (Mb4##TYPE1)new MusicBrainz4::C##TYPE1(*(MusicBrainz4::C##TYPE1 *)o); \
 		return 0;\
 	}
 

@@ -247,14 +247,6 @@ void ProcessClass(const XMLNode& Node, std::ofstream& Source, std::ofstream& Inc
 		else
 			UpperName[0]=toupper(UpperName[0]);
 
-		bool DoClone=true;
-		if (Node.isAttributeSet("clone"))
-		{
-			std::string Clone=Node.getAttribute("clone");
-			if ("false"==Clone)
-				DoClone=false;
-		}
-
 		Include << "/**" << std::endl;
 		Include << "* Delete an #Mb4" << UpperName << " object" << std::endl;
 		Include << "*" << std::endl;
@@ -265,21 +257,18 @@ void ProcessClass(const XMLNode& Node, std::ofstream& Source, std::ofstream& Inc
 
 		Source << "  MB4_C_DELETE(" << UpperName << "," << LowerName << ")" << std::endl;
 
-		if (DoClone)
-		{
-			Include << "/**" << std::endl;
-			Include << "* Clone an #Mb4" << UpperName << " object" << std::endl;
-			Include << "*" << std::endl;
-			Include << "* @param " << UpperName << " Object to clone" << std::endl;
-			Include << "*" << std::endl;
-			Include << "* @return Cloned object. This object <b>must</b> be deleted once" << std::endl;
-			Include << "*				finished with." << std::endl;
-			Include << "*/" << std::endl;
-			Include << "  Mb4" << UpperName << " mb4_" << LowerName << "_clone(Mb4" << UpperName << " " << UpperName << ");" << std::endl;
-			Include << std::endl;
+		Include << "/**" << std::endl;
+		Include << "* Clone an #Mb4" << UpperName << " object" << std::endl;
+		Include << "*" << std::endl;
+		Include << "* @param " << UpperName << " Object to clone" << std::endl;
+		Include << "*" << std::endl;
+		Include << "* @return Cloned object. This object <b>must</b> be deleted once" << std::endl;
+		Include << "*				finished with." << std::endl;
+		Include << "*/" << std::endl;
+		Include << "  Mb4" << UpperName << " mb4_" << LowerName << "_clone(Mb4" << UpperName << " " << UpperName << ");" << std::endl;
+		Include << std::endl;
 
-			Source << "  MB4_C_CLONE(" << UpperName << "," << LowerName << ")" << std::endl;
-		}
+		Source << "  MB4_C_CLONE(" << UpperName << "," << LowerName << ")" << std::endl;
 
 		for (int count=0;count<Node.nChildNode();count++)
 		{
@@ -393,14 +382,6 @@ void ProcessList(const XMLNode& Node, std::ofstream& Source, std::ofstream& Incl
 		else
 			UpperName[0]=toupper(UpperName[0]);
 
-		bool DoClone=true;
-		if (Node.isAttributeSet("clone"))
-		{
-			std::string Clone=Node.getAttribute("clone");
-			if ("false"==Clone)
-				DoClone=false;
-		}
-
 		Include << "/**" << std::endl;
 		Include << " * Delete a #Mb4" << UpperName << "List" << std::endl;
 		Include << " *" << std::endl;
@@ -442,21 +423,18 @@ void ProcessList(const XMLNode& Node, std::ofstream& Source, std::ofstream& Incl
 
 		Source << "  MB4_C_LIST_GETTER(" << UpperName << "," << LowerName << ")" << std::endl;
 
-		if (DoClone)
-		{
-			Include << "/**" << std::endl;
-			Include << "* Clone an #Mb4" << UpperName << "List object" << std::endl;
-			Include << "*" << std::endl;
-			Include << "* @param " << UpperName << "List Object to clone" << std::endl;
-			Include << "*" << std::endl;
-			Include << "* @return Cloned list. This list <b>must</b> be deleted once" << std::endl;
-			Include << "*				finished with." << std::endl;
-			Include << "*/" << std::endl;
-			Include << "  Mb4" << UpperName << "List mb4_" << LowerName << "_list_clone(Mb4" << UpperName << "List " << UpperName << "List" << ");" << std::endl;
-			Include << std::endl;
+		Include << "/**" << std::endl;
+		Include << "* Clone an #Mb4" << UpperName << "List object" << std::endl;
+		Include << "*" << std::endl;
+		Include << "* @param " << UpperName << "List Object to clone" << std::endl;
+		Include << "*" << std::endl;
+		Include << "* @return Cloned list. This list <b>must</b> be deleted once" << std::endl;
+		Include << "*				finished with." << std::endl;
+		Include << "*/" << std::endl;
+		Include << "  Mb4" << UpperName << "List mb4_" << LowerName << "_list_clone(Mb4" << UpperName << "List " << UpperName << "List" << ");" << std::endl;
+		Include << std::endl;
 
-			Source << "  MB4_C_CLONE(" << UpperName << "List," << LowerName << "_list)" << std::endl;
-		}
+		Source << "  MB4_C_CLONE(" << UpperName << "List," << LowerName << "_list)" << std::endl;
 
 		for (int count=0;count<Node.nChildNode();count++)
 		{
