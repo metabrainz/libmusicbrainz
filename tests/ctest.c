@@ -18,7 +18,7 @@
    You should have received a copy of the GNU General Public License
    along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
-     $Id: Lifespan.cc 13211 2011-07-20 16:15:03Z adhawkins $
+     $Id$
 
 ----------------------------------------------------------------------------*/
 

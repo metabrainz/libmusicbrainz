@@ -126,9 +126,6 @@ void ProcessHeader(const XMLNode& /*Node*/, std::ofstream& Source, std::ofstream
 	os << std::endl;
 
 	Source << os.str() << std::endl;
-	Source << os.str() << std::endl;
-
-	Include << os.str() << std::endl;
 	Include << os.str() << std::endl;
 }
 
