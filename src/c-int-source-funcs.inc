@@ -264,7 +264,7 @@ std::string GetMapValue(std::map<std::string,std::string> Map, int Item)
 		return (Mb4##TYPE1)0; \
 	} \
 	int \
-	mb4_##TYPE2##_list_count(Mb4##TYPE1##List List) \
+	mb4_##TYPE2##_list_get_count(Mb4##TYPE1##List List) \
 	{ \
 		if (List) \
 		{ \
@@ -279,7 +279,7 @@ std::string GetMapValue(std::map<std::string,std::string> Map, int Item)
 	} \
  \
 	int \
-	mb4_##TYPE2##_list_offset(Mb4##TYPE1##List List) \
+	mb4_##TYPE2##_list_get_offset(Mb4##TYPE1##List List) \
 	{ \
 		if (List) \
 		{ \

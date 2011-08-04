@@ -411,14 +411,14 @@ void ProcessList(const XMLNode& Node, std::ofstream& Source, std::ofstream& Incl
 		Include << " *" << std::endl;
 		Include << " * @param	List List to use" << std::endl;
 		Include << " */" << std::endl;
-		Include << "	int mb4_" << LowerName << "_list_count(Mb4" << UpperName << "List List);" << std::endl;
+		Include << "	int mb4_" << LowerName << "_list_get_count(Mb4" << UpperName << "List List);" << std::endl;
 		Include << std::endl;
 		Include << "/**" << std::endl;
 		Include << " *	Return the offset of entries in an #Mb4" << UpperName << "List" << std::endl;
 		Include << " *" << std::endl;
 		Include << " * @param	List List to use" << std::endl;
 		Include << " */" << std::endl;
-		Include << "	int mb4_" << LowerName << "_list_offset(Mb4" << UpperName << "List List);" << std::endl;
+		Include << "	int mb4_" << LowerName << "_list_get_offset(Mb4" << UpperName << "List List);" << std::endl;
 		Include << std::endl;
 
 		Source << "  MB4_C_LIST_GETTER(" << UpperName << "," << LowerName << ")" << std::endl;
