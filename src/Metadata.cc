@@ -10,14 +10,13 @@
    modify it under the terms of v2 of the GNU Lesser General Public
    License as published by the Free Software Foundation.
 
-   Flactag is distributed in the hope that it will be useful,
+   libmusicbrainz4 is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    Lesser General Public License for more details.
 
-   You should have received a copy of the GNU Lesser General Public
-   License along with this library; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+   You should have received a copy of the GNU General Public License
+   along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
      $Id$
 
@@ -26,24 +25,37 @@
 #include "musicbrainz4/Metadata.h"
 
 #include "musicbrainz4/Artist.h"
+#include "musicbrainz4/ArtistList.h"
 #include "musicbrainz4/Release.h"
+#include "musicbrainz4/ReleaseList.h"
 #include "musicbrainz4/ReleaseGroup.h"
+#include "musicbrainz4/ReleaseGroupList.h"
 #include "musicbrainz4/Recording.h"
+#include "musicbrainz4/RecordingList.h"
 #include "musicbrainz4/Label.h"
+#include "musicbrainz4/LabelList.h"
 #include "musicbrainz4/Work.h"
+#include "musicbrainz4/WorkList.h"
 #include "musicbrainz4/PUID.h"
 #include "musicbrainz4/ISRC.h"
+#include "musicbrainz4/ISRCList.h"
 #include "musicbrainz4/Disc.h"
 #include "musicbrainz4/Rating.h"
 #include "musicbrainz4/UserRating.h"
 #include "musicbrainz4/Collection.h"
+#include "musicbrainz4/CollectionList.h"
 #include "musicbrainz4/Annotation.h"
+#include "musicbrainz4/AnnotationList.h"
 #include "musicbrainz4/CDStub.h"
+#include "musicbrainz4/CDStubList.h"
 #include "musicbrainz4/FreeDBDisc.h"
+#include "musicbrainz4/FreeDBDiscList.h"
 #include "musicbrainz4/Tag.h"
+#include "musicbrainz4/TagList.h"
 #include "musicbrainz4/UserTag.h"
+#include "musicbrainz4/UserTagList.h"
 #include "musicbrainz4/LabelInfo.h"
-#include "musicbrainz4/CDStub.h"
+#include "musicbrainz4/LabelInfoList.h"
 #include "musicbrainz4/Message.h"
 
 class MusicBrainz4::CMetadataPrivate
@@ -81,6 +93,8 @@ class MusicBrainz4::CMetadataPrivate
 		{
 		}
 
+		std::string m_XMLNS;
+		std::string m_XMLNSExt;
 		std::string m_Generator;
 		std::string m_Created;
 		CArtist *m_Artist;
@@ -92,166 +106,42 @@ class MusicBrainz4::CMetadataPrivate
 		CPUID *m_PUID;
 		CISRC *m_ISRC;
 		CDisc *m_Disc;
-		CGenericList<CLabelInfo> *m_LabelInfoList;
+		CLabelInfoList *m_LabelInfoList;
 		CRating *m_Rating;
 		CUserRating *m_UserRating;
 		CCollection *m_Collection;
-		CGenericList<CArtist> *m_ArtistList;
-		CGenericList<CRelease> *m_ReleaseList;
-		CGenericList<CReleaseGroup> *m_ReleaseGroupList;
-		CGenericList<CRecording> *m_RecordingList;
-		CGenericList<CLabel> *m_LabelList;
-		CGenericList<CWork> *m_WorkList;
-		CGenericList<CISRC> *m_ISRCList;
-		CGenericList<CAnnotation> *m_AnnotationList;
-		CGenericList<CCDStub> *m_CDStubList;
-		CGenericList<CFreeDBDisc> *m_FreeDBDiscList;
-		CGenericList<CTag> *m_TagList;
-		CGenericList<CUserTag> *m_UserTagList;
-		CGenericList<CCollection> *m_CollectionList;
+		CArtistList *m_ArtistList;
+		CReleaseList *m_ReleaseList;
+		CReleaseGroupList *m_ReleaseGroupList;
+		CRecordingList *m_RecordingList;
+		CLabelList *m_LabelList;
+		CWorkList *m_WorkList;
+		CISRCList *m_ISRCList;
+		CAnnotationList *m_AnnotationList;
+		CCDStubList *m_CDStubList;
+		CFreeDBDiscList *m_FreeDBDiscList;
+		CTagList *m_TagList;
+		CUserTagList *m_UserTagList;
+		CCollectionList *m_CollectionList;
 		CCDStub *m_CDStub;
 		CMessage *m_Message;
 };
 
 MusicBrainz4::CMetadata::CMetadata(const XMLNode& Node)
-:	m_d(new CMetadataPrivate)
+:	CEntity(),
+	m_d(new CMetadataPrivate)
 {
 	if (!Node.isEmpty())
 	{
 		//std::cout << "Metadata node: " << std::endl << Node.createXMLString(true) << std::endl;
 
-		if (Node.isAttributeSet("generator"))
-			m_d->m_Generator=Node.getAttribute("generator");
-
-		if (Node.isAttributeSet("created"))
-			m_d->m_Created=Node.getAttribute("created");
-
-		for (int count=0;count<Node.nChildNode();count++)
-		{
-			XMLNode ChildNode=Node.getChildNode(count);
-			std::string NodeName=ChildNode.getName();
-			std::string NodeValue;
-			if (ChildNode.getText())
-				NodeValue=ChildNode.getText();
-
-			if ("artist"==NodeName)
-			{
-				m_d->m_Artist=new CArtist(ChildNode);
-			}
-			else if ("release"==NodeName)
-			{
-				m_d->m_Release=new CRelease(ChildNode);
-			}
-			else if ("release-group"==NodeName)
-			{
-				m_d->m_ReleaseGroup=new CReleaseGroup(ChildNode);
-			}
-			else if ("recording"==NodeName)
-			{
-				m_d->m_Recording=new CRecording(ChildNode);
-			}
-			else if ("label"==NodeName)
-			{
-				m_d->m_Label=new CLabel(ChildNode);
-			}
-			else if ("work"==NodeName)
-			{
-				m_d->m_Work=new CWork(ChildNode);
-			}
-			else if ("puid"==NodeName)
-			{
-				m_d->m_PUID=new CPUID(ChildNode);
-			}
-			else if ("isrc"==NodeName)
-			{
-				m_d->m_ISRC=new CISRC(ChildNode);
-			}
-			else if ("disc"==NodeName)
-			{
-				m_d->m_Disc=new CDisc(ChildNode);
-			}
-			else if ("rating"==NodeName)
-			{
-				m_d->m_Rating=new CRating(ChildNode);
-			}
-			else if ("user-rating"==NodeName)
-			{
-				m_d->m_UserRating=new CUserRating(ChildNode);
-			}
-			else if ("collection"==NodeName)
-			{
-				m_d->m_Collection=new CCollection(ChildNode);
-			}
-			else if ("artist-list"==NodeName)
-			{
-				m_d->m_ArtistList=new CGenericList<CArtist>(ChildNode,"artist");
-			}
-			else if ("release-list"==NodeName)
-			{
-				m_d->m_ReleaseList=new CGenericList<CRelease>(ChildNode,"release");
-			}
-			else if ("release-group-list"==NodeName)
-			{
-				m_d->m_ReleaseGroupList=new CGenericList<CReleaseGroup>(ChildNode,"release-group");
-			}
-			else if ("recording-list"==NodeName)
-			{
-				m_d->m_RecordingList=new CGenericList<CRecording>(ChildNode,"recording");
-			}
-			else if ("label-list"==NodeName)
-			{
-				m_d->m_LabelList=new CGenericList<CLabel>(ChildNode,"label");
-			}
-			else if ("work-list"==NodeName)
-			{
-				m_d->m_WorkList=new CGenericList<CWork>(ChildNode,"work");
-			}
-			else if ("isrc-list"==NodeName)
-			{
-				m_d->m_ISRCList=new CGenericList<CISRC>(ChildNode,"isrc");
-			}
-			else if ("annotation-list"==NodeName)
-			{
-				m_d->m_AnnotationList=new CGenericList<CAnnotation>(ChildNode,"annotation");
-			}
-			else if ("cdstub-list"==NodeName)
-			{
-				m_d->m_CDStubList=new CGenericList<CCDStub>(ChildNode,"ctstub");
-			}
-			else if ("freedb-disc-list"==NodeName)
-			{
-				m_d->m_FreeDBDiscList=new CGenericList<CFreeDBDisc>(ChildNode,"freedb-disc");
-			}
-			else if ("tag-list"==NodeName)
-			{
-				m_d->m_TagList=new CGenericList<CTag>(ChildNode,"tag");
-			}
-			else if ("user-tag-list"==NodeName)
-			{
-				m_d->m_UserTagList=new CGenericList<CUserTag>(ChildNode,"user-tag");
-			}
-			else if ("collection-list"==NodeName)
-			{
-				m_d->m_CollectionList=new CGenericList<CCollection>(ChildNode,"collection");
-			}
-			else if ("cdstub"==NodeName)
-			{
-				m_d->m_CDStub=new CCDStub(ChildNode);
-			}
-			else if ("message"==NodeName)
-			{
-				m_d->m_Message=new CMessage(ChildNode);
-			}
-			else
-			{
-				std::cerr << "Unrecognised metadata node: '" << NodeName << "'" << std::endl;
-			}
-		}
+		Parse(Node);
 	}
 }
 
 MusicBrainz4::CMetadata::CMetadata(const CMetadata& Other)
-:	m_d(new CMetadataPrivate)
+:	CEntity(),
+	m_d(new CMetadataPrivate)
 {
 	*this=Other;
 }
@@ -262,6 +152,10 @@ MusicBrainz4::CMetadata& MusicBrainz4::CMetadata::operator =(const CMetadata& Ot
 	{
 		Cleanup();
 
+		CEntity::operator =(Other);
+
+		m_d->m_XMLNS=Other.m_d->m_XMLNS;
+		m_d->m_XMLNSExt=Other.m_d->m_XMLNSExt;
 		m_d->m_Generator=Other.m_d->m_Generator;
 		m_d->m_Created=Other.m_d->m_Created;
 
@@ -293,7 +187,7 @@ MusicBrainz4::CMetadata& MusicBrainz4::CMetadata::operator =(const CMetadata& Ot
 			m_d->m_Disc=new CDisc(*Other.m_d->m_Disc);
 
 		if (Other.m_d->m_LabelInfoList)
-			m_d->m_LabelInfoList=new CGenericList<CLabelInfo>(*Other.m_d->m_LabelInfoList);
+			m_d->m_LabelInfoList=new CLabelInfoList(*Other.m_d->m_LabelInfoList);
 
 		if (Other.m_d->m_Rating)
 			m_d->m_Rating=new CRating(*Other.m_d->m_Rating);
@@ -305,43 +199,43 @@ MusicBrainz4::CMetadata& MusicBrainz4::CMetadata::operator =(const CMetadata& Ot
 			m_d->m_Collection=new CCollection(*Other.m_d->m_Collection);
 
 		if (Other.m_d->m_ArtistList)
-			m_d->m_ArtistList=new CGenericList<CArtist>(*Other.m_d->m_ArtistList);
+			m_d->m_ArtistList=new CArtistList(*Other.m_d->m_ArtistList);
 
 		if (Other.m_d->m_ReleaseList)
-			m_d->m_ReleaseList=new CGenericList<CRelease>(*Other.m_d->m_ReleaseList);
+			m_d->m_ReleaseList=new CReleaseList(*Other.m_d->m_ReleaseList);
 
 		if (Other.m_d->m_ReleaseGroupList)
-			m_d->m_ReleaseGroupList=new CGenericList<CReleaseGroup>(*Other.m_d->m_ReleaseGroupList);
+			m_d->m_ReleaseGroupList=new CReleaseGroupList(*Other.m_d->m_ReleaseGroupList);
 
 		if (Other.m_d->m_RecordingList)
-			m_d->m_RecordingList=new CGenericList<CRecording>(*Other.m_d->m_RecordingList);
+			m_d->m_RecordingList=new CRecordingList(*Other.m_d->m_RecordingList);
 
 		if (Other.m_d->m_LabelList)
-			m_d->m_LabelList=new CGenericList<CLabel>(*Other.m_d->m_LabelList);
+			m_d->m_LabelList=new CLabelList(*Other.m_d->m_LabelList);
 
 		if (Other.m_d->m_WorkList)
-			m_d->m_WorkList=new CGenericList<CWork>(*Other.m_d->m_WorkList);
+			m_d->m_WorkList=new CWorkList(*Other.m_d->m_WorkList);
 
 		if (Other.m_d->m_ISRCList)
-			m_d->m_ISRCList=new CGenericList<CISRC>(*Other.m_d->m_ISRCList);
+			m_d->m_ISRCList=new CISRCList(*Other.m_d->m_ISRCList);
 
 		if (Other.m_d->m_AnnotationList)
-			m_d->m_AnnotationList=new CGenericList<CAnnotation>(*Other.m_d->m_AnnotationList);
+			m_d->m_AnnotationList=new CAnnotationList(*Other.m_d->m_AnnotationList);
 
 		if (Other.m_d->m_CDStubList)
-			m_d->m_CDStubList=new CGenericList<CCDStub>(*Other.m_d->m_CDStubList);
+			m_d->m_CDStubList=new CCDStubList(*Other.m_d->m_CDStubList);
 
 		if (Other.m_d->m_FreeDBDiscList)
-			m_d->m_FreeDBDiscList=new CGenericList<CFreeDBDisc>(*Other.m_d->m_FreeDBDiscList);
+			m_d->m_FreeDBDiscList=new CFreeDBDiscList(*Other.m_d->m_FreeDBDiscList);
 
 		if (Other.m_d->m_TagList)
-			m_d->m_TagList=new CGenericList<CTag>(*Other.m_d->m_TagList);
+			m_d->m_TagList=new CTagList(*Other.m_d->m_TagList);
 
 		if (Other.m_d->m_UserTagList)
-			m_d->m_UserTagList=new CGenericList<CUserTag>(*Other.m_d->m_UserTagList);
+			m_d->m_UserTagList=new CUserTagList(*Other.m_d->m_UserTagList);
 
 		if (Other.m_d->m_CollectionList)
-			m_d->m_CollectionList=new CGenericList<CCollection>(*Other.m_d->m_CollectionList);
+			m_d->m_CollectionList=new CCollectionList(*Other.m_d->m_CollectionList);
 
 		if (Other.m_d->m_CDStub)
 			m_d->m_CDStub=new CCDStub(*Other.m_d->m_CDStub);
@@ -447,6 +341,170 @@ void MusicBrainz4::CMetadata::Cleanup()
 	m_d->m_Message=0;
 }
 
+MusicBrainz4::CMetadata *MusicBrainz4::CMetadata::Clone()
+{
+	return new CMetadata(*this);
+}
+
+bool MusicBrainz4::CMetadata::ParseAttribute(const std::string& Name, const std::string& Value)
+{
+	bool RetVal=true;
+
+	if ("xmlns"==Name)
+		m_d->m_XMLNS=Value;
+	else if ("xmlns:ext"==Name)
+		m_d->m_XMLNSExt=Value;
+	else if ("generator"==Name)
+		m_d->m_Generator=Value;
+	else if ("created"==Name)
+		m_d->m_Created=Value;
+	else
+	{
+		std::cerr << "Unrecognised metadata attribute: '" << Name << "'" << std::endl;
+		RetVal=false;
+	}
+
+	return RetVal;
+}
+
+bool MusicBrainz4::CMetadata::ParseElement(const XMLNode& Node)
+{
+	bool RetVal=true;
+
+	std::string NodeName=Node.getName();
+
+	if ("artist"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_Artist);
+	}
+	else if ("release"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_Release);
+	}
+	else if ("release-group"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_ReleaseGroup);
+	}
+	else if ("recording"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_Recording);
+	}
+	else if ("label"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_Label);
+	}
+	else if ("work"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_Work);
+	}
+	else if ("puid"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_PUID);
+	}
+	else if ("isrc"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_ISRC);
+	}
+	else if ("disc"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_Disc);
+	}
+	else if ("rating"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_Rating);
+	}
+	else if ("user-rating"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_UserRating);
+	}
+	else if ("collection"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_Collection);
+	}
+	else if ("artist-list"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_ArtistList);
+	}
+	else if ("release-list"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_ReleaseList);
+	}
+	else if ("release-group-list"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_ReleaseGroupList);
+	}
+	else if ("recording-list"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_RecordingList);
+	}
+	else if ("label-list"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_LabelList);
+	}
+	else if ("work-list"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_WorkList);
+	}
+	else if ("isrc-list"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_ISRCList);
+	}
+	else if ("annotation-list"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_AnnotationList);
+	}
+	else if ("cdstub-list"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_CDStubList);
+	}
+	else if ("freedb-disc-list"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_FreeDBDiscList);
+	}
+	else if ("tag-list"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_TagList);
+	}
+	else if ("user-tag-list"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_UserTagList);
+	}
+	else if ("collection-list"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_CollectionList);
+	}
+	else if ("cdstub"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_CDStub);
+	}
+	else if ("message"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_Message);
+	}
+	else
+	{
+		std::cerr << "Unrecognised metadata element: '" << NodeName << "'" << std::endl;
+		RetVal=false;
+	}
+
+	return RetVal;
+}
+
+std::string MusicBrainz4::CMetadata::GetElementName()
+{
+	return "metadata";
+}
+
+std::string MusicBrainz4::CMetadata::XMLNS() const
+{
+	return m_d->m_XMLNS;
+}
+
+std::string MusicBrainz4::CMetadata::XMLNSExt() const
+{
+	return m_d->m_XMLNSExt;
+}
+
 std::string MusicBrainz4::CMetadata::Generator() const
 {
 	return m_d->m_Generator;
@@ -502,7 +560,7 @@ MusicBrainz4::CDisc *MusicBrainz4::CMetadata::Disc() const
 	return m_d->m_Disc;
 }
 
-MusicBrainz4::CGenericList<MusicBrainz4::CLabelInfo> *MusicBrainz4::CMetadata::LabelInfoList() const
+MusicBrainz4::CLabelInfoList *MusicBrainz4::CMetadata::LabelInfoList() const
 {
 	return m_d->m_LabelInfoList;
 }
@@ -522,67 +580,67 @@ MusicBrainz4::CCollection *MusicBrainz4::CMetadata::Collection() const
 	return m_d->m_Collection;
 }
 
-MusicBrainz4::CGenericList<MusicBrainz4::CArtist> *MusicBrainz4::CMetadata::ArtistList() const
+MusicBrainz4::CArtistList *MusicBrainz4::CMetadata::ArtistList() const
 {
 	return m_d->m_ArtistList;
 }
 
-MusicBrainz4::CGenericList<MusicBrainz4::CRelease> *MusicBrainz4::CMetadata::ReleaseList() const
+MusicBrainz4::CReleaseList *MusicBrainz4::CMetadata::ReleaseList() const
 {
 	return m_d->m_ReleaseList;
 }
 
-MusicBrainz4::CGenericList<MusicBrainz4::CReleaseGroup> *MusicBrainz4::CMetadata::ReleaseGroupList() const
+MusicBrainz4::CReleaseGroupList *MusicBrainz4::CMetadata::ReleaseGroupList() const
 {
 	return m_d->m_ReleaseGroupList;
 }
 
-MusicBrainz4::CGenericList<MusicBrainz4::CRecording> *MusicBrainz4::CMetadata::RecordingList() const
+MusicBrainz4::CRecordingList *MusicBrainz4::CMetadata::RecordingList() const
 {
 	return m_d->m_RecordingList;
 }
 
-MusicBrainz4::CGenericList<MusicBrainz4::CLabel> *MusicBrainz4::CMetadata::LabelList() const
+MusicBrainz4::CLabelList *MusicBrainz4::CMetadata::LabelList() const
 {
 	return m_d->m_LabelList;
 }
 
-MusicBrainz4::CGenericList<MusicBrainz4::CWork> *MusicBrainz4::CMetadata::WorkList() const
+MusicBrainz4::CWorkList *MusicBrainz4::CMetadata::WorkList() const
 {
 	return m_d->m_WorkList;
 }
 
-MusicBrainz4::CGenericList<MusicBrainz4::CISRC> *MusicBrainz4::CMetadata::ISRCList() const
+MusicBrainz4::CISRCList *MusicBrainz4::CMetadata::ISRCList() const
 {
 	return m_d->m_ISRCList;
 }
 
-MusicBrainz4::CGenericList<MusicBrainz4::CAnnotation> *MusicBrainz4::CMetadata::AnnotationList() const
+MusicBrainz4::CAnnotationList *MusicBrainz4::CMetadata::AnnotationList() const
 {
 	return m_d->m_AnnotationList;
 }
 
-MusicBrainz4::CGenericList<MusicBrainz4::CCDStub> *MusicBrainz4::CMetadata::CDStubList() const
+MusicBrainz4::CCDStubList *MusicBrainz4::CMetadata::CDStubList() const
 {
 	return m_d->m_CDStubList;
 }
 
-MusicBrainz4::CGenericList<MusicBrainz4::CFreeDBDisc> *MusicBrainz4::CMetadata::FreeDBDiscList() const
+MusicBrainz4::CFreeDBDiscList *MusicBrainz4::CMetadata::FreeDBDiscList() const
 {
 	return m_d->m_FreeDBDiscList;
 }
 
-MusicBrainz4::CGenericList<MusicBrainz4::CTag> *MusicBrainz4::CMetadata::TagList() const
+MusicBrainz4::CTagList *MusicBrainz4::CMetadata::TagList() const
 {
 	return m_d->m_TagList;
 }
 
-MusicBrainz4::CGenericList<MusicBrainz4::CUserTag> *MusicBrainz4::CMetadata::UserTagList() const
+MusicBrainz4::CUserTagList *MusicBrainz4::CMetadata::UserTagList() const
 {
 	return m_d->m_UserTagList;
 }
 
-MusicBrainz4::CGenericList<MusicBrainz4::CCollection> *MusicBrainz4::CMetadata::CollectionList() const
+MusicBrainz4::CCollectionList *MusicBrainz4::CMetadata::CollectionList() const
 {
 	return m_d->m_CollectionList;
 }
@@ -597,93 +655,97 @@ MusicBrainz4::CMessage *MusicBrainz4::CMetadata::Message() const
 	return m_d->m_Message;
 }
 
-std::ostream& operator << (std::ostream& os, const MusicBrainz4::CMetadata& Metadata)
+std::ostream& MusicBrainz4::CMetadata::Serialise(std::ostream& os) const
 {
 	os << "Metadata:" << std::endl;
 
-	os << Metadata.Generator() << std::endl;
-	os << Metadata.Created() << std::endl;
+	CEntity::Serialise(os);
 
-	if (Metadata.Artist())
-		os << *Metadata.Artist() << std::endl;
+	os << "XMLNS:     " << XMLNS() << std::endl;
+	os << "XMLNS-Ext: " << XMLNSExt() << std::endl;
+	os << "Generator: " << Generator() << std::endl;
+	os << "Created:   " << Created() << std::endl;
 
-	if (Metadata.Release())
-		os << *Metadata.Release() << std::endl;
+	if (Artist())
+		os << *Artist() << std::endl;
 
-	if (Metadata.ReleaseGroup())
-		os << *Metadata.ReleaseGroup() << std::endl;
+	if (Release())
+		os << *Release() << std::endl;
 
-	if (Metadata.Recording())
-		os << *Metadata.Recording() << std::endl;
+	if (ReleaseGroup())
+		os << *ReleaseGroup() << std::endl;
 
-	if (Metadata.Label())
-		os << *Metadata.Label() << std::endl;
+	if (Recording())
+		os << *Recording() << std::endl;
 
-	if (Metadata.Work())
-		os << *Metadata.Work() << std::endl;
+	if (Label())
+		os << *Label() << std::endl;
 
-	if (Metadata.PUID())
-		os << *Metadata.PUID() << std::endl;
+	if (Work())
+		os << *Work() << std::endl;
 
-	if (Metadata.ISRC())
-		os << *Metadata.ISRC() << std::endl;
+	if (PUID())
+		os << *PUID() << std::endl;
 
-	if (Metadata.Disc())
-		os << *Metadata.Disc() << std::endl;
+	if (ISRC())
+		os << *ISRC() << std::endl;
 
-	if (Metadata.LabelInfoList())
-		os << *Metadata.LabelInfoList() << std::endl;
+	if (Disc())
+		os << *Disc() << std::endl;
 
-	if (Metadata.UserRating())
-		os << *Metadata.UserRating() << std::endl;
+	if (LabelInfoList())
+		os << *LabelInfoList() << std::endl;
 
-	if (Metadata.Collection())
-		os << *Metadata.Collection() << std::endl;
+	if (UserRating())
+		os << *UserRating() << std::endl;
 
-	if (Metadata.ArtistList())
-		os << *Metadata.ArtistList() << std::endl;
+	if (Collection())
+		os << *Collection() << std::endl;
 
-	if (Metadata.ReleaseList())
-		os << *Metadata.ReleaseList() << std::endl;
+	if (ArtistList())
+		os << *ArtistList() << std::endl;
 
-	if (Metadata.ReleaseGroupList())
-		os << *Metadata.ReleaseGroupList() << std::endl;
+	if (ReleaseList())
+		os << *ReleaseList() << std::endl;
 
-	if (Metadata.RecordingList())
-		os << *Metadata.RecordingList() << std::endl;
+	if (ReleaseGroupList())
+		os << *ReleaseGroupList() << std::endl;
 
-	if (Metadata.LabelList())
-		os << *Metadata.LabelList() << std::endl;
+	if (RecordingList())
+		os << *RecordingList() << std::endl;
 
-	if (Metadata.WorkList())
-		os << *Metadata.WorkList() << std::endl;
+	if (LabelList())
+		os << *LabelList() << std::endl;
 
-	if (Metadata.ISRCList())
-		os << *Metadata.ISRCList() << std::endl;
+	if (WorkList())
+		os << *WorkList() << std::endl;
 
-	if (Metadata.AnnotationList())
-		os << *Metadata.AnnotationList() << std::endl;
+	if (ISRCList())
+		os << *ISRCList() << std::endl;
 
-	if (Metadata.CDStubList())
-		os << *Metadata.CDStubList() << std::endl;
+	if (AnnotationList())
+		os << *AnnotationList() << std::endl;
 
-	if (Metadata.FreeDBDiscList())
-		os << *Metadata.FreeDBDiscList() << std::endl;
+	if (CDStubList())
+		os << *CDStubList() << std::endl;
 
-	if (Metadata.TagList())
-		os << *Metadata.TagList() << std::endl;
+	if (FreeDBDiscList())
+		os << *FreeDBDiscList() << std::endl;
 
-	if (Metadata.UserTagList())
-		os << *Metadata.UserTagList() << std::endl;
+	if (TagList())
+		os << *TagList() << std::endl;
 
-	if (Metadata.CollectionList())
-		os << *Metadata.CollectionList() << std::endl;
+	if (UserTagList())
+		os << *UserTagList() << std::endl;
 
-	if (Metadata.CDStub())
-		os << *Metadata.CDStub() << std::endl;
+	if (CollectionList())
+		os << *CollectionList() << std::endl;
 
-	if (Metadata.Message())
-		os << *Metadata.Message() << std::endl;
+	if (CDStub())
+		os << *CDStub() << std::endl;
+
+	if (Message())
+		os << *Message() << std::endl;
 
 	return os;
 }

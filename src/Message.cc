@@ -10,14 +10,13 @@
    modify it under the terms of v2 of the GNU Lesser General Public
    License as published by the Free Software Foundation.
 
-   Flactag is distributed in the hope that it will be useful,
+   libmusicbrainz4 is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    Lesser General Public License for more details.
 
-   You should have received a copy of the GNU Lesser General Public
-   License along with this library; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+   You should have received a copy of the GNU General Public License
+   along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
      $Id$
 
@@ -32,28 +31,20 @@ public:
 };
 
 MusicBrainz4::CMessage::CMessage(const XMLNode& Node)
-:	m_d(new CMessagePrivate)
+:	CEntity(),
+	m_d(new CMessagePrivate)
 {
 	if (!Node.isEmpty())
 	{
 		//std::cout << "Message node: " << std::endl << Node.createXMLString(true) << std::endl;
 
-		for (int count=0;count<Node.nChildNode();count++)
-		{
-			XMLNode ChildNode=Node.getChildNode(count);
-			std::string NodeName=ChildNode.getName();
-			std::string NodeValue;
-			if (ChildNode.getText())
-				NodeValue=ChildNode.getText();
-
-			if (NodeName=="text")
-				m_d->m_Text=NodeValue;
-		}
+		Parse(Node);
 	}
 }
 
 MusicBrainz4::CMessage::CMessage(const CMessage& Other)
-:	m_d(new CMessagePrivate)
+:	CEntity(),
+	m_d(new CMessagePrivate)
 {
 	*this=Other;
 }
@@ -62,6 +53,8 @@ MusicBrainz4::CMessage& MusicBrainz4::CMessage::operator =(const CMessage& Other
 {
 	if (this!=&Other)
 	{
+		CEntity::operator =(Other);
+
 		m_d->m_Text=Other.m_d->m_Text;
 	}
 
@@ -73,16 +66,55 @@ MusicBrainz4::CMessage::~CMessage()
 	delete m_d;
 }
 
+MusicBrainz4::CMessage *MusicBrainz4::CMessage::Clone()
+{
+	return new CMessage(*this);
+}
+
+bool MusicBrainz4::CMessage::ParseAttribute(const std::string& Name, const std::string& /*Value*/)
+{
+	bool RetVal=true;
+
+	std::cerr << "Unrecognised message attribute: '" << Name << "'" << std::endl;
+	RetVal=false;
+
+	return RetVal;
+}
+
+bool MusicBrainz4::CMessage::ParseElement(const XMLNode& Node)
+{
+	bool RetVal=true;
+
+	std::string NodeName=Node.getName();
+
+	if (NodeName=="text")
+		RetVal=ProcessItem(Node,m_d->m_Text);
+	else
+	{
+		std::cerr << "Unrecognised message element: '" << NodeName << "'" << std::endl;
+		RetVal=false;
+	}
+
+	return RetVal;
+}
+
+std::string MusicBrainz4::CMessage::GetElementName()
+{
+	return "message";
+}
+
 std::string MusicBrainz4::CMessage::Text() const
 {
 	return m_d->m_Text;
 }
 
-std::ostream& operator << (std::ostream& os, const MusicBrainz4::CMessage& Message)
+std::ostream& MusicBrainz4::CMessage::Serialise(std::ostream& os) const
 {
 	os << "Message:" << std::endl;
 
-	os << "\tText: " << Message.Text() << std::endl;
+	CEntity::Serialise(os);
+
+	os << "\tText: " << Text() << std::endl;
 
 	return os;
 }

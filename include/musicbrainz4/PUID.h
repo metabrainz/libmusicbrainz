@@ -10,14 +10,13 @@
    modify it under the terms of v2 of the GNU Lesser General Public
    License as published by the Free Software Foundation.
 
-   Flactag is distributed in the hope that it will be useful,
+   libmusicbrainz4 is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    Lesser General Public License for more details.
 
-   You should have received a copy of the GNU Lesser General Public
-   License along with this library; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+   You should have received a copy of the GNU General Public License
+   along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
      $Id$
 
@@ -28,34 +27,40 @@
 
 #include <string>
 
-#include "musicbrainz4/GenericList.h"
-
-#include "musicbrainz4/Recording.h"
+#include "musicbrainz4/Entity.h"
+#include "musicbrainz4/RecordingList.h"
 
 #include "musicbrainz4/xmlParser.h"
 
 namespace MusicBrainz4
 {
 	class CPUIDPrivate;
-	
-	class CPUID
+
+	class CPUID: public CEntity
 	{
 	public:
 		CPUID(const XMLNode& Node=XMLNode::emptyNode());
 		CPUID(const CPUID& Other);
 		CPUID& operator =(const CPUID& Other);
-		~CPUID();
+		virtual ~CPUID();
+
+		virtual CPUID *Clone();
 
 		std::string ID() const;
-		CGenericList<CRecording> *RecordingList() const;
+		CRecordingList *RecordingList() const;
+
+		virtual std::ostream& Serialise(std::ostream& os) const;
+		static std::string GetElementName();
+
+	protected:
+		virtual bool ParseAttribute(const std::string& Name, const std::string& Value);
+		virtual bool ParseElement(const XMLNode& Node);
 
 	private:
 		void Cleanup();
-		
+
 		CPUIDPrivate * const m_d;
 	};
 }
-
-std::ostream& operator << (std::ostream& os, const MusicBrainz4::CPUID& PUID);
 
 #endif

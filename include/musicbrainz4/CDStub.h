@@ -10,14 +10,13 @@
    modify it under the terms of v2 of the GNU Lesser General Public
    License as published by the Free Software Foundation.
 
-   Flactag is distributed in the hope that it will be useful,
+   libmusicbrainz4 is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    Lesser General Public License for more details.
 
-   You should have received a copy of the GNU Lesser General Public
-   License along with this library; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+   You should have received a copy of the GNU General Public License
+   along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
      $Id$
 
@@ -29,7 +28,8 @@
 #include <string>
 #include <iostream>
 
-#include "musicbrainz4/GenericList.h"
+#include "musicbrainz4/Entity.h"
+#include "musicbrainz4/NonMBTrackList.h"
 
 #include "musicbrainz4/xmlParser.h"
 
@@ -37,22 +37,29 @@ namespace MusicBrainz4
 {
 	class CCDStubPrivate;
 
-	class CNonMBTrack;
-
-	class CCDStub
+	class CCDStub: public CEntity
 	{
 	public:
 		CCDStub(const XMLNode& Node);
 		CCDStub(const CCDStub& Other);
 		CCDStub& operator =(const CCDStub& Other);
-		~CCDStub();
+		virtual ~CCDStub();
+
+		virtual CCDStub *Clone();
 
 		std::string ID() const;
 		std::string Title() const;
 		std::string Artist() const;
 		std::string Barcode() const;
 		std::string Comment() const;
-		CGenericList<CNonMBTrack> *NonMBTrackList() const;
+		CNonMBTrackList *NonMBTrackList() const;
+
+		virtual std::ostream& Serialise(std::ostream& os) const;
+		static std::string GetElementName();
+
+	protected:
+		virtual bool ParseAttribute(const std::string& Name, const std::string& Value);
+		virtual bool ParseElement(const XMLNode& Node);
 
 	private:
 		void Cleanup();
@@ -60,7 +67,5 @@ namespace MusicBrainz4
 		CCDStubPrivate * const m_d;
 	};
 }
-
-std::ostream& operator << (std::ostream& os, const MusicBrainz4::CCDStub& CDStub);
 
 #endif

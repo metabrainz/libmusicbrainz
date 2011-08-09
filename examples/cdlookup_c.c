@@ -1,3 +1,27 @@
+/* --------------------------------------------------------------------------
+
+   libmusicbrainz4 - Client library to access MusicBrainz
+
+   Copyright (C) 2011 Andrew Hawkins
+
+   This file is part of libmusicbrainz4.
+
+   This library is free software; you can redistribute it and/or
+   modify it under the terms of v2 of the GNU Lesser General Public
+   License as published by the Free Software Foundation.
+
+   Flactag is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+   Lesser General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this library.  If not, see <http://www.gnu.org/licenses/>.
+
+     $Id: Lifespan.cc 13211 2011-07-20 16:15:03Z adhawkins $
+
+----------------------------------------------------------------------------*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -30,6 +54,12 @@ int main(int argc, const char *argv[])
 					Mb4ReleaseList ReleaseList=mb4_disc_get_releaselist(Disc);
 					if (ReleaseList)
 					{
+						/*
+						 *if we want to keep an object around for a while, we can
+						 *clone it. We are now responsible for deleting the object
+						*/
+
+						Mb4ReleaseList CloneReleaseList=mb4_release_list_clone(ReleaseList);
 						int ThisRelease=0;
 
 						printf("Found %d release(s)\n",mb4_release_list_size(ReleaseList));
@@ -150,19 +180,11 @@ int main(int argc, const char *argv[])
 
 																printf("Track: %d - '%s'\n",mb4_track_get_position(Track),TrackTitle);
 
-																/* We must delete anything we retrieve from a list */
-
 																free(TrackTitle);
-
-																mb4_track_delete(Track);
 															}
 														}
 
-														/* We must delete anything we retrieve from a list */
-
 														free(MediumTitle);
-
-														mb4_medium_delete(Medium);
 													}
 												}
 											}
@@ -182,12 +204,12 @@ int main(int argc, const char *argv[])
 								free(ParamValues);
 								free(ParamNames[0]);
 								free(ParamNames);
-
-								/* We must delete anything we retrieve from a list */
-
-								mb4_release_delete(Release);
 							}
 						}
+
+						/* We must delete anything we have cloned */
+
+						mb4_release_list_delete(CloneReleaseList);
 					}
 				}
 

@@ -10,14 +10,13 @@
    modify it under the terms of v2 of the GNU Lesser General Public
    License as published by the Free Software Foundation.
 
-   Flactag is distributed in the hope that it will be useful,
+   libmusicbrainz4 is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    Lesser General Public License for more details.
 
-   You should have received a copy of the GNU Lesser General Public
-   License along with this library; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+   You should have received a copy of the GNU General Public License
+   along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
      $Id$
 
@@ -31,12 +30,15 @@
 #include "musicbrainz4/Rating.h"
 #include "musicbrainz4/UserRating.h"
 #include "musicbrainz4/Alias.h"
+#include "musicbrainz4/AliasList.h"
 #include "musicbrainz4/Release.h"
+#include "musicbrainz4/ReleaseList.h"
 #include "musicbrainz4/Relation.h"
+#include "musicbrainz4/RelationList.h"
 #include "musicbrainz4/Tag.h"
+#include "musicbrainz4/TagList.h"
 #include "musicbrainz4/UserTag.h"
-
-#include "ParserUtils.h"
+#include "musicbrainz4/UserTagList.h"
 
 class MusicBrainz4::CLabelPrivate
 {
@@ -62,97 +64,29 @@ class MusicBrainz4::CLabelPrivate
 		std::string m_Disambiguation;
 		std::string m_Country;
 		CLifespan *m_Lifespan;
-		CGenericList<CAlias> *m_AliasList;
-		CGenericList<CRelease> *m_ReleaseList;
-		CGenericList<CRelation> *m_RelationList;
-		CGenericList<CTag> *m_TagList;
-		CGenericList<CUserTag> *m_UserTagList;
+		CAliasList *m_AliasList;
+		CReleaseList *m_ReleaseList;
+		CRelationList *m_RelationList;
+		CTagList *m_TagList;
+		CUserTagList *m_UserTagList;
 		CRating *m_Rating;
 		CUserRating *m_UserRating;
 };
 MusicBrainz4::CLabel::CLabel(const XMLNode& Node)
-:	m_d(new CLabelPrivate)
+:	CEntity(),
+	m_d(new CLabelPrivate)
 {
 	if (!Node.isEmpty())
 	{
 		//std::cout << "Label node: " << std::endl << Node.createXMLString(true) << std::endl;
 
-		if (Node.isAttributeSet("id"))
-			m_d->m_ID=Node.getAttribute("id");
-
-		if (Node.isAttributeSet("type"))
-			m_d->m_Type=Node.getAttribute("type");
-
-		for (int count=0;count<Node.nChildNode();count++)
-		{
-			XMLNode ChildNode=Node.getChildNode(count);
-			std::string NodeName=ChildNode.getName();
-			std::string NodeValue;
-			if (ChildNode.getText())
-				NodeValue=ChildNode.getText();
-
-			if ("name"==NodeName)
-			{
-				m_d->m_Name=NodeValue;
-			}
-			else if ("sort-name"==NodeName)
-			{
-				m_d->m_SortName=NodeValue;
-			}
-			else if ("label-code"==NodeName)
-			{
-				ProcessItem(NodeValue,m_d->m_LabelCode);
-			}
-			else if ("disambiguation"==NodeName)
-			{
-				m_d->m_Disambiguation=NodeValue;
-			}
-			else if ("country"==NodeName)
-			{
-				m_d->m_Country=NodeValue;
-			}
-			else if ("life-span"==NodeName)
-			{
-				m_d->m_Lifespan=new CLifespan(ChildNode);
-			}
-			else if ("alias-list"==NodeName)
-			{
-				m_d->m_AliasList=new CGenericList<CAlias>(ChildNode,"alias");
-			}
-			else if ("release-list"==NodeName)
-			{
-				m_d->m_ReleaseList=new CGenericList<CRelease>(ChildNode,"release");
-			}
-			else if ("relation-list"==NodeName)
-			{
-				m_d->m_RelationList=new CGenericList<CRelation>(ChildNode,"relation");
-			}
-			else if ("tag-list"==NodeName)
-			{
-				m_d->m_TagList=new CGenericList<CTag>(ChildNode,"tag");
-			}
-			else if ("user-tag-list"==NodeName)
-			{
-				m_d->m_UserTagList=new CGenericList<CUserTag>(ChildNode,"user-tag");
-			}
-			else if ("rating"==NodeName)
-			{
-				m_d->m_Rating=new CRating(ChildNode);
-			}
-			else if ("user-rating"==NodeName)
-			{
-				m_d->m_UserRating=new CUserRating(ChildNode);
-			}
-			else
-			{
-				std::cerr << "Unrecognised label node: '" << NodeName << "'" << std::endl;
-			}
-		}
+		Parse(Node);
 	}
 }
 
 MusicBrainz4::CLabel::CLabel(const CLabel& Other)
-:	m_d(new CLabelPrivate)
+:	CEntity(),
+	m_d(new CLabelPrivate)
 {
 	*this=Other;
 }
@@ -162,6 +96,8 @@ MusicBrainz4::CLabel& MusicBrainz4::CLabel::operator =(const CLabel& Other)
 	if (this!=&Other)
 	{
 		Cleanup();
+
+		CEntity::operator =(Other);
 
 		m_d->m_ID=Other.m_d->m_ID;
 		m_d->m_Type=Other.m_d->m_Type;
@@ -175,19 +111,19 @@ MusicBrainz4::CLabel& MusicBrainz4::CLabel::operator =(const CLabel& Other)
 			m_d->m_Lifespan=new CLifespan(*Other.m_d->m_Lifespan);
 
 		if (Other.m_d->m_AliasList)
-			m_d->m_AliasList=new CGenericList<CAlias>(*Other.m_d->m_AliasList);
+			m_d->m_AliasList=new CAliasList(*Other.m_d->m_AliasList);
 
 		if (Other.m_d->m_ReleaseList)
-			m_d->m_ReleaseList=new CGenericList<CRelease>(*Other.m_d->m_ReleaseList);
+			m_d->m_ReleaseList=new CReleaseList(*Other.m_d->m_ReleaseList);
 
 		if (Other.m_d->m_RelationList)
-			m_d->m_RelationList=new CGenericList<CRelation>(*Other.m_d->m_RelationList);
+			m_d->m_RelationList=new CRelationList(*Other.m_d->m_RelationList);
 
 		if (Other.m_d->m_TagList)
-			m_d->m_TagList=new CGenericList<CTag>(*Other.m_d->m_TagList);
+			m_d->m_TagList=new CTagList(*Other.m_d->m_TagList);
 
 		if (Other.m_d->m_UserTagList)
-			m_d->m_UserTagList=new CGenericList<CUserTag>(*Other.m_d->m_UserTagList);
+			m_d->m_UserTagList=new CUserTagList(*Other.m_d->m_UserTagList);
 
 		if (Other.m_d->m_Rating)
 			m_d->m_Rating=new CRating(*Other.m_d->m_Rating);
@@ -233,6 +169,100 @@ void MusicBrainz4::CLabel::Cleanup()
 	m_d->m_UserRating=0;
 }
 
+MusicBrainz4::CLabel *MusicBrainz4::CLabel::Clone()
+{
+	return new CLabel(*this);
+}
+
+bool MusicBrainz4::CLabel::ParseAttribute(const std::string& Name, const std::string& Value)
+{
+	bool RetVal=true;
+
+	if ("id"==Name)
+		m_d->m_ID=Value;
+	else if ("type"==Name)
+		m_d->m_Type=Value;
+	else
+	{
+		std::cerr << "Unrecognised label attribute: '" << Name << "'" << std::endl;
+		RetVal=false;
+	}
+
+	return RetVal;
+}
+
+bool MusicBrainz4::CLabel::ParseElement(const XMLNode& Node)
+{
+	bool RetVal=true;
+
+	std::string NodeName=Node.getName();
+
+	if ("name"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_Name);
+	}
+	else if ("sort-name"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_SortName);
+	}
+	else if ("label-code"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_LabelCode);
+	}
+	else if ("disambiguation"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_Disambiguation);
+	}
+	else if ("country"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_Country);
+	}
+	else if ("life-span"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_Lifespan);
+	}
+	else if ("alias-list"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_AliasList);
+	}
+	else if ("release-list"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_ReleaseList);
+	}
+	else if ("relation-list"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_RelationList);
+	}
+	else if ("tag-list"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_TagList);
+	}
+	else if ("user-tag-list"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_UserTagList);
+	}
+	else if ("rating"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_Rating);
+	}
+	else if ("user-rating"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_UserRating);
+	}
+	else
+	{
+		std::cerr << "Unrecognised label element: '" << NodeName << "'" << std::endl;
+		RetVal=false;
+	}
+
+	return RetVal;
+}
+
+std::string MusicBrainz4::CLabel::GetElementName()
+{
+	return "label";
+}
+
 std::string MusicBrainz4::CLabel::ID() const
 {
 	return m_d->m_ID;
@@ -273,27 +303,27 @@ MusicBrainz4::CLifespan *MusicBrainz4::CLabel::Lifespan() const
 	return m_d->m_Lifespan;
 }
 
-MusicBrainz4::CGenericList<MusicBrainz4::CAlias> *MusicBrainz4::CLabel::AliasList() const
+MusicBrainz4::CAliasList *MusicBrainz4::CLabel::AliasList() const
 {
 	return m_d->m_AliasList;
 }
 
-MusicBrainz4::CGenericList<MusicBrainz4::CRelease> *MusicBrainz4::CLabel::ReleaseList() const
+MusicBrainz4::CReleaseList *MusicBrainz4::CLabel::ReleaseList() const
 {
 	return m_d->m_ReleaseList;
 }
 
-MusicBrainz4::CGenericList<MusicBrainz4::CRelation> *MusicBrainz4::CLabel::RelationList() const
+MusicBrainz4::CRelationList *MusicBrainz4::CLabel::RelationList() const
 {
 	return m_d->m_RelationList;
 }
 
-MusicBrainz4::CGenericList<MusicBrainz4::CTag> *MusicBrainz4::CLabel::TagList() const
+MusicBrainz4::CTagList *MusicBrainz4::CLabel::TagList() const
 {
 	return m_d->m_TagList;
 }
 
-MusicBrainz4::CGenericList<MusicBrainz4::CUserTag> *MusicBrainz4::CLabel::UserTagList() const
+MusicBrainz4::CUserTagList *MusicBrainz4::CLabel::UserTagList() const
 {
 	return m_d->m_UserTagList;
 }
@@ -308,41 +338,43 @@ MusicBrainz4::CUserRating *MusicBrainz4::CLabel::UserRating() const
 	return m_d->m_UserRating;
 }
 
-std::ostream& operator << (std::ostream& os, const MusicBrainz4::CLabel& Label)
+std::ostream& MusicBrainz4::CLabel::Serialise(std::ostream& os) const
 {
 	os << "Label:" << std::endl;
 
-	os << "\tID:             " << Label.ID() << std::endl;
-	os << "\tType:           " << Label.Type() << std::endl;
-	os << "\tName:           " << Label.Name() << std::endl;
-	os << "\tSort name:      " << Label.SortName() << std::endl;
-	os << "\tLabel code:     " << Label.LabelCode() << std::endl;
-	os << "\tDisambiguation: " << Label.Disambiguation() << std::endl;
-	os << "\tCountry:        " << Label.Country() << std::endl;
+	CEntity::Serialise(os);
 
-	if (Label.Lifespan())
-		os << *Label.Lifespan() << std::endl;
+	os << "\tID:             " << ID() << std::endl;
+	os << "\tType:           " << Type() << std::endl;
+	os << "\tName:           " << Name() << std::endl;
+	os << "\tSort name:      " << SortName() << std::endl;
+	os << "\tLabel code:     " << LabelCode() << std::endl;
+	os << "\tDisambiguation: " << Disambiguation() << std::endl;
+	os << "\tCountry:        " << Country() << std::endl;
 
-	if (Label.AliasList())
-		os << *Label.AliasList() << std::endl;
+	if (Lifespan())
+		os << *Lifespan() << std::endl;
 
-	if (Label.ReleaseList())
-		os << *Label.ReleaseList() << std::endl;
+	if (AliasList())
+		os << *AliasList() << std::endl;
 
-	if (Label.RelationList())
-		os << *Label.RelationList() << std::endl;
+	if (ReleaseList())
+		os << *ReleaseList() << std::endl;
 
-	if (Label.TagList())
-		os << *Label.TagList() << std::endl;
+	if (RelationList())
+		os << *RelationList() << std::endl;
 
-	if (Label.UserTagList())
-		os << *Label.UserTagList() << std::endl;
+	if (TagList())
+		os << *TagList() << std::endl;
 
-	if (Label.Rating())
-		os << *Label.Rating() << std::endl;
+	if (UserTagList())
+		os << *UserTagList() << std::endl;
 
-	if (Label.UserRating())
-		os << *Label.UserRating() << std::endl;
+	if (Rating())
+		os << *Rating() << std::endl;
+
+	if (UserRating())
+		os << *UserRating() << std::endl;
 
 	return os;
 }

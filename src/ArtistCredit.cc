@@ -10,20 +10,22 @@
    modify it under the terms of v2 of the GNU Lesser General Public
    License as published by the Free Software Foundation.
 
-   Flactag is distributed in the hope that it will be useful,
+   libmusicbrainz4 is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    Lesser General Public License for more details.
 
-   You should have received a copy of the GNU Lesser General Public
-   License along with this library; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+   You should have received a copy of the GNU General Public License
+   along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
      $Id$
 
 ----------------------------------------------------------------------------*/
 
 #include "musicbrainz4/ArtistCredit.h"
+
+#include "musicbrainz4/NameCreditList.h"
+#include "musicbrainz4/NameCredit.h"
 
 class MusicBrainz4::CArtistCreditPrivate
 {
@@ -32,23 +34,27 @@ class MusicBrainz4::CArtistCreditPrivate
 		:	m_NameCreditList(0)
 		{
 		}
-		
-		CGenericList<CNameCredit> *m_NameCreditList;
+
+		CNameCreditList *m_NameCreditList;
 };
-		
+
 MusicBrainz4::CArtistCredit::CArtistCredit(const XMLNode& Node)
-:	m_d(new CArtistCreditPrivate)
+:	CEntity(),
+	m_d(new CArtistCreditPrivate)
 {
 	if (!Node.isEmpty())
 	{
 		//std::cout << "Artist credit node: " << std::endl << Node.createXMLString(true) << std::endl;
 
-		m_d->m_NameCreditList=new CGenericList<CNameCredit>(Node,"name-credit");
+		Parse(Node);
+
+		m_d->m_NameCreditList=new CNameCreditList(Node);
 	}
 }
 
 MusicBrainz4::CArtistCredit::CArtistCredit(const CArtistCredit& Other)
-:	m_d(new CArtistCreditPrivate)
+:	CEntity(),
+	m_d(new CArtistCreditPrivate)
 {
 	*this=Other;
 }
@@ -59,8 +65,10 @@ MusicBrainz4::CArtistCredit& MusicBrainz4::CArtistCredit::operator =(const CArti
 	{
 		Cleanup();
 
+		CEntity::operator =(Other);
+
 		if (Other.m_d->m_NameCreditList)
-			m_d->m_NameCreditList=new CGenericList<CNameCredit>(*Other.m_d->m_NameCreditList);
+			m_d->m_NameCreditList=new CNameCreditList(*Other.m_d->m_NameCreditList);
 	}
 
 	return *this;
@@ -69,7 +77,7 @@ MusicBrainz4::CArtistCredit& MusicBrainz4::CArtistCredit::operator =(const CArti
 MusicBrainz4::CArtistCredit::~CArtistCredit()
 {
 	Cleanup();
-	
+
 	delete m_d;
 }
 
@@ -79,17 +87,60 @@ void MusicBrainz4::CArtistCredit::Cleanup()
 	m_d->m_NameCreditList=0;
 }
 
-MusicBrainz4::CGenericList<MusicBrainz4::CNameCredit> *MusicBrainz4::CArtistCredit::NameCreditList() const
+MusicBrainz4::CArtistCredit *MusicBrainz4::CArtistCredit::Clone()
+{
+	return new CArtistCredit(*this);
+}
+
+bool MusicBrainz4::CArtistCredit::ParseAttribute(const std::string& Name, const std::string& /*Value*/)
+{
+	bool RetVal=true;
+
+	std::cerr << "Unrecognised artistcredit attribute: '" << Name << "'" << std::endl;
+	RetVal=false;
+
+
+	return RetVal;
+}
+
+bool MusicBrainz4::CArtistCredit::ParseElement(const XMLNode& Node)
+{
+	bool RetVal=true;
+
+	std::string NodeName=Node.getName();
+
+	if ("name-credit"==NodeName)
+	{
+		//The artist credit element is a special case, in that all it contains is a list of name-credits
+		//Parsing of this list is handled in the constructor
+	}
+	else
+	{
+		std::cerr << "Unrecognised artistcredit element: '" << NodeName << "'" << std::endl;
+		RetVal=false;
+	}
+
+	return RetVal;
+}
+
+std::string MusicBrainz4::CArtistCredit::GetElementName()
+{
+	return "artist-credit";
+}
+
+MusicBrainz4::CNameCreditList *MusicBrainz4::CArtistCredit::NameCreditList() const
 {
 	return m_d->m_NameCreditList;
 }
 
-std::ostream& operator << (std::ostream& os, const MusicBrainz4::CArtistCredit& ArtistCredit)
+std::ostream& MusicBrainz4::CArtistCredit::Serialise(std::ostream& os) const
 {
 	os << "Artist credit:" << std::endl;
 
-	if (ArtistCredit.NameCreditList())
-		os << *ArtistCredit.NameCreditList() << std::endl;
+	CEntity::Serialise(os);
+
+	if (NameCreditList())
+		os << *NameCreditList() << std::endl;
 
 	return os;
 }

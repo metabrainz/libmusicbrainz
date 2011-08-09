@@ -4,6 +4,7 @@ LINK_LIBRARIES(musicbrainz4 ${NEON_LIBRARIES})
 ADD_EXECUTABLE(cdlookup cdlookup.cc)
 ADD_EXECUTABLE(cdlookup_c cdlookup_c.c)
 ADD_EXECUTABLE(search search.cc)
+ADD_EXECUTABLE(search_c search_c.c)
 ADD_EXECUTABLE(collections collections.cc)
 
 IF(CMAKE_COMPILER_IS_GNUCXX)

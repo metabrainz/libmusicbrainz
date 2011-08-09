@@ -1,5 +1,18 @@
+Changes for libmusicbrainz 4.0.0 beta 2
+---------------------------------------
+
+   - Restructured for easier maintenance
+   - List class interface rewritten
+   - Added handling of extension elements and attributes
+   - Add handling of all list attributes and elements
+   - C interface is now automatically generated from an XML file template
+
+N.B. The API has changed with regard to lists since beta 1. Any
+applications are likely to need rewriting to take account of this
+and will certainly need to be recompiled due to the ABI change.
+
 Changes for libmusicbrainz 4.0.0 beta 1
-----------------------------------------
+---------------------------------------
 
    - Rewritten from scratch for NGS
 

@@ -1,0 +1,351 @@
+<!--
+ --------------------------------------------------------------------------
+
+   libmusicbrainz4 - Client library to access MusicBrainz
+
+   Copyright (C) 2011 Andrew Hawkins
+
+   This file is part of libmusicbrainz4.
+
+   This library is free software; you can redistribute it and/or
+   modify it under the terms of v2 of the GNU Lesser General Public
+   License as published by the Free Software Foundation.
+
+   Flactag is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+   Lesser General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this library.  If not, see <http://www.gnu.org/licenses/>.
+
+     $Id$
+
+----------------------------------------------------------------------------
+-->
+
+<cinterface>
+	<header/>
+	<boilerplate target="include">
+/*
+	Things you should delete using the appropriate mb4_xxx_delete() function:
+
+	* The query object you create to do the actual work
+	* Any object or list returned from one of the mb4_query_xxx() functions
+	* The return from mb4_release_media_matching_discid() function
+	* The return from any mb4_xxx_clone() function
+
+	Everything else remains managed by the library, and should not be deleted
+
+	If in doubt, valgrind is a useful way to spot leaks or things being deleted
+	when they shouldn't be.
+
+*/
+
+#ifndef _MUSICBRAINZ4_MB_C_H
+#define _MUSICBRAINZ4_MB_C_H
+
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+	</boilerplate>
+	<boilerplate target="source" file="c-int-source-funcs.inc"/>
+	<declare/>
+	<entity/>
+	<class name="alias">
+		<property name="locale" type="string"/>
+		<property name="text" type="string"/>
+	</class>
+	<class name="annotation">
+		<property name="type" type="string"/>
+		<property name="entity" type="string"/>
+		<property name="name" type="string"/>
+		<property name="text" type="string"/>
+	</class>
+	<class name="artist">
+		<property name="id" uppername="ID" type="string"/>
+		<property name="type" type="string"/>
+		<property name="name" type="string"/>
+		<property name="sortname" uppername="SortName" type="string"/>
+		<property name="gender" type="string"/>
+		<property name="country" type="string"/>
+		<property name="disambiguation" type="string"/>
+		<property name="lifespan" type="object"/>
+		<property name="aliaslist" uppername="AliasList" type="object"/>
+		<property name="recordinglist" uppername="RecordingList" type="object"/>
+		<property name="releaselist" uppername="ReleaseList" type="object"/>
+		<property name="releasegrouplist" uppername="ReleaseGroupList" type="object"/>
+		<property name="labellist" uppername="LabelList" type="object"/>
+		<property name="worklist" uppername="WorkList" type="object"/>
+		<property name="relationlist" uppername="RelationList" type="object"/>
+		<property name="taglist" uppername="TagList" type="object"/>
+		<property name="usertaglist" uppername="UserTagList" type="object"/>
+		<property name="rating" type="object"/>
+		<property name="userrating" uppername="UserRating" type="object"/>
+	</class>
+	<class name="artistcredit" uppername="ArtistCredit">
+		<property name="namecreditlist" uppername="NameCreditList" type="object"/>
+	</class>
+	<class name="attribute">
+		<property name="text" type="string"/>
+	</class>
+	<class name="cdstub" uppername="CDStub">
+		<property name="id" uppername="ID" type="string"/>
+		<property name="title" type="string"/>
+		<property name="artist" type="string"/>
+		<property name="barcode" type="string"/>
+		<property name="comment" type="string"/>
+		<property name="nonmbtracklist" uppername="NonMBTrackList" type="object"/>
+	</class>
+	<class name="collection">
+		<property name="id" uppername="ID" type="string"/>
+		<property name="name" type="string"/>
+		<property name="editor" type="string"/>
+		<property name="releaselist" uppername="ReleaseList" type="object"/>
+	</class>
+	<class name="disc">
+		<property name="id" uppername="ID" type="string"/>
+		<property name="sectors" type="integer"/>
+		<property name="releaselist" uppername="ReleaseList" type="object"/>
+	</class>
+	<class name="freedbdisc" uppername="FreeDBDisc">
+		<property name="id" uppername="ID" type="string"/>
+		<property name="title" type="string"/>
+		<property name="artist" type="string"/>
+		<property name="category" type="string"/>
+		<property name="year" type="string"/>
+		<property name="nonmbtracklist" uppername="NonMBTrackList" type="object"/>
+	</class>
+	<class name="isrc" uppername="ISRC">
+		<property name="id" uppername="ID" type="string"/>
+		<property name="recordinglist" uppername="RecordingList" type="object"/>
+	</class>
+	<class name="label">
+		<property name="id" uppername="ID" type="string"/>
+		<property name="type" type="string"/>
+		<property name="name" type="string"/>
+		<property name="sortname" uppername="SortName" type="string"/>
+		<property name="labelcode" uppername="LabelCode" type="integer"/>
+		<property name="disambiguation" type="string"/>
+		<property name="country" type="string"/>
+		<property name="lifespan" type="object"/>
+		<property name="aliaslist" uppername="AliasList" type="object"/>
+		<property name="releaselist" uppername="ReleaseList" type="object"/>
+		<property name="relationlist" uppername="RelationList" type="object"/>
+		<property name="taglist" uppername="TagList" type="object"/>
+		<property name="usertaglist" uppername="UserTagList" type="object"/>
+		<property name="rating" type="object"/>
+		<property name="userrating" uppername="UserRating" type="object"/>
+	</class>
+	<class name="labelinfo" uppername="LabelInfo">
+		<property name="catalognumber" uppername="CatalogNumber" type="string"/>
+		<property name="label" type="object"/>
+	</class>
+	<class name="lifespan">
+		<property name="begin" type="string"/>
+		<property name="end" type="string"/>
+	</class>
+	<class name="medium">
+		<property name="title" type="string"/>
+		<property name="position" type="integer"/>
+		<property name="format" type="string"/>
+		<property name="disclist" uppername="DiscList" type="object"/>
+		<property name="tracklist" uppername="TrackList" type="object"/>
+	</class>
+	<boilerplate target="include" file="c-int-medium-defines.inc"/>
+	<boilerplate target="source" file="c-int-medium-source.inc"/>
+	<class name="message">
+		<property name="text" type="string"/>
+	</class>
+	<class name="metadata">
+		<property name="xmlns" uppername="XMLNS" type="string"/>
+		<property name="xmlnsext" uppername="XMLNSExt" type="string"/>
+		<property name="generator" type="string"/>
+		<property name="created" type="string"/>
+		<property name="artist" type="object"/>
+		<property name="release" type="object"/>
+		<property name="releasegroup" uppername="ReleaseGroup" type="object"/>
+		<property name="recording" type="object"/>
+		<property name="label" type="object"/>
+		<property name="work" type="object"/>
+		<property name="puid" uppername="PUID" type="object"/>
+		<property name="isrc" uppername="ISRC" type="object"/>
+		<property name="disc" type="object"/>
+		<property name="labelinfolist" uppername="LabelInfoList" type="object"/>
+		<property name="rating" type="object"/>
+		<property name="userrating" uppername="UserRating" type="object"/>
+		<property name="collection" type="object"/>
+		<property name="artistlist" uppername="ArtistList" type="object"/>
+		<property name="releaselist" uppername="ReleaseList" type="object"/>
+		<property name="releasegrouplist" uppername="ReleaseGroupList" type="object"/>
+		<property name="recordinglist" uppername="RecordingList" type="object"/>
+		<property name="labellist" uppername="LabelList" type="object"/>
+		<property name="worklist" uppername="WorkList" type="object"/>
+		<property name="isrclist" uppername="ISRCList" type="object"/>
+		<property name="annotationlist" uppername="AnnotationList" type="object"/>
+		<property name="cdstublist" uppername="CDStubList" type="object"/>
+		<property name="freedbdisclist" uppername="FreeDBDiscList" type="object"/>
+		<property name="taglist" uppername="TagList" type="object"/>
+		<property name="usertaglist" uppername="UserTagList" type="object"/>
+		<property name="collectionlist" uppername="CollectionList" type="object"/>
+		<property name="cdstub" uppername="CDStub" type="object"/>
+		<property name="message" type="object"/>
+	</class>
+	<class name="namecredit" uppername="NameCredit">
+		<property name="joinphrase" uppername="JoinPhrase" type="string"/>
+		<property name="name" type="string"/>
+		<property name="artist" type="object"/>
+	</class>
+	<class name="nonmbtrack" uppername="NonMBTrack">
+		<property name="title" type="string"/>
+		<property name="artist" type="string"/>
+		<property name="length" type="integer"/>
+	</class>
+	<class name="puid" uppername="PUID" uppername="PUID">
+		<property name="id" uppername="ID" type="string"/>
+		<property name="recordinglist" uppername="RecordingList" type="object"/>
+	</class>
+	<class name="query">
+		<property name="lasthttpcode" uppername="LastHTTPCode" type="integer"/>
+		<property name="lasterrormessage" uppername="LastErrorMessage" type="string"/>
+	</class>
+	<boilerplate target="include" file="c-int-query-defines.inc"/>
+	<boilerplate target="source" file="c-int-query-source.inc"/>
+	<class name="rating">
+		<property name="votescount" uppername="VotesCount" type="integer"/>
+		<property name="rating" type="double"/>
+	</class>
+	<class name="recording">
+		<property name="id" uppername="ID" type="string"/>
+		<property name="title" type="string"/>
+		<property name="length" type="integer"/>
+		<property name="disambiguation" type="string"/>
+		<property name="artistcredit" uppername="ArtistCredit" type="object"/>
+		<property name="releaselist" uppername="ReleaseList" type="object"/>
+		<property name="puidlist" uppername="PUIDList" type="object"/>
+		<property name="isrclist" uppername="ISRCList" type="object"/>
+		<property name="relationlist" uppername="RelationList" type="object"/>
+		<property name="taglist" uppername="TagList" type="object"/>
+		<property name="usertaglist" uppername="UserTagList" type="object"/>
+		<property name="rating" type="object"/>
+		<property name="userrating" uppername="UserRating" type="object"/>
+	</class>
+	<class name="relation">
+		<property name="type" type="string"/>
+		<property name="target" type="string"/>
+		<property name="direction" type="string"/>
+		<property name="attributelist" uppername="AttributeList" type="object"/>
+		<property name="begin" type="string"/>
+		<property name="end" type="string"/>
+		<property name="artist" type="object"/>
+		<property name="release" type="object"/>
+		<property name="releasegroup" uppername="ReleaseGroup" type="object"/>
+		<property name="recording" type="object"/>
+		<property name="label" type="object"/>
+		<property name="work" type="object"/>
+	</class>
+	<class name="release">
+		<property name="id" uppername="ID" type="string"/>
+		<property name="title" type="string"/>
+		<property name="status" type="string"/>
+		<property name="quality" type="string"/>
+		<property name="disambiguation" type="string"/>
+		<property name="packaging" type="string"/>
+		<property name="textrepresentation" uppername="TextRepresentation" type="object"/>
+		<property name="artistcredit" uppername="ArtistCredit" type="object"/>
+		<property name="releasegroup" uppername="ReleaseGroup" type="object"/>
+		<property name="date" type="string"/>
+		<property name="country" type="string"/>
+		<property name="barcode" type="string"/>
+		<property name="asin" uppername="ASIN" type="string"/>
+		<property name="labelinfolist" uppername="LabelInfoList" type="object"/>
+		<property name="mediumlist" uppername="MediumList" type="object"/>
+		<property name="relationlist" uppername="RelationList" type="object"/>
+	</class>
+	<boilerplate target="include" file="c-int-release-defines.inc"/>
+	<boilerplate target="source" file="c-int-release-source.inc"/>
+	<class name="releasegroup" uppername="ReleaseGroup">
+		<property name="id" uppername="ID" type="string"/>
+		<property name="type" type="string"/>
+		<property name="title" type="string"/>
+		<property name="disambiguation" type="string"/>
+		<property name="firstreleasedate" uppername="FirstReleaseDate" type="string"/>
+		<property name="artistcredit" uppername="ArtistCredit" type="object"/>
+		<property name="releaselist" uppername="ReleaseList" type="object"/>
+		<property name="relationlist" uppername="RelationList" type="object"/>
+		<property name="taglist" uppername="TagList" type="object"/>
+		<property name="usertaglist" uppername="UserTagList" type="object"/>
+		<property name="rating" type="object"/>
+		<property name="userrating" uppername="UserRating" type="object"/>
+	</class>
+	<class name="tag">
+		<property name="count" type="integer"/>
+		<property name="name" type="string"/>
+	</class>
+	<class name="textrepresentation" uppername="TextRepresentation">
+		<property name="language" type="string"/>
+		<property name="script" type="string"/>
+	</class>
+	<class name="track">
+		<property name="position" type="integer"/>
+		<property name="title" type="string"/>
+		<property name="recording" type="object"/>
+		<property name="length" type="integer"/>
+		<property name="artistcredit" uppername="ArtistCredit" type="object"/>
+	</class>
+	<class name="userrating" uppername="UserRating">
+		<property name="userrating" uppername="UserRating" type="integer"/>
+	</class>
+	<class name="usertag" uppername="UserTag">
+		<property name="name" type="string"/>
+	</class>
+	<class name="work">
+		<property name="id" uppername="ID" type="string"/>
+		<property name="type" type="string"/>
+		<property name="title" type="string"/>
+		<property name="artistcredit" uppername="ArtistCredit" type="object"/>
+		<property name="iswc" uppername="ISWC" type="string"/>
+		<property name="disambiguation" type="string"/>
+		<property name="aliaslist" uppername="AliasList" type="object"/>
+		<property name="relationlist" uppername="RelationList" type="object"/>
+		<property name="taglist" uppername="TagList" type="object"/>
+		<property name="usertaglist" uppername="UserTagList" type="object"/>
+		<property name="rating" type="object"/>
+		<property name="userrating" uppername="UserRating" type="object"/>
+	</class>
+	<list name="alias"/>
+	<list name="annotation"/>
+	<list name="artist"/>
+	<list name="attribute"/>
+	<list name="cdstub" uppername="CDStub"/>
+	<list name="collection"/>
+	<list name="disc"/>
+	<list name="freedbdisc" uppername="FreeDBDisc"/>
+	<list name="isrc" uppername="ISRC"/>
+	<list name="label"/>
+	<list name="labelinfo" uppername="LabelInfo"/>
+	<list name="medium">
+		<property name="trackcount" uppername="TrackCount" type="integer"/>
+	</list>
+	<list name="namecredit" uppername="NameCredit"/>
+	<list name="nonmbtrack" uppername="NonMBTrack"/>
+	<list name="puid" uppername="PUID"/>
+	<list name="recording"/>
+	<list name="relation">
+		<property name="targettype" uppername="TargetType" type="string"/>
+	</list>
+	<list name="release"/>
+	<list name="releasegroup" uppername="ReleaseGroup"/>
+	<list name="tag"/>
+	<list name="track"/>
+	<list name="usertag" uppername="UserTag"/>
+	<list name="work"/>
+	<boilerplate target="include">
+#ifdef __cplusplus
+}
+#endif
+
+#endif
+	</boilerplate>
+</cinterface>
