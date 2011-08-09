@@ -10,14 +10,13 @@
    modify it under the terms of v2 of the GNU Lesser General Public
    License as published by the Free Software Foundation.
 
-   Flactag is distributed in the hope that it will be useful,
+   libmusicbrainz4 is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    Lesser General Public License for more details.
 
-   You should have received a copy of the GNU Lesser General Public
-   License along with this library; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+   You should have received a copy of the GNU General Public License
+   along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
      $Id$
 
@@ -31,40 +30,22 @@ class MusicBrainz4::CLifespanPrivate
 		std::string m_Begin;
 		std::string m_End;
 };
-		
+
 MusicBrainz4::CLifespan::CLifespan(const XMLNode& Node)
-:	m_d(new CLifespanPrivate)
+:	CEntity(),
+	m_d(new CLifespanPrivate)
 {
 	if (!Node.isEmpty())
 	{
 		//std::cout << "Lifespan node: " << std::endl << Node.createXMLString(true) << std::endl;
 
-		for (int count=0;count<Node.nChildNode();count++)
-		{
-			XMLNode ChildNode=Node.getChildNode(count);
-			std::string NodeName=ChildNode.getName();
-			std::string NodeValue;
-			if (ChildNode.getText())
-				NodeValue=ChildNode.getText();
-
-			if ("begin"==NodeName)
-			{
-				m_d->m_Begin=NodeValue;
-			}
-			else if ("end"==NodeName)
-			{
-				m_d->m_End=NodeValue;
-			}
-			else
-			{
-				std::cerr << "Unrecognised lifespan node: '" << NodeName << "'" << std::endl;
-			}
-		}
+		Parse(Node);
 	}
 }
 
 MusicBrainz4::CLifespan::CLifespan(const CLifespan& Other)
-:	m_d(new CLifespanPrivate)
+:	CEntity(),
+	m_d(new CLifespanPrivate)
 {
 	*this=Other;
 }
@@ -73,6 +54,8 @@ MusicBrainz4::CLifespan& MusicBrainz4::CLifespan::operator =(const CLifespan& Ot
 {
 	if (this!=&Other)
 	{
+		CEntity::operator =(Other);
+
 		m_d->m_Begin=Other.m_d->m_Begin;
 		m_d->m_End=Other.m_d->m_End;
 	}
@@ -85,6 +68,49 @@ MusicBrainz4::CLifespan::~CLifespan()
 	delete m_d;
 }
 
+MusicBrainz4::CLifespan *MusicBrainz4::CLifespan::Clone()
+{
+	return new CLifespan(*this);
+}
+
+bool MusicBrainz4::CLifespan::ParseAttribute(const std::string& Name, const std::string& /*Value*/)
+{
+	bool RetVal=true;
+
+	std::cerr << "Unrecognised lifespan attribute: '" << Name << "'" << std::endl;
+	RetVal=false;
+
+	return RetVal;
+}
+
+bool MusicBrainz4::CLifespan::ParseElement(const XMLNode& Node)
+{
+	bool RetVal=true;
+
+	std::string NodeName=Node.getName();
+
+	if ("begin"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_Begin);
+	}
+	else if ("end"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_End);
+	}
+	else
+	{
+		std::cerr << "Unrecognised lifespan element: '" << NodeName << "'" << std::endl;
+		RetVal=false;
+	}
+
+	return RetVal;
+}
+
+std::string MusicBrainz4::CLifespan::GetElementName()
+{
+	return "life-span";
+}
+
 std::string MusicBrainz4::CLifespan::Begin() const
 {
 	return m_d->m_Begin;
@@ -95,12 +121,14 @@ std::string MusicBrainz4::CLifespan::End() const
 	return m_d->m_End;
 }
 
-std::ostream& operator << (std::ostream& os, const MusicBrainz4::CLifespan& Lifespan)
+std::ostream& MusicBrainz4::CLifespan::Serialise(std::ostream& os) const
 {
 	os << "Lifespan:" << std::endl;
 
-	os << "\tBegin: " << Lifespan.Begin() << std::endl;
-	os << "\tEnd:   " << Lifespan.End() << std::endl;
+	CEntity::Serialise(os);
+
+	os << "\tBegin: " << Begin() << std::endl;
+	os << "\tEnd:   " << End() << std::endl;
 
 	return os;
 }

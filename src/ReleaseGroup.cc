@@ -10,14 +10,13 @@
    modify it under the terms of v2 of the GNU Lesser General Public
    License as published by the Free Software Foundation.
 
-   Flactag is distributed in the hope that it will be useful,
+   libmusicbrainz4 is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    Lesser General Public License for more details.
 
-   You should have received a copy of the GNU Lesser General Public
-   License along with this library; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+   You should have received a copy of the GNU General Public License
+   along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
      $Id$
 
@@ -28,9 +27,13 @@
 #include "musicbrainz4/ArtistCredit.h"
 #include "musicbrainz4/Rating.h"
 #include "musicbrainz4/UserRating.h"
+#include "musicbrainz4/ReleaseList.h"
 #include "musicbrainz4/Release.h"
+#include "musicbrainz4/RelationList.h"
 #include "musicbrainz4/Relation.h"
+#include "musicbrainz4/TagList.h"
 #include "musicbrainz4/Tag.h"
+#include "musicbrainz4/UserTagList.h"
 #include "musicbrainz4/UserTag.h"
 
 class MusicBrainz4::CReleaseGroupPrivate
@@ -50,88 +53,32 @@ class MusicBrainz4::CReleaseGroupPrivate
 		std::string m_ID;
 		std::string m_Type;
 		std::string m_Title;
-		std::string m_Comment;
+		std::string m_Disambiguation;
 		std::string m_FirstReleaseDate;
 		CArtistCredit *m_ArtistCredit;
-		CGenericList<CRelease> *m_ReleaseList;
-		CGenericList<CRelation> *m_RelationList;
-		CGenericList<CTag> *m_TagList;
-		CGenericList<CUserTag> *m_UserTagList;
+		CReleaseList *m_ReleaseList;
+		CRelationList *m_RelationList;
+		CTagList *m_TagList;
+		CUserTagList *m_UserTagList;
 		CRating *m_Rating;
 		CUserRating *m_UserRating;
 };
 
 MusicBrainz4::CReleaseGroup::CReleaseGroup(const XMLNode& Node)
-:	m_d(new CReleaseGroupPrivate)
+:	CEntity(),
+	m_d(new CReleaseGroupPrivate)
 {
 	if (!Node.isEmpty())
 	{
 		//std::cout << "Name credit node: " << std::endl << Node.createXMLString(true) << std::endl;
 
-		if (Node.isAttributeSet("id"))
-			m_d->m_ID=Node.getAttribute("id");
-
-		if (Node.isAttributeSet("type"))
-			m_d->m_Type=Node.getAttribute("type");
-
-		for (int count=0;count<Node.nChildNode();count++)
-		{
-			XMLNode ChildNode=Node.getChildNode(count);
-			std::string NodeName=ChildNode.getName();
-			std::string NodeValue;
-			if (ChildNode.getText())
-				NodeValue=ChildNode.getText();
-
-			if ("title"==NodeName)
-			{
-				m_d->m_Title=NodeValue;
-			}
-			else if ("comment"==NodeName)
-			{
-				m_d->m_Comment=NodeValue;
-			}
-			else if ("first-release-date"==NodeName)
-			{
-				m_d->m_FirstReleaseDate=NodeValue;
-			}
-			else if ("artist-credit"==NodeName)
-			{
-				m_d->m_ArtistCredit=new CArtistCredit(ChildNode);
-			}
-			else if ("release-list"==NodeName)
-			{
-				m_d->m_ReleaseList=new CGenericList<CRelease>(ChildNode,"release");
-			}
-			else if ("relation-list"==NodeName)
-			{
-				m_d->m_RelationList=new CGenericList<CRelation>(ChildNode,"relation");
-			}
-			else if ("tag-list"==NodeName)
-			{
-				m_d->m_TagList=new CGenericList<CTag>(ChildNode,"tag");
-			}
-			else if ("user-tag-list"==NodeName)
-			{
-				m_d->m_UserTagList=new CGenericList<CUserTag>(ChildNode,"user-tag");
-			}
-			else if ("rating"==NodeName)
-			{
-				m_d->m_Rating=new CRating(ChildNode);
-			}
-			else if ("user-rating"==NodeName)
-			{
-				m_d->m_UserRating=new CUserRating(ChildNode);
-			}
-			else
-			{
-				std::cerr << "Unrecognised release group node: '" << NodeName << "'" << std::endl;
-			}
-		}
+		Parse(Node);
 	}
 }
 
 MusicBrainz4::CReleaseGroup::CReleaseGroup(const CReleaseGroup& Other)
-:	m_d(new CReleaseGroupPrivate)
+:	CEntity(),
+	m_d(new CReleaseGroupPrivate)
 {
 	*this=Other;
 }
@@ -142,26 +89,28 @@ MusicBrainz4::CReleaseGroup& MusicBrainz4::CReleaseGroup::operator =(const CRele
 	{
 		Cleanup();
 
+		CEntity::operator =(Other);
+
 		m_d->m_ID=Other.m_d->m_ID;
 		m_d->m_Type=Other.m_d->m_Type;
 		m_d->m_Title=Other.m_d->m_Title;
-		m_d->m_Comment=Other.m_d->m_Comment;
+		m_d->m_Disambiguation=Other.m_d->m_Disambiguation;
 		m_d->m_FirstReleaseDate=Other.m_d->m_FirstReleaseDate;
 
 		if (Other.m_d->m_ArtistCredit)
 			m_d->m_ArtistCredit=new CArtistCredit(*Other.m_d->m_ArtistCredit);
 
 		if (Other.m_d->m_ReleaseList)
-			m_d->m_ReleaseList=new CGenericList<CRelease>(*Other.m_d->m_ReleaseList);
+			m_d->m_ReleaseList=new CReleaseList(*Other.m_d->m_ReleaseList);
 
 		if (Other.m_d->m_RelationList)
-			m_d->m_RelationList=new CGenericList<CRelation>(*Other.m_d->m_RelationList);
+			m_d->m_RelationList=new CRelationList(*Other.m_d->m_RelationList);
 
 		if (Other.m_d->m_TagList)
-			m_d->m_TagList=new CGenericList<CTag>(*Other.m_d->m_TagList);
+			m_d->m_TagList=new CTagList(*Other.m_d->m_TagList);
 
 		if (Other.m_d->m_UserTagList)
-			m_d->m_UserTagList=new CGenericList<CUserTag>(*Other.m_d->m_UserTagList);
+			m_d->m_UserTagList=new CUserTagList(*Other.m_d->m_UserTagList);
 
 		if (Other.m_d->m_Rating)
 			m_d->m_Rating=new CRating(*Other.m_d->m_Rating);
@@ -204,6 +153,88 @@ void MusicBrainz4::CReleaseGroup::Cleanup()
 	m_d->m_UserRating=0;
 }
 
+MusicBrainz4::CReleaseGroup *MusicBrainz4::CReleaseGroup::Clone()
+{
+	return new CReleaseGroup(*this);
+}
+
+bool MusicBrainz4::CReleaseGroup::ParseAttribute(const std::string& Name, const std::string& Value)
+{
+	bool RetVal=true;
+
+	if ("id"==Name)
+		m_d->m_ID=Value;
+	else if ("type"==Name)
+		m_d->m_Type=Value;
+	else
+	{
+		std::cerr << "Unrecognised releasegroup attribute: '" << Name << "'" << std::endl;
+		RetVal=false;
+	}
+
+	return RetVal;
+}
+
+bool MusicBrainz4::CReleaseGroup::ParseElement(const XMLNode& Node)
+{
+	bool RetVal=true;
+
+	std::string NodeName=Node.getName();
+
+	if ("title"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_Title);
+	}
+	else if ("disambiguation"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_Disambiguation);
+	}
+	else if ("first-release-date"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_FirstReleaseDate);
+	}
+	else if ("artist-credit"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_ArtistCredit);
+	}
+	else if ("release-list"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_ReleaseList);
+	}
+	else if ("relation-list"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_RelationList);
+	}
+	else if ("tag-list"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_TagList);
+	}
+	else if ("user-tag-list"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_UserTagList);
+	}
+	else if ("rating"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_Rating);
+	}
+	else if ("user-rating"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_UserRating);
+	}
+	else
+	{
+		std::cerr << "Unrecognised release group element: '" << NodeName << "'" << std::endl;
+		RetVal=false;
+	}
+
+	return RetVal;
+}
+
+std::string MusicBrainz4::CReleaseGroup::GetElementName()
+{
+	return "release-group";
+}
+
 std::string MusicBrainz4::CReleaseGroup::ID() const
 {
 	return m_d->m_ID;
@@ -219,9 +250,9 @@ std::string MusicBrainz4::CReleaseGroup::Title() const
 	return m_d->m_Title;
 }
 
-std::string MusicBrainz4::CReleaseGroup::Comment() const
+std::string MusicBrainz4::CReleaseGroup::Disambiguation() const
 {
-	return m_d->m_Comment;
+	return m_d->m_Disambiguation;
 }
 
 std::string MusicBrainz4::CReleaseGroup::FirstReleaseDate() const
@@ -234,22 +265,22 @@ MusicBrainz4::CArtistCredit *MusicBrainz4::CReleaseGroup::ArtistCredit() const
 	return m_d->m_ArtistCredit;
 }
 
-MusicBrainz4::CGenericList<MusicBrainz4::CRelease> *MusicBrainz4::CReleaseGroup::ReleaseList() const
+MusicBrainz4::CReleaseList *MusicBrainz4::CReleaseGroup::ReleaseList() const
 {
 	return m_d->m_ReleaseList;
 }
 
-MusicBrainz4::CGenericList<MusicBrainz4::CRelation> *MusicBrainz4::CReleaseGroup::RelationList() const
+MusicBrainz4::CRelationList *MusicBrainz4::CReleaseGroup::RelationList() const
 {
 	return m_d->m_RelationList;
 }
 
-MusicBrainz4::CGenericList<MusicBrainz4::CTag> *MusicBrainz4::CReleaseGroup::TagList() const
+MusicBrainz4::CTagList *MusicBrainz4::CReleaseGroup::TagList() const
 {
 	return m_d->m_TagList;
 }
 
-MusicBrainz4::CGenericList<MusicBrainz4::CUserTag> *MusicBrainz4::CReleaseGroup::UserTagList() const
+MusicBrainz4::CUserTagList *MusicBrainz4::CReleaseGroup::UserTagList() const
 {
 	return m_d->m_UserTagList;
 }
@@ -264,36 +295,38 @@ MusicBrainz4::CUserRating *MusicBrainz4::CReleaseGroup::UserRating() const
 	return m_d->m_UserRating;
 }
 
-std::ostream& operator << (std::ostream& os, const MusicBrainz4::CReleaseGroup& ReleaseGroup)
+std::ostream& MusicBrainz4::CReleaseGroup::Serialise(std::ostream& os) const
 {
 	os << "Release group:" << std::endl;
 
-	os << "\tID:                 " << ReleaseGroup.ID() << std::endl;
-	os << "\tType:               " << ReleaseGroup.Type() << std::endl;
-	os << "\tTitle:              " << ReleaseGroup.Title() << std::endl;
-	os << "\tComment:            " << ReleaseGroup.Comment() << std::endl;
-	os << "\tFirst release date: " << ReleaseGroup.FirstReleaseDate() << std::endl;
+	CEntity::Serialise(os);
 
-	if (ReleaseGroup.ArtistCredit())
-		os << *ReleaseGroup.ArtistCredit() << std::endl;
+	os << "\tID:                 " << ID() << std::endl;
+	os << "\tType:               " << Type() << std::endl;
+	os << "\tTitle:              " << Title() << std::endl;
+	os << "\tDisambiguation:     " << Disambiguation() << std::endl;
+	os << "\tFirst release date: " << FirstReleaseDate() << std::endl;
 
-	if (ReleaseGroup.ReleaseList())
-		os << *ReleaseGroup.ReleaseList() << std::endl;
+	if (ArtistCredit())
+		os << *ArtistCredit() << std::endl;
 
-	if (ReleaseGroup.RelationList())
-		os << *ReleaseGroup.RelationList() << std::endl;
+	if (ReleaseList())
+		os << *ReleaseList() << std::endl;
 
-	if (ReleaseGroup.TagList())
-		os << *ReleaseGroup.TagList() << std::endl;
+	if (RelationList())
+		os << *RelationList() << std::endl;
 
-	if (ReleaseGroup.UserTagList())
-		os << *ReleaseGroup.UserTagList() << std::endl;
+	if (TagList())
+		os << *TagList() << std::endl;
 
-	if (ReleaseGroup.Rating())
-		os << *ReleaseGroup.Rating() << std::endl;
+	if (UserTagList())
+		os << *UserTagList() << std::endl;
 
-	if (ReleaseGroup.UserRating())
-		os << *ReleaseGroup.UserRating() << std::endl;
+	if (Rating())
+		os << *Rating() << std::endl;
+
+	if (UserRating())
+		os << *UserRating() << std::endl;
 
 	return os;
 }

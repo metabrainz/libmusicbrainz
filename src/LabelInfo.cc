@@ -10,14 +10,13 @@
    modify it under the terms of v2 of the GNU Lesser General Public
    License as published by the Free Software Foundation.
 
-   Flactag is distributed in the hope that it will be useful,
+   libmusicbrainz4 is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    Lesser General Public License for more details.
 
-   You should have received a copy of the GNU Lesser General Public
-   License along with this library; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+   You should have received a copy of the GNU General Public License
+   along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
      $Id$
 
@@ -34,44 +33,26 @@ class MusicBrainz4::CLabelInfoPrivate
 		:	m_Label(0)
 		{
 		}
-		
+
 		std::string m_CatalogNumber;
 		CLabel *m_Label;
 };
-		
+
 MusicBrainz4::CLabelInfo::CLabelInfo(const XMLNode& Node)
-:	m_d(new CLabelInfoPrivate)
+:	CEntity(),
+	m_d(new CLabelInfoPrivate)
 {
 	if (!Node.isEmpty())
 	{
 		//std::cout << "Label info node: " << std::endl << Node.createXMLString(true) << std::endl;
 
-		for (int count=0;count<Node.nChildNode();count++)
-		{
-			XMLNode ChildNode=Node.getChildNode(count);
-			std::string NodeName=ChildNode.getName();
-			std::string NodeValue;
-			if (ChildNode.getText())
-				NodeValue=ChildNode.getText();
-
-			if ("catalog-number"==NodeName)
-			{
-				m_d->m_CatalogNumber=NodeValue;
-			}
-			else if ("label"==NodeName)
-			{
-				m_d->m_Label=new CLabel(ChildNode);
-			}
-			else
-			{
-				std::cerr << "Unrecognised label info node: '" << NodeName << "'" << std::endl;
-			}
-		}
+		Parse(Node);
 	}
 }
 
 MusicBrainz4::CLabelInfo::CLabelInfo(const CLabelInfo& Other)
-:	m_d(new CLabelInfoPrivate)
+:	CEntity(),
+	m_d(new CLabelInfoPrivate)
 {
 	*this=Other;
 }
@@ -81,6 +62,8 @@ MusicBrainz4::CLabelInfo& MusicBrainz4::CLabelInfo::operator =(const CLabelInfo&
 	if (this!=&Other)
 	{
 		Cleanup();
+
+		CEntity::operator =(Other);
 
 		m_d->m_CatalogNumber=Other.m_d->m_CatalogNumber;
 
@@ -94,7 +77,7 @@ MusicBrainz4::CLabelInfo& MusicBrainz4::CLabelInfo::operator =(const CLabelInfo&
 MusicBrainz4::CLabelInfo::~CLabelInfo()
 {
 	Cleanup();
-	
+
 	delete m_d;
 }
 
@@ -102,6 +85,49 @@ void MusicBrainz4::CLabelInfo::Cleanup()
 {
 	delete m_d->m_Label;
 	m_d->m_Label=0;
+}
+
+MusicBrainz4::CLabelInfo *MusicBrainz4::CLabelInfo::Clone()
+{
+	return new CLabelInfo(*this);
+}
+
+bool MusicBrainz4::CLabelInfo::ParseAttribute(const std::string& Name, const std::string& /*Value*/)
+{
+	bool RetVal=true;
+
+	std::cerr << "Unrecognised labelinfo attribute: '" << Name << "'" << std::endl;
+	RetVal=false;
+
+	return RetVal;
+}
+
+bool MusicBrainz4::CLabelInfo::ParseElement(const XMLNode& Node)
+{
+	bool RetVal=true;
+
+	std::string NodeName=Node.getName();
+
+	if ("catalog-number"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_CatalogNumber);
+	}
+	else if ("label"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_Label);
+	}
+	else
+	{
+		std::cerr << "Unrecognised label info element: '" << NodeName << "'" << std::endl;
+		RetVal=false;
+	}
+
+	return RetVal;
+}
+
+std::string MusicBrainz4::CLabelInfo::GetElementName()
+{
+	return "label-info";
 }
 
 std::string MusicBrainz4::CLabelInfo::CatalogNumber() const
@@ -114,14 +140,16 @@ MusicBrainz4::CLabel *MusicBrainz4::CLabelInfo::Label() const
 	return m_d->m_Label;
 }
 
-std::ostream& operator << (std::ostream& os, const MusicBrainz4::CLabelInfo& LabelInfo)
+std::ostream& MusicBrainz4::CLabelInfo::Serialise(std::ostream& os) const
 {
 	os << "Label info:" << std::endl;
 
-	os << "\tCatalog number: " << LabelInfo.CatalogNumber() << std::endl;
+	CEntity::Serialise(os);
 
-	if (LabelInfo.Label())
-		os << *LabelInfo.Label() << std::endl;
+	os << "\tCatalog number: " << CatalogNumber() << std::endl;
+
+	if (Label())
+		os << *Label() << std::endl;
 
 	return os;
 }

@@ -10,14 +10,13 @@
    modify it under the terms of v2 of the GNU Lesser General Public
    License as published by the Free Software Foundation.
 
-   Flactag is distributed in the hope that it will be useful,
+   libmusicbrainz4 is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    Lesser General Public License for more details.
 
-   You should have received a copy of the GNU Lesser General Public
-   License along with this library; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+   You should have received a copy of the GNU General Public License
+   along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
      $Id$
 
@@ -25,9 +24,8 @@
 
 #include "musicbrainz4/Disc.h"
 
+#include "musicbrainz4/ReleaseList.h"
 #include "musicbrainz4/Release.h"
-
-#include "ParserUtils.h"
 
 class MusicBrainz4::CDiscPrivate
 {
@@ -40,45 +38,24 @@ class MusicBrainz4::CDiscPrivate
 
 		std::string m_ID;
 		int m_Sectors;
-		CGenericList<CRelease> *m_ReleaseList;
+		CReleaseList *m_ReleaseList;
 };
 
 MusicBrainz4::CDisc::CDisc(const XMLNode& Node)
-:	m_d(new CDiscPrivate)
+:	CEntity(),
+	m_d(new CDiscPrivate)
 {
 	if (!Node.isEmpty())
 	{
 		//std::cout << "Disc node: " << std::endl << Node.createXMLString(true) << std::endl;
 
-		if (Node.isAttributeSet("id"))
-			m_d->m_ID=Node.getAttribute("id");
-
-		for (int count=0;count<Node.nChildNode();count++)
-		{
-			XMLNode ChildNode=Node.getChildNode(count);
-			std::string NodeName=ChildNode.getName();
-			std::string NodeValue;
-			if (ChildNode.getText())
-				NodeValue=ChildNode.getText();
-
-			if ("sectors"==NodeName)
-			{
-				ProcessItem(NodeValue,m_d->m_Sectors);
-			}
-			else if ("release-list"==NodeName)
-			{
-				m_d->m_ReleaseList=new CGenericList<CRelease>(ChildNode,"release");
-			}
-			else
-			{
-				std::cerr << "Unrecognised disc node: '" << NodeName << "'" << std::endl;
-			}
-		}
+		Parse(Node);
 	}
 }
 
 MusicBrainz4::CDisc::CDisc(const CDisc& Other)
-:	m_d(new CDiscPrivate)
+:	CEntity(),
+	m_d(new CDiscPrivate)
 {
 	*this=Other;
 }
@@ -89,11 +66,13 @@ MusicBrainz4::CDisc& MusicBrainz4::CDisc::operator =(const CDisc& Other)
 	{
 		Cleanup();
 
+		CEntity::operator =(Other);
+
 		m_d->m_ID=Other.m_d->m_ID;
 		m_d->m_Sectors=Other.m_d->m_Sectors;
 
 		if (Other.m_d->m_ReleaseList)
-			m_d->m_ReleaseList=new CGenericList<CRelease>(*Other.m_d->m_ReleaseList);
+			m_d->m_ReleaseList=new CReleaseList(*Other.m_d->m_ReleaseList);
 	}
 
 	return *this;
@@ -112,6 +91,54 @@ void MusicBrainz4::CDisc::Cleanup()
 	m_d->m_ReleaseList=0;
 }
 
+MusicBrainz4::CDisc *MusicBrainz4::CDisc::Clone()
+{
+	return new CDisc(*this);
+}
+
+bool MusicBrainz4::CDisc::ParseAttribute(const std::string& Name, const std::string& Value)
+{
+	bool RetVal=true;
+
+	if ("id"==Name)
+		RetVal=ProcessItem(Value,m_d->m_ID);
+	else
+	{
+		std::cerr << "Unrecognised disc attribute: '" << Name << "'" << std::endl;
+		RetVal=false;
+	}
+
+	return RetVal;
+}
+
+bool MusicBrainz4::CDisc::ParseElement(const XMLNode& Node)
+{
+	bool RetVal=true;
+
+	std::string NodeName=Node.getName();
+
+	if ("sectors"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_Sectors);
+	}
+	else if ("release-list"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_ReleaseList);
+	}
+	else
+	{
+		std::cerr << "Unrecognised disc element: '" << NodeName << "'" << std::endl;
+		RetVal=false;
+	}
+
+	return RetVal;
+}
+
+std::string MusicBrainz4::CDisc::GetElementName()
+{
+	return "disc";
+}
+
 std::string MusicBrainz4::CDisc::ID() const
 {
 	return m_d->m_ID;
@@ -122,20 +149,22 @@ int MusicBrainz4::CDisc::Sectors() const
 	return m_d->m_Sectors;
 }
 
-MusicBrainz4::CGenericList<MusicBrainz4::CRelease> *MusicBrainz4::CDisc::ReleaseList() const
+MusicBrainz4::CReleaseList *MusicBrainz4::CDisc::ReleaseList() const
 {
 	return m_d->m_ReleaseList;
 }
 
-std::ostream& operator << (std::ostream& os, const MusicBrainz4::CDisc& Disc)
+std::ostream& MusicBrainz4::CDisc::Serialise(std::ostream& os) const
 {
 	os << "Disc:" << std::endl;
 
-	os << "\tID:      " << Disc.ID() << std::endl;
-	os << "\tSectors: " << Disc.Sectors() << std::endl;
+	CEntity::Serialise(os);
 
-	if (Disc.ReleaseList())
-		os << *Disc.ReleaseList() << std::endl;
+	os << "\tID:      " << ID() << std::endl;
+	os << "\tSectors: " << Sectors() << std::endl;
+
+	if (ReleaseList())
+		os << *ReleaseList() << std::endl;
 
 	return os;
 }

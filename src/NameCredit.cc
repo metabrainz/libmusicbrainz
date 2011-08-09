@@ -10,14 +10,13 @@
    modify it under the terms of v2 of the GNU Lesser General Public
    License as published by the Free Software Foundation.
 
-   Flactag is distributed in the hope that it will be useful,
+   libmusicbrainz4 is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    Lesser General Public License for more details.
 
-   You should have received a copy of the GNU Lesser General Public
-   License along with this library; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+   You should have received a copy of the GNU General Public License
+   along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
      $Id$
 
@@ -34,48 +33,27 @@ class MusicBrainz4::CNameCreditPrivate
 		:	m_Artist(0)
 		{
 		}
-		
+
 		std::string m_JoinPhrase;
 		std::string m_Name;
 		CArtist *m_Artist;
 };
 
 MusicBrainz4::CNameCredit::CNameCredit(const XMLNode& Node)
-:	m_d(new CNameCreditPrivate)
+:	CEntity(),
+	m_d(new CNameCreditPrivate)
 {
 	if (!Node.isEmpty())
 	{
 		//std::cout << "Name credit node: " << std::endl << Node.createXMLString(true) << std::endl;
 
-		if (Node.isAttributeSet("joinphrase"))
-			m_d->m_JoinPhrase=Node.getAttribute("joinphrase");
-
-		for (int count=0;count<Node.nChildNode();count++)
-		{
-			XMLNode ChildNode=Node.getChildNode(count);
-			std::string NodeName=ChildNode.getName();
-			std::string NodeValue;
-			if (ChildNode.getText())
-				NodeValue=ChildNode.getText();
-
-			if ("name"==NodeName)
-			{
-				m_d->m_Name=NodeValue;
-			}
-			else if ("artist"==NodeName)
-			{
-				m_d->m_Artist=new CArtist(ChildNode);
-			}
-			else
-			{
-				std::cerr << "Unrecognised name credit node: '" << NodeName << "'" << std::endl;
-			}
-		}
+		Parse(Node);
 	}
 }
 
 MusicBrainz4::CNameCredit::CNameCredit(const CNameCredit& Other)
-:	m_d(new CNameCreditPrivate)
+:	CEntity(),
+	m_d(new CNameCreditPrivate)
 {
 	*this=Other;
 }
@@ -85,6 +63,8 @@ MusicBrainz4::CNameCredit& MusicBrainz4::CNameCredit::operator =(const CNameCred
 	if (this!=&Other)
 	{
 		Cleanup();
+
+		CEntity::operator =(Other);
 
 		m_d->m_JoinPhrase=Other.m_d->m_JoinPhrase;
 		m_d->m_Name=Other.m_d->m_Name;
@@ -99,7 +79,7 @@ MusicBrainz4::CNameCredit& MusicBrainz4::CNameCredit::operator =(const CNameCred
 MusicBrainz4::CNameCredit::~CNameCredit()
 {
 	Cleanup();
-	
+
 	delete m_d;
 }
 
@@ -107,6 +87,55 @@ void MusicBrainz4::CNameCredit::Cleanup()
 {
 	delete m_d->m_Artist;
 	m_d->m_Artist=0;
+}
+
+MusicBrainz4::CNameCredit *MusicBrainz4::CNameCredit::Clone()
+{
+	return new CNameCredit(*this);
+}
+
+bool MusicBrainz4::CNameCredit::ParseAttribute(const std::string& Name, const std::string& Value)
+{
+	bool RetVal=true;
+
+	if ("joinphrase"==Name)
+		m_d->m_JoinPhrase=Value;
+	else
+	{
+		std::cerr << "Unrecognised namecredit attribute: '" << Name << "'" << std::endl;
+		RetVal=false;
+	}
+
+	return RetVal;
+}
+
+bool MusicBrainz4::CNameCredit::ParseElement(const XMLNode& Node)
+{
+	bool RetVal=true;
+
+
+	std::string NodeName=Node.getName();
+
+	if ("name"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_Name);
+	}
+	else if ("artist"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_Artist);
+	}
+	else
+	{
+		std::cerr << "Unrecognised name credit element: '" << NodeName << "'" << std::endl;
+		RetVal=false;
+	}
+
+	return RetVal;
+}
+
+std::string MusicBrainz4::CNameCredit::GetElementName()
+{
+	return "name-credit";
 }
 
 std::string MusicBrainz4::CNameCredit::JoinPhrase() const
@@ -124,15 +153,17 @@ MusicBrainz4::CArtist *MusicBrainz4::CNameCredit::Artist() const
 	return m_d->m_Artist;
 }
 
-std::ostream& operator << (std::ostream& os, const MusicBrainz4::CNameCredit& NameCredit)
+std::ostream& MusicBrainz4::CNameCredit::Serialise(std::ostream& os) const
 {
 	os << "Name credit:" << std::endl;
 
-	os << "\tJoin phrase: " << NameCredit.JoinPhrase() << std::endl;
-	os << "\tName:        " << NameCredit.Name() << std::endl;
+	CEntity::Serialise(os);
 
-	if (NameCredit.Artist())
-		os << *NameCredit.Artist() << std::endl;
+	os << "\tJoin phrase: " << JoinPhrase() << std::endl;
+	os << "\tName:        " << Name() << std::endl;
+
+	if (Artist())
+		os << *Artist() << std::endl;
 
 	return os;
 }

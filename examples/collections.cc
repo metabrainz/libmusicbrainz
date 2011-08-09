@@ -1,7 +1,32 @@
+/* --------------------------------------------------------------------------
+
+   libmusicbrainz4 - Client library to access MusicBrainz
+
+   Copyright (C) 2011 Andrew Hawkins
+
+   This file is part of libmusicbrainz4.
+
+   This library is free software; you can redistribute it and/or
+   modify it under the terms of v2 of the GNU Lesser General Public
+   License as published by the Free Software Foundation.
+
+   libmusicbrainz4 is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+   Lesser General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this library.  If not, see <http://www.gnu.org/licenses/>.
+
+     $Id$
+
+----------------------------------------------------------------------------*/
+
 #include <iostream>
 
 #include "musicbrainz4/Query.h"
 #include "musicbrainz4/Collection.h"
+#include "musicbrainz4/CollectionList.h"
 #include "musicbrainz4/HTTPFetch.h"
 
 void ListCollection(MusicBrainz4::CQuery& Query, const std::string& CollectionID)
@@ -25,31 +50,35 @@ int main(int argc, const char *argv[])
 		try
 		{
 			MusicBrainz4::CMetadata Metadata=Query.Query("collection");
-			MusicBrainz4::CGenericList<MusicBrainz4::CCollection> *CollectionList=Metadata.CollectionList();
+			MusicBrainz4::CCollectionList *CollectionList=Metadata.CollectionList();
 			if (CollectionList)
 			{
-				std::list<MusicBrainz4::CCollection> Collections=CollectionList->Items();
-				MusicBrainz4::CCollection Collection=*(Collections.begin());
-				std::cout << "Collection ID is " << Collection.ID() << std::endl;
+				if (0!=CollectionList->NumItems())
+				{
+					MusicBrainz4::CCollection *Collection=CollectionList->Item(0);
+					std::cout << "Collection ID is " << Collection->ID() << std::endl;
 
-				ListCollection(Query,Collection.ID());
+					ListCollection(Query,Collection->ID());
 
-				std::vector<std::string> Releases;
-				Releases.push_back("b5748ac9-f38e-48f7-a8a4-8b43cab025bc");
-				Releases.push_back("f6335672-c521-4129-86c3-490d20533e08");
-				bool Ret=Query.AddCollectionEntries(Collection.ID(),Releases);
+					std::vector<std::string> Releases;
+					Releases.push_back("b5748ac9-f38e-48f7-a8a4-8b43cab025bc");
+					Releases.push_back("f6335672-c521-4129-86c3-490d20533e08");
+					bool Ret=Query.AddCollectionEntries(Collection->ID(),Releases);
 
-				std::cout << "AddCollectionEntries returns " << std::boolalpha << Ret << std::endl;
+					std::cout << "AddCollectionEntries returns " << std::boolalpha << Ret << std::endl;
 
-				ListCollection(Query,Collection.ID());
+					ListCollection(Query,Collection->ID());
 
-				Releases.clear();
-				Releases.push_back("b5748ac9-f38e-48f7-a8a4-8b43cab025bc");
-				Ret=Query.DeleteCollectionEntries(Collection.ID(),Releases);
+					Releases.clear();
+					Releases.push_back("b5748ac9-f38e-48f7-a8a4-8b43cab025bc");
+					Ret=Query.DeleteCollectionEntries(Collection->ID(),Releases);
 
-				std::cout << "DeleteCollectionEntries returns " << std::boolalpha << Ret << std::endl;
+					std::cout << "DeleteCollectionEntries returns " << std::boolalpha << Ret << std::endl;
 
-				ListCollection(Query,Collection.ID());
+					ListCollection(Query,Collection->ID());
+				}
+				else
+					std::cout << "No collections found" << std::endl;
 			}
 		}
 

@@ -10,14 +10,13 @@
    modify it under the terms of v2 of the GNU Lesser General Public
    License as published by the Free Software Foundation.
 
-   Flactag is distributed in the hope that it will be useful,
+   libmusicbrainz4 is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    Lesser General Public License for more details.
 
-   You should have received a copy of the GNU Lesser General Public
-   License along with this library; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+   You should have received a copy of the GNU General Public License
+   along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
      $Id$
 
@@ -40,6 +39,8 @@
 #include "musicbrainz4/HTTPFetch.h"
 #include "musicbrainz4/Disc.h"
 #include "musicbrainz4/Message.h"
+#include "musicbrainz4/ReleaseList.h"
+#include "musicbrainz4/Release.h"
 
 #include "config.h"
 
@@ -241,12 +242,12 @@ MusicBrainz4::CMetadata MusicBrainz4::CQuery::Query(const std::string& Entity, c
 	return PerformQuery(os.str());
 }
 
-MusicBrainz4::CGenericList<MusicBrainz4::CRelease> MusicBrainz4::CQuery::LookupDiscID(const std::string& DiscID)
+MusicBrainz4::CReleaseList MusicBrainz4::CQuery::LookupDiscID(const std::string& DiscID)
 {
 	//Will this work soon (and return disc IDs as well)?
 	//http://musicbrainz.org/ws/2/discid/arIS30RPWowvwNEqsqdDnZzDGhk-?inc=artists+labels+recordings+release-groups+artist-credits
 
-	MusicBrainz4::CGenericList<MusicBrainz4::CRelease> ReleaseList;
+	MusicBrainz4::CReleaseList ReleaseList;
 
 	CMetadata Metadata=Query("discid",DiscID);
 
@@ -299,137 +300,150 @@ void MusicBrainz4::CQuery::WaitRequest() const
 	}
 }
 
-bool MusicBrainz4::CQuery::AddCollectionEntries(const std::string& CollectionID, std::vector<std::string>& Entries)
+bool MusicBrainz4::CQuery::AddCollectionEntries(const std::string& CollectionID, const std::vector<std::string>& Entries)
 {
 	return EditCollection(CollectionID,Entries,"PUT");
 }
 
-bool MusicBrainz4::CQuery::DeleteCollectionEntries(const std::string& CollectionID, std::vector<std::string>& Entries)
+bool MusicBrainz4::CQuery::DeleteCollectionEntries(const std::string& CollectionID, const std::vector<std::string>& Entries)
 {
 	return EditCollection(CollectionID,Entries,"DELETE");
 }
 
-bool MusicBrainz4::CQuery::EditCollection(const std::string& CollectionID, std::vector<std::string>& Entries, const std::string& Action)
+bool MusicBrainz4::CQuery::EditCollection(const std::string& CollectionID, const std::vector<std::string>& Entries, const std::string& Action)
 {
 	bool RetVal=false;
 
-	std::string Query;
+	std::vector<std::string> ToProcess=Entries;
 
-	Query="/ws/2/collection/"+CollectionID+"/releases/";
-
-	std::vector<std::string>::const_iterator ThisRelease=Entries.begin();
-	while(ThisRelease!=Entries.end())
+	while (!ToProcess.empty())
 	{
-		if (ThisRelease!=Entries.begin())
-			Query+=";";
+		std::string Query;
 
-		Query+=*ThisRelease;
+		Query="/ws/2/collection/"+CollectionID+"/releases/";
 
-		++ThisRelease;
-	}
-
-	Query+="?client="+m_d->m_UserAgent;
-
-	//std::cout << "Query is '" << Query << "'" << std::endl;
-
-	CHTTPFetch Fetch(UserAgent(),m_d->m_Server,m_d->m_Port);
-
-	if (!m_d->m_UserName.empty())
-		Fetch.SetUserName(m_d->m_UserName);
-
-	if (!m_d->m_Password.empty())
-		Fetch.SetPassword(m_d->m_Password);
-
-	if (!m_d->m_ProxyHost.empty())
-		Fetch.SetProxyHost(m_d->m_ProxyHost);
-
-	if (0!=m_d->m_ProxyPort)
-		Fetch.SetProxyPort(m_d->m_ProxyPort);
-
-	if (!m_d->m_ProxyUserName.empty())
-		Fetch.SetProxyUserName(m_d->m_ProxyUserName);
-
-	if (!m_d->m_ProxyPassword.empty())
-		Fetch.SetProxyPassword(m_d->m_ProxyPassword);
-
-	try
-	{
-		int Ret=Fetch.Fetch(Query,Action);
-		//std::cout << "Ret: " << Ret << std::endl;
-		if (Ret>0)
+		std::vector<std::string> ThisBatch;
+		while (!ToProcess.empty() && ThisBatch.size()<25)
 		{
-			std::vector<unsigned char> Data=Fetch.Data();
-			std::string strData(Data.begin(),Data.end());
+			ThisBatch.push_back(ToProcess.back());
+			ToProcess.pop_back();
+		}
 
-			//std::cout << "Ret is '" << strData << "'" << std::endl;
-			XMLResults Results;
-			XMLNode TopNode=XMLNode::parseString(strData.c_str(), 0, &Results);
-			if (Results.error==eXMLErrorNone)
+		std::vector<std::string>::const_iterator ThisRelease=ThisBatch.begin();
+		while(ThisRelease!=ThisBatch.end())
+		{
+			if (ThisRelease!=ThisBatch.begin())
+				Query+=";";
+
+			Query+=*ThisRelease;
+
+			++ThisRelease;
+		}
+
+		Query+="?client="+m_d->m_UserAgent;
+
+		CHTTPFetch Fetch(UserAgent(),m_d->m_Server,m_d->m_Port);
+
+		if (!m_d->m_UserName.empty())
+			Fetch.SetUserName(m_d->m_UserName);
+
+		if (!m_d->m_Password.empty())
+			Fetch.SetPassword(m_d->m_Password);
+
+		if (!m_d->m_ProxyHost.empty())
+			Fetch.SetProxyHost(m_d->m_ProxyHost);
+
+		if (0!=m_d->m_ProxyPort)
+			Fetch.SetProxyPort(m_d->m_ProxyPort);
+
+		if (!m_d->m_ProxyUserName.empty())
+			Fetch.SetProxyUserName(m_d->m_ProxyUserName);
+
+		if (!m_d->m_ProxyPassword.empty())
+			Fetch.SetProxyPassword(m_d->m_ProxyPassword);
+
+		try
+		{
+			//std::cout << "Collection " << Action << " Query is '" << Query << "'" << std::endl;
+
+			int Ret=Fetch.Fetch(Query,Action);
+			//std::cout << "Collection Ret: " << Ret << std::endl;
+			if (Ret>0)
 			{
-				XMLNode MetadataNode=TopNode.getChildNode("metadata");
-				if (!MetadataNode.isEmpty())
-				{
-					CMetadata Metadata(MetadataNode);
+				std::vector<unsigned char> Data=Fetch.Data();
+				std::string strData(Data.begin(),Data.end());
 
-					if (Metadata.Message() && Metadata.Message()->Text()=="OK")
-						RetVal=true;
+				//std::cout << "Collection " << Action << " ret is '" << strData << "'" << std::endl;
+
+				XMLResults Results;
+				XMLNode TopNode=XMLNode::parseString(strData.c_str(), 0, &Results);
+				if (Results.error==eXMLErrorNone)
+				{
+					XMLNode MetadataNode=TopNode.getChildNode("metadata");
+					if (!MetadataNode.isEmpty())
+					{
+						CMetadata Metadata(MetadataNode);
+
+						if (Metadata.Message() && Metadata.Message()->Text()=="OK")
+							RetVal=RetVal && true;
+					}
 				}
 			}
 		}
-	}
 
-	catch (CConnectionError& Error)
-	{
-		m_d->m_LastResult=CQuery::eQuery_ConnectionError;
-		m_d->m_LastHTTPCode=Fetch.Status();
-		m_d->m_LastErrorMessage=Fetch.ErrorMessage();
+		catch (CConnectionError& Error)
+		{
+			m_d->m_LastResult=CQuery::eQuery_ConnectionError;
+			m_d->m_LastHTTPCode=Fetch.Status();
+			m_d->m_LastErrorMessage=Fetch.ErrorMessage();
 
-		throw;
-	}
+			throw;
+		}
 
-	catch (CTimeoutError& Error)
-	{
-		m_d->m_LastResult=CQuery::eQuery_Timeout;
-		m_d->m_LastHTTPCode=Fetch.Status();
-		m_d->m_LastErrorMessage=Fetch.ErrorMessage();
+		catch (CTimeoutError& Error)
+		{
+			m_d->m_LastResult=CQuery::eQuery_Timeout;
+			m_d->m_LastHTTPCode=Fetch.Status();
+			m_d->m_LastErrorMessage=Fetch.ErrorMessage();
 
-		throw;
-	}
+			throw;
+		}
 
-	catch (CAuthenticationError& Error)
-	{
-		m_d->m_LastResult=CQuery::eQuery_AuthenticationError;
-		m_d->m_LastHTTPCode=Fetch.Status();
-		m_d->m_LastErrorMessage=Fetch.ErrorMessage();
+		catch (CAuthenticationError& Error)
+		{
+			m_d->m_LastResult=CQuery::eQuery_AuthenticationError;
+			m_d->m_LastHTTPCode=Fetch.Status();
+			m_d->m_LastErrorMessage=Fetch.ErrorMessage();
 
-		throw;
-	}
+			throw;
+		}
 
-	catch (CFetchError& Error)
-	{
-		m_d->m_LastResult=CQuery::eQuery_FetchError;
-		m_d->m_LastHTTPCode=Fetch.Status();
-		m_d->m_LastErrorMessage=Fetch.ErrorMessage();
+		catch (CFetchError& Error)
+		{
+			m_d->m_LastResult=CQuery::eQuery_FetchError;
+			m_d->m_LastHTTPCode=Fetch.Status();
+			m_d->m_LastErrorMessage=Fetch.ErrorMessage();
 
-		throw;
-	}
+			throw;
+		}
 
-	catch (CRequestError& Error)
-	{
-		m_d->m_LastResult=CQuery::eQuery_RequestError;
-		m_d->m_LastHTTPCode=Fetch.Status();
-		m_d->m_LastErrorMessage=Fetch.ErrorMessage();
+		catch (CRequestError& Error)
+		{
+			m_d->m_LastResult=CQuery::eQuery_RequestError;
+			m_d->m_LastHTTPCode=Fetch.Status();
+			m_d->m_LastErrorMessage=Fetch.ErrorMessage();
 
-		throw;
-	}
+			throw;
+		}
 
-	catch (CResourceNotFoundError& Error)
-	{
-		m_d->m_LastResult=CQuery::eQuery_ResourceNotFound;
-		m_d->m_LastHTTPCode=Fetch.Status();
-		m_d->m_LastErrorMessage=Fetch.ErrorMessage();
+		catch (CResourceNotFoundError& Error)
+		{
+			m_d->m_LastResult=CQuery::eQuery_ResourceNotFound;
+			m_d->m_LastHTTPCode=Fetch.Status();
+			m_d->m_LastErrorMessage=Fetch.ErrorMessage();
 
-		throw;
+			throw;
+		}
 	}
 
 	return RetVal;

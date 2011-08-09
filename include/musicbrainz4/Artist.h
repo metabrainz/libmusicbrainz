@@ -10,14 +10,13 @@
    modify it under the terms of v2 of the GNU Lesser General Public
    License as published by the Free Software Foundation.
 
-   Flactag is distributed in the hope that it will be useful,
+   libmusicbrainz4 is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    Lesser General Public License for more details.
 
-   You should have received a copy of the GNU Lesser General Public
-   License along with this library; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+   You should have received a copy of the GNU General Public License
+   along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
      $Id$
 
@@ -29,7 +28,16 @@
 #include <string>
 #include <iostream>
 
-#include "musicbrainz4/GenericList.h"
+#include "musicbrainz4/Entity.h"
+#include "musicbrainz4/ReleaseList.h"
+#include "musicbrainz4/AliasList.h"
+#include "musicbrainz4/RecordingList.h"
+#include "musicbrainz4/ReleaseGroupList.h"
+#include "musicbrainz4/LabelList.h"
+#include "musicbrainz4/WorkList.h"
+#include "musicbrainz4/RelationList.h"
+#include "musicbrainz4/TagList.h"
+#include "musicbrainz4/UserTagList.h"
 
 #include "musicbrainz4/xmlParser.h"
 
@@ -37,25 +45,18 @@ namespace MusicBrainz4
 {
 	class CArtistPrivate;
 	class CLifespan;
-	class CAlias;
-	class CRecording;
-	class CRelease;
-	class CReleaseGroup;
-	class CLabel;
-	class CWork;
-	class CRelation;
-	class CTag;
-	class CUserTag;
 	class CRating;
 	class CUserRating;
 
-	class CArtist
+	class CArtist: public CEntity
 	{
 	public:
 		CArtist(const XMLNode& Node=XMLNode::emptyNode());
 		CArtist(const CArtist& Other);
 		CArtist& operator =(const CArtist& Other);
-		~CArtist();
+		virtual ~CArtist();
+
+		virtual CArtist *Clone();
 
 		std::string ID() const;
 		std::string Type() const;
@@ -65,25 +66,30 @@ namespace MusicBrainz4
 		std::string Country() const;
 		std::string Disambiguation() const;
 		CLifespan *Lifespan() const;
-		CGenericList<CAlias> *AliasList() const;
-		CGenericList<CRecording> *RecordingList() const;
-		CGenericList<CRelease> *ReleaseList() const;
-		CGenericList<CReleaseGroup> *ReleaseGroupList() const;
-		CGenericList<CLabel> *LabelList() const;
-		CGenericList<CWork> *WorkList() const;
-		CGenericList<CRelation> *RelationList() const;
-		CGenericList<CTag> *TagList() const;
-		CGenericList<CUserTag> *UserTagList() const;
+		CAliasList *AliasList() const;
+		CRecordingList *RecordingList() const;
+		CReleaseList *ReleaseList() const;
+		CReleaseGroupList *ReleaseGroupList() const;
+		CLabelList *LabelList() const;
+		CWorkList *WorkList() const;
+		CRelationList *RelationList() const;
+		CTagList *TagList() const;
+		CUserTagList *UserTagList() const;
 		CRating *Rating() const;
 		CUserRating *UserRating() const;
 
+		virtual std::ostream& Serialise(std::ostream& os) const;
+		static std::string GetElementName();
+
+	protected:
+		virtual bool ParseAttribute(const std::string& Name, const std::string& Value);
+		virtual bool ParseElement(const XMLNode& Node);
+
 	private:
 		void Cleanup();
-		
+
 		CArtistPrivate * const m_d;
 	};
 }
-
-std::ostream& operator << (std::ostream& os, const MusicBrainz4::CArtist& Artist);
 
 #endif

@@ -10,14 +10,13 @@
    modify it under the terms of v2 of the GNU Lesser General Public
    License as published by the Free Software Foundation.
 
-   Flactag is distributed in the hope that it will be useful,
+   libmusicbrainz4 is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    Lesser General Public License for more details.
 
-   You should have received a copy of the GNU Lesser General Public
-   License along with this library; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+   You should have received a copy of the GNU General Public License
+   along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
      $Id$
 
@@ -26,9 +25,7 @@
 #ifndef _MUSICBRAINZ4_QUERY_H
 #define _MUSICBRAINZ4_QUERY_H
 
-#include "musicbrainz4/GenericList.h"
-
-#include "musicbrainz4/Release.h"
+#include "musicbrainz4/ReleaseList.h"
 #include "musicbrainz4/Metadata.h"
 
 #include "musicbrainz4/xmlParser.h"
@@ -60,17 +57,15 @@ try
 	MusicBrainz4::CMetadata Metadata=Query.Query("discid",DiscID);
 	if (Metadata.Disc() && Metadata.Disc()->ReleaseList())
 	{
-		MusicBrainz4::CGenericList<MusicBrainz4::CRelease> *ReleaseList=Metadata.Disc()->ReleaseList();
-		std::list<MusicBrainz4::CRelease> Releases=ReleaseList->Items();
+		MusicBrainz4::CReleaseList *ReleaseList=Metadata.Disc()->ReleaseList();
 
-		std::cout << "Found " << Releases.size() << " release(s)" << std::endl;
+		std::cout << "Found " << ReleaseList->NumItems() << " release(s)" << std::endl;
 
-		for (std::list<MusicBrainz4::CRelease>::const_iterator ThisRelease=Releases.begin();
-			ThisRelease!=Releases.end();ThisRelease++)
+		for (int count=0;count<ReleaseList->NumItems();count++)
 		{
-			MusicBrainz4::CRelease Release=(*ThisRelease);
+			MusicBrainz4::CRelease *Release=ReleaseList->Item(count);
 
-			std::cout << "Basic release: " << std::endl << Release << std::endl;
+			std::cout << "Basic release: " << std::endl << *Release << std::endl;
 
 			//The releases returned from LookupDiscID don't contain full information
 
@@ -278,10 +273,10 @@ namespace MusicBrainz4
 		 *
 		 * @param DiscID Disc id to match
 		 *
-		 * @return MusicBrainz4::CRelease list
+		 * @return MusicBrainz4::CReleaseList
 		 */
 
-		CGenericList<CRelease> LookupDiscID(const std::string& DiscID);
+		CReleaseList LookupDiscID(const std::string& DiscID);
 
 		/**
 		 * @brief Return full information about a release
@@ -358,7 +353,7 @@ namespace MusicBrainz4
 		 * @throw CResourceNotFoundError The requested resource was not found
 		 */
 
-		bool AddCollectionEntries(const std::string& CollectionID, std::vector<std::string>& Entries);
+		bool AddCollectionEntries(const std::string& CollectionID, const std::vector<std::string>& Entries);
 
 		/**
 		 * @brief Delete entries from the specified collection
@@ -378,7 +373,7 @@ namespace MusicBrainz4
 		 * @throw CResourceNotFoundError The requested resource was not found
 		 */
 
-		bool DeleteCollectionEntries(const std::string& CollectionID, std::vector<std::string>& Entries);
+		bool DeleteCollectionEntries(const std::string& CollectionID, const std::vector<std::string>& Entries);
 
 		/**
 		 * @brief Return result of the last query
@@ -414,7 +409,7 @@ namespace MusicBrainz4
 		CMetadata PerformQuery(const std::string& Query);
 		void WaitRequest() const;
 		std::string UserAgent() const;
-		bool EditCollection(const std::string& CollectionID, std::vector<std::string>& Entries, const std::string& Action);
+		bool EditCollection(const std::string& CollectionID, const std::vector<std::string>& Entries, const std::string& Action);
 		std::string URIEscape(const std::string& URI);
 		std::string URLEncode(const std::map<std::string,std::string>& Params);
 	};

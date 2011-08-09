@@ -1,3 +1,27 @@
+/* --------------------------------------------------------------------------
+
+   libmusicbrainz4 - Client library to access MusicBrainz
+
+   Copyright (C) 2011 Andrew Hawkins
+
+   This file is part of libmusicbrainz4.
+
+   This library is free software; you can redistribute it and/or
+   modify it under the terms of v2 of the GNU Lesser General Public
+   License as published by the Free Software Foundation.
+
+   Flactag is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+   Lesser General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this library.  If not, see <http://www.gnu.org/licenses/>.
+
+     $Id$
+
+----------------------------------------------------------------------------*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -148,14 +172,24 @@ void CompileTest()
 	unsigned char DummyBool=0;
 	tQueryResult DummyResult=eQuery_Success;
 
+	DummyInt=mb4_entity_ext_attributes_size(Alias);
+	DummyInt=mb4_entity_ext_attribute_name(Alias, 0, Str, Size);
+	DummyInt=mb4_entity_ext_attribute_value(Alias, 0, Str, Size);
+
+	DummyInt=mb4_entity_ext_elements_size(Alias);
+	DummyInt=mb4_entity_ext_element_name(Alias, 0, Str, Size);
+	DummyInt=mb4_entity_ext_element_value(Alias, 0, Str, Size);
+
 	mb4_alias_get_locale(Alias,Str,Size);
 	mb4_alias_get_text(Alias,Str,Size);
+	Alias=mb4_alias_clone(Alias);
 	mb4_alias_delete(Alias);
 
 	mb4_annotation_get_type(Annotation,Str,Size);
 	mb4_annotation_get_entity(Annotation,Str,Size);
 	mb4_annotation_get_name(Annotation,Str,Size);
 	mb4_annotation_get_text(Annotation,Str,Size);
+	Annotation=mb4_annotation_clone(Annotation);
 	mb4_annotation_delete(Annotation);
 
 	mb4_artist_get_id(Artist,Str,Size);
@@ -177,12 +211,15 @@ void CompileTest()
 	UserTagList=mb4_artist_get_usertaglist(Artist);
 	Rating=mb4_artist_get_rating(Artist);
 	UserRating=mb4_artist_get_userrating(Artist);
+	Artist=mb4_artist_clone(Artist);
 	mb4_artist_delete(Artist);
 
 	NameCreditList=mb4_artistcredit_get_namecreditlist(ArtistCredit);
+	ArtistCredit=mb4_artistcredit_clone(ArtistCredit);
 	mb4_artistcredit_delete(ArtistCredit);
 
 	mb4_attribute_get_text(Attribute,Str,Size);
+	Attribute=mb4_attribute_clone(Attribute);
 	mb4_attribute_delete(Attribute);
 
 	mb4_cdstub_get_id(CDStub,Str,Size);
@@ -191,17 +228,20 @@ void CompileTest()
 	mb4_cdstub_get_barcode(CDStub,Str,Size);
 	mb4_cdstub_get_comment(CDStub,Str,Size);
 	NonMBTrackList=mb4_cdstub_get_nonmbtracklist(CDStub);
+	CDStub=mb4_cdstub_clone(CDStub);
 	mb4_cdstub_delete(CDStub);
 
 	mb4_disc_get_id(Disc,Str,Size);
 	DummyInt=mb4_disc_get_sectors(Disc);
 	ReleaseList=mb4_disc_get_releaselist(Disc);
+	Disc=mb4_disc_clone(Disc);
 	mb4_disc_delete(Disc);
 
 	mb4_collection_get_id(Collection,Str,Size);
 	mb4_collection_get_name(Collection,Str,Size);
 	mb4_collection_get_editor(Collection,Str,Size);
 	ReleaseList=mb4_collection_get_releaselist(Collection);
+	Collection=mb4_collection_clone(Collection);
 	mb4_collection_delete(Collection);
 
 	mb4_freedbdisc_get_id(FreeDBDisc,Str,Size);
@@ -210,10 +250,12 @@ void CompileTest()
 	mb4_freedbdisc_get_category(FreeDBDisc,Str,Size);
 	mb4_freedbdisc_get_year(FreeDBDisc,Str,Size);
 	NonMBTrackList=mb4_freedbdisc_get_nonmbtracklist(FreeDBDisc);
+	FreeDBDisc=mb4_freedbdisc_clone(FreeDBDisc);
 	mb4_freedbdisc_delete(FreeDBDisc);
 
 	mb4_isrc_get_id(ISRC,Str,Size);
 	RecordingList=mb4_isrc_get_recordinglist(ISRC);
+	ISRC=mb4_isrc_clone(ISRC);
 	mb4_isrc_delete(ISRC);
 
 	mb4_label_get_id(Label,Str,Size);
@@ -231,14 +273,17 @@ void CompileTest()
 	UserTagList=mb4_label_get_usertaglist(Label);
 	Rating=mb4_label_get_rating(Label);
 	UserRating=mb4_label_get_userrating(Label);
+	Label=mb4_label_clone(Label);
 	mb4_label_delete(Label);
 
 	mb4_labelinfo_get_catalognumber(LabelInfo,Str,Size);
 	Label=mb4_labelinfo_get_label(LabelInfo);
+	LabelInfo=mb4_labelinfo_clone(LabelInfo);
 	mb4_labelinfo_delete(LabelInfo);
 
 	mb4_lifespan_get_begin(Lifespan,Str,Size);
 	mb4_lifespan_get_end(Lifespan,Str,Size);
+	Lifespan=mb4_lifespan_clone(Lifespan);
 	mb4_lifespan_delete(Lifespan);
 
 	mb4_medium_get_title(Medium,Str,Size);
@@ -247,11 +292,15 @@ void CompileTest()
 	DiscList=mb4_medium_get_disclist(Medium);
 	TrackList=mb4_medium_get_tracklist(Medium);
 	DummyBool=mb4_medium_contains_discid(Medium,"1234");
+	Medium=mb4_medium_clone(Medium);
 	mb4_medium_delete(Medium);
 
 	mb4_message_get_text(Message,Str,Size);
+	Message=mb4_message_clone(Message);
 	mb4_message_delete(Message);
 
+	mb4_metadata_get_xmlns(Metadata,Str,Size);
+	mb4_metadata_get_xmlnsext(Metadata,Str,Size);
 	mb4_metadata_get_generator(Metadata,Str,Size);
 	mb4_metadata_get_created(Metadata,Str,Size);
 	Artist=mb4_metadata_get_artist(Metadata);
@@ -282,20 +331,24 @@ void CompileTest()
 	CollectionList=mb4_metadata_get_collectionlist(Metadata);
 	CDStub=mb4_metadata_get_cdstub(Metadata);
 	Message=mb4_metadata_get_message(Metadata);
+	Metadata=mb4_metadata_clone(Metadata);
 	mb4_metadata_delete(Metadata);
 
 	mb4_nonmbtrack_get_title(NonMBTrack,Str,Size);
 	mb4_nonmbtrack_get_artist(NonMBTrack,Str,Size);
 	DummyInt=mb4_nonmbtrack_get_length(NonMBTrack);
+	NonMBTrack=mb4_nonmbtrack_clone(NonMBTrack);
 	mb4_nonmbtrack_delete(NonMBTrack);
 
 	mb4_namecredit_get_joinphrase(NameCredit,Str,Size);
 	mb4_namecredit_get_name(NameCredit,Str,Size);
 	Artist=mb4_namecredit_get_artist(NameCredit);
+	NameCredit=mb4_namecredit_clone(NameCredit);
 	mb4_namecredit_delete(NameCredit);
 
 	mb4_puid_get_id(PUID,Str,Size);
 	RecordingList=mb4_puid_get_recordinglist(PUID);
+	PUID=mb4_puid_clone(PUID);
 	mb4_puid_delete(PUID);
 
 	Query=mb4_query_new("useragent", "server",0);
@@ -317,6 +370,7 @@ void CompileTest()
 
 	DummyInt=mb4_rating_get_votescount(Rating);
 	DummyDouble=mb4_rating_get_rating(Rating);
+	Rating=mb4_rating_clone(Rating);
 	mb4_rating_delete(Rating);
 
 	mb4_recording_get_id(Recording,Str,Size);
@@ -332,6 +386,7 @@ void CompileTest()
 	UserTagList=mb4_recording_get_usertaglist(Recording);
 	Rating=mb4_recording_get_rating(Recording);
 	UserRating=mb4_recording_get_userrating(Recording);
+	Recording=mb4_recording_clone(Recording);
 	mb4_recording_delete(Recording);
 
 	mb4_relation_get_type(Relation,Str,Size);
@@ -346,6 +401,7 @@ void CompileTest()
 	Recording=mb4_relation_get_recording(Relation);
 	Label=mb4_relation_get_label(Relation);
 	Work=mb4_relation_get_work(Relation);
+	Relation=mb4_relation_clone(Relation);
 	mb4_relation_delete(Relation);
 
 	mb4_release_get_id(Release,Str,Size);
@@ -365,13 +421,14 @@ void CompileTest()
 	MediumList=mb4_release_get_mediumlist(Release);
 	RelationList=mb4_release_get_relationlist(Release);
 	MediumList=mb4_release_media_matching_discid(Release,"discid");
+	Release=mb4_release_clone(Release);
 	mb4_release_delete(Release);
 
 	mb4_releasegroup_get_id(ReleaseGroup,Str,Size);
 	mb4_releasegroup_get_type(ReleaseGroup,Str,Size);
 	mb4_releasegroup_get_firstreleasedate(ReleaseGroup,Str,Size);
 	mb4_releasegroup_get_title(ReleaseGroup,Str,Size);
-	mb4_releasegroup_get_comment(ReleaseGroup,Str,Size);
+	mb4_releasegroup_get_disambiguation(ReleaseGroup,Str,Size);
 	ArtistCredit=mb4_releasegroup_get_artistcredit(ReleaseGroup);
 	ReleaseList=mb4_releasegroup_get_releaselist(ReleaseGroup);
 	RelationList=mb4_releasegroup_get_relationlist(ReleaseGroup);
@@ -379,14 +436,17 @@ void CompileTest()
 	UserTagList=mb4_releasegroup_get_usertaglist(ReleaseGroup);
 	Rating=mb4_releasegroup_get_rating(ReleaseGroup);
 	UserRating=mb4_releasegroup_get_userrating(ReleaseGroup);
+	ReleaseGroup=mb4_releasegroup_clone(ReleaseGroup);
 	mb4_releasegroup_delete(ReleaseGroup);
 
 	DummyInt=mb4_tag_get_count(Tag);
 	mb4_tag_get_name(Tag,Str,Size);
+	Tag=mb4_tag_clone(Tag);
 	mb4_tag_delete(Tag);
 
 	mb4_textrepresentation_get_language(TextRepresentation,Str,Size);
 	mb4_textrepresentation_get_script(TextRepresentation,Str,Size);
+	TextRepresentation=mb4_textrepresentation_clone(TextRepresentation);
 	mb4_textrepresentation_delete(TextRepresentation);
 
 	DummyInt=mb4_track_get_position(Track);
@@ -394,12 +454,15 @@ void CompileTest()
 	Recording=mb4_track_get_recording(Track);
 	DummyInt=mb4_track_get_length(Track);
 	ArtistCredit=mb4_track_get_artistcredit(Track);
+	Track=mb4_track_clone(Track);
 	mb4_track_delete(Track);
 
 	DummyInt=mb4_userrating_get_userrating(UserRating);
+	UserRating=mb4_userrating_clone(UserRating);
 	mb4_userrating_delete(UserRating);
 
 	mb4_usertag_get_name(UserTag,Str,Size);
+	UserTag=mb4_usertag_clone(UserTag);
 	mb4_usertag_delete(UserTag);
 
 	mb4_work_get_id(Work,Str,Size);
@@ -417,93 +480,169 @@ void CompileTest()
 
 	mb4_alias_list_size(AliasList);
 	Alias=mb4_alias_list_item(AliasList,0);
+	AliasList=mb4_alias_clone(AliasList);
+	DummyInt=mb4_alias_list_get_count(AliasList);
+	DummyInt=mb4_alias_list_get_offset(AliasList);
 	mb4_alias_list_delete(AliasList);
 
 	mb4_annotation_list_size(AnnotationList);
 	Annotation=mb4_annotation_list_item(AnnotationList,0);
+	AnnotationList=mb4_annotation_list_clone(AnnotationList);
+	DummyInt=mb4_annotation_list_get_count(AnnotationList);
+	DummyInt=mb4_annotation_list_get_offset(AnnotationList);
 	mb4_annotation_list_delete(AnnotationList);
 
-	mb4_artist_list_size(ArtistList);
+	DummyInt=mb4_artist_list_size(ArtistList);
 	Artist=mb4_artist_list_item(ArtistList,0);
+	ArtistList=mb4_artist_list_clone(ArtistList);
+	DummyInt=mb4_artist_list_get_count(ArtistList);
+	DummyInt=mb4_artist_list_get_offset(ArtistList);
 	mb4_artist_list_delete(ArtistList);
 
-	mb4_attribute_list_size(AttributeList);
+	DummyInt=mb4_attribute_list_size(AttributeList);
 	Attribute=mb4_attribute_list_item(AttributeList,0);
+	AttributeList=mb4_attribute_list_clone(AttributeList);
+	DummyInt=mb4_attribute_list_get_count(AttributeList);
+	DummyInt=mb4_attribute_list_get_offset(AttributeList);
 	mb4_attribute_list_delete(AttributeList);
 
-	mb4_cdstub_list_size(CDStubList);
+	DummyInt=mb4_cdstub_list_size(CDStubList);
 	CDStub=mb4_cdstub_list_item(CDStubList,0);
+	CDStubList=mb4_cdstub_list_clone(CDStubList);
+	DummyInt=mb4_cdstub_list_get_count(CDStubList);
+	DummyInt=mb4_cdstub_list_get_offset(CDStubList);
 	mb4_cdstub_list_delete(CDStubList);
 
-	mb4_collection_list_size(CollectionList);
+	DummyInt=mb4_collection_list_size(CollectionList);
 	Collection=mb4_collection_list_item(CollectionList,0);
+	CollectionList=mb4_collection_list_clone(CollectionList);
+	DummyInt=mb4_collection_list_get_count(CollectionList);
+	DummyInt=mb4_collection_list_get_offset(CollectionList);
 	mb4_collection_list_delete(CollectionList);
 
-	mb4_disc_list_size(DiscList);
+	DummyInt=mb4_disc_list_size(DiscList);
 	Disc=mb4_disc_list_item(DiscList,0);
+	DiscList=mb4_disc_list_clone(DiscList);
+	DummyInt=mb4_disc_list_get_count(DiscList);
+	DummyInt=mb4_disc_list_get_offset(DiscList);
 	mb4_disc_list_delete(DiscList);
 
-	mb4_freedbdisc_list_size(FreeDBDiscList);
+	DummyInt=mb4_freedbdisc_list_size(FreeDBDiscList);
 	FreeDBDisc=mb4_freedbdisc_list_item(FreeDBDiscList,0);
+	FreeDBDiscList=mb4_freedbdisc_list_clone(FreeDBDiscList);
+	DummyInt=mb4_freedbdisc_list_get_count(FreeDBDiscList);
+	DummyInt=mb4_freedbdisc_list_get_offset(FreeDBDiscList);
 	mb4_freedbdisc_list_delete(FreeDBDiscList);
 
-	mb4_isrc_list_size(ISRCList);
+	DummyInt=mb4_isrc_list_size(ISRCList);
 	ISRC=mb4_isrc_list_item(ISRCList,0);
+	ISRCList=mb4_isrc_list_clone(ISRCList);
+	DummyInt=mb4_isrc_list_get_count(ISRCList);
+	DummyInt=mb4_isrc_list_get_offset(ISRCList);
 	mb4_isrc_list_delete(ISRCList);
 
-	mb4_label_list_size(LabelList);
+	DummyInt=mb4_label_list_size(LabelList);
 	Label=mb4_label_list_item(LabelList,0);
+	LabelList=mb4_label_list_clone(LabelList);
+	DummyInt=mb4_label_list_get_count(LabelList);
+	DummyInt=mb4_label_list_get_offset(LabelList);
 	mb4_label_list_delete(LabelList);
 
-	mb4_labelinfo_list_size(LabelInfoList);
+	DummyInt=mb4_labelinfo_list_size(LabelInfoList);
 	LabelInfo=mb4_labelinfo_list_item(LabelInfoList,0);
+	LabelInfoList=mb4_labelinfo_list_clone(LabelInfoList);
+	DummyInt=mb4_labelinfo_list_get_count(LabelInfoList);
+	DummyInt=mb4_labelinfo_list_get_offset(LabelInfoList);
 	mb4_labelinfo_list_delete(LabelInfoList);
 
-	mb4_medium_list_size(MediumList);
+	DummyInt=mb4_medium_list_size(MediumList);
 	Medium=mb4_medium_list_item(MediumList,0);
+	DummyInt=mb4_medium_list_get_trackcount(MediumList);
+	MediumList=mb4_medium_list_clone(MediumList);
+	DummyInt=mb4_medium_list_get_count(MediumList);
+	DummyInt=mb4_medium_list_get_offset(MediumList);
 	mb4_medium_list_delete(MediumList);
 
-	mb4_namecredit_list_size(NameCreditList);
+	DummyInt=mb4_namecredit_list_size(NameCreditList);
 	NameCredit=mb4_namecredit_list_item(NameCreditList,0);
+	NameCreditList=mb4_namecredit_list_clone(NameCreditList);
+	DummyInt=mb4_namecredit_list_get_count(NameCreditList);
+	DummyInt=mb4_namecredit_list_get_offset(NameCreditList);
 	mb4_namecredit_list_delete(NameCreditList);
 
-	mb4_nonmbtrack_list_size(NonMBTrackList);
+	DummyInt=mb4_nonmbtrack_list_size(NonMBTrackList);
 	NonMBTrack=mb4_nonmbtrack_list_item(NonMBTrackList,0);
+	NonMBTrackList=mb4_nonmbtrack_list_clone(NonMBTrackList);
+	DummyInt=mb4_nonmbtrack_list_get_count(NonMBTrackList);
+	DummyInt=mb4_nonmbtrack_list_get_offset(NonMBTrackList);
 	mb4_nonmbtrack_list_delete(NonMBTrackList);
 
-	mb4_puid_list_size(PUIDList);
+	DummyInt=mb4_puid_list_size(PUIDList);
 	PUID=mb4_puid_list_item(PUIDList,0);
+	PUIDList=mb4_puid_list_clone(PUIDList);
+	DummyInt=mb4_puid_list_get_count(PUIDList);
+	DummyInt=mb4_puid_list_get_offset(PUIDList);
 	mb4_puid_list_delete(PUIDList);
 
-	mb4_recording_list_size(RecordingList);
+	DummyInt=mb4_recording_list_size(RecordingList);
 	Recording=mb4_recording_list_item(RecordingList,0);
+	RecordingList=mb4_recording_list_clone(RecordingList);
+	DummyInt=mb4_recording_list_get_count(RecordingList);
+	DummyInt=mb4_recording_list_get_offset(RecordingList);
 	mb4_recording_list_delete(RecordingList);
 
-	mb4_relation_list_size(RelationList);
+	DummyInt=mb4_relation_list_size(RelationList);
 	Relation=mb4_relation_list_item(RelationList,0);
+	DummyInt=mb4_relation_list_get_targettype(RelationList,Str,Size);
+	RelationList=mb4_relation_list_clone(RelationList);
+	DummyInt=mb4_relation_list_get_count(RelationList);
+	DummyInt=mb4_relation_list_get_offset(RelationList);
 	mb4_relation_list_delete(RelationList);
 
-	mb4_release_list_size(ReleaseList);
+	DummyInt=mb4_release_list_size(ReleaseList);
 	Release=mb4_release_list_item(ReleaseList,0);
+	ReleaseList=mb4_release_list_clone(ReleaseList);
+	DummyInt=mb4_release_list_get_count(ReleaseList);
+	DummyInt=mb4_release_list_get_offset(ReleaseList);
 	mb4_release_list_delete(ReleaseList);
 
-	mb4_releasegroup_list_size(ReleaseGroupList);
+	DummyInt=mb4_releasegroup_list_size(ReleaseGroupList);
 	ReleaseGroup=mb4_releasegroup_list_item(ReleaseGroupList,0);
+	ReleaseGroupList=mb4_releasegroup_list_clone(ReleaseGroupList);
+	DummyInt=mb4_releasegroup_list_get_count(ReleaseGroupList);
+	DummyInt=mb4_releasegroup_list_get_offset(ReleaseGroupList);
 	mb4_releasegroup_list_delete(ReleaseGroupList);
 
-	mb4_tag_list_size(TagList);
+	DummyInt=mb4_tag_list_size(TagList);
 	Tag=mb4_tag_list_item(TagList,0);
+	TagList=mb4_tag_list_clone(TagList);
+	DummyInt=mb4_tag_list_get_count(TagList);
+	DummyInt=mb4_tag_list_get_offset(TagList);
 	mb4_tag_list_delete(TagList);
 
-	mb4_track_list_size(TrackList);
+	DummyInt=mb4_track_list_size(TrackList);
 	Track=mb4_track_list_item(TrackList,0);
+	TrackList=mb4_track_list_clone(TrackList);
+	DummyInt=mb4_track_list_get_count(TrackList);
+	DummyInt=mb4_track_list_get_offset(TrackList);
 	mb4_track_list_delete(TrackList);
 
-	mb4_usertag_list_size(UserTagList);
+	DummyInt=mb4_usertag_list_size(UserTagList);
 	UserTag=mb4_usertag_list_item(UserTagList,0);
+	UserTagList=mb4_usertag_list_clone(UserTagList);
+	DummyInt=mb4_usertag_list_get_count(UserTagList);
+	DummyInt=mb4_usertag_list_get_offset(UserTagList);
 	mb4_usertag_list_delete(UserTagList);
 
-	mb4_work_list_size(WorkList);
+	DummyInt=mb4_work_list_size(WorkList);
 	Work=mb4_work_list_item(WorkList,0);
+	WorkList=mb4_work_list_clone(WorkList);
+	DummyInt=mb4_work_list_get_count(WorkList);
+	DummyInt=mb4_work_list_get_offset(WorkList);
 	mb4_work_list_delete(WorkList);
+
+	DummyInt=DummyInt;
+	DummyDouble=DummyDouble;
+	DummyBool=DummyBool;
+	DummyResult=DummyResult;
 }
