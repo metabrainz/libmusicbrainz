@@ -43,6 +43,8 @@ int main(int argc, const char *argv[])
 
 		MusicBrainz4::CQuery Query("cdlookupexample-1.0");
 
+		std::cout << "Library version: '" << Query.Version() << "'" << std::endl;
+
 		try
 		{
 			MusicBrainz4::CMetadata Metadata=Query.Query("discid",DiscID);

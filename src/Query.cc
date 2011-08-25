@@ -499,3 +499,7 @@ std::string MusicBrainz4::CQuery::LastErrorMessage() const
 	return m_d->m_LastErrorMessage;
 }
 
+std::string MusicBrainz4::CQuery::Version() const
+{
+	return PACKAGE "-v" VERSION;
+}
