@@ -61,6 +61,7 @@ class MusicBrainz4::CLabelPrivate
 		std::string m_Name;
 		std::string m_SortName;
 		int m_LabelCode;
+		std::string m_IPI;
 		std::string m_Disambiguation;
 		std::string m_Country;
 		CLifespan *m_Lifespan;
@@ -104,6 +105,7 @@ MusicBrainz4::CLabel& MusicBrainz4::CLabel::operator =(const CLabel& Other)
 		m_d->m_Name=Other.m_d->m_Name;
 		m_d->m_SortName=Other.m_d->m_SortName;
 		m_d->m_LabelCode=Other.m_d->m_LabelCode;
+		m_d->m_IPI=Other.m_d->m_IPI;
 		m_d->m_Disambiguation=Other.m_d->m_Disambiguation;
 		m_d->m_Country=Other.m_d->m_Country;
 
@@ -209,6 +211,10 @@ bool MusicBrainz4::CLabel::ParseElement(const XMLNode& Node)
 	{
 		RetVal=ProcessItem(Node,m_d->m_LabelCode);
 	}
+	else if ("ipi"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_IPI);
+	}
 	else if ("disambiguation"==NodeName)
 	{
 		RetVal=ProcessItem(Node,m_d->m_Disambiguation);
@@ -288,6 +294,11 @@ int MusicBrainz4::CLabel::LabelCode() const
 	return m_d->m_LabelCode;
 }
 
+std::string MusicBrainz4::CLabel::IPI() const
+{
+	return m_d->m_IPI;
+}
+
 std::string MusicBrainz4::CLabel::Disambiguation() const
 {
 	return m_d->m_Disambiguation;
@@ -349,6 +360,7 @@ std::ostream& MusicBrainz4::CLabel::Serialise(std::ostream& os) const
 	os << "\tName:           " << Name() << std::endl;
 	os << "\tSort name:      " << SortName() << std::endl;
 	os << "\tLabel code:     " << LabelCode() << std::endl;
+	os << "\tIPI:            " << IPI() << std::endl;
 	os << "\tDisambiguation: " << Disambiguation() << std::endl;
 	os << "\tCountry:        " << Country() << std::endl;
 

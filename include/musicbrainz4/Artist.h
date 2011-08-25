@@ -65,6 +65,7 @@ namespace MusicBrainz4
 		std::string Gender() const;
 		std::string Country() const;
 		std::string Disambiguation() const;
+		std::string IPI() const;
 		CLifespan *Lifespan() const;
 		CAliasList *AliasList() const;
 		CRecordingList *RecordingList() const;

@@ -72,6 +72,7 @@ class MusicBrainz4::CArtistPrivate
 		std::string m_Gender;
 		std::string m_Country;
 		std::string m_Disambiguation;
+		std::string m_IPI;
 		CLifespan *m_Lifespan;
 		CAliasList *m_AliasList;
 		CRecordingList *m_RecordingList;
@@ -120,6 +121,7 @@ MusicBrainz4::CArtist& MusicBrainz4::CArtist::operator =(const CArtist& Other)
 		m_d->m_Gender=Other.m_d->m_Gender;
 		m_d->m_Country=Other.m_d->m_Country;
 		m_d->m_Disambiguation=Other.m_d->m_Disambiguation;
+		m_d->m_IPI=Other.m_d->m_IPI;
 
 		if (Other.m_d->m_Lifespan)
 			m_d->m_Lifespan=new CLifespan(*Other.m_d->m_Lifespan);
@@ -254,6 +256,10 @@ bool MusicBrainz4::CArtist::ParseElement(const XMLNode& Node)
 	{
 		RetVal=ProcessItem(Node,m_d->m_Disambiguation);
 	}
+	else if ("ipi"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_IPI);
+	}
 	else if ("life-span"==NodeName)
 	{
 		RetVal=ProcessItem(Node,m_d->m_Lifespan);
@@ -351,6 +357,11 @@ std::string MusicBrainz4::CArtist::Disambiguation() const
 	return m_d->m_Disambiguation;
 }
 
+std::string MusicBrainz4::CArtist::IPI() const
+{
+	return m_d->m_IPI;
+}
+
 MusicBrainz4::CLifespan *MusicBrainz4::CArtist::Lifespan() const
 {
 	return m_d->m_Lifespan;
@@ -424,6 +435,7 @@ std::ostream& MusicBrainz4::CArtist::Serialise(std::ostream& os) const
 	os << "\tGender:         " << Gender() << std::endl;
 	os << "\tCountry:        " << Country() << std::endl;
 	os << "\tDisambiguation: " << Disambiguation() << std::endl;
+	os << "\tIPI:            " << IPI() << std::endl;
 
 	if (Lifespan())
 		os << *Lifespan() << std::endl;

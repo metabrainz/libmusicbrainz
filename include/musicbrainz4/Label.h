@@ -60,6 +60,7 @@ namespace MusicBrainz4
 		std::string Name() const;
 		std::string SortName() const;
 		int LabelCode() const;
+		std::string IPI() const;
 		std::string Disambiguation() const;
 		std::string Country() const;
 		CLifespan *Lifespan() const;
