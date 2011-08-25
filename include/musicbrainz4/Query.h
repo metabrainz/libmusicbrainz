@@ -403,6 +403,15 @@ namespace MusicBrainz4
 		 */
 		std::string LastErrorMessage() const;
 
+		/**
+		 * @brief Return the library version
+		 *
+		 * Return the library version
+		 *
+		 * @return Library version
+		 */
+		std::string Version() const;
+
 	private:
 		CQueryPrivate * const m_d;
 
