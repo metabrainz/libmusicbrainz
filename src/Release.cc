@@ -36,6 +36,8 @@
 #include "musicbrainz4/Relation.h"
 #include "musicbrainz4/MediumList.h"
 #include "musicbrainz4/Medium.h"
+#include "musicbrainz4/Collection.h"
+#include "musicbrainz4/CollectionList.h"
 
 class MusicBrainz4::CReleasePrivate
 {
@@ -46,7 +48,8 @@ class MusicBrainz4::CReleasePrivate
 			m_ReleaseGroup(0),
 			m_LabelInfoList(0),
 			m_MediumList(0),
-			m_RelationList(0)
+			m_RelationList(0),
+			m_CollectionList(0)
 		{
 		}
 
@@ -66,6 +69,7 @@ class MusicBrainz4::CReleasePrivate
 		CLabelInfoList *m_LabelInfoList;
 		CMediumList *m_MediumList;
 		CRelationList *m_RelationList;
+		CCollectionList *m_CollectionList;
 };
 
 MusicBrainz4::CRelease::CRelease(const XMLNode& Node)
@@ -124,6 +128,9 @@ MusicBrainz4::CRelease& MusicBrainz4::CRelease::operator =(const CRelease& Other
 
 		if (Other.m_d->m_RelationList)
 			m_d->m_RelationList=new CRelationList(*Other.m_d->m_RelationList);
+
+		if (Other.m_d->m_CollectionList)
+			m_d->m_CollectionList=new CCollectionList(*Other.m_d->m_CollectionList);
 	}
 
 	return *this;
@@ -243,6 +250,10 @@ bool MusicBrainz4::CRelease::ParseElement(const XMLNode& Node)
 	{
 		RetVal=ProcessItem(Node,m_d->m_RelationList);
 	}
+	else if ("collection-list"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_CollectionList);
+	}
 	else
 	{
 		std::cerr << "Unrecognised release element: '" << NodeName << "'" << std::endl;
@@ -337,6 +348,11 @@ MusicBrainz4::CRelationList *MusicBrainz4::CRelease::RelationList() const
 	return m_d->m_RelationList;
 }
 
+MusicBrainz4::CCollectionList *MusicBrainz4::CRelease::CollectionList() const
+{
+	return m_d->m_CollectionList;
+}
+
 MusicBrainz4::CMediumList MusicBrainz4::CRelease::MediaMatchingDiscID(const std::string& DiscID) const
 {
 	MusicBrainz4::CMediumList Ret;
@@ -390,6 +406,9 @@ std::ostream& MusicBrainz4::CRelease::Serialise(std::ostream& os) const
 
 	if (RelationList())
 		os << *RelationList() << std::endl;
+
+	if (CollectionList())
+		os << *CollectionList() << std::endl;
 
 	return os;
 }
