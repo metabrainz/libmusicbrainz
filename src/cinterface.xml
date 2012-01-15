@@ -262,6 +262,7 @@ extern "C"
 		<property name="labelinfolist" uppername="LabelInfoList" type="object"/>
 		<property name="mediumlist" uppername="MediumList" type="object"/>
 		<property name="relationlist" uppername="RelationList" type="object"/>
+		<property name="collectionlist" uppername="CollectionList" type="object"/>
 	</class>
 	<boilerplate target="include" file="c-int-release-defines.inc"/>
 	<boilerplate target="source" file="c-int-release-source.inc"/>

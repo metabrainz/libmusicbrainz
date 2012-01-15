@@ -420,6 +420,7 @@ void CompileTest()
 	LabelInfoList=mb4_release_get_labelinfolist(Release);
 	MediumList=mb4_release_get_mediumlist(Release);
 	RelationList=mb4_release_get_relationlist(Release);
+	CollectionList=mb4_release_get_collectionlist(Release);
 	MediumList=mb4_release_media_matching_discid(Release,"discid");
 	Release=mb4_release_clone(Release);
 	mb4_release_delete(Release);

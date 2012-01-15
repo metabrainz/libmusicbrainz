@@ -29,6 +29,7 @@
 #include "musicbrainz4/LabelInfoList.h"
 #include "musicbrainz4/RelationList.h"
 #include "musicbrainz4/MediumList.h"
+#include "musicbrainz4/CollectionList.h"
 
 #include "musicbrainz4/xmlParser.h"
 
@@ -70,6 +71,7 @@ namespace MusicBrainz4
 		CLabelInfoList *LabelInfoList() const;
 		CMediumList *MediumList() const;
 		CRelationList *RelationList() const;
+		CCollectionList *CollectionList() const;
 
 		CMediumList MediaMatchingDiscID(const std::string& DiscID) const;
 
