@@ -32,6 +32,7 @@
 #include <iostream>
 
 #include <string.h>
+#include <unistd.h>
 #include <sys/time.h>
 
 #include <ne_uri.h>
