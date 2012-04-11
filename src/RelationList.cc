@@ -78,7 +78,7 @@ bool MusicBrainz4::CRelationList::ParseAttribute(const std::string& Name, const 
 	bool RetVal=true;
 
 	if ("target-type"==Name)
-		RetVal=ProcessItem(Name,m_d->m_TargetType);
+		RetVal=ProcessItem(Value,m_d->m_TargetType);
 	else
 		RetVal=CListImpl<CRelation>::ParseAttribute(Name,Value);
 
