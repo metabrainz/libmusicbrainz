@@ -169,8 +169,6 @@ int main(int argc, const char *argv[])
 
 						mb4_release_get_id(Release,ID,sizeof(ID));
 						printf("ID is '%s'\n",ID);
-
-						mb4_release_delete(Release);
 					}
 				}
 			}
