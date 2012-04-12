@@ -66,7 +66,18 @@ namespace MusicBrainz4
 		CLifespan *Lifespan() const;
 		CAliasList *AliasList() const;
 		CReleaseList *ReleaseList() const;
+
+		/**
+		 * Returns the <b>last</b> relation list for this label
+		 *
+		 * Returns the <b>last</b> relation list for this label. To return all
+		 * relation lists, see MusicBrainz4::CLabel::RelationListList
+		 *
+		 * @return The <b>last</b> relation list for this label
+		 */
+
 		CRelationList *RelationList() const;
+		CRelationListList *RelationListList() const;
 		CTagList *TagList() const;
 		CUserTagList *UserTagList() const;
 		CRating *Rating() const;

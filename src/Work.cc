@@ -28,6 +28,7 @@
 #include "musicbrainz4/AliasList.h"
 #include "musicbrainz4/Alias.h"
 #include "musicbrainz4/RelationList.h"
+#include "musicbrainz4/RelationListList.h"
 #include "musicbrainz4/TagList.h"
 #include "musicbrainz4/Tag.h"
 #include "musicbrainz4/UserTagList.h"
@@ -41,7 +42,7 @@ class MusicBrainz4::CWorkPrivate
 		CWorkPrivate()
 		:	m_ArtistCredit(0),
 			m_AliasList(0),
-			m_RelationList(0),
+			m_RelationListList(0),
 			m_TagList(0),
 			m_UserTagList(0),
 			m_Rating(0),
@@ -56,7 +57,7 @@ class MusicBrainz4::CWorkPrivate
 		std::string m_ISWC;
 		std::string m_Disambiguation;
 		CAliasList *m_AliasList;
-		CRelationList *m_RelationList;
+		CRelationListList *m_RelationListList;
 		CTagList *m_TagList;
 		CUserTagList *m_UserTagList;
 		CRating *m_Rating;
@@ -103,8 +104,8 @@ MusicBrainz4::CWork& MusicBrainz4::CWork::operator =(const CWork& Other)
 		if (Other.m_d->m_AliasList)
 			m_d->m_AliasList=new CAliasList(*Other.m_d->m_AliasList);
 
-		if (Other.m_d->m_RelationList)
-			m_d->m_RelationList=new CRelationList(*Other.m_d->m_RelationList);
+		if (Other.m_d->m_RelationListList)
+			m_d->m_RelationListList=new CRelationListList(*Other.m_d->m_RelationListList);
 
 		if (Other.m_d->m_TagList)
 			m_d->m_TagList=new CTagList(*Other.m_d->m_TagList);
@@ -137,8 +138,8 @@ void MusicBrainz4::CWork::Cleanup()
 	delete m_d->m_AliasList;
 	m_d->m_AliasList=0;
 
-	delete m_d->m_RelationList;
-	m_d->m_RelationList=0;
+	delete m_d->m_RelationListList;
+	m_d->m_RelationListList=0;
 
 	delete m_d->m_TagList;
 	m_d->m_TagList=0;
@@ -203,7 +204,7 @@ bool MusicBrainz4::CWork::ParseElement(const XMLNode& Node)
 	}
 	else if ("relation-list"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_RelationList);
+		RetVal=ProcessRelationList(Node,m_d->m_RelationListList);
 	}
 	else if ("tag-list"==NodeName)
 	{
@@ -272,7 +273,12 @@ MusicBrainz4::CAliasList *MusicBrainz4::CWork::AliasList() const
 
 MusicBrainz4::CRelationList *MusicBrainz4::CWork::RelationList() const
 {
-	return m_d->m_RelationList;
+	return m_d->m_RelationListList?m_d->m_RelationListList->Item(m_d->m_RelationListList->NumItems()-1):0;
+}
+
+MusicBrainz4::CRelationListList *MusicBrainz4::CWork::RelationListList() const
+{
+	return m_d->m_RelationListList;
 }
 
 MusicBrainz4::CTagList *MusicBrainz4::CWork::TagList() const
@@ -314,8 +320,8 @@ std::ostream& MusicBrainz4::CWork::Serialise(std::ostream& os) const
 	if (AliasList())
 		os << AliasList() << std::endl;
 
-	if (RelationList())
-		os << RelationList() << std::endl;
+	if (RelationListList())
+		os << RelationListList() << std::endl;
 
 	if (TagList())
 		os << TagList() << std::endl;

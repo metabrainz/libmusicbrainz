@@ -36,6 +36,8 @@ namespace MusicBrainz4
 {
 	class CEntityPrivate;
 
+	class CRelationListList;
+
 	class CEntity
 	{
 	public:
@@ -55,6 +57,8 @@ namespace MusicBrainz4
 		static std::string GetElementName();
 
 	protected:
+		bool ProcessRelationList(const XMLNode& Node, CRelationListList* & RetVal);
+
 		template<typename T>
 		bool ProcessItem(const XMLNode& Node, T* & RetVal)
 		{

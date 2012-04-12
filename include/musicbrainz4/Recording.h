@@ -69,7 +69,18 @@ namespace MusicBrainz4
 		CReleaseList *ReleaseList() const;
 		CPUIDList *PUIDList() const;
 		CISRCList *ISRCList() const;
+
+		/**
+		 * Returns the <b>last</b> relation list for this recording
+		 *
+		 * Returns the <b>last</b> relation list for this recording. To return all
+		 * relation lists, see MusicBrainz4::CRecording::RelationListList
+		 *
+		 * @return The <b>last</b> relation list for this recording
+		 */
+
 		CRelationList *RelationList() const;
+		CRelationListList *RelationListList() const;
 		CTagList *TagList() const;
 		CUserTagList *UserTagList() const;
 		CRating *Rating() const;

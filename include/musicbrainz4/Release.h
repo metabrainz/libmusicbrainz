@@ -70,7 +70,18 @@ namespace MusicBrainz4
 		std::string ASIN() const;
 		CLabelInfoList *LabelInfoList() const;
 		CMediumList *MediumList() const;
+
+		/**
+		 * Returns the <b>last</b> relation list for this release
+		 *
+		 * Returns the <b>last</b> relation list for this release. To return all
+		 * relation lists, see MusicBrainz4::CRelease::RelationListList
+		 *
+		 * @return The <b>last</b> relation list for this release
+		 */
+
 		CRelationList *RelationList() const;
+		CRelationListList *RelationListList() const;
 		CCollectionList *CollectionList() const;
 
 		CMediumList MediaMatchingDiscID(const std::string& DiscID) const;

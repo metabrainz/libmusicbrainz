@@ -78,7 +78,7 @@ extern "C"
 		<property name="releasegrouplist" uppername="ReleaseGroupList" type="object"/>
 		<property name="labellist" uppername="LabelList" type="object"/>
 		<property name="worklist" uppername="WorkList" type="object"/>
-		<property name="relationlist" uppername="RelationList" type="object"/>
+		<property name="relationlist" uppername="RelationList" type="relationlist"/>
 		<property name="taglist" uppername="TagList" type="object"/>
 		<property name="usertaglist" uppername="UserTagList" type="object"/>
 		<property name="rating" type="object"/>
@@ -132,7 +132,7 @@ extern "C"
 		<property name="lifespan" type="object"/>
 		<property name="aliaslist" uppername="AliasList" type="object"/>
 		<property name="releaselist" uppername="ReleaseList" type="object"/>
-		<property name="relationlist" uppername="RelationList" type="object"/>
+		<property name="relationlist" uppername="RelationList" type="relationlist"/>
 		<property name="taglist" uppername="TagList" type="object"/>
 		<property name="usertaglist" uppername="UserTagList" type="object"/>
 		<property name="rating" type="object"/>
@@ -225,7 +225,7 @@ extern "C"
 		<property name="releaselist" uppername="ReleaseList" type="object"/>
 		<property name="puidlist" uppername="PUIDList" type="object"/>
 		<property name="isrclist" uppername="ISRCList" type="object"/>
-		<property name="relationlist" uppername="RelationList" type="object"/>
+		<property name="relationlist" uppername="RelationList" type="relationlist"/>
 		<property name="taglist" uppername="TagList" type="object"/>
 		<property name="usertaglist" uppername="UserTagList" type="object"/>
 		<property name="rating" type="object"/>
@@ -261,7 +261,7 @@ extern "C"
 		<property name="asin" uppername="ASIN" type="string"/>
 		<property name="labelinfolist" uppername="LabelInfoList" type="object"/>
 		<property name="mediumlist" uppername="MediumList" type="object"/>
-		<property name="relationlist" uppername="RelationList" type="object"/>
+		<property name="relationlist" uppername="RelationList" type="relationlist"/>
 		<property name="collectionlist" uppername="CollectionList" type="object"/>
 	</class>
 	<boilerplate target="include" file="c-int-release-defines.inc"/>
@@ -274,7 +274,7 @@ extern "C"
 		<property name="firstreleasedate" uppername="FirstReleaseDate" type="string"/>
 		<property name="artistcredit" uppername="ArtistCredit" type="object"/>
 		<property name="releaselist" uppername="ReleaseList" type="object"/>
-		<property name="relationlist" uppername="RelationList" type="object"/>
+		<property name="relationlist" uppername="RelationList" type="relationlist"/>
 		<property name="taglist" uppername="TagList" type="object"/>
 		<property name="usertaglist" uppername="UserTagList" type="object"/>
 		<property name="rating" type="object"/>
@@ -309,7 +309,7 @@ extern "C"
 		<property name="iswc" uppername="ISWC" type="string"/>
 		<property name="disambiguation" type="string"/>
 		<property name="aliaslist" uppername="AliasList" type="object"/>
-		<property name="relationlist" uppername="RelationList" type="object"/>
+		<property name="relationlist" uppername="RelationList" type="relationlist"/>
 		<property name="taglist" uppername="TagList" type="object"/>
 		<property name="usertaglist" uppername="UserTagList" type="object"/>
 		<property name="rating" type="object"/>
@@ -336,6 +336,7 @@ extern "C"
 	<list name="relation">
 		<property name="targettype" uppername="TargetType" type="string"/>
 	</list>
+	<list name="relationlist" uppername="RelationList"/>
 	<list name="release"/>
 	<list name="releasegroup" uppername="ReleaseGroup"/>
 	<list name="tag"/>

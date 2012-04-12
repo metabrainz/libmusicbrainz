@@ -73,7 +73,19 @@ namespace MusicBrainz4
 		CReleaseGroupList *ReleaseGroupList() const;
 		CLabelList *LabelList() const;
 		CWorkList *WorkList() const;
+
+		/**
+		 * Returns the <b>last</b> relation list for this artist
+		 *
+		 * Returns the <b>last</b> relation list for this artist. To return all
+		 * relation lists, see MusicBrainz4::CArtist::RelationListList
+		 *
+		 * @return The <b>last</b> relation list for this artist
+		 */
+
 		CRelationList *RelationList() const;
+
+		CRelationListList *RelationListList() const;
 		CTagList *TagList() const;
 		CUserTagList *UserTagList() const;
 		CRating *Rating() const;

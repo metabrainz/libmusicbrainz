@@ -28,6 +28,28 @@
 
 #include "musicbrainz4/mb4_c.h"
 
+void PrintRelationList(Mb4RelationList RelationList)
+{
+	char Type[256];
+	int count;
+
+	mb4_relation_list_get_targettype(RelationList,Type,sizeof(Type));
+	printf("Target type is '%s'\n",Type);
+
+	for (count=0;count<mb4_relation_list_size(RelationList);count++)
+	{
+		char Target[256];
+		char Type[256];
+
+		Mb4Relation Relation=mb4_relation_list_item(RelationList,count);
+
+		mb4_relation_get_target(Relation,Target,sizeof(Target));
+		mb4_relation_get_type(Relation,Type,sizeof(Type));
+
+		printf("Relation: %d - Type '%s', Target '%s'\n",count,Type,Target);
+	}
+}
+
 int main(int argc, const char *argv[])
 {
 	Mb4Query Query=0;
@@ -43,19 +65,72 @@ int main(int argc, const char *argv[])
 	if (Query)
 	{
 		Mb4Metadata Metadata=NULL;
+		char **ParamNames;
+		char **ParamValues;
 
 		printf("Got query\n");
 
 		mb4_query_set_username(Query,"username");
 		mb4_query_set_password(Query,"password");
 
+		ParamNames=malloc(sizeof(char *));
+		ParamNames[0]=malloc(256);
+		ParamValues=malloc(sizeof(char *));
+		ParamValues[0]=malloc(256);
+
+		strcpy(ParamNames[0],"inc");
+		strcpy(ParamValues[0],"artists release-groups url-rels work-level-rels work-rels artist-rels");
+
+		Metadata=mb4_query_query(Query,"recording","3631f569-520d-40ff-a1ee-076604723275","",1,ParamNames,ParamValues);
+		if (Metadata)
+		{
+			Mb4Recording Recording=mb4_metadata_get_recording(Metadata);
+			printf("Got metadata\n");
+
+			if (Recording)
+			{
+				Mb4RelationList RelationList=mb4_recording_get_relationlist(Recording);
+				Mb4RelationListList RelationListList=mb4_recording_get_relationlistlist(Recording);
+
+				printf("Got recording\n");
+
+				if (RelationListList)
+				{
+					int RelationListNum;
+
+					printf("Got relation list list, size %d\n",mb4_relationlist_list_size(RelationListList));
+
+					for (RelationListNum=0;RelationListNum<mb4_relationlist_list_size(RelationListList);RelationListNum++)
+					{
+						Mb4RelationList RelationList=mb4_relationlist_list_item(RelationListList,RelationListNum);
+
+						if (RelationList)
+						{
+							printf("Got relation list %d\n",RelationListNum);
+
+							PrintRelationList(RelationList);
+						}
+					}
+				}
+
+				if (RelationList)
+				{
+					printf("Got relation list\n");
+
+					PrintRelationList(RelationList);
+				}
+			}
+
+			mb4_metadata_delete(Metadata);
+		}
+
 		Metadata=mb4_query_query(Query,"collection",0,0,0,NULL,NULL);
 		if (Metadata)
 		{
 			printf("Got collections");
 			mb4_metadata_delete(Metadata);
-
 		}
+
 		Metadata=mb4_query_query(Query,"discid",DiscID,0,0,NULL,NULL);
 		if (Metadata)
 		{
@@ -151,6 +226,7 @@ void CompileTest()
 	Mb4RecordingList RecordingList=0;
 	Mb4Relation Relation=0;
 	Mb4RelationList RelationList=0;
+	Mb4RelationListList RelationListList=0;
 	Mb4Release Release=0;
 	Mb4ReleaseGroup ReleaseGroup=0;
 	Mb4ReleaseGroupList ReleaseGroupList=0;
@@ -382,6 +458,7 @@ void CompileTest()
 	PUIDList=mb4_recording_get_puidlist(Recording);
 	ISRCList=mb4_recording_get_isrclist(Recording);
 	RelationList=mb4_recording_get_relationlist(Recording);
+	RelationListList=mb4_recording_get_relationlistlist(Recording);
 	TagList=mb4_recording_get_taglist(Recording);
 	UserTagList=mb4_recording_get_usertaglist(Recording);
 	Rating=mb4_recording_get_rating(Recording);
@@ -599,6 +676,13 @@ void CompileTest()
 	DummyInt=mb4_relation_list_get_count(RelationList);
 	DummyInt=mb4_relation_list_get_offset(RelationList);
 	mb4_relation_list_delete(RelationList);
+
+	DummyInt=mb4_relationlist_list_size(RelationListList);
+	Relation=mb4_relationlist_list_item(RelationListList,0);
+	RelationList=mb4_relationlist_list_clone(RelationListList);
+	DummyInt=mb4_relationlist_list_get_count(RelationListList);
+	DummyInt=mb4_relationlist_list_get_offset(RelationListList);
+	mb4_relationlist_list_delete(RelationListList);
 
 	DummyInt=mb4_release_list_size(ReleaseList);
 	Release=mb4_release_list_item(ReleaseList,0);

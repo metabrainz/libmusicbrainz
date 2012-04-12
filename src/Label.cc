@@ -35,6 +35,7 @@
 #include "musicbrainz4/ReleaseList.h"
 #include "musicbrainz4/Relation.h"
 #include "musicbrainz4/RelationList.h"
+#include "musicbrainz4/RelationListList.h"
 #include "musicbrainz4/Tag.h"
 #include "musicbrainz4/TagList.h"
 #include "musicbrainz4/UserTag.h"
@@ -48,7 +49,7 @@ class MusicBrainz4::CLabelPrivate
 			m_Lifespan(0),
 			m_AliasList(0),
 			m_ReleaseList(0),
-			m_RelationList(0),
+			m_RelationListList(0),
 			m_TagList(0),
 			m_UserTagList(0),
 			m_Rating(0),
@@ -67,7 +68,7 @@ class MusicBrainz4::CLabelPrivate
 		CLifespan *m_Lifespan;
 		CAliasList *m_AliasList;
 		CReleaseList *m_ReleaseList;
-		CRelationList *m_RelationList;
+		CRelationListList *m_RelationListList;
 		CTagList *m_TagList;
 		CUserTagList *m_UserTagList;
 		CRating *m_Rating;
@@ -118,8 +119,8 @@ MusicBrainz4::CLabel& MusicBrainz4::CLabel::operator =(const CLabel& Other)
 		if (Other.m_d->m_ReleaseList)
 			m_d->m_ReleaseList=new CReleaseList(*Other.m_d->m_ReleaseList);
 
-		if (Other.m_d->m_RelationList)
-			m_d->m_RelationList=new CRelationList(*Other.m_d->m_RelationList);
+		if (Other.m_d->m_RelationListList)
+			m_d->m_RelationListList=new CRelationListList(*Other.m_d->m_RelationListList);
 
 		if (Other.m_d->m_TagList)
 			m_d->m_TagList=new CTagList(*Other.m_d->m_TagList);
@@ -155,8 +156,8 @@ void MusicBrainz4::CLabel::Cleanup()
 	delete m_d->m_ReleaseList;
 	m_d->m_ReleaseList=0;
 
-	delete m_d->m_RelationList;
-	m_d->m_RelationList=0;
+	delete m_d->m_RelationListList;
+	m_d->m_RelationListList=0;
 
 	delete m_d->m_TagList;
 	m_d->m_TagList=0;
@@ -237,7 +238,7 @@ bool MusicBrainz4::CLabel::ParseElement(const XMLNode& Node)
 	}
 	else if ("relation-list"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_RelationList);
+		RetVal=ProcessRelationList(Node,m_d->m_RelationListList);
 	}
 	else if ("tag-list"==NodeName)
 	{
@@ -326,7 +327,12 @@ MusicBrainz4::CReleaseList *MusicBrainz4::CLabel::ReleaseList() const
 
 MusicBrainz4::CRelationList *MusicBrainz4::CLabel::RelationList() const
 {
-	return m_d->m_RelationList;
+	return m_d->m_RelationListList?m_d->m_RelationListList->Item(m_d->m_RelationListList->NumItems()-1):0;
+}
+
+MusicBrainz4::CRelationListList *MusicBrainz4::CLabel::RelationListList() const
+{
+	return m_d->m_RelationListList;
 }
 
 MusicBrainz4::CTagList *MusicBrainz4::CLabel::TagList() const
@@ -373,8 +379,8 @@ std::ostream& MusicBrainz4::CLabel::Serialise(std::ostream& os) const
 	if (ReleaseList())
 		os << *ReleaseList() << std::endl;
 
-	if (RelationList())
-		os << *RelationList() << std::endl;
+	if (RelationListList())
+		os << *RelationListList() << std::endl;
 
 	if (TagList())
 		os << *TagList() << std::endl;

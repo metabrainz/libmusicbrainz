@@ -61,7 +61,18 @@ namespace MusicBrainz4
 		std::string FirstReleaseDate() const;
 		CArtistCredit *ArtistCredit() const;
 		CReleaseList *ReleaseList() const;
+
+		/**
+		 * Returns the <b>last</b> relation list for this release group
+		 *
+		 * Returns the <b>last</b> relation list for this release group. To return all
+		 * relation lists, see MusicBrainz4::CReleaseGroup::RelationListList
+		 *
+		 * @return The <b>last</b> relation list for this release group
+		 */
+
 		CRelationList *RelationList() const;
+		CRelationListList *RelationListList() const;
 		CTagList *TagList() const;
 		CUserTagList *UserTagList() const;
 		CRating *Rating() const;

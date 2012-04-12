@@ -39,6 +39,7 @@
 #include "musicbrainz4/Recording.h"
 #include "musicbrainz4/Collection.h"
 #include "musicbrainz4/CollectionList.h"
+#include "musicbrainz4/RelationListList.h"
 
 int main(int argc, const char *argv[])
 {
@@ -55,6 +56,55 @@ int main(int argc, const char *argv[])
 		std::cout << "Setting password: '" << argv[2] << "'" << std::endl;
 		MB.SetPassword(argv[2]);
 	}
+
+	MusicBrainz4::CQuery::tParamMap Params;
+	Params["inc"]="artists labels recordings release-groups url-rels discids recording-level-rels work-level-rels work-rels artist-rels";
+
+	MusicBrainz4::CMetadata Metadata2=MB.Query("release","ef4596f0-5554-443a-aea9-247d2e250f61","",Params);
+
+	MusicBrainz4::CRelease *Release=Metadata2.Release();
+	if (Release)
+	{
+		MusicBrainz4::CMediumList *MediumList=Release->MediumList();
+
+		if (MediumList)
+		{
+			for (int MediumNum=0;MediumNum<MediumList->NumItems();MediumNum++)
+			{
+				MusicBrainz4::CMedium *Medium=MediumList->Item(MediumNum);
+				if (Medium)
+				{
+					MusicBrainz4::CTrackList *TrackList=Medium->TrackList();
+					if (TrackList)
+					{
+						for (int TrackNum=0;TrackNum<TrackList->NumItems();TrackNum++)
+						{
+							MusicBrainz4::CTrack *Track=TrackList->Item(TrackNum);
+							if (Track)
+							{
+								MusicBrainz4::CRecording *Recording=Track->Recording();
+								if (Recording)
+								{
+									MusicBrainz4::CRelationListList *RelationListList=Recording->RelationListList();
+									if (RelationListList)
+									{
+										std::cout << RelationListList->NumItems() << " items" << std::endl;
+										for (int RelationListNum=0;RelationListNum<RelationListList->NumItems();RelationListNum++)
+										{
+											MusicBrainz4::CRelationList *RelationList=RelationListList->Item(RelationListNum);
+											std::cout << "Item: " << RelationListNum << std::endl << *RelationList;
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	return 0;
 
 	MusicBrainz4::CMetadata Metadata=MB.Query("collection");
 	MusicBrainz4::CCollectionList *CollectionList=Metadata.CollectionList();

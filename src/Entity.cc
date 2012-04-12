@@ -24,6 +24,9 @@
 
 #include "musicbrainz4/Entity.h"
 
+#include "musicbrainz4/RelationList.h"
+#include "musicbrainz4/RelationListList.h"
+
 class MusicBrainz4::CEntityPrivate
 {
 	public:
@@ -122,6 +125,18 @@ std::map<std::string,std::string> MusicBrainz4::CEntity::ExtElements() const
 	return m_d->m_ExtElements;
 }
 
+bool MusicBrainz4::CEntity::ProcessRelationList(const XMLNode& Node, CRelationListList* & RetVal)
+{
+	if (0==RetVal)
+		RetVal=new CRelationListList;
+
+	CRelationList *RelationList=0;
+	ProcessItem(Node,RelationList);
+	RetVal->Add(RelationList);
+	delete RelationList;
+
+	return true;
+}
 std::ostream& MusicBrainz4::CEntity::Serialise(std::ostream& os) const
 {
 	if (!ExtAttributes().empty())

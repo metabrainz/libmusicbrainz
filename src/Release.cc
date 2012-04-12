@@ -33,6 +33,7 @@
 #include "musicbrainz4/LabelInfoList.h"
 #include "musicbrainz4/LabelInfo.h"
 #include "musicbrainz4/RelationList.h"
+#include "musicbrainz4/RelationListList.h"
 #include "musicbrainz4/Relation.h"
 #include "musicbrainz4/MediumList.h"
 #include "musicbrainz4/Medium.h"
@@ -48,7 +49,7 @@ class MusicBrainz4::CReleasePrivate
 			m_ReleaseGroup(0),
 			m_LabelInfoList(0),
 			m_MediumList(0),
-			m_RelationList(0),
+			m_RelationListList(0),
 			m_CollectionList(0)
 		{
 		}
@@ -68,7 +69,7 @@ class MusicBrainz4::CReleasePrivate
 		std::string m_ASIN;
 		CLabelInfoList *m_LabelInfoList;
 		CMediumList *m_MediumList;
-		CRelationList *m_RelationList;
+		CRelationListList *m_RelationListList;
 		CCollectionList *m_CollectionList;
 };
 
@@ -126,8 +127,8 @@ MusicBrainz4::CRelease& MusicBrainz4::CRelease::operator =(const CRelease& Other
 		if (Other.m_d->m_MediumList)
 			m_d->m_MediumList=new CMediumList(*Other.m_d->m_MediumList);
 
-		if (Other.m_d->m_RelationList)
-			m_d->m_RelationList=new CRelationList(*Other.m_d->m_RelationList);
+		if (Other.m_d->m_RelationListList)
+			m_d->m_RelationListList=new CRelationListList(*Other.m_d->m_RelationListList);
 
 		if (Other.m_d->m_CollectionList)
 			m_d->m_CollectionList=new CCollectionList(*Other.m_d->m_CollectionList);
@@ -160,8 +161,8 @@ void MusicBrainz4::CRelease::Cleanup()
 	delete m_d->m_MediumList;
 	m_d->m_MediumList=0;
 
-	delete m_d->m_RelationList;
-	m_d->m_RelationList=0;
+	delete m_d->m_RelationListList;
+	m_d->m_RelationListList=0;
 }
 
 MusicBrainz4::CRelease *MusicBrainz4::CRelease::Clone()
@@ -248,7 +249,7 @@ bool MusicBrainz4::CRelease::ParseElement(const XMLNode& Node)
 	}
 	else if ("relation-list"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_RelationList);
+		RetVal=ProcessRelationList(Node,m_d->m_RelationListList);
 	}
 	else if ("collection-list"==NodeName)
 	{
@@ -345,7 +346,12 @@ MusicBrainz4::CMediumList *MusicBrainz4::CRelease::MediumList() const
 
 MusicBrainz4::CRelationList *MusicBrainz4::CRelease::RelationList() const
 {
-	return m_d->m_RelationList;
+	return m_d->m_RelationListList?m_d->m_RelationListList->Item(m_d->m_RelationListList->NumItems()-1):0;
+}
+
+MusicBrainz4::CRelationListList *MusicBrainz4::CRelease::RelationListList() const
+{
+	return m_d->m_RelationListList;
 }
 
 MusicBrainz4::CCollectionList *MusicBrainz4::CRelease::CollectionList() const
@@ -404,8 +410,8 @@ std::ostream& MusicBrainz4::CRelease::Serialise(std::ostream& os) const
 	if (MediumList())
 		os << *MediumList() << std::endl;
 
-	if (RelationList())
-		os << *RelationList() << std::endl;
+	if (RelationListList())
+		os << *RelationListList() << std::endl;
 
 	if (CollectionList())
 		os << *CollectionList() << std::endl;

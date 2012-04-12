@@ -61,7 +61,18 @@ namespace MusicBrainz4
 		std::string ISWC() const;
 		std::string Disambiguation() const;
 		CAliasList *AliasList() const;
+
+		/**
+		 * Returns the <b>last</b> relation list for this work
+		 *
+		 * Returns the <b>last</b> relation list for this work. To return all
+		 * relation lists, see MusicBrainz4::CWork::RelationListList
+		 *
+		 * @return The <b>last</b> relation list for this work
+		 */
+
 		CRelationList *RelationList() const;
+		CRelationListList *RelationListList() const;
 		CTagList *TagList() const;
 		CUserTagList *UserTagList() const;
 		CRating *Rating() const;

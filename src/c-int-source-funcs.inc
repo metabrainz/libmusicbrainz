@@ -66,6 +66,7 @@
 #include "musicbrainz4/RecordingList.h"
 #include "musicbrainz4/Relation.h"
 #include "musicbrainz4/RelationList.h"
+#include "musicbrainz4/RelationListList.h"
 #include "musicbrainz4/Release.h"
 #include "musicbrainz4/ReleaseGroup.h"
 #include "musicbrainz4/ReleaseGroupList.h"
