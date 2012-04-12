@@ -1,3 +1,11 @@
+Changed for libmusicbrainz 4.0.1
+--------------------------------
+
+   - Fixed bug LMB-30 - Unable to access all relation lists on objects with
+      multiple relation lists
+   - Fixed bug LMB-31 - mb_relationlist_get_targettype always returns
+      "target-type"
+
 Changes for libmusicbrainz 4.0.0
 --------------------------------
 
