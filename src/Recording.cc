@@ -78,7 +78,7 @@ MusicBrainz4::CRecording::CRecording(const XMLNode& Node)
 {
 	if (!Node.isEmpty())
 	{
-		//std::cout << "Metadata node: " << std::endl << Node.createXMLString(true) << std::endl;
+		//std::cout << "Recording node: " << std::endl << Node.createXMLString(true) << std::endl;
 
 		Parse(Node);
 	}
