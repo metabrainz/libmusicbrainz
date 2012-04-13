@@ -22,6 +22,8 @@
 
 ----------------------------------------------------------------------------*/
 
+#include "config.h"
+
 #include "musicbrainz4/TextRepresentation.h"
 
 class MusicBrainz4::CTextRepresentationPrivate

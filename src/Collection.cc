@@ -22,6 +22,8 @@
 
 ----------------------------------------------------------------------------*/
 
+#include "config.h"
+
 #include "musicbrainz4/Collection.h"
 
 #include "musicbrainz4/ReleaseList.h"

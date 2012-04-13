@@ -22,6 +22,8 @@
 
 ----------------------------------------------------------------------------*/
 
+#include "config.h"
+
 #include "musicbrainz4/Metadata.h"
 
 #include "musicbrainz4/Artist.h"

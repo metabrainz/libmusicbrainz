@@ -22,6 +22,8 @@
 
 ----------------------------------------------------------------------------*/
 
+#include "config.h"
+
 #include "musicbrainz4/FreeDBDisc.h"
 
 #include "musicbrainz4/NonMBTrackList.h"

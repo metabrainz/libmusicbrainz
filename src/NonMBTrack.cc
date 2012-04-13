@@ -22,6 +22,8 @@
 
 ----------------------------------------------------------------------------*/
 
+#include "config.h"
+
 #include "musicbrainz4/NonMBTrack.h"
 
 class MusicBrainz4::CNonMBTrackPrivate

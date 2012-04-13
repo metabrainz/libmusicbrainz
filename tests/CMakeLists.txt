@@ -9,5 +9,6 @@ ENDIF(CMAKE_COMPILER_IS_GNUCXX)
 
 IF(CMAKE_COMPILER_IS_GNUCC)
 		SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Werror -Wextra -pedantic-errors")
+		set_source_files_properties(ctest.c PROPERTIES COMPILE_FLAGS "-Wno-deprecated-declarations")
 ENDIF(CMAKE_COMPILER_IS_GNUCC)
 

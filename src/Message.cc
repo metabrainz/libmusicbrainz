@@ -22,6 +22,8 @@
 
 ----------------------------------------------------------------------------*/
 
+#include "config.h"
+
 #include "musicbrainz4/Message.h"
 
 class MusicBrainz4::CMessagePrivate

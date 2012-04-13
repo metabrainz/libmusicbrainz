@@ -22,6 +22,8 @@
 
 ----------------------------------------------------------------------------*/
 
+#include "config.h"
+
 #include "musicbrainz4/Tag.h"
 
 class MusicBrainz4::CTagPrivate

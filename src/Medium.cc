@@ -22,6 +22,8 @@
 
 ----------------------------------------------------------------------------*/
 
+#include "config.h"
+
 #include "musicbrainz4/Medium.h"
 
 #include "musicbrainz4/Disc.h"

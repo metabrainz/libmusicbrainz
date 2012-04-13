@@ -22,6 +22,8 @@
 
 ----------------------------------------------------------------------------*/
 
+#include "config.h"
+
 #include "musicbrainz4/Entity.h"
 
 #include "musicbrainz4/RelationList.h"

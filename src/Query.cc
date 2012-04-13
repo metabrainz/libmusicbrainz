@@ -26,6 +26,8 @@
 //http://bugs.musicbrainz.org/browser/mmd-schema/trunk/schema/musicbrainz_mmd-2.0.rng
 //http://wiki.musicbrainz.org/Picard_Tag_Mapping
 
+#include "config.h"
+
 #include "musicbrainz4/Query.h"
 
 #include <sstream>
@@ -42,8 +44,6 @@
 #include "musicbrainz4/Message.h"
 #include "musicbrainz4/ReleaseList.h"
 #include "musicbrainz4/Release.h"
-
-#include "config.h"
 
 class MusicBrainz4::CQueryPrivate
 {

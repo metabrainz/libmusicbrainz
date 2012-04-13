@@ -22,6 +22,8 @@
 
 ----------------------------------------------------------------------------*/
 
+#include "config.h"
+
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -377,9 +379,10 @@ void ProcessClass(const XMLNode& Node, std::ofstream& Source, std::ofstream& Inc
 						Include << " *" << std::endl;
 						Include << " * @return #Mb4" << PropertyUpperName << " object" << std::endl;
 						Include << " */" << std::endl;
-						Include << "  Mb4" << PropertyUpperName << " mb4_" << LowerName << "_get_" << PropertyLowerName << "(Mb4" << UpperName << " " << UpperName << ");" << std::endl;
+						Include << "  Mb4" << PropertyUpperName << " mb4_" << LowerName << "_get_" << PropertyLowerName << "(Mb4" << UpperName << " " << UpperName << ") LIBMB4_DEPRECATED;" << std::endl;
 						Include << std::endl;
 
+						//Source << "  #pragma GCC diagnostic ignored \"-Wno-deprecated-declarations\"" << std::endl;
 						Source << "  MB4_C_OBJ_GETTER(" << UpperName << "," << LowerName << "," << PropertyUpperName << "," << PropertyLowerName << ")" << std::endl;
 
 						Include << "/**" << std::endl;
@@ -615,6 +618,17 @@ void ProcessDeclare(const XMLNode& Node, std::ofstream& /*Source*/, std::ofstrea
 			}
 		}
 	}
+
+	Include << "#if defined(__GNUC__) && __GNUC__ >= 4" << std::endl;
+	Include << std::endl;
+	Include << "#define LIBMB4_DEPRECATED __attribute__ ((deprecated))" << std::endl;
+	Include << std::endl;
+	Include << "#else" << std::endl;
+	Include << std::endl;
+	Include << "#define LIBMB4_DEPRECATED" << std::endl;
+	Include << std::endl;
+	Include << "#endif" << std::endl;
+	Include << std::endl;
 
 	for (std::vector<std::string>::const_iterator Class=Classes.begin();Class!=Classes.end();Class++)
 	{

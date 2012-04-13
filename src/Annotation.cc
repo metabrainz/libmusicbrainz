@@ -22,6 +22,8 @@
 
 ----------------------------------------------------------------------------*/
 
+#include "config.h"
+
 #include "musicbrainz4/Annotation.h"
 
 class MusicBrainz4::CAnnotationPrivate

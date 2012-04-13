@@ -22,6 +22,8 @@
 
 ----------------------------------------------------------------------------*/
 
+#include "musicbrainz4/Query.h"
+
 #include "musicbrainz4/mb4_c.h"
 
 #include <string.h>
@@ -60,7 +62,6 @@
 #include "musicbrainz4/NonMBTrackList.h"
 #include "musicbrainz4/PUID.h"
 #include "musicbrainz4/PUIDList.h"
-#include "musicbrainz4/Query.h"
 #include "musicbrainz4/Rating.h"
 #include "musicbrainz4/Recording.h"
 #include "musicbrainz4/RecordingList.h"

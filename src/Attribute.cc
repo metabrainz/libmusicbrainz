@@ -22,6 +22,8 @@
 
 ----------------------------------------------------------------------------*/
 
+#include "config.h"
+
 #include "musicbrainz4/Attribute.h"
 
 class MusicBrainz4::CAttributePrivate

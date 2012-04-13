@@ -22,6 +22,8 @@
 
 ----------------------------------------------------------------------------*/
 
+#include "config.h"
+
 #include "musicbrainz4/LabelInfo.h"
 
 #include "musicbrainz4/Label.h"
