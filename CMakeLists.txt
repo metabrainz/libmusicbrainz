@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 2.6)
 
 PROJECT(libmusicbrainz4)
-SET(PROJECT_VERSION 4.0.0)
+SET(PROJECT_VERSION 4.0.1)
 
 # 1. If the library source code has changed at all since the last update, then increment revision.
 # 2. If any interfaces have been added, removed, or changed since the last update, increment current, and set revision to 0.
