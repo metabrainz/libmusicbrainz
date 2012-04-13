@@ -47,6 +47,5 @@ ADD_DEPENDENCIES(docs src_gen)
 
 ADD_CUSTOM_TARGET(dist
     rm -rf "libmusicbrainz-${PROJECT_VERSION}"
-    COMMAND svn export http://svn.musicbrainz.org/libmusicbrainz/trunk "libmusicbrainz-${PROJECT_VERSION}"
-    COMMAND tar -zcvf "libmusicbrainz-${PROJECT_VERSION}.tar.gz" "libmusicbrainz-${PROJECT_VERSION}"
+    COMMAND git archive --prefix="libmusicbrainz-${PROJECT_VERSION}/" release-${PROJECT_VERSION} | gzip -9 > libmusicbrainz-${PROJECT_VERSION}.tar.gz
 )
