@@ -7,9 +7,9 @@ SET(PROJECT_VERSION 4.0.0)
 # 2. If any interfaces have been added, removed, or changed since the last update, increment current, and set revision to 0.
 # 3. If any interfaces have been added since the last public release, then increment age.
 # 4. If any interfaces have been removed since the last public release, then set age to 0.
-SET(musicbrainz4_SOVERSION_CURRENT  3)
+SET(musicbrainz4_SOVERSION_CURRENT  4)
 SET(musicbrainz4_SOVERSION_REVISION 0)
-SET(musicbrainz4_SOVERSION_AGE      0)
+SET(musicbrainz4_SOVERSION_AGE      1)
 
 MATH(EXPR musicbrainz4_SOVERSION_MAJOR "${musicbrainz4_SOVERSION_CURRENT} - ${musicbrainz4_SOVERSION_AGE}")
 MATH(EXPR musicbrainz4_SOVERSION_MINOR "${musicbrainz4_SOVERSION_AGE}")
