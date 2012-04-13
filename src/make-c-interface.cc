@@ -375,6 +375,8 @@ void ProcessClass(const XMLNode& Node, std::ofstream& Source, std::ofstream& Inc
 						Include << "/**" << std::endl;
 						Include << " * @see MusicBrainz4::C" << UpperName << "::" << PropertyUpperName << std::endl;
 						Include << " *" << std::endl;
+						Include << " * <b>This method is deprecated, please use MusicBrainz4::C" << UpperName << "::RelationListList</b>" << std::endl;
+						Include << " *" << std::endl;
 						Include << " * @param " << UpperName << " #Mb4" << UpperName << " object" << std::endl;
 						Include << " *" << std::endl;
 						Include << " * @return #Mb4" << PropertyUpperName << " object" << std::endl;

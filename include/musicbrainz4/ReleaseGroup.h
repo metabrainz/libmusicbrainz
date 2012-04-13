@@ -68,6 +68,8 @@ namespace MusicBrainz4
 		 * Returns the <b>last</b> relation list for this release group. To return all
 		 * relation lists, see MusicBrainz4::CReleaseGroup::RelationListList
 		 *
+		 * <b>This method is deprecated, please use MusicBrainz4::CReleaseGroup::RelationListList</b>
+		 *
 		 * @return The <b>last</b> relation list for this release group
 		 */
 

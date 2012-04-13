@@ -73,6 +73,8 @@ namespace MusicBrainz4
 		 * Returns the <b>last</b> relation list for this label. To return all
 		 * relation lists, see MusicBrainz4::CLabel::RelationListList
 		 *
+		 * <b>This method is deprecated, please use MusicBrainz4::CLabel::RelationListList</b>
+		 *
 		 * @return The <b>last</b> relation list for this label
 		 */
 
