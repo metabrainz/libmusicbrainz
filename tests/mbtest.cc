@@ -40,6 +40,19 @@
 #include "musicbrainz4/Collection.h"
 #include "musicbrainz4/CollectionList.h"
 #include "musicbrainz4/RelationListList.h"
+#include "musicbrainz4/RelationList.h"
+#include "musicbrainz4/Relation.h"
+
+void PrintRelationList(MusicBrainz4::CRelationList *RelationList)
+{
+	std::cout << "Target type: '" << RelationList->TargetType() << "'" << std::endl;
+
+	for (int count=0;count<RelationList->NumItems();count++)
+	{
+		MusicBrainz4::CRelation *Relation=RelationList->Item(count);
+		std::cout << "Relation: " << count << " - Type '" << Relation->Type() << "', Target '" << Relation->Target() << "'" << std::endl;
+	}
+}
 
 int main(int argc, const char *argv[])
 {
@@ -56,6 +69,25 @@ int main(int argc, const char *argv[])
 		std::cout << "Setting password: '" << argv[2] << "'" << std::endl;
 		MB.SetPassword(argv[2]);
 	}
+
+	MusicBrainz4::CQuery::tParamMap Params2;
+	Params2["inc"]="artists release-groups url-rels work-level-rels work-rels artist-rels";
+	MusicBrainz4::CMetadata Metadata3=MB.Query("recording","3631f569-520d-40ff-a1ee-076604723275","",Params2);
+	MusicBrainz4::CRecording *Recording=Metadata3.Recording();
+	if (Recording)
+	{
+		MusicBrainz4::CRelationList *RelationList=Recording->RelationList();
+		PrintRelationList(RelationList);
+
+		MusicBrainz4::CRelationListList *RelationListList=Recording->RelationListList();
+		for (int count=0;count<RelationListList->NumItems();count++)
+		{
+			MusicBrainz4::CRelationList *RelationList=RelationListList->Item(count);
+			PrintRelationList(RelationList);
+		}
+	}
+
+	return 0;
 
 	MusicBrainz4::CQuery::tParamMap Params;
 	Params["inc"]="artists labels recordings release-groups url-rels discids recording-level-rels work-level-rels work-rels artist-rels";
@@ -92,7 +124,7 @@ int main(int argc, const char *argv[])
 										for (int RelationListNum=0;RelationListNum<RelationListList->NumItems();RelationListNum++)
 										{
 											MusicBrainz4::CRelationList *RelationList=RelationListList->Item(RelationListNum);
-											std::cout << "Item: " << RelationListNum << std::endl << *RelationList;
+											PrintRelationList(RelationList);
 										}
 									}
 								}
