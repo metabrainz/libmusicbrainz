@@ -71,7 +71,7 @@ namespace MusicBrainz4
 		CISRCList *ISRCList() const;
 
 		/**
-		 * Returns the <b>last</b> relation list for this recording
+		 * @deprecated Returns the <b>last</b> relation list for this recording
 		 *
 		 * Returns the <b>last</b> relation list for this recording. To return all
 		 * relation lists, see MusicBrainz4::CRecording::RelationListList

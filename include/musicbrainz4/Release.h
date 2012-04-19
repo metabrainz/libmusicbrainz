@@ -72,7 +72,7 @@ namespace MusicBrainz4
 		CMediumList *MediumList() const;
 
 		/**
-		 * Returns the <b>last</b> relation list for this release
+		 * @deprecated Returns the <b>last</b> relation list for this release
 		 *
 		 * Returns the <b>last</b> relation list for this release. To return all
 		 * relation lists, see MusicBrainz4::CRelease::RelationListList

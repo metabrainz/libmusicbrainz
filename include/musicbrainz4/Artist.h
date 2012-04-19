@@ -75,7 +75,7 @@ namespace MusicBrainz4
 		CWorkList *WorkList() const;
 
 		/**
-		 * Returns the <b>last</b> relation list for this artist
+		 * @deprecated Returns the <b>last</b> relation list for this artist
 		 *
 		 * Returns the <b>last</b> relation list for this artist. To return all
 		 * relation lists, see MusicBrainz4::CArtist::RelationListList

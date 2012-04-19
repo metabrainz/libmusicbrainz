@@ -63,7 +63,7 @@ namespace MusicBrainz4
 		CAliasList *AliasList() const;
 
 		/**
-		 * Returns the <b>last</b> relation list for this work
+		 * @deprecated Returns the <b>last</b> relation list for this work
 		 *
 		 * Returns the <b>last</b> relation list for this work. To return all
 		 * relation lists, see MusicBrainz4::CWork::RelationListList

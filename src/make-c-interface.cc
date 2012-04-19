@@ -373,7 +373,7 @@ void ProcessClass(const XMLNode& Node, std::ofstream& Source, std::ofstream& Inc
 					else if ("relationlist"==PropertyType)
 					{
 						Include << "/**" << std::endl;
-						Include << " * @see MusicBrainz4::C" << UpperName << "::" << PropertyUpperName << std::endl;
+						Include << " * @deprecated @see MusicBrainz4::C" << UpperName << "::" << PropertyUpperName << std::endl;
 						Include << " *" << std::endl;
 						Include << " * <b>This method is deprecated, please use MusicBrainz4::C" << UpperName << "::RelationListList</b>" << std::endl;
 						Include << " *" << std::endl;

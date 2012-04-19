@@ -63,7 +63,7 @@ namespace MusicBrainz4
 		CReleaseList *ReleaseList() const;
 
 		/**
-		 * Returns the <b>last</b> relation list for this release group
+		 * @deprecated Returns the <b>last</b> relation list for this release group
 		 *
 		 * Returns the <b>last</b> relation list for this release group. To return all
 		 * relation lists, see MusicBrainz4::CReleaseGroup::RelationListList
