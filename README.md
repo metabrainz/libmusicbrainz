@@ -10,7 +10,7 @@ contains various sample programs. API documentation can be generated
 using [Doxygen] (http://www.stack.nl/~dimitri/doxygen/). The online version of
 the API documentation can be found at:
 
-    http://users.musicbrainz.org/~luks/docs/libmusicbrainz4/
+    http://musicbrainz.github.com/libmusicbrainz/
 
 Compiling and Linking
 ---------------------
