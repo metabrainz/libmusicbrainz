@@ -621,6 +621,7 @@ void ProcessDeclare(const XMLNode& Node, std::ofstream& /*Source*/, std::ofstrea
 		}
 	}
 
+	Include << "#ifndef LIBMB4_DEPRECATED" << std::endl;
 	Include << "#if defined(__GNUC__) && __GNUC__ >= 4" << std::endl;
 	Include << std::endl;
 	Include << "#define LIBMB4_DEPRECATED __attribute__ ((deprecated))" << std::endl;
@@ -629,6 +630,7 @@ void ProcessDeclare(const XMLNode& Node, std::ofstream& /*Source*/, std::ofstrea
 	Include << std::endl;
 	Include << "#define LIBMB4_DEPRECATED" << std::endl;
 	Include << std::endl;
+	Include << "#endif" << std::endl;
 	Include << "#endif" << std::endl;
 	Include << std::endl;
 
