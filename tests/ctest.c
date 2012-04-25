@@ -553,6 +553,7 @@ void CompileTest()
 	UserTagList=mb4_work_get_usertaglist(Work);
 	Rating=mb4_work_get_rating(Work);
 	UserRating=mb4_work_get_userrating(Work);
+	mb4_work_get_language(Work,Str,Size);
 
 	mb4_alias_list_size(AliasList);
 	Alias=mb4_alias_list_item(AliasList,0);

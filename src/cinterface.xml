@@ -314,6 +314,7 @@ extern "C"
 		<property name="usertaglist" uppername="UserTagList" type="object"/>
 		<property name="rating" type="object"/>
 		<property name="userrating" uppername="UserRating" type="object"/>
+		<property name="language" type="string"/>
 	</class>
 	<list name="alias"/>
 	<list name="annotation"/>

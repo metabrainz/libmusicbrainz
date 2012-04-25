@@ -64,6 +64,7 @@ class MusicBrainz4::CWorkPrivate
 		CUserTagList *m_UserTagList;
 		CRating *m_Rating;
 		CUserRating *m_UserRating;
+		std::string m_Language;
 };
 
 MusicBrainz4::CWork::CWork(const XMLNode& Node)
@@ -120,6 +121,8 @@ MusicBrainz4::CWork& MusicBrainz4::CWork::operator =(const CWork& Other)
 
 		if (Other.m_d->m_UserRating)
 			m_d->m_UserRating=new CUserRating(*Other.m_d->m_UserRating);
+
+		m_d->m_Language=Other.m_d->m_Language;
 	}
 
 	return *this;
@@ -224,6 +227,10 @@ bool MusicBrainz4::CWork::ParseElement(const XMLNode& Node)
 	{
 		RetVal=ProcessItem(Node,m_d->m_UserRating);
 	}
+	else if ("language"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_Language);
+	}
 	else
 	{
 		std::cerr << "Unrecognised work element: '" << NodeName << "'" << std::endl;
@@ -303,6 +310,11 @@ MusicBrainz4::CUserRating *MusicBrainz4::CWork::UserRating() const
 	return m_d->m_UserRating;
 }
 
+std::string MusicBrainz4::CWork::Language() const
+{
+	return m_d->m_Language;
+}
+
 std::ostream& MusicBrainz4::CWork::Serialise(std::ostream& os) const
 {
 	os << "Work:" << std::endl;
@@ -336,6 +348,8 @@ std::ostream& MusicBrainz4::CWork::Serialise(std::ostream& os) const
 
 	if (UserRating())
 		os << UserRating() << std::endl;
+
+	os << "\tLanguage:       " << Language() << std::endl;
 
 	return os;
 }
