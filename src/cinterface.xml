@@ -294,6 +294,7 @@ extern "C"
 		<property name="recording" type="object"/>
 		<property name="length" type="integer"/>
 		<property name="artistcredit" uppername="ArtistCredit" type="object"/>
+		<property name="number" type="string"/>
 	</class>
 	<class name="userrating" uppername="UserRating">
 		<property name="userrating" uppername="UserRating" type="integer"/>

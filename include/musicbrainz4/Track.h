@@ -54,6 +54,7 @@ namespace MusicBrainz4
 		CRecording *Recording() const;
 		int Length() const;
 		CArtistCredit *ArtistCredit() const;
+		std::string Number() const;
 
 		virtual std::ostream& Serialise(std::ostream& os) const;
 		static std::string GetElementName();

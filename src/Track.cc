@@ -45,6 +45,7 @@ class MusicBrainz4::CTrackPrivate
 		CRecording *m_Recording;
 		int m_Length;
 		CArtistCredit *m_ArtistCredit;
+		std::string m_Number;
 };
 
 MusicBrainz4::CTrack::CTrack(const XMLNode& Node)
@@ -84,6 +85,8 @@ MusicBrainz4::CTrack& MusicBrainz4::CTrack::operator =(const CTrack& Other)
 
 		if (Other.m_d->m_ArtistCredit)
 			m_d->m_ArtistCredit=new CArtistCredit(*Other.m_d->m_ArtistCredit);
+
+		m_d->m_Number=Other.m_d->m_Number;
 	}
 
 	return *this;
@@ -146,6 +149,10 @@ bool MusicBrainz4::CTrack::ParseElement(const XMLNode& Node)
 	{
 		RetVal=ProcessItem(Node,m_d->m_ArtistCredit);
 	}
+	else if ("number"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_Number);
+	}
 	else
 	{
 		std::cerr << "Unrecognised track element: '" << NodeName << "'" << std::endl;
@@ -185,6 +192,11 @@ MusicBrainz4::CArtistCredit *MusicBrainz4::CTrack::ArtistCredit() const
 	return m_d->m_ArtistCredit;
 }
 
+std::string MusicBrainz4::CTrack::Number() const
+{
+	return m_d->m_Number;
+}
+
 std::ostream& MusicBrainz4::CTrack::Serialise(std::ostream& os) const
 {
 	os << "Track:" << std::endl;
@@ -201,6 +213,8 @@ std::ostream& MusicBrainz4::CTrack::Serialise(std::ostream& os) const
 
 	if (ArtistCredit())
 		os << *ArtistCredit() << std::endl;
+
+	os << "\tNumber:   " << Number() << std::endl;
 
 	return os;
 }

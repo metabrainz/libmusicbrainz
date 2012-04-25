@@ -530,6 +530,7 @@ void CompileTest()
 	Recording=mb4_track_get_recording(Track);
 	DummyInt=mb4_track_get_length(Track);
 	ArtistCredit=mb4_track_get_artistcredit(Track);
+	mb4_track_get_number(Track,Str,Size);
 	Track=mb4_track_clone(Track);
 	mb4_track_delete(Track);
 
