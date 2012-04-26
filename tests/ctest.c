@@ -55,6 +55,54 @@ int main(int argc, const char *argv[])
 	Mb4Query Query=0;
 	char DiscID[256]="tLGBAiCflG8ZI6lFcOt87vXjEcI-";
 
+	Query=mb4_query_new("ctest","test.musicbrainz.org",0);
+	if (Query)
+	{
+		Mb4Metadata Metadata=0;
+
+		Metadata=mb4_query_query(Query,"work","b0d17375-5593-390e-a936-1a65ce74c630","",0,NULL,NULL);
+		if (Metadata)
+		{
+			Mb4Work Work=0;
+
+			Work=mb4_metadata_get_work(Metadata);
+			if (Work)
+			{
+				Mb4ISWCList ISWCList=0;
+				char ISWCStr[256];
+
+				mb4_work_get_iswc(Work,ISWCStr,sizeof(ISWCStr));
+				printf("ISWC: '%s'\n",ISWCStr);
+
+				ISWCList=mb4_work_get_iswclist(Work);
+				if (ISWCList)
+				{
+					int ISWCNum;
+
+					printf("Got ISWC list, size %d\n",mb4_iswc_list_size(ISWCList));
+
+					for (ISWCNum=0;ISWCNum<mb4_iswc_list_size(ISWCList);ISWCNum++)
+					{
+						Mb4ISWC ISWC=mb4_iswc_list_item(ISWCList,ISWCNum);
+
+						if (ISWC)
+						{
+							char ISWCStr[256];
+
+							mb4_iswc_get_iswc(ISWC,ISWCStr,sizeof(ISWCStr));
+
+							printf("Got ISWC %d - '%s'\n",ISWCNum,ISWCStr);
+						}
+					}
+				}
+			}
+		}
+
+		mb4_query_delete(Query);
+	}
+
+	return 0;
+
 	if (argc==2)
 	{
 		strncpy(DiscID,argv[1],sizeof(DiscID));
@@ -203,6 +251,8 @@ void CompileTest()
 	Mb4FreeDBDiscList FreeDBDiscList=0;
 	Mb4ISRC ISRC=0;
 	Mb4ISRCList ISRCList=0;
+	Mb4ISWC ISWC=0;
+	Mb4ISWCList ISWCList=0;
 	Mb4Label Label=0;
 	Mb4LabelInfo LabelInfo=0;
 	Mb4LabelInfoList LabelInfoList=0;
@@ -331,6 +381,10 @@ void CompileTest()
 	RecordingList=mb4_isrc_get_recordinglist(ISRC);
 	ISRC=mb4_isrc_clone(ISRC);
 	mb4_isrc_delete(ISRC);
+
+	mb4_iswc_get_iswc(ISWC,Str,Size);
+	ISWC=mb4_iswc_clone(ISWC);
+	mb4_iswc_delete(ISWC);
 
 	mb4_label_get_id(Label,Str,Size);
 	mb4_label_get_type(Label,Str,Size);
@@ -618,6 +672,13 @@ void CompileTest()
 	DummyInt=mb4_isrc_list_get_count(ISRCList);
 	DummyInt=mb4_isrc_list_get_offset(ISRCList);
 	mb4_isrc_list_delete(ISRCList);
+
+	DummyInt=mb4_iswc_list_size(ISWCList);
+	ISWC=mb4_iswc_list_item(ISWCList,0);
+	ISWCList=mb4_iswc_list_clone(ISWCList);
+	DummyInt=mb4_iswc_list_get_count(ISWCList);
+	DummyInt=mb4_iswc_list_get_offset(ISWCList);
+	mb4_iswc_list_delete(ISWCList);
 
 	DummyInt=mb4_label_list_size(LabelList);
 	Label=mb4_label_list_item(LabelList,0);

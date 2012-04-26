@@ -121,6 +121,9 @@ extern "C"
 		<property name="id" uppername="ID" type="string"/>
 		<property name="recordinglist" uppername="RecordingList" type="object"/>
 	</class>
+	<class name="iswc" uppername="ISWC">
+		<property name="iswc" uppername="ISWC" type="string"/>
+	</class>
 	<class name="label">
 		<property name="id" uppername="ID" type="string"/>
 		<property name="type" type="string"/>
@@ -307,7 +310,7 @@ extern "C"
 		<property name="type" type="string"/>
 		<property name="title" type="string"/>
 		<property name="artistcredit" uppername="ArtistCredit" type="object"/>
-		<property name="iswc" uppername="ISWC" type="string"/>
+		<property name="iswc" uppername="ISWC" type="iswc"/>
 		<property name="disambiguation" type="string"/>
 		<property name="aliaslist" uppername="AliasList" type="object"/>
 		<property name="relationlist" uppername="RelationList" type="relationlist"/>
@@ -326,6 +329,7 @@ extern "C"
 	<list name="disc"/>
 	<list name="freedbdisc" uppername="FreeDBDisc"/>
 	<list name="isrc" uppername="ISRC"/>
+	<list name="iswc" uppername="ISWC"/>
 	<list name="label"/>
 	<list name="labelinfo" uppername="LabelInfo"/>
 	<list name="medium">

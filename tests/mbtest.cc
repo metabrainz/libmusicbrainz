@@ -43,6 +43,8 @@
 #include "musicbrainz4/RelationList.h"
 #include "musicbrainz4/Relation.h"
 #include "musicbrainz4/Work.h"
+#include "musicbrainz4/ISWC.h"
+#include "musicbrainz4/ISWCList.h"
 
 void PrintRelationList(MusicBrainz4::CRelationList *RelationList)
 {
@@ -58,7 +60,7 @@ void PrintRelationList(MusicBrainz4::CRelationList *RelationList)
 int main(int argc, const char *argv[])
 {
 	MusicBrainz4::CQuery MB2("MBTest/v1.0","test.musicbrainz.org");
-	MusicBrainz4::CMetadata Metadata4=MB2.Query("work","46724ef1-241e-3d7f-9f3b-e51ba34e2aa1");
+	MusicBrainz4::CMetadata Metadata4=MB2.Query("work","b0d17375-5593-390e-a936-1a65ce74c630");
 
 	MusicBrainz4::CWork *ThisWork=Metadata4.Work();
 	if (ThisWork)
@@ -66,6 +68,17 @@ int main(int argc, const char *argv[])
 		std::cout << "ID: '" << ThisWork->ID() << "'" << std::endl;
 		std::cout << "Title: '" << ThisWork->Title() << "'" << std::endl;
 		std::cout << "ISWC: '" << ThisWork->ISWC() << "'" << std::endl;
+
+		MusicBrainz4::CISWCList *ISWCList=ThisWork->ISWCList();
+		if (ISWCList)
+		{
+			for (int count=0;count<ISWCList->NumItems();count++)
+			{
+				MusicBrainz4::CISWC *ISWC=ISWCList->Item(count);
+				std::cout << "ISWC " << count << " - '" << ISWC->ISWC() << "'" << std::endl;
+			}
+		}
+
 		std::cout << "Disambiguation: '" << ThisWork->Disambiguation() << "'" << std::endl;
 		std::cout << "Language: '" << ThisWork->Language() << "'" << std::endl;
 	}

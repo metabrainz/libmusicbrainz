@@ -37,12 +37,15 @@
 #include "musicbrainz4/UserTag.h"
 #include "musicbrainz4/Rating.h"
 #include "musicbrainz4/UserRating.h"
+#include "musicbrainz4/ISWC.h"
+#include "musicbrainz4/ISWCList.h"
 
 class MusicBrainz4::CWorkPrivate
 {
 	public:
 		CWorkPrivate()
 		:	m_ArtistCredit(0),
+			m_ISWCList(0),
 			m_AliasList(0),
 			m_RelationListList(0),
 			m_TagList(0),
@@ -56,7 +59,7 @@ class MusicBrainz4::CWorkPrivate
 		std::string m_Type;
 		std::string m_Title;
 		CArtistCredit *m_ArtistCredit;
-		std::string m_ISWC;
+		CISWCList *m_ISWCList;
 		std::string m_Disambiguation;
 		CAliasList *m_AliasList;
 		CRelationListList *m_RelationListList;
@@ -101,7 +104,9 @@ MusicBrainz4::CWork& MusicBrainz4::CWork::operator =(const CWork& Other)
 		if (Other.m_d->m_ArtistCredit)
 			m_d->m_ArtistCredit=new CArtistCredit(*Other.m_d->m_ArtistCredit);
 
-		m_d->m_ISWC=Other.m_d->m_ISWC;
+		if (Other.m_d->m_ISWCList)
+			m_d->m_ISWCList=new CISWCList(*Other.m_d->m_ISWCList);
+
 		m_d->m_Disambiguation=Other.m_d->m_Disambiguation;
 
 		if (Other.m_d->m_AliasList)
@@ -139,6 +144,9 @@ void MusicBrainz4::CWork::Cleanup()
 {
 	delete m_d->m_ArtistCredit;
 	m_d->m_ArtistCredit=0;
+
+	delete m_d->m_ISWCList;
+	m_d->m_ISWCList=0;
 
 	delete m_d->m_AliasList;
 	m_d->m_AliasList=0;
@@ -195,9 +203,9 @@ bool MusicBrainz4::CWork::ParseElement(const XMLNode& Node)
 	{
 		RetVal=ProcessItem(Node,m_d->m_ArtistCredit);
 	}
-	else if ("iswc"==NodeName)
+	else if ("iswc-list"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_ISWC);
+		RetVal=ProcessItem(Node,m_d->m_ISWCList);
 	}
 	else if ("disambiguation"==NodeName)
 	{
@@ -267,7 +275,17 @@ MusicBrainz4::CArtistCredit *MusicBrainz4::CWork::ArtistCredit() const
 
 std::string MusicBrainz4::CWork::ISWC() const
 {
-	return m_d->m_ISWC;
+	std::string RetISWC;
+
+	if (m_d && m_d->m_ISWCList && m_d->m_ISWCList->NumItems()!=0)
+		RetISWC=m_d->m_ISWCList->Item(0)->ISWC();
+
+	return RetISWC;
+}
+
+MusicBrainz4::CISWCList *MusicBrainz4::CWork::ISWCList() const
+{
+	return m_d->m_ISWCList;
 }
 
 std::string MusicBrainz4::CWork::Disambiguation() const
@@ -328,7 +346,9 @@ std::ostream& MusicBrainz4::CWork::Serialise(std::ostream& os) const
 	if (ArtistCredit())
 		os << ArtistCredit() << std::endl;
 
-	os << "\tISWC:           " << ISWC() << std::endl;
+	if (ISWCList())
+		os << ISWCList() << std::endl;
+
 	os << "\tDisambiguation: " << Disambiguation() << std::endl;
 
 	if (AliasList())

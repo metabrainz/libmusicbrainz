@@ -32,6 +32,7 @@
 #include "musicbrainz4/RelationList.h"
 #include "musicbrainz4/TagList.h"
 #include "musicbrainz4/UserTagList.h"
+#include "musicbrainz4/ISWCList.h"
 
 #include "musicbrainz4/xmlParser.h"
 
@@ -58,7 +59,21 @@ namespace MusicBrainz4
 		std::string Type() const;
 		std::string Title() const;
 		CArtistCredit *ArtistCredit() const;
-		std::string ISWC() const;
+
+		/**
+		 * @deprecated Returns the <b>first</b> ISWC for this work
+		 *
+		 * Returns the <b>first</b> ISWC for this work. To return all
+		 * ISWCs, see MusicBrainz4::CWork::ISWCList
+		 *
+		 * <b>This method is deprecated, please use MusicBrainz4::CWork::ISWCList</b>
+		 *
+		 * @return The <b>first</b> ISWC for this work
+		 */
+
+		std::string ISWC() const LIBMB4_DEPRECATED;
+
+		CISWCList *ISWCList() const;
 		std::string Disambiguation() const;
 		CAliasList *AliasList() const;
 

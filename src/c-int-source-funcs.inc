@@ -47,6 +47,8 @@
 #include "musicbrainz4/FreeDBDiscList.h"
 #include "musicbrainz4/ISRC.h"
 #include "musicbrainz4/ISRCList.h"
+#include "musicbrainz4/ISWC.h"
+#include "musicbrainz4/ISWCList.h"
 #include "musicbrainz4/Label.h"
 #include "musicbrainz4/LabelList.h"
 #include "musicbrainz4/LabelInfo.h"

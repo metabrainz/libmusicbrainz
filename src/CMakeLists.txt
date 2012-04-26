@@ -6,7 +6,7 @@ SET(_sources Alias.cc Annotation.cc Artist.cc ArtistCredit.cc Attribute.cc CDStu
 	mb4_c.cc Medium.cc MediumList.cc Message.cc Metadata.cc NameCredit.cc NonMBTrack.cc PUID.cc
 	Query.cc Rating.cc Recording.cc Relation.cc RelationList.cc Release.cc ReleaseGroup.cc Tag.cc
 	TextRepresentation.cc Track.cc UserRating.cc UserTag.cc Work.cc xmlParser.cpp
-	RelationListList.cc)
+	RelationListList.cc ISWCList.cc ISWC.cc)
 
 ADD_EXECUTABLE(make-c-interface make-c-interface.cc xmlParser.cpp)
 
