@@ -42,6 +42,7 @@
 #include "musicbrainz4/RelationListList.h"
 #include "musicbrainz4/RelationList.h"
 #include "musicbrainz4/Relation.h"
+#include "musicbrainz4/Work.h"
 
 void PrintRelationList(MusicBrainz4::CRelationList *RelationList)
 {
@@ -56,6 +57,56 @@ void PrintRelationList(MusicBrainz4::CRelationList *RelationList)
 
 int main(int argc, const char *argv[])
 {
+	MusicBrainz4::CQuery MB2("MBTest/v1.0","test.musicbrainz.org");
+	MusicBrainz4::CMetadata Metadata4=MB2.Query("work","46724ef1-241e-3d7f-9f3b-e51ba34e2aa1");
+
+	MusicBrainz4::CWork *ThisWork=Metadata4.Work();
+	if (ThisWork)
+	{
+		std::cout << "ID: '" << ThisWork->ID() << "'" << std::endl;
+		std::cout << "Title: '" << ThisWork->Title() << "'" << std::endl;
+		std::cout << "ISWC: '" << ThisWork->ISWC() << "'" << std::endl;
+		std::cout << "Disambiguation: '" << ThisWork->Disambiguation() << "'" << std::endl;
+		std::cout << "Language: '" << ThisWork->Language() << "'" << std::endl;
+	}
+
+	MusicBrainz4::CQuery::tParamMap Params3;
+	Params3["inc"]="media recordings";
+
+	Metadata4=MB2.Query("release","ae050d13-7f86-495e-9918-10d8c0ac58e8","",Params3);
+	MusicBrainz4::CRelease *Release2=Metadata4.Release();
+	if (Release2)
+	{
+		MusicBrainz4::CMediumList *MediumList=Release2->MediumList();
+		if (MediumList)
+		{
+			for (int count=0;count<MediumList->NumItems();count++)
+			{
+				MusicBrainz4::CMedium *Medium=MediumList->Item(count);
+				if (Medium)
+				{
+					MusicBrainz4::CTrackList *TrackList=Medium->TrackList();
+					if (TrackList)
+					{
+						for (int track=0;track<TrackList->NumItems();track++)
+						{
+							MusicBrainz4::CTrack *Track=TrackList->Item(track);
+							if (Track)
+							{
+								std::cout << "Position: " << Track->Position() << std::endl;
+								std::cout << "Title: " << Track->Title() << std::endl;
+								std::cout << "Length: " << Track->Length() << std::endl;
+								std::cout << "Number: " << Track->Number() << std::endl;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	return 0;
+
 	MusicBrainz4::CQuery MB("MBTest/v1.0");
 
 	if (argc>1)
@@ -200,4 +251,3 @@ int main(int argc, const char *argv[])
 
 	return 0;
 }
-
