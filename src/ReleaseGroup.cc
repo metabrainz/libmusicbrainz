@@ -38,6 +38,8 @@
 #include "musicbrainz4/Tag.h"
 #include "musicbrainz4/UserTagList.h"
 #include "musicbrainz4/UserTag.h"
+#include "musicbrainz4/SecondaryTypeList.h"
+#include "musicbrainz4/SecondaryType.h"
 
 class MusicBrainz4::CReleaseGroupPrivate
 {
@@ -49,7 +51,8 @@ class MusicBrainz4::CReleaseGroupPrivate
 			m_TagList(0),
 			m_UserTagList(0),
 			m_Rating(0),
-			m_UserRating(0)
+			m_UserRating(0),
+			m_SecondaryTypeList(0)
 		{
 		}
 
@@ -65,6 +68,7 @@ class MusicBrainz4::CReleaseGroupPrivate
 		CUserTagList *m_UserTagList;
 		CRating *m_Rating;
 		CUserRating *m_UserRating;
+		CSecondaryTypeList *m_SecondaryTypeList;
 };
 
 MusicBrainz4::CReleaseGroup::CReleaseGroup(const XMLNode& Node)
@@ -120,6 +124,9 @@ MusicBrainz4::CReleaseGroup& MusicBrainz4::CReleaseGroup::operator =(const CRele
 
 		if (Other.m_d->m_UserRating)
 			m_d->m_UserRating=new CUserRating(*Other.m_d->m_UserRating);
+
+		if (Other.m_d->m_SecondaryTypeList)
+			m_d->m_SecondaryTypeList=new CSecondaryTypeList(*Other.m_d->m_SecondaryTypeList);
 	}
 
 	return *this;
@@ -154,6 +161,9 @@ void MusicBrainz4::CReleaseGroup::Cleanup()
 
 	delete m_d->m_UserRating;
 	m_d->m_UserRating=0;
+
+	delete m_d->m_SecondaryTypeList;
+	m_d->m_SecondaryTypeList=0;
 }
 
 MusicBrainz4::CReleaseGroup *MusicBrainz4::CReleaseGroup::Clone()
@@ -223,6 +233,10 @@ bool MusicBrainz4::CReleaseGroup::ParseElement(const XMLNode& Node)
 	else if ("user-rating"==NodeName)
 	{
 		RetVal=ProcessItem(Node,m_d->m_UserRating);
+	}
+	else if ("secondary-type-list"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_SecondaryTypeList);
 	}
 	else
 	{
@@ -303,6 +317,11 @@ MusicBrainz4::CUserRating *MusicBrainz4::CReleaseGroup::UserRating() const
 	return m_d->m_UserRating;
 }
 
+MusicBrainz4::CSecondaryTypeList *MusicBrainz4::CReleaseGroup::SecondaryTypeList() const
+{
+	return m_d->m_SecondaryTypeList;
+}
+
 std::ostream& MusicBrainz4::CReleaseGroup::Serialise(std::ostream& os) const
 {
 	os << "Release group:" << std::endl;
@@ -335,6 +354,9 @@ std::ostream& MusicBrainz4::CReleaseGroup::Serialise(std::ostream& os) const
 
 	if (UserRating())
 		os << *UserRating() << std::endl;
+
+	if (SecondaryTypeList())
+		os << *SecondaryTypeList() << std::endl;
 
 	return os;
 }

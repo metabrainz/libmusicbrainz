@@ -33,6 +33,7 @@
 #include "musicbrainz4/RelationList.h"
 #include "musicbrainz4/TagList.h"
 #include "musicbrainz4/UserTagList.h"
+#include "musicbrainz4/SecondaryTypeList.h"
 
 #include "musicbrainz4/xmlParser.h"
 
@@ -43,6 +44,7 @@ namespace MusicBrainz4
 	class CArtistCredit;
 	class CRating;
 	class CUserRating;
+	class CSecondaryType;
 
 	class CReleaseGroup: public CEntity
 	{
@@ -79,6 +81,7 @@ namespace MusicBrainz4
 		CUserTagList *UserTagList() const;
 		CRating *Rating() const;
 		CUserRating *UserRating() const;
+		CSecondaryTypeList *SecondaryTypeList() const;
 
 		virtual std::ostream& Serialise(std::ostream& os) const;
 		static std::string GetElementName();

@@ -73,6 +73,8 @@
 #include "musicbrainz4/Release.h"
 #include "musicbrainz4/ReleaseGroup.h"
 #include "musicbrainz4/ReleaseGroupList.h"
+#include "musicbrainz4/SecondaryType.h"
+#include "musicbrainz4/SecondaryTypeList.h"
 #include "musicbrainz4/Tag.h"
 #include "musicbrainz4/TagList.h"
 #include "musicbrainz4/TextRepresentation.h"

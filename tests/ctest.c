@@ -279,6 +279,8 @@ void CompileTest()
 	Mb4ReleaseGroup ReleaseGroup=0;
 	Mb4ReleaseGroupList ReleaseGroupList=0;
 	Mb4ReleaseList ReleaseList=0;
+	Mb4SecondaryType SecondaryType=0;
+	Mb4SecondaryTypeList SecondaryTypeList=0;
 	Mb4Tag Tag=0;
 	Mb4TagList TagList=0;
 	Mb4TextRepresentation TextRepresentation=0;
@@ -566,6 +568,7 @@ void CompileTest()
 	UserTagList=mb4_releasegroup_get_usertaglist(ReleaseGroup);
 	Rating=mb4_releasegroup_get_rating(ReleaseGroup);
 	UserRating=mb4_releasegroup_get_userrating(ReleaseGroup);
+	SecondaryTypeList=mb4_releasegroup_get_secondarytypelist(ReleaseGroup);
 	ReleaseGroup=mb4_releasegroup_clone(ReleaseGroup);
 	mb4_releasegroup_delete(ReleaseGroup);
 
@@ -758,6 +761,13 @@ void CompileTest()
 	DummyInt=mb4_releasegroup_list_get_count(ReleaseGroupList);
 	DummyInt=mb4_releasegroup_list_get_offset(ReleaseGroupList);
 	mb4_releasegroup_list_delete(ReleaseGroupList);
+
+	DummyInt=mb4_secondarytype_list_size(SecondaryTypeList);
+	SecondaryType=mb4_secondarytype_list_item(SecondaryTypeList,0);
+	ReleaseGroupList=mb4_secondarytype_list_clone(SecondaryTypeList);
+	DummyInt=mb4_secondarytype_list_get_count(SecondaryTypeList);
+	DummyInt=mb4_secondarytype_list_get_offset(SecondaryTypeList);
+	mb4_secondarytype_list_delete(SecondaryTypeList);
 
 	DummyInt=mb4_tag_list_size(TagList);
 	Tag=mb4_tag_list_item(TagList,0);
