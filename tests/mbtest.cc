@@ -45,6 +45,8 @@
 #include "musicbrainz4/Work.h"
 #include "musicbrainz4/ISWC.h"
 #include "musicbrainz4/ISWCList.h"
+#include "musicbrainz4/SecondaryType.h"
+#include "musicbrainz4/SecondaryTypeList.h"
 
 void PrintRelationList(MusicBrainz4::CRelationList *RelationList)
 {
@@ -60,6 +62,33 @@ void PrintRelationList(MusicBrainz4::CRelationList *RelationList)
 int main(int argc, const char *argv[])
 {
 	MusicBrainz4::CQuery MB2("MBTest/v1.0","test.musicbrainz.org");
+
+	MusicBrainz4::CMetadata Metadata6=MB2.Query("release-group","2eefe885-f050-426d-93f0-29c5eb8b4f9a");
+	MusicBrainz4::CReleaseGroup *ReleaseGroup=Metadata6.ReleaseGroup();
+	if (ReleaseGroup)
+	{
+		std::cout << "ID: " << ReleaseGroup->ID() << std::endl;
+		std::cout << "Type: " << ReleaseGroup->Type() << std::endl;
+		std::cout << "Title: " << ReleaseGroup->Title() << std::endl;
+		std::cout << "Disambiguation: " << ReleaseGroup->Disambiguation() << std::endl;
+		std::cout << "FirstReleaseDate: " << ReleaseGroup->FirstReleaseDate() << std::endl;
+
+		MusicBrainz4::CSecondaryTypeList *SecondaryTypeList=ReleaseGroup->SecondaryTypeList();
+		if (SecondaryTypeList)
+		{
+			for (int count=0;count<SecondaryTypeList->NumItems();count++)
+			{
+				MusicBrainz4::CSecondaryType *SecondaryType=SecondaryTypeList->Item(count);
+				if (SecondaryType)
+				{
+					std::cout << "Secondary type " << count << " = " << SecondaryType->SecondaryType() << std::endl;
+				}
+			}
+		}
+	}
+
+	return 0;
+
 	MusicBrainz4::CMetadata Metadata4=MB2.Query("work","b0d17375-5593-390e-a936-1a65ce74c630");
 
 	MusicBrainz4::CWork *ThisWork=Metadata4.Work();
