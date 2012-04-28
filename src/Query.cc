@@ -27,6 +27,7 @@
 //http://wiki.musicbrainz.org/Picard_Tag_Mapping
 
 #include "config.h"
+#include "musicbrainz4/defines.h"
 
 #include "musicbrainz4/Query.h"
 

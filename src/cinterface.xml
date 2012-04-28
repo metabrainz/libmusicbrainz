@@ -45,6 +45,8 @@
 #ifndef _MUSICBRAINZ4_MB_C_H
 #define _MUSICBRAINZ4_MB_C_H
 
+#include "musicbrainz4/defines.h"
+
 #ifdef __cplusplus
 extern "C"
 {

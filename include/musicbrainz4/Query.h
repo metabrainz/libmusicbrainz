@@ -25,6 +25,8 @@
 #ifndef _MUSICBRAINZ4_QUERY_H
 #define _MUSICBRAINZ4_QUERY_H
 
+#include "defines.h"
+
 #include "Entity.h"
 
 #include "musicbrainz4/ReleaseList.h"

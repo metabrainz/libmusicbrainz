@@ -23,6 +23,7 @@
 ----------------------------------------------------------------------------*/
 
 #include "config.h"
+#include "musicbrainz4/defines.h"
 
 #include "musicbrainz4/Label.h"
 

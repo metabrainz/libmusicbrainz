@@ -25,16 +25,6 @@
 #ifndef _MUSICBRAINZ4_ENTITY_H
 #define _MUSICBRAINZ4_ENTITY_H
 
-#if defined(__GNUC__) && __GNUC__ >= 4
-
-#define LIBMB4_DEPRECATED __attribute__ ((deprecated))
-
-#else
-
-#define LIBMB4_DEPRECATED
-
-#endif
-
 #include <iostream>
 #include <string>
 #include <sstream>

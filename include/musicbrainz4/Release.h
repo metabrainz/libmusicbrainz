@@ -82,7 +82,7 @@ namespace MusicBrainz4
 		 * @return The <b>last</b> relation list for this release
 		 */
 
-		CRelationList *RelationList() const LIBMB4_DEPRECATED;
+		CRelationList *RelationList() const LIBMB4_DEPRECATED(MusicBrainz4::CRelease::RelationListList);
 		CRelationListList *RelationListList() const;
 		CCollectionList *CollectionList() const;
 
