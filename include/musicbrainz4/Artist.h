@@ -99,8 +99,7 @@ namespace MusicBrainz4
 		 * @return The <b>last</b> relation list for this artist
 		 */
 
-		CRelationList *RelationList() const LIBMB4_DEPRECATED(MusicBrainz4::CArtist::RelationListList);
-
+		LIBMB4_DEPRECATED(MusicBrainz4::CArtist::RelationListList) CRelationList *RelationList() const;
 		CRelationListList *RelationListList() const;
 		CTagList *TagList() const;
 		CUserTagList *UserTagList() const;

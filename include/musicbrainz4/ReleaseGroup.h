@@ -75,7 +75,7 @@ namespace MusicBrainz4
 		 * @return The <b>last</b> relation list for this release group
 		 */
 
-		CRelationList *RelationList() const LIBMB4_DEPRECATED(MusicBrainz4::CReleaseGroup::RelationListList);
+		LIBMB4_DEPRECATED(MusicBrainz4::CReleaseGroup::RelationListList) CRelationList *RelationList() const;
 		CRelationListList *RelationListList() const;
 		CTagList *TagList() const;
 		CUserTagList *UserTagList() const;

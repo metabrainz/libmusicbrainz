@@ -71,7 +71,7 @@ namespace MusicBrainz4
 		 * @return The <b>first</b> ISWC for this work
 		 */
 
-		std::string ISWC() const LIBMB4_DEPRECATED(MusicBrainz4::CWork::ISWCList);
+		LIBMB4_DEPRECATED(MusicBrainz4::CWork::ISWCList) std::string ISWC() const;
 
 		CISWCList *ISWCList() const;
 		std::string Disambiguation() const;
@@ -88,7 +88,7 @@ namespace MusicBrainz4
 		 * @return The <b>last</b> relation list for this work
 		 */
 
-		CRelationList *RelationList() const LIBMB4_DEPRECATED(MusicBrainz4::CWork::RelationListList);
+		LIBMB4_DEPRECATED(MusicBrainz4::CWork::RelationListList) CRelationList *RelationList() const;
 		CRelationListList *RelationListList() const;
 		CTagList *TagList() const;
 		CUserTagList *UserTagList() const;

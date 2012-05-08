@@ -382,7 +382,7 @@ void ProcessClass(const XMLNode& Node, std::ofstream& Source, std::ofstream& Inc
 						Include << " *" << std::endl;
 						Include << " * @return #Mb4" << PropertyUpperName << " object" << std::endl;
 						Include << " */" << std::endl;
-						Include << " Mb4" << PropertyUpperName << " mb4_" << LowerName << "_get_" << PropertyLowerName << "(Mb4" << UpperName << " " << UpperName << ") LIBMB4_DEPRECATED(mb4_" << LowerName << "_get_" << PropertyLowerName << "list) ;" << std::endl;
+						Include << " LIBMB4_DEPRECATED(mb4_" << LowerName << "_get_" << PropertyLowerName << "list) Mb4" << PropertyUpperName << " mb4_" << LowerName << "_get_" << PropertyLowerName << "(Mb4" << UpperName << " " << UpperName << ");" << std::endl;
 						Include << std::endl;
 
 						Source << "  MB4_C_OBJ_GETTER(" << UpperName << "," << LowerName << "," << PropertyUpperName << "," << PropertyLowerName << ")" << std::endl;
@@ -412,7 +412,7 @@ void ProcessClass(const XMLNode& Node, std::ofstream& Source, std::ofstream& Inc
 						Include << " *" << std::endl;
 						Include << " * @return The number of characters in the string to copy (not including terminating NULL)" << std::endl;
 						Include << " */" << std::endl;
-						Include << "  int mb4_" << LowerName << "_get_" << PropertyLowerName << "(Mb4" << UpperName << " " << UpperName << ", char *str, int len) LIBMB4_DEPRECATED(mb4_" << LowerName << "_get_" << PropertyLowerName << "list);" << std::endl;
+						Include << "  LIBMB4_DEPRECATED(mb4_" << LowerName << "_get_" << PropertyLowerName << "list) int mb4_" << LowerName << "_get_" << PropertyLowerName << "(Mb4" << UpperName << " " << UpperName << ", char *str, int len);" << std::endl;
 						Include << std::endl;
 
 						Source << "  MB4_C_STR_GETTER(" << UpperName << "," << LowerName << "," << PropertyUpperName << "," << PropertyLowerName << ")" << std::endl;
@@ -442,7 +442,7 @@ void ProcessClass(const XMLNode& Node, std::ofstream& Source, std::ofstream& Inc
 						Include << " *" << std::endl;
 						Include << " * @return The number of characters in the string to copy (not including terminating NULL)" << std::endl;
 						Include << " */" << std::endl;
-						Include << "  int mb4_" << LowerName << "_get_" << PropertyLowerName << "(Mb4" << UpperName << " " << UpperName << ", char *str, int len) LIBMB4_DEPRECATED(mb4_" << LowerName << "_get_" << PropertyLowerName << "list);" << std::endl;
+						Include << "  LIBMB4_DEPRECATED(mb4_" << LowerName << "_get_" << PropertyLowerName << "list) int mb4_" << LowerName << "_get_" << PropertyLowerName << "(Mb4" << UpperName << " " << UpperName << ", char *str, int len);" << std::endl;
 						Include << std::endl;
 
 						Source << "  MB4_C_STR_GETTER(" << UpperName << "," << LowerName << "," << PropertyUpperName << "," << PropertyLowerName << ")" << std::endl;
