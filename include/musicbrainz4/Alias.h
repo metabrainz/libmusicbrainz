@@ -48,6 +48,11 @@ namespace MusicBrainz4
 
 		std::string Locale() const;
 		std::string Text() const;
+		std::string SortName() const;
+		std::string Type() const;
+		std::string Primary() const;
+		std::string BeginDate() const;
+		std::string EndDate() const;
 
 		virtual std::ostream& Serialise(std::ostream& os) const;
 		static std::string GetElementName();

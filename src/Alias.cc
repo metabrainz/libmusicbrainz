@@ -32,6 +32,11 @@ class MusicBrainz4::CAliasPrivate
 public:
 		std::string m_Locale;
 		std::string m_Text;
+		std::string m_SortName;
+		std::string m_Type;
+		std::string m_Primary;
+		std::string m_BeginDate;
+		std::string m_EndDate;
 };
 
 MusicBrainz4::CAlias::CAlias(const XMLNode& Node)
@@ -64,6 +69,11 @@ MusicBrainz4::CAlias& MusicBrainz4::CAlias::operator =(const CAlias& Other)
 
 		m_d->m_Locale=Other.m_d->m_Locale;
 		m_d->m_Text=Other.m_d->m_Text;
+		m_d->m_SortName=Other.m_d->m_SortName;
+		m_d->m_Type=Other.m_d->m_Type;
+		m_d->m_Primary=Other.m_d->m_Primary;
+		m_d->m_BeginDate=Other.m_d->m_BeginDate;
+		m_d->m_EndDate=Other.m_d->m_EndDate;
 	}
 
 	return *this;
@@ -85,6 +95,16 @@ bool MusicBrainz4::CAlias::ParseAttribute(const std::string& Name, const std::st
 
 	if ("locale"==Name)
 		m_d->m_Locale=Value;
+	else if ("sort-name"==Name)
+		m_d->m_SortName=Value;
+	else if ("type"==Name)
+		m_d->m_Type=Value;
+	else if ("primary"==Name)
+		m_d->m_Primary=Value;
+	else if ("begin-date"==Name)
+		m_d->m_BeginDate=Value;
+	else if ("end-date"==Name)
+		m_d->m_EndDate=Value;
 	else
 	{
 		std::cerr << "Unrecognised alias attribute: '" << Name << "'" << std::endl;
@@ -121,14 +141,44 @@ std::string MusicBrainz4::CAlias::Text() const
 	return m_d->m_Text;
 }
 
+std::string MusicBrainz4::CAlias::SortName() const
+{
+	return m_d->m_SortName;
+}
+
+std::string MusicBrainz4::CAlias::Type() const
+{
+	return m_d->m_Type;
+}
+
+std::string MusicBrainz4::CAlias::Primary() const
+{
+	return m_d->m_Primary;
+}
+
+std::string MusicBrainz4::CAlias::BeginDate() const
+{
+	return m_d->m_BeginDate;
+}
+
+std::string MusicBrainz4::CAlias::EndDate() const
+{
+	return m_d->m_EndDate;
+}
+
 std::ostream& MusicBrainz4::CAlias::Serialise(std::ostream& os) const
 {
 	os << "Alias:" << std::endl;
 
 	CEntity::Serialise(os);
 
-	os << "\tLocale: " << Locale() << std::endl;
-	os << "\tText:   " << Text() << std::endl;
+	os << "\tLocale:    " << Locale() << std::endl;
+	os << "\tText:      " << Text() << std::endl;
+	os << "\tSort Name: " << SortName() << std::endl;
+	os << "\tType:      " << Type() << std::endl;
+	os << "\tPrimary:   " << Primary() << std::endl;
+	os << "\tBeginDate: " << BeginDate() << std::endl;
+	os << "\tEndDate:   " << EndDate() << std::endl;
 
 	return os;
 }

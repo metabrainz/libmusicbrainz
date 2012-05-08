@@ -58,6 +58,11 @@ extern "C"
 	<class name="alias">
 		<property name="locale" type="string"/>
 		<property name="text" type="string"/>
+		<property name="sortname" uppername="SortName" type="string"/>
+		<property name="type" type="string"/>
+		<property name="primary" type="string"/>
+		<property name="begindate" uppername="BeginDate" type="string"/>
+		<property name="enddate" uppername="EndDate" type="string"/>
 	</class>
 	<class name="annotation">
 		<property name="type" type="string"/>

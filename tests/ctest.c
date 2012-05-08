@@ -310,6 +310,11 @@ void CompileTest()
 
 	mb4_alias_get_locale(Alias,Str,Size);
 	mb4_alias_get_text(Alias,Str,Size);
+	mb4_alias_get_sortname(Alias,Str,Size);
+	mb4_alias_get_type(Alias,Str,Size);
+	mb4_alias_get_primary(Alias,Str,Size);
+	mb4_alias_get_begindate(Alias,Str,Size);
+	mb4_alias_get_enddate(Alias,Str,Size);
 	Alias=mb4_alias_clone(Alias);
 	mb4_alias_delete(Alias);
 

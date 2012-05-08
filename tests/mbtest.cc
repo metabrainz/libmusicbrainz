@@ -34,6 +34,7 @@
 #include "musicbrainz4/NameCredit.h"
 #include "musicbrainz4/ArtistCredit.h"
 #include "musicbrainz4/Artist.h"
+#include "musicbrainz4/Alias.h"
 #include "musicbrainz4/HTTPFetch.h"
 #include "musicbrainz4/Track.h"
 #include "musicbrainz4/Recording.h"
@@ -65,8 +66,36 @@ int main(int argc, const char *argv[])
 {
 	MusicBrainz4::CQuery MB2("MBTest/v1.0","test.musicbrainz.org");
 
+	MusicBrainz4::CQuery::tParamMap Params5;
+	Params5["inc"]="aliases";
+	MusicBrainz4::CMetadata Metadata5=MB2.Query("artist","4b585938-f271-45e2-b19a-91c634b5e396","",Params5);
+	MusicBrainz4::CArtist *Artist=Metadata5.Artist();
+	if (Artist)
+	{
+		MusicBrainz4::CAliasList *AliasList=Artist->AliasList();
+		if (AliasList)
+		{
+			for (int count=0;count<AliasList->NumItems();count++)
+			{
+				MusicBrainz4::CAlias *Alias=AliasList->Item(count);
+				if (Alias)
+				{
+					std::cout << "Locale: " << Alias->Locale() << std::endl;
+					std::cout << "Text: " << Alias->Text() << std::endl;
+					std::cout << "SortName: " << Alias->SortName() << std::endl;
+					std::cout << "Type: " << Alias->Type() << std::endl;
+					std::cout << "Primary: " << Alias->Primary() << std::endl;
+					std::cout << "BeginDate: " << Alias->BeginDate() << std::endl;
+					std::cout << "EndDate: " << Alias->EndDate() << std::endl << std::endl;
+				}
+			}
+		}
+	}
+
+	return 0;
+
 	MusicBrainz4::CMetadata Metadata7=MB2.Query("artist","4b585938-f271-45e2-b19a-91c634b5e396");
-	MusicBrainz4::CArtist *Artist=Metadata7.Artist();
+	Artist=Metadata7.Artist();
 	if (Artist)
 	{
 		std::cout << "IPI: " << Artist->IPI() << std::endl;
