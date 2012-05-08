@@ -28,6 +28,7 @@
 #include "musicbrainz4/Artist.h"
 
 #include "musicbrainz4/Lifespan.h"
+#include "musicbrainz4/IPI.h"
 #include "musicbrainz4/Rating.h"
 #include "musicbrainz4/UserRating.h"
 #include "musicbrainz4/AliasList.h"
@@ -54,7 +55,8 @@ class MusicBrainz4::CArtistPrivate
 {
 	public:
 		CArtistPrivate()
-		:	m_Lifespan(0),
+		:	m_IPIList(0),
+			m_Lifespan(0),
 			m_AliasList(0),
 			m_RecordingList(0),
 			m_ReleaseList(0),
@@ -77,6 +79,7 @@ class MusicBrainz4::CArtistPrivate
 		std::string m_Country;
 		std::string m_Disambiguation;
 		std::string m_IPI;
+		CIPIList *m_IPIList;
 		CLifespan *m_Lifespan;
 		CAliasList *m_AliasList;
 		CRecordingList *m_RecordingList;
@@ -127,6 +130,9 @@ MusicBrainz4::CArtist& MusicBrainz4::CArtist::operator =(const CArtist& Other)
 		m_d->m_Disambiguation=Other.m_d->m_Disambiguation;
 		m_d->m_IPI=Other.m_d->m_IPI;
 
+		if (Other.m_d->m_IPIList)
+			m_d->m_IPIList=new CIPIList(*Other.m_d->m_IPIList);
+
 		if (Other.m_d->m_Lifespan)
 			m_d->m_Lifespan=new CLifespan(*Other.m_d->m_Lifespan);
 
@@ -176,6 +182,9 @@ MusicBrainz4::CArtist::~CArtist()
 
 void MusicBrainz4::CArtist::Cleanup()
 {
+	delete m_d->m_IPIList;
+	m_d->m_IPIList=0;
+
 	delete m_d->m_Lifespan;
 	m_d->m_Lifespan=0;
 
@@ -263,6 +272,10 @@ bool MusicBrainz4::CArtist::ParseElement(const XMLNode& Node)
 	else if ("ipi"==NodeName)
 	{
 		RetVal=ProcessItem(Node,m_d->m_IPI);
+	}
+	else if ("ipi-list"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_IPIList);
 	}
 	else if ("life-span"==NodeName)
 	{
@@ -366,6 +379,11 @@ std::string MusicBrainz4::CArtist::IPI() const
 	return m_d->m_IPI;
 }
 
+MusicBrainz4::CIPIList *MusicBrainz4::CArtist::IPIList() const
+{
+	return m_d->m_IPIList;
+}
+
 MusicBrainz4::CLifespan *MusicBrainz4::CArtist::Lifespan() const
 {
 	return m_d->m_Lifespan;
@@ -444,7 +462,9 @@ std::ostream& MusicBrainz4::CArtist::Serialise(std::ostream& os) const
 	os << "\tGender:         " << Gender() << std::endl;
 	os << "\tCountry:        " << Country() << std::endl;
 	os << "\tDisambiguation: " << Disambiguation() << std::endl;
-	os << "\tIPI:            " << IPI() << std::endl;
+
+	if (IPIList())
+		os << *IPIList() << std::endl;
 
 	if (Lifespan())
 		os << *Lifespan() << std::endl;

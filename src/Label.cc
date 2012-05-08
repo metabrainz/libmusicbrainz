@@ -30,6 +30,7 @@
 #include <iostream>
 
 #include "musicbrainz4/Lifespan.h"
+#include "musicbrainz4/IPI.h"
 #include "musicbrainz4/Rating.h"
 #include "musicbrainz4/UserRating.h"
 #include "musicbrainz4/Alias.h"
@@ -49,6 +50,7 @@ class MusicBrainz4::CLabelPrivate
 	public:
 		CLabelPrivate()
 		:	m_LabelCode(0),
+			m_IPIList(0),
 			m_Lifespan(0),
 			m_AliasList(0),
 			m_ReleaseList(0),
@@ -66,6 +68,7 @@ class MusicBrainz4::CLabelPrivate
 		std::string m_SortName;
 		int m_LabelCode;
 		std::string m_IPI;
+		CIPIList *m_IPIList;
 		std::string m_Disambiguation;
 		std::string m_Country;
 		CLifespan *m_Lifespan;
@@ -110,6 +113,10 @@ MusicBrainz4::CLabel& MusicBrainz4::CLabel::operator =(const CLabel& Other)
 		m_d->m_SortName=Other.m_d->m_SortName;
 		m_d->m_LabelCode=Other.m_d->m_LabelCode;
 		m_d->m_IPI=Other.m_d->m_IPI;
+
+		if (Other.m_d->m_IPIList)
+			m_d->m_IPIList=new CIPIList(*Other.m_d->m_IPIList);
+
 		m_d->m_Disambiguation=Other.m_d->m_Disambiguation;
 		m_d->m_Country=Other.m_d->m_Country;
 
@@ -150,6 +157,9 @@ MusicBrainz4::CLabel::~CLabel()
 
 void MusicBrainz4::CLabel::Cleanup()
 {
+	delete m_d->m_IPIList;
+	m_d->m_IPIList=0;
+
 	delete m_d->m_Lifespan;
 	m_d->m_Lifespan=0;
 
@@ -218,6 +228,10 @@ bool MusicBrainz4::CLabel::ParseElement(const XMLNode& Node)
 	else if ("ipi"==NodeName)
 	{
 		RetVal=ProcessItem(Node,m_d->m_IPI);
+	}
+	else if ("ipi-list"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_IPIList);
 	}
 	else if ("disambiguation"==NodeName)
 	{
@@ -303,6 +317,11 @@ std::string MusicBrainz4::CLabel::IPI() const
 	return m_d->m_IPI;
 }
 
+MusicBrainz4::CIPIList *MusicBrainz4::CLabel::IPIList() const
+{
+	return m_d->m_IPIList;
+}
+
 std::string MusicBrainz4::CLabel::Disambiguation() const
 {
 	return m_d->m_Disambiguation;
@@ -369,7 +388,10 @@ std::ostream& MusicBrainz4::CLabel::Serialise(std::ostream& os) const
 	os << "\tName:           " << Name() << std::endl;
 	os << "\tSort name:      " << SortName() << std::endl;
 	os << "\tLabel code:     " << LabelCode() << std::endl;
-	os << "\tIPI:            " << IPI() << std::endl;
+
+	if (IPIList())
+		os << *IPIList() << std::endl;
+
 	os << "\tDisambiguation: " << Disambiguation() << std::endl;
 	os << "\tCountry:        " << Country() << std::endl;
 

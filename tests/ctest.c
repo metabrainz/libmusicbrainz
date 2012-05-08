@@ -249,6 +249,8 @@ void CompileTest()
 	Mb4DiscList DiscList=0;
 	Mb4FreeDBDisc FreeDBDisc=0;
 	Mb4FreeDBDiscList FreeDBDiscList=0;
+	Mb4IPI IPI=0;
+	Mb4IPIList IPIList=0;
 	Mb4ISRC ISRC=0;
 	Mb4ISRCList ISRCList=0;
 	Mb4ISWC ISWC=0;
@@ -325,6 +327,8 @@ void CompileTest()
 	mb4_artist_get_gender(Artist,Str,Size);
 	mb4_artist_get_country(Artist,Str,Size);
 	mb4_artist_get_disambiguation(Artist,Str,Size);
+	mb4_artist_get_ipi(Artist,Str,Size);
+	IPIList=mb4_artist_get_ipilist(Artist);
 	Lifespan=mb4_artist_get_lifespan(Artist);
 	AliasList=mb4_artist_get_aliaslist(Artist);
 	RecordingList=mb4_artist_get_recordinglist(Artist);
@@ -379,6 +383,10 @@ void CompileTest()
 	FreeDBDisc=mb4_freedbdisc_clone(FreeDBDisc);
 	mb4_freedbdisc_delete(FreeDBDisc);
 
+	mb4_ipi_get_ipi(IPI,Str,Size);
+	IPI=mb4_ipi_clone(IPI);
+	mb4_ipi_delete(IPI);
+
 	mb4_isrc_get_id(ISRC,Str,Size);
 	RecordingList=mb4_isrc_get_recordinglist(ISRC);
 	ISRC=mb4_isrc_clone(ISRC);
@@ -393,6 +401,8 @@ void CompileTest()
 	mb4_label_get_name(Label,Str,Size);
 	mb4_label_get_sortname(Label,Str,Size);
 	DummyInt=mb4_label_get_labelcode(Label);
+	mb4_label_get_ipi(Label,Str,Size);
+	IPIList=mb4_label_get_ipilist(Label);
 	mb4_label_get_disambiguation(Label,Str,Size);
 	mb4_label_get_country(Label,Str,Size);
 	Lifespan=mb4_label_get_lifespan(Label);
@@ -668,6 +678,13 @@ void CompileTest()
 	DummyInt=mb4_freedbdisc_list_get_count(FreeDBDiscList);
 	DummyInt=mb4_freedbdisc_list_get_offset(FreeDBDiscList);
 	mb4_freedbdisc_list_delete(FreeDBDiscList);
+
+	DummyInt=mb4_ipi_list_size(IPIList);
+	ISRC=mb4_ipi_list_item(IPIList,0);
+	ISRCList=mb4_ipi_list_clone(IPIList);
+	DummyInt=mb4_ipi_list_get_count(IPIList);
+	DummyInt=mb4_ipi_list_get_offset(IPIList);
+	mb4_ipi_list_delete(IPIList);
 
 	DummyInt=mb4_isrc_list_size(ISRCList);
 	ISRC=mb4_isrc_list_item(ISRCList,0);

@@ -47,6 +47,8 @@
 #include "musicbrainz4/ISWCList.h"
 #include "musicbrainz4/SecondaryType.h"
 #include "musicbrainz4/SecondaryTypeList.h"
+#include "musicbrainz4/IPI.h"
+#include "musicbrainz4/IPIList.h"
 
 void PrintRelationList(MusicBrainz4::CRelationList *RelationList)
 {
@@ -62,6 +64,28 @@ void PrintRelationList(MusicBrainz4::CRelationList *RelationList)
 int main(int argc, const char *argv[])
 {
 	MusicBrainz4::CQuery MB2("MBTest/v1.0","test.musicbrainz.org");
+
+	MusicBrainz4::CMetadata Metadata7=MB2.Query("artist","4b585938-f271-45e2-b19a-91c634b5e396");
+	MusicBrainz4::CArtist *Artist=Metadata7.Artist();
+	if (Artist)
+	{
+		std::cout << "IPI: " << Artist->IPI() << std::endl;
+
+		MusicBrainz4::CIPIList *IPIList=Artist->IPIList();
+		if (IPIList)
+		{
+			for (int count=0;count<IPIList->NumItems();count++)
+			{
+				MusicBrainz4::CIPI *IPI=IPIList->Item(count);
+				if (IPI)
+				{
+					std::cout << "IPI " << count << ": " << IPI->IPI() << std::endl;
+				}
+			}
+		}
+	}
+
+	return 0;
 
 	MusicBrainz4::CMetadata Metadata6=MB2.Query("release-group","2eefe885-f050-426d-93f0-29c5eb8b4f9a");
 	MusicBrainz4::CReleaseGroup *ReleaseGroup=Metadata6.ReleaseGroup();

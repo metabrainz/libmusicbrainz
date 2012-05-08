@@ -429,6 +429,36 @@ void ProcessClass(const XMLNode& Node, std::ofstream& Source, std::ofstream& Inc
 
 						Source << "  MB4_C_OBJ_GETTER(" << UpperName << "," << LowerName << "," << PropertyUpperName << "List," << PropertyLowerName << "list)" << std::endl;
 					}
+					else if ("ipi"==PropertyType)
+					{
+						Include << "/**" << std::endl;
+						Include << " * @deprecated @see MusicBrainz4::C" << UpperName << "::" << PropertyUpperName << std::endl;
+						Include << " *" << std::endl;
+						Include << " * <b>This method is deprecated, please use #mb4_" << LowerName << "_get_" << PropertyLowerName << "list</b>" << std::endl;
+						Include << " *" << std::endl;
+						Include << " * @param " << UpperName << " #Mb4" << UpperName << " object" << std::endl;
+						Include << " * @param str Returned string" << std::endl;
+						Include << " * @param len Number of characters available in return string" << std::endl;
+						Include << " *" << std::endl;
+						Include << " * @return The number of characters in the string to copy (not including terminating NULL)" << std::endl;
+						Include << " */" << std::endl;
+						Include << "  int mb4_" << LowerName << "_get_" << PropertyLowerName << "(Mb4" << UpperName << " " << UpperName << ", char *str, int len) LIBMB4_DEPRECATED(mb4_" << LowerName << "_get_" << PropertyLowerName << "list);" << std::endl;
+						Include << std::endl;
+
+						Source << "  MB4_C_STR_GETTER(" << UpperName << "," << LowerName << "," << PropertyUpperName << "," << PropertyLowerName << ")" << std::endl;
+
+						Include << "/**" << std::endl;
+						Include << " * @see MusicBrainz4::C" << UpperName << "::" << PropertyUpperName << "List" << std::endl;
+						Include << " *" << std::endl;
+						Include << " * @param " << UpperName << " #Mb4" << UpperName << "List object" << std::endl;
+						Include << " *" << std::endl;
+						Include << " * @return #Mb4" << PropertyUpperName << "List object" << std::endl;
+						Include << " */" << std::endl;
+						Include << "  Mb4" << PropertyUpperName << "List mb4_" << LowerName << "_get_" << PropertyLowerName << "list(Mb4" << UpperName << " " << UpperName << ");" << std::endl;
+						Include << std::endl;
+
+						Source << "  MB4_C_OBJ_GETTER(" << UpperName << "," << LowerName << "," << PropertyUpperName << "List," << PropertyLowerName << "list)" << std::endl;
+					}
 					else
 					{
 						std::cerr << "Unexpected property type: '" << PropertyType << "'" << std::endl;

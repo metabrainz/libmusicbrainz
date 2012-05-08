@@ -29,6 +29,7 @@
 #include <iostream>
 
 #include "musicbrainz4/Entity.h"
+#include "musicbrainz4/IPIList.h"
 #include "musicbrainz4/ReleaseList.h"
 #include "musicbrainz4/AliasList.h"
 #include "musicbrainz4/RelationList.h"
@@ -60,7 +61,20 @@ namespace MusicBrainz4
 		std::string Name() const;
 		std::string SortName() const;
 		int LabelCode() const;
-		std::string IPI() const;
+
+		/**
+		 * @deprecated Returns one of the IPIs for this label
+		 *
+		 * Returns one of the IPIs for this label. To return all
+		 * IPIs, see MusicBrainz4::CLabel::IPIList
+		 *
+		 * <b>This method is deprecated, please use MusicBrainz4::CLabel::IPIList</b>
+		 *
+		 * @return One of the IPIs for this label
+		 */
+
+		LIBMB4_DEPRECATED(MusicBrainz4::CLabel::IPIList) std::string IPI() const;
+		CIPIList *IPIList() const;
 		std::string Disambiguation() const;
 		std::string Country() const;
 		CLifespan *Lifespan() const;

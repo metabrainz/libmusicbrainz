@@ -29,6 +29,7 @@
 #include <iostream>
 
 #include "musicbrainz4/Entity.h"
+#include "musicbrainz4/IPIList.h"
 #include "musicbrainz4/ReleaseList.h"
 #include "musicbrainz4/AliasList.h"
 #include "musicbrainz4/RecordingList.h"
@@ -65,7 +66,20 @@ namespace MusicBrainz4
 		std::string Gender() const;
 		std::string Country() const;
 		std::string Disambiguation() const;
-		std::string IPI() const;
+
+		/**
+		 * @deprecated Returns one of the IPIs for this artist
+		 *
+		 * Returns one of the IPIs for this artist. To return all
+		 * IPIs, see MusicBrainz4::CArtist::IPIList
+		 *
+		 * <b>This method is deprecated, please use MusicBrainz4::CArtist::IPIList</b>
+		 *
+		 * @return One of the IPIs for this artist
+		 */
+
+		LIBMB4_DEPRECATED(MusicBrainz4::CArtist::IPIList) std::string IPI() const;
+		CIPIList *IPIList() const;
 		CLifespan *Lifespan() const;
 		CAliasList *AliasList() const;
 		CRecordingList *RecordingList() const;

@@ -73,6 +73,7 @@ extern "C"
 		<property name="gender" type="string"/>
 		<property name="country" type="string"/>
 		<property name="disambiguation" type="string"/>
+		<property name="ipi" uppername="IPI" type="ipi"/>
 		<property name="lifespan" type="object"/>
 		<property name="aliaslist" uppername="AliasList" type="object"/>
 		<property name="recordinglist" uppername="RecordingList" type="object"/>
@@ -119,6 +120,9 @@ extern "C"
 		<property name="year" type="string"/>
 		<property name="nonmbtracklist" uppername="NonMBTrackList" type="object"/>
 	</class>
+	<class name="ipi" uppername="IPI">
+		<property name="ipi" uppername="IPI" type="string"/>
+	</class>
 	<class name="isrc" uppername="ISRC">
 		<property name="id" uppername="ID" type="string"/>
 		<property name="recordinglist" uppername="RecordingList" type="object"/>
@@ -132,6 +136,7 @@ extern "C"
 		<property name="name" type="string"/>
 		<property name="sortname" uppername="SortName" type="string"/>
 		<property name="labelcode" uppername="LabelCode" type="integer"/>
+		<property name="ipi" uppername="IPI" type="ipi"/>
 		<property name="disambiguation" type="string"/>
 		<property name="country" type="string"/>
 		<property name="lifespan" type="object"/>
@@ -334,6 +339,7 @@ extern "C"
 	<list name="collection"/>
 	<list name="disc"/>
 	<list name="freedbdisc" uppername="FreeDBDisc"/>
+	<list name="ipi" uppername="IPI"/>
 	<list name="isrc" uppername="ISRC"/>
 	<list name="iswc" uppername="ISWC"/>
 	<list name="label"/>
