@@ -59,6 +59,7 @@ class MusicBrainz4::CReleaseGroupPrivate
 
 		std::string m_ID;
 		std::string m_Type;
+		std::string m_PrimaryType;
 		std::string m_Title;
 		std::string m_Disambiguation;
 		std::string m_FirstReleaseDate;
@@ -101,6 +102,7 @@ MusicBrainz4::CReleaseGroup& MusicBrainz4::CReleaseGroup::operator =(const CRele
 
 		m_d->m_ID=Other.m_d->m_ID;
 		m_d->m_Type=Other.m_d->m_Type;
+		m_d->m_PrimaryType=Other.m_d->m_PrimaryType;
 		m_d->m_Title=Other.m_d->m_Title;
 		m_d->m_Disambiguation=Other.m_d->m_Disambiguation;
 		m_d->m_FirstReleaseDate=Other.m_d->m_FirstReleaseDate;
@@ -195,7 +197,11 @@ bool MusicBrainz4::CReleaseGroup::ParseElement(const XMLNode& Node)
 
 	std::string NodeName=Node.getName();
 
-	if ("title"==NodeName)
+	if ("primary-type"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_PrimaryType);
+	}
+	else if ("title"==NodeName)
 	{
 		RetVal=ProcessItem(Node,m_d->m_Title);
 	}
@@ -261,6 +267,11 @@ std::string MusicBrainz4::CReleaseGroup::ID() const
 std::string MusicBrainz4::CReleaseGroup::Type() const
 {
 	return m_d->m_Type;
+}
+
+std::string MusicBrainz4::CReleaseGroup::PrimaryType() const
+{
+	return m_d->m_PrimaryType;
 }
 
 std::string MusicBrainz4::CReleaseGroup::Title() const
@@ -330,7 +341,7 @@ std::ostream& MusicBrainz4::CReleaseGroup::Serialise(std::ostream& os) const
 	CEntity::Serialise(os);
 
 	os << "\tID:                 " << ID() << std::endl;
-	os << "\tType:               " << Type() << std::endl;
+	os << "\tPrimaryType:        " << PrimaryType() << std::endl;
 	os << "\tTitle:              " << Title() << std::endl;
 	os << "\tDisambiguation:     " << Disambiguation() << std::endl;
 	os << "\tFirst release date: " << FirstReleaseDate() << std::endl;

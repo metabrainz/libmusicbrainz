@@ -57,7 +57,20 @@ namespace MusicBrainz4
 		virtual CReleaseGroup *Clone();
 
 		std::string ID() const;
-		std::string Type() const;
+
+		/**
+		 * @deprecated Returns the type for this release group
+		 *
+		 * Returns the type for this release group.
+		 *
+		 * <b>This method is deprecated, please use MusicBrainz4::CReleaseGroup::PrimaryType
+		 * and MusicBrainz4::CReleaseGroup::SecondaryTypeList</b>
+		 *
+		 * @return The type for this release group
+		 */
+
+		LIBMB4_DEPRECATED(MusicBrainz4::CReleaseGroup::PrimaryType) std::string Type() const;
+		std::string PrimaryType() const;
 		std::string Title() const;
 		std::string Disambiguation() const;
 		std::string FirstReleaseDate() const;

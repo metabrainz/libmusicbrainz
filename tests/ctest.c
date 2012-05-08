@@ -573,6 +573,7 @@ void CompileTest()
 
 	mb4_releasegroup_get_id(ReleaseGroup,Str,Size);
 	mb4_releasegroup_get_type(ReleaseGroup,Str,Size);
+	mb4_releasegroup_get_primarytype(ReleaseGroup,Str,Size);
 	mb4_releasegroup_get_firstreleasedate(ReleaseGroup,Str,Size);
 	mb4_releasegroup_get_title(ReleaseGroup,Str,Size);
 	mb4_releasegroup_get_disambiguation(ReleaseGroup,Str,Size);

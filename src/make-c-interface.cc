@@ -315,16 +315,46 @@ void ProcessClass(const XMLNode& Node, std::ofstream& Source, std::ofstream& Inc
 
 					if ("string"==PropertyType)
 					{
+						bool Deprecated=false;
+						std::string Replacement;
+
+						if (ChildNode.isAttributeSet("deprecated"))
+						{
+							std::string StrDeprecated=ChildNode.getAttribute("deprecated");
+
+							if (StrDeprecated=="true")
+								Deprecated=true;
+
+							if (ChildNode.isAttributeSet("replacement"))
+								Replacement=ChildNode.getAttribute("replacement");
+						}
+
 						Include << "/**" << std::endl;
-						Include << " * @see MusicBrainz4::C" << UpperName << "::" << PropertyUpperName << std::endl;
+						Include << " * ";
+						if (Deprecated)
+							Include << "@deprecated ";
+
+						Include << "@see MusicBrainz4::C" << UpperName << "::" << PropertyUpperName << std::endl;
 						Include << " *" << std::endl;
+
+						if (Deprecated)
+						{
+ 							Include << " * <b>This method is deprecated, please use #" << Replacement << "</b>" << std::endl;
+ 							Include << " *" << std::endl;
+ 						}
+
 						Include << " * @param " << UpperName << " #Mb4" << UpperName << " object" << std::endl;
 						Include << " * @param str Returned string" << std::endl;
 						Include << " * @param len Number of characters available in return string" << std::endl;
 						Include << " *" << std::endl;
 						Include << " * @return The number of characters in the string to copy (not including terminating NULL)" << std::endl;
 						Include << " */" << std::endl;
-						Include << "  int mb4_" << LowerName << "_get_" << PropertyLowerName << "(Mb4" << UpperName << " " << UpperName << ", char *str, int len);" << std::endl;
+						Include << "  ";
+
+						if (Deprecated)
+							Include << "LIBMB4_DEPRECATED(" << Replacement << ") ";
+
+						Include << "int mb4_" << LowerName << "_get_" << PropertyLowerName << "(Mb4" << UpperName << " " << UpperName << ", char *str, int len);" << std::endl;
 						Include << std::endl;
 
 						Source << "  MB4_C_STR_GETTER(" << UpperName << "," << LowerName << "," << PropertyUpperName << "," << PropertyLowerName << ")" << std::endl;

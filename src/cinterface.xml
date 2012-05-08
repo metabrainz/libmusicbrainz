@@ -283,7 +283,8 @@ extern "C"
 	<boilerplate target="source" file="c-int-release-source.inc"/>
 	<class name="releasegroup" uppername="ReleaseGroup">
 		<property name="id" uppername="ID" type="string"/>
-		<property name="type" type="string"/>
+		<property name="type" type="string" deprecated="true" replacement="mb4_releasegroup_get_primarytype"/>
+		<property name="primarytype" uppername="PrimaryType" type="string"/>
 		<property name="title" type="string"/>
 		<property name="disambiguation" type="string"/>
 		<property name="firstreleasedate" uppername="FirstReleaseDate" type="string"/>

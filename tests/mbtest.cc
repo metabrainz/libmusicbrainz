@@ -66,6 +66,10 @@ int main(int argc, const char *argv[])
 {
 	MusicBrainz4::CQuery MB2("MBTest/v1.0","test.musicbrainz.org");
 
+	MusicBrainz4::CMetadata Metadata8=MB2.Query("release-group","2eefe885-f050-426d-93f0-29c5eb8b4f9a");
+	std::cout << Metadata8 << std::endl;
+	return 0;
+
 	MusicBrainz4::CQuery::tParamMap Params5;
 	Params5["inc"]="aliases";
 	MusicBrainz4::CMetadata Metadata5=MB2.Query("artist","4b585938-f271-45e2-b19a-91c634b5e396","",Params5);
