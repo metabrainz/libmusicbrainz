@@ -50,6 +50,7 @@
 #include "musicbrainz4/SecondaryTypeList.h"
 #include "musicbrainz4/IPI.h"
 #include "musicbrainz4/IPIList.h"
+#include "musicbrainz4/Lifespan.h"
 
 void PrintRelationList(MusicBrainz4::CRelationList *RelationList)
 {
@@ -66,36 +67,25 @@ int main(int argc, const char *argv[])
 {
 	MusicBrainz4::CQuery MB2("MBTest/v1.0","test.musicbrainz.org");
 
-	MusicBrainz4::CMetadata Metadata8=MB2.Query("release-group","2eefe885-f050-426d-93f0-29c5eb8b4f9a");
-	std::cout << Metadata8 << std::endl;
-	return 0;
-
 	MusicBrainz4::CQuery::tParamMap Params5;
 	Params5["inc"]="aliases";
 	MusicBrainz4::CMetadata Metadata5=MB2.Query("artist","4b585938-f271-45e2-b19a-91c634b5e396","",Params5);
 	MusicBrainz4::CArtist *Artist=Metadata5.Artist();
 	if (Artist)
 	{
-		MusicBrainz4::CAliasList *AliasList=Artist->AliasList();
-		if (AliasList)
+		MusicBrainz4::CLifespan *Lifespan=Artist->Lifespan();
+		if (Lifespan)
 		{
-			for (int count=0;count<AliasList->NumItems();count++)
-			{
-				MusicBrainz4::CAlias *Alias=AliasList->Item(count);
-				if (Alias)
-				{
-					std::cout << "Locale: " << Alias->Locale() << std::endl;
-					std::cout << "Text: " << Alias->Text() << std::endl;
-					std::cout << "SortName: " << Alias->SortName() << std::endl;
-					std::cout << "Type: " << Alias->Type() << std::endl;
-					std::cout << "Primary: " << Alias->Primary() << std::endl;
-					std::cout << "BeginDate: " << Alias->BeginDate() << std::endl;
-					std::cout << "EndDate: " << Alias->EndDate() << std::endl << std::endl;
-				}
-			}
+			std::cout << "Begin: " << Lifespan->Begin() << std::endl;
+			std::cout << "End: " << Lifespan->End() << std::endl;
+			std::cout << "Ended: " << Lifespan->Ended() << std::endl;
 		}
 	}
 
+	return 0;
+
+	MusicBrainz4::CMetadata Metadata8=MB2.Query("release-group","2eefe885-f050-426d-93f0-29c5eb8b4f9a");
+	std::cout << Metadata8 << std::endl;
 	return 0;
 
 	MusicBrainz4::CMetadata Metadata7=MB2.Query("artist","4b585938-f271-45e2-b19a-91c634b5e396");

@@ -160,6 +160,7 @@ extern "C"
 	<class name="lifespan">
 		<property name="begin" type="string"/>
 		<property name="end" type="string"/>
+		<property name="ended" type="string"/>
 	</class>
 	<class name="medium">
 		<property name="title" type="string"/>

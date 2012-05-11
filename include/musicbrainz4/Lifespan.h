@@ -48,6 +48,7 @@ namespace MusicBrainz4
 
 		std::string Begin() const;
 		std::string End() const;
+		std::string Ended() const;
 
 		virtual std::ostream& Serialise(std::ostream& os) const;
 		static std::string GetElementName();

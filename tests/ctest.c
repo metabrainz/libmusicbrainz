@@ -428,6 +428,7 @@ void CompileTest()
 
 	mb4_lifespan_get_begin(Lifespan,Str,Size);
 	mb4_lifespan_get_end(Lifespan,Str,Size);
+	mb4_lifespan_get_ended(Lifespan,Str,Size);
 	Lifespan=mb4_lifespan_clone(Lifespan);
 	mb4_lifespan_delete(Lifespan);
 

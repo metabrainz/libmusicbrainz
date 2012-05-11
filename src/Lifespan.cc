@@ -32,6 +32,7 @@ class MusicBrainz4::CLifespanPrivate
 	public:
 		std::string m_Begin;
 		std::string m_End;
+		std::string m_Ended;
 };
 
 MusicBrainz4::CLifespan::CLifespan(const XMLNode& Node)
@@ -61,6 +62,7 @@ MusicBrainz4::CLifespan& MusicBrainz4::CLifespan::operator =(const CLifespan& Ot
 
 		m_d->m_Begin=Other.m_d->m_Begin;
 		m_d->m_End=Other.m_d->m_End;
+		m_d->m_Ended=Other.m_d->m_Ended;
 	}
 
 	return *this;
@@ -100,6 +102,10 @@ bool MusicBrainz4::CLifespan::ParseElement(const XMLNode& Node)
 	{
 		RetVal=ProcessItem(Node,m_d->m_End);
 	}
+	else if ("ended"==NodeName)
+	{
+		RetVal=ProcessItem(Node,m_d->m_Ended);
+	}
 	else
 	{
 		std::cerr << "Unrecognised lifespan element: '" << NodeName << "'" << std::endl;
@@ -124,6 +130,11 @@ std::string MusicBrainz4::CLifespan::End() const
 	return m_d->m_End;
 }
 
+std::string MusicBrainz4::CLifespan::Ended() const
+{
+	return m_d->m_Ended;
+}
+
 std::ostream& MusicBrainz4::CLifespan::Serialise(std::ostream& os) const
 {
 	os << "Lifespan:" << std::endl;
@@ -132,6 +143,7 @@ std::ostream& MusicBrainz4::CLifespan::Serialise(std::ostream& os) const
 
 	os << "\tBegin: " << Begin() << std::endl;
 	os << "\tEnd:   " << End() << std::endl;
+	os << "\tEnded: " << Ended() << std::endl;
 
 	return os;
 }
