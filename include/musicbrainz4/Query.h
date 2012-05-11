@@ -51,6 +51,23 @@
  * Please report any issues with this library at
  * <a target="_blank" href="http://tickets.musicbrainz.org/">http://tickets.musicbrainz.org/</a>.
  *
+ * @par Compiling and Linking
+ *
+ * This package provides a pkg-config script that returns the necessary compiler
+ * and linker flags, as well as the version number.  To build a small sample
+ * program one would use:
+ *
+ * @par
+ *     <tt>g++ -o test_app test_app.cpp `pkg-config libmusicbrainz4 --cflags --libs`</tt>
+ *
+ * If you don't want/can't use pkg-config and you are using the C API, make sure
+ * you link in the C++ standard library:
+ *
+ * @par
+ *     <tt>gcc -o test_app test_app.c -lmusicbrainz4 -lm -lstdc++</tt>
+ *
+ * @par Example:
+ *
  * A brief example showing how to lookup a list of releases matching a disc id
  *
 @code
