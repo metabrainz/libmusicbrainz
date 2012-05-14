@@ -1,16 +1,16 @@
 /* --------------------------------------------------------------------------
 
-   libmusicbrainz4 - Client library to access MusicBrainz
+   libmusicbrainz5 - Client library to access MusicBrainz
 
    Copyright (C) 2011 Andrew Hawkins
 
-   This file is part of libmusicbrainz4.
+   This file is part of libmusicbrainz5.
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of v2 of the GNU Lesser General Public
    License as published by the Free Software Foundation.
 
-   libmusicbrainz4 is distributed in the hope that it will be useful,
+   libmusicbrainz5 is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    Lesser General Public License for more details.
@@ -23,27 +23,27 @@
 ----------------------------------------------------------------------------*/
 
 #include "config.h"
-#include "musicbrainz4/defines.h"
+#include "musicbrainz5/defines.h"
 
-#include "musicbrainz4/Release.h"
+#include "musicbrainz5/Release.h"
 
 #include <string.h>
 
-#include "musicbrainz4/TextRepresentation.h"
-#include "musicbrainz4/ArtistCredit.h"
-#include "musicbrainz4/ReleaseGroup.h"
-#include "musicbrainz4/Medium.h"
-#include "musicbrainz4/LabelInfoList.h"
-#include "musicbrainz4/LabelInfo.h"
-#include "musicbrainz4/RelationList.h"
-#include "musicbrainz4/RelationListList.h"
-#include "musicbrainz4/Relation.h"
-#include "musicbrainz4/MediumList.h"
-#include "musicbrainz4/Medium.h"
-#include "musicbrainz4/Collection.h"
-#include "musicbrainz4/CollectionList.h"
+#include "musicbrainz5/TextRepresentation.h"
+#include "musicbrainz5/ArtistCredit.h"
+#include "musicbrainz5/ReleaseGroup.h"
+#include "musicbrainz5/Medium.h"
+#include "musicbrainz5/LabelInfoList.h"
+#include "musicbrainz5/LabelInfo.h"
+#include "musicbrainz5/RelationList.h"
+#include "musicbrainz5/RelationListList.h"
+#include "musicbrainz5/Relation.h"
+#include "musicbrainz5/MediumList.h"
+#include "musicbrainz5/Medium.h"
+#include "musicbrainz5/Collection.h"
+#include "musicbrainz5/CollectionList.h"
 
-class MusicBrainz4::CReleasePrivate
+class MusicBrainz5::CReleasePrivate
 {
 	public:
 		CReleasePrivate()
@@ -76,7 +76,7 @@ class MusicBrainz4::CReleasePrivate
 		CCollectionList *m_CollectionList;
 };
 
-MusicBrainz4::CRelease::CRelease(const XMLNode& Node)
+MusicBrainz5::CRelease::CRelease(const XMLNode& Node)
 :	CEntity(),
 	m_d(new CReleasePrivate)
 {
@@ -88,14 +88,14 @@ MusicBrainz4::CRelease::CRelease(const XMLNode& Node)
 	}
 }
 
-MusicBrainz4::CRelease::CRelease(const CRelease& Other)
+MusicBrainz5::CRelease::CRelease(const CRelease& Other)
 :	CEntity(),
 	m_d(new CReleasePrivate)
 {
 	*this=Other;
 }
 
-MusicBrainz4::CRelease& MusicBrainz4::CRelease::operator =(const CRelease& Other)
+MusicBrainz5::CRelease& MusicBrainz5::CRelease::operator =(const CRelease& Other)
 {
 	if (this!=&Other)
 	{
@@ -140,14 +140,14 @@ MusicBrainz4::CRelease& MusicBrainz4::CRelease::operator =(const CRelease& Other
 	return *this;
 }
 
-MusicBrainz4::CRelease::~CRelease()
+MusicBrainz5::CRelease::~CRelease()
 {
 	Cleanup();
 
 	delete m_d;
 }
 
-void MusicBrainz4::CRelease::Cleanup()
+void MusicBrainz5::CRelease::Cleanup()
 {
 	delete m_d->m_TextRepresentation;
 	m_d->m_TextRepresentation=0;
@@ -168,12 +168,12 @@ void MusicBrainz4::CRelease::Cleanup()
 	m_d->m_RelationListList=0;
 }
 
-MusicBrainz4::CRelease *MusicBrainz4::CRelease::Clone()
+MusicBrainz5::CRelease *MusicBrainz5::CRelease::Clone()
 {
 	return new CRelease(*this);
 }
 
-bool MusicBrainz4::CRelease::ParseAttribute(const std::string& Name, const std::string& Value)
+bool MusicBrainz5::CRelease::ParseAttribute(const std::string& Name, const std::string& Value)
 {
 	bool RetVal=true;
 
@@ -188,7 +188,7 @@ bool MusicBrainz4::CRelease::ParseAttribute(const std::string& Name, const std::
 	return RetVal;
 }
 
-bool MusicBrainz4::CRelease::ParseElement(const XMLNode& Node)
+bool MusicBrainz5::CRelease::ParseElement(const XMLNode& Node)
 {
 	bool RetVal=true;
 
@@ -267,120 +267,120 @@ bool MusicBrainz4::CRelease::ParseElement(const XMLNode& Node)
 	return RetVal;
 }
 
-std::string MusicBrainz4::CRelease::GetElementName()
+std::string MusicBrainz5::CRelease::GetElementName()
 {
 	return "release";
 }
 
-std::string MusicBrainz4::CRelease::ID() const
+std::string MusicBrainz5::CRelease::ID() const
 {
 	return m_d->m_ID;
 }
 
-std::string MusicBrainz4::CRelease::Title() const
+std::string MusicBrainz5::CRelease::Title() const
 {
 	return m_d->m_Title;
 }
 
-std::string MusicBrainz4::CRelease::Status() const
+std::string MusicBrainz5::CRelease::Status() const
 {
 	return m_d->m_Status;
 }
 
-std::string MusicBrainz4::CRelease::Quality() const
+std::string MusicBrainz5::CRelease::Quality() const
 {
 	return m_d->m_Quality;
 }
 
-std::string MusicBrainz4::CRelease::Disambiguation() const
+std::string MusicBrainz5::CRelease::Disambiguation() const
 {
 	return m_d->m_Disambiguation;
 }
 
-std::string MusicBrainz4::CRelease::Packaging() const
+std::string MusicBrainz5::CRelease::Packaging() const
 {
 	return m_d->m_Packaging;
 }
 
-MusicBrainz4::CTextRepresentation *MusicBrainz4::CRelease::TextRepresentation() const
+MusicBrainz5::CTextRepresentation *MusicBrainz5::CRelease::TextRepresentation() const
 {
 	return m_d->m_TextRepresentation;
 }
 
-MusicBrainz4::CArtistCredit *MusicBrainz4::CRelease::ArtistCredit() const
+MusicBrainz5::CArtistCredit *MusicBrainz5::CRelease::ArtistCredit() const
 {
 	return m_d->m_ArtistCredit;
 }
 
-MusicBrainz4::CReleaseGroup *MusicBrainz4::CRelease::ReleaseGroup() const
+MusicBrainz5::CReleaseGroup *MusicBrainz5::CRelease::ReleaseGroup() const
 {
 	return m_d->m_ReleaseGroup;
 }
 
-std::string MusicBrainz4::CRelease::Date() const
+std::string MusicBrainz5::CRelease::Date() const
 {
 	return m_d->m_Date;
 }
 
-std::string MusicBrainz4::CRelease::Country() const
+std::string MusicBrainz5::CRelease::Country() const
 {
 	return m_d->m_Country;
 }
 
-std::string MusicBrainz4::CRelease::Barcode() const
+std::string MusicBrainz5::CRelease::Barcode() const
 {
 	return m_d->m_Barcode;
 }
 
-std::string MusicBrainz4::CRelease::ASIN() const
+std::string MusicBrainz5::CRelease::ASIN() const
 {
 	return m_d->m_ASIN;
 }
 
-MusicBrainz4::CLabelInfoList *MusicBrainz4::CRelease::LabelInfoList() const
+MusicBrainz5::CLabelInfoList *MusicBrainz5::CRelease::LabelInfoList() const
 {
 	return m_d->m_LabelInfoList;
 }
 
-MusicBrainz4::CMediumList *MusicBrainz4::CRelease::MediumList() const
+MusicBrainz5::CMediumList *MusicBrainz5::CRelease::MediumList() const
 {
 	return m_d->m_MediumList;
 }
 
-MusicBrainz4::CRelationList *MusicBrainz4::CRelease::RelationList() const
+MusicBrainz5::CRelationList *MusicBrainz5::CRelease::RelationList() const
 {
 	return m_d->m_RelationListList?m_d->m_RelationListList->Item(m_d->m_RelationListList->NumItems()-1):0;
 }
 
-MusicBrainz4::CRelationListList *MusicBrainz4::CRelease::RelationListList() const
+MusicBrainz5::CRelationListList *MusicBrainz5::CRelease::RelationListList() const
 {
 	return m_d->m_RelationListList;
 }
 
-MusicBrainz4::CCollectionList *MusicBrainz4::CRelease::CollectionList() const
+MusicBrainz5::CCollectionList *MusicBrainz5::CRelease::CollectionList() const
 {
 	return m_d->m_CollectionList;
 }
 
-MusicBrainz4::CMediumList MusicBrainz4::CRelease::MediaMatchingDiscID(const std::string& DiscID) const
+MusicBrainz5::CMediumList MusicBrainz5::CRelease::MediaMatchingDiscID(const std::string& DiscID) const
 {
-	MusicBrainz4::CMediumList Ret;
+	MusicBrainz5::CMediumList Ret;
 
 	if (m_d->m_MediumList)
 	{
 		for (int count=0;count<m_d->m_MediumList->NumItems();count++)
 		{
-			MusicBrainz4::CMedium *Medium=m_d->m_MediumList->Item(count);
+			MusicBrainz5::CMedium *Medium=m_d->m_MediumList->Item(count);
 
 			if (Medium->ContainsDiscID(DiscID))
-				Ret.AddItem(new MusicBrainz4::CMedium(*Medium));
+				Ret.AddItem(new MusicBrainz5::CMedium(*Medium));
 		}
 	}
 
 	return Ret;
 }
 
-std::ostream& MusicBrainz4::CRelease::Serialise(std::ostream& os) const
+std::ostream& MusicBrainz5::CRelease::Serialise(std::ostream& os) const
 {
 	os << "Release:" << std::endl;
 

@@ -1,16 +1,16 @@
 /* --------------------------------------------------------------------------
 
-   libmusicbrainz4 - Client library to access MusicBrainz
+   libmusicbrainz5 - Client library to access MusicBrainz
 
    Copyright (C) 2011 Andrew Hawkins
 
-   This file is part of libmusicbrainz4.
+   This file is part of libmusicbrainz5.
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of v2 of the GNU Lesser General Public
    License as published by the Free Software Foundation.
 
-   libmusicbrainz4 is distributed in the hope that it will be useful,
+   libmusicbrainz5 is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    Lesser General Public License for more details.
@@ -23,11 +23,11 @@
 ----------------------------------------------------------------------------*/
 
 #include "config.h"
-#include "musicbrainz4/defines.h"
+#include "musicbrainz5/defines.h"
 
-#include "musicbrainz4/Alias.h"
+#include "musicbrainz5/Alias.h"
 
-class MusicBrainz4::CAliasPrivate
+class MusicBrainz5::CAliasPrivate
 {
 public:
 		std::string m_Locale;
@@ -39,7 +39,7 @@ public:
 		std::string m_EndDate;
 };
 
-MusicBrainz4::CAlias::CAlias(const XMLNode& Node)
+MusicBrainz5::CAlias::CAlias(const XMLNode& Node)
 :	CEntity(),
 	m_d(new CAliasPrivate)
 {
@@ -54,14 +54,14 @@ MusicBrainz4::CAlias::CAlias(const XMLNode& Node)
 	}
 }
 
-MusicBrainz4::CAlias::CAlias(const CAlias& Other)
+MusicBrainz5::CAlias::CAlias(const CAlias& Other)
 :	CEntity(),
 	m_d(new CAliasPrivate)
 {
 	*this=Other;
 }
 
-MusicBrainz4::CAlias& MusicBrainz4::CAlias::operator =(const CAlias& Other)
+MusicBrainz5::CAlias& MusicBrainz5::CAlias::operator =(const CAlias& Other)
 {
 	if (this!=&Other)
 	{
@@ -79,17 +79,17 @@ MusicBrainz4::CAlias& MusicBrainz4::CAlias::operator =(const CAlias& Other)
 	return *this;
 }
 
-MusicBrainz4::CAlias::~CAlias()
+MusicBrainz5::CAlias::~CAlias()
 {
 	delete m_d;
 }
 
-MusicBrainz4::CAlias *MusicBrainz4::CAlias::Clone()
+MusicBrainz5::CAlias *MusicBrainz5::CAlias::Clone()
 {
 	return new CAlias(*this);
 }
 
-bool MusicBrainz4::CAlias::ParseAttribute(const std::string& Name, const std::string& Value)
+bool MusicBrainz5::CAlias::ParseAttribute(const std::string& Name, const std::string& Value)
 {
 	bool RetVal=true;
 
@@ -115,7 +115,7 @@ bool MusicBrainz4::CAlias::ParseAttribute(const std::string& Name, const std::st
 
 }
 
-bool MusicBrainz4::CAlias::ParseElement(const XMLNode& Node)
+bool MusicBrainz5::CAlias::ParseElement(const XMLNode& Node)
 {
 	bool RetVal=true;
 
@@ -126,47 +126,47 @@ bool MusicBrainz4::CAlias::ParseElement(const XMLNode& Node)
 	return RetVal;
 }
 
-std::string MusicBrainz4::CAlias::GetElementName()
+std::string MusicBrainz5::CAlias::GetElementName()
 {
 	return "alias";
 }
 
-std::string MusicBrainz4::CAlias::Locale() const
+std::string MusicBrainz5::CAlias::Locale() const
 {
 	return m_d->m_Locale;
 }
 
-std::string MusicBrainz4::CAlias::Text() const
+std::string MusicBrainz5::CAlias::Text() const
 {
 	return m_d->m_Text;
 }
 
-std::string MusicBrainz4::CAlias::SortName() const
+std::string MusicBrainz5::CAlias::SortName() const
 {
 	return m_d->m_SortName;
 }
 
-std::string MusicBrainz4::CAlias::Type() const
+std::string MusicBrainz5::CAlias::Type() const
 {
 	return m_d->m_Type;
 }
 
-std::string MusicBrainz4::CAlias::Primary() const
+std::string MusicBrainz5::CAlias::Primary() const
 {
 	return m_d->m_Primary;
 }
 
-std::string MusicBrainz4::CAlias::BeginDate() const
+std::string MusicBrainz5::CAlias::BeginDate() const
 {
 	return m_d->m_BeginDate;
 }
 
-std::string MusicBrainz4::CAlias::EndDate() const
+std::string MusicBrainz5::CAlias::EndDate() const
 {
 	return m_d->m_EndDate;
 }
 
-std::ostream& MusicBrainz4::CAlias::Serialise(std::ostream& os) const
+std::ostream& MusicBrainz5::CAlias::Serialise(std::ostream& os) const
 {
 	os << "Alias:" << std::endl;
 

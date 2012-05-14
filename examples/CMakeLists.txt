@@ -1,5 +1,5 @@
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/../include)
-LINK_LIBRARIES(musicbrainz4 ${NEON_LIBRARIES})
+LINK_LIBRARIES(musicbrainz5 ${NEON_LIBRARIES})
 
 ADD_EXECUTABLE(cdlookup cdlookup.cc)
 ADD_EXECUTABLE(cdlookup_c cdlookup_c.c)

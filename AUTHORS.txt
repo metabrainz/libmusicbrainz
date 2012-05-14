@@ -1,7 +1,11 @@
 Credits
 =======
 
-The following people have contributed to libmusicbrainz4:
+The following people have contributed to libmusicbrainz5
+	Andy Hawkins <andy at gently dot org dot uk>
+		- Update from libmusicbrainz4
+
+The following people have contributed to libmusicbrainz4
 	Andy Hawkins <andy at gently dot org dot uk>
 		- Created the C++ implementation (based on libmusicbrainz3) and the
 			C bindings.

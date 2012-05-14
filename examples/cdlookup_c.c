@@ -1,16 +1,16 @@
 /* --------------------------------------------------------------------------
 
-   libmusicbrainz4 - Client library to access MusicBrainz
+   libmusicbrainz5 - Client library to access MusicBrainz
 
    Copyright (C) 2011 Andrew Hawkins
 
-   This file is part of libmusicbrainz4.
+   This file is part of libmusicbrainz5.
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of v2 of the GNU Lesser General Public
    License as published by the Free Software Foundation.
 
-   libmusicbrainz4 is distributed in the hope that it will be useful,
+   libmusicbrainz5 is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    Lesser General Public License for more details.
@@ -26,7 +26,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "musicbrainz4/mb4_c.h"
+#include "musicbrainz5/mb5_c.h"
 
 int main(int argc, const char *argv[])
 {
@@ -34,24 +34,24 @@ int main(int argc, const char *argv[])
 	{
 		const char *DiscID=argv[1];
 
-		Mb4Query Query=mb4_query_new("cdlookupcexample-1.0",NULL,0);
+		Mb5Query Query=mb5_query_new("cdlookupcexample-1.0",NULL,0);
 		if (Query)
 		{
-			Mb4Metadata Metadata1=mb4_query_query(Query,"discid",DiscID,"",0,NULL,NULL);
+			Mb5Metadata Metadata1=mb5_query_query(Query,"discid",DiscID,"",0,NULL,NULL);
 			char ErrorMessage[256];
 
-			tQueryResult Result=mb4_query_get_lastresult(Query);
-			int HTTPCode=mb4_query_get_lasthttpcode(Query);
+			tQueryResult Result=mb5_query_get_lastresult(Query);
+			int HTTPCode=mb5_query_get_lasthttpcode(Query);
 
-			mb4_query_get_lasterrormessage(Query,ErrorMessage,sizeof(ErrorMessage));
+			mb5_query_get_lasterrormessage(Query,ErrorMessage,sizeof(ErrorMessage));
 			printf("Result: %d\nHTTPCode: %d\nErrorMessage: '%s'\n",Result,HTTPCode,ErrorMessage);
 
 			if (Metadata1)
 			{
-				Mb4Disc Disc=mb4_metadata_get_disc(Metadata1);
+				Mb5Disc Disc=mb5_metadata_get_disc(Metadata1);
 				if (Disc)
 				{
-					Mb4ReleaseList ReleaseList=mb4_disc_get_releaselist(Disc);
+					Mb5ReleaseList ReleaseList=mb5_disc_get_releaselist(Disc);
 					if (ReleaseList)
 					{
 						/*
@@ -59,15 +59,15 @@ int main(int argc, const char *argv[])
 						 *clone it. We are now responsible for deleting the object
 						*/
 
-						Mb4ReleaseList CloneReleaseList=mb4_release_list_clone(ReleaseList);
+						Mb5ReleaseList CloneReleaseList=mb5_release_list_clone(ReleaseList);
 						int ThisRelease=0;
 
-						printf("Found %d release(s)\n",mb4_release_list_size(ReleaseList));
+						printf("Found %d release(s)\n",mb5_release_list_size(ReleaseList));
 
-						for (ThisRelease=0;ThisRelease<mb4_release_list_size(ReleaseList);ThisRelease++)
+						for (ThisRelease=0;ThisRelease<mb5_release_list_size(ReleaseList);ThisRelease++)
 						{
-							Mb4Metadata Metadata2=0;
-							Mb4Release Release=mb4_release_list_item(ReleaseList,ThisRelease);
+							Mb5Metadata Metadata2=0;
+							Mb5Release Release=mb5_release_list_item(ReleaseList,ThisRelease);
 
 							if (Release)
 							{
@@ -85,13 +85,13 @@ int main(int argc, const char *argv[])
 								strcpy(ParamNames[0],"inc");
 								strcpy(ParamValues[0],"artists labels recordings release-groups url-rels discids artist-credits");
 
-								mb4_release_get_id(Release,ReleaseID,sizeof(ReleaseID));
+								mb5_release_get_id(Release,ReleaseID,sizeof(ReleaseID));
 
-								Metadata2=mb4_query_query(Query,"release",ReleaseID,"",1,ParamNames,ParamValues);
+								Metadata2=mb5_query_query(Query,"release",ReleaseID,"",1,ParamNames,ParamValues);
 
 								if (Metadata2)
 								{
-									Mb4Release FullRelease=mb4_metadata_get_release(Metadata2);
+									Mb5Release FullRelease=mb5_metadata_get_release(Metadata2);
 									if (FullRelease)
 									{
 										/*
@@ -99,14 +99,14 @@ int main(int argc, const char *argv[])
 										 * So we need to filter out the only the media we want.
 										 */
 
-										Mb4MediumList MediumList=mb4_release_media_matching_discid(FullRelease,DiscID);
+										Mb5MediumList MediumList=mb5_release_media_matching_discid(FullRelease,DiscID);
 										if (MediumList)
 										{
-											if (mb4_medium_list_size(MediumList))
+											if (mb5_medium_list_size(MediumList))
 											{
 												int ThisMedium=0;
 
-												Mb4ReleaseGroup ReleaseGroup=mb4_release_get_releasegroup(FullRelease);
+												Mb5ReleaseGroup ReleaseGroup=mb5_release_get_releasegroup(FullRelease);
 												if (ReleaseGroup)
 												{
 													/* One way of getting a string, just use a buffer that
@@ -115,50 +115,50 @@ int main(int argc, const char *argv[])
 
 													char Title[256];
 
-													mb4_releasegroup_get_title(ReleaseGroup,Title,sizeof(Title));
+													mb5_releasegroup_get_title(ReleaseGroup,Title,sizeof(Title));
 													printf("Release group title: '%s'\n",Title);
 												}
 												else
 													printf("No release group for this release\n");
 
-												printf("Found %d media item(s)\n",mb4_medium_list_size(MediumList));
+												printf("Found %d media item(s)\n",mb5_medium_list_size(MediumList));
 
-												for (ThisMedium=0;ThisMedium<mb4_medium_list_size(MediumList);ThisMedium++)
+												for (ThisMedium=0;ThisMedium<mb5_medium_list_size(MediumList);ThisMedium++)
 												{
-													Mb4Medium Medium=mb4_medium_list_item(MediumList,ThisMedium);
+													Mb5Medium Medium=mb5_medium_list_item(MediumList,ThisMedium);
 													if (Medium)
 													{
 														int AllocSize=10;
 														char *MediumTitle=malloc(AllocSize);
 														int RequiredSize;
 
-														Mb4TrackList TrackList=mb4_medium_get_tracklist(Medium);
+														Mb5TrackList TrackList=mb5_medium_get_tracklist(Medium);
 
 														/* Another way of getting a string. Preallocate a buffer
 														 * and check if if was big enough when retrieving string.
 														 * If not, reallocate it to be big enough and get it again.
 														 */
 
-														RequiredSize=mb4_medium_get_title(Medium,MediumTitle,AllocSize);
+														RequiredSize=mb5_medium_get_title(Medium,MediumTitle,AllocSize);
 														if (RequiredSize>AllocSize)
 														{
 															MediumTitle=realloc(MediumTitle,RequiredSize+1);
-															mb4_medium_get_title(Medium,MediumTitle,RequiredSize+1);
+															mb5_medium_get_title(Medium,MediumTitle,RequiredSize+1);
 														}
 
-														printf("Found media: '%s', position %d\n",MediumTitle,mb4_medium_get_position(Medium));
+														printf("Found media: '%s', position %d\n",MediumTitle,mb5_medium_get_position(Medium));
 
 														if (TrackList)
 														{
 															int ThisTrack=0;
 
-															for (ThisTrack=0;ThisTrack<mb4_track_list_size(TrackList);ThisTrack++)
+															for (ThisTrack=0;ThisTrack<mb5_track_list_size(TrackList);ThisTrack++)
 															{
 																char *TrackTitle=0;
 																int RequiredLength=0;
 
-																Mb4Track Track=mb4_track_list_item(TrackList,ThisTrack);
-																Mb4Recording Recording=mb4_track_get_recording(Track);
+																Mb5Track Track=mb5_track_list_item(TrackList,ThisTrack);
+																Mb5Recording Recording=mb5_track_get_recording(Track);
 
 																/* Yet another way of getting string. Call it once to
 																 * find out how long the buffer needs to be, allocate
@@ -167,18 +167,18 @@ int main(int argc, const char *argv[])
 
 																if (Recording)
 																{
-																	RequiredLength=mb4_recording_get_title(Recording,TrackTitle,0);
+																	RequiredLength=mb5_recording_get_title(Recording,TrackTitle,0);
 																	TrackTitle=malloc(RequiredLength+1);
-																	mb4_recording_get_title(Recording,TrackTitle,RequiredLength+1);
+																	mb5_recording_get_title(Recording,TrackTitle,RequiredLength+1);
 																}
 																else
 																{
-																	RequiredLength=mb4_track_get_title(Track,TrackTitle,0);
+																	RequiredLength=mb5_track_get_title(Track,TrackTitle,0);
 																	TrackTitle=malloc(RequiredLength+1);
-																	mb4_track_get_title(Track,TrackTitle,RequiredLength+1);
+																	mb5_track_get_title(Track,TrackTitle,RequiredLength+1);
 																}
 
-																printf("Track: %d - '%s'\n",mb4_track_get_position(Track),TrackTitle);
+																printf("Track: %d - '%s'\n",mb5_track_get_position(Track),TrackTitle);
 
 																free(TrackTitle);
 															}
@@ -191,13 +191,13 @@ int main(int argc, const char *argv[])
 
 											/* We must delete the result of 'media_matching_discid' */
 
-											mb4_medium_list_delete(MediumList);
+											mb5_medium_list_delete(MediumList);
 										}
 									}
 
 									/* We must delete anything returned from the query methods */
 
-									mb4_metadata_delete(Metadata2);
+									mb5_metadata_delete(Metadata2);
 								}
 
 								free(ParamValues[0]);
@@ -209,17 +209,17 @@ int main(int argc, const char *argv[])
 
 						/* We must delete anything we have cloned */
 
-						mb4_release_list_delete(CloneReleaseList);
+						mb5_release_list_delete(CloneReleaseList);
 					}
 				}
 
 				/* We must delete anything returned from the query methods */
 
-				mb4_metadata_delete(Metadata1);
+				mb5_metadata_delete(Metadata1);
 			}
 
 			/* We must delete the original query object */
-			mb4_query_delete(Query);
+			mb5_query_delete(Query);
 		}
 	}
 	else

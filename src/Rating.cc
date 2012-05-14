@@ -1,16 +1,16 @@
 /* --------------------------------------------------------------------------
 
-   libmusicbrainz4 - Client library to access MusicBrainz
+   libmusicbrainz5 - Client library to access MusicBrainz
 
    Copyright (C) 2011 Andrew Hawkins
 
-   This file is part of libmusicbrainz4.
+   This file is part of libmusicbrainz5.
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of v2 of the GNU Lesser General Public
    License as published by the Free Software Foundation.
 
-   libmusicbrainz4 is distributed in the hope that it will be useful,
+   libmusicbrainz5 is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    Lesser General Public License for more details.
@@ -23,11 +23,11 @@
 ----------------------------------------------------------------------------*/
 
 #include "config.h"
-#include "musicbrainz4/defines.h"
+#include "musicbrainz5/defines.h"
 
-#include "musicbrainz4/Rating.h"
+#include "musicbrainz5/Rating.h"
 
-class MusicBrainz4::CRatingPrivate
+class MusicBrainz5::CRatingPrivate
 {
 	public:
 		CRatingPrivate()
@@ -40,7 +40,7 @@ class MusicBrainz4::CRatingPrivate
 		double m_Rating;
 };
 
-MusicBrainz4::CRating::CRating(const XMLNode& Node)
+MusicBrainz5::CRating::CRating(const XMLNode& Node)
 :	CEntity(),
 	m_d(new CRatingPrivate)
 {
@@ -57,14 +57,14 @@ MusicBrainz4::CRating::CRating(const XMLNode& Node)
 	}
 }
 
-MusicBrainz4::CRating::CRating(const CRating& Other)
+MusicBrainz5::CRating::CRating(const CRating& Other)
 :	CEntity(),
 	m_d(new CRatingPrivate)
 {
 	*this=Other;
 }
 
-MusicBrainz4::CRating& MusicBrainz4::CRating::operator =(const CRating& Other)
+MusicBrainz5::CRating& MusicBrainz5::CRating::operator =(const CRating& Other)
 {
 	if (this!=&Other)
 	{
@@ -77,17 +77,17 @@ MusicBrainz4::CRating& MusicBrainz4::CRating::operator =(const CRating& Other)
 	return *this;
 }
 
-MusicBrainz4::CRating::~CRating()
+MusicBrainz5::CRating::~CRating()
 {
 	delete m_d;
 }
 
-MusicBrainz4::CRating *MusicBrainz4::CRating::Clone()
+MusicBrainz5::CRating *MusicBrainz5::CRating::Clone()
 {
 	return new CRating(*this);
 }
 
-bool MusicBrainz4::CRating::ParseAttribute(const std::string& Name, const std::string& Value)
+bool MusicBrainz5::CRating::ParseAttribute(const std::string& Name, const std::string& Value)
 {
 	bool RetVal=true;
 
@@ -104,7 +104,7 @@ bool MusicBrainz4::CRating::ParseAttribute(const std::string& Name, const std::s
 	return RetVal;
 }
 
-bool MusicBrainz4::CRating::ParseElement(const XMLNode& Node)
+bool MusicBrainz5::CRating::ParseElement(const XMLNode& Node)
 {
 	bool RetVal=true;
 
@@ -116,22 +116,22 @@ bool MusicBrainz4::CRating::ParseElement(const XMLNode& Node)
 	return RetVal;
 }
 
-std::string MusicBrainz4::CRating::GetElementName()
+std::string MusicBrainz5::CRating::GetElementName()
 {
 	return "rating";
 }
 
-int MusicBrainz4::CRating::VotesCount() const
+int MusicBrainz5::CRating::VotesCount() const
 {
 	return m_d->m_VotesCount;
 }
 
-double MusicBrainz4::CRating::Rating() const
+double MusicBrainz5::CRating::Rating() const
 {
 	return m_d->m_Rating;
 }
 
-std::ostream& MusicBrainz4::CRating::Serialise(std::ostream& os) const
+std::ostream& MusicBrainz5::CRating::Serialise(std::ostream& os) const
 {
 	os << "Rating:" << std::endl;
 

@@ -1,16 +1,16 @@
 /* --------------------------------------------------------------------------
 
-   libmusicbrainz4 - Client library to access MusicBrainz
+   libmusicbrainz5 - Client library to access MusicBrainz
 
    Copyright (C) 2011 Andrew Hawkins
 
-   This file is part of libmusicbrainz4.
+   This file is part of libmusicbrainz5.
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of v2 of the GNU Lesser General Public
    License as published by the Free Software Foundation.
 
-   libmusicbrainz4 is distributed in the hope that it will be useful,
+   libmusicbrainz5 is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    Lesser General Public License for more details.
@@ -23,16 +23,16 @@
 ----------------------------------------------------------------------------*/
 
 #include "config.h"
-#include "musicbrainz4/defines.h"
+#include "musicbrainz5/defines.h"
 
-#include "musicbrainz4/Medium.h"
+#include "musicbrainz5/Medium.h"
 
-#include "musicbrainz4/Disc.h"
-#include "musicbrainz4/DiscList.h"
-#include "musicbrainz4/Track.h"
-#include "musicbrainz4/TrackList.h"
+#include "musicbrainz5/Disc.h"
+#include "musicbrainz5/DiscList.h"
+#include "musicbrainz5/Track.h"
+#include "musicbrainz5/TrackList.h"
 
-class MusicBrainz4::CMediumPrivate
+class MusicBrainz5::CMediumPrivate
 {
 	public:
 		CMediumPrivate()
@@ -49,7 +49,7 @@ class MusicBrainz4::CMediumPrivate
 		CTrackList *m_TrackList;
 };
 
-MusicBrainz4::CMedium::CMedium(const XMLNode& Node)
+MusicBrainz5::CMedium::CMedium(const XMLNode& Node)
 :	CEntity(),
 	m_d(new CMediumPrivate)
 {
@@ -61,14 +61,14 @@ MusicBrainz4::CMedium::CMedium(const XMLNode& Node)
 	}
 }
 
-MusicBrainz4::CMedium::CMedium(const CMedium& Other)
+MusicBrainz5::CMedium::CMedium(const CMedium& Other)
 :	CEntity(),
 	m_d(new CMediumPrivate)
 {
 	*this=Other;
 }
 
-MusicBrainz4::CMedium& MusicBrainz4::CMedium::operator =(const CMedium& Other)
+MusicBrainz5::CMedium& MusicBrainz5::CMedium::operator =(const CMedium& Other)
 {
 	if (this!=&Other)
 	{
@@ -90,14 +90,14 @@ MusicBrainz4::CMedium& MusicBrainz4::CMedium::operator =(const CMedium& Other)
 	return *this;
 }
 
-MusicBrainz4::CMedium::~CMedium()
+MusicBrainz5::CMedium::~CMedium()
 {
 	Cleanup();
 
 	delete m_d;
 }
 
-void MusicBrainz4::CMedium::Cleanup()
+void MusicBrainz5::CMedium::Cleanup()
 {
 	delete m_d->m_DiscList;
 	m_d->m_DiscList=0;
@@ -106,12 +106,12 @@ void MusicBrainz4::CMedium::Cleanup()
 	m_d->m_TrackList=0;
 }
 
-MusicBrainz4::CMedium *MusicBrainz4::CMedium::Clone()
+MusicBrainz5::CMedium *MusicBrainz5::CMedium::Clone()
 {
 	return new CMedium(*this);
 }
 
-bool MusicBrainz4::CMedium::ParseAttribute(const std::string& Name, const std::string& /*Value*/)
+bool MusicBrainz5::CMedium::ParseAttribute(const std::string& Name, const std::string& /*Value*/)
 {
 	bool RetVal=true;
 
@@ -121,7 +121,7 @@ bool MusicBrainz4::CMedium::ParseAttribute(const std::string& Name, const std::s
 	return RetVal;
 }
 
-bool MusicBrainz4::CMedium::ParseElement(const XMLNode& Node)
+bool MusicBrainz5::CMedium::ParseElement(const XMLNode& Node)
 {
 	bool RetVal=true;
 
@@ -156,37 +156,37 @@ bool MusicBrainz4::CMedium::ParseElement(const XMLNode& Node)
 	return RetVal;
 }
 
-std::string MusicBrainz4::CMedium::GetElementName()
+std::string MusicBrainz5::CMedium::GetElementName()
 {
 	return "medium";
 }
 
-std::string MusicBrainz4::CMedium::Title() const
+std::string MusicBrainz5::CMedium::Title() const
 {
 	return m_d->m_Title;
 }
 
-int MusicBrainz4::CMedium::Position() const
+int MusicBrainz5::CMedium::Position() const
 {
 	return m_d->m_Position;
 }
 
-std::string MusicBrainz4::CMedium::Format() const
+std::string MusicBrainz5::CMedium::Format() const
 {
 	return m_d->m_Format;
 }
 
-MusicBrainz4::CDiscList *MusicBrainz4::CMedium::DiscList() const
+MusicBrainz5::CDiscList *MusicBrainz5::CMedium::DiscList() const
 {
 	return m_d->m_DiscList;
 }
 
-MusicBrainz4::CTrackList *MusicBrainz4::CMedium::TrackList() const
+MusicBrainz5::CTrackList *MusicBrainz5::CMedium::TrackList() const
 {
 	return m_d->m_TrackList;
 }
 
-bool MusicBrainz4::CMedium::ContainsDiscID(const std::string& DiscID) const
+bool MusicBrainz5::CMedium::ContainsDiscID(const std::string& DiscID) const
 {
 	bool RetVal=false;
 
@@ -204,7 +204,7 @@ bool MusicBrainz4::CMedium::ContainsDiscID(const std::string& DiscID) const
 	return RetVal;
 }
 
-std::ostream& MusicBrainz4::CMedium::Serialise(std::ostream& os) const
+std::ostream& MusicBrainz5::CMedium::Serialise(std::ostream& os) const
 {
 	os << "Medium:" << std::endl;
 

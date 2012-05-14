@@ -5,8 +5,8 @@ GENERATE_LATEX      = NO
 GENERATE_MAN        = NO
 GENERATE_RTF        = NO
 CASE_SENSE_NAMES    = NO
-INPUT               = include/musicbrainz4
-EXCLUDE             = include/musicbrainz4/xmlParser.h
+INPUT               = include/musicbrainz5
+EXCLUDE             = include/musicbrainz5/xmlParser.h
 JAVADOC_AUTOBRIEF   = YES
 EXTRACT_ALL         = YES
 EXTRACT_STATIC      = YES
@@ -16,5 +16,5 @@ SHOW_INCLUDE_FILES  = NO
 FULL_PATH_NAMES     = NO
 MACRO_EXPANSION     = YES
 EXPAND_ONLY_PREDEF  = YES
-PREDEFINED          = LIBMB4_DEPRECATED(f)=
+PREDEFINED          = LIBMB5_DEPRECATED(f)=
 REPEAT_BRIEF        = NO

@@ -1,16 +1,16 @@
 /* --------------------------------------------------------------------------
 
-   libmusicbrainz4 - Client library to access MusicBrainz
+   libmusicbrainz5 - Client library to access MusicBrainz
 
    Copyright (C) 2011 Andrew Hawkins
 
-   This file is part of libmusicbrainz4.
+   This file is part of libmusicbrainz5.
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of v2 of the GNU Lesser General Public
    License as published by the Free Software Foundation.
 
-   libmusicbrainz4 is distributed in the hope that it will be useful,
+   libmusicbrainz5 is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    Lesser General Public License for more details.
@@ -23,16 +23,16 @@
 ----------------------------------------------------------------------------*/
 
 #include "config.h"
-#include "musicbrainz4/defines.h"
+#include "musicbrainz5/defines.h"
 
-#include "musicbrainz4/RelationListList.h"
+#include "musicbrainz5/RelationListList.h"
 
 #include <vector>
 
-#include "musicbrainz4/RelationList.h"
-#include "musicbrainz4/Relation.h"
+#include "musicbrainz5/RelationList.h"
+#include "musicbrainz5/Relation.h"
 
-class MusicBrainz4::CRelationListListPrivate
+class MusicBrainz5::CRelationListListPrivate
 {
 	public:
 		CRelationListListPrivate()
@@ -43,18 +43,18 @@ class MusicBrainz4::CRelationListListPrivate
 		std::vector<CRelationList *> *m_ListGroup;
 };
 
-MusicBrainz4::CRelationListList::CRelationListList()
+MusicBrainz5::CRelationListList::CRelationListList()
 :	m_d(new CRelationListListPrivate)
 {
 }
 
-MusicBrainz4::CRelationListList::CRelationListList(const CRelationListList& Other)
+MusicBrainz5::CRelationListList::CRelationListList(const CRelationListList& Other)
 :	m_d(new CRelationListListPrivate)
 {
 	*this=Other;
 }
 
-MusicBrainz4::CRelationListList& MusicBrainz4::CRelationListList::operator =(const CRelationListList& Other)
+MusicBrainz5::CRelationListList& MusicBrainz5::CRelationListList::operator =(const CRelationListList& Other)
 {
 	if (this!=&Other)
 	{
@@ -75,14 +75,14 @@ MusicBrainz4::CRelationListList& MusicBrainz4::CRelationListList::operator =(con
 	return *this;
 }
 
-MusicBrainz4::CRelationListList::~CRelationListList()
+MusicBrainz5::CRelationListList::~CRelationListList()
 {
 	Cleanup();
 
 	delete m_d;
 }
 
-void MusicBrainz4::CRelationListList::Cleanup()
+void MusicBrainz5::CRelationListList::Cleanup()
 {
 	if (m_d->m_ListGroup)
 	{
@@ -98,7 +98,7 @@ void MusicBrainz4::CRelationListList::Cleanup()
 	m_d->m_ListGroup=0;
 }
 
-void MusicBrainz4::CRelationListList::Add(CRelationList *RelationList)
+void MusicBrainz5::CRelationListList::Add(CRelationList *RelationList)
 {
 	if (!m_d->m_ListGroup)
 		m_d->m_ListGroup=new std::vector<CRelationList *>;
@@ -106,7 +106,7 @@ void MusicBrainz4::CRelationListList::Add(CRelationList *RelationList)
 	m_d->m_ListGroup->push_back(new CRelationList(*RelationList));
 }
 
-int MusicBrainz4::CRelationListList::NumItems() const
+int MusicBrainz5::CRelationListList::NumItems() const
 {
 	int Ret=0;
 
@@ -116,7 +116,7 @@ int MusicBrainz4::CRelationListList::NumItems() const
 	return Ret;
 }
 
-MusicBrainz4::CRelationList *MusicBrainz4::CRelationListList::Item(int Item) const
+MusicBrainz5::CRelationList *MusicBrainz5::CRelationListList::Item(int Item) const
 {
 	CRelationList *RelationList=0;
 
@@ -126,7 +126,7 @@ MusicBrainz4::CRelationList *MusicBrainz4::CRelationListList::Item(int Item) con
 	return RelationList;
 }
 
-std::ostream& MusicBrainz4::CRelationListList::Serialise(std::ostream& os) const
+std::ostream& MusicBrainz5::CRelationListList::Serialise(std::ostream& os) const
 {
 	if (m_d->m_ListGroup && m_d->m_ListGroup->size()!=0)
 	{
@@ -141,7 +141,7 @@ std::ostream& MusicBrainz4::CRelationListList::Serialise(std::ostream& os) const
 	return os;
 }
 
-std::ostream& operator << (std::ostream& os, const MusicBrainz4::CRelationListList& RelationListList)
+std::ostream& operator << (std::ostream& os, const MusicBrainz5::CRelationListList& RelationListList)
 {
 	return RelationListList.Serialise(os);
 }

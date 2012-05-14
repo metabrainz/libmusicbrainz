@@ -1,16 +1,16 @@
 /* --------------------------------------------------------------------------
 
-   libmusicbrainz4 - Client library to access MusicBrainz
+   libmusicbrainz5 - Client library to access MusicBrainz
 
    Copyright (C) 2012 Andrew Hawkins
 
-   This file is part of libmusicbrainz4.
+   This file is part of libmusicbrainz5.
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of v2 of the GNU Lesser General Public
    License as published by the Free Software Foundation.
 
-   libmusicbrainz4 is distributed in the hope that it will be useful,
+   libmusicbrainz5 is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    Lesser General Public License for more details.
@@ -24,10 +24,10 @@
 
 #include "config.h"
 
-#include "musicbrainz4/ISWC.h"
+#include "musicbrainz5/ISWC.h"
 
 
-class MusicBrainz4::CISWCPrivate
+class MusicBrainz5::CISWCPrivate
 {
 	public:
 		CISWCPrivate()
@@ -37,7 +37,7 @@ class MusicBrainz4::CISWCPrivate
 		std::string m_ISWC;
 };
 
-MusicBrainz4::CISWC::CISWC(const XMLNode& Node)
+MusicBrainz5::CISWC::CISWC(const XMLNode& Node)
 :	CEntity(),
 	m_d(new CISWCPrivate)
 {
@@ -52,14 +52,14 @@ MusicBrainz4::CISWC::CISWC(const XMLNode& Node)
 	}
 }
 
-MusicBrainz4::CISWC::CISWC(const CISWC& Other)
+MusicBrainz5::CISWC::CISWC(const CISWC& Other)
 :	CEntity(),
 	m_d(new CISWCPrivate)
 {
 	*this=Other;
 }
 
-MusicBrainz4::CISWC& MusicBrainz4::CISWC::operator =(const CISWC& Other)
+MusicBrainz5::CISWC& MusicBrainz5::CISWC::operator =(const CISWC& Other)
 {
 	if (this!=&Other)
 	{
@@ -73,23 +73,23 @@ MusicBrainz4::CISWC& MusicBrainz4::CISWC::operator =(const CISWC& Other)
 	return *this;
 }
 
-MusicBrainz4::CISWC::~CISWC()
+MusicBrainz5::CISWC::~CISWC()
 {
 	Cleanup();
 
 	delete m_d;
 }
 
-void MusicBrainz4::CISWC::Cleanup()
+void MusicBrainz5::CISWC::Cleanup()
 {
 }
 
-MusicBrainz4::CISWC *MusicBrainz4::CISWC::Clone()
+MusicBrainz5::CISWC *MusicBrainz5::CISWC::Clone()
 {
 	return new CISWC(*this);
 }
 
-bool MusicBrainz4::CISWC::ParseAttribute(const std::string& Name, const std::string& /*Value*/)
+bool MusicBrainz5::CISWC::ParseAttribute(const std::string& Name, const std::string& /*Value*/)
 {
 	bool RetVal=true;
 
@@ -99,7 +99,7 @@ bool MusicBrainz4::CISWC::ParseAttribute(const std::string& Name, const std::str
 	return RetVal;
 }
 
-bool MusicBrainz4::CISWC::ParseElement(const XMLNode& Node)
+bool MusicBrainz5::CISWC::ParseElement(const XMLNode& Node)
 {
 	bool RetVal=true;
 
@@ -111,17 +111,17 @@ bool MusicBrainz4::CISWC::ParseElement(const XMLNode& Node)
 	return RetVal;
 }
 
-std::string MusicBrainz4::CISWC::GetElementName()
+std::string MusicBrainz5::CISWC::GetElementName()
 {
 	return "iswc";
 }
 
-std::string MusicBrainz4::CISWC::ISWC() const
+std::string MusicBrainz5::CISWC::ISWC() const
 {
 	return m_d->m_ISWC;
 }
 
-std::ostream& MusicBrainz4::CISWC::Serialise(std::ostream& os) const
+std::ostream& MusicBrainz5::CISWC::Serialise(std::ostream& os) const
 {
 	os << "ISWC:" << std::endl;
 

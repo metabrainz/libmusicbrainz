@@ -1,16 +1,16 @@
 /* --------------------------------------------------------------------------
 
-   libmusicbrainz4 - Client library to access MusicBrainz
+   libmusicbrainz5 - Client library to access MusicBrainz
 
    Copyright (C) 2011 Andrew Hawkins
 
-   This file is part of libmusicbrainz4.
+   This file is part of libmusicbrainz5.
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of v2 of the GNU Lesser General Public
    License as published by the Free Software Foundation.
 
-   libmusicbrainz4 is distributed in the hope that it will be useful,
+   libmusicbrainz5 is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    Lesser General Public License for more details.
@@ -23,14 +23,14 @@
 ----------------------------------------------------------------------------*/
 
 #include "config.h"
-#include "musicbrainz4/defines.h"
+#include "musicbrainz5/defines.h"
 
-#include "musicbrainz4/FreeDBDisc.h"
+#include "musicbrainz5/FreeDBDisc.h"
 
-#include "musicbrainz4/NonMBTrackList.h"
-#include "musicbrainz4/NonMBTrack.h"
+#include "musicbrainz5/NonMBTrackList.h"
+#include "musicbrainz5/NonMBTrack.h"
 
-class MusicBrainz4::CFreeDBDiscPrivate
+class MusicBrainz5::CFreeDBDiscPrivate
 {
 	public:
 		CFreeDBDiscPrivate()
@@ -46,7 +46,7 @@ class MusicBrainz4::CFreeDBDiscPrivate
 		CNonMBTrackList *m_NonMBTrackList;
 };
 
-MusicBrainz4::CFreeDBDisc::CFreeDBDisc(const XMLNode& Node)
+MusicBrainz5::CFreeDBDisc::CFreeDBDisc(const XMLNode& Node)
 :	CEntity(),
 	m_d(new CFreeDBDiscPrivate)
 {
@@ -58,14 +58,14 @@ MusicBrainz4::CFreeDBDisc::CFreeDBDisc(const XMLNode& Node)
 	}
 }
 
-MusicBrainz4::CFreeDBDisc::CFreeDBDisc(const CFreeDBDisc& Other)
+MusicBrainz5::CFreeDBDisc::CFreeDBDisc(const CFreeDBDisc& Other)
 :	CEntity(),
 	m_d(new CFreeDBDiscPrivate)
 {
 	*this=Other;
 }
 
-MusicBrainz4::CFreeDBDisc& MusicBrainz4::CFreeDBDisc::operator =(const CFreeDBDisc& Other)
+MusicBrainz5::CFreeDBDisc& MusicBrainz5::CFreeDBDisc::operator =(const CFreeDBDisc& Other)
 {
 	if (this!=&Other)
 	{
@@ -86,25 +86,25 @@ MusicBrainz4::CFreeDBDisc& MusicBrainz4::CFreeDBDisc::operator =(const CFreeDBDi
 	return *this;
 }
 
-MusicBrainz4::CFreeDBDisc::~CFreeDBDisc()
+MusicBrainz5::CFreeDBDisc::~CFreeDBDisc()
 {
 	Cleanup();
 
 	delete m_d;
 }
 
-void MusicBrainz4::CFreeDBDisc::Cleanup()
+void MusicBrainz5::CFreeDBDisc::Cleanup()
 {
 	delete m_d->m_NonMBTrackList;
 	m_d->m_NonMBTrackList=0;
 }
 
-MusicBrainz4::CFreeDBDisc *MusicBrainz4::CFreeDBDisc::Clone()
+MusicBrainz5::CFreeDBDisc *MusicBrainz5::CFreeDBDisc::Clone()
 {
 	return new CFreeDBDisc(*this);
 }
 
-bool MusicBrainz4::CFreeDBDisc::ParseAttribute(const std::string& Name, const std::string& Value)
+bool MusicBrainz5::CFreeDBDisc::ParseAttribute(const std::string& Name, const std::string& Value)
 {
 	bool RetVal=true;
 
@@ -120,7 +120,7 @@ bool MusicBrainz4::CFreeDBDisc::ParseAttribute(const std::string& Name, const st
 	return RetVal;
 }
 
-bool MusicBrainz4::CFreeDBDisc::ParseElement(const XMLNode& Node)
+bool MusicBrainz5::CFreeDBDisc::ParseElement(const XMLNode& Node)
 {
 	bool RetVal=true;
 
@@ -155,42 +155,42 @@ bool MusicBrainz4::CFreeDBDisc::ParseElement(const XMLNode& Node)
 	return RetVal;
 }
 
-std::string MusicBrainz4::CFreeDBDisc::GetElementName()
+std::string MusicBrainz5::CFreeDBDisc::GetElementName()
 {
 	return "freedb-disc";
 }
 
-std::string MusicBrainz4::CFreeDBDisc::ID() const
+std::string MusicBrainz5::CFreeDBDisc::ID() const
 {
 	return m_d->m_ID;
 }
 
-std::string MusicBrainz4::CFreeDBDisc::Title() const
+std::string MusicBrainz5::CFreeDBDisc::Title() const
 {
 	return m_d->m_Title;
 }
 
-std::string MusicBrainz4::CFreeDBDisc::Artist() const
+std::string MusicBrainz5::CFreeDBDisc::Artist() const
 {
 	return m_d->m_Artist;
 }
 
-std::string MusicBrainz4::CFreeDBDisc::Category() const
+std::string MusicBrainz5::CFreeDBDisc::Category() const
 {
 	return m_d->m_Category;
 }
 
-std::string MusicBrainz4::CFreeDBDisc::Year() const
+std::string MusicBrainz5::CFreeDBDisc::Year() const
 {
 	return m_d->m_Year;
 }
 
-MusicBrainz4::CNonMBTrackList *MusicBrainz4::CFreeDBDisc::NonMBTrackList() const
+MusicBrainz5::CNonMBTrackList *MusicBrainz5::CFreeDBDisc::NonMBTrackList() const
 {
 	return m_d->m_NonMBTrackList;
 }
 
-std::ostream& MusicBrainz4::CFreeDBDisc::Serialise(std::ostream& os) const
+std::ostream& MusicBrainz5::CFreeDBDisc::Serialise(std::ostream& os) const
 {
 	os << "FreeDBDisc:" << std::endl;
 

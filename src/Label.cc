@@ -1,16 +1,16 @@
 /* --------------------------------------------------------------------------
 
-   libmusicbrainz4 - Client library to access MusicBrainz
+   libmusicbrainz5 - Client library to access MusicBrainz
 
    Copyright (C) 2011 Andrew Hawkins
 
-   This file is part of libmusicbrainz4.
+   This file is part of libmusicbrainz5.
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of v2 of the GNU Lesser General Public
    License as published by the Free Software Foundation.
 
-   libmusicbrainz4 is distributed in the hope that it will be useful,
+   libmusicbrainz5 is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    Lesser General Public License for more details.
@@ -23,29 +23,29 @@
 ----------------------------------------------------------------------------*/
 
 #include "config.h"
-#include "musicbrainz4/defines.h"
+#include "musicbrainz5/defines.h"
 
-#include "musicbrainz4/Label.h"
+#include "musicbrainz5/Label.h"
 
 #include <iostream>
 
-#include "musicbrainz4/Lifespan.h"
-#include "musicbrainz4/IPI.h"
-#include "musicbrainz4/Rating.h"
-#include "musicbrainz4/UserRating.h"
-#include "musicbrainz4/Alias.h"
-#include "musicbrainz4/AliasList.h"
-#include "musicbrainz4/Release.h"
-#include "musicbrainz4/ReleaseList.h"
-#include "musicbrainz4/Relation.h"
-#include "musicbrainz4/RelationList.h"
-#include "musicbrainz4/RelationListList.h"
-#include "musicbrainz4/Tag.h"
-#include "musicbrainz4/TagList.h"
-#include "musicbrainz4/UserTag.h"
-#include "musicbrainz4/UserTagList.h"
+#include "musicbrainz5/Lifespan.h"
+#include "musicbrainz5/IPI.h"
+#include "musicbrainz5/Rating.h"
+#include "musicbrainz5/UserRating.h"
+#include "musicbrainz5/Alias.h"
+#include "musicbrainz5/AliasList.h"
+#include "musicbrainz5/Release.h"
+#include "musicbrainz5/ReleaseList.h"
+#include "musicbrainz5/Relation.h"
+#include "musicbrainz5/RelationList.h"
+#include "musicbrainz5/RelationListList.h"
+#include "musicbrainz5/Tag.h"
+#include "musicbrainz5/TagList.h"
+#include "musicbrainz5/UserTag.h"
+#include "musicbrainz5/UserTagList.h"
 
-class MusicBrainz4::CLabelPrivate
+class MusicBrainz5::CLabelPrivate
 {
 	public:
 		CLabelPrivate()
@@ -80,7 +80,7 @@ class MusicBrainz4::CLabelPrivate
 		CRating *m_Rating;
 		CUserRating *m_UserRating;
 };
-MusicBrainz4::CLabel::CLabel(const XMLNode& Node)
+MusicBrainz5::CLabel::CLabel(const XMLNode& Node)
 :	CEntity(),
 	m_d(new CLabelPrivate)
 {
@@ -92,14 +92,14 @@ MusicBrainz4::CLabel::CLabel(const XMLNode& Node)
 	}
 }
 
-MusicBrainz4::CLabel::CLabel(const CLabel& Other)
+MusicBrainz5::CLabel::CLabel(const CLabel& Other)
 :	CEntity(),
 	m_d(new CLabelPrivate)
 {
 	*this=Other;
 }
 
-MusicBrainz4::CLabel& MusicBrainz4::CLabel::operator =(const CLabel& Other)
+MusicBrainz5::CLabel& MusicBrainz5::CLabel::operator =(const CLabel& Other)
 {
 	if (this!=&Other)
 	{
@@ -148,14 +148,14 @@ MusicBrainz4::CLabel& MusicBrainz4::CLabel::operator =(const CLabel& Other)
 	return *this;
 }
 
-MusicBrainz4::CLabel::~CLabel()
+MusicBrainz5::CLabel::~CLabel()
 {
 	Cleanup();
 
 	delete m_d;
 }
 
-void MusicBrainz4::CLabel::Cleanup()
+void MusicBrainz5::CLabel::Cleanup()
 {
 	delete m_d->m_IPIList;
 	m_d->m_IPIList=0;
@@ -185,12 +185,12 @@ void MusicBrainz4::CLabel::Cleanup()
 	m_d->m_UserRating=0;
 }
 
-MusicBrainz4::CLabel *MusicBrainz4::CLabel::Clone()
+MusicBrainz5::CLabel *MusicBrainz5::CLabel::Clone()
 {
 	return new CLabel(*this);
 }
 
-bool MusicBrainz4::CLabel::ParseAttribute(const std::string& Name, const std::string& Value)
+bool MusicBrainz5::CLabel::ParseAttribute(const std::string& Name, const std::string& Value)
 {
 	bool RetVal=true;
 
@@ -207,7 +207,7 @@ bool MusicBrainz4::CLabel::ParseAttribute(const std::string& Name, const std::st
 	return RetVal;
 }
 
-bool MusicBrainz4::CLabel::ParseElement(const XMLNode& Node)
+bool MusicBrainz5::CLabel::ParseElement(const XMLNode& Node)
 {
 	bool RetVal=true;
 
@@ -282,102 +282,102 @@ bool MusicBrainz4::CLabel::ParseElement(const XMLNode& Node)
 	return RetVal;
 }
 
-std::string MusicBrainz4::CLabel::GetElementName()
+std::string MusicBrainz5::CLabel::GetElementName()
 {
 	return "label";
 }
 
-std::string MusicBrainz4::CLabel::ID() const
+std::string MusicBrainz5::CLabel::ID() const
 {
 	return m_d->m_ID;
 }
 
-std::string MusicBrainz4::CLabel::Type() const
+std::string MusicBrainz5::CLabel::Type() const
 {
 	return m_d->m_Type;
 }
 
-std::string MusicBrainz4::CLabel::Name() const
+std::string MusicBrainz5::CLabel::Name() const
 {
 	return m_d->m_Name;
 }
 
-std::string MusicBrainz4::CLabel::SortName() const
+std::string MusicBrainz5::CLabel::SortName() const
 {
 	return m_d->m_SortName;
 }
 
-int MusicBrainz4::CLabel::LabelCode() const
+int MusicBrainz5::CLabel::LabelCode() const
 {
 	return m_d->m_LabelCode;
 }
 
-std::string MusicBrainz4::CLabel::IPI() const
+std::string MusicBrainz5::CLabel::IPI() const
 {
 	return m_d->m_IPI;
 }
 
-MusicBrainz4::CIPIList *MusicBrainz4::CLabel::IPIList() const
+MusicBrainz5::CIPIList *MusicBrainz5::CLabel::IPIList() const
 {
 	return m_d->m_IPIList;
 }
 
-std::string MusicBrainz4::CLabel::Disambiguation() const
+std::string MusicBrainz5::CLabel::Disambiguation() const
 {
 	return m_d->m_Disambiguation;
 }
 
-std::string MusicBrainz4::CLabel::Country() const
+std::string MusicBrainz5::CLabel::Country() const
 {
 	return m_d->m_Country;
 }
 
-MusicBrainz4::CLifespan *MusicBrainz4::CLabel::Lifespan() const
+MusicBrainz5::CLifespan *MusicBrainz5::CLabel::Lifespan() const
 {
 	return m_d->m_Lifespan;
 }
 
-MusicBrainz4::CAliasList *MusicBrainz4::CLabel::AliasList() const
+MusicBrainz5::CAliasList *MusicBrainz5::CLabel::AliasList() const
 {
 	return m_d->m_AliasList;
 }
 
-MusicBrainz4::CReleaseList *MusicBrainz4::CLabel::ReleaseList() const
+MusicBrainz5::CReleaseList *MusicBrainz5::CLabel::ReleaseList() const
 {
 	return m_d->m_ReleaseList;
 }
 
-MusicBrainz4::CRelationList *MusicBrainz4::CLabel::RelationList() const
+MusicBrainz5::CRelationList *MusicBrainz5::CLabel::RelationList() const
 {
 	return m_d->m_RelationListList?m_d->m_RelationListList->Item(m_d->m_RelationListList->NumItems()-1):0;
 }
 
-MusicBrainz4::CRelationListList *MusicBrainz4::CLabel::RelationListList() const
+MusicBrainz5::CRelationListList *MusicBrainz5::CLabel::RelationListList() const
 {
 	return m_d->m_RelationListList;
 }
 
-MusicBrainz4::CTagList *MusicBrainz4::CLabel::TagList() const
+MusicBrainz5::CTagList *MusicBrainz5::CLabel::TagList() const
 {
 	return m_d->m_TagList;
 }
 
-MusicBrainz4::CUserTagList *MusicBrainz4::CLabel::UserTagList() const
+MusicBrainz5::CUserTagList *MusicBrainz5::CLabel::UserTagList() const
 {
 	return m_d->m_UserTagList;
 }
 
-MusicBrainz4::CRating *MusicBrainz4::CLabel::Rating() const
+MusicBrainz5::CRating *MusicBrainz5::CLabel::Rating() const
 {
 	return m_d->m_Rating;
 }
 
-MusicBrainz4::CUserRating *MusicBrainz4::CLabel::UserRating() const
+MusicBrainz5::CUserRating *MusicBrainz5::CLabel::UserRating() const
 {
 	return m_d->m_UserRating;
 }
 
-std::ostream& MusicBrainz4::CLabel::Serialise(std::ostream& os) const
+std::ostream& MusicBrainz5::CLabel::Serialise(std::ostream& os) const
 {
 	os << "Label:" << std::endl;
 

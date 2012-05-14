@@ -19,12 +19,12 @@ This package provides a pkg-config script that returns the necessary compiler
 and linker flags, as well as the version number.  To build a small sample
 program one would use:
 
-    g++ -o test_app test_app.cpp `pkg-config libmusicbrainz4 --cflags --libs`
+    g++ -o test_app test_app.cpp `pkg-config libmusicbrainz5 --cflags --libs`
 
 If you don't want/can't use pkg-config and you are using the C API, make sure
 you link in the C++ standard library:
 
-    gcc -o test_app test_app.c -lmusicbrainz4 -lm -lstdc++
+    gcc -o test_app test_app.c -lmusicbrainz5 -lm -lstdc++
 
 Contact
 -------

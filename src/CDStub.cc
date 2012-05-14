@@ -1,16 +1,16 @@
 /* --------------------------------------------------------------------------
 
-   libmusicbrainz4 - Client library to access MusicBrainz
+   libmusicbrainz5 - Client library to access MusicBrainz
 
    Copyright (C) 2011 Andrew Hawkins
 
-   This file is part of libmusicbrainz4.
+   This file is part of libmusicbrainz5.
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of v2 of the GNU Lesser General Public
    License as published by the Free Software Foundation.
 
-   libmusicbrainz4 is distributed in the hope that it will be useful,
+   libmusicbrainz5 is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    Lesser General Public License for more details.
@@ -23,14 +23,14 @@
 ----------------------------------------------------------------------------*/
 
 #include "config.h"
-#include "musicbrainz4/defines.h"
+#include "musicbrainz5/defines.h"
 
-#include "musicbrainz4/CDStub.h"
+#include "musicbrainz5/CDStub.h"
 
-#include "musicbrainz4/NonMBTrackList.h"
-#include "musicbrainz4/NonMBTrack.h"
+#include "musicbrainz5/NonMBTrackList.h"
+#include "musicbrainz5/NonMBTrack.h"
 
-class MusicBrainz4::CCDStubPrivate
+class MusicBrainz5::CCDStubPrivate
 {
 	public:
 		CCDStubPrivate()
@@ -46,7 +46,7 @@ class MusicBrainz4::CCDStubPrivate
 		CNonMBTrackList *m_NonMBTrackList;
 };
 
-MusicBrainz4::CCDStub::CCDStub(const XMLNode& Node)
+MusicBrainz5::CCDStub::CCDStub(const XMLNode& Node)
 :	CEntity(),
 	m_d(new CCDStubPrivate)
 {
@@ -58,14 +58,14 @@ MusicBrainz4::CCDStub::CCDStub(const XMLNode& Node)
 	}
 }
 
-MusicBrainz4::CCDStub::CCDStub(const CCDStub& Other)
+MusicBrainz5::CCDStub::CCDStub(const CCDStub& Other)
 :	CEntity(),
 	m_d(new CCDStubPrivate)
 {
 	*this=Other;
 }
 
-MusicBrainz4::CCDStub& MusicBrainz4::CCDStub::operator =(const CCDStub& Other)
+MusicBrainz5::CCDStub& MusicBrainz5::CCDStub::operator =(const CCDStub& Other)
 {
 	if (this!=&Other)
 	{
@@ -86,25 +86,25 @@ MusicBrainz4::CCDStub& MusicBrainz4::CCDStub::operator =(const CCDStub& Other)
 	return *this;
 }
 
-MusicBrainz4::CCDStub::~CCDStub()
+MusicBrainz5::CCDStub::~CCDStub()
 {
 	Cleanup();
 
 	delete m_d;
 }
 
-void MusicBrainz4::CCDStub::Cleanup()
+void MusicBrainz5::CCDStub::Cleanup()
 {
 	delete m_d->m_NonMBTrackList;
 	m_d->m_NonMBTrackList=0;
 }
 
-MusicBrainz4::CCDStub *MusicBrainz4::CCDStub::Clone()
+MusicBrainz5::CCDStub *MusicBrainz5::CCDStub::Clone()
 {
 	return new CCDStub(*this);
 }
 
-bool MusicBrainz4::CCDStub::ParseAttribute(const std::string& Name, const std::string& Value)
+bool MusicBrainz5::CCDStub::ParseAttribute(const std::string& Name, const std::string& Value)
 {
 	bool RetVal=true;
 
@@ -119,7 +119,7 @@ bool MusicBrainz4::CCDStub::ParseAttribute(const std::string& Name, const std::s
 	return RetVal;
 }
 
-bool MusicBrainz4::CCDStub::ParseElement(const XMLNode& Node)
+bool MusicBrainz5::CCDStub::ParseElement(const XMLNode& Node)
 {
 	bool RetVal=true;
 
@@ -154,42 +154,42 @@ bool MusicBrainz4::CCDStub::ParseElement(const XMLNode& Node)
 	return RetVal;
 }
 
-std::string MusicBrainz4::CCDStub::GetElementName()
+std::string MusicBrainz5::CCDStub::GetElementName()
 {
 	return "cdstub";
 }
 
-std::string MusicBrainz4::CCDStub::ID() const
+std::string MusicBrainz5::CCDStub::ID() const
 {
 	return m_d->m_ID;
 }
 
-std::string MusicBrainz4::CCDStub::Title() const
+std::string MusicBrainz5::CCDStub::Title() const
 {
 	return m_d->m_Title;
 }
 
-std::string MusicBrainz4::CCDStub::Artist() const
+std::string MusicBrainz5::CCDStub::Artist() const
 {
 	return m_d->m_Artist;
 }
 
-std::string MusicBrainz4::CCDStub::Barcode() const
+std::string MusicBrainz5::CCDStub::Barcode() const
 {
 	return m_d->m_Barcode;
 }
 
-std::string MusicBrainz4::CCDStub::Comment() const
+std::string MusicBrainz5::CCDStub::Comment() const
 {
 	return m_d->m_Comment;
 }
 
-MusicBrainz4::CNonMBTrackList *MusicBrainz4::CCDStub::NonMBTrackList() const
+MusicBrainz5::CNonMBTrackList *MusicBrainz5::CCDStub::NonMBTrackList() const
 {
 	return m_d->m_NonMBTrackList;
 }
 
-std::ostream& MusicBrainz4::CCDStub::Serialise(std::ostream& os) const
+std::ostream& MusicBrainz5::CCDStub::Serialise(std::ostream& os) const
 {
 	os << "CDStub:" << std::endl;
 

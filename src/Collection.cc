@@ -1,16 +1,16 @@
 /* --------------------------------------------------------------------------
 
-   libmusicbrainz4 - Client library to access MusicBrainz
+   libmusicbrainz5 - Client library to access MusicBrainz
 
    Copyright (C) 2011 Andrew Hawkins
 
-   This file is part of libmusicbrainz4.
+   This file is part of libmusicbrainz5.
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of v2 of the GNU Lesser General Public
    License as published by the Free Software Foundation.
 
-   libmusicbrainz4 is distributed in the hope that it will be useful,
+   libmusicbrainz5 is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    Lesser General Public License for more details.
@@ -23,14 +23,14 @@
 ----------------------------------------------------------------------------*/
 
 #include "config.h"
-#include "musicbrainz4/defines.h"
+#include "musicbrainz5/defines.h"
 
-#include "musicbrainz4/Collection.h"
+#include "musicbrainz5/Collection.h"
 
-#include "musicbrainz4/ReleaseList.h"
-#include "musicbrainz4/Release.h"
+#include "musicbrainz5/ReleaseList.h"
+#include "musicbrainz5/Release.h"
 
-class MusicBrainz4::CCollectionPrivate
+class MusicBrainz5::CCollectionPrivate
 {
 	public:
 		CCollectionPrivate()
@@ -43,7 +43,7 @@ class MusicBrainz4::CCollectionPrivate
 		std::string m_Editor;
 		CReleaseList *m_ReleaseList;
 };
-MusicBrainz4::CCollection::CCollection(const XMLNode& Node)
+MusicBrainz5::CCollection::CCollection(const XMLNode& Node)
 :	CEntity(),
 	m_d(new CCollectionPrivate)
 {
@@ -55,14 +55,14 @@ MusicBrainz4::CCollection::CCollection(const XMLNode& Node)
 	}
 }
 
-MusicBrainz4::CCollection::CCollection(const CCollection& Other)
+MusicBrainz5::CCollection::CCollection(const CCollection& Other)
 :	CEntity(),
 	m_d(new CCollectionPrivate)
 {
 	*this=Other;
 }
 
-MusicBrainz4::CCollection& MusicBrainz4::CCollection::operator =(const CCollection& Other)
+MusicBrainz5::CCollection& MusicBrainz5::CCollection::operator =(const CCollection& Other)
 {
 	if (this!=&Other)
 	{
@@ -81,25 +81,25 @@ MusicBrainz4::CCollection& MusicBrainz4::CCollection::operator =(const CCollecti
 	return *this;
 }
 
-MusicBrainz4::CCollection::~CCollection()
+MusicBrainz5::CCollection::~CCollection()
 {
 	Cleanup();
 
 	delete m_d;
 }
 
-void MusicBrainz4::CCollection::Cleanup()
+void MusicBrainz5::CCollection::Cleanup()
 {
 	delete m_d->m_ReleaseList;
 	m_d->m_ReleaseList=0;
 }
 
-MusicBrainz4::CCollection *MusicBrainz4::CCollection::Clone()
+MusicBrainz5::CCollection *MusicBrainz5::CCollection::Clone()
 {
 	return new CCollection(*this);
 }
 
-bool MusicBrainz4::CCollection::ParseAttribute(const std::string& Name, const std::string& Value)
+bool MusicBrainz5::CCollection::ParseAttribute(const std::string& Name, const std::string& Value)
 {
 	bool RetVal=true;
 
@@ -114,7 +114,7 @@ bool MusicBrainz4::CCollection::ParseAttribute(const std::string& Name, const st
 	return RetVal;
 }
 
-bool MusicBrainz4::CCollection::ParseElement(const XMLNode& Node)
+bool MusicBrainz5::CCollection::ParseElement(const XMLNode& Node)
 {
 	bool RetVal=true;
 
@@ -140,32 +140,32 @@ bool MusicBrainz4::CCollection::ParseElement(const XMLNode& Node)
 	return RetVal;
 }
 
-std::string MusicBrainz4::CCollection::GetElementName()
+std::string MusicBrainz5::CCollection::GetElementName()
 {
 	return "collection";
 }
 
-std::string MusicBrainz4::CCollection::ID() const
+std::string MusicBrainz5::CCollection::ID() const
 {
 	return m_d->m_ID;
 }
 
-std::string MusicBrainz4::CCollection::Name() const
+std::string MusicBrainz5::CCollection::Name() const
 {
 	return m_d->m_Name;
 }
 
-std::string MusicBrainz4::CCollection::Editor() const
+std::string MusicBrainz5::CCollection::Editor() const
 {
 	return m_d->m_Editor;
 }
 
-MusicBrainz4::CReleaseList *MusicBrainz4::CCollection::ReleaseList() const
+MusicBrainz5::CReleaseList *MusicBrainz5::CCollection::ReleaseList() const
 {
 	return m_d->m_ReleaseList;
 }
 
-std::ostream& MusicBrainz4::CCollection::Serialise(std::ostream& os) const
+std::ostream& MusicBrainz5::CCollection::Serialise(std::ostream& os) const
 {
 	os << "Collection:" << std::endl;
 

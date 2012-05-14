@@ -1,7 +1,7 @@
 CMakeFiles/
 Makefile
 cmake_install.cmake
-libmusicbrainz4.so*
+libmusicbrainz5.so*
 make-c-interface
-mb4_c.cc
-mb4_c.h
+mb5_c.cc
+mb5_c.h

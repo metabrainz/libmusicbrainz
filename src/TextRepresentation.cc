@@ -1,16 +1,16 @@
 /* --------------------------------------------------------------------------
 
-   libmusicbrainz4 - Client library to access MusicBrainz
+   libmusicbrainz5 - Client library to access MusicBrainz
 
    Copyright (C) 2011 Andrew Hawkins
 
-   This file is part of libmusicbrainz4.
+   This file is part of libmusicbrainz5.
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of v2 of the GNU Lesser General Public
    License as published by the Free Software Foundation.
 
-   libmusicbrainz4 is distributed in the hope that it will be useful,
+   libmusicbrainz5 is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    Lesser General Public License for more details.
@@ -23,18 +23,18 @@
 ----------------------------------------------------------------------------*/
 
 #include "config.h"
-#include "musicbrainz4/defines.h"
+#include "musicbrainz5/defines.h"
 
-#include "musicbrainz4/TextRepresentation.h"
+#include "musicbrainz5/TextRepresentation.h"
 
-class MusicBrainz4::CTextRepresentationPrivate
+class MusicBrainz5::CTextRepresentationPrivate
 {
 	public:
 		std::string m_Language;
 		std::string m_Script;
 };
 
-MusicBrainz4::CTextRepresentation::CTextRepresentation(const XMLNode& Node)
+MusicBrainz5::CTextRepresentation::CTextRepresentation(const XMLNode& Node)
 :	CEntity(),
 	m_d(new CTextRepresentationPrivate)
 {
@@ -46,14 +46,14 @@ MusicBrainz4::CTextRepresentation::CTextRepresentation(const XMLNode& Node)
 	}
 }
 
-MusicBrainz4::CTextRepresentation::CTextRepresentation(const CTextRepresentation& Other)
+MusicBrainz5::CTextRepresentation::CTextRepresentation(const CTextRepresentation& Other)
 :	CEntity(),
 	m_d(new CTextRepresentationPrivate)
 {
 	*this=Other;
 }
 
-MusicBrainz4::CTextRepresentation& MusicBrainz4::CTextRepresentation::operator =(const CTextRepresentation& Other)
+MusicBrainz5::CTextRepresentation& MusicBrainz5::CTextRepresentation::operator =(const CTextRepresentation& Other)
 {
 	if (this!=&Other)
 	{
@@ -66,17 +66,17 @@ MusicBrainz4::CTextRepresentation& MusicBrainz4::CTextRepresentation::operator =
 	return *this;
 }
 
-MusicBrainz4::CTextRepresentation::~CTextRepresentation()
+MusicBrainz5::CTextRepresentation::~CTextRepresentation()
 {
 	delete m_d;
 }
 
-MusicBrainz4::CTextRepresentation *MusicBrainz4::CTextRepresentation::Clone()
+MusicBrainz5::CTextRepresentation *MusicBrainz5::CTextRepresentation::Clone()
 {
 	return new CTextRepresentation(*this);
 }
 
-bool MusicBrainz4::CTextRepresentation::ParseAttribute(const std::string& Name, const std::string& /*Value*/)
+bool MusicBrainz5::CTextRepresentation::ParseAttribute(const std::string& Name, const std::string& /*Value*/)
 {
 	bool RetVal=true;
 
@@ -86,7 +86,7 @@ bool MusicBrainz4::CTextRepresentation::ParseAttribute(const std::string& Name, 
 	return RetVal;
 }
 
-bool MusicBrainz4::CTextRepresentation::ParseElement(const XMLNode& Node)
+bool MusicBrainz5::CTextRepresentation::ParseElement(const XMLNode& Node)
 {
 	bool RetVal=true;
 
@@ -109,22 +109,22 @@ bool MusicBrainz4::CTextRepresentation::ParseElement(const XMLNode& Node)
 	return RetVal;
 }
 
-std::string MusicBrainz4::CTextRepresentation::GetElementName()
+std::string MusicBrainz5::CTextRepresentation::GetElementName()
 {
 	return "text-representation";
 }
 
-std::string MusicBrainz4::CTextRepresentation::Language() const
+std::string MusicBrainz5::CTextRepresentation::Language() const
 {
 	return m_d->m_Language;
 }
 
-std::string MusicBrainz4::CTextRepresentation::Script() const
+std::string MusicBrainz5::CTextRepresentation::Script() const
 {
 	return m_d->m_Script;
 }
 
-std::ostream& MusicBrainz4::CTextRepresentation::Serialise(std::ostream& os) const
+std::ostream& MusicBrainz5::CTextRepresentation::Serialise(std::ostream& os) const
 {
 	os << "\tText Representation:" << std::endl;
 

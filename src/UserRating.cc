@@ -1,16 +1,16 @@
 /* --------------------------------------------------------------------------
 
-   libmusicbrainz4 - Client library to access MusicBrainz
+   libmusicbrainz5 - Client library to access MusicBrainz
 
    Copyright (C) 2011 Andrew Hawkins
 
-   This file is part of libmusicbrainz4.
+   This file is part of libmusicbrainz5.
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of v2 of the GNU Lesser General Public
    License as published by the Free Software Foundation.
 
-   libmusicbrainz4 is distributed in the hope that it will be useful,
+   libmusicbrainz5 is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    Lesser General Public License for more details.
@@ -23,11 +23,11 @@
 ----------------------------------------------------------------------------*/
 
 #include "config.h"
-#include "musicbrainz4/defines.h"
+#include "musicbrainz5/defines.h"
 
-#include "musicbrainz4/UserRating.h"
+#include "musicbrainz5/UserRating.h"
 
-class MusicBrainz4::CUserRatingPrivate
+class MusicBrainz5::CUserRatingPrivate
 {
 	public:
 		CUserRatingPrivate()
@@ -38,7 +38,7 @@ class MusicBrainz4::CUserRatingPrivate
 		int m_UserRating;
 };
 
-MusicBrainz4::CUserRating::CUserRating(const XMLNode& Node)
+MusicBrainz5::CUserRating::CUserRating(const XMLNode& Node)
 :	CEntity(),
 	m_d(new CUserRatingPrivate)
 {
@@ -55,14 +55,14 @@ MusicBrainz4::CUserRating::CUserRating(const XMLNode& Node)
 	}
 }
 
-MusicBrainz4::CUserRating::CUserRating(const CUserRating& Other)
+MusicBrainz5::CUserRating::CUserRating(const CUserRating& Other)
 :	CEntity(),
 	m_d(new CUserRatingPrivate)
 {
 	*this=Other;
 }
 
-MusicBrainz4::CUserRating& MusicBrainz4::CUserRating::operator =(const CUserRating& Other)
+MusicBrainz5::CUserRating& MusicBrainz5::CUserRating::operator =(const CUserRating& Other)
 {
 	if (this!=&Other)
 	{
@@ -74,17 +74,17 @@ MusicBrainz4::CUserRating& MusicBrainz4::CUserRating::operator =(const CUserRati
 	return *this;
 }
 
-MusicBrainz4::CUserRating::~CUserRating()
+MusicBrainz5::CUserRating::~CUserRating()
 {
 	delete m_d;
 }
 
-MusicBrainz4::CUserRating *MusicBrainz4::CUserRating::Clone()
+MusicBrainz5::CUserRating *MusicBrainz5::CUserRating::Clone()
 {
 	return new CUserRating(*this);
 }
 
-bool MusicBrainz4::CUserRating::ParseAttribute(const std::string& Name, const std::string& /*Value*/)
+bool MusicBrainz5::CUserRating::ParseAttribute(const std::string& Name, const std::string& /*Value*/)
 {
 	bool RetVal=true;
 
@@ -94,7 +94,7 @@ bool MusicBrainz4::CUserRating::ParseAttribute(const std::string& Name, const st
 	return RetVal;
 }
 
-bool MusicBrainz4::CUserRating::ParseElement(const XMLNode& Node)
+bool MusicBrainz5::CUserRating::ParseElement(const XMLNode& Node)
 {
 	bool RetVal=true;
 
@@ -106,17 +106,17 @@ bool MusicBrainz4::CUserRating::ParseElement(const XMLNode& Node)
 	return RetVal;
 }
 
-std::string MusicBrainz4::CUserRating::GetElementName()
+std::string MusicBrainz5::CUserRating::GetElementName()
 {
 	return "user-rating";
 }
 
-int MusicBrainz4::CUserRating::UserRating() const
+int MusicBrainz5::CUserRating::UserRating() const
 {
 	return m_d->m_UserRating;
 }
 
-std::ostream& MusicBrainz4::CUserRating::Serialise(std::ostream& os) const
+std::ostream& MusicBrainz5::CUserRating::Serialise(std::ostream& os) const
 {
 	os << "User rating:" << std::endl;
 

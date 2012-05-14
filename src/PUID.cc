@@ -1,16 +1,16 @@
 /* --------------------------------------------------------------------------
 
-   libmusicbrainz4 - Client library to access MusicBrainz
+   libmusicbrainz5 - Client library to access MusicBrainz
 
    Copyright (C) 2011 Andrew Hawkins
 
-   This file is part of libmusicbrainz4.
+   This file is part of libmusicbrainz5.
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of v2 of the GNU Lesser General Public
    License as published by the Free Software Foundation.
 
-   libmusicbrainz4 is distributed in the hope that it will be useful,
+   libmusicbrainz5 is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    Lesser General Public License for more details.
@@ -23,14 +23,14 @@
 ----------------------------------------------------------------------------*/
 
 #include "config.h"
-#include "musicbrainz4/defines.h"
+#include "musicbrainz5/defines.h"
 
-#include "musicbrainz4/PUID.h"
+#include "musicbrainz5/PUID.h"
 
-#include "musicbrainz4/RecordingList.h"
-#include "musicbrainz4/Recording.h"
+#include "musicbrainz5/RecordingList.h"
+#include "musicbrainz5/Recording.h"
 
-class MusicBrainz4::CPUIDPrivate
+class MusicBrainz5::CPUIDPrivate
 {
 	public:
 		CPUIDPrivate()
@@ -42,7 +42,7 @@ class MusicBrainz4::CPUIDPrivate
 		CRecordingList *m_RecordingList;
 };
 
-MusicBrainz4::CPUID::CPUID(const XMLNode& Node)
+MusicBrainz5::CPUID::CPUID(const XMLNode& Node)
 :	CEntity(),
 	m_d(new CPUIDPrivate)
 {
@@ -54,14 +54,14 @@ MusicBrainz4::CPUID::CPUID(const XMLNode& Node)
 	}
 }
 
-MusicBrainz4::CPUID::CPUID(const CPUID& Other)
+MusicBrainz5::CPUID::CPUID(const CPUID& Other)
 :	CEntity(),
 	m_d(new CPUIDPrivate)
 {
 	*this=Other;
 }
 
-MusicBrainz4::CPUID& MusicBrainz4::CPUID::operator =(const CPUID& Other)
+MusicBrainz5::CPUID& MusicBrainz5::CPUID::operator =(const CPUID& Other)
 {
 	if (this!=&Other)
 	{
@@ -78,25 +78,25 @@ MusicBrainz4::CPUID& MusicBrainz4::CPUID::operator =(const CPUID& Other)
 	return *this;
 }
 
-MusicBrainz4::CPUID::~CPUID()
+MusicBrainz5::CPUID::~CPUID()
 {
 	Cleanup();
 
 	delete m_d;
 }
 
-void MusicBrainz4::CPUID::Cleanup()
+void MusicBrainz5::CPUID::Cleanup()
 {
 	delete m_d->m_RecordingList;
 	m_d->m_RecordingList=0;
 }
 
-MusicBrainz4::CPUID *MusicBrainz4::CPUID::Clone()
+MusicBrainz5::CPUID *MusicBrainz5::CPUID::Clone()
 {
 	return new CPUID(*this);
 }
 
-bool MusicBrainz4::CPUID::ParseAttribute(const std::string& Name, const std::string& Value)
+bool MusicBrainz5::CPUID::ParseAttribute(const std::string& Name, const std::string& Value)
 {
 	bool RetVal=true;
 
@@ -111,7 +111,7 @@ bool MusicBrainz4::CPUID::ParseAttribute(const std::string& Name, const std::str
 	return RetVal;
 }
 
-bool MusicBrainz4::CPUID::ParseElement(const XMLNode& Node)
+bool MusicBrainz5::CPUID::ParseElement(const XMLNode& Node)
 {
 	bool RetVal=true;
 
@@ -130,22 +130,22 @@ bool MusicBrainz4::CPUID::ParseElement(const XMLNode& Node)
 	return RetVal;
 }
 
-std::string MusicBrainz4::CPUID::GetElementName()
+std::string MusicBrainz5::CPUID::GetElementName()
 {
 	return "puid";
 }
 
-std::string MusicBrainz4::CPUID::ID() const
+std::string MusicBrainz5::CPUID::ID() const
 {
 	return m_d->m_ID;
 }
 
-MusicBrainz4::CRecordingList *MusicBrainz4::CPUID::RecordingList() const
+MusicBrainz5::CRecordingList *MusicBrainz5::CPUID::RecordingList() const
 {
 	return m_d->m_RecordingList;
 }
 
-std::ostream& MusicBrainz4::CPUID::Serialise(std::ostream& os) const
+std::ostream& MusicBrainz5::CPUID::Serialise(std::ostream& os) const
 {
 	os << "PUID:" << std::endl;
 

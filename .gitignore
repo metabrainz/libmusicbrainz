@@ -4,6 +4,6 @@ Doxyfile
 Makefile
 cmake_install.cmake
 config.h
-libmusicbrainz4.pc
+libmusicbrainz5.pc
 docs/
 install_manifest.txt

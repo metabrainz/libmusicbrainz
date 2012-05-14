@@ -1,16 +1,16 @@
 /* --------------------------------------------------------------------------
 
-   libmusicbrainz4 - Client library to access MusicBrainz
+   libmusicbrainz5 - Client library to access MusicBrainz
 
    Copyright (C) 2011 Andrew Hawkins
 
-   This file is part of libmusicbrainz4.
+   This file is part of libmusicbrainz5.
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of v2 of the GNU Lesser General Public
    License as published by the Free Software Foundation.
 
-   libmusicbrainz4 is distributed in the hope that it will be useful,
+   libmusicbrainz5 is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    Lesser General Public License for more details.
@@ -23,11 +23,11 @@
 ----------------------------------------------------------------------------*/
 
 #include "config.h"
-#include "musicbrainz4/defines.h"
+#include "musicbrainz5/defines.h"
 
-#include "musicbrainz4/NonMBTrack.h"
+#include "musicbrainz5/NonMBTrack.h"
 
-class MusicBrainz4::CNonMBTrackPrivate
+class MusicBrainz5::CNonMBTrackPrivate
 {
 	public:
 		CNonMBTrackPrivate()
@@ -40,7 +40,7 @@ class MusicBrainz4::CNonMBTrackPrivate
 		int m_Length;
 };
 
-MusicBrainz4::CNonMBTrack::CNonMBTrack(const XMLNode& Node)
+MusicBrainz5::CNonMBTrack::CNonMBTrack(const XMLNode& Node)
 :	CEntity(),
 	m_d(new CNonMBTrackPrivate)
 {
@@ -52,14 +52,14 @@ MusicBrainz4::CNonMBTrack::CNonMBTrack(const XMLNode& Node)
 	}
 }
 
-MusicBrainz4::CNonMBTrack::CNonMBTrack(const CNonMBTrack& Other)
+MusicBrainz5::CNonMBTrack::CNonMBTrack(const CNonMBTrack& Other)
 :	CEntity(),
 	m_d(new CNonMBTrackPrivate)
 {
 	*this=Other;
 }
 
-MusicBrainz4::CNonMBTrack& MusicBrainz4::CNonMBTrack::operator =(const CNonMBTrack& Other)
+MusicBrainz5::CNonMBTrack& MusicBrainz5::CNonMBTrack::operator =(const CNonMBTrack& Other)
 {
 	if (this!=&Other)
 	{
@@ -73,17 +73,17 @@ MusicBrainz4::CNonMBTrack& MusicBrainz4::CNonMBTrack::operator =(const CNonMBTra
 	return *this;
 }
 
-MusicBrainz4::CNonMBTrack::~CNonMBTrack()
+MusicBrainz5::CNonMBTrack::~CNonMBTrack()
 {
 	delete m_d;
 }
 
-MusicBrainz4::CNonMBTrack *MusicBrainz4::CNonMBTrack::Clone()
+MusicBrainz5::CNonMBTrack *MusicBrainz5::CNonMBTrack::Clone()
 {
 	return new CNonMBTrack(*this);
 }
 
-bool MusicBrainz4::CNonMBTrack::ParseAttribute(const std::string& Name, const std::string& /*Value*/)
+bool MusicBrainz5::CNonMBTrack::ParseAttribute(const std::string& Name, const std::string& /*Value*/)
 {
 	bool RetVal=true;
 
@@ -93,7 +93,7 @@ bool MusicBrainz4::CNonMBTrack::ParseAttribute(const std::string& Name, const st
 	return RetVal;
 }
 
-bool MusicBrainz4::CNonMBTrack::ParseElement(const XMLNode& Node)
+bool MusicBrainz5::CNonMBTrack::ParseElement(const XMLNode& Node)
 {
 	bool RetVal=true;
 
@@ -120,27 +120,27 @@ bool MusicBrainz4::CNonMBTrack::ParseElement(const XMLNode& Node)
 	return RetVal;
 }
 
-std::string MusicBrainz4::CNonMBTrack::GetElementName()
+std::string MusicBrainz5::CNonMBTrack::GetElementName()
 {
 	return "track";
 }
 
-std::string MusicBrainz4::CNonMBTrack::Title() const
+std::string MusicBrainz5::CNonMBTrack::Title() const
 {
 	return m_d->m_Title;
 }
 
-std::string MusicBrainz4::CNonMBTrack::Artist() const
+std::string MusicBrainz5::CNonMBTrack::Artist() const
 {
 	return m_d->m_Artist;
 }
 
-int MusicBrainz4::CNonMBTrack::Length() const
+int MusicBrainz5::CNonMBTrack::Length() const
 {
 	return m_d->m_Length;
 }
 
-std::ostream& MusicBrainz4::CNonMBTrack::Serialise(std::ostream& os) const
+std::ostream& MusicBrainz5::CNonMBTrack::Serialise(std::ostream& os) const
 {
 	os << "NonMBTrack:" << std::endl;
 

@@ -1,16 +1,16 @@
 /* --------------------------------------------------------------------------
 
-   libmusicbrainz4 - Client library to access MusicBrainz
+   libmusicbrainz5 - Client library to access MusicBrainz
 
    Copyright (C) 2011 Andrew Hawkins
 
-   This file is part of libmusicbrainz4.
+   This file is part of libmusicbrainz5.
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of v2 of the GNU Lesser General Public
    License as published by the Free Software Foundation.
 
-   libmusicbrainz4 is distributed in the hope that it will be useful,
+   libmusicbrainz5 is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    Lesser General Public License for more details.
@@ -23,26 +23,26 @@
 ----------------------------------------------------------------------------*/
 
 #include "config.h"
-#include "musicbrainz4/defines.h"
+#include "musicbrainz5/defines.h"
 
-#include "musicbrainz4/ReleaseGroup.h"
+#include "musicbrainz5/ReleaseGroup.h"
 
-#include "musicbrainz4/ArtistCredit.h"
-#include "musicbrainz4/Rating.h"
-#include "musicbrainz4/UserRating.h"
-#include "musicbrainz4/ReleaseList.h"
-#include "musicbrainz4/Release.h"
-#include "musicbrainz4/RelationList.h"
-#include "musicbrainz4/RelationListList.h"
-#include "musicbrainz4/Relation.h"
-#include "musicbrainz4/TagList.h"
-#include "musicbrainz4/Tag.h"
-#include "musicbrainz4/UserTagList.h"
-#include "musicbrainz4/UserTag.h"
-#include "musicbrainz4/SecondaryTypeList.h"
-#include "musicbrainz4/SecondaryType.h"
+#include "musicbrainz5/ArtistCredit.h"
+#include "musicbrainz5/Rating.h"
+#include "musicbrainz5/UserRating.h"
+#include "musicbrainz5/ReleaseList.h"
+#include "musicbrainz5/Release.h"
+#include "musicbrainz5/RelationList.h"
+#include "musicbrainz5/RelationListList.h"
+#include "musicbrainz5/Relation.h"
+#include "musicbrainz5/TagList.h"
+#include "musicbrainz5/Tag.h"
+#include "musicbrainz5/UserTagList.h"
+#include "musicbrainz5/UserTag.h"
+#include "musicbrainz5/SecondaryTypeList.h"
+#include "musicbrainz5/SecondaryType.h"
 
-class MusicBrainz4::CReleaseGroupPrivate
+class MusicBrainz5::CReleaseGroupPrivate
 {
 	public:
 		CReleaseGroupPrivate()
@@ -73,7 +73,7 @@ class MusicBrainz4::CReleaseGroupPrivate
 		CSecondaryTypeList *m_SecondaryTypeList;
 };
 
-MusicBrainz4::CReleaseGroup::CReleaseGroup(const XMLNode& Node)
+MusicBrainz5::CReleaseGroup::CReleaseGroup(const XMLNode& Node)
 :	CEntity(),
 	m_d(new CReleaseGroupPrivate)
 {
@@ -85,14 +85,14 @@ MusicBrainz4::CReleaseGroup::CReleaseGroup(const XMLNode& Node)
 	}
 }
 
-MusicBrainz4::CReleaseGroup::CReleaseGroup(const CReleaseGroup& Other)
+MusicBrainz5::CReleaseGroup::CReleaseGroup(const CReleaseGroup& Other)
 :	CEntity(),
 	m_d(new CReleaseGroupPrivate)
 {
 	*this=Other;
 }
 
-MusicBrainz4::CReleaseGroup& MusicBrainz4::CReleaseGroup::operator =(const CReleaseGroup& Other)
+MusicBrainz5::CReleaseGroup& MusicBrainz5::CReleaseGroup::operator =(const CReleaseGroup& Other)
 {
 	if (this!=&Other)
 	{
@@ -135,14 +135,14 @@ MusicBrainz4::CReleaseGroup& MusicBrainz4::CReleaseGroup::operator =(const CRele
 	return *this;
 }
 
-MusicBrainz4::CReleaseGroup::~CReleaseGroup()
+MusicBrainz5::CReleaseGroup::~CReleaseGroup()
 {
 	Cleanup();
 
 	delete m_d;
 }
 
-void MusicBrainz4::CReleaseGroup::Cleanup()
+void MusicBrainz5::CReleaseGroup::Cleanup()
 {
 	delete m_d->m_ArtistCredit;
 	m_d->m_ArtistCredit=0;
@@ -169,12 +169,12 @@ void MusicBrainz4::CReleaseGroup::Cleanup()
 	m_d->m_SecondaryTypeList=0;
 }
 
-MusicBrainz4::CReleaseGroup *MusicBrainz4::CReleaseGroup::Clone()
+MusicBrainz5::CReleaseGroup *MusicBrainz5::CReleaseGroup::Clone()
 {
 	return new CReleaseGroup(*this);
 }
 
-bool MusicBrainz4::CReleaseGroup::ParseAttribute(const std::string& Name, const std::string& Value)
+bool MusicBrainz5::CReleaseGroup::ParseAttribute(const std::string& Name, const std::string& Value)
 {
 	bool RetVal=true;
 
@@ -191,7 +191,7 @@ bool MusicBrainz4::CReleaseGroup::ParseAttribute(const std::string& Name, const 
 	return RetVal;
 }
 
-bool MusicBrainz4::CReleaseGroup::ParseElement(const XMLNode& Node)
+bool MusicBrainz5::CReleaseGroup::ParseElement(const XMLNode& Node)
 {
 	bool RetVal=true;
 
@@ -254,87 +254,87 @@ bool MusicBrainz4::CReleaseGroup::ParseElement(const XMLNode& Node)
 	return RetVal;
 }
 
-std::string MusicBrainz4::CReleaseGroup::GetElementName()
+std::string MusicBrainz5::CReleaseGroup::GetElementName()
 {
 	return "release-group";
 }
 
-std::string MusicBrainz4::CReleaseGroup::ID() const
+std::string MusicBrainz5::CReleaseGroup::ID() const
 {
 	return m_d->m_ID;
 }
 
-std::string MusicBrainz4::CReleaseGroup::Type() const
+std::string MusicBrainz5::CReleaseGroup::Type() const
 {
 	return m_d->m_Type;
 }
 
-std::string MusicBrainz4::CReleaseGroup::PrimaryType() const
+std::string MusicBrainz5::CReleaseGroup::PrimaryType() const
 {
 	return m_d->m_PrimaryType;
 }
 
-std::string MusicBrainz4::CReleaseGroup::Title() const
+std::string MusicBrainz5::CReleaseGroup::Title() const
 {
 	return m_d->m_Title;
 }
 
-std::string MusicBrainz4::CReleaseGroup::Disambiguation() const
+std::string MusicBrainz5::CReleaseGroup::Disambiguation() const
 {
 	return m_d->m_Disambiguation;
 }
 
-std::string MusicBrainz4::CReleaseGroup::FirstReleaseDate() const
+std::string MusicBrainz5::CReleaseGroup::FirstReleaseDate() const
 {
 	return m_d->m_FirstReleaseDate;
 }
 
-MusicBrainz4::CArtistCredit *MusicBrainz4::CReleaseGroup::ArtistCredit() const
+MusicBrainz5::CArtistCredit *MusicBrainz5::CReleaseGroup::ArtistCredit() const
 {
 	return m_d->m_ArtistCredit;
 }
 
-MusicBrainz4::CReleaseList *MusicBrainz4::CReleaseGroup::ReleaseList() const
+MusicBrainz5::CReleaseList *MusicBrainz5::CReleaseGroup::ReleaseList() const
 {
 	return m_d->m_ReleaseList;
 }
 
-MusicBrainz4::CRelationList *MusicBrainz4::CReleaseGroup::RelationList() const
+MusicBrainz5::CRelationList *MusicBrainz5::CReleaseGroup::RelationList() const
 {
 	return m_d->m_RelationListList?m_d->m_RelationListList->Item(m_d->m_RelationListList->NumItems()-1):0;
 }
 
-MusicBrainz4::CRelationListList *MusicBrainz4::CReleaseGroup::RelationListList() const
+MusicBrainz5::CRelationListList *MusicBrainz5::CReleaseGroup::RelationListList() const
 {
 	return m_d->m_RelationListList;
 }
 
-MusicBrainz4::CTagList *MusicBrainz4::CReleaseGroup::TagList() const
+MusicBrainz5::CTagList *MusicBrainz5::CReleaseGroup::TagList() const
 {
 	return m_d->m_TagList;
 }
 
-MusicBrainz4::CUserTagList *MusicBrainz4::CReleaseGroup::UserTagList() const
+MusicBrainz5::CUserTagList *MusicBrainz5::CReleaseGroup::UserTagList() const
 {
 	return m_d->m_UserTagList;
 }
 
-MusicBrainz4::CRating *MusicBrainz4::CReleaseGroup::Rating() const
+MusicBrainz5::CRating *MusicBrainz5::CReleaseGroup::Rating() const
 {
 	return m_d->m_Rating;
 }
 
-MusicBrainz4::CUserRating *MusicBrainz4::CReleaseGroup::UserRating() const
+MusicBrainz5::CUserRating *MusicBrainz5::CReleaseGroup::UserRating() const
 {
 	return m_d->m_UserRating;
 }
 
-MusicBrainz4::CSecondaryTypeList *MusicBrainz4::CReleaseGroup::SecondaryTypeList() const
+MusicBrainz5::CSecondaryTypeList *MusicBrainz5::CReleaseGroup::SecondaryTypeList() const
 {
 	return m_d->m_SecondaryTypeList;
 }
 
-std::ostream& MusicBrainz4::CReleaseGroup::Serialise(std::ostream& os) const
+std::ostream& MusicBrainz5::CReleaseGroup::Serialise(std::ostream& os) const
 {
 	os << "Release group:" << std::endl;
 

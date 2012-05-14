@@ -1,16 +1,16 @@
 /* --------------------------------------------------------------------------
 
-   libmusicbrainz4 - Client library to access MusicBrainz
+   libmusicbrainz5 - Client library to access MusicBrainz
 
    Copyright (C) 2011 Andrew Hawkins
 
-   This file is part of libmusicbrainz4.
+   This file is part of libmusicbrainz5.
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of v2 of the GNU Lesser General Public
    License as published by the Free Software Foundation.
 
-   libmusicbrainz4 is distributed in the hope that it will be useful,
+   libmusicbrainz5 is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    Lesser General Public License for more details.
@@ -24,20 +24,20 @@
 
 #include <iostream>
 
-#include "musicbrainz4/Query.h"
-#include "musicbrainz4/Collection.h"
-#include "musicbrainz4/CollectionList.h"
-#include "musicbrainz4/HTTPFetch.h"
+#include "musicbrainz5/Query.h"
+#include "musicbrainz5/Collection.h"
+#include "musicbrainz5/CollectionList.h"
+#include "musicbrainz5/HTTPFetch.h"
 
-void ListCollection(MusicBrainz4::CQuery& Query, const std::string& CollectionID)
+void ListCollection(MusicBrainz5::CQuery& Query, const std::string& CollectionID)
 {
-		MusicBrainz4::CMetadata Metadata=Query.Query("collection",CollectionID,"releases");
+		MusicBrainz5::CMetadata Metadata=Query.Query("collection",CollectionID,"releases");
 		std::cout << Metadata << std::endl;
 }
 
 int main(int argc, const char *argv[])
 {
-	MusicBrainz4::CQuery Query("collectionexample-1.0","test.musicbrainz.org");
+	MusicBrainz5::CQuery Query("collectionexample-1.0","test.musicbrainz.org");
 
 	if (argc>1)
 	{
@@ -49,13 +49,13 @@ int main(int argc, const char *argv[])
 
 		try
 		{
-			MusicBrainz4::CMetadata Metadata=Query.Query("collection");
-			MusicBrainz4::CCollectionList *CollectionList=Metadata.CollectionList();
+			MusicBrainz5::CMetadata Metadata=Query.Query("collection");
+			MusicBrainz5::CCollectionList *CollectionList=Metadata.CollectionList();
 			if (CollectionList)
 			{
 				if (0!=CollectionList->NumItems())
 				{
-					MusicBrainz4::CCollection *Collection=CollectionList->Item(0);
+					MusicBrainz5::CCollection *Collection=CollectionList->Item(0);
 					std::cout << "Collection ID is " << Collection->ID() << std::endl;
 
 					ListCollection(Query,Collection->ID());
@@ -82,7 +82,7 @@ int main(int argc, const char *argv[])
 			}
 		}
 
-		catch (MusicBrainz4::CConnectionError& Error)
+		catch (MusicBrainz5::CConnectionError& Error)
 		{
 			std::cout << "Connection Exception: '" << Error.what() << "'" << std::endl;
 			std::cout << "LastResult: " << Query.LastResult() << std::endl;
@@ -90,7 +90,7 @@ int main(int argc, const char *argv[])
 			std::cout << "LastErrorMessage: " << Query.LastErrorMessage() << std::endl;
 		}
 
-		catch (MusicBrainz4::CTimeoutError& Error)
+		catch (MusicBrainz5::CTimeoutError& Error)
 		{
 			std::cout << "Timeout Exception: '" << Error.what() << "'" << std::endl;
 			std::cout << "LastResult: " << Query.LastResult() << std::endl;
@@ -98,7 +98,7 @@ int main(int argc, const char *argv[])
 			std::cout << "LastErrorMessage: " << Query.LastErrorMessage() << std::endl;
 		}
 
-		catch (MusicBrainz4::CAuthenticationError& Error)
+		catch (MusicBrainz5::CAuthenticationError& Error)
 		{
 			std::cout << "Authentication Exception: '" << Error.what() << "'" << std::endl;
 			std::cout << "LastResult: " << Query.LastResult() << std::endl;
@@ -106,7 +106,7 @@ int main(int argc, const char *argv[])
 			std::cout << "LastErrorMessage: " << Query.LastErrorMessage() << std::endl;
 		}
 
-		catch (MusicBrainz4::CFetchError& Error)
+		catch (MusicBrainz5::CFetchError& Error)
 		{
 			std::cout << "Fetch Exception: '" << Error.what() << "'" << std::endl;
 			std::cout << "LastResult: " << Query.LastResult() << std::endl;
@@ -114,7 +114,7 @@ int main(int argc, const char *argv[])
 			std::cout << "LastErrorMessage: " << Query.LastErrorMessage() << std::endl;
 		}
 
-		catch (MusicBrainz4::CRequestError& Error)
+		catch (MusicBrainz5::CRequestError& Error)
 		{
 			std::cout << "Request Exception: '" << Error.what() << "'" << std::endl;
 			std::cout << "LastResult: " << Query.LastResult() << std::endl;
@@ -122,7 +122,7 @@ int main(int argc, const char *argv[])
 			std::cout << "LastErrorMessage: " << Query.LastErrorMessage() << std::endl;
 		}
 
-		catch (MusicBrainz4::CResourceNotFoundError& Error)
+		catch (MusicBrainz5::CResourceNotFoundError& Error)
 		{
 			std::cout << "ResourceNotFound Exception: '" << Error.what() << "'" << std::endl;
 			std::cout << "LastResult: " << Query.LastResult() << std::endl;

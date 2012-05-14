@@ -52,7 +52,7 @@
 #ifndef _CRT_SECURE_NO_DEPRECATE
 #define _CRT_SECURE_NO_DEPRECATE
 #endif
-#include "musicbrainz4/xmlParser.h"
+#include "musicbrainz5/xmlParser.h"
 #ifdef _XMLWINDOWS
 //#ifdef _DEBUG
 //#define _CRTDBG_MAP_ALLOC

@@ -1,16 +1,16 @@
 /* --------------------------------------------------------------------------
 
-   libmusicbrainz4 - Client library to access MusicBrainz
+   libmusicbrainz5 - Client library to access MusicBrainz
 
    Copyright (C) 2011 Andrew Hawkins
 
-   This file is part of libmusicbrainz4.
+   This file is part of libmusicbrainz5.
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of v2 of the GNU Lesser General Public
    License as published by the Free Software Foundation.
 
-   libmusicbrainz4 is distributed in the hope that it will be useful,
+   libmusicbrainz5 is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    Lesser General Public License for more details.
@@ -23,7 +23,7 @@
 ----------------------------------------------------------------------------*/
 
 #include "config.h"
-#include "musicbrainz4/defines.h"
+#include "musicbrainz5/defines.h"
 
 #include <iostream>
 #include <fstream>
@@ -31,7 +31,7 @@
 #include <vector>
 #include <string>
 
-#include "musicbrainz4/xmlParser.h"
+#include "musicbrainz5/xmlParser.h"
 
 void ProcessBoilerplate(const XMLNode& Node, std::ofstream& Source, std::ofstream& Include);
 void ProcessHeader(const XMLNode& Node, std::ofstream& Source, std::ofstream& Include);
@@ -129,17 +129,17 @@ void ProcessHeader(const XMLNode& /*Node*/, std::ofstream& Source, std::ofstream
 	std::stringstream os;
 	os << "/* --------------------------------------------------------------------------" << std::endl;
 	os << std::endl;
-	os << "   libmusicbrainz4 - Client library to access MusicBrainz" << std::endl;
+	os << "   libmusicbrainz5 - Client library to access MusicBrainz" << std::endl;
 	os << std::endl;
 	os << "   Copyright (C) 2011 Andrew Hawkins" << std::endl;
 	os << std::endl;
-	os << "   This file is part of libmusicbrainz4." << std::endl;
+	os << "   This file is part of libmusicbrainz5." << std::endl;
 	os << std::endl;
 	os << "   This library is free software; you can redistribute it and/or" << std::endl;
 	os << "   modify it under the terms of v2 of the GNU Lesser General Public" << std::endl;
 	os << "   License as published by the Free Software Foundation." << std::endl;
 	os << std::endl;
-	os << "   libmusicbrainz4 is distributed in the hope that it will be useful," << std::endl;
+	os << "   libmusicbrainz5 is distributed in the hope that it will be useful," << std::endl;
 	os << "   but WITHOUT ANY WARRANTY; without even the implied warranty of" << std::endl;
 	os << "   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU" << std::endl;
 	os << "   Lesser General Public License for more details." << std::endl;
@@ -185,77 +185,77 @@ void ProcessEntity(const XMLNode& /*Node*/, std::ofstream& Source, std::ofstream
 	Include << "/**" << std::endl;
 	Include << " * Returns the number of extension attributes for the entity" << std::endl;
 	Include << " *" << std::endl;
-	Include << " * @param Entity #Mb4Entity object" << std::endl;
+	Include << " * @param Entity #Mb5Entity object" << std::endl;
 	Include << " *" << std::endl;
 	Include << " * @return The number of characters in the string to copy (not including terminating NULL)" << std::endl;
 	Include << " */" << std::endl;
-	Include << "  int mb4_entity_ext_attributes_size(Mb4Entity Entity);" << std::endl;
+	Include << "  int mb5_entity_ext_attributes_size(Mb5Entity Entity);" << std::endl;
 	Include << std::endl;
 
 	Include << "/**" << std::endl;
 	Include << " * Returns the name of the requested extension attribute" << std::endl;
 	Include << " *" << std::endl;
-	Include << " * @param Entity #Mb4Entity object" << std::endl;
+	Include << " * @param Entity #Mb5Entity object" << std::endl;
 	Include << " * @param Item Item to return" << std::endl;
 	Include << " * @param str Returned string" << std::endl;
 	Include << " * @param len Number of characters available in return string" << std::endl;
 	Include << " *" << std::endl;
 	Include << " * @return The number of characters in the string to copy (not including terminating NULL)" << std::endl;
 	Include << " */" << std::endl;
-	Include << "  int mb4_entity_ext_attribute_name(Mb4Entity Entity, int Item, char *str, int len);" << std::endl;
+	Include << "  int mb5_entity_ext_attribute_name(Mb5Entity Entity, int Item, char *str, int len);" << std::endl;
 	Include << std::endl;
 
 	Include << "/**" << std::endl;
 	Include << " * Returns the value of the requested extension attribute" << std::endl;
 	Include << " *" << std::endl;
-	Include << " * @param Entity #Mb4Entity object" << std::endl;
+	Include << " * @param Entity #Mb5Entity object" << std::endl;
 	Include << " * @param Item Item to return" << std::endl;
 	Include << " * @param str Returned string" << std::endl;
 	Include << " * @param len Number of characters available in return string" << std::endl;
 	Include << " *" << std::endl;
 	Include << " * @return The number of characters in the string to copy (not including terminating NULL)" << std::endl;
 	Include << " */" << std::endl;
-	Include << "  int mb4_entity_ext_attribute_value(Mb4Entity Entity, int Item, char *str, int len);" << std::endl;
+	Include << "  int mb5_entity_ext_attribute_value(Mb5Entity Entity, int Item, char *str, int len);" << std::endl;
 	Include << std::endl;
 
 	Include << "/**" << std::endl;
 	Include << " * Returns the number of extension elements for the entity" << std::endl;
 	Include << " *" << std::endl;
-	Include << " * @param Entity #Mb4Entity object" << std::endl;
+	Include << " * @param Entity #Mb5Entity object" << std::endl;
 	Include << " *" << std::endl;
 	Include << " * @return The number of characters in the string to copy (not including terminating NULL)" << std::endl;
 	Include << " */" << std::endl;
-	Include << "  int mb4_entity_ext_elements_size(Mb4Entity Entity);" << std::endl;
+	Include << "  int mb5_entity_ext_elements_size(Mb5Entity Entity);" << std::endl;
 	Include << std::endl;
 
 	Include << "/**" << std::endl;
 	Include << " * Returns the name of the requested extension element" << std::endl;
 	Include << " *" << std::endl;
-	Include << " * @param Entity #Mb4Entity object" << std::endl;
+	Include << " * @param Entity #Mb5Entity object" << std::endl;
 	Include << " * @param Item Item to return" << std::endl;
 	Include << " * @param str Returned string" << std::endl;
 	Include << " * @param len Number of characters available in return string" << std::endl;
 	Include << " *" << std::endl;
 	Include << " * @return The number of characters in the string to copy (not including terminating NULL)" << std::endl;
 	Include << " */" << std::endl;
-	Include << "  int mb4_entity_ext_element_name(Mb4Entity Entity, int Item, char *str, int len);" << std::endl;
+	Include << "  int mb5_entity_ext_element_name(Mb5Entity Entity, int Item, char *str, int len);" << std::endl;
 	Include << std::endl;
 
 	Include << "/**" << std::endl;
 	Include << " * Returns the value of the requested extension element" << std::endl;
 	Include << " *" << std::endl;
-	Include << " * @param Entity #Mb4Entity object" << std::endl;
+	Include << " * @param Entity #Mb5Entity object" << std::endl;
 	Include << " * @param Item Item to return" << std::endl;
 	Include << " * @param str Returned string" << std::endl;
 	Include << " * @param len Number of characters available in return string" << std::endl;
 	Include << " *" << std::endl;
 	Include << " * @return The number of characters in the string to copy (not including terminating NULL)" << std::endl;
 	Include << " */" << std::endl;
-	Include << "  int mb4_entity_ext_element_value(Mb4Entity Entity, int Item, char *str, int len);" << std::endl;
+	Include << "  int mb5_entity_ext_element_value(Mb5Entity Entity, int Item, char *str, int len);" << std::endl;
 	Include << std::endl;
 
-	Source << "  MB4_C_EXT_GETTER(Attribute,attribute)" << std::endl;
-	Source << "  MB4_C_EXT_GETTER(Element,element)" << std::endl;
+	Source << "  MB5_C_EXT_GETTER(Attribute,attribute)" << std::endl;
+	Source << "  MB5_C_EXT_GETTER(Element,element)" << std::endl;
 	Source << std::endl;
 }
 
@@ -272,27 +272,27 @@ void ProcessClass(const XMLNode& Node, std::ofstream& Source, std::ofstream& Inc
 			UpperName[0]=toupper(UpperName[0]);
 
 		Include << "/**" << std::endl;
-		Include << "* Delete an #Mb4" << UpperName << " object" << std::endl;
+		Include << "* Delete an #Mb5" << UpperName << " object" << std::endl;
 		Include << "*" << std::endl;
 		Include << "* @param " << UpperName << " Object to delete" << std::endl;
 		Include << "*/" << std::endl;
-		Include << "  void mb4_" << LowerName << "_delete(Mb4" << UpperName << " " << UpperName << ");" << std::endl;
+		Include << "  void mb5_" << LowerName << "_delete(Mb5" << UpperName << " " << UpperName << ");" << std::endl;
 		Include << std::endl;
 
-		Source << "  MB4_C_DELETE(" << UpperName << "," << LowerName << ")" << std::endl;
+		Source << "  MB5_C_DELETE(" << UpperName << "," << LowerName << ")" << std::endl;
 
 		Include << "/**" << std::endl;
-		Include << "* Clone an #Mb4" << UpperName << " object" << std::endl;
+		Include << "* Clone an #Mb5" << UpperName << " object" << std::endl;
 		Include << "*" << std::endl;
 		Include << "* @param " << UpperName << " Object to clone" << std::endl;
 		Include << "*" << std::endl;
 		Include << "* @return Cloned object. This object <b>must</b> be deleted once" << std::endl;
 		Include << "*				finished with." << std::endl;
 		Include << "*/" << std::endl;
-		Include << "  Mb4" << UpperName << " mb4_" << LowerName << "_clone(Mb4" << UpperName << " " << UpperName << ");" << std::endl;
+		Include << "  Mb5" << UpperName << " mb5_" << LowerName << "_clone(Mb5" << UpperName << " " << UpperName << ");" << std::endl;
 		Include << std::endl;
 
-		Source << "  MB4_C_CLONE(" << UpperName << "," << LowerName << ")" << std::endl;
+		Source << "  MB5_C_CLONE(" << UpperName << "," << LowerName << ")" << std::endl;
 
 		for (int count=0;count<Node.nChildNode();count++)
 		{
@@ -334,7 +334,7 @@ void ProcessClass(const XMLNode& Node, std::ofstream& Source, std::ofstream& Inc
 						if (Deprecated)
 							Include << "@deprecated ";
 
-						Include << "@see MusicBrainz4::C" << UpperName << "::" << PropertyUpperName << std::endl;
+						Include << "@see MusicBrainz5::C" << UpperName << "::" << PropertyUpperName << std::endl;
 						Include << " *" << std::endl;
 
 						if (Deprecated)
@@ -343,7 +343,7 @@ void ProcessClass(const XMLNode& Node, std::ofstream& Source, std::ofstream& Inc
  							Include << " *" << std::endl;
  						}
 
-						Include << " * @param " << UpperName << " #Mb4" << UpperName << " object" << std::endl;
+						Include << " * @param " << UpperName << " #Mb5" << UpperName << " object" << std::endl;
 						Include << " * @param str Returned string" << std::endl;
 						Include << " * @param len Number of characters available in return string" << std::endl;
 						Include << " *" << std::endl;
@@ -352,142 +352,142 @@ void ProcessClass(const XMLNode& Node, std::ofstream& Source, std::ofstream& Inc
 						Include << "  ";
 
 						if (Deprecated)
-							Include << "LIBMB4_DEPRECATED(" << Replacement << ") ";
+							Include << "LIBMB5_DEPRECATED(" << Replacement << ") ";
 
-						Include << "int mb4_" << LowerName << "_get_" << PropertyLowerName << "(Mb4" << UpperName << " " << UpperName << ", char *str, int len);" << std::endl;
+						Include << "int mb5_" << LowerName << "_get_" << PropertyLowerName << "(Mb5" << UpperName << " " << UpperName << ", char *str, int len);" << std::endl;
 						Include << std::endl;
 
-						Source << "  MB4_C_STR_GETTER(" << UpperName << "," << LowerName << "," << PropertyUpperName << "," << PropertyLowerName << ")" << std::endl;
+						Source << "  MB5_C_STR_GETTER(" << UpperName << "," << LowerName << "," << PropertyUpperName << "," << PropertyLowerName << ")" << std::endl;
 					}
 					else if ("integer"==PropertyType)
 					{
 						Include << "/**" << std::endl;
-						Include << " * @see MusicBrainz4::C" << UpperName << "::" << PropertyUpperName << std::endl;
+						Include << " * @see MusicBrainz5::C" << UpperName << "::" << PropertyUpperName << std::endl;
 						Include << " *" << std::endl;
-						Include << " * @param " << UpperName << " #Mb4" << UpperName << " object" << std::endl;
+						Include << " * @param " << UpperName << " #Mb5" << UpperName << " object" << std::endl;
 						Include << " *" << std::endl;
 						Include << " * @return Returned value" << std::endl;
 						Include << " */" << std::endl;
-						Include << "  int mb4_" << LowerName << "_get_" << PropertyLowerName << "(Mb4" << UpperName << " " << UpperName << ");" << std::endl;
+						Include << "  int mb5_" << LowerName << "_get_" << PropertyLowerName << "(Mb5" << UpperName << " " << UpperName << ");" << std::endl;
 						Include << std::endl;
 
-						Source << "  MB4_C_INT_GETTER(" << UpperName << "," << LowerName << "," << PropertyUpperName << "," << PropertyLowerName << ")" << std::endl;
+						Source << "  MB5_C_INT_GETTER(" << UpperName << "," << LowerName << "," << PropertyUpperName << "," << PropertyLowerName << ")" << std::endl;
 					}
 					else if ("double"==PropertyType)
 					{
 						Include << "/**" << std::endl;
-						Include << " * @see MusicBrainz4::C" << UpperName << "::" << PropertyUpperName << std::endl;
+						Include << " * @see MusicBrainz5::C" << UpperName << "::" << PropertyUpperName << std::endl;
 						Include << " *" << std::endl;
-						Include << " * @param " << UpperName << " #Mb4" << UpperName << " object" << std::endl;
+						Include << " * @param " << UpperName << " #Mb5" << UpperName << " object" << std::endl;
 						Include << " *" << std::endl;
 						Include << " * @return Returned value" << std::endl;
 						Include << " */" << std::endl;
-						Include << "  double mb4_" << LowerName << "_get_" << PropertyLowerName << "(Mb4" << UpperName << " " << UpperName << ");" << std::endl;
+						Include << "  double mb5_" << LowerName << "_get_" << PropertyLowerName << "(Mb5" << UpperName << " " << UpperName << ");" << std::endl;
 						Include << std::endl;
 
-						Source << "  MB4_C_DOUBLE_GETTER(" << UpperName << "," << LowerName << "," << PropertyUpperName << "," << PropertyLowerName << ")" << std::endl;
+						Source << "  MB5_C_DOUBLE_GETTER(" << UpperName << "," << LowerName << "," << PropertyUpperName << "," << PropertyLowerName << ")" << std::endl;
 					}
 					else if ("object"==PropertyType)
 					{
 						Include << "/**" << std::endl;
-						Include << " * @see MusicBrainz4::C" << UpperName << "::" << PropertyUpperName << std::endl;
+						Include << " * @see MusicBrainz5::C" << UpperName << "::" << PropertyUpperName << std::endl;
 						Include << " *" << std::endl;
-						Include << " * @param " << UpperName << " #Mb4" << UpperName << " object" << std::endl;
+						Include << " * @param " << UpperName << " #Mb5" << UpperName << " object" << std::endl;
 						Include << " *" << std::endl;
-						Include << " * @return #Mb4" << PropertyUpperName << " object" << std::endl;
+						Include << " * @return #Mb5" << PropertyUpperName << " object" << std::endl;
 						Include << " */" << std::endl;
-						Include << "  Mb4" << PropertyUpperName << " mb4_" << LowerName << "_get_" << PropertyLowerName << "(Mb4" << UpperName << " " << UpperName << ");" << std::endl;
+						Include << "  Mb5" << PropertyUpperName << " mb5_" << LowerName << "_get_" << PropertyLowerName << "(Mb5" << UpperName << " " << UpperName << ");" << std::endl;
 						Include << std::endl;
 
-						Source << "  MB4_C_OBJ_GETTER(" << UpperName << "," << LowerName << "," << PropertyUpperName << "," << PropertyLowerName << ")" << std::endl;
+						Source << "  MB5_C_OBJ_GETTER(" << UpperName << "," << LowerName << "," << PropertyUpperName << "," << PropertyLowerName << ")" << std::endl;
 					}
 					else if ("relationlist"==PropertyType)
 					{
 						Include << "/**" << std::endl;
-						Include << " * @deprecated @see MusicBrainz4::C" << UpperName << "::" << PropertyUpperName << std::endl;
+						Include << " * @deprecated @see MusicBrainz5::C" << UpperName << "::" << PropertyUpperName << std::endl;
 						Include << " *" << std::endl;
-						Include << " * <b>This method is deprecated, please use #mb4_" << LowerName << "_get_" << PropertyLowerName << "list</b>" << std::endl;
+						Include << " * <b>This method is deprecated, please use #mb5_" << LowerName << "_get_" << PropertyLowerName << "list</b>" << std::endl;
 						Include << " *" << std::endl;
-						Include << " * @param " << UpperName << " #Mb4" << UpperName << " object" << std::endl;
+						Include << " * @param " << UpperName << " #Mb5" << UpperName << " object" << std::endl;
 						Include << " *" << std::endl;
-						Include << " * @return #Mb4" << PropertyUpperName << " object" << std::endl;
+						Include << " * @return #Mb5" << PropertyUpperName << " object" << std::endl;
 						Include << " */" << std::endl;
-						Include << " LIBMB4_DEPRECATED(mb4_" << LowerName << "_get_" << PropertyLowerName << "list) Mb4" << PropertyUpperName << " mb4_" << LowerName << "_get_" << PropertyLowerName << "(Mb4" << UpperName << " " << UpperName << ");" << std::endl;
+						Include << " LIBMB5_DEPRECATED(mb5_" << LowerName << "_get_" << PropertyLowerName << "list) Mb5" << PropertyUpperName << " mb5_" << LowerName << "_get_" << PropertyLowerName << "(Mb5" << UpperName << " " << UpperName << ");" << std::endl;
 						Include << std::endl;
 
-						Source << "  MB4_C_OBJ_GETTER(" << UpperName << "," << LowerName << "," << PropertyUpperName << "," << PropertyLowerName << ")" << std::endl;
+						Source << "  MB5_C_OBJ_GETTER(" << UpperName << "," << LowerName << "," << PropertyUpperName << "," << PropertyLowerName << ")" << std::endl;
 
 						Include << "/**" << std::endl;
-						Include << " * @see MusicBrainz4::C" << UpperName << "::" << PropertyUpperName << "List" << std::endl;
+						Include << " * @see MusicBrainz5::C" << UpperName << "::" << PropertyUpperName << "List" << std::endl;
 						Include << " *" << std::endl;
-						Include << " * @param " << UpperName << " #Mb4" << UpperName << "List object" << std::endl;
+						Include << " * @param " << UpperName << " #Mb5" << UpperName << "List object" << std::endl;
 						Include << " *" << std::endl;
-						Include << " * @return #Mb4" << PropertyUpperName << "List object" << std::endl;
+						Include << " * @return #Mb5" << PropertyUpperName << "List object" << std::endl;
 						Include << " */" << std::endl;
-						Include << "  Mb4" << PropertyUpperName << "List mb4_" << LowerName << "_get_" << PropertyLowerName << "list(Mb4" << UpperName << " " << UpperName << ");" << std::endl;
+						Include << "  Mb5" << PropertyUpperName << "List mb5_" << LowerName << "_get_" << PropertyLowerName << "list(Mb5" << UpperName << " " << UpperName << ");" << std::endl;
 						Include << std::endl;
 
-						Source << "  MB4_C_OBJ_GETTER(" << UpperName << "," << LowerName << "," << PropertyUpperName << "List," << PropertyLowerName << "list)" << std::endl;
+						Source << "  MB5_C_OBJ_GETTER(" << UpperName << "," << LowerName << "," << PropertyUpperName << "List," << PropertyLowerName << "list)" << std::endl;
 					}
 					else if ("iswc"==PropertyType)
 					{
 						Include << "/**" << std::endl;
-						Include << " * @deprecated @see MusicBrainz4::C" << UpperName << "::" << PropertyUpperName << std::endl;
+						Include << " * @deprecated @see MusicBrainz5::C" << UpperName << "::" << PropertyUpperName << std::endl;
 						Include << " *" << std::endl;
-						Include << " * <b>This method is deprecated, please use #mb4_" << LowerName << "_get_" << PropertyLowerName << "list</b>" << std::endl;
+						Include << " * <b>This method is deprecated, please use #mb5_" << LowerName << "_get_" << PropertyLowerName << "list</b>" << std::endl;
 						Include << " *" << std::endl;
-						Include << " * @param " << UpperName << " #Mb4" << UpperName << " object" << std::endl;
+						Include << " * @param " << UpperName << " #Mb5" << UpperName << " object" << std::endl;
 						Include << " * @param str Returned string" << std::endl;
 						Include << " * @param len Number of characters available in return string" << std::endl;
 						Include << " *" << std::endl;
 						Include << " * @return The number of characters in the string to copy (not including terminating NULL)" << std::endl;
 						Include << " */" << std::endl;
-						Include << "  LIBMB4_DEPRECATED(mb4_" << LowerName << "_get_" << PropertyLowerName << "list) int mb4_" << LowerName << "_get_" << PropertyLowerName << "(Mb4" << UpperName << " " << UpperName << ", char *str, int len);" << std::endl;
+						Include << "  LIBMB5_DEPRECATED(mb5_" << LowerName << "_get_" << PropertyLowerName << "list) int mb5_" << LowerName << "_get_" << PropertyLowerName << "(Mb5" << UpperName << " " << UpperName << ", char *str, int len);" << std::endl;
 						Include << std::endl;
 
-						Source << "  MB4_C_STR_GETTER(" << UpperName << "," << LowerName << "," << PropertyUpperName << "," << PropertyLowerName << ")" << std::endl;
+						Source << "  MB5_C_STR_GETTER(" << UpperName << "," << LowerName << "," << PropertyUpperName << "," << PropertyLowerName << ")" << std::endl;
 
 						Include << "/**" << std::endl;
-						Include << " * @see MusicBrainz4::C" << UpperName << "::" << PropertyUpperName << "List" << std::endl;
+						Include << " * @see MusicBrainz5::C" << UpperName << "::" << PropertyUpperName << "List" << std::endl;
 						Include << " *" << std::endl;
-						Include << " * @param " << UpperName << " #Mb4" << UpperName << "List object" << std::endl;
+						Include << " * @param " << UpperName << " #Mb5" << UpperName << "List object" << std::endl;
 						Include << " *" << std::endl;
-						Include << " * @return #Mb4" << PropertyUpperName << "List object" << std::endl;
+						Include << " * @return #Mb5" << PropertyUpperName << "List object" << std::endl;
 						Include << " */" << std::endl;
-						Include << "  Mb4" << PropertyUpperName << "List mb4_" << LowerName << "_get_" << PropertyLowerName << "list(Mb4" << UpperName << " " << UpperName << ");" << std::endl;
+						Include << "  Mb5" << PropertyUpperName << "List mb5_" << LowerName << "_get_" << PropertyLowerName << "list(Mb5" << UpperName << " " << UpperName << ");" << std::endl;
 						Include << std::endl;
 
-						Source << "  MB4_C_OBJ_GETTER(" << UpperName << "," << LowerName << "," << PropertyUpperName << "List," << PropertyLowerName << "list)" << std::endl;
+						Source << "  MB5_C_OBJ_GETTER(" << UpperName << "," << LowerName << "," << PropertyUpperName << "List," << PropertyLowerName << "list)" << std::endl;
 					}
 					else if ("ipi"==PropertyType)
 					{
 						Include << "/**" << std::endl;
-						Include << " * @deprecated @see MusicBrainz4::C" << UpperName << "::" << PropertyUpperName << std::endl;
+						Include << " * @deprecated @see MusicBrainz5::C" << UpperName << "::" << PropertyUpperName << std::endl;
 						Include << " *" << std::endl;
-						Include << " * <b>This method is deprecated, please use #mb4_" << LowerName << "_get_" << PropertyLowerName << "list</b>" << std::endl;
+						Include << " * <b>This method is deprecated, please use #mb5_" << LowerName << "_get_" << PropertyLowerName << "list</b>" << std::endl;
 						Include << " *" << std::endl;
-						Include << " * @param " << UpperName << " #Mb4" << UpperName << " object" << std::endl;
+						Include << " * @param " << UpperName << " #Mb5" << UpperName << " object" << std::endl;
 						Include << " * @param str Returned string" << std::endl;
 						Include << " * @param len Number of characters available in return string" << std::endl;
 						Include << " *" << std::endl;
 						Include << " * @return The number of characters in the string to copy (not including terminating NULL)" << std::endl;
 						Include << " */" << std::endl;
-						Include << "  LIBMB4_DEPRECATED(mb4_" << LowerName << "_get_" << PropertyLowerName << "list) int mb4_" << LowerName << "_get_" << PropertyLowerName << "(Mb4" << UpperName << " " << UpperName << ", char *str, int len);" << std::endl;
+						Include << "  LIBMB5_DEPRECATED(mb5_" << LowerName << "_get_" << PropertyLowerName << "list) int mb5_" << LowerName << "_get_" << PropertyLowerName << "(Mb5" << UpperName << " " << UpperName << ", char *str, int len);" << std::endl;
 						Include << std::endl;
 
-						Source << "  MB4_C_STR_GETTER(" << UpperName << "," << LowerName << "," << PropertyUpperName << "," << PropertyLowerName << ")" << std::endl;
+						Source << "  MB5_C_STR_GETTER(" << UpperName << "," << LowerName << "," << PropertyUpperName << "," << PropertyLowerName << ")" << std::endl;
 
 						Include << "/**" << std::endl;
-						Include << " * @see MusicBrainz4::C" << UpperName << "::" << PropertyUpperName << "List" << std::endl;
+						Include << " * @see MusicBrainz5::C" << UpperName << "::" << PropertyUpperName << "List" << std::endl;
 						Include << " *" << std::endl;
-						Include << " * @param " << UpperName << " #Mb4" << UpperName << "List object" << std::endl;
+						Include << " * @param " << UpperName << " #Mb5" << UpperName << "List object" << std::endl;
 						Include << " *" << std::endl;
-						Include << " * @return #Mb4" << PropertyUpperName << "List object" << std::endl;
+						Include << " * @return #Mb5" << PropertyUpperName << "List object" << std::endl;
 						Include << " */" << std::endl;
-						Include << "  Mb4" << PropertyUpperName << "List mb4_" << LowerName << "_get_" << PropertyLowerName << "list(Mb4" << UpperName << " " << UpperName << ");" << std::endl;
+						Include << "  Mb5" << PropertyUpperName << "List mb5_" << LowerName << "_get_" << PropertyLowerName << "list(Mb5" << UpperName << " " << UpperName << ");" << std::endl;
 						Include << std::endl;
 
-						Source << "  MB4_C_OBJ_GETTER(" << UpperName << "," << LowerName << "," << PropertyUpperName << "List," << PropertyLowerName << "list)" << std::endl;
+						Source << "  MB5_C_OBJ_GETTER(" << UpperName << "," << LowerName << "," << PropertyUpperName << "List," << PropertyLowerName << "list)" << std::endl;
 					}
 					else
 					{
@@ -525,58 +525,58 @@ void ProcessList(const XMLNode& Node, std::ofstream& Source, std::ofstream& Incl
 			UpperName[0]=toupper(UpperName[0]);
 
 		Include << "/**" << std::endl;
-		Include << " * Delete a #Mb4" << UpperName << "List" << std::endl;
+		Include << " * Delete a #Mb5" << UpperName << "List" << std::endl;
 		Include << " *" << std::endl;
 		Include << " * @param List List to delete" << std::endl;
 		Include << " */" << std::endl;
-		Include << "  void mb4_" << LowerName << "_list_delete(Mb4" << UpperName << "List List);" << std::endl;
+		Include << "  void mb5_" << LowerName << "_list_delete(Mb5" << UpperName << "List List);" << std::endl;
 		Include << std::endl;
 		Include << "/**" << std::endl;
-		Include << " * Return the number of entries in a #Mb4" << UpperName << "List" << std::endl;
+		Include << " * Return the number of entries in a #Mb5" << UpperName << "List" << std::endl;
 		Include << " *" << std::endl;
 		Include << " * @param	List List to use" << std::endl;
 		Include << " */" << std::endl;
-		Include << "  int mb4_" << LowerName << "_list_size(Mb4" << UpperName << "List List);" << std::endl;
+		Include << "  int mb5_" << LowerName << "_list_size(Mb5" << UpperName << "List List);" << std::endl;
 		Include << std::endl;
 		Include << "/**" << std::endl;
-		Include << " * Returns an entry from a #Mb4" << UpperName << "List" << std::endl;
+		Include << " * Returns an entry from a #Mb5" << UpperName << "List" << std::endl;
 		Include << " *" << std::endl;
 		Include << " * @param List List to use" << std::endl;
 		Include << " * @param Item Item number to return" << std::endl;
 		Include << " *" << std::endl;
-		Include << " * @return A #Mb4" << UpperName << " object." << std::endl;
+		Include << " * @return A #Mb5" << UpperName << " object." << std::endl;
 		Include << " */" << std::endl;
-		Include << "  Mb4" << UpperName << " mb4_" << LowerName << "_list_item(Mb4" << UpperName << "List List, int Item);" << std::endl;
+		Include << "  Mb5" << UpperName << " mb5_" << LowerName << "_list_item(Mb5" << UpperName << "List List, int Item);" << std::endl;
 		Include << std::endl;
 		Include << "/**" << std::endl;
-		Include << " *	Return the count of entries in an #Mb4" << UpperName << "List" << std::endl;
+		Include << " *	Return the count of entries in an #Mb5" << UpperName << "List" << std::endl;
 		Include << " *" << std::endl;
 		Include << " * @param	List List to use" << std::endl;
 		Include << " */" << std::endl;
-		Include << "	int mb4_" << LowerName << "_list_get_count(Mb4" << UpperName << "List List);" << std::endl;
+		Include << "	int mb5_" << LowerName << "_list_get_count(Mb5" << UpperName << "List List);" << std::endl;
 		Include << std::endl;
 		Include << "/**" << std::endl;
-		Include << " *	Return the offset of entries in an #Mb4" << UpperName << "List" << std::endl;
+		Include << " *	Return the offset of entries in an #Mb5" << UpperName << "List" << std::endl;
 		Include << " *" << std::endl;
 		Include << " * @param	List List to use" << std::endl;
 		Include << " */" << std::endl;
-		Include << "	int mb4_" << LowerName << "_list_get_offset(Mb4" << UpperName << "List List);" << std::endl;
+		Include << "	int mb5_" << LowerName << "_list_get_offset(Mb5" << UpperName << "List List);" << std::endl;
 		Include << std::endl;
 
-		Source << "  MB4_C_LIST_GETTER(" << UpperName << "," << LowerName << ")" << std::endl;
+		Source << "  MB5_C_LIST_GETTER(" << UpperName << "," << LowerName << ")" << std::endl;
 
 		Include << "/**" << std::endl;
-		Include << "* Clone an #Mb4" << UpperName << "List object" << std::endl;
+		Include << "* Clone an #Mb5" << UpperName << "List object" << std::endl;
 		Include << "*" << std::endl;
 		Include << "* @param " << UpperName << "List Object to clone" << std::endl;
 		Include << "*" << std::endl;
 		Include << "* @return Cloned list. This list <b>must</b> be deleted once" << std::endl;
 		Include << "*				finished with." << std::endl;
 		Include << "*/" << std::endl;
-		Include << "  Mb4" << UpperName << "List mb4_" << LowerName << "_list_clone(Mb4" << UpperName << "List " << UpperName << "List" << ");" << std::endl;
+		Include << "  Mb5" << UpperName << "List mb5_" << LowerName << "_list_clone(Mb5" << UpperName << "List " << UpperName << "List" << ");" << std::endl;
 		Include << std::endl;
 
-		Source << "  MB4_C_CLONE(" << UpperName << "List," << LowerName << "_list)" << std::endl;
+		Source << "  MB5_C_CLONE(" << UpperName << "List," << LowerName << "_list)" << std::endl;
 
 		for (int count=0;count<Node.nChildNode();count++)
 		{
@@ -600,7 +600,7 @@ void ProcessList(const XMLNode& Node, std::ofstream& Source, std::ofstream& Incl
 					if ("string"==PropertyType)
 					{
 						Include << "/**" << std::endl;
-						Include << " * @see MusicBrainz4::C" << UpperName << "::" << PropertyUpperName << std::endl;
+						Include << " * @see MusicBrainz5::C" << UpperName << "::" << PropertyUpperName << std::endl;
 						Include << " *" << std::endl;
 						Include << " * @param List List to use" << std::endl;
 						Include << " * @param str Returned string" << std::endl;
@@ -608,52 +608,52 @@ void ProcessList(const XMLNode& Node, std::ofstream& Source, std::ofstream& Incl
 						Include << " *" << std::endl;
 						Include << " * @return The number of characters in the string to copy (not including terminating NULL)" << std::endl;
 						Include << " */" << std::endl;
-						Include << "  int mb4_" << LowerName << "_list_get_" << PropertyLowerName << "(Mb4" << UpperName << "List List, char *str, int len);" << std::endl;
+						Include << "  int mb5_" << LowerName << "_list_get_" << PropertyLowerName << "(Mb5" << UpperName << "List List, char *str, int len);" << std::endl;
 						Include << std::endl;
 
-						Source << "  MB4_C_STR_GETTER(" << UpperName << "List," << LowerName << "_list," << PropertyUpperName << "," << PropertyLowerName << ")" << std::endl;
+						Source << "  MB5_C_STR_GETTER(" << UpperName << "List," << LowerName << "_list," << PropertyUpperName << "," << PropertyLowerName << ")" << std::endl;
 					}
 					else if ("integer"==PropertyType)
 					{
 						Include << "/**" << std::endl;
-						Include << " * @see MusicBrainz4::C" << UpperName << "::" << PropertyUpperName << std::endl;
+						Include << " * @see MusicBrainz5::C" << UpperName << "::" << PropertyUpperName << std::endl;
 						Include << " *" << std::endl;
 						Include << " * @param List List to use" << std::endl;
 						Include << " *" << std::endl;
 						Include << " * @return Returned value" << std::endl;
 						Include << " */" << std::endl;
-						Include << "  int mb4_" << LowerName << "_list_get_" << PropertyLowerName << "(Mb4" << UpperName << "List List);" << std::endl;
+						Include << "  int mb5_" << LowerName << "_list_get_" << PropertyLowerName << "(Mb5" << UpperName << "List List);" << std::endl;
 						Include << std::endl;
 
-						Source << "  MB4_C_INT_GETTER(" << UpperName << "List," << LowerName << "_list," << PropertyUpperName << "," << PropertyLowerName << ")" << std::endl;
+						Source << "  MB5_C_INT_GETTER(" << UpperName << "List," << LowerName << "_list," << PropertyUpperName << "," << PropertyLowerName << ")" << std::endl;
 					}
 					else if ("double"==PropertyType)
 					{
 						Include << "/**" << std::endl;
-						Include << " * @see MusicBrainz4::C" << UpperName << "::" << PropertyUpperName << std::endl;
+						Include << " * @see MusicBrainz5::C" << UpperName << "::" << PropertyUpperName << std::endl;
 						Include << " *" << std::endl;
 						Include << " * @param List List to use" << std::endl;
 						Include << " *" << std::endl;
 						Include << " * @return Returned value" << std::endl;
 						Include << " */" << std::endl;
-						Include << "  double mb4_" << LowerName << "_list_get_" << PropertyLowerName << "(Mb4" << UpperName << "List List);" << std::endl;
+						Include << "  double mb5_" << LowerName << "_list_get_" << PropertyLowerName << "(Mb5" << UpperName << "List List);" << std::endl;
 						Include << std::endl;
 
-						Source << "  MB4_C_DOUBLE_GETTER(" << UpperName << "List," << LowerName << "_list," << PropertyUpperName << "," << PropertyLowerName << ")" << std::endl;
+						Source << "  MB5_C_DOUBLE_GETTER(" << UpperName << "List," << LowerName << "_list," << PropertyUpperName << "," << PropertyLowerName << ")" << std::endl;
 					}
 					else if ("object"==PropertyType)
 					{
 						Include << "/**" << std::endl;
-						Include << " * @see MusicBrainz4::C" << UpperName << "::" << PropertyUpperName << std::endl;
+						Include << " * @see MusicBrainz5::C" << UpperName << "::" << PropertyUpperName << std::endl;
 						Include << " *" << std::endl;
 						Include << " * @param List List to use" << std::endl;
 						Include << " *" << std::endl;
-						Include << " * @return #Mb4" << PropertyUpperName << " object" << std::endl;
+						Include << " * @return #Mb5" << PropertyUpperName << " object" << std::endl;
 						Include << " */" << std::endl;
-						Include << "  int mb4_" << LowerName << "_list_get_" << PropertyLowerName << "(Mb4" << UpperName << "List List);" << std::endl;
+						Include << "  int mb5_" << LowerName << "_list_get_" << PropertyLowerName << "(Mb5" << UpperName << "List List);" << std::endl;
 						Include << std::endl;
 
-						Source << "  MB4_C_OBJ_GETTER(" << UpperName << "List," << LowerName << "_list," << PropertyUpperName << "," << PropertyLowerName << ")" << std::endl;
+						Source << "  MB5_C_OBJ_GETTER(" << UpperName << "List," << LowerName << "_list," << PropertyUpperName << "," << PropertyLowerName << ")" << std::endl;
 					}
 					else
 					{
@@ -713,7 +713,7 @@ void ProcessDeclare(const XMLNode& Node, std::ofstream& /*Source*/, std::ofstrea
 
 	for (std::vector<std::string>::const_iterator Class=Classes.begin();Class!=Classes.end();Class++)
 	{
-		Include << "  typedef void *Mb4" << *Class << ";" << std::endl;
+		Include << "  typedef void *Mb5" << *Class << ";" << std::endl;
 	}
 
 	Include << std::endl;

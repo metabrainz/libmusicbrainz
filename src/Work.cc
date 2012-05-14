@@ -1,16 +1,16 @@
 /* --------------------------------------------------------------------------
 
-   libmusicbrainz4 - Client library to access MusicBrainz
+   libmusicbrainz5 - Client library to access MusicBrainz
 
    Copyright (C) 2011 Andrew Hawkins
 
-   This file is part of libmusicbrainz4.
+   This file is part of libmusicbrainz5.
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of v2 of the GNU Lesser General Public
    License as published by the Free Software Foundation.
 
-   libmusicbrainz4 is distributed in the hope that it will be useful,
+   libmusicbrainz5 is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    Lesser General Public License for more details.
@@ -23,25 +23,25 @@
 ----------------------------------------------------------------------------*/
 
 #include "config.h"
-#include "musicbrainz4/defines.h"
+#include "musicbrainz5/defines.h"
 
-#include "musicbrainz4/Work.h"
+#include "musicbrainz5/Work.h"
 
-#include "musicbrainz4/ArtistCredit.h"
-#include "musicbrainz4/AliasList.h"
-#include "musicbrainz4/Alias.h"
-#include "musicbrainz4/RelationList.h"
-#include "musicbrainz4/RelationListList.h"
-#include "musicbrainz4/TagList.h"
-#include "musicbrainz4/Tag.h"
-#include "musicbrainz4/UserTagList.h"
-#include "musicbrainz4/UserTag.h"
-#include "musicbrainz4/Rating.h"
-#include "musicbrainz4/UserRating.h"
-#include "musicbrainz4/ISWC.h"
-#include "musicbrainz4/ISWCList.h"
+#include "musicbrainz5/ArtistCredit.h"
+#include "musicbrainz5/AliasList.h"
+#include "musicbrainz5/Alias.h"
+#include "musicbrainz5/RelationList.h"
+#include "musicbrainz5/RelationListList.h"
+#include "musicbrainz5/TagList.h"
+#include "musicbrainz5/Tag.h"
+#include "musicbrainz5/UserTagList.h"
+#include "musicbrainz5/UserTag.h"
+#include "musicbrainz5/Rating.h"
+#include "musicbrainz5/UserRating.h"
+#include "musicbrainz5/ISWC.h"
+#include "musicbrainz5/ISWCList.h"
 
-class MusicBrainz4::CWorkPrivate
+class MusicBrainz5::CWorkPrivate
 {
 	public:
 		CWorkPrivate()
@@ -71,7 +71,7 @@ class MusicBrainz4::CWorkPrivate
 		std::string m_Language;
 };
 
-MusicBrainz4::CWork::CWork(const XMLNode& Node)
+MusicBrainz5::CWork::CWork(const XMLNode& Node)
 :	CEntity(),
 	m_d(new CWorkPrivate)
 {
@@ -83,14 +83,14 @@ MusicBrainz4::CWork::CWork(const XMLNode& Node)
 	}
 }
 
-MusicBrainz4::CWork::CWork(const CWork& Other)
+MusicBrainz5::CWork::CWork(const CWork& Other)
 :	CEntity(),
 	m_d(new CWorkPrivate)
 {
 	*this=Other;
 }
 
-MusicBrainz4::CWork& MusicBrainz4::CWork::operator =(const CWork& Other)
+MusicBrainz5::CWork& MusicBrainz5::CWork::operator =(const CWork& Other)
 {
 	if (this!=&Other)
 	{
@@ -134,14 +134,14 @@ MusicBrainz4::CWork& MusicBrainz4::CWork::operator =(const CWork& Other)
 	return *this;
 }
 
-MusicBrainz4::CWork::~CWork()
+MusicBrainz5::CWork::~CWork()
 {
 	Cleanup();
 
 	delete m_d;
 }
 
-void MusicBrainz4::CWork::Cleanup()
+void MusicBrainz5::CWork::Cleanup()
 {
 	delete m_d->m_ArtistCredit;
 	m_d->m_ArtistCredit=0;
@@ -168,12 +168,12 @@ void MusicBrainz4::CWork::Cleanup()
 	m_d->m_UserRating=0;
 }
 
-MusicBrainz4::CWork *MusicBrainz4::CWork::Clone()
+MusicBrainz5::CWork *MusicBrainz5::CWork::Clone()
 {
 	return new CWork(*this);
 }
 
-bool MusicBrainz4::CWork::ParseAttribute(const std::string& Name, const std::string& Value)
+bool MusicBrainz5::CWork::ParseAttribute(const std::string& Name, const std::string& Value)
 {
 	bool RetVal=true;
 
@@ -190,7 +190,7 @@ bool MusicBrainz4::CWork::ParseAttribute(const std::string& Name, const std::str
 	return RetVal;
 }
 
-bool MusicBrainz4::CWork::ParseElement(const XMLNode& Node)
+bool MusicBrainz5::CWork::ParseElement(const XMLNode& Node)
 {
 	bool RetVal=true;
 
@@ -249,32 +249,32 @@ bool MusicBrainz4::CWork::ParseElement(const XMLNode& Node)
 	return RetVal;
 }
 
-std::string MusicBrainz4::CWork::GetElementName()
+std::string MusicBrainz5::CWork::GetElementName()
 {
 	return "work";
 }
 
-std::string MusicBrainz4::CWork::ID() const
+std::string MusicBrainz5::CWork::ID() const
 {
 	return m_d->m_ID;
 }
 
-std::string MusicBrainz4::CWork::Type() const
+std::string MusicBrainz5::CWork::Type() const
 {
 	return m_d->m_Type;
 }
 
-std::string MusicBrainz4::CWork::Title() const
+std::string MusicBrainz5::CWork::Title() const
 {
 	return m_d->m_Title;
 }
 
-MusicBrainz4::CArtistCredit *MusicBrainz4::CWork::ArtistCredit() const
+MusicBrainz5::CArtistCredit *MusicBrainz5::CWork::ArtistCredit() const
 {
 	return m_d->m_ArtistCredit;
 }
 
-std::string MusicBrainz4::CWork::ISWC() const
+std::string MusicBrainz5::CWork::ISWC() const
 {
 	std::string RetISWC;
 
@@ -284,57 +284,57 @@ std::string MusicBrainz4::CWork::ISWC() const
 	return RetISWC;
 }
 
-MusicBrainz4::CISWCList *MusicBrainz4::CWork::ISWCList() const
+MusicBrainz5::CISWCList *MusicBrainz5::CWork::ISWCList() const
 {
 	return m_d->m_ISWCList;
 }
 
-std::string MusicBrainz4::CWork::Disambiguation() const
+std::string MusicBrainz5::CWork::Disambiguation() const
 {
 	return m_d->m_Disambiguation;
 }
 
-MusicBrainz4::CAliasList *MusicBrainz4::CWork::AliasList() const
+MusicBrainz5::CAliasList *MusicBrainz5::CWork::AliasList() const
 {
 	return m_d->m_AliasList;
 }
 
-MusicBrainz4::CRelationList *MusicBrainz4::CWork::RelationList() const
+MusicBrainz5::CRelationList *MusicBrainz5::CWork::RelationList() const
 {
 	return m_d->m_RelationListList?m_d->m_RelationListList->Item(m_d->m_RelationListList->NumItems()-1):0;
 }
 
-MusicBrainz4::CRelationListList *MusicBrainz4::CWork::RelationListList() const
+MusicBrainz5::CRelationListList *MusicBrainz5::CWork::RelationListList() const
 {
 	return m_d->m_RelationListList;
 }
 
-MusicBrainz4::CTagList *MusicBrainz4::CWork::TagList() const
+MusicBrainz5::CTagList *MusicBrainz5::CWork::TagList() const
 {
 	return m_d->m_TagList;
 }
 
-MusicBrainz4::CUserTagList *MusicBrainz4::CWork::UserTagList() const
+MusicBrainz5::CUserTagList *MusicBrainz5::CWork::UserTagList() const
 {
 	return m_d->m_UserTagList;
 }
 
-MusicBrainz4::CRating *MusicBrainz4::CWork::Rating() const
+MusicBrainz5::CRating *MusicBrainz5::CWork::Rating() const
 {
 	return m_d->m_Rating;
 }
 
-MusicBrainz4::CUserRating *MusicBrainz4::CWork::UserRating() const
+MusicBrainz5::CUserRating *MusicBrainz5::CWork::UserRating() const
 {
 	return m_d->m_UserRating;
 }
 
-std::string MusicBrainz4::CWork::Language() const
+std::string MusicBrainz5::CWork::Language() const
 {
 	return m_d->m_Language;
 }
 
-std::ostream& MusicBrainz4::CWork::Serialise(std::ostream& os) const
+std::ostream& MusicBrainz5::CWork::Serialise(std::ostream& os) const
 {
 	os << "Work:" << std::endl;
 

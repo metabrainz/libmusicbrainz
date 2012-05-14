@@ -1,16 +1,16 @@
 /* --------------------------------------------------------------------------
 
-   libmusicbrainz4 - Client library to access MusicBrainz
+   libmusicbrainz5 - Client library to access MusicBrainz
 
    Copyright (C) 2011 Andrew Hawkins
 
-   This file is part of libmusicbrainz4.
+   This file is part of libmusicbrainz5.
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of v2 of the GNU Lesser General Public
    License as published by the Free Software Foundation.
 
-   libmusicbrainz4 is distributed in the hope that it will be useful,
+   libmusicbrainz5 is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    Lesser General Public License for more details.
@@ -23,13 +23,13 @@
 ----------------------------------------------------------------------------*/
 
 #include "config.h"
-#include "musicbrainz4/defines.h"
+#include "musicbrainz5/defines.h"
 
-#include "musicbrainz4/List.h"
+#include "musicbrainz5/List.h"
 
 #include <vector>
 
-class MusicBrainz4::CListPrivate
+class MusicBrainz5::CListPrivate
 {
 public:
 	CListPrivate()
@@ -43,20 +43,20 @@ public:
 	std::vector<CEntity *> m_Items;
 };
 
-MusicBrainz4::CList::CList()
+MusicBrainz5::CList::CList()
 :	CEntity(),
 	m_d(new CListPrivate)
 {
 }
 
-MusicBrainz4::CList::CList(const CList& Other)
+MusicBrainz5::CList::CList(const CList& Other)
 :	CEntity(),
 	m_d(new CListPrivate)
 {
 	*this=Other;
 }
 
-MusicBrainz4::CList& MusicBrainz4::CList::operator =(const CList& Other)
+MusicBrainz5::CList& MusicBrainz5::CList::operator =(const CList& Other)
 {
 	if (this!=&Other)
 	{
@@ -79,14 +79,14 @@ MusicBrainz4::CList& MusicBrainz4::CList::operator =(const CList& Other)
 	return *this;
 }
 
-MusicBrainz4::CList::~CList()
+MusicBrainz5::CList::~CList()
 {
 	Cleanup();
 
 	delete m_d;
 }
 
-void MusicBrainz4::CList::Cleanup()
+void MusicBrainz5::CList::Cleanup()
 {
 	while (!m_d->m_Items.empty())
 	{
@@ -95,12 +95,12 @@ void MusicBrainz4::CList::Cleanup()
 	}
 }
 
-MusicBrainz4::CList *MusicBrainz4::CList::Clone()
+MusicBrainz5::CList *MusicBrainz5::CList::Clone()
 {
 	return new CList(*this);
 }
 
-bool MusicBrainz4::CList::ParseAttribute(const std::string& Name, const std::string& Value)
+bool MusicBrainz5::CList::ParseAttribute(const std::string& Name, const std::string& Value)
 {
 	bool RetVal=true;
 
@@ -117,7 +117,7 @@ bool MusicBrainz4::CList::ParseAttribute(const std::string& Name, const std::str
 	return RetVal;
 }
 
-bool MusicBrainz4::CList::ParseElement(const XMLNode& Node)
+bool MusicBrainz5::CList::ParseElement(const XMLNode& Node)
 {
 	bool RetVal=true;
 
@@ -129,22 +129,22 @@ bool MusicBrainz4::CList::ParseElement(const XMLNode& Node)
 	return RetVal;
 }
 
-std::string MusicBrainz4::CList::GetElementName()
+std::string MusicBrainz5::CList::GetElementName()
 {
 	return "";
 }
 
-void MusicBrainz4::CList::AddItem(CEntity *Item)
+void MusicBrainz5::CList::AddItem(CEntity *Item)
 {
 	m_d->m_Items.push_back(Item);
 }
 
-int MusicBrainz4::CList::NumItems() const
+int MusicBrainz5::CList::NumItems() const
 {
 	return m_d->m_Items.size();
 }
 
-MusicBrainz4::CEntity *MusicBrainz4::CList::Item(int Item) const
+MusicBrainz5::CEntity *MusicBrainz5::CList::Item(int Item) const
 {
 	CEntity *Ret=0;
 
@@ -154,17 +154,17 @@ MusicBrainz4::CEntity *MusicBrainz4::CList::Item(int Item) const
 	return Ret;
 }
 
-int MusicBrainz4::CList::Offset() const
+int MusicBrainz5::CList::Offset() const
 {
 	return m_d->m_Offset;
 }
 
-int MusicBrainz4::CList::Count() const
+int MusicBrainz5::CList::Count() const
 {
 	return m_d->m_Count;
 }
 
-std::ostream& MusicBrainz4::CList::Serialise(std::ostream& os) const
+std::ostream& MusicBrainz5::CList::Serialise(std::ostream& os) const
 {
 	os << "List: " << std::endl;
 	os << "Offset: " << Offset() << std::endl;

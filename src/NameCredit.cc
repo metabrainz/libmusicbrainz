@@ -1,16 +1,16 @@
 /* --------------------------------------------------------------------------
 
-   libmusicbrainz4 - Client library to access MusicBrainz
+   libmusicbrainz5 - Client library to access MusicBrainz
 
    Copyright (C) 2011 Andrew Hawkins
 
-   This file is part of libmusicbrainz4.
+   This file is part of libmusicbrainz5.
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of v2 of the GNU Lesser General Public
    License as published by the Free Software Foundation.
 
-   libmusicbrainz4 is distributed in the hope that it will be useful,
+   libmusicbrainz5 is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    Lesser General Public License for more details.
@@ -23,13 +23,13 @@
 ----------------------------------------------------------------------------*/
 
 #include "config.h"
-#include "musicbrainz4/defines.h"
+#include "musicbrainz5/defines.h"
 
-#include "musicbrainz4/NameCredit.h"
+#include "musicbrainz5/NameCredit.h"
 
-#include "musicbrainz4/Artist.h"
+#include "musicbrainz5/Artist.h"
 
-class MusicBrainz4::CNameCreditPrivate
+class MusicBrainz5::CNameCreditPrivate
 {
 	public:
 		CNameCreditPrivate()
@@ -42,7 +42,7 @@ class MusicBrainz4::CNameCreditPrivate
 		CArtist *m_Artist;
 };
 
-MusicBrainz4::CNameCredit::CNameCredit(const XMLNode& Node)
+MusicBrainz5::CNameCredit::CNameCredit(const XMLNode& Node)
 :	CEntity(),
 	m_d(new CNameCreditPrivate)
 {
@@ -54,14 +54,14 @@ MusicBrainz4::CNameCredit::CNameCredit(const XMLNode& Node)
 	}
 }
 
-MusicBrainz4::CNameCredit::CNameCredit(const CNameCredit& Other)
+MusicBrainz5::CNameCredit::CNameCredit(const CNameCredit& Other)
 :	CEntity(),
 	m_d(new CNameCreditPrivate)
 {
 	*this=Other;
 }
 
-MusicBrainz4::CNameCredit& MusicBrainz4::CNameCredit::operator =(const CNameCredit& Other)
+MusicBrainz5::CNameCredit& MusicBrainz5::CNameCredit::operator =(const CNameCredit& Other)
 {
 	if (this!=&Other)
 	{
@@ -79,25 +79,25 @@ MusicBrainz4::CNameCredit& MusicBrainz4::CNameCredit::operator =(const CNameCred
 	return *this;
 }
 
-MusicBrainz4::CNameCredit::~CNameCredit()
+MusicBrainz5::CNameCredit::~CNameCredit()
 {
 	Cleanup();
 
 	delete m_d;
 }
 
-void MusicBrainz4::CNameCredit::Cleanup()
+void MusicBrainz5::CNameCredit::Cleanup()
 {
 	delete m_d->m_Artist;
 	m_d->m_Artist=0;
 }
 
-MusicBrainz4::CNameCredit *MusicBrainz4::CNameCredit::Clone()
+MusicBrainz5::CNameCredit *MusicBrainz5::CNameCredit::Clone()
 {
 	return new CNameCredit(*this);
 }
 
-bool MusicBrainz4::CNameCredit::ParseAttribute(const std::string& Name, const std::string& Value)
+bool MusicBrainz5::CNameCredit::ParseAttribute(const std::string& Name, const std::string& Value)
 {
 	bool RetVal=true;
 
@@ -112,7 +112,7 @@ bool MusicBrainz4::CNameCredit::ParseAttribute(const std::string& Name, const st
 	return RetVal;
 }
 
-bool MusicBrainz4::CNameCredit::ParseElement(const XMLNode& Node)
+bool MusicBrainz5::CNameCredit::ParseElement(const XMLNode& Node)
 {
 	bool RetVal=true;
 
@@ -136,27 +136,27 @@ bool MusicBrainz4::CNameCredit::ParseElement(const XMLNode& Node)
 	return RetVal;
 }
 
-std::string MusicBrainz4::CNameCredit::GetElementName()
+std::string MusicBrainz5::CNameCredit::GetElementName()
 {
 	return "name-credit";
 }
 
-std::string MusicBrainz4::CNameCredit::JoinPhrase() const
+std::string MusicBrainz5::CNameCredit::JoinPhrase() const
 {
 	return m_d->m_JoinPhrase;
 }
 
-std::string MusicBrainz4::CNameCredit::Name() const
+std::string MusicBrainz5::CNameCredit::Name() const
 {
 	return m_d->m_Name;
 }
 
-MusicBrainz4::CArtist *MusicBrainz4::CNameCredit::Artist() const
+MusicBrainz5::CArtist *MusicBrainz5::CNameCredit::Artist() const
 {
 	return m_d->m_Artist;
 }
 
-std::ostream& MusicBrainz4::CNameCredit::Serialise(std::ostream& os) const
+std::ostream& MusicBrainz5::CNameCredit::Serialise(std::ostream& os) const
 {
 	os << "Name credit:" << std::endl;
 

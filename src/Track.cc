@@ -1,16 +1,16 @@
 /* --------------------------------------------------------------------------
 
-   libmusicbrainz4 - Client library to access MusicBrainz
+   libmusicbrainz5 - Client library to access MusicBrainz
 
    Copyright (C) 2011 Andrew Hawkins
 
-   This file is part of libmusicbrainz4.
+   This file is part of libmusicbrainz5.
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of v2 of the GNU Lesser General Public
    License as published by the Free Software Foundation.
 
-   libmusicbrainz4 is distributed in the hope that it will be useful,
+   libmusicbrainz5 is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    Lesser General Public License for more details.
@@ -23,14 +23,14 @@
 ----------------------------------------------------------------------------*/
 
 #include "config.h"
-#include "musicbrainz4/defines.h"
+#include "musicbrainz5/defines.h"
 
-#include "musicbrainz4/Track.h"
+#include "musicbrainz5/Track.h"
 
-#include "musicbrainz4/Recording.h"
-#include "musicbrainz4/ArtistCredit.h"
+#include "musicbrainz5/Recording.h"
+#include "musicbrainz5/ArtistCredit.h"
 
-class MusicBrainz4::CTrackPrivate
+class MusicBrainz5::CTrackPrivate
 {
 	public:
 		CTrackPrivate()
@@ -49,7 +49,7 @@ class MusicBrainz4::CTrackPrivate
 		std::string m_Number;
 };
 
-MusicBrainz4::CTrack::CTrack(const XMLNode& Node)
+MusicBrainz5::CTrack::CTrack(const XMLNode& Node)
 :	CEntity(),
 	m_d(new CTrackPrivate)
 {
@@ -61,14 +61,14 @@ MusicBrainz4::CTrack::CTrack(const XMLNode& Node)
 	}
 }
 
-MusicBrainz4::CTrack::CTrack(const CTrack& Other)
+MusicBrainz5::CTrack::CTrack(const CTrack& Other)
 :	CEntity(),
 	m_d(new CTrackPrivate)
 {
 	*this=Other;
 }
 
-MusicBrainz4::CTrack& MusicBrainz4::CTrack::operator =(const CTrack& Other)
+MusicBrainz5::CTrack& MusicBrainz5::CTrack::operator =(const CTrack& Other)
 {
 	if (this!=&Other)
 	{
@@ -93,14 +93,14 @@ MusicBrainz4::CTrack& MusicBrainz4::CTrack::operator =(const CTrack& Other)
 	return *this;
 }
 
-MusicBrainz4::CTrack::~CTrack()
+MusicBrainz5::CTrack::~CTrack()
 {
 	Cleanup();
 
 	delete m_d;
 }
 
-void MusicBrainz4::CTrack::Cleanup()
+void MusicBrainz5::CTrack::Cleanup()
 {
 	delete m_d->m_Recording;
 	m_d->m_Recording=0;
@@ -109,12 +109,12 @@ void MusicBrainz4::CTrack::Cleanup()
 	m_d->m_ArtistCredit=0;
 }
 
-MusicBrainz4::CTrack *MusicBrainz4::CTrack::Clone()
+MusicBrainz5::CTrack *MusicBrainz5::CTrack::Clone()
 {
 	return new CTrack(*this);
 }
 
-bool MusicBrainz4::CTrack::ParseAttribute(const std::string& Name, const std::string& /*Value*/)
+bool MusicBrainz5::CTrack::ParseAttribute(const std::string& Name, const std::string& /*Value*/)
 {
 	bool RetVal=true;
 
@@ -124,7 +124,7 @@ bool MusicBrainz4::CTrack::ParseAttribute(const std::string& Name, const std::st
 	return RetVal;
 }
 
-bool MusicBrainz4::CTrack::ParseElement(const XMLNode& Node)
+bool MusicBrainz5::CTrack::ParseElement(const XMLNode& Node)
 {
 	bool RetVal=true;
 
@@ -163,42 +163,42 @@ bool MusicBrainz4::CTrack::ParseElement(const XMLNode& Node)
 	return RetVal;
 }
 
-std::string MusicBrainz4::CTrack::GetElementName()
+std::string MusicBrainz5::CTrack::GetElementName()
 {
 	return "track";
 }
 
-int MusicBrainz4::CTrack::Position() const
+int MusicBrainz5::CTrack::Position() const
 {
 	return m_d->m_Position;
 }
 
-std::string MusicBrainz4::CTrack::Title() const
+std::string MusicBrainz5::CTrack::Title() const
 {
 	return m_d->m_Title;
 }
 
-MusicBrainz4::CRecording *MusicBrainz4::CTrack::Recording() const
+MusicBrainz5::CRecording *MusicBrainz5::CTrack::Recording() const
 {
 	return m_d->m_Recording;
 }
 
-int MusicBrainz4::CTrack::Length() const
+int MusicBrainz5::CTrack::Length() const
 {
 	return m_d->m_Length;
 }
 
-MusicBrainz4::CArtistCredit *MusicBrainz4::CTrack::ArtistCredit() const
+MusicBrainz5::CArtistCredit *MusicBrainz5::CTrack::ArtistCredit() const
 {
 	return m_d->m_ArtistCredit;
 }
 
-std::string MusicBrainz4::CTrack::Number() const
+std::string MusicBrainz5::CTrack::Number() const
 {
 	return m_d->m_Number;
 }
 
-std::ostream& MusicBrainz4::CTrack::Serialise(std::ostream& os) const
+std::ostream& MusicBrainz5::CTrack::Serialise(std::ostream& os) const
 {
 	os << "Track:" << std::endl;
 

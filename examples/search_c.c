@@ -1,16 +1,16 @@
 /* --------------------------------------------------------------------------
 
-   libmusicbrainz4 - Client library to access MusicBrainz
+   libmusicbrainz5 - Client library to access MusicBrainz
 
    Copyright (C) 2011 Andrew Hawkins
 
-   This file is part of libmusicbrainz4.
+   This file is part of libmusicbrainz5.
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of v2 of the GNU Lesser General Public
    License as published by the Free Software Foundation.
 
-   libmusicbrainz4 is distributed in the hope that it will be useful,
+   libmusicbrainz5 is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    Lesser General Public License for more details.
@@ -26,21 +26,21 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "musicbrainz4/mb4_c.h"
+#include "musicbrainz5/mb5_c.h"
 
 int main(int argc, const char *argv[])
 {
-	Mb4Query Query;
+	Mb5Query Query;
 
 	argc=argc;
 	argv=argv;
 
-	Query=mb4_query_new("searchcexample-1.0",NULL,0);
+	Query=mb5_query_new("searchcexample-1.0",NULL,0);
 	if (Query)
 	{
 		char **ParamNames;
 		char **ParamValues;
-		Mb4Metadata Metadata;
+		Mb5Metadata Metadata;
 		char ErrorMessage[256];
 		tQueryResult Result;
 		int HTTPCode;
@@ -58,54 +58,54 @@ int main(int argc, const char *argv[])
 		strcpy(ParamNames[1],"limit");
 		strcpy(ParamValues[1],"10");
 
-		Metadata=mb4_query_query(Query,"artist","","",2,ParamNames,ParamValues);
+		Metadata=mb5_query_query(Query,"artist","","",2,ParamNames,ParamValues);
 
-		Result=mb4_query_get_lastresult(Query);
-		HTTPCode=mb4_query_get_lasthttpcode(Query);
+		Result=mb5_query_get_lastresult(Query);
+		HTTPCode=mb5_query_get_lasthttpcode(Query);
 
-		mb4_query_get_lasterrormessage(Query,ErrorMessage,sizeof(ErrorMessage));
+		mb5_query_get_lasterrormessage(Query,ErrorMessage,sizeof(ErrorMessage));
 		printf("Result: %d\nHTTPCode: %d\nErrorMessage: '%s'\n",Result,HTTPCode,ErrorMessage);
 
 		if (Metadata)
 		{
 			int ThisArtist;
-			Mb4ArtistList ArtistList=mb4_metadata_get_artistlist(Metadata);
+			Mb5ArtistList ArtistList=mb5_metadata_get_artistlist(Metadata);
 
-			printf("Found %d artist(s)\n",mb4_artist_list_size(ArtistList));
+			printf("Found %d artist(s)\n",mb5_artist_list_size(ArtistList));
 
-			for (ThisArtist=0;ThisArtist<mb4_artist_list_size(ArtistList);ThisArtist++)
+			for (ThisArtist=0;ThisArtist<mb5_artist_list_size(ArtistList);ThisArtist++)
 			{
-				Mb4Artist Artist=mb4_artist_list_item(ArtistList,ThisArtist);
+				Mb5Artist Artist=mb5_artist_list_item(ArtistList,ThisArtist);
 				if (Artist)
 				{
 					int count;
 					char Name[256];
 					char Value[256];
-					int NumExtAttrs=mb4_entity_ext_attributes_size(Artist);
-					int NumExtElements=mb4_entity_ext_elements_size(Artist);
+					int NumExtAttrs=mb5_entity_ext_attributes_size(Artist);
+					int NumExtElements=mb5_entity_ext_elements_size(Artist);
 
 					printf("%d attrs, %d elements\n",NumExtAttrs,NumExtElements);
 
 					for (count=0;count<NumExtAttrs;count++)
 					{
-						mb4_entity_ext_attribute_name(Artist,count,Name,sizeof(Name));
-						mb4_entity_ext_attribute_value(Artist,count,Value,sizeof(Value));
+						mb5_entity_ext_attribute_name(Artist,count,Name,sizeof(Name));
+						mb5_entity_ext_attribute_value(Artist,count,Value,sizeof(Value));
 
 						printf("Attr '%s' = '%s'\n",Name,Value);
 					}
 
 					for (count=0;count<NumExtElements;count++)
 					{
-						mb4_entity_ext_element_name(Artist,count,Name,sizeof(Name));
-						mb4_entity_ext_element_value(Artist,count,Value,sizeof(Value));
+						mb5_entity_ext_element_name(Artist,count,Name,sizeof(Name));
+						mb5_entity_ext_element_value(Artist,count,Value,sizeof(Value));
 
 						printf("Element '%s' = '%s'\n",Name,Value);
 					}
 
-					mb4_artist_get_name(Artist,Name,sizeof(Name));
+					mb5_artist_get_name(Artist,Name,sizeof(Name));
 					printf("Artist is '%s'\n",Name);
 
-					mb4_artist_get_sortname(Artist,Name,sizeof(Name));
+					mb5_artist_get_sortname(Artist,Name,sizeof(Name));
 					printf("Artist sort is '%s'\n",Name);
 				}
 				else
@@ -114,7 +114,7 @@ int main(int argc, const char *argv[])
 				}
 			}
 
-			mb4_metadata_delete(Metadata);
+			mb5_metadata_delete(Metadata);
 		}
 
 		free(ParamValues[1]);
@@ -124,7 +124,7 @@ int main(int argc, const char *argv[])
 		free(ParamNames[0]);
 		free(ParamNames);
 
-		mb4_query_delete(Query);
+		mb5_query_delete(Query);
 	}
 
 	return 0;

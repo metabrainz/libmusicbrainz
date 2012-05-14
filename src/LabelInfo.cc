@@ -1,16 +1,16 @@
 /* --------------------------------------------------------------------------
 
-   libmusicbrainz4 - Client library to access MusicBrainz
+   libmusicbrainz5 - Client library to access MusicBrainz
 
    Copyright (C) 2011 Andrew Hawkins
 
-   This file is part of libmusicbrainz4.
+   This file is part of libmusicbrainz5.
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of v2 of the GNU Lesser General Public
    License as published by the Free Software Foundation.
 
-   libmusicbrainz4 is distributed in the hope that it will be useful,
+   libmusicbrainz5 is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    Lesser General Public License for more details.
@@ -23,13 +23,13 @@
 ----------------------------------------------------------------------------*/
 
 #include "config.h"
-#include "musicbrainz4/defines.h"
+#include "musicbrainz5/defines.h"
 
-#include "musicbrainz4/LabelInfo.h"
+#include "musicbrainz5/LabelInfo.h"
 
-#include "musicbrainz4/Label.h"
+#include "musicbrainz5/Label.h"
 
-class MusicBrainz4::CLabelInfoPrivate
+class MusicBrainz5::CLabelInfoPrivate
 {
 	public:
 		CLabelInfoPrivate()
@@ -41,7 +41,7 @@ class MusicBrainz4::CLabelInfoPrivate
 		CLabel *m_Label;
 };
 
-MusicBrainz4::CLabelInfo::CLabelInfo(const XMLNode& Node)
+MusicBrainz5::CLabelInfo::CLabelInfo(const XMLNode& Node)
 :	CEntity(),
 	m_d(new CLabelInfoPrivate)
 {
@@ -53,14 +53,14 @@ MusicBrainz4::CLabelInfo::CLabelInfo(const XMLNode& Node)
 	}
 }
 
-MusicBrainz4::CLabelInfo::CLabelInfo(const CLabelInfo& Other)
+MusicBrainz5::CLabelInfo::CLabelInfo(const CLabelInfo& Other)
 :	CEntity(),
 	m_d(new CLabelInfoPrivate)
 {
 	*this=Other;
 }
 
-MusicBrainz4::CLabelInfo& MusicBrainz4::CLabelInfo::operator =(const CLabelInfo& Other)
+MusicBrainz5::CLabelInfo& MusicBrainz5::CLabelInfo::operator =(const CLabelInfo& Other)
 {
 	if (this!=&Other)
 	{
@@ -77,25 +77,25 @@ MusicBrainz4::CLabelInfo& MusicBrainz4::CLabelInfo::operator =(const CLabelInfo&
 	return *this;
 }
 
-MusicBrainz4::CLabelInfo::~CLabelInfo()
+MusicBrainz5::CLabelInfo::~CLabelInfo()
 {
 	Cleanup();
 
 	delete m_d;
 }
 
-void MusicBrainz4::CLabelInfo::Cleanup()
+void MusicBrainz5::CLabelInfo::Cleanup()
 {
 	delete m_d->m_Label;
 	m_d->m_Label=0;
 }
 
-MusicBrainz4::CLabelInfo *MusicBrainz4::CLabelInfo::Clone()
+MusicBrainz5::CLabelInfo *MusicBrainz5::CLabelInfo::Clone()
 {
 	return new CLabelInfo(*this);
 }
 
-bool MusicBrainz4::CLabelInfo::ParseAttribute(const std::string& Name, const std::string& /*Value*/)
+bool MusicBrainz5::CLabelInfo::ParseAttribute(const std::string& Name, const std::string& /*Value*/)
 {
 	bool RetVal=true;
 
@@ -105,7 +105,7 @@ bool MusicBrainz4::CLabelInfo::ParseAttribute(const std::string& Name, const std
 	return RetVal;
 }
 
-bool MusicBrainz4::CLabelInfo::ParseElement(const XMLNode& Node)
+bool MusicBrainz5::CLabelInfo::ParseElement(const XMLNode& Node)
 {
 	bool RetVal=true;
 
@@ -128,22 +128,22 @@ bool MusicBrainz4::CLabelInfo::ParseElement(const XMLNode& Node)
 	return RetVal;
 }
 
-std::string MusicBrainz4::CLabelInfo::GetElementName()
+std::string MusicBrainz5::CLabelInfo::GetElementName()
 {
 	return "label-info";
 }
 
-std::string MusicBrainz4::CLabelInfo::CatalogNumber() const
+std::string MusicBrainz5::CLabelInfo::CatalogNumber() const
 {
 	return m_d->m_CatalogNumber;
 }
 
-MusicBrainz4::CLabel *MusicBrainz4::CLabelInfo::Label() const
+MusicBrainz5::CLabel *MusicBrainz5::CLabelInfo::Label() const
 {
 	return m_d->m_Label;
 }
 
-std::ostream& MusicBrainz4::CLabelInfo::Serialise(std::ostream& os) const
+std::ostream& MusicBrainz5::CLabelInfo::Serialise(std::ostream& os) const
 {
 	os << "Label info:" << std::endl;
 

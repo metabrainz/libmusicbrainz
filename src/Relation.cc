@@ -1,16 +1,16 @@
 /* --------------------------------------------------------------------------
 
-   libmusicbrainz4 - Client library to access MusicBrainz
+   libmusicbrainz5 - Client library to access MusicBrainz
 
    Copyright (C) 2011 Andrew Hawkins
 
-   This file is part of libmusicbrainz4.
+   This file is part of libmusicbrainz5.
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of v2 of the GNU Lesser General Public
    License as published by the Free Software Foundation.
 
-   libmusicbrainz4 is distributed in the hope that it will be useful,
+   libmusicbrainz5 is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    Lesser General Public License for more details.
@@ -23,20 +23,20 @@
 ----------------------------------------------------------------------------*/
 
 #include "config.h"
-#include "musicbrainz4/defines.h"
+#include "musicbrainz5/defines.h"
 
-#include "musicbrainz4/Relation.h"
+#include "musicbrainz5/Relation.h"
 
-#include "musicbrainz4/Artist.h"
-#include "musicbrainz4/Release.h"
-#include "musicbrainz4/ReleaseGroup.h"
-#include "musicbrainz4/Recording.h"
-#include "musicbrainz4/Label.h"
-#include "musicbrainz4/Work.h"
-#include "musicbrainz4/AttributeList.h"
-#include "musicbrainz4/Attribute.h"
+#include "musicbrainz5/Artist.h"
+#include "musicbrainz5/Release.h"
+#include "musicbrainz5/ReleaseGroup.h"
+#include "musicbrainz5/Recording.h"
+#include "musicbrainz5/Label.h"
+#include "musicbrainz5/Work.h"
+#include "musicbrainz5/AttributeList.h"
+#include "musicbrainz5/Attribute.h"
 
-class MusicBrainz4::CRelationPrivate
+class MusicBrainz5::CRelationPrivate
 {
 	public:
 		CRelationPrivate()
@@ -64,7 +64,7 @@ class MusicBrainz4::CRelationPrivate
 		CWork *m_Work;
 };
 
-MusicBrainz4::CRelation::CRelation(const XMLNode& Node)
+MusicBrainz5::CRelation::CRelation(const XMLNode& Node)
 :	CEntity(),
 	m_d(new CRelationPrivate)
 {
@@ -76,14 +76,14 @@ MusicBrainz4::CRelation::CRelation(const XMLNode& Node)
 	}
 }
 
-MusicBrainz4::CRelation::CRelation(const CRelation& Other)
+MusicBrainz5::CRelation::CRelation(const CRelation& Other)
 :	CEntity(),
 	m_d(new CRelationPrivate)
 {
 	*this=Other;
 }
 
-MusicBrainz4::CRelation& MusicBrainz4::CRelation::operator =(const CRelation& Other)
+MusicBrainz5::CRelation& MusicBrainz5::CRelation::operator =(const CRelation& Other)
 {
 	if (this!=&Other)
 	{
@@ -123,14 +123,14 @@ MusicBrainz4::CRelation& MusicBrainz4::CRelation::operator =(const CRelation& Ot
 	return *this;
 }
 
-MusicBrainz4::CRelation::~CRelation()
+MusicBrainz5::CRelation::~CRelation()
 {
 	Cleanup();
 
 	delete m_d;
 }
 
-void MusicBrainz4::CRelation::Cleanup()
+void MusicBrainz5::CRelation::Cleanup()
 {
 	delete m_d->m_AttributeList;
 	m_d->m_AttributeList=0;
@@ -154,12 +154,12 @@ void MusicBrainz4::CRelation::Cleanup()
 	m_d->m_Work=0;
 }
 
-MusicBrainz4::CRelation *MusicBrainz4::CRelation::Clone()
+MusicBrainz5::CRelation *MusicBrainz5::CRelation::Clone()
 {
 	return new CRelation(*this);
 }
 
-bool MusicBrainz4::CRelation::ParseAttribute(const std::string& Name, const std::string& Value)
+bool MusicBrainz5::CRelation::ParseAttribute(const std::string& Name, const std::string& Value)
 {
 	bool RetVal=true;
 
@@ -174,7 +174,7 @@ bool MusicBrainz4::CRelation::ParseAttribute(const std::string& Name, const std:
 	return RetVal;
 }
 
-bool MusicBrainz4::CRelation::ParseElement(const XMLNode& Node)
+bool MusicBrainz5::CRelation::ParseElement(const XMLNode& Node)
 {
 	bool RetVal=true;
 
@@ -233,72 +233,72 @@ bool MusicBrainz4::CRelation::ParseElement(const XMLNode& Node)
 	return RetVal;
 }
 
-std::string MusicBrainz4::CRelation::GetElementName()
+std::string MusicBrainz5::CRelation::GetElementName()
 {
 	return "relation";
 }
 
-std::string MusicBrainz4::CRelation::Type() const
+std::string MusicBrainz5::CRelation::Type() const
 {
 	return m_d->m_Type;
 }
 
-std::string MusicBrainz4::CRelation::Target() const
+std::string MusicBrainz5::CRelation::Target() const
 {
 	return m_d->m_Target;
 }
 
-std::string MusicBrainz4::CRelation::Direction() const
+std::string MusicBrainz5::CRelation::Direction() const
 {
 	return m_d->m_Direction;
 }
 
-MusicBrainz4::CAttributeList *MusicBrainz4::CRelation::AttributeList() const
+MusicBrainz5::CAttributeList *MusicBrainz5::CRelation::AttributeList() const
 {
 	return m_d->m_AttributeList;
 }
 
-std::string MusicBrainz4::CRelation::Begin() const
+std::string MusicBrainz5::CRelation::Begin() const
 {
 	return m_d->m_Begin;
 }
 
-std::string MusicBrainz4::CRelation::End() const
+std::string MusicBrainz5::CRelation::End() const
 {
 	return m_d->m_End;
 }
 
-MusicBrainz4::CArtist *MusicBrainz4::CRelation::Artist() const
+MusicBrainz5::CArtist *MusicBrainz5::CRelation::Artist() const
 {
 	return m_d->m_Artist;
 }
 
-MusicBrainz4::CRelease *MusicBrainz4::CRelation::Release() const
+MusicBrainz5::CRelease *MusicBrainz5::CRelation::Release() const
 {
 	return m_d->m_Release;
 }
 
-MusicBrainz4::CReleaseGroup *MusicBrainz4::CRelation::ReleaseGroup() const
+MusicBrainz5::CReleaseGroup *MusicBrainz5::CRelation::ReleaseGroup() const
 {
 	return m_d->m_ReleaseGroup;
 }
 
-MusicBrainz4::CRecording *MusicBrainz4::CRelation::Recording() const
+MusicBrainz5::CRecording *MusicBrainz5::CRelation::Recording() const
 {
 	return m_d->m_Recording;
 }
 
-MusicBrainz4::CLabel *MusicBrainz4::CRelation::Label() const
+MusicBrainz5::CLabel *MusicBrainz5::CRelation::Label() const
 {
 	return m_d->m_Label;
 }
 
-MusicBrainz4::CWork *MusicBrainz4::CRelation::Work() const
+MusicBrainz5::CWork *MusicBrainz5::CRelation::Work() const
 {
 	return m_d->m_Work;
 }
 
-std::ostream& MusicBrainz4::CRelation::Serialise(std::ostream& os) const
+std::ostream& MusicBrainz5::CRelation::Serialise(std::ostream& os) const
 {
 	os << "Relation:" << std::endl;
 

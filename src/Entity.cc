@@ -1,16 +1,16 @@
 /* --------------------------------------------------------------------------
 
-   libmusicbrainz4 - Client library to access MusicBrainz
+   libmusicbrainz5 - Client library to access MusicBrainz
 
    Copyright (C) 2011 Andrew Hawkins
 
-   This file is part of libmusicbrainz4.
+   This file is part of libmusicbrainz5.
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of v2 of the GNU Lesser General Public
    License as published by the Free Software Foundation.
 
-   libmusicbrainz4 is distributed in the hope that it will be useful,
+   libmusicbrainz5 is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    Lesser General Public License for more details.
@@ -23,14 +23,14 @@
 ----------------------------------------------------------------------------*/
 
 #include "config.h"
-#include "musicbrainz4/defines.h"
+#include "musicbrainz5/defines.h"
 
-#include "musicbrainz4/Entity.h"
+#include "musicbrainz5/Entity.h"
 
-#include "musicbrainz4/RelationList.h"
-#include "musicbrainz4/RelationListList.h"
+#include "musicbrainz5/RelationList.h"
+#include "musicbrainz5/RelationListList.h"
 
-class MusicBrainz4::CEntityPrivate
+class MusicBrainz5::CEntityPrivate
 {
 	public:
 		CEntityPrivate()
@@ -41,18 +41,18 @@ class MusicBrainz4::CEntityPrivate
 		std::map<std::string,std::string> m_ExtElements;
 };
 
-MusicBrainz4::CEntity::CEntity()
+MusicBrainz5::CEntity::CEntity()
 :	m_d(new CEntityPrivate)
 {
 }
 
-MusicBrainz4::CEntity::CEntity(const CEntity& Other)
+MusicBrainz5::CEntity::CEntity(const CEntity& Other)
 :	m_d(new CEntityPrivate)
 {
 	*this=Other;
 }
 
-MusicBrainz4::CEntity& MusicBrainz4::CEntity::operator =(const CEntity& Other)
+MusicBrainz5::CEntity& MusicBrainz5::CEntity::operator =(const CEntity& Other)
 {
 	if (this!=&Other)
 	{
@@ -65,18 +65,18 @@ MusicBrainz4::CEntity& MusicBrainz4::CEntity::operator =(const CEntity& Other)
 	return *this;
 }
 
-MusicBrainz4::CEntity::~CEntity()
+MusicBrainz5::CEntity::~CEntity()
 {
 	Cleanup();
 
 	delete m_d;
 }
 
-void MusicBrainz4::CEntity::Cleanup()
+void MusicBrainz5::CEntity::Cleanup()
 {
 }
 
-bool MusicBrainz4::CEntity::Parse(const XMLNode& Node)
+bool MusicBrainz5::CEntity::Parse(const XMLNode& Node)
 {
 	bool RetVal=true;
 
@@ -118,17 +118,17 @@ bool MusicBrainz4::CEntity::Parse(const XMLNode& Node)
 	return RetVal;
 }
 
-std::map<std::string,std::string> MusicBrainz4::CEntity::ExtAttributes() const
+std::map<std::string,std::string> MusicBrainz5::CEntity::ExtAttributes() const
 {
 	return m_d->m_ExtAttributes;
 }
 
-std::map<std::string,std::string> MusicBrainz4::CEntity::ExtElements() const
+std::map<std::string,std::string> MusicBrainz5::CEntity::ExtElements() const
 {
 	return m_d->m_ExtElements;
 }
 
-bool MusicBrainz4::CEntity::ProcessRelationList(const XMLNode& Node, CRelationListList* & RetVal)
+bool MusicBrainz5::CEntity::ProcessRelationList(const XMLNode& Node, CRelationListList* & RetVal)
 {
 	if (0==RetVal)
 		RetVal=new CRelationListList;
@@ -140,7 +140,7 @@ bool MusicBrainz4::CEntity::ProcessRelationList(const XMLNode& Node, CRelationLi
 
 	return true;
 }
-std::ostream& MusicBrainz4::CEntity::Serialise(std::ostream& os) const
+std::ostream& MusicBrainz5::CEntity::Serialise(std::ostream& os) const
 {
 	if (!ExtAttributes().empty())
 	{
@@ -171,7 +171,7 @@ std::ostream& MusicBrainz4::CEntity::Serialise(std::ostream& os) const
 	return os;
 }
 
-std::ostream& operator << (std::ostream& os, const MusicBrainz4::CEntity& Entity)
+std::ostream& operator << (std::ostream& os, const MusicBrainz5::CEntity& Entity)
 {
 	return Entity.Serialise(os);
 }

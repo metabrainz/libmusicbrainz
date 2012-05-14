@@ -1,16 +1,16 @@
 /* --------------------------------------------------------------------------
 
-   libmusicbrainz4 - Client library to access MusicBrainz
+   libmusicbrainz5 - Client library to access MusicBrainz
 
    Copyright (C) 2012 Andrew Hawkins
 
-   This file is part of libmusicbrainz4.
+   This file is part of libmusicbrainz5.
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of v2 of the GNU Lesser General Public
    License as published by the Free Software Foundation.
 
-   libmusicbrainz4 is distributed in the hope that it will be useful,
+   libmusicbrainz5 is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    Lesser General Public License for more details.
@@ -23,12 +23,12 @@
 ----------------------------------------------------------------------------*/
 
 #include "config.h"
-#include "musicbrainz4/defines.h"
+#include "musicbrainz5/defines.h"
 
-#include "musicbrainz4/SecondaryType.h"
+#include "musicbrainz5/SecondaryType.h"
 
 
-class MusicBrainz4::CSecondaryTypePrivate
+class MusicBrainz5::CSecondaryTypePrivate
 {
 	public:
 		CSecondaryTypePrivate()
@@ -38,7 +38,7 @@ class MusicBrainz4::CSecondaryTypePrivate
 		std::string m_SecondaryType;
 };
 
-MusicBrainz4::CSecondaryType::CSecondaryType(const XMLNode& Node)
+MusicBrainz5::CSecondaryType::CSecondaryType(const XMLNode& Node)
 :	CEntity(),
 	m_d(new CSecondaryTypePrivate)
 {
@@ -53,14 +53,14 @@ MusicBrainz4::CSecondaryType::CSecondaryType(const XMLNode& Node)
 	}
 }
 
-MusicBrainz4::CSecondaryType::CSecondaryType(const CSecondaryType& Other)
+MusicBrainz5::CSecondaryType::CSecondaryType(const CSecondaryType& Other)
 :	CEntity(),
 	m_d(new CSecondaryTypePrivate)
 {
 	*this=Other;
 }
 
-MusicBrainz4::CSecondaryType& MusicBrainz4::CSecondaryType::operator =(const CSecondaryType& Other)
+MusicBrainz5::CSecondaryType& MusicBrainz5::CSecondaryType::operator =(const CSecondaryType& Other)
 {
 	if (this!=&Other)
 	{
@@ -74,23 +74,23 @@ MusicBrainz4::CSecondaryType& MusicBrainz4::CSecondaryType::operator =(const CSe
 	return *this;
 }
 
-MusicBrainz4::CSecondaryType::~CSecondaryType()
+MusicBrainz5::CSecondaryType::~CSecondaryType()
 {
 	Cleanup();
 
 	delete m_d;
 }
 
-void MusicBrainz4::CSecondaryType::Cleanup()
+void MusicBrainz5::CSecondaryType::Cleanup()
 {
 }
 
-MusicBrainz4::CSecondaryType *MusicBrainz4::CSecondaryType::Clone()
+MusicBrainz5::CSecondaryType *MusicBrainz5::CSecondaryType::Clone()
 {
 	return new CSecondaryType(*this);
 }
 
-bool MusicBrainz4::CSecondaryType::ParseAttribute(const std::string& Name, const std::string& /*Value*/)
+bool MusicBrainz5::CSecondaryType::ParseAttribute(const std::string& Name, const std::string& /*Value*/)
 {
 	bool RetVal=true;
 
@@ -100,7 +100,7 @@ bool MusicBrainz4::CSecondaryType::ParseAttribute(const std::string& Name, const
 	return RetVal;
 }
 
-bool MusicBrainz4::CSecondaryType::ParseElement(const XMLNode& Node)
+bool MusicBrainz5::CSecondaryType::ParseElement(const XMLNode& Node)
 {
 	bool RetVal=true;
 
@@ -112,17 +112,17 @@ bool MusicBrainz4::CSecondaryType::ParseElement(const XMLNode& Node)
 	return RetVal;
 }
 
-std::string MusicBrainz4::CSecondaryType::GetElementName()
+std::string MusicBrainz5::CSecondaryType::GetElementName()
 {
 	return "secondary-type";
 }
 
-std::string MusicBrainz4::CSecondaryType::SecondaryType() const
+std::string MusicBrainz5::CSecondaryType::SecondaryType() const
 {
 	return m_d->m_SecondaryType;
 }
 
-std::ostream& MusicBrainz4::CSecondaryType::Serialise(std::ostream& os) const
+std::ostream& MusicBrainz5::CSecondaryType::Serialise(std::ostream& os) const
 {
 	os << "Secondary Type:" << std::endl;
 

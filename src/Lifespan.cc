@@ -1,16 +1,16 @@
 /* --------------------------------------------------------------------------
 
-   libmusicbrainz4 - Client library to access MusicBrainz
+   libmusicbrainz5 - Client library to access MusicBrainz
 
    Copyright (C) 2011 Andrew Hawkins
 
-   This file is part of libmusicbrainz4.
+   This file is part of libmusicbrainz5.
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of v2 of the GNU Lesser General Public
    License as published by the Free Software Foundation.
 
-   libmusicbrainz4 is distributed in the hope that it will be useful,
+   libmusicbrainz5 is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    Lesser General Public License for more details.
@@ -23,11 +23,11 @@
 ----------------------------------------------------------------------------*/
 
 #include "config.h"
-#include "musicbrainz4/defines.h"
+#include "musicbrainz5/defines.h"
 
-#include "musicbrainz4/Lifespan.h"
+#include "musicbrainz5/Lifespan.h"
 
-class MusicBrainz4::CLifespanPrivate
+class MusicBrainz5::CLifespanPrivate
 {
 	public:
 		std::string m_Begin;
@@ -35,7 +35,7 @@ class MusicBrainz4::CLifespanPrivate
 		std::string m_Ended;
 };
 
-MusicBrainz4::CLifespan::CLifespan(const XMLNode& Node)
+MusicBrainz5::CLifespan::CLifespan(const XMLNode& Node)
 :	CEntity(),
 	m_d(new CLifespanPrivate)
 {
@@ -47,14 +47,14 @@ MusicBrainz4::CLifespan::CLifespan(const XMLNode& Node)
 	}
 }
 
-MusicBrainz4::CLifespan::CLifespan(const CLifespan& Other)
+MusicBrainz5::CLifespan::CLifespan(const CLifespan& Other)
 :	CEntity(),
 	m_d(new CLifespanPrivate)
 {
 	*this=Other;
 }
 
-MusicBrainz4::CLifespan& MusicBrainz4::CLifespan::operator =(const CLifespan& Other)
+MusicBrainz5::CLifespan& MusicBrainz5::CLifespan::operator =(const CLifespan& Other)
 {
 	if (this!=&Other)
 	{
@@ -68,17 +68,17 @@ MusicBrainz4::CLifespan& MusicBrainz4::CLifespan::operator =(const CLifespan& Ot
 	return *this;
 }
 
-MusicBrainz4::CLifespan::~CLifespan()
+MusicBrainz5::CLifespan::~CLifespan()
 {
 	delete m_d;
 }
 
-MusicBrainz4::CLifespan *MusicBrainz4::CLifespan::Clone()
+MusicBrainz5::CLifespan *MusicBrainz5::CLifespan::Clone()
 {
 	return new CLifespan(*this);
 }
 
-bool MusicBrainz4::CLifespan::ParseAttribute(const std::string& Name, const std::string& /*Value*/)
+bool MusicBrainz5::CLifespan::ParseAttribute(const std::string& Name, const std::string& /*Value*/)
 {
 	bool RetVal=true;
 
@@ -88,7 +88,7 @@ bool MusicBrainz4::CLifespan::ParseAttribute(const std::string& Name, const std:
 	return RetVal;
 }
 
-bool MusicBrainz4::CLifespan::ParseElement(const XMLNode& Node)
+bool MusicBrainz5::CLifespan::ParseElement(const XMLNode& Node)
 {
 	bool RetVal=true;
 
@@ -115,27 +115,27 @@ bool MusicBrainz4::CLifespan::ParseElement(const XMLNode& Node)
 	return RetVal;
 }
 
-std::string MusicBrainz4::CLifespan::GetElementName()
+std::string MusicBrainz5::CLifespan::GetElementName()
 {
 	return "life-span";
 }
 
-std::string MusicBrainz4::CLifespan::Begin() const
+std::string MusicBrainz5::CLifespan::Begin() const
 {
 	return m_d->m_Begin;
 }
 
-std::string MusicBrainz4::CLifespan::End() const
+std::string MusicBrainz5::CLifespan::End() const
 {
 	return m_d->m_End;
 }
 
-std::string MusicBrainz4::CLifespan::Ended() const
+std::string MusicBrainz5::CLifespan::Ended() const
 {
 	return m_d->m_Ended;
 }
 
-std::ostream& MusicBrainz4::CLifespan::Serialise(std::ostream& os) const
+std::ostream& MusicBrainz5::CLifespan::Serialise(std::ostream& os) const
 {
 	os << "Lifespan:" << std::endl;
 

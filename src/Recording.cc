@@ -1,16 +1,16 @@
 /* --------------------------------------------------------------------------
 
-   libmusicbrainz4 - Client library to access MusicBrainz
+   libmusicbrainz5 - Client library to access MusicBrainz
 
    Copyright (C) 2011 Andrew Hawkins
 
-   This file is part of libmusicbrainz4.
+   This file is part of libmusicbrainz5.
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of v2 of the GNU Lesser General Public
    License as published by the Free Software Foundation.
 
-   libmusicbrainz4 is distributed in the hope that it will be useful,
+   libmusicbrainz5 is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    Lesser General Public License for more details.
@@ -23,27 +23,27 @@
 ----------------------------------------------------------------------------*/
 
 #include "config.h"
-#include "musicbrainz4/defines.h"
+#include "musicbrainz5/defines.h"
 
-#include "musicbrainz4/Recording.h"
+#include "musicbrainz5/Recording.h"
 
-#include "musicbrainz4/ArtistCredit.h"
-#include "musicbrainz4/Rating.h"
-#include "musicbrainz4/UserRating.h"
-#include "musicbrainz4/ReleaseList.h"
-#include "musicbrainz4/Release.h"
-#include "musicbrainz4/PUIDList.h"
-#include "musicbrainz4/PUID.h"
-#include "musicbrainz4/ISRCList.h"
-#include "musicbrainz4/ISRC.h"
-#include "musicbrainz4/RelationListList.h"
-#include "musicbrainz4/Relation.h"
-#include "musicbrainz4/TagList.h"
-#include "musicbrainz4/Tag.h"
-#include "musicbrainz4/UserTagList.h"
-#include "musicbrainz4/UserTag.h"
+#include "musicbrainz5/ArtistCredit.h"
+#include "musicbrainz5/Rating.h"
+#include "musicbrainz5/UserRating.h"
+#include "musicbrainz5/ReleaseList.h"
+#include "musicbrainz5/Release.h"
+#include "musicbrainz5/PUIDList.h"
+#include "musicbrainz5/PUID.h"
+#include "musicbrainz5/ISRCList.h"
+#include "musicbrainz5/ISRC.h"
+#include "musicbrainz5/RelationListList.h"
+#include "musicbrainz5/Relation.h"
+#include "musicbrainz5/TagList.h"
+#include "musicbrainz5/Tag.h"
+#include "musicbrainz5/UserTagList.h"
+#include "musicbrainz5/UserTag.h"
 
-class MusicBrainz4::CRecordingPrivate
+class MusicBrainz5::CRecordingPrivate
 {
 	public:
 		CRecordingPrivate()
@@ -75,7 +75,7 @@ class MusicBrainz4::CRecordingPrivate
 		CUserRating *m_UserRating;
 };
 
-MusicBrainz4::CRecording::CRecording(const XMLNode& Node)
+MusicBrainz5::CRecording::CRecording(const XMLNode& Node)
 :	CEntity(),
 	m_d(new CRecordingPrivate)
 {
@@ -87,14 +87,14 @@ MusicBrainz4::CRecording::CRecording(const XMLNode& Node)
 	}
 }
 
-MusicBrainz4::CRecording::CRecording(const CRecording& Other)
+MusicBrainz5::CRecording::CRecording(const CRecording& Other)
 :	CEntity(),
 	m_d(new CRecordingPrivate)
 {
 	*this=Other;
 }
 
-MusicBrainz4::CRecording& MusicBrainz4::CRecording::operator =(const CRecording& Other)
+MusicBrainz5::CRecording& MusicBrainz5::CRecording::operator =(const CRecording& Other)
 {
 	if (this!=&Other)
 	{
@@ -138,19 +138,19 @@ MusicBrainz4::CRecording& MusicBrainz4::CRecording::operator =(const CRecording&
 	return *this;
 }
 
-MusicBrainz4::CRecording::~CRecording()
+MusicBrainz5::CRecording::~CRecording()
 {
 	Cleanup();
 
 	delete m_d;
 }
 
-MusicBrainz4::CRecording *MusicBrainz4::CRecording::Clone()
+MusicBrainz5::CRecording *MusicBrainz5::CRecording::Clone()
 {
 	return new CRecording(*this);
 }
 
-bool MusicBrainz4::CRecording::ParseAttribute(const std::string& Name, const std::string& Value)
+bool MusicBrainz5::CRecording::ParseAttribute(const std::string& Name, const std::string& Value)
 {
 	bool RetVal=true;
 
@@ -165,7 +165,7 @@ bool MusicBrainz4::CRecording::ParseAttribute(const std::string& Name, const std
 	return RetVal;
 }
 
-bool MusicBrainz4::CRecording::ParseElement(const XMLNode& Node)
+bool MusicBrainz5::CRecording::ParseElement(const XMLNode& Node)
 {
 	bool RetVal=true;
 
@@ -228,12 +228,12 @@ bool MusicBrainz4::CRecording::ParseElement(const XMLNode& Node)
 	return RetVal;
 }
 
-std::string MusicBrainz4::CRecording::GetElementName()
+std::string MusicBrainz5::CRecording::GetElementName()
 {
 	return "recording";
 }
 
-void MusicBrainz4::CRecording::Cleanup()
+void MusicBrainz5::CRecording::Cleanup()
 {
 	delete m_d->m_ArtistCredit;
 	m_d->m_ArtistCredit=0;
@@ -263,77 +263,77 @@ void MusicBrainz4::CRecording::Cleanup()
 	m_d->m_UserRating=0;
 }
 
-std::string MusicBrainz4::CRecording::ID() const
+std::string MusicBrainz5::CRecording::ID() const
 {
 	return m_d->m_ID;
 }
 
-std::string MusicBrainz4::CRecording::Title() const
+std::string MusicBrainz5::CRecording::Title() const
 {
 	return m_d->m_Title;
 }
 
-int MusicBrainz4::CRecording::Length() const
+int MusicBrainz5::CRecording::Length() const
 {
 	return m_d->m_Length;
 }
 
-std::string MusicBrainz4::CRecording::Disambiguation() const
+std::string MusicBrainz5::CRecording::Disambiguation() const
 {
 	return m_d->m_Disambiguation;
 }
 
-MusicBrainz4::CArtistCredit *MusicBrainz4::CRecording::ArtistCredit() const
+MusicBrainz5::CArtistCredit *MusicBrainz5::CRecording::ArtistCredit() const
 {
 	return m_d->m_ArtistCredit;
 }
 
-MusicBrainz4::CReleaseList *MusicBrainz4::CRecording::ReleaseList() const
+MusicBrainz5::CReleaseList *MusicBrainz5::CRecording::ReleaseList() const
 {
 	return m_d->m_ReleaseList;
 }
 
-MusicBrainz4::CPUIDList *MusicBrainz4::CRecording::PUIDList() const
+MusicBrainz5::CPUIDList *MusicBrainz5::CRecording::PUIDList() const
 {
 	return m_d->m_PUIDList;
 }
 
-MusicBrainz4::CISRCList *MusicBrainz4::CRecording::ISRCList() const
+MusicBrainz5::CISRCList *MusicBrainz5::CRecording::ISRCList() const
 {
 	return m_d->m_ISRCList;
 }
 
-MusicBrainz4::CRelationList *MusicBrainz4::CRecording::RelationList() const
+MusicBrainz5::CRelationList *MusicBrainz5::CRecording::RelationList() const
 {
 	return m_d->m_RelationListList?m_d->m_RelationListList->Item(m_d->m_RelationListList->NumItems()-1):0;
 }
 
-MusicBrainz4::CRelationListList *MusicBrainz4::CRecording::RelationListList() const
+MusicBrainz5::CRelationListList *MusicBrainz5::CRecording::RelationListList() const
 {
 	return m_d->m_RelationListList;
 }
 
-MusicBrainz4::CTagList *MusicBrainz4::CRecording::TagList() const
+MusicBrainz5::CTagList *MusicBrainz5::CRecording::TagList() const
 {
 	return m_d->m_TagList;
 }
 
-MusicBrainz4::CUserTagList *MusicBrainz4::CRecording::UserTagList() const
+MusicBrainz5::CUserTagList *MusicBrainz5::CRecording::UserTagList() const
 {
 	return m_d->m_UserTagList;
 }
 
-MusicBrainz4::CRating *MusicBrainz4::CRecording::Rating() const
+MusicBrainz5::CRating *MusicBrainz5::CRecording::Rating() const
 {
 	return m_d->m_Rating;
 }
 
-MusicBrainz4::CUserRating *MusicBrainz4::CRecording::UserRating() const
+MusicBrainz5::CUserRating *MusicBrainz5::CRecording::UserRating() const
 {
 	return m_d->m_UserRating;
 }
 
-std::ostream& MusicBrainz4::CRecording::Serialise(std::ostream& os) const
+std::ostream& MusicBrainz5::CRecording::Serialise(std::ostream& os) const
 {
 	os << "Recording:" << std::endl;
 

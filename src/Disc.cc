@@ -1,16 +1,16 @@
 /* --------------------------------------------------------------------------
 
-   libmusicbrainz4 - Client library to access MusicBrainz
+   libmusicbrainz5 - Client library to access MusicBrainz
 
    Copyright (C) 2011 Andrew Hawkins
 
-   This file is part of libmusicbrainz4.
+   This file is part of libmusicbrainz5.
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of v2 of the GNU Lesser General Public
    License as published by the Free Software Foundation.
 
-   libmusicbrainz4 is distributed in the hope that it will be useful,
+   libmusicbrainz5 is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    Lesser General Public License for more details.
@@ -23,14 +23,14 @@
 ----------------------------------------------------------------------------*/
 
 #include "config.h"
-#include "musicbrainz4/defines.h"
+#include "musicbrainz5/defines.h"
 
-#include "musicbrainz4/Disc.h"
+#include "musicbrainz5/Disc.h"
 
-#include "musicbrainz4/ReleaseList.h"
-#include "musicbrainz4/Release.h"
+#include "musicbrainz5/ReleaseList.h"
+#include "musicbrainz5/Release.h"
 
-class MusicBrainz4::CDiscPrivate
+class MusicBrainz5::CDiscPrivate
 {
 	public:
 		CDiscPrivate()
@@ -44,7 +44,7 @@ class MusicBrainz4::CDiscPrivate
 		CReleaseList *m_ReleaseList;
 };
 
-MusicBrainz4::CDisc::CDisc(const XMLNode& Node)
+MusicBrainz5::CDisc::CDisc(const XMLNode& Node)
 :	CEntity(),
 	m_d(new CDiscPrivate)
 {
@@ -56,14 +56,14 @@ MusicBrainz4::CDisc::CDisc(const XMLNode& Node)
 	}
 }
 
-MusicBrainz4::CDisc::CDisc(const CDisc& Other)
+MusicBrainz5::CDisc::CDisc(const CDisc& Other)
 :	CEntity(),
 	m_d(new CDiscPrivate)
 {
 	*this=Other;
 }
 
-MusicBrainz4::CDisc& MusicBrainz4::CDisc::operator =(const CDisc& Other)
+MusicBrainz5::CDisc& MusicBrainz5::CDisc::operator =(const CDisc& Other)
 {
 	if (this!=&Other)
 	{
@@ -81,25 +81,25 @@ MusicBrainz4::CDisc& MusicBrainz4::CDisc::operator =(const CDisc& Other)
 	return *this;
 }
 
-MusicBrainz4::CDisc::~CDisc()
+MusicBrainz5::CDisc::~CDisc()
 {
 	Cleanup();
 
 	delete m_d;
 }
 
-void MusicBrainz4::CDisc::Cleanup()
+void MusicBrainz5::CDisc::Cleanup()
 {
 	delete m_d->m_ReleaseList;
 	m_d->m_ReleaseList=0;
 }
 
-MusicBrainz4::CDisc *MusicBrainz4::CDisc::Clone()
+MusicBrainz5::CDisc *MusicBrainz5::CDisc::Clone()
 {
 	return new CDisc(*this);
 }
 
-bool MusicBrainz4::CDisc::ParseAttribute(const std::string& Name, const std::string& Value)
+bool MusicBrainz5::CDisc::ParseAttribute(const std::string& Name, const std::string& Value)
 {
 	bool RetVal=true;
 
@@ -114,7 +114,7 @@ bool MusicBrainz4::CDisc::ParseAttribute(const std::string& Name, const std::str
 	return RetVal;
 }
 
-bool MusicBrainz4::CDisc::ParseElement(const XMLNode& Node)
+bool MusicBrainz5::CDisc::ParseElement(const XMLNode& Node)
 {
 	bool RetVal=true;
 
@@ -137,27 +137,27 @@ bool MusicBrainz4::CDisc::ParseElement(const XMLNode& Node)
 	return RetVal;
 }
 
-std::string MusicBrainz4::CDisc::GetElementName()
+std::string MusicBrainz5::CDisc::GetElementName()
 {
 	return "disc";
 }
 
-std::string MusicBrainz4::CDisc::ID() const
+std::string MusicBrainz5::CDisc::ID() const
 {
 	return m_d->m_ID;
 }
 
-int MusicBrainz4::CDisc::Sectors() const
+int MusicBrainz5::CDisc::Sectors() const
 {
 	return m_d->m_Sectors;
 }
 
-MusicBrainz4::CReleaseList *MusicBrainz4::CDisc::ReleaseList() const
+MusicBrainz5::CReleaseList *MusicBrainz5::CDisc::ReleaseList() const
 {
 	return m_d->m_ReleaseList;
 }
 
-std::ostream& MusicBrainz4::CDisc::Serialise(std::ostream& os) const
+std::ostream& MusicBrainz5::CDisc::Serialise(std::ostream& os) const
 {
 	os << "Disc:" << std::endl;
 

@@ -1,16 +1,16 @@
 /* --------------------------------------------------------------------------
 
-   libmusicbrainz4 - Client library to access MusicBrainz
+   libmusicbrainz5 - Client library to access MusicBrainz
 
    Copyright (C) 2011 Andrew Hawkins
 
-   This file is part of libmusicbrainz4.
+   This file is part of libmusicbrainz5.
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of v2 of the GNU Lesser General Public
    License as published by the Free Software Foundation.
 
-   libmusicbrainz4 is distributed in the hope that it will be useful,
+   libmusicbrainz5 is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    Lesser General Public License for more details.
@@ -23,14 +23,14 @@
 ----------------------------------------------------------------------------*/
 
 #include "config.h"
-#include "musicbrainz4/defines.h"
+#include "musicbrainz5/defines.h"
 
-#include "musicbrainz4/ISRC.h"
+#include "musicbrainz5/ISRC.h"
 
-#include "musicbrainz4/RecordingList.h"
-#include "musicbrainz4/Recording.h"
+#include "musicbrainz5/RecordingList.h"
+#include "musicbrainz5/Recording.h"
 
-class MusicBrainz4::CISRCPrivate
+class MusicBrainz5::CISRCPrivate
 {
 	public:
 		CISRCPrivate()
@@ -42,7 +42,7 @@ class MusicBrainz4::CISRCPrivate
 		CRecordingList *m_RecordingList;
 };
 
-MusicBrainz4::CISRC::CISRC(const XMLNode& Node)
+MusicBrainz5::CISRC::CISRC(const XMLNode& Node)
 :	CEntity(),
 	m_d(new CISRCPrivate)
 {
@@ -54,14 +54,14 @@ MusicBrainz4::CISRC::CISRC(const XMLNode& Node)
 	}
 }
 
-MusicBrainz4::CISRC::CISRC(const CISRC& Other)
+MusicBrainz5::CISRC::CISRC(const CISRC& Other)
 :	CEntity(),
 	m_d(new CISRCPrivate)
 {
 	*this=Other;
 }
 
-MusicBrainz4::CISRC& MusicBrainz4::CISRC::operator =(const CISRC& Other)
+MusicBrainz5::CISRC& MusicBrainz5::CISRC::operator =(const CISRC& Other)
 {
 	if (this!=&Other)
 	{
@@ -78,25 +78,25 @@ MusicBrainz4::CISRC& MusicBrainz4::CISRC::operator =(const CISRC& Other)
 	return *this;
 }
 
-MusicBrainz4::CISRC::~CISRC()
+MusicBrainz5::CISRC::~CISRC()
 {
 	Cleanup();
 
 	delete m_d;
 }
 
-void MusicBrainz4::CISRC::Cleanup()
+void MusicBrainz5::CISRC::Cleanup()
 {
 	delete m_d->m_RecordingList;
 	m_d->m_RecordingList=0;
 }
 
-MusicBrainz4::CISRC *MusicBrainz4::CISRC::Clone()
+MusicBrainz5::CISRC *MusicBrainz5::CISRC::Clone()
 {
 	return new CISRC(*this);
 }
 
-bool MusicBrainz4::CISRC::ParseAttribute(const std::string& Name, const std::string& Value)
+bool MusicBrainz5::CISRC::ParseAttribute(const std::string& Name, const std::string& Value)
 {
 	bool RetVal=true;
 
@@ -111,7 +111,7 @@ bool MusicBrainz4::CISRC::ParseAttribute(const std::string& Name, const std::str
 	return RetVal;
 }
 
-bool MusicBrainz4::CISRC::ParseElement(const XMLNode& Node)
+bool MusicBrainz5::CISRC::ParseElement(const XMLNode& Node)
 {
 	bool RetVal=true;
 
@@ -130,22 +130,22 @@ bool MusicBrainz4::CISRC::ParseElement(const XMLNode& Node)
 	return RetVal;
 }
 
-std::string MusicBrainz4::CISRC::GetElementName()
+std::string MusicBrainz5::CISRC::GetElementName()
 {
 	return "isrc";
 }
 
-std::string MusicBrainz4::CISRC::ID() const
+std::string MusicBrainz5::CISRC::ID() const
 {
 	return m_d->m_ID;
 }
 
-MusicBrainz4::CRecordingList *MusicBrainz4::CISRC::RecordingList() const
+MusicBrainz5::CRecordingList *MusicBrainz5::CISRC::RecordingList() const
 {
 	return m_d->m_RecordingList;
 }
 
-std::ostream& MusicBrainz4::CISRC::Serialise(std::ostream& os) const
+std::ostream& MusicBrainz5::CISRC::Serialise(std::ostream& os) const
 {
 	os << "ISRC:" << std::endl;
 

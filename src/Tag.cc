@@ -1,16 +1,16 @@
 /* --------------------------------------------------------------------------
 
-   libmusicbrainz4 - Client library to access MusicBrainz
+   libmusicbrainz5 - Client library to access MusicBrainz
 
    Copyright (C) 2011 Andrew Hawkins
 
-   This file is part of libmusicbrainz4.
+   This file is part of libmusicbrainz5.
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of v2 of the GNU Lesser General Public
    License as published by the Free Software Foundation.
 
-   libmusicbrainz4 is distributed in the hope that it will be useful,
+   libmusicbrainz5 is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    Lesser General Public License for more details.
@@ -23,11 +23,11 @@
 ----------------------------------------------------------------------------*/
 
 #include "config.h"
-#include "musicbrainz4/defines.h"
+#include "musicbrainz5/defines.h"
 
-#include "musicbrainz4/Tag.h"
+#include "musicbrainz5/Tag.h"
 
-class MusicBrainz4::CTagPrivate
+class MusicBrainz5::CTagPrivate
 {
 	public:
 		CTagPrivate()
@@ -39,7 +39,7 @@ class MusicBrainz4::CTagPrivate
 		std::string m_Name;
 };
 
-MusicBrainz4::CTag::CTag(const XMLNode& Node)
+MusicBrainz5::CTag::CTag(const XMLNode& Node)
 :	CEntity(),
 	m_d(new CTagPrivate)
 {
@@ -51,14 +51,14 @@ MusicBrainz4::CTag::CTag(const XMLNode& Node)
 	}
 }
 
-MusicBrainz4::CTag::CTag(const CTag& Other)
+MusicBrainz5::CTag::CTag(const CTag& Other)
 :	CEntity(),
 	m_d(new CTagPrivate)
 {
 	*this=Other;
 }
 
-MusicBrainz4::CTag& MusicBrainz4::CTag::operator =(const CTag& Other)
+MusicBrainz5::CTag& MusicBrainz5::CTag::operator =(const CTag& Other)
 {
 	if (this!=&Other)
 	{
@@ -71,17 +71,17 @@ MusicBrainz4::CTag& MusicBrainz4::CTag::operator =(const CTag& Other)
 	return *this;
 }
 
-MusicBrainz4::CTag::~CTag()
+MusicBrainz5::CTag::~CTag()
 {
 	delete m_d;
 }
 
-MusicBrainz4::CTag *MusicBrainz4::CTag::Clone()
+MusicBrainz5::CTag *MusicBrainz5::CTag::Clone()
 {
 	return new CTag(*this);
 }
 
-bool MusicBrainz4::CTag::ParseAttribute(const std::string& Name, const std::string& Value)
+bool MusicBrainz5::CTag::ParseAttribute(const std::string& Name, const std::string& Value)
 {
 	bool RetVal=true;
 
@@ -98,7 +98,7 @@ bool MusicBrainz4::CTag::ParseAttribute(const std::string& Name, const std::stri
 	return RetVal;
 }
 
-bool MusicBrainz4::CTag::ParseElement(const XMLNode& Node)
+bool MusicBrainz5::CTag::ParseElement(const XMLNode& Node)
 {
 	bool RetVal=true;
 
@@ -117,22 +117,22 @@ bool MusicBrainz4::CTag::ParseElement(const XMLNode& Node)
 	return RetVal;
 }
 
-std::string MusicBrainz4::CTag::GetElementName()
+std::string MusicBrainz5::CTag::GetElementName()
 {
 	return "tag";
 }
 
-int MusicBrainz4::CTag::Count() const
+int MusicBrainz5::CTag::Count() const
 {
 	return m_d->m_Count;
 }
 
-std::string MusicBrainz4::CTag::Name() const
+std::string MusicBrainz5::CTag::Name() const
 {
 	return m_d->m_Name;
 }
 
-std::ostream& MusicBrainz4::CTag::Serialise(std::ostream& os) const
+std::ostream& MusicBrainz5::CTag::Serialise(std::ostream& os) const
 {
 	os << "Tag:" << std::endl;
 

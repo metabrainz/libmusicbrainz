@@ -1,16 +1,16 @@
 /* --------------------------------------------------------------------------
 
-   libmusicbrainz4 - Client library to access MusicBrainz
+   libmusicbrainz5 - Client library to access MusicBrainz
 
    Copyright (C) 2011 Andrew Hawkins
 
-   This file is part of libmusicbrainz4.
+   This file is part of libmusicbrainz5.
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of v2 of the GNU Lesser General Public
    License as published by the Free Software Foundation.
 
-   libmusicbrainz4 is distributed in the hope that it will be useful,
+   libmusicbrainz5 is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    Lesser General Public License for more details.
@@ -24,16 +24,16 @@
 
 #include <string>
 
-#include "musicbrainz4/Query.h"
-#include "musicbrainz4/Medium.h"
-#include "musicbrainz4/MediumList.h"
-#include "musicbrainz4/ReleaseGroup.h"
-#include "musicbrainz4/Track.h"
-#include "musicbrainz4/TrackList.h"
-#include "musicbrainz4/Recording.h"
-#include "musicbrainz4/Disc.h"
-#include "musicbrainz4/HTTPFetch.h"
-#include "musicbrainz4/Release.h"
+#include "musicbrainz5/Query.h"
+#include "musicbrainz5/Medium.h"
+#include "musicbrainz5/MediumList.h"
+#include "musicbrainz5/ReleaseGroup.h"
+#include "musicbrainz5/Track.h"
+#include "musicbrainz5/TrackList.h"
+#include "musicbrainz5/Recording.h"
+#include "musicbrainz5/Disc.h"
+#include "musicbrainz5/HTTPFetch.h"
+#include "musicbrainz5/Release.h"
 
 int main(int argc, const char *argv[])
 {
@@ -41,41 +41,41 @@ int main(int argc, const char *argv[])
 	{
 		std::string DiscID=argv[1];
 
-		MusicBrainz4::CQuery Query("cdlookupexample-1.0");
+		MusicBrainz5::CQuery Query("cdlookupexample-1.0");
 
 		std::cout << "Library version: '" << Query.Version() << "'" << std::endl;
 
 		try
 		{
-			MusicBrainz4::CMetadata Metadata=Query.Query("discid",DiscID);
+			MusicBrainz5::CMetadata Metadata=Query.Query("discid",DiscID);
 			if (Metadata.Disc() && Metadata.Disc()->ReleaseList())
 			{
-				MusicBrainz4::CReleaseList *ReleaseList=Metadata.Disc()->ReleaseList();
+				MusicBrainz5::CReleaseList *ReleaseList=Metadata.Disc()->ReleaseList();
 
 				std::cout << "Found " << ReleaseList->NumItems() << " release(s)" << std::endl;
 
 				for (int count=0;count<ReleaseList->NumItems();count++)
 				{
-					MusicBrainz4::CRelease *Release=ReleaseList->Item(count);
+					MusicBrainz5::CRelease *Release=ReleaseList->Item(count);
 
 					std::cout << "Basic release: " << std::endl << (*Release) << std::endl;
 
 					//The releases returned from LookupDiscID don't contain full information
 
-					MusicBrainz4::CQuery::tParamMap Params;
+					MusicBrainz5::CQuery::tParamMap Params;
 					Params["inc"]="artists labels recordings release-groups url-rels discids artist-credits";
 
 					std::string ReleaseID=Release->ID();
 
-					MusicBrainz4::CMetadata Metadata2=Query.Query("release",ReleaseID,"",Params);
+					MusicBrainz5::CMetadata Metadata2=Query.Query("release",ReleaseID,"",Params);
 					if (Metadata2.Release())
 					{
-						MusicBrainz4::CRelease *FullRelease=Metadata2.Release();
+						MusicBrainz5::CRelease *FullRelease=Metadata2.Release();
 
 						//However, these releases will include information for all media in the release
 						//So we need to filter out the only the media we want.
 
-						MusicBrainz4::CMediumList MediaList=FullRelease->MediaMatchingDiscID(DiscID);
+						MusicBrainz5::CMediumList MediaList=FullRelease->MediaMatchingDiscID(DiscID);
 
 						if (0!=MediaList.NumItems())
 						{
@@ -88,17 +88,17 @@ int main(int argc, const char *argv[])
 
 							for (int count=0;count<MediaList.NumItems();count++)
 							{
-								MusicBrainz4::CMedium *Medium=MediaList.Item(count);
+								MusicBrainz5::CMedium *Medium=MediaList.Item(count);
 
 								std::cout << "Found media: '" << Medium->Title() << "', position " << Medium->Position() << std::endl;
 
-								MusicBrainz4::CTrackList *TrackList=Medium->TrackList();
+								MusicBrainz5::CTrackList *TrackList=Medium->TrackList();
 								if (TrackList)
 								{
 									for (int count=0;count<TrackList->NumItems();count++)
 									{
-										MusicBrainz4::CTrack *Track=TrackList->Item(count);
-										MusicBrainz4::CRecording *Recording=Track->Recording();
+										MusicBrainz5::CTrack *Track=TrackList->Item(count);
+										MusicBrainz5::CRecording *Recording=Track->Recording();
 
 										if (Recording)
 											std::cout << "Track: " << Track->Position() << " - '" << Recording->Title() << "'" << std::endl;
@@ -113,7 +113,7 @@ int main(int argc, const char *argv[])
 			}
 		}
 
-		catch (MusicBrainz4::CConnectionError& Error)
+		catch (MusicBrainz5::CConnectionError& Error)
 		{
 			std::cout << "Connection Exception: '" << Error.what() << "'" << std::endl;
 			std::cout << "LastResult: " << Query.LastResult() << std::endl;
@@ -121,7 +121,7 @@ int main(int argc, const char *argv[])
 			std::cout << "LastErrorMessage: " << Query.LastErrorMessage() << std::endl;
 		}
 
-		catch (MusicBrainz4::CTimeoutError& Error)
+		catch (MusicBrainz5::CTimeoutError& Error)
 		{
 			std::cout << "Timeout Exception: '" << Error.what() << "'" << std::endl;
 			std::cout << "LastResult: " << Query.LastResult() << std::endl;
@@ -129,7 +129,7 @@ int main(int argc, const char *argv[])
 			std::cout << "LastErrorMessage: " << Query.LastErrorMessage() << std::endl;
 		}
 
-		catch (MusicBrainz4::CAuthenticationError& Error)
+		catch (MusicBrainz5::CAuthenticationError& Error)
 		{
 			std::cout << "Authentication Exception: '" << Error.what() << "'" << std::endl;
 			std::cout << "LastResult: " << Query.LastResult() << std::endl;
@@ -137,7 +137,7 @@ int main(int argc, const char *argv[])
 			std::cout << "LastErrorMessage: " << Query.LastErrorMessage() << std::endl;
 		}
 
-		catch (MusicBrainz4::CFetchError& Error)
+		catch (MusicBrainz5::CFetchError& Error)
 		{
 			std::cout << "Fetch Exception: '" << Error.what() << "'" << std::endl;
 			std::cout << "LastResult: " << Query.LastResult() << std::endl;
@@ -145,7 +145,7 @@ int main(int argc, const char *argv[])
 			std::cout << "LastErrorMessage: " << Query.LastErrorMessage() << std::endl;
 		}
 
-		catch (MusicBrainz4::CRequestError& Error)
+		catch (MusicBrainz5::CRequestError& Error)
 		{
 			std::cout << "Request Exception: '" << Error.what() << "'" << std::endl;
 			std::cout << "LastResult: " << Query.LastResult() << std::endl;
@@ -153,7 +153,7 @@ int main(int argc, const char *argv[])
 			std::cout << "LastErrorMessage: " << Query.LastErrorMessage() << std::endl;
 		}
 
-		catch (MusicBrainz4::CResourceNotFoundError& Error)
+		catch (MusicBrainz5::CResourceNotFoundError& Error)
 		{
 			std::cout << "ResourceNotFound Exception: '" << Error.what() << "'" << std::endl;
 			std::cout << "LastResult: " << Query.LastResult() << std::endl;

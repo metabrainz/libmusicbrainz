@@ -1,16 +1,16 @@
 /* --------------------------------------------------------------------------
 
-   libmusicbrainz4 - Client library to access MusicBrainz
+   libmusicbrainz5 - Client library to access MusicBrainz
 
    Copyright (C) 2011 Andrew Hawkins
 
-   This file is part of libmusicbrainz4.
+   This file is part of libmusicbrainz5.
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of v2 of the GNU Lesser General Public
    License as published by the Free Software Foundation.
 
-   libmusicbrainz4 is distributed in the hope that it will be useful,
+   libmusicbrainz5 is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    Lesser General Public License for more details.
@@ -26,54 +26,54 @@
 
 #include <strings.h>
 
-#include "musicbrainz4/Query.h"
-#include "musicbrainz4/Release.h"
-#include "musicbrainz4/ReleaseGroup.h"
-#include "musicbrainz4/Medium.h"
-#include "musicbrainz4/MediumList.h"
-#include "musicbrainz4/NameCredit.h"
-#include "musicbrainz4/ArtistCredit.h"
-#include "musicbrainz4/Artist.h"
-#include "musicbrainz4/Alias.h"
-#include "musicbrainz4/HTTPFetch.h"
-#include "musicbrainz4/Track.h"
-#include "musicbrainz4/Recording.h"
-#include "musicbrainz4/Collection.h"
-#include "musicbrainz4/CollectionList.h"
-#include "musicbrainz4/RelationListList.h"
-#include "musicbrainz4/RelationList.h"
-#include "musicbrainz4/Relation.h"
-#include "musicbrainz4/Work.h"
-#include "musicbrainz4/ISWC.h"
-#include "musicbrainz4/ISWCList.h"
-#include "musicbrainz4/SecondaryType.h"
-#include "musicbrainz4/SecondaryTypeList.h"
-#include "musicbrainz4/IPI.h"
-#include "musicbrainz4/IPIList.h"
-#include "musicbrainz4/Lifespan.h"
+#include "musicbrainz5/Query.h"
+#include "musicbrainz5/Release.h"
+#include "musicbrainz5/ReleaseGroup.h"
+#include "musicbrainz5/Medium.h"
+#include "musicbrainz5/MediumList.h"
+#include "musicbrainz5/NameCredit.h"
+#include "musicbrainz5/ArtistCredit.h"
+#include "musicbrainz5/Artist.h"
+#include "musicbrainz5/Alias.h"
+#include "musicbrainz5/HTTPFetch.h"
+#include "musicbrainz5/Track.h"
+#include "musicbrainz5/Recording.h"
+#include "musicbrainz5/Collection.h"
+#include "musicbrainz5/CollectionList.h"
+#include "musicbrainz5/RelationListList.h"
+#include "musicbrainz5/RelationList.h"
+#include "musicbrainz5/Relation.h"
+#include "musicbrainz5/Work.h"
+#include "musicbrainz5/ISWC.h"
+#include "musicbrainz5/ISWCList.h"
+#include "musicbrainz5/SecondaryType.h"
+#include "musicbrainz5/SecondaryTypeList.h"
+#include "musicbrainz5/IPI.h"
+#include "musicbrainz5/IPIList.h"
+#include "musicbrainz5/Lifespan.h"
 
-void PrintRelationList(MusicBrainz4::CRelationList *RelationList)
+void PrintRelationList(MusicBrainz5::CRelationList *RelationList)
 {
 	std::cout << "Target type: '" << RelationList->TargetType() << "'" << std::endl;
 
 	for (int count=0;count<RelationList->NumItems();count++)
 	{
-		MusicBrainz4::CRelation *Relation=RelationList->Item(count);
+		MusicBrainz5::CRelation *Relation=RelationList->Item(count);
 		std::cout << "Relation: " << count << " - Type '" << Relation->Type() << "', Target '" << Relation->Target() << "'" << std::endl;
 	}
 }
 
 int main(int argc, const char *argv[])
 {
-	MusicBrainz4::CQuery MB2("MBTest/v1.0","test.musicbrainz.org");
+	MusicBrainz5::CQuery MB2("MBTest/v1.0","test.musicbrainz.org");
 
-	MusicBrainz4::CQuery::tParamMap Params5;
+	MusicBrainz5::CQuery::tParamMap Params5;
 	Params5["inc"]="aliases";
-	MusicBrainz4::CMetadata Metadata5=MB2.Query("artist","4b585938-f271-45e2-b19a-91c634b5e396","",Params5);
-	MusicBrainz4::CArtist *Artist=Metadata5.Artist();
+	MusicBrainz5::CMetadata Metadata5=MB2.Query("artist","4b585938-f271-45e2-b19a-91c634b5e396","",Params5);
+	MusicBrainz5::CArtist *Artist=Metadata5.Artist();
 	if (Artist)
 	{
-		MusicBrainz4::CLifespan *Lifespan=Artist->Lifespan();
+		MusicBrainz5::CLifespan *Lifespan=Artist->Lifespan();
 		if (Lifespan)
 		{
 			std::cout << "Begin: " << Lifespan->Begin() << std::endl;
@@ -84,22 +84,22 @@ int main(int argc, const char *argv[])
 
 	return 0;
 
-	MusicBrainz4::CMetadata Metadata8=MB2.Query("release-group","2eefe885-f050-426d-93f0-29c5eb8b4f9a");
+	MusicBrainz5::CMetadata Metadata8=MB2.Query("release-group","2eefe885-f050-426d-93f0-29c5eb8b4f9a");
 	std::cout << Metadata8 << std::endl;
 	return 0;
 
-	MusicBrainz4::CMetadata Metadata7=MB2.Query("artist","4b585938-f271-45e2-b19a-91c634b5e396");
+	MusicBrainz5::CMetadata Metadata7=MB2.Query("artist","4b585938-f271-45e2-b19a-91c634b5e396");
 	Artist=Metadata7.Artist();
 	if (Artist)
 	{
 		std::cout << "IPI: " << Artist->IPI() << std::endl;
 
-		MusicBrainz4::CIPIList *IPIList=Artist->IPIList();
+		MusicBrainz5::CIPIList *IPIList=Artist->IPIList();
 		if (IPIList)
 		{
 			for (int count=0;count<IPIList->NumItems();count++)
 			{
-				MusicBrainz4::CIPI *IPI=IPIList->Item(count);
+				MusicBrainz5::CIPI *IPI=IPIList->Item(count);
 				if (IPI)
 				{
 					std::cout << "IPI " << count << ": " << IPI->IPI() << std::endl;
@@ -110,8 +110,8 @@ int main(int argc, const char *argv[])
 
 	return 0;
 
-	MusicBrainz4::CMetadata Metadata6=MB2.Query("release-group","2eefe885-f050-426d-93f0-29c5eb8b4f9a");
-	MusicBrainz4::CReleaseGroup *ReleaseGroup=Metadata6.ReleaseGroup();
+	MusicBrainz5::CMetadata Metadata6=MB2.Query("release-group","2eefe885-f050-426d-93f0-29c5eb8b4f9a");
+	MusicBrainz5::CReleaseGroup *ReleaseGroup=Metadata6.ReleaseGroup();
 	if (ReleaseGroup)
 	{
 		std::cout << "ID: " << ReleaseGroup->ID() << std::endl;
@@ -120,12 +120,12 @@ int main(int argc, const char *argv[])
 		std::cout << "Disambiguation: " << ReleaseGroup->Disambiguation() << std::endl;
 		std::cout << "FirstReleaseDate: " << ReleaseGroup->FirstReleaseDate() << std::endl;
 
-		MusicBrainz4::CSecondaryTypeList *SecondaryTypeList=ReleaseGroup->SecondaryTypeList();
+		MusicBrainz5::CSecondaryTypeList *SecondaryTypeList=ReleaseGroup->SecondaryTypeList();
 		if (SecondaryTypeList)
 		{
 			for (int count=0;count<SecondaryTypeList->NumItems();count++)
 			{
-				MusicBrainz4::CSecondaryType *SecondaryType=SecondaryTypeList->Item(count);
+				MusicBrainz5::CSecondaryType *SecondaryType=SecondaryTypeList->Item(count);
 				if (SecondaryType)
 				{
 					std::cout << "Secondary type " << count << " = " << SecondaryType->SecondaryType() << std::endl;
@@ -136,21 +136,21 @@ int main(int argc, const char *argv[])
 
 	return 0;
 
-	MusicBrainz4::CMetadata Metadata4=MB2.Query("work","b0d17375-5593-390e-a936-1a65ce74c630");
+	MusicBrainz5::CMetadata Metadata4=MB2.Query("work","b0d17375-5593-390e-a936-1a65ce74c630");
 
-	MusicBrainz4::CWork *ThisWork=Metadata4.Work();
+	MusicBrainz5::CWork *ThisWork=Metadata4.Work();
 	if (ThisWork)
 	{
 		std::cout << "ID: '" << ThisWork->ID() << "'" << std::endl;
 		std::cout << "Title: '" << ThisWork->Title() << "'" << std::endl;
 		std::cout << "ISWC: '" << ThisWork->ISWC() << "'" << std::endl;
 
-		MusicBrainz4::CISWCList *ISWCList=ThisWork->ISWCList();
+		MusicBrainz5::CISWCList *ISWCList=ThisWork->ISWCList();
 		if (ISWCList)
 		{
 			for (int count=0;count<ISWCList->NumItems();count++)
 			{
-				MusicBrainz4::CISWC *ISWC=ISWCList->Item(count);
+				MusicBrainz5::CISWC *ISWC=ISWCList->Item(count);
 				std::cout << "ISWC " << count << " - '" << ISWC->ISWC() << "'" << std::endl;
 			}
 		}
@@ -159,27 +159,27 @@ int main(int argc, const char *argv[])
 		std::cout << "Language: '" << ThisWork->Language() << "'" << std::endl;
 	}
 
-	MusicBrainz4::CQuery::tParamMap Params3;
+	MusicBrainz5::CQuery::tParamMap Params3;
 	Params3["inc"]="media recordings";
 
 	Metadata4=MB2.Query("release","ae050d13-7f86-495e-9918-10d8c0ac58e8","",Params3);
-	MusicBrainz4::CRelease *Release2=Metadata4.Release();
+	MusicBrainz5::CRelease *Release2=Metadata4.Release();
 	if (Release2)
 	{
-		MusicBrainz4::CMediumList *MediumList=Release2->MediumList();
+		MusicBrainz5::CMediumList *MediumList=Release2->MediumList();
 		if (MediumList)
 		{
 			for (int count=0;count<MediumList->NumItems();count++)
 			{
-				MusicBrainz4::CMedium *Medium=MediumList->Item(count);
+				MusicBrainz5::CMedium *Medium=MediumList->Item(count);
 				if (Medium)
 				{
-					MusicBrainz4::CTrackList *TrackList=Medium->TrackList();
+					MusicBrainz5::CTrackList *TrackList=Medium->TrackList();
 					if (TrackList)
 					{
 						for (int track=0;track<TrackList->NumItems();track++)
 						{
-							MusicBrainz4::CTrack *Track=TrackList->Item(track);
+							MusicBrainz5::CTrack *Track=TrackList->Item(track);
 							if (Track)
 							{
 								std::cout << "Position: " << Track->Position() << std::endl;
@@ -196,7 +196,7 @@ int main(int argc, const char *argv[])
 
 	return 0;
 
-	MusicBrainz4::CQuery MB("MBTest/v1.0");
+	MusicBrainz5::CQuery MB("MBTest/v1.0");
 
 	if (argc>1)
 	{
@@ -210,60 +210,60 @@ int main(int argc, const char *argv[])
 		MB.SetPassword(argv[2]);
 	}
 
-	MusicBrainz4::CQuery::tParamMap Params2;
+	MusicBrainz5::CQuery::tParamMap Params2;
 	Params2["inc"]="artists release-groups url-rels work-level-rels work-rels artist-rels";
-	MusicBrainz4::CMetadata Metadata3=MB.Query("recording","3631f569-520d-40ff-a1ee-076604723275","",Params2);
-	MusicBrainz4::CRecording *Recording=Metadata3.Recording();
+	MusicBrainz5::CMetadata Metadata3=MB.Query("recording","3631f569-520d-40ff-a1ee-076604723275","",Params2);
+	MusicBrainz5::CRecording *Recording=Metadata3.Recording();
 	if (Recording)
 	{
-		MusicBrainz4::CRelationList *RelationList=Recording->RelationList();
+		MusicBrainz5::CRelationList *RelationList=Recording->RelationList();
 		PrintRelationList(RelationList);
 
-		MusicBrainz4::CRelationListList *RelationListList=Recording->RelationListList();
+		MusicBrainz5::CRelationListList *RelationListList=Recording->RelationListList();
 		for (int count=0;count<RelationListList->NumItems();count++)
 		{
-			MusicBrainz4::CRelationList *RelationList=RelationListList->Item(count);
+			MusicBrainz5::CRelationList *RelationList=RelationListList->Item(count);
 			PrintRelationList(RelationList);
 		}
 	}
 
 	return 0;
 
-	MusicBrainz4::CQuery::tParamMap Params;
+	MusicBrainz5::CQuery::tParamMap Params;
 	Params["inc"]="artists labels recordings release-groups url-rels discids recording-level-rels work-level-rels work-rels artist-rels";
 
-	MusicBrainz4::CMetadata Metadata2=MB.Query("release","ef4596f0-5554-443a-aea9-247d2e250f61","",Params);
+	MusicBrainz5::CMetadata Metadata2=MB.Query("release","ef4596f0-5554-443a-aea9-247d2e250f61","",Params);
 
-	MusicBrainz4::CRelease *Release=Metadata2.Release();
+	MusicBrainz5::CRelease *Release=Metadata2.Release();
 	if (Release)
 	{
-		MusicBrainz4::CMediumList *MediumList=Release->MediumList();
+		MusicBrainz5::CMediumList *MediumList=Release->MediumList();
 
 		if (MediumList)
 		{
 			for (int MediumNum=0;MediumNum<MediumList->NumItems();MediumNum++)
 			{
-				MusicBrainz4::CMedium *Medium=MediumList->Item(MediumNum);
+				MusicBrainz5::CMedium *Medium=MediumList->Item(MediumNum);
 				if (Medium)
 				{
-					MusicBrainz4::CTrackList *TrackList=Medium->TrackList();
+					MusicBrainz5::CTrackList *TrackList=Medium->TrackList();
 					if (TrackList)
 					{
 						for (int TrackNum=0;TrackNum<TrackList->NumItems();TrackNum++)
 						{
-							MusicBrainz4::CTrack *Track=TrackList->Item(TrackNum);
+							MusicBrainz5::CTrack *Track=TrackList->Item(TrackNum);
 							if (Track)
 							{
-								MusicBrainz4::CRecording *Recording=Track->Recording();
+								MusicBrainz5::CRecording *Recording=Track->Recording();
 								if (Recording)
 								{
-									MusicBrainz4::CRelationListList *RelationListList=Recording->RelationListList();
+									MusicBrainz5::CRelationListList *RelationListList=Recording->RelationListList();
 									if (RelationListList)
 									{
 										std::cout << RelationListList->NumItems() << " items" << std::endl;
 										for (int RelationListNum=0;RelationListNum<RelationListList->NumItems();RelationListNum++)
 										{
-											MusicBrainz4::CRelationList *RelationList=RelationListList->Item(RelationListNum);
+											MusicBrainz5::CRelationList *RelationList=RelationListList->Item(RelationListNum);
 											PrintRelationList(RelationList);
 										}
 									}
@@ -278,11 +278,11 @@ int main(int argc, const char *argv[])
 
 	return 0;
 
-	MusicBrainz4::CMetadata Metadata=MB.Query("collection");
-	MusicBrainz4::CCollectionList *CollectionList=Metadata.CollectionList();
+	MusicBrainz5::CMetadata Metadata=MB.Query("collection");
+	MusicBrainz5::CCollectionList *CollectionList=Metadata.CollectionList();
 	if (CollectionList && 0!=CollectionList->NumItems())
 	{
-		MusicBrainz4::CCollection *Collection=CollectionList->Item(0);
+		MusicBrainz5::CCollection *Collection=CollectionList->Item(0);
 		std::cout << "ID is " << Collection->ID() << std::endl;
 
 		MB.Query("collection",Collection->ID(),"releases");
@@ -310,13 +310,13 @@ int main(int argc, const char *argv[])
 	if (argc==2)
 		DiscID=argv[1];
 
-	MusicBrainz4::CReleaseList ReleaseList=MB.LookupDiscID(DiscID);
+	MusicBrainz5::CReleaseList ReleaseList=MB.LookupDiscID(DiscID);
 
 	for (int count=0;count<ReleaseList.NumItems();count++)
 	{
-		MusicBrainz4::CRelease *Release=ReleaseList.Item(count);
+		MusicBrainz5::CRelease *Release=ReleaseList.Item(count);
 
-		MusicBrainz4::CRelease FullRelease=MB.LookupRelease(Release->ID());
+		MusicBrainz5::CRelease FullRelease=MB.LookupRelease(Release->ID());
 
 		std::cout << "Full release: " << std::endl;
 
@@ -326,11 +326,11 @@ int main(int argc, const char *argv[])
 
 		std::cout << std::endl << std::endl << "Media matching " << DiscID << ":" << std::endl;
 
-		MusicBrainz4::CMediumList MediaList=FullRelease.MediaMatchingDiscID(DiscID);
+		MusicBrainz5::CMediumList MediaList=FullRelease.MediaMatchingDiscID(DiscID);
 
 		for (int count=0;count<MediaList.NumItems();count++)
 		{
-			MusicBrainz4::CMedium *Medium=MediaList.Item(count);
+			MusicBrainz5::CMedium *Medium=MediaList.Item(count);
 
 			std::cout << *Medium << std::endl;
 		}

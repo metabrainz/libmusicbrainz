@@ -1,16 +1,16 @@
 /* --------------------------------------------------------------------------
 
-   libmusicbrainz4 - Client library to access MusicBrainz
+   libmusicbrainz5 - Client library to access MusicBrainz
 
    Copyright (C) 2011 Andrew Hawkins
 
-   This file is part of libmusicbrainz4.
+   This file is part of libmusicbrainz5.
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of v2 of the GNU Lesser General Public
    License as published by the Free Software Foundation.
 
-   libmusicbrainz4 is distributed in the hope that it will be useful,
+   libmusicbrainz5 is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    Lesser General Public License for more details.
@@ -23,45 +23,45 @@
 ----------------------------------------------------------------------------*/
 
 #include "config.h"
-#include "musicbrainz4/defines.h"
+#include "musicbrainz5/defines.h"
 
-#include "musicbrainz4/Metadata.h"
+#include "musicbrainz5/Metadata.h"
 
-#include "musicbrainz4/Artist.h"
-#include "musicbrainz4/ArtistList.h"
-#include "musicbrainz4/Release.h"
-#include "musicbrainz4/ReleaseList.h"
-#include "musicbrainz4/ReleaseGroup.h"
-#include "musicbrainz4/ReleaseGroupList.h"
-#include "musicbrainz4/Recording.h"
-#include "musicbrainz4/RecordingList.h"
-#include "musicbrainz4/Label.h"
-#include "musicbrainz4/LabelList.h"
-#include "musicbrainz4/Work.h"
-#include "musicbrainz4/WorkList.h"
-#include "musicbrainz4/PUID.h"
-#include "musicbrainz4/ISRC.h"
-#include "musicbrainz4/ISRCList.h"
-#include "musicbrainz4/Disc.h"
-#include "musicbrainz4/Rating.h"
-#include "musicbrainz4/UserRating.h"
-#include "musicbrainz4/Collection.h"
-#include "musicbrainz4/CollectionList.h"
-#include "musicbrainz4/Annotation.h"
-#include "musicbrainz4/AnnotationList.h"
-#include "musicbrainz4/CDStub.h"
-#include "musicbrainz4/CDStubList.h"
-#include "musicbrainz4/FreeDBDisc.h"
-#include "musicbrainz4/FreeDBDiscList.h"
-#include "musicbrainz4/Tag.h"
-#include "musicbrainz4/TagList.h"
-#include "musicbrainz4/UserTag.h"
-#include "musicbrainz4/UserTagList.h"
-#include "musicbrainz4/LabelInfo.h"
-#include "musicbrainz4/LabelInfoList.h"
-#include "musicbrainz4/Message.h"
+#include "musicbrainz5/Artist.h"
+#include "musicbrainz5/ArtistList.h"
+#include "musicbrainz5/Release.h"
+#include "musicbrainz5/ReleaseList.h"
+#include "musicbrainz5/ReleaseGroup.h"
+#include "musicbrainz5/ReleaseGroupList.h"
+#include "musicbrainz5/Recording.h"
+#include "musicbrainz5/RecordingList.h"
+#include "musicbrainz5/Label.h"
+#include "musicbrainz5/LabelList.h"
+#include "musicbrainz5/Work.h"
+#include "musicbrainz5/WorkList.h"
+#include "musicbrainz5/PUID.h"
+#include "musicbrainz5/ISRC.h"
+#include "musicbrainz5/ISRCList.h"
+#include "musicbrainz5/Disc.h"
+#include "musicbrainz5/Rating.h"
+#include "musicbrainz5/UserRating.h"
+#include "musicbrainz5/Collection.h"
+#include "musicbrainz5/CollectionList.h"
+#include "musicbrainz5/Annotation.h"
+#include "musicbrainz5/AnnotationList.h"
+#include "musicbrainz5/CDStub.h"
+#include "musicbrainz5/CDStubList.h"
+#include "musicbrainz5/FreeDBDisc.h"
+#include "musicbrainz5/FreeDBDiscList.h"
+#include "musicbrainz5/Tag.h"
+#include "musicbrainz5/TagList.h"
+#include "musicbrainz5/UserTag.h"
+#include "musicbrainz5/UserTagList.h"
+#include "musicbrainz5/LabelInfo.h"
+#include "musicbrainz5/LabelInfoList.h"
+#include "musicbrainz5/Message.h"
 
-class MusicBrainz4::CMetadataPrivate
+class MusicBrainz5::CMetadataPrivate
 {
 	public:
 		CMetadataPrivate()
@@ -130,7 +130,7 @@ class MusicBrainz4::CMetadataPrivate
 		CMessage *m_Message;
 };
 
-MusicBrainz4::CMetadata::CMetadata(const XMLNode& Node)
+MusicBrainz5::CMetadata::CMetadata(const XMLNode& Node)
 :	CEntity(),
 	m_d(new CMetadataPrivate)
 {
@@ -142,14 +142,14 @@ MusicBrainz4::CMetadata::CMetadata(const XMLNode& Node)
 	}
 }
 
-MusicBrainz4::CMetadata::CMetadata(const CMetadata& Other)
+MusicBrainz5::CMetadata::CMetadata(const CMetadata& Other)
 :	CEntity(),
 	m_d(new CMetadataPrivate)
 {
 	*this=Other;
 }
 
-MusicBrainz4::CMetadata& MusicBrainz4::CMetadata::operator =(const CMetadata& Other)
+MusicBrainz5::CMetadata& MusicBrainz5::CMetadata::operator =(const CMetadata& Other)
 {
 	if (this!=&Other)
 	{
@@ -250,14 +250,14 @@ MusicBrainz4::CMetadata& MusicBrainz4::CMetadata::operator =(const CMetadata& Ot
 	return *this;
 }
 
-MusicBrainz4::CMetadata::~CMetadata()
+MusicBrainz5::CMetadata::~CMetadata()
 {
 	Cleanup();
 
 	delete m_d;
 }
 
-void MusicBrainz4::CMetadata::Cleanup()
+void MusicBrainz5::CMetadata::Cleanup()
 {
 	delete m_d->m_Artist;
 	m_d->m_Artist=0;
@@ -344,12 +344,12 @@ void MusicBrainz4::CMetadata::Cleanup()
 	m_d->m_Message=0;
 }
 
-MusicBrainz4::CMetadata *MusicBrainz4::CMetadata::Clone()
+MusicBrainz5::CMetadata *MusicBrainz5::CMetadata::Clone()
 {
 	return new CMetadata(*this);
 }
 
-bool MusicBrainz4::CMetadata::ParseAttribute(const std::string& Name, const std::string& Value)
+bool MusicBrainz5::CMetadata::ParseAttribute(const std::string& Name, const std::string& Value)
 {
 	bool RetVal=true;
 
@@ -370,7 +370,7 @@ bool MusicBrainz4::CMetadata::ParseAttribute(const std::string& Name, const std:
 	return RetVal;
 }
 
-bool MusicBrainz4::CMetadata::ParseElement(const XMLNode& Node)
+bool MusicBrainz5::CMetadata::ParseElement(const XMLNode& Node)
 {
 	bool RetVal=true;
 
@@ -493,172 +493,172 @@ bool MusicBrainz4::CMetadata::ParseElement(const XMLNode& Node)
 	return RetVal;
 }
 
-std::string MusicBrainz4::CMetadata::GetElementName()
+std::string MusicBrainz5::CMetadata::GetElementName()
 {
 	return "metadata";
 }
 
-std::string MusicBrainz4::CMetadata::XMLNS() const
+std::string MusicBrainz5::CMetadata::XMLNS() const
 {
 	return m_d->m_XMLNS;
 }
 
-std::string MusicBrainz4::CMetadata::XMLNSExt() const
+std::string MusicBrainz5::CMetadata::XMLNSExt() const
 {
 	return m_d->m_XMLNSExt;
 }
 
-std::string MusicBrainz4::CMetadata::Generator() const
+std::string MusicBrainz5::CMetadata::Generator() const
 {
 	return m_d->m_Generator;
 }
 
-std::string MusicBrainz4::CMetadata::Created() const
+std::string MusicBrainz5::CMetadata::Created() const
 {
 	return m_d->m_Created;
 }
 
-MusicBrainz4::CArtist *MusicBrainz4::CMetadata::Artist() const
+MusicBrainz5::CArtist *MusicBrainz5::CMetadata::Artist() const
 {
 	return m_d->m_Artist;
 }
 
-MusicBrainz4::CRelease *MusicBrainz4::CMetadata::Release() const
+MusicBrainz5::CRelease *MusicBrainz5::CMetadata::Release() const
 {
 	return m_d->m_Release;
 }
 
-MusicBrainz4::CReleaseGroup *MusicBrainz4::CMetadata::ReleaseGroup() const
+MusicBrainz5::CReleaseGroup *MusicBrainz5::CMetadata::ReleaseGroup() const
 {
 	return m_d->m_ReleaseGroup;
 }
 
-MusicBrainz4::CRecording *MusicBrainz4::CMetadata::Recording() const
+MusicBrainz5::CRecording *MusicBrainz5::CMetadata::Recording() const
 {
 	return m_d->m_Recording;
 }
 
-MusicBrainz4::CLabel *MusicBrainz4::CMetadata::Label() const
+MusicBrainz5::CLabel *MusicBrainz5::CMetadata::Label() const
 {
 	return m_d->m_Label;
 }
 
-MusicBrainz4::CWork *MusicBrainz4::CMetadata::Work() const
+MusicBrainz5::CWork *MusicBrainz5::CMetadata::Work() const
 {
 	return m_d->m_Work;
 }
 
-MusicBrainz4::CPUID *MusicBrainz4::CMetadata::PUID() const
+MusicBrainz5::CPUID *MusicBrainz5::CMetadata::PUID() const
 {
 	return m_d->m_PUID;
 }
 
-MusicBrainz4::CISRC *MusicBrainz4::CMetadata::ISRC() const
+MusicBrainz5::CISRC *MusicBrainz5::CMetadata::ISRC() const
 {
 	return m_d->m_ISRC;
 }
 
-MusicBrainz4::CDisc *MusicBrainz4::CMetadata::Disc() const
+MusicBrainz5::CDisc *MusicBrainz5::CMetadata::Disc() const
 {
 	return m_d->m_Disc;
 }
 
-MusicBrainz4::CLabelInfoList *MusicBrainz4::CMetadata::LabelInfoList() const
+MusicBrainz5::CLabelInfoList *MusicBrainz5::CMetadata::LabelInfoList() const
 {
 	return m_d->m_LabelInfoList;
 }
 
-MusicBrainz4::CRating *MusicBrainz4::CMetadata::Rating() const
+MusicBrainz5::CRating *MusicBrainz5::CMetadata::Rating() const
 {
 	return m_d->m_Rating;
 }
 
-MusicBrainz4::CUserRating *MusicBrainz4::CMetadata::UserRating() const
+MusicBrainz5::CUserRating *MusicBrainz5::CMetadata::UserRating() const
 {
 	return m_d->m_UserRating;
 }
 
-MusicBrainz4::CCollection *MusicBrainz4::CMetadata::Collection() const
+MusicBrainz5::CCollection *MusicBrainz5::CMetadata::Collection() const
 {
 	return m_d->m_Collection;
 }
 
-MusicBrainz4::CArtistList *MusicBrainz4::CMetadata::ArtistList() const
+MusicBrainz5::CArtistList *MusicBrainz5::CMetadata::ArtistList() const
 {
 	return m_d->m_ArtistList;
 }
 
-MusicBrainz4::CReleaseList *MusicBrainz4::CMetadata::ReleaseList() const
+MusicBrainz5::CReleaseList *MusicBrainz5::CMetadata::ReleaseList() const
 {
 	return m_d->m_ReleaseList;
 }
 
-MusicBrainz4::CReleaseGroupList *MusicBrainz4::CMetadata::ReleaseGroupList() const
+MusicBrainz5::CReleaseGroupList *MusicBrainz5::CMetadata::ReleaseGroupList() const
 {
 	return m_d->m_ReleaseGroupList;
 }
 
-MusicBrainz4::CRecordingList *MusicBrainz4::CMetadata::RecordingList() const
+MusicBrainz5::CRecordingList *MusicBrainz5::CMetadata::RecordingList() const
 {
 	return m_d->m_RecordingList;
 }
 
-MusicBrainz4::CLabelList *MusicBrainz4::CMetadata::LabelList() const
+MusicBrainz5::CLabelList *MusicBrainz5::CMetadata::LabelList() const
 {
 	return m_d->m_LabelList;
 }
 
-MusicBrainz4::CWorkList *MusicBrainz4::CMetadata::WorkList() const
+MusicBrainz5::CWorkList *MusicBrainz5::CMetadata::WorkList() const
 {
 	return m_d->m_WorkList;
 }
 
-MusicBrainz4::CISRCList *MusicBrainz4::CMetadata::ISRCList() const
+MusicBrainz5::CISRCList *MusicBrainz5::CMetadata::ISRCList() const
 {
 	return m_d->m_ISRCList;
 }
 
-MusicBrainz4::CAnnotationList *MusicBrainz4::CMetadata::AnnotationList() const
+MusicBrainz5::CAnnotationList *MusicBrainz5::CMetadata::AnnotationList() const
 {
 	return m_d->m_AnnotationList;
 }
 
-MusicBrainz4::CCDStubList *MusicBrainz4::CMetadata::CDStubList() const
+MusicBrainz5::CCDStubList *MusicBrainz5::CMetadata::CDStubList() const
 {
 	return m_d->m_CDStubList;
 }
 
-MusicBrainz4::CFreeDBDiscList *MusicBrainz4::CMetadata::FreeDBDiscList() const
+MusicBrainz5::CFreeDBDiscList *MusicBrainz5::CMetadata::FreeDBDiscList() const
 {
 	return m_d->m_FreeDBDiscList;
 }
 
-MusicBrainz4::CTagList *MusicBrainz4::CMetadata::TagList() const
+MusicBrainz5::CTagList *MusicBrainz5::CMetadata::TagList() const
 {
 	return m_d->m_TagList;
 }
 
-MusicBrainz4::CUserTagList *MusicBrainz4::CMetadata::UserTagList() const
+MusicBrainz5::CUserTagList *MusicBrainz5::CMetadata::UserTagList() const
 {
 	return m_d->m_UserTagList;
 }
 
-MusicBrainz4::CCollectionList *MusicBrainz4::CMetadata::CollectionList() const
+MusicBrainz5::CCollectionList *MusicBrainz5::CMetadata::CollectionList() const
 {
 	return m_d->m_CollectionList;
 }
 
-MusicBrainz4::CCDStub *MusicBrainz4::CMetadata::CDStub() const
+MusicBrainz5::CCDStub *MusicBrainz5::CMetadata::CDStub() const
 {
 	return m_d->m_CDStub;
 }
 
-MusicBrainz4::CMessage *MusicBrainz4::CMetadata::Message() const
+MusicBrainz5::CMessage *MusicBrainz5::CMetadata::Message() const
 {
 	return m_d->m_Message;
 }
 
-std::ostream& MusicBrainz4::CMetadata::Serialise(std::ostream& os) const
+std::ostream& MusicBrainz5::CMetadata::Serialise(std::ostream& os) const
 {
 	os << "Metadata:" << std::endl;
 

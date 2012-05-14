@@ -1,16 +1,16 @@
 /* --------------------------------------------------------------------------
 
-   libmusicbrainz4 - Client library to access MusicBrainz
+   libmusicbrainz5 - Client library to access MusicBrainz
 
    Copyright (C) 2012 Andrew Hawkins
 
-   This file is part of libmusicbrainz4.
+   This file is part of libmusicbrainz5.
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of v2 of the GNU Lesser General Public
    License as published by the Free Software Foundation.
 
-   libmusicbrainz4 is distributed in the hope that it will be useful,
+   libmusicbrainz5 is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    Lesser General Public License for more details.
@@ -23,11 +23,11 @@
 ----------------------------------------------------------------------------*/
 
 #include "config.h"
-#include "musicbrainz4/defines.h"
+#include "musicbrainz5/defines.h"
 
-#include "musicbrainz4/IPI.h"
+#include "musicbrainz5/IPI.h"
 
-class MusicBrainz4::CIPIPrivate
+class MusicBrainz5::CIPIPrivate
 {
 	public:
 		CIPIPrivate()
@@ -37,7 +37,7 @@ class MusicBrainz4::CIPIPrivate
 		std::string m_IPI;
 };
 
-MusicBrainz4::CIPI::CIPI(const XMLNode& Node)
+MusicBrainz5::CIPI::CIPI(const XMLNode& Node)
 :	CEntity(),
 	m_d(new CIPIPrivate)
 {
@@ -54,14 +54,14 @@ MusicBrainz4::CIPI::CIPI(const XMLNode& Node)
 	}
 }
 
-MusicBrainz4::CIPI::CIPI(const CIPI& Other)
+MusicBrainz5::CIPI::CIPI(const CIPI& Other)
 :	CEntity(),
 	m_d(new CIPIPrivate)
 {
 	*this=Other;
 }
 
-MusicBrainz4::CIPI& MusicBrainz4::CIPI::operator =(const CIPI& Other)
+MusicBrainz5::CIPI& MusicBrainz5::CIPI::operator =(const CIPI& Other)
 {
 	if (this!=&Other)
 	{
@@ -73,17 +73,17 @@ MusicBrainz4::CIPI& MusicBrainz4::CIPI::operator =(const CIPI& Other)
 	return *this;
 }
 
-MusicBrainz4::CIPI::~CIPI()
+MusicBrainz5::CIPI::~CIPI()
 {
 	delete m_d;
 }
 
-MusicBrainz4::CIPI *MusicBrainz4::CIPI::Clone()
+MusicBrainz5::CIPI *MusicBrainz5::CIPI::Clone()
 {
 	return new CIPI(*this);
 }
 
-bool MusicBrainz4::CIPI::ParseAttribute(const std::string& Name, const std::string& /*Value*/)
+bool MusicBrainz5::CIPI::ParseAttribute(const std::string& Name, const std::string& /*Value*/)
 {
 	bool RetVal=true;
 
@@ -93,7 +93,7 @@ bool MusicBrainz4::CIPI::ParseAttribute(const std::string& Name, const std::stri
 	return RetVal;
 }
 
-bool MusicBrainz4::CIPI::ParseElement(const XMLNode& Node)
+bool MusicBrainz5::CIPI::ParseElement(const XMLNode& Node)
 {
 	bool RetVal=true;
 
@@ -105,17 +105,17 @@ bool MusicBrainz4::CIPI::ParseElement(const XMLNode& Node)
 	return RetVal;
 }
 
-std::string MusicBrainz4::CIPI::GetElementName()
+std::string MusicBrainz5::CIPI::GetElementName()
 {
 	return "ipi";
 }
 
-std::string MusicBrainz4::CIPI::IPI() const
+std::string MusicBrainz5::CIPI::IPI() const
 {
 	return m_d->m_IPI;
 }
 
-std::ostream& MusicBrainz4::CIPI::Serialise(std::ostream& os) const
+std::ostream& MusicBrainz5::CIPI::Serialise(std::ostream& os) const
 {
 	os << "IPI:" << std::endl;
 

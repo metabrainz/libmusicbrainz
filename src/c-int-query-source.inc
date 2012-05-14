@@ -1,16 +1,16 @@
 /* --------------------------------------------------------------------------
 
-   libmusicbrainz4 - Client library to access MusicBrainz
+   libmusicbrainz5 - Client library to access MusicBrainz
 
    Copyright (C) 2011 Andrew Hawkins
 
-   This file is part of libmusicbrainz4.
+   This file is part of libmusicbrainz5.
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of v2 of the GNU Lesser General Public
    License as published by the Free Software Foundation.
 
-   libmusicbrainz4 is distributed in the hope that it will be useful,
+   libmusicbrainz5 is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    Lesser General Public License for more details.
@@ -22,27 +22,27 @@
 
 ----------------------------------------------------------------------------*/
 
-Mb4Query mb4_query_new(const char *UserAgent, const char *Server, int Port)
+Mb5Query mb5_query_new(const char *UserAgent, const char *Server, int Port)
 {
-	return new MusicBrainz4::CQuery(UserAgent, Server ? Server : "musicbrainz.org", Port!=0 ? Port : 80);
+	return new MusicBrainz5::CQuery(UserAgent, Server ? Server : "musicbrainz.org", Port!=0 ? Port : 80);
 }
 
-MB4_C_STR_SETTER(Query,query,UserName,username)
-MB4_C_STR_SETTER(Query,query,Password,password)
-MB4_C_STR_SETTER(Query,query,ProxyHost,proxyhost)
-MB4_C_INT_SETTER(Query,query,ProxyPort,proxyport)
-MB4_C_STR_SETTER(Query,query,ProxyUserName,proxyusername)
-MB4_C_STR_SETTER(Query,query,ProxyPassword,proxypassword)
+MB5_C_STR_SETTER(Query,query,UserName,username)
+MB5_C_STR_SETTER(Query,query,Password,password)
+MB5_C_STR_SETTER(Query,query,ProxyHost,proxyhost)
+MB5_C_INT_SETTER(Query,query,ProxyPort,proxyport)
+MB5_C_STR_SETTER(Query,query,ProxyUserName,proxyusername)
+MB5_C_STR_SETTER(Query,query,ProxyPassword,proxypassword)
 
-Mb4ReleaseList mb4_query_lookup_discid(Mb4Query Query, const char *DiscID)
+Mb5ReleaseList mb5_query_lookup_discid(Mb5Query Query, const char *DiscID)
 {
 	if (Query)
 	{
 		try
 		{
-			MusicBrainz4::CQuery *TheQuery=reinterpret_cast<MusicBrainz4::CQuery *>(Query);
+			MusicBrainz5::CQuery *TheQuery=reinterpret_cast<MusicBrainz5::CQuery *>(Query);
 			if (TheQuery)
-				return new MusicBrainz4::CReleaseList(TheQuery->LookupDiscID(DiscID));
+				return new MusicBrainz5::CReleaseList(TheQuery->LookupDiscID(DiscID));
 		}
 
 		catch(...)
@@ -53,15 +53,15 @@ Mb4ReleaseList mb4_query_lookup_discid(Mb4Query Query, const char *DiscID)
 	return 0;
 }
 
-Mb4Release mb4_query_lookup_release(Mb4Query Query, const char *Release)
+Mb5Release mb5_query_lookup_release(Mb5Query Query, const char *Release)
 {
 	if (Query)
 	{
 		try
 		{
-			MusicBrainz4::CQuery *TheQuery=reinterpret_cast<MusicBrainz4::CQuery *>(Query);
+			MusicBrainz5::CQuery *TheQuery=reinterpret_cast<MusicBrainz5::CQuery *>(Query);
 			if (TheQuery)
-				return new MusicBrainz4::CRelease(TheQuery->LookupRelease(Release));
+				return new MusicBrainz5::CRelease(TheQuery->LookupRelease(Release));
 		}
 
 		catch(...)
@@ -72,13 +72,13 @@ Mb4Release mb4_query_lookup_release(Mb4Query Query, const char *Release)
 	return 0;
 }
 
-Mb4Metadata mb4_query_query(Mb4Query Query, const char *Entity, const char *ID, const char *Resource, int NumParams, char **ParamName, char **ParamValue)
+Mb5Metadata mb5_query_query(Mb5Query Query, const char *Entity, const char *ID, const char *Resource, int NumParams, char **ParamName, char **ParamValue)
 {
 	if (Query)
 	{
 		try
 		{
-			MusicBrainz4::CQuery::tParamMap Params;
+			MusicBrainz5::CQuery::tParamMap Params;
 
 			for (int count=0;count<NumParams;count++)
 			{
@@ -86,9 +86,9 @@ Mb4Metadata mb4_query_query(Mb4Query Query, const char *Entity, const char *ID, 
 					Params[ParamName[count]]=ParamValue[count];
 			}
 
-			MusicBrainz4::CQuery *TheQuery=reinterpret_cast<MusicBrainz4::CQuery *>(Query);
+			MusicBrainz5::CQuery *TheQuery=reinterpret_cast<MusicBrainz5::CQuery *>(Query);
 			if (TheQuery)
-				return new MusicBrainz4::CMetadata(TheQuery->Query(Entity?Entity:"",
+				return new MusicBrainz5::CMetadata(TheQuery->Query(Entity?Entity:"",
 																											ID?ID:"",
 																											Resource?Resource:"",
 																											Params));
@@ -102,7 +102,7 @@ Mb4Metadata mb4_query_query(Mb4Query Query, const char *Entity, const char *ID, 
 	return 0;
 }
 
-unsigned char mb4_query_add_collection_entries(Mb4Query Query, const char *Collection, int NumEntries, const char **Entries)
+unsigned char mb5_query_add_collection_entries(Mb5Query Query, const char *Collection, int NumEntries, const char **Entries)
 {
 	if (Query)
 	{
@@ -110,7 +110,7 @@ unsigned char mb4_query_add_collection_entries(Mb4Query Query, const char *Colle
 		{
 			std::vector<std::string> VecEntries;
 
-			MusicBrainz4::CQuery *TheQuery=reinterpret_cast<MusicBrainz4::CQuery *>(Query);
+			MusicBrainz5::CQuery *TheQuery=reinterpret_cast<MusicBrainz5::CQuery *>(Query);
 			if (TheQuery)
 			{
 				for (int count=0;count<NumEntries;count++)
@@ -133,7 +133,7 @@ unsigned char mb4_query_add_collection_entries(Mb4Query Query, const char *Colle
 	return 0;
 }
 
-unsigned char mb4_query_delete_collection_entries(Mb4Query Query, const char *Collection, int NumEntries, const char **Entries)
+unsigned char mb5_query_delete_collection_entries(Mb5Query Query, const char *Collection, int NumEntries, const char **Entries)
 {
 	if (Query)
 	{
@@ -141,7 +141,7 @@ unsigned char mb4_query_delete_collection_entries(Mb4Query Query, const char *Co
 		{
 			std::vector<std::string> VecEntries;
 
-			MusicBrainz4::CQuery *TheQuery=reinterpret_cast<MusicBrainz4::CQuery *>(Query);
+			MusicBrainz5::CQuery *TheQuery=reinterpret_cast<MusicBrainz5::CQuery *>(Query);
 			if (TheQuery)
 			{
 				for (int count=0;count<NumEntries;count++)
@@ -164,13 +164,13 @@ unsigned char mb4_query_delete_collection_entries(Mb4Query Query, const char *Co
 	return 0;
 }
 
-tQueryResult mb4_query_get_lastresult(Mb4Query o)
+tQueryResult mb5_query_get_lastresult(Mb5Query o)
 {
 	if (o)
 	{
 		try
 		{
-			return (tQueryResult)((MusicBrainz4::CQuery *)o)->LastResult();
+			return (tQueryResult)((MusicBrainz5::CQuery *)o)->LastResult();
 		}
 
 		catch (...)

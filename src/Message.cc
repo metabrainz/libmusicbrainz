@@ -1,16 +1,16 @@
 /* --------------------------------------------------------------------------
 
-   libmusicbrainz4 - Client library to access MusicBrainz
+   libmusicbrainz5 - Client library to access MusicBrainz
 
    Copyright (C) 2011 Andrew Hawkins
 
-   This file is part of libmusicbrainz4.
+   This file is part of libmusicbrainz5.
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of v2 of the GNU Lesser General Public
    License as published by the Free Software Foundation.
 
-   libmusicbrainz4 is distributed in the hope that it will be useful,
+   libmusicbrainz5 is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    Lesser General Public License for more details.
@@ -23,17 +23,17 @@
 ----------------------------------------------------------------------------*/
 
 #include "config.h"
-#include "musicbrainz4/defines.h"
+#include "musicbrainz5/defines.h"
 
-#include "musicbrainz4/Message.h"
+#include "musicbrainz5/Message.h"
 
-class MusicBrainz4::CMessagePrivate
+class MusicBrainz5::CMessagePrivate
 {
 public:
 		std::string m_Text;
 };
 
-MusicBrainz4::CMessage::CMessage(const XMLNode& Node)
+MusicBrainz5::CMessage::CMessage(const XMLNode& Node)
 :	CEntity(),
 	m_d(new CMessagePrivate)
 {
@@ -45,14 +45,14 @@ MusicBrainz4::CMessage::CMessage(const XMLNode& Node)
 	}
 }
 
-MusicBrainz4::CMessage::CMessage(const CMessage& Other)
+MusicBrainz5::CMessage::CMessage(const CMessage& Other)
 :	CEntity(),
 	m_d(new CMessagePrivate)
 {
 	*this=Other;
 }
 
-MusicBrainz4::CMessage& MusicBrainz4::CMessage::operator =(const CMessage& Other)
+MusicBrainz5::CMessage& MusicBrainz5::CMessage::operator =(const CMessage& Other)
 {
 	if (this!=&Other)
 	{
@@ -64,17 +64,17 @@ MusicBrainz4::CMessage& MusicBrainz4::CMessage::operator =(const CMessage& Other
 	return *this;
 }
 
-MusicBrainz4::CMessage::~CMessage()
+MusicBrainz5::CMessage::~CMessage()
 {
 	delete m_d;
 }
 
-MusicBrainz4::CMessage *MusicBrainz4::CMessage::Clone()
+MusicBrainz5::CMessage *MusicBrainz5::CMessage::Clone()
 {
 	return new CMessage(*this);
 }
 
-bool MusicBrainz4::CMessage::ParseAttribute(const std::string& Name, const std::string& /*Value*/)
+bool MusicBrainz5::CMessage::ParseAttribute(const std::string& Name, const std::string& /*Value*/)
 {
 	bool RetVal=true;
 
@@ -84,7 +84,7 @@ bool MusicBrainz4::CMessage::ParseAttribute(const std::string& Name, const std::
 	return RetVal;
 }
 
-bool MusicBrainz4::CMessage::ParseElement(const XMLNode& Node)
+bool MusicBrainz5::CMessage::ParseElement(const XMLNode& Node)
 {
 	bool RetVal=true;
 
@@ -101,17 +101,17 @@ bool MusicBrainz4::CMessage::ParseElement(const XMLNode& Node)
 	return RetVal;
 }
 
-std::string MusicBrainz4::CMessage::GetElementName()
+std::string MusicBrainz5::CMessage::GetElementName()
 {
 	return "message";
 }
 
-std::string MusicBrainz4::CMessage::Text() const
+std::string MusicBrainz5::CMessage::Text() const
 {
 	return m_d->m_Text;
 }
 
-std::ostream& MusicBrainz4::CMessage::Serialise(std::ostream& os) const
+std::ostream& MusicBrainz5::CMessage::Serialise(std::ostream& os) const
 {
 	os << "Message:" << std::endl;
 

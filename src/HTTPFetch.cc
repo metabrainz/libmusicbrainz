@@ -1,16 +1,16 @@
 /* --------------------------------------------------------------------------
 
-   libmusicbrainz4 - Client library to access MusicBrainz
+   libmusicbrainz5 - Client library to access MusicBrainz
 
    Copyright (C) 2011 Andrew Hawkins
 
-   This file is part of libmusicbrainz4.
+   This file is part of libmusicbrainz5.
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of v2 of the GNU Lesser General Public
    License as published by the Free Software Foundation.
 
-   libmusicbrainz4 is distributed in the hope that it will be useful,
+   libmusicbrainz5 is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    Lesser General Public License for more details.
@@ -23,9 +23,9 @@
 ----------------------------------------------------------------------------*/
 
 #include "config.h"
-#include "musicbrainz4/defines.h"
+#include "musicbrainz5/defines.h"
 
-#include "musicbrainz4/HTTPFetch.h"
+#include "musicbrainz5/HTTPFetch.h"
 
 #include <stdlib.h>
 #include <string.h>
@@ -35,7 +35,7 @@
 #include "ne_string.h"
 #include "ne_request.h"
 
-class MusicBrainz4::CHTTPFetchPrivate
+class MusicBrainz5::CHTTPFetchPrivate
 {
 	public:
 		CHTTPFetchPrivate()
@@ -61,7 +61,7 @@ class MusicBrainz4::CHTTPFetchPrivate
 		std::string m_ProxyPassword;
 };
 
-MusicBrainz4::CHTTPFetch::CHTTPFetch(const std::string& UserAgent, const std::string& Host, int Port)
+MusicBrainz5::CHTTPFetch::CHTTPFetch(const std::string& UserAgent, const std::string& Host, int Port)
 :	m_d(new CHTTPFetchPrivate)
 {
 	m_d->m_UserAgent=UserAgent;
@@ -105,42 +105,42 @@ MusicBrainz4::CHTTPFetch::CHTTPFetch(const std::string& UserAgent, const std::st
 	}
 }
 
-MusicBrainz4::CHTTPFetch::~CHTTPFetch()
+MusicBrainz5::CHTTPFetch::~CHTTPFetch()
 {
 	delete m_d;
 }
 
-void MusicBrainz4::CHTTPFetch::SetUserName(const std::string& UserName)
+void MusicBrainz5::CHTTPFetch::SetUserName(const std::string& UserName)
 {
 	m_d->m_UserName=UserName;
 }
 
-void MusicBrainz4::CHTTPFetch::SetPassword(const std::string& Password)
+void MusicBrainz5::CHTTPFetch::SetPassword(const std::string& Password)
 {
 	m_d->m_Password=Password;
 }
 
-void MusicBrainz4::CHTTPFetch::SetProxyHost(const std::string& ProxyHost)
+void MusicBrainz5::CHTTPFetch::SetProxyHost(const std::string& ProxyHost)
 {
 	m_d->m_ProxyHost=ProxyHost;
 }
 
-void MusicBrainz4::CHTTPFetch::SetProxyPort(int ProxyPort)
+void MusicBrainz5::CHTTPFetch::SetProxyPort(int ProxyPort)
 {
 	m_d->m_ProxyPort=ProxyPort;
 }
 
-void MusicBrainz4::CHTTPFetch::SetProxyUserName(const std::string& ProxyUserName)
+void MusicBrainz5::CHTTPFetch::SetProxyUserName(const std::string& ProxyUserName)
 {
 	m_d->m_ProxyUserName=ProxyUserName;
 }
 
-void MusicBrainz4::CHTTPFetch::SetProxyPassword(const std::string& ProxyPassword)
+void MusicBrainz5::CHTTPFetch::SetProxyPassword(const std::string& ProxyPassword)
 {
 	m_d->m_ProxyPassword=ProxyPassword;
 }
 
-int MusicBrainz4::CHTTPFetch::Fetch(const std::string& URL, const std::string& Request)
+int MusicBrainz5::CHTTPFetch::Fetch(const std::string& URL, const std::string& Request)
 {
 	int Ret=0;
 
@@ -234,29 +234,29 @@ int MusicBrainz4::CHTTPFetch::Fetch(const std::string& URL, const std::string& R
 	return Ret;
 }
 
-int MusicBrainz4::CHTTPFetch::httpAuth(void *userdata, const char *realm, int attempts,
+int MusicBrainz5::CHTTPFetch::httpAuth(void *userdata, const char *realm, int attempts,
 					 char *username, char *password)
 {
 	realm=realm;
 
-	MusicBrainz4::CHTTPFetch *Fetch = (MusicBrainz4::CHTTPFetch *)userdata;
+	MusicBrainz5::CHTTPFetch *Fetch = (MusicBrainz5::CHTTPFetch *)userdata;
 	strncpy(username, Fetch->m_d->m_UserName.c_str(), NE_ABUFSIZ);
 	strncpy(password, Fetch->m_d->m_Password.c_str(), NE_ABUFSIZ);
 	return attempts;
 }
 
-int MusicBrainz4::CHTTPFetch::proxyAuth(void *userdata, const char *realm, int attempts,
+int MusicBrainz5::CHTTPFetch::proxyAuth(void *userdata, const char *realm, int attempts,
 					 char *username, char *password)
 {
 	realm=realm;
 
-	MusicBrainz4::CHTTPFetch *Fetch = (MusicBrainz4::CHTTPFetch *)userdata;
+	MusicBrainz5::CHTTPFetch *Fetch = (MusicBrainz5::CHTTPFetch *)userdata;
 	strncpy(username, Fetch->m_d->m_ProxyUserName.c_str(), NE_ABUFSIZ);
 	strncpy(password, Fetch->m_d->m_ProxyPassword.c_str(), NE_ABUFSIZ);
 	return attempts;
 }
 
-int MusicBrainz4::CHTTPFetch::httpResponseReader(void *userdata, const char *buf, size_t len)
+int MusicBrainz5::CHTTPFetch::httpResponseReader(void *userdata, const char *buf, size_t len)
 {
 	std::vector<unsigned char> *buffer = reinterpret_cast<std::vector<unsigned char> *>(userdata);
 
@@ -265,22 +265,22 @@ int MusicBrainz4::CHTTPFetch::httpResponseReader(void *userdata, const char *buf
 	return 0;
 }
 
-std::vector<unsigned char> MusicBrainz4::CHTTPFetch::Data() const
+std::vector<unsigned char> MusicBrainz5::CHTTPFetch::Data() const
 {
 	return m_d->m_Data;
 }
 
-int MusicBrainz4::CHTTPFetch::Result() const
+int MusicBrainz5::CHTTPFetch::Result() const
 {
 	return m_d->m_Result;
 }
 
-int MusicBrainz4::CHTTPFetch::Status() const
+int MusicBrainz5::CHTTPFetch::Status() const
 {
 	return m_d->m_Status;
 }
 
-std::string MusicBrainz4::CHTTPFetch::ErrorMessage() const
+std::string MusicBrainz5::CHTTPFetch::ErrorMessage() const
 {
 	return m_d->m_ErrorMessage;
 }
