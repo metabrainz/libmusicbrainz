@@ -1,3 +1,15 @@
+Changed for libmusicbrainz 4.0.2
+--------------------------------
+
+   - Add extra attributes to Alias
+   - Add IPI lists to Artist and Label
+   - Add 'Ended' to Lifespan
+   - Add PrimaryType and SecondaryTypeList to ReleaseGroup
+   - Add text based track number to Track
+   - Add ISWC list to Work
+   - Debug builds show queries and responses on stderr
+   - Documentation updates
+
 Changed for libmusicbrainz 4.0.1
 --------------------------------
 
