@@ -145,7 +145,7 @@ MusicBrainz4::CMetadata MusicBrainz4::CQuery::PerformQuery(const std::string& Qu
 		int Ret=Fetch.Fetch(Query);
 
 #ifdef _MB4_DEBUG_
-		std::cout << "Ret: " << Ret << std::endl;
+		std::cerr << "Ret: " << Ret << std::endl;
 #endif
 
 		if (Ret>0)
@@ -154,7 +154,7 @@ MusicBrainz4::CMetadata MusicBrainz4::CQuery::PerformQuery(const std::string& Qu
 			std::string strData(Data.begin(),Data.end());
 
 #ifdef _MB4_DEBUG_
-			std::cout << "Ret is '" << strData << "'" << std::endl;
+			std::cerr << "Ret is '" << strData << "'" << std::endl;
 #endif
 
 			XMLResults Results;
@@ -245,7 +245,7 @@ MusicBrainz4::CMetadata MusicBrainz4::CQuery::Query(const std::string& Entity, c
 		os << "?" << URLEncode(Params);
 
 #ifdef _MB4_DEBUG_
-	std::cout << "Query is '" << os.str() << "'" << std::endl;
+	std::cerr << "Query is '" << os.str() << "'" << std::endl;
 #endif
 
 	return PerformQuery(os.str());
@@ -374,13 +374,13 @@ bool MusicBrainz4::CQuery::EditCollection(const std::string& CollectionID, const
 		try
 		{
 #ifdef _MB4_DEBUG_
-			std::cout << "Collection " << Action << " Query is '" << Query << "'" << std::endl;
+			std::cerr << "Collection " << Action << " Query is '" << Query << "'" << std::endl;
 #endif
 
 			int Ret=Fetch.Fetch(Query,Action);
 
 #ifdef _MB4_DEBUG_
-			std::cout << "Collection Ret: " << Ret << std::endl;
+			std::cerr << "Collection Ret: " << Ret << std::endl;
 #endif
 
 			if (Ret>0)
@@ -389,7 +389,7 @@ bool MusicBrainz4::CQuery::EditCollection(const std::string& CollectionID, const
 				std::string strData(Data.begin(),Data.end());
 
 #ifdef _MB4_DEBUG_
-				std::cout << "Collection " << Action << " ret is '" << strData << "'" << std::endl;
+				std::cerr << "Collection " << Action << " ret is '" << strData << "'" << std::endl;
 #endif
 
 				XMLResults Results;
