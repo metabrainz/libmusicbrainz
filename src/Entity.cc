@@ -144,7 +144,7 @@ std::ostream& MusicBrainz4::CEntity::Serialise(std::ostream& os) const
 {
 	if (!ExtAttributes().empty())
 	{
-		std::cout << "Ext attrs: " << std::endl;
+		os << "Ext attrs: " << std::endl;
 		std::map<std::string,std::string> ExtAttrs=ExtAttributes();
 		std::map<std::string,std::string>::const_iterator ThisExtAttr=ExtAttrs.begin();
 		while (ThisExtAttr!=ExtAttrs.end())
@@ -157,7 +157,7 @@ std::ostream& MusicBrainz4::CEntity::Serialise(std::ostream& os) const
 
 	if (!ExtElements().empty())
 	{
-		std::cout << "Ext elements: " << std::endl;
+		os << "Ext elements: " << std::endl;
 		std::map<std::string,std::string> ExtElems=ExtElements();
 		std::map<std::string,std::string>::const_iterator ThisExtElement=ExtElems.begin();
 		while (ThisExtElement!=ExtElems.end())
