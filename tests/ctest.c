@@ -58,7 +58,11 @@ int main(int argc, const char *argv[])
 	Query=mb4_query_new("ctest","test.musicbrainz.org",0);
 	if (Query)
 	{
+		char Version[256];
 		Mb4Metadata Metadata=0;
+
+		mb4_query_get_version(Query,Version,sizeof(Version));
+		printf("Version is '%s'\n",Version);
 
 		Metadata=mb4_query_query(Query,"work","b0d17375-5593-390e-a936-1a65ce74c630","",0,NULL,NULL);
 		if (Metadata)
@@ -512,6 +516,7 @@ void CompileTest()
 	DummyResult=mb4_query_get_lastresult(Query);
 	DummyInt=mb4_query_get_lasthttpcode(Query);
 	mb4_query_get_lasterrormessage(Query,Str,Size);
+	mb4_query_get_version(Query,Str,Size);
 	mb4_query_delete(Query);
 
 	DummyInt=mb4_rating_get_votescount(Rating);

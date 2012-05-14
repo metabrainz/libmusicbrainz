@@ -225,6 +225,7 @@ extern "C"
 	<class name="query">
 		<property name="lasthttpcode" uppername="LastHTTPCode" type="integer"/>
 		<property name="lasterrormessage" uppername="LastErrorMessage" type="string"/>
+		<property name="version" type="string"/>
 	</class>
 	<boilerplate target="include" file="c-int-query-defines.inc"/>
 	<boilerplate target="source" file="c-int-query-source.inc"/>
