@@ -1,0 +1,32 @@
+{
+   crypto_malloc
+   Memcheck:Leak
+   ...
+   obj:/usr/lib/i686/cmov/libcrypto.so.0.9.8
+   fun:CRYPTO_malloc
+   ...
+}
+{
+   crypto_realloc
+   Memcheck:Leak
+   ...
+   obj:/usr/lib/i686/cmov/libcrypto.so.0.9.8
+   fun:CRYPTO_realloc
+   ...
+}
+{
+   ne_sock_init
+   Memcheck:Leak
+   ...
+   obj:/usr/lib/libneon-gnutls.so.27.2.3
+   fun:ne_sock_init
+   ...
+}
+{
+   gcry_create_nonce
+   Memcheck:Leak
+   ...
+   obj:/usr/lib/libgcrypt.so.11.5.3
+   fun:gcry_create_nonce
+   ...
+}

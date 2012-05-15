@@ -1,0 +1,5 @@
+# Hashes of file build rules.
+f00bc39a82821acb7d8581092aff4dc0 CMakeFiles/dist
+63a619b8414f7f60e359634523cf2db8 CMakeFiles/docs
+1c8c6f4401bf5f9ab6ca018a3626ab37 src/CMakeFiles/src_gen
+f3579d0ba7ce6fe26e5c16dd948c4c78 src/mb4_c.cc

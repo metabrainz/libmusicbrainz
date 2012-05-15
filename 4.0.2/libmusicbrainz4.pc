@@ -1,0 +1,13 @@
+prefix=/usr/local
+exec_prefix=/usr/local
+libdir=/usr/local/lib
+includedir=/usr/local/include
+
+Name: libmusicbrainz4
+Description: The Musicbrainz Client Library.
+URL: http://musicbrainz.org/doc/libmusicbrainz
+Version: 4.0.2
+Requires.private: neon >= 0.25
+Libs: -L/usr/local/lib -lmusicbrainz4
+Cflags: -I/usr/local/include
+
