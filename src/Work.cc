@@ -274,16 +274,6 @@ MusicBrainz5::CArtistCredit *MusicBrainz5::CWork::ArtistCredit() const
 	return m_d->m_ArtistCredit;
 }
 
-std::string MusicBrainz5::CWork::ISWC() const
-{
-	std::string RetISWC;
-
-	if (m_d && m_d->m_ISWCList && m_d->m_ISWCList->NumItems()!=0)
-		RetISWC=m_d->m_ISWCList->Item(0)->ISWC();
-
-	return RetISWC;
-}
-
 MusicBrainz5::CISWCList *MusicBrainz5::CWork::ISWCList() const
 {
 	return m_d->m_ISWCList;
@@ -297,11 +287,6 @@ std::string MusicBrainz5::CWork::Disambiguation() const
 MusicBrainz5::CAliasList *MusicBrainz5::CWork::AliasList() const
 {
 	return m_d->m_AliasList;
-}
-
-MusicBrainz5::CRelationList *MusicBrainz5::CWork::RelationList() const
-{
-	return m_d->m_RelationListList?m_d->m_RelationListList->Item(m_d->m_RelationListList->NumItems()-1):0;
 }
 
 MusicBrainz5::CRelationListList *MusicBrainz5::CWork::RelationListList() const

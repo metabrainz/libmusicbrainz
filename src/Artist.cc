@@ -78,7 +78,6 @@ class MusicBrainz5::CArtistPrivate
 		std::string m_Gender;
 		std::string m_Country;
 		std::string m_Disambiguation;
-		std::string m_IPI;
 		CIPIList *m_IPIList;
 		CLifespan *m_Lifespan;
 		CAliasList *m_AliasList;
@@ -128,7 +127,6 @@ MusicBrainz5::CArtist& MusicBrainz5::CArtist::operator =(const CArtist& Other)
 		m_d->m_Gender=Other.m_d->m_Gender;
 		m_d->m_Country=Other.m_d->m_Country;
 		m_d->m_Disambiguation=Other.m_d->m_Disambiguation;
-		m_d->m_IPI=Other.m_d->m_IPI;
 
 		if (Other.m_d->m_IPIList)
 			m_d->m_IPIList=new CIPIList(*Other.m_d->m_IPIList);
@@ -271,7 +269,7 @@ bool MusicBrainz5::CArtist::ParseElement(const XMLNode& Node)
 	}
 	else if ("ipi"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_IPI);
+		//Ignore IPI
 	}
 	else if ("ipi-list"==NodeName)
 	{
@@ -374,11 +372,6 @@ std::string MusicBrainz5::CArtist::Disambiguation() const
 	return m_d->m_Disambiguation;
 }
 
-std::string MusicBrainz5::CArtist::IPI() const
-{
-	return m_d->m_IPI;
-}
-
 MusicBrainz5::CIPIList *MusicBrainz5::CArtist::IPIList() const
 {
 	return m_d->m_IPIList;
@@ -417,11 +410,6 @@ MusicBrainz5::CLabelList *MusicBrainz5::CArtist::LabelList() const
 MusicBrainz5::CWorkList *MusicBrainz5::CArtist::WorkList() const
 {
 	return m_d->m_WorkList;
-}
-
-MusicBrainz5::CRelationList *MusicBrainz5::CArtist::RelationList() const
-{
-	return m_d->m_RelationListList?m_d->m_RelationListList->Item(m_d->m_RelationListList->NumItems()-1):0;
 }
 
 MusicBrainz5::CRelationListList *MusicBrainz5::CArtist::RelationListList() const

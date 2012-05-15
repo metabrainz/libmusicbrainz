@@ -92,8 +92,6 @@ int main(int argc, const char *argv[])
 	Artist=Metadata7.Artist();
 	if (Artist)
 	{
-		std::cout << "IPI: " << Artist->IPI() << std::endl;
-
 		MusicBrainz5::CIPIList *IPIList=Artist->IPIList();
 		if (IPIList)
 		{
@@ -115,7 +113,7 @@ int main(int argc, const char *argv[])
 	if (ReleaseGroup)
 	{
 		std::cout << "ID: " << ReleaseGroup->ID() << std::endl;
-		std::cout << "Type: " << ReleaseGroup->Type() << std::endl;
+		std::cout << "PrimaryType: " << ReleaseGroup->PrimaryType() << std::endl;
 		std::cout << "Title: " << ReleaseGroup->Title() << std::endl;
 		std::cout << "Disambiguation: " << ReleaseGroup->Disambiguation() << std::endl;
 		std::cout << "FirstReleaseDate: " << ReleaseGroup->FirstReleaseDate() << std::endl;
@@ -143,7 +141,6 @@ int main(int argc, const char *argv[])
 	{
 		std::cout << "ID: '" << ThisWork->ID() << "'" << std::endl;
 		std::cout << "Title: '" << ThisWork->Title() << "'" << std::endl;
-		std::cout << "ISWC: '" << ThisWork->ISWC() << "'" << std::endl;
 
 		MusicBrainz5::CISWCList *ISWCList=ThisWork->ISWCList();
 		if (ISWCList)
@@ -216,9 +213,6 @@ int main(int argc, const char *argv[])
 	MusicBrainz5::CRecording *Recording=Metadata3.Recording();
 	if (Recording)
 	{
-		MusicBrainz5::CRelationList *RelationList=Recording->RelationList();
-		PrintRelationList(RelationList);
-
 		MusicBrainz5::CRelationListList *RelationListList=Recording->RelationListList();
 		for (int count=0;count<RelationListList->NumItems();count++)
 		{

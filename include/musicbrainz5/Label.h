@@ -61,38 +61,12 @@ namespace MusicBrainz5
 		std::string Name() const;
 		std::string SortName() const;
 		int LabelCode() const;
-
-		/**
-		 * @deprecated Returns one of the IPIs for this label
-		 *
-		 * Returns one of the IPIs for this label. To return all
-		 * IPIs, see MusicBrainz5::CLabel::IPIList
-		 *
-		 * <b>This method is deprecated, please use MusicBrainz5::CLabel::IPIList</b>
-		 *
-		 * @return One of the IPIs for this label
-		 */
-
-		LIBMB5_DEPRECATED(MusicBrainz5::CLabel::IPIList) std::string IPI() const;
 		CIPIList *IPIList() const;
 		std::string Disambiguation() const;
 		std::string Country() const;
 		CLifespan *Lifespan() const;
 		CAliasList *AliasList() const;
 		CReleaseList *ReleaseList() const;
-
-		/**
-		 * @deprecated Returns the <b>last</b> relation list for this label
-		 *
-		 * Returns the <b>last</b> relation list for this label. To return all
-		 * relation lists, see MusicBrainz5::CLabel::RelationListList
-		 *
-		 * <b>This method is deprecated, please use MusicBrainz5::CLabel::RelationListList</b>
-		 *
-		 * @return The <b>last</b> relation list for this label
-		 */
-
-		LIBMB5_DEPRECATED(MusicBrainz5::CLabel::RelationListList) CRelationList *RelationList() const;
 		CRelationListList *RelationListList() const;
 		CTagList *TagList() const;
 		CUserTagList *UserTagList() const;

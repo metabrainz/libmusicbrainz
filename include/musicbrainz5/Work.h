@@ -59,36 +59,9 @@ namespace MusicBrainz5
 		std::string Type() const;
 		std::string Title() const;
 		CArtistCredit *ArtistCredit() const;
-
-		/**
-		 * @deprecated Returns the <b>first</b> ISWC for this work
-		 *
-		 * Returns the <b>first</b> ISWC for this work. To return all
-		 * ISWCs, see MusicBrainz5::CWork::ISWCList
-		 *
-		 * <b>This method is deprecated, please use MusicBrainz5::CWork::ISWCList</b>
-		 *
-		 * @return The <b>first</b> ISWC for this work
-		 */
-
-		LIBMB5_DEPRECATED(MusicBrainz5::CWork::ISWCList) std::string ISWC() const;
-
 		CISWCList *ISWCList() const;
 		std::string Disambiguation() const;
 		CAliasList *AliasList() const;
-
-		/**
-		 * @deprecated Returns the <b>last</b> relation list for this work
-		 *
-		 * Returns the <b>last</b> relation list for this work. To return all
-		 * relation lists, see MusicBrainz5::CWork::RelationListList
-		 *
-		 * <b>This method is deprecated, please use MusicBrainz5::CWork::RelationListList</b>
-		 *
-		 * @return The <b>last</b> relation list for this work
-		 */
-
-		LIBMB5_DEPRECATED(MusicBrainz5::CWork::RelationListList) CRelationList *RelationList() const;
 		CRelationListList *RelationListList() const;
 		CTagList *TagList() const;
 		CUserTagList *UserTagList() const;

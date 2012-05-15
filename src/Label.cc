@@ -67,7 +67,6 @@ class MusicBrainz5::CLabelPrivate
 		std::string m_Name;
 		std::string m_SortName;
 		int m_LabelCode;
-		std::string m_IPI;
 		CIPIList *m_IPIList;
 		std::string m_Disambiguation;
 		std::string m_Country;
@@ -112,7 +111,6 @@ MusicBrainz5::CLabel& MusicBrainz5::CLabel::operator =(const CLabel& Other)
 		m_d->m_Name=Other.m_d->m_Name;
 		m_d->m_SortName=Other.m_d->m_SortName;
 		m_d->m_LabelCode=Other.m_d->m_LabelCode;
-		m_d->m_IPI=Other.m_d->m_IPI;
 
 		if (Other.m_d->m_IPIList)
 			m_d->m_IPIList=new CIPIList(*Other.m_d->m_IPIList);
@@ -227,7 +225,7 @@ bool MusicBrainz5::CLabel::ParseElement(const XMLNode& Node)
 	}
 	else if ("ipi"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_IPI);
+		//Ignore IPI
 	}
 	else if ("ipi-list"==NodeName)
 	{
@@ -312,11 +310,6 @@ int MusicBrainz5::CLabel::LabelCode() const
 	return m_d->m_LabelCode;
 }
 
-std::string MusicBrainz5::CLabel::IPI() const
-{
-	return m_d->m_IPI;
-}
-
 MusicBrainz5::CIPIList *MusicBrainz5::CLabel::IPIList() const
 {
 	return m_d->m_IPIList;
@@ -345,11 +338,6 @@ MusicBrainz5::CAliasList *MusicBrainz5::CLabel::AliasList() const
 MusicBrainz5::CReleaseList *MusicBrainz5::CLabel::ReleaseList() const
 {
 	return m_d->m_ReleaseList;
-}
-
-MusicBrainz5::CRelationList *MusicBrainz5::CLabel::RelationList() const
-{
-	return m_d->m_RelationListList?m_d->m_RelationListList->Item(m_d->m_RelationListList->NumItems()-1):0;
 }
 
 MusicBrainz5::CRelationListList *MusicBrainz5::CLabel::RelationListList() const

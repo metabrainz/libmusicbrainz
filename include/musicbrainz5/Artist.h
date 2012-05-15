@@ -66,19 +66,6 @@ namespace MusicBrainz5
 		std::string Gender() const;
 		std::string Country() const;
 		std::string Disambiguation() const;
-
-		/**
-		 * @deprecated Returns one of the IPIs for this artist
-		 *
-		 * Returns one of the IPIs for this artist. To return all
-		 * IPIs, see MusicBrainz5::CArtist::IPIList
-		 *
-		 * <b>This method is deprecated, please use MusicBrainz5::CArtist::IPIList</b>
-		 *
-		 * @return One of the IPIs for this artist
-		 */
-
-		LIBMB5_DEPRECATED(MusicBrainz5::CArtist::IPIList) std::string IPI() const;
 		CIPIList *IPIList() const;
 		CLifespan *Lifespan() const;
 		CAliasList *AliasList() const;
@@ -87,19 +74,6 @@ namespace MusicBrainz5
 		CReleaseGroupList *ReleaseGroupList() const;
 		CLabelList *LabelList() const;
 		CWorkList *WorkList() const;
-
-		/**
-		 * @deprecated Returns the <b>last</b> relation list for this artist
-		 *
-		 * Returns the <b>last</b> relation list for this artist. To return all
-		 * relation lists, see MusicBrainz5::CArtist::RelationListList
-		 *
-		 * <b>This method is deprecated, please use MusicBrainz5::CArtist::RelationListList</b>
-		 *
-		 * @return The <b>last</b> relation list for this artist
-		 */
-
-		LIBMB5_DEPRECATED(MusicBrainz5::CArtist::RelationListList) CRelationList *RelationList() const;
 		CRelationListList *RelationListList() const;
 		CTagList *TagList() const;
 		CUserTagList *UserTagList() const;

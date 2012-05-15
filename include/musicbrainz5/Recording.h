@@ -69,19 +69,6 @@ namespace MusicBrainz5
 		CReleaseList *ReleaseList() const;
 		CPUIDList *PUIDList() const;
 		CISRCList *ISRCList() const;
-
-		/**
-		 * @deprecated Returns the <b>last</b> relation list for this recording
-		 *
-		 * Returns the <b>last</b> relation list for this recording. To return all
-		 * relation lists, see MusicBrainz5::CRecording::RelationListList
-		 *
-		 * <b>This method is deprecated, please use MusicBrainz5::CRecording::RelationListList</b>
-		 *
-		 * @return The <b>last</b> relation list for this recording
-		 */
-
-		LIBMB5_DEPRECATED(MusicBrainz5::CRecording::RelationListList) CRelationList *RelationList() const;
 		CRelationListList *RelationListList() const;
 		CTagList *TagList() const;
 		CUserTagList *UserTagList() const;

@@ -73,10 +73,6 @@ int main(int argc, const char *argv[])
 			if (Work)
 			{
 				Mb5ISWCList ISWCList=0;
-				char ISWCStr[256];
-
-				mb5_work_get_iswc(Work,ISWCStr,sizeof(ISWCStr));
-				printf("ISWC: '%s'\n",ISWCStr);
 
 				ISWCList=mb5_work_get_iswclist(Work);
 				if (ISWCList)
@@ -141,7 +137,6 @@ int main(int argc, const char *argv[])
 
 			if (Recording)
 			{
-				Mb5RelationList RelationList=mb5_recording_get_relationlist(Recording);
 				Mb5RelationListList RelationListList=mb5_recording_get_relationlistlist(Recording);
 
 				printf("Got recording\n");
@@ -163,13 +158,6 @@ int main(int argc, const char *argv[])
 							PrintRelationList(RelationList);
 						}
 					}
-				}
-
-				if (RelationList)
-				{
-					printf("Got relation list\n");
-
-					PrintRelationList(RelationList);
 				}
 			}
 
@@ -336,7 +324,6 @@ void CompileTest()
 	mb5_artist_get_gender(Artist,Str,Size);
 	mb5_artist_get_country(Artist,Str,Size);
 	mb5_artist_get_disambiguation(Artist,Str,Size);
-	mb5_artist_get_ipi(Artist,Str,Size);
 	IPIList=mb5_artist_get_ipilist(Artist);
 	Lifespan=mb5_artist_get_lifespan(Artist);
 	AliasList=mb5_artist_get_aliaslist(Artist);
@@ -345,7 +332,7 @@ void CompileTest()
 	ReleaseGroupList=mb5_artist_get_releasegrouplist(Artist);
 	LabelList=mb5_artist_get_labellist(Artist);
 	WorkList=mb5_artist_get_worklist(Artist);
-	RelationList=mb5_artist_get_relationlist(Artist);
+	RelationListList=mb5_artist_get_relationlistlist(Artist);
 	TagList=mb5_artist_get_taglist(Artist);
 	UserTagList=mb5_artist_get_usertaglist(Artist);
 	Rating=mb5_artist_get_rating(Artist);
@@ -410,14 +397,13 @@ void CompileTest()
 	mb5_label_get_name(Label,Str,Size);
 	mb5_label_get_sortname(Label,Str,Size);
 	DummyInt=mb5_label_get_labelcode(Label);
-	mb5_label_get_ipi(Label,Str,Size);
 	IPIList=mb5_label_get_ipilist(Label);
 	mb5_label_get_disambiguation(Label,Str,Size);
 	mb5_label_get_country(Label,Str,Size);
 	Lifespan=mb5_label_get_lifespan(Label);
 	AliasList=mb5_label_get_aliaslist(Label);
 	ReleaseList=mb5_label_get_releaselist(Label);
-	RelationList=mb5_label_get_relationlist(Label);
+	RelationListList=mb5_label_get_relationlistlist(Label);
 	TagList=mb5_label_get_taglist(Label);
 	UserTagList=mb5_label_get_usertaglist(Label);
 	Rating=mb5_label_get_rating(Label);
@@ -532,7 +518,6 @@ void CompileTest()
 	ReleaseList=mb5_recording_get_releaselist(Recording);
 	PUIDList=mb5_recording_get_puidlist(Recording);
 	ISRCList=mb5_recording_get_isrclist(Recording);
-	RelationList=mb5_recording_get_relationlist(Recording);
 	RelationListList=mb5_recording_get_relationlistlist(Recording);
 	TagList=mb5_recording_get_taglist(Recording);
 	UserTagList=mb5_recording_get_usertaglist(Recording);
@@ -571,21 +556,20 @@ void CompileTest()
 	mb5_release_get_asin(Release,Str,Size);
 	LabelInfoList=mb5_release_get_labelinfolist(Release);
 	MediumList=mb5_release_get_mediumlist(Release);
-	RelationList=mb5_release_get_relationlist(Release);
+	RelationListList=mb5_release_get_relationlistlist(Release);
 	CollectionList=mb5_release_get_collectionlist(Release);
 	MediumList=mb5_release_media_matching_discid(Release,"discid");
 	Release=mb5_release_clone(Release);
 	mb5_release_delete(Release);
 
 	mb5_releasegroup_get_id(ReleaseGroup,Str,Size);
-	mb5_releasegroup_get_type(ReleaseGroup,Str,Size);
 	mb5_releasegroup_get_primarytype(ReleaseGroup,Str,Size);
 	mb5_releasegroup_get_firstreleasedate(ReleaseGroup,Str,Size);
 	mb5_releasegroup_get_title(ReleaseGroup,Str,Size);
 	mb5_releasegroup_get_disambiguation(ReleaseGroup,Str,Size);
 	ArtistCredit=mb5_releasegroup_get_artistcredit(ReleaseGroup);
 	ReleaseList=mb5_releasegroup_get_releaselist(ReleaseGroup);
-	RelationList=mb5_releasegroup_get_relationlist(ReleaseGroup);
+	RelationListList=mb5_releasegroup_get_relationlistlist(ReleaseGroup);
 	TagList=mb5_releasegroup_get_taglist(ReleaseGroup);
 	UserTagList=mb5_releasegroup_get_usertaglist(ReleaseGroup);
 	Rating=mb5_releasegroup_get_rating(ReleaseGroup);
@@ -625,10 +609,10 @@ void CompileTest()
 	mb5_work_get_type(Work,Str,Size);
 	mb5_work_get_title(Work,Str,Size);
 	ArtistCredit=mb5_work_get_artistcredit(Work);
-	mb5_work_get_iswc(Work,Str,Size);
+	ISWCList=mb5_work_get_iswclist(Work);
 	mb5_work_get_disambiguation(Work,Str,Size);
 	AliasList=mb5_work_get_aliaslist(Work);
-	RelationList=mb5_work_get_relationlist(Work);
+	RelationListList=mb5_work_get_relationlistlist(Work);
 	TagList=mb5_work_get_taglist(Work);
 	UserTagList=mb5_work_get_usertaglist(Work);
 	Rating=mb5_work_get_rating(Work);

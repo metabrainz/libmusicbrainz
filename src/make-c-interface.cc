@@ -404,20 +404,6 @@ void ProcessClass(const XMLNode& Node, std::ofstream& Source, std::ofstream& Inc
 					else if ("relationlist"==PropertyType)
 					{
 						Include << "/**" << std::endl;
-						Include << " * @deprecated @see MusicBrainz5::C" << UpperName << "::" << PropertyUpperName << std::endl;
-						Include << " *" << std::endl;
-						Include << " * <b>This method is deprecated, please use #mb5_" << LowerName << "_get_" << PropertyLowerName << "list</b>" << std::endl;
-						Include << " *" << std::endl;
-						Include << " * @param " << UpperName << " #Mb5" << UpperName << " object" << std::endl;
-						Include << " *" << std::endl;
-						Include << " * @return #Mb5" << PropertyUpperName << " object" << std::endl;
-						Include << " */" << std::endl;
-						Include << " LIBMB5_DEPRECATED(mb5_" << LowerName << "_get_" << PropertyLowerName << "list) Mb5" << PropertyUpperName << " mb5_" << LowerName << "_get_" << PropertyLowerName << "(Mb5" << UpperName << " " << UpperName << ");" << std::endl;
-						Include << std::endl;
-
-						Source << "  MB5_C_OBJ_GETTER(" << UpperName << "," << LowerName << "," << PropertyUpperName << "," << PropertyLowerName << ")" << std::endl;
-
-						Include << "/**" << std::endl;
 						Include << " * @see MusicBrainz5::C" << UpperName << "::" << PropertyUpperName << "List" << std::endl;
 						Include << " *" << std::endl;
 						Include << " * @param " << UpperName << " #Mb5" << UpperName << "List object" << std::endl;
@@ -432,22 +418,6 @@ void ProcessClass(const XMLNode& Node, std::ofstream& Source, std::ofstream& Inc
 					else if ("iswc"==PropertyType)
 					{
 						Include << "/**" << std::endl;
-						Include << " * @deprecated @see MusicBrainz5::C" << UpperName << "::" << PropertyUpperName << std::endl;
-						Include << " *" << std::endl;
-						Include << " * <b>This method is deprecated, please use #mb5_" << LowerName << "_get_" << PropertyLowerName << "list</b>" << std::endl;
-						Include << " *" << std::endl;
-						Include << " * @param " << UpperName << " #Mb5" << UpperName << " object" << std::endl;
-						Include << " * @param str Returned string" << std::endl;
-						Include << " * @param len Number of characters available in return string" << std::endl;
-						Include << " *" << std::endl;
-						Include << " * @return The number of characters in the string to copy (not including terminating NULL)" << std::endl;
-						Include << " */" << std::endl;
-						Include << "  LIBMB5_DEPRECATED(mb5_" << LowerName << "_get_" << PropertyLowerName << "list) int mb5_" << LowerName << "_get_" << PropertyLowerName << "(Mb5" << UpperName << " " << UpperName << ", char *str, int len);" << std::endl;
-						Include << std::endl;
-
-						Source << "  MB5_C_STR_GETTER(" << UpperName << "," << LowerName << "," << PropertyUpperName << "," << PropertyLowerName << ")" << std::endl;
-
-						Include << "/**" << std::endl;
 						Include << " * @see MusicBrainz5::C" << UpperName << "::" << PropertyUpperName << "List" << std::endl;
 						Include << " *" << std::endl;
 						Include << " * @param " << UpperName << " #Mb5" << UpperName << "List object" << std::endl;
@@ -461,22 +431,6 @@ void ProcessClass(const XMLNode& Node, std::ofstream& Source, std::ofstream& Inc
 					}
 					else if ("ipi"==PropertyType)
 					{
-						Include << "/**" << std::endl;
-						Include << " * @deprecated @see MusicBrainz5::C" << UpperName << "::" << PropertyUpperName << std::endl;
-						Include << " *" << std::endl;
-						Include << " * <b>This method is deprecated, please use #mb5_" << LowerName << "_get_" << PropertyLowerName << "list</b>" << std::endl;
-						Include << " *" << std::endl;
-						Include << " * @param " << UpperName << " #Mb5" << UpperName << " object" << std::endl;
-						Include << " * @param str Returned string" << std::endl;
-						Include << " * @param len Number of characters available in return string" << std::endl;
-						Include << " *" << std::endl;
-						Include << " * @return The number of characters in the string to copy (not including terminating NULL)" << std::endl;
-						Include << " */" << std::endl;
-						Include << "  LIBMB5_DEPRECATED(mb5_" << LowerName << "_get_" << PropertyLowerName << "list) int mb5_" << LowerName << "_get_" << PropertyLowerName << "(Mb5" << UpperName << " " << UpperName << ", char *str, int len);" << std::endl;
-						Include << std::endl;
-
-						Source << "  MB5_C_STR_GETTER(" << UpperName << "," << LowerName << "," << PropertyUpperName << "," << PropertyLowerName << ")" << std::endl;
-
 						Include << "/**" << std::endl;
 						Include << " * @see MusicBrainz5::C" << UpperName << "::" << PropertyUpperName << "List" << std::endl;
 						Include << " *" << std::endl;

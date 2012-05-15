@@ -70,19 +70,6 @@ namespace MusicBrainz5
 		std::string ASIN() const;
 		CLabelInfoList *LabelInfoList() const;
 		CMediumList *MediumList() const;
-
-		/**
-		 * @deprecated Returns the <b>last</b> relation list for this release
-		 *
-		 * Returns the <b>last</b> relation list for this release. To return all
-		 * relation lists, see MusicBrainz5::CRelease::RelationListList
-		 *
-		 * <b>This method is deprecated, please use MusicBrainz5::CRelease::RelationListList</b>
-		 *
-		 * @return The <b>last</b> relation list for this release
-		 */
-
-		LIBMB5_DEPRECATED(MusicBrainz5::CRelease::RelationListList) CRelationList *RelationList() const;
 		CRelationListList *RelationListList() const;
 		CCollectionList *CollectionList() const;
 

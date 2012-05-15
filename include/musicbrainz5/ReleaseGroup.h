@@ -57,38 +57,12 @@ namespace MusicBrainz5
 		virtual CReleaseGroup *Clone();
 
 		std::string ID() const;
-
-		/**
-		 * @deprecated Returns the type for this release group
-		 *
-		 * Returns the type for this release group.
-		 *
-		 * <b>This method is deprecated, please use MusicBrainz5::CReleaseGroup::PrimaryType
-		 * and MusicBrainz5::CReleaseGroup::SecondaryTypeList</b>
-		 *
-		 * @return The type for this release group
-		 */
-
-		LIBMB5_DEPRECATED(MusicBrainz5::CReleaseGroup::PrimaryType) std::string Type() const;
 		std::string PrimaryType() const;
 		std::string Title() const;
 		std::string Disambiguation() const;
 		std::string FirstReleaseDate() const;
 		CArtistCredit *ArtistCredit() const;
 		CReleaseList *ReleaseList() const;
-
-		/**
-		 * @deprecated Returns the <b>last</b> relation list for this release group
-		 *
-		 * Returns the <b>last</b> relation list for this release group. To return all
-		 * relation lists, see MusicBrainz5::CReleaseGroup::RelationListList
-		 *
-		 * <b>This method is deprecated, please use MusicBrainz5::CReleaseGroup::RelationListList</b>
-		 *
-		 * @return The <b>last</b> relation list for this release group
-		 */
-
-		LIBMB5_DEPRECATED(MusicBrainz5::CReleaseGroup::RelationListList) CRelationList *RelationList() const;
 		CRelationListList *RelationListList() const;
 		CTagList *TagList() const;
 		CUserTagList *UserTagList() const;

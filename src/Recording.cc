@@ -303,11 +303,6 @@ MusicBrainz5::CISRCList *MusicBrainz5::CRecording::ISRCList() const
 	return m_d->m_ISRCList;
 }
 
-MusicBrainz5::CRelationList *MusicBrainz5::CRecording::RelationList() const
-{
-	return m_d->m_RelationListList?m_d->m_RelationListList->Item(m_d->m_RelationListList->NumItems()-1):0;
-}
-
 MusicBrainz5::CRelationListList *MusicBrainz5::CRecording::RelationListList() const
 {
 	return m_d->m_RelationListList;

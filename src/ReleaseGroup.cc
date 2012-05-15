@@ -58,7 +58,6 @@ class MusicBrainz5::CReleaseGroupPrivate
 		}
 
 		std::string m_ID;
-		std::string m_Type;
 		std::string m_PrimaryType;
 		std::string m_Title;
 		std::string m_Disambiguation;
@@ -101,7 +100,6 @@ MusicBrainz5::CReleaseGroup& MusicBrainz5::CReleaseGroup::operator =(const CRele
 		CEntity::operator =(Other);
 
 		m_d->m_ID=Other.m_d->m_ID;
-		m_d->m_Type=Other.m_d->m_Type;
 		m_d->m_PrimaryType=Other.m_d->m_PrimaryType;
 		m_d->m_Title=Other.m_d->m_Title;
 		m_d->m_Disambiguation=Other.m_d->m_Disambiguation;
@@ -181,7 +179,9 @@ bool MusicBrainz5::CReleaseGroup::ParseAttribute(const std::string& Name, const 
 	if ("id"==Name)
 		m_d->m_ID=Value;
 	else if ("type"==Name)
-		m_d->m_Type=Value;
+	{
+		//Ignore type
+	}
 	else
 	{
 		std::cerr << "Unrecognised releasegroup attribute: '" << Name << "'" << std::endl;
@@ -264,11 +264,6 @@ std::string MusicBrainz5::CReleaseGroup::ID() const
 	return m_d->m_ID;
 }
 
-std::string MusicBrainz5::CReleaseGroup::Type() const
-{
-	return m_d->m_Type;
-}
-
 std::string MusicBrainz5::CReleaseGroup::PrimaryType() const
 {
 	return m_d->m_PrimaryType;
@@ -297,11 +292,6 @@ MusicBrainz5::CArtistCredit *MusicBrainz5::CReleaseGroup::ArtistCredit() const
 MusicBrainz5::CReleaseList *MusicBrainz5::CReleaseGroup::ReleaseList() const
 {
 	return m_d->m_ReleaseList;
-}
-
-MusicBrainz5::CRelationList *MusicBrainz5::CReleaseGroup::RelationList() const
-{
-	return m_d->m_RelationListList?m_d->m_RelationListList->Item(m_d->m_RelationListList->NumItems()-1):0;
 }
 
 MusicBrainz5::CRelationListList *MusicBrainz5::CReleaseGroup::RelationListList() const

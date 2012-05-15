@@ -347,11 +347,6 @@ MusicBrainz5::CMediumList *MusicBrainz5::CRelease::MediumList() const
 	return m_d->m_MediumList;
 }
 
-MusicBrainz5::CRelationList *MusicBrainz5::CRelease::RelationList() const
-{
-	return m_d->m_RelationListList?m_d->m_RelationListList->Item(m_d->m_RelationListList->NumItems()-1):0;
-}
-
 MusicBrainz5::CRelationListList *MusicBrainz5::CRelease::RelationListList() const
 {
 	return m_d->m_RelationListList;
