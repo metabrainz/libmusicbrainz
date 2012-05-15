@@ -7,7 +7,7 @@ SET(PROJECT_VERSION 5.0.0)
 # 2. If any interfaces have been added, removed, or changed since the last update, increment current, and set revision to 0.
 # 3. If any interfaces have been added since the last public release, then increment age.
 # 4. If any interfaces have been removed since the last public release, then set age to 0.
-SET(musicbrainz5_SOVERSION_CURRENT  1)
+SET(musicbrainz5_SOVERSION_CURRENT  0)
 SET(musicbrainz5_SOVERSION_REVISION 0)
 SET(musicbrainz5_SOVERSION_AGE      0)
 
