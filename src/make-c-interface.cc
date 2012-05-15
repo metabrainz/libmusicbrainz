@@ -2,7 +2,7 @@
 
    libmusicbrainz5 - Client library to access MusicBrainz
 
-   Copyright (C) 2011 Andrew Hawkins
+   Copyright (C) 2012 Andrew Hawkins
 
    This file is part of libmusicbrainz5.
 
@@ -131,7 +131,7 @@ void ProcessHeader(const XMLNode& /*Node*/, std::ofstream& Source, std::ofstream
 	os << std::endl;
 	os << "   libmusicbrainz5 - Client library to access MusicBrainz" << std::endl;
 	os << std::endl;
-	os << "   Copyright (C) 2011 Andrew Hawkins" << std::endl;
+	os << "   Copyright (C) 2012 Andrew Hawkins" << std::endl;
 	os << std::endl;
 	os << "   This file is part of libmusicbrainz5." << std::endl;
 	os << std::endl;
