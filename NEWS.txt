@@ -1,9 +1,21 @@
-Changed for libmusicbrainz 5.0.0
+Changes for libmusicbrainz 5.0.1
+--------------------------------
+
+   - Fix LMB-32 - Correctly ignore unrecognised nodes
+   - Don't compile using -Werror when building from tarball
+
+Changes for libmusicbrainz 5.0.0
 --------------------------------
 
    - Deprecated functions removed
 
-Changed for libmusicbrainz 4.0.2
+Changes for libmusicbrainz 4.0.3
+--------------------------------
+
+   - Fix LMB-32 - Correctly ignore unrecognised nodes
+   - Don't compile using -Werror when building from tarball
+
+Changes for libmusicbrainz 4.0.2
 --------------------------------
 
    - Add extra attributes to Alias
@@ -15,7 +27,7 @@ Changed for libmusicbrainz 4.0.2
    - Debug builds show queries and responses on stderr
    - Documentation updates
 
-Changed for libmusicbrainz 4.0.1
+Changes for libmusicbrainz 4.0.1
 --------------------------------
 
    - Fixed bug LMB-30 - Unable to access all relation lists on objects with
