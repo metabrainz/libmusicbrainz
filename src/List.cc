@@ -100,10 +100,8 @@ MusicBrainz5::CList *MusicBrainz5::CList::Clone()
 	return new CList(*this);
 }
 
-bool MusicBrainz5::CList::ParseAttribute(const std::string& Name, const std::string& Value)
+void MusicBrainz5::CList::ParseAttribute(const std::string& Name, const std::string& Value)
 {
-	bool RetVal=true;
-
 	if ("offset"==Name)
 		ProcessItem(Value,m_d->m_Offset);
 	else if ("count"==Name)
@@ -111,22 +109,14 @@ bool MusicBrainz5::CList::ParseAttribute(const std::string& Name, const std::str
 	else
 	{
 		std::cerr << "Unrecognised list attribute: '" << Name << "'" << std::endl;
-		RetVal=false;
 	}
-
-	return RetVal;
 }
 
-bool MusicBrainz5::CList::ParseElement(const XMLNode& Node)
+void MusicBrainz5::CList::ParseElement(const XMLNode& Node)
 {
-	bool RetVal=true;
-
 	std::string NodeName=Node.getName();
 
 	std::cerr << "Unrecognised list element: '" << NodeName << "'" << std::endl;
-	RetVal=false;
-
-	return RetVal;
 }
 
 std::string MusicBrainz5::CList::GetElementName()

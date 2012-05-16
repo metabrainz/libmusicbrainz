@@ -96,38 +96,28 @@ MusicBrainz5::CISRC *MusicBrainz5::CISRC::Clone()
 	return new CISRC(*this);
 }
 
-bool MusicBrainz5::CISRC::ParseAttribute(const std::string& Name, const std::string& Value)
+void MusicBrainz5::CISRC::ParseAttribute(const std::string& Name, const std::string& Value)
 {
-	bool RetVal=true;
-
 	if ("id"==Name)
 		m_d->m_ID=Value;
 	else
 	{
 		std::cerr << "Unrecognised isrc attribute: '" << Name << "'" << std::endl;
-		RetVal=false;
 	}
-
-	return RetVal;
 }
 
-bool MusicBrainz5::CISRC::ParseElement(const XMLNode& Node)
+void MusicBrainz5::CISRC::ParseElement(const XMLNode& Node)
 {
-	bool RetVal=true;
-
 	std::string NodeName=Node.getName();
 
 	if ("recording-list"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_RecordingList);
+		ProcessItem(Node,m_d->m_RecordingList);
 	}
 	else
 	{
 		std::cerr << "Unrecognised ISRC element: '" << NodeName << "'" << std::endl;
-		RetVal=false;
 	}
-
-	return RetVal;
 }
 
 std::string MusicBrainz5::CISRC::GetElementName()

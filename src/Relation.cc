@@ -159,78 +159,68 @@ MusicBrainz5::CRelation *MusicBrainz5::CRelation::Clone()
 	return new CRelation(*this);
 }
 
-bool MusicBrainz5::CRelation::ParseAttribute(const std::string& Name, const std::string& Value)
+void MusicBrainz5::CRelation::ParseAttribute(const std::string& Name, const std::string& Value)
 {
-	bool RetVal=true;
-
 	if ("type"==Name)
 		m_d->m_Type=Value;
 	else
 	{
 		std::cerr << "Unrecognised relation attribute: '" << Name << "'" << std::endl;
-		RetVal=false;
 	}
-
-	return RetVal;
 }
 
-bool MusicBrainz5::CRelation::ParseElement(const XMLNode& Node)
+void MusicBrainz5::CRelation::ParseElement(const XMLNode& Node)
 {
-	bool RetVal=true;
-
 	std::string NodeName=Node.getName();
 
 	if ("target"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_Target);
+		ProcessItem(Node,m_d->m_Target);
 	}
 	else if ("direction"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_Direction);
+		ProcessItem(Node,m_d->m_Direction);
 	}
 	else if ("attribute-list"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_AttributeList);
+		ProcessItem(Node,m_d->m_AttributeList);
 	}
 	else if ("begin"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_Begin);
+		ProcessItem(Node,m_d->m_Begin);
 	}
 	else if ("end"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_End);
+		ProcessItem(Node,m_d->m_End);
 	}
 	else if ("artist"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_Artist);
+		ProcessItem(Node,m_d->m_Artist);
 	}
 	else if ("release"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_Release);
+		ProcessItem(Node,m_d->m_Release);
 	}
 	else if ("release-group"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_ReleaseGroup);
+		ProcessItem(Node,m_d->m_ReleaseGroup);
 	}
 	else if ("recording"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_Recording);
+		ProcessItem(Node,m_d->m_Recording);
 	}
 	else if ("label"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_Label);
+		ProcessItem(Node,m_d->m_Label);
 	}
 	else if ("work"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_Work);
+		ProcessItem(Node,m_d->m_Work);
 	}
 	else
 	{
 		std::cerr << "Unrecognised relation element: '" << NodeName << "'" << std::endl;
-		RetVal=false;
 	}
-
-	return RetVal;
 }
 
 std::string MusicBrainz5::CRelation::GetElementName()

@@ -150,82 +150,72 @@ MusicBrainz5::CRecording *MusicBrainz5::CRecording::Clone()
 	return new CRecording(*this);
 }
 
-bool MusicBrainz5::CRecording::ParseAttribute(const std::string& Name, const std::string& Value)
+void MusicBrainz5::CRecording::ParseAttribute(const std::string& Name, const std::string& Value)
 {
-	bool RetVal=true;
-
 	if ("id"==Name)
 		m_d->m_ID=Value;
 	else
 	{
 		std::cerr << "Unrecognised recording attribute: '" << Name << "'" << std::endl;
-		RetVal=false;
 	}
-
-	return RetVal;
 }
 
-bool MusicBrainz5::CRecording::ParseElement(const XMLNode& Node)
+void MusicBrainz5::CRecording::ParseElement(const XMLNode& Node)
 {
-	bool RetVal=true;
-
 	std::string NodeName=Node.getName();
 
 	if ("title"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_Title);
+		ProcessItem(Node,m_d->m_Title);
 	}
 	else if ("length"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_Length);
+		ProcessItem(Node,m_d->m_Length);
 	}
 	else if ("disambiguation"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_Disambiguation);
+		ProcessItem(Node,m_d->m_Disambiguation);
 	}
 	else if ("artist-credit"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_ArtistCredit);
+		ProcessItem(Node,m_d->m_ArtistCredit);
 	}
 	else if ("release-list"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_ReleaseList);
+		ProcessItem(Node,m_d->m_ReleaseList);
 	}
 	else if ("puid-list"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_PUIDList);
+		ProcessItem(Node,m_d->m_PUIDList);
 	}
 	else if ("isrc-list"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_ISRCList);
+		ProcessItem(Node,m_d->m_ISRCList);
 	}
 	else if ("relation-list"==NodeName)
 	{
-		RetVal=ProcessRelationList(Node,m_d->m_RelationListList);
+		ProcessRelationList(Node,m_d->m_RelationListList);
 	}
 	else if ("tag-list"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_TagList);
+		ProcessItem(Node,m_d->m_TagList);
 	}
 	else if ("user-tag-list"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_UserTagList);
+		ProcessItem(Node,m_d->m_UserTagList);
 	}
 	else if ("rating"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_Rating);
+		ProcessItem(Node,m_d->m_Rating);
 	}
 	else if ("user-rating"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_UserRating);
+		ProcessItem(Node,m_d->m_UserRating);
 	}
 	else
 	{
 		std::cerr << "Unrecognised recording element: '" << NodeName << "'" << std::endl;
-		RetVal=false;
 	}
-
-	return RetVal;
 }
 
 std::string MusicBrainz5::CRecording::GetElementName()

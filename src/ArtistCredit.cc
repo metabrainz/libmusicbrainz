@@ -95,21 +95,13 @@ MusicBrainz5::CArtistCredit *MusicBrainz5::CArtistCredit::Clone()
 	return new CArtistCredit(*this);
 }
 
-bool MusicBrainz5::CArtistCredit::ParseAttribute(const std::string& Name, const std::string& /*Value*/)
+void MusicBrainz5::CArtistCredit::ParseAttribute(const std::string& Name, const std::string& /*Value*/)
 {
-	bool RetVal=true;
-
 	std::cerr << "Unrecognised artistcredit attribute: '" << Name << "'" << std::endl;
-	RetVal=false;
-
-
-	return RetVal;
 }
 
-bool MusicBrainz5::CArtistCredit::ParseElement(const XMLNode& Node)
+void MusicBrainz5::CArtistCredit::ParseElement(const XMLNode& Node)
 {
-	bool RetVal=true;
-
 	std::string NodeName=Node.getName();
 
 	if ("name-credit"==NodeName)
@@ -120,10 +112,7 @@ bool MusicBrainz5::CArtistCredit::ParseElement(const XMLNode& Node)
 	else
 	{
 		std::cerr << "Unrecognised artistcredit element: '" << NodeName << "'" << std::endl;
-		RetVal=false;
 	}
-
-	return RetVal;
 }
 
 std::string MusicBrainz5::CArtistCredit::GetElementName()

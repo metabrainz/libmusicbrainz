@@ -77,26 +77,16 @@ MusicBrainz5::CAttribute *MusicBrainz5::CAttribute::Clone()
 	return new CAttribute(*this);
 }
 
-bool MusicBrainz5::CAttribute::ParseAttribute(const std::string& Name, const std::string& /*Value*/)
+void MusicBrainz5::CAttribute::ParseAttribute(const std::string& Name, const std::string& /*Value*/)
 {
-	bool RetVal=true;
-
 	std::cerr << "Unrecognised attribute attribute: '" << Name << "'" << std::endl;
-	RetVal=false;
-
-	return RetVal;
 }
 
-bool MusicBrainz5::CAttribute::ParseElement(const XMLNode& Node)
+void MusicBrainz5::CAttribute::ParseElement(const XMLNode& Node)
 {
-	bool RetVal=true;
-
 	std::string NodeName=Node.getName();
 
 	std::cerr << "Unrecognised attribute element: '" << NodeName << "'" << std::endl;
-	RetVal=false;
-
-	return RetVal;
 }
 
 std::string MusicBrainz5::CAttribute::GetElementName()

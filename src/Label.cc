@@ -188,10 +188,8 @@ MusicBrainz5::CLabel *MusicBrainz5::CLabel::Clone()
 	return new CLabel(*this);
 }
 
-bool MusicBrainz5::CLabel::ParseAttribute(const std::string& Name, const std::string& Value)
+void MusicBrainz5::CLabel::ParseAttribute(const std::string& Name, const std::string& Value)
 {
-	bool RetVal=true;
-
 	if ("id"==Name)
 		m_d->m_ID=Value;
 	else if ("type"==Name)
@@ -199,29 +197,24 @@ bool MusicBrainz5::CLabel::ParseAttribute(const std::string& Name, const std::st
 	else
 	{
 		std::cerr << "Unrecognised label attribute: '" << Name << "'" << std::endl;
-		RetVal=false;
 	}
-
-	return RetVal;
 }
 
-bool MusicBrainz5::CLabel::ParseElement(const XMLNode& Node)
+void MusicBrainz5::CLabel::ParseElement(const XMLNode& Node)
 {
-	bool RetVal=true;
-
 	std::string NodeName=Node.getName();
 
 	if ("name"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_Name);
+		ProcessItem(Node,m_d->m_Name);
 	}
 	else if ("sort-name"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_SortName);
+		ProcessItem(Node,m_d->m_SortName);
 	}
 	else if ("label-code"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_LabelCode);
+		ProcessItem(Node,m_d->m_LabelCode);
 	}
 	else if ("ipi"==NodeName)
 	{
@@ -229,55 +222,52 @@ bool MusicBrainz5::CLabel::ParseElement(const XMLNode& Node)
 	}
 	else if ("ipi-list"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_IPIList);
+		ProcessItem(Node,m_d->m_IPIList);
 	}
 	else if ("disambiguation"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_Disambiguation);
+		ProcessItem(Node,m_d->m_Disambiguation);
 	}
 	else if ("country"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_Country);
+		ProcessItem(Node,m_d->m_Country);
 	}
 	else if ("life-span"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_Lifespan);
+		ProcessItem(Node,m_d->m_Lifespan);
 	}
 	else if ("alias-list"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_AliasList);
+		ProcessItem(Node,m_d->m_AliasList);
 	}
 	else if ("release-list"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_ReleaseList);
+		ProcessItem(Node,m_d->m_ReleaseList);
 	}
 	else if ("relation-list"==NodeName)
 	{
-		RetVal=ProcessRelationList(Node,m_d->m_RelationListList);
+		ProcessRelationList(Node,m_d->m_RelationListList);
 	}
 	else if ("tag-list"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_TagList);
+		ProcessItem(Node,m_d->m_TagList);
 	}
 	else if ("user-tag-list"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_UserTagList);
+		ProcessItem(Node,m_d->m_UserTagList);
 	}
 	else if ("rating"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_Rating);
+		ProcessItem(Node,m_d->m_Rating);
 	}
 	else if ("user-rating"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_UserRating);
+		ProcessItem(Node,m_d->m_UserRating);
 	}
 	else
 	{
 		std::cerr << "Unrecognised label element: '" << NodeName << "'" << std::endl;
-		RetVal=false;
 	}
-
-	return RetVal;
 }
 
 std::string MusicBrainz5::CLabel::GetElementName()

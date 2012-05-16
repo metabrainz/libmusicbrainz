@@ -81,27 +81,23 @@ MusicBrainz5::CMediumList *MusicBrainz5::CMediumList::Clone()
 	return new CMediumList(*this);
 }
 
-bool MusicBrainz5::CMediumList::ParseAttribute(const std::string& Name, const std::string& Value)
+void MusicBrainz5::CMediumList::ParseAttribute(const std::string& Name, const std::string& Value)
 {
-	return CListImpl<CMedium>::ParseAttribute(Name,Value);
+	CListImpl<CMedium>::ParseAttribute(Name,Value);
 }
 
-bool MusicBrainz5::CMediumList::ParseElement(const XMLNode& Node)
+void MusicBrainz5::CMediumList::ParseElement(const XMLNode& Node)
 {
-	bool RetVal=true;
-
 	std::string NodeName=Node.getName();
 
 	if ("track-count"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_TrackCount);
+		ProcessItem(Node,m_d->m_TrackCount);
 	}
 	else
 	{
-		RetVal=CListImpl<CMedium>::ParseElement(Node);
+		CListImpl<CMedium>::ParseElement(Node);
 	}
-
-	return RetVal;
 }
 
 std::string MusicBrainz5::CMediumList::GetElementName()

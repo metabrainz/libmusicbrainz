@@ -95,37 +95,27 @@ MusicBrainz5::CLabelInfo *MusicBrainz5::CLabelInfo::Clone()
 	return new CLabelInfo(*this);
 }
 
-bool MusicBrainz5::CLabelInfo::ParseAttribute(const std::string& Name, const std::string& /*Value*/)
+void MusicBrainz5::CLabelInfo::ParseAttribute(const std::string& Name, const std::string& /*Value*/)
 {
-	bool RetVal=true;
-
 	std::cerr << "Unrecognised labelinfo attribute: '" << Name << "'" << std::endl;
-	RetVal=false;
-
-	return RetVal;
 }
 
-bool MusicBrainz5::CLabelInfo::ParseElement(const XMLNode& Node)
+void MusicBrainz5::CLabelInfo::ParseElement(const XMLNode& Node)
 {
-	bool RetVal=true;
-
 	std::string NodeName=Node.getName();
 
 	if ("catalog-number"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_CatalogNumber);
+		ProcessItem(Node,m_d->m_CatalogNumber);
 	}
 	else if ("label"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_Label);
+		ProcessItem(Node,m_d->m_Label);
 	}
 	else
 	{
 		std::cerr << "Unrecognised label info element: '" << NodeName << "'" << std::endl;
-		RetVal=false;
 	}
-
-	return RetVal;
 }
 
 std::string MusicBrainz5::CLabelInfo::GetElementName()

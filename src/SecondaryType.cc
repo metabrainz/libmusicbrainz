@@ -90,26 +90,16 @@ MusicBrainz5::CSecondaryType *MusicBrainz5::CSecondaryType::Clone()
 	return new CSecondaryType(*this);
 }
 
-bool MusicBrainz5::CSecondaryType::ParseAttribute(const std::string& Name, const std::string& /*Value*/)
+void MusicBrainz5::CSecondaryType::ParseAttribute(const std::string& Name, const std::string& /*Value*/)
 {
-	bool RetVal=true;
-
 	std::cerr << "Unrecognised secondary type attribute: '" << Name << "'" << std::endl;
-	RetVal=false;
-
-	return RetVal;
 }
 
-bool MusicBrainz5::CSecondaryType::ParseElement(const XMLNode& Node)
+void MusicBrainz5::CSecondaryType::ParseElement(const XMLNode& Node)
 {
-	bool RetVal=true;
-
 	std::string NodeName=Node.getName();
 
 	std::cerr << "Unrecognised secondary type element: '" << NodeName << "'" << std::endl;
-	RetVal=false;
-
-	return RetVal;
 }
 
 std::string MusicBrainz5::CSecondaryType::GetElementName()

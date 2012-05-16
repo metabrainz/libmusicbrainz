@@ -74,31 +74,21 @@ MusicBrainz5::CMessage *MusicBrainz5::CMessage::Clone()
 	return new CMessage(*this);
 }
 
-bool MusicBrainz5::CMessage::ParseAttribute(const std::string& Name, const std::string& /*Value*/)
+void MusicBrainz5::CMessage::ParseAttribute(const std::string& Name, const std::string& /*Value*/)
 {
-	bool RetVal=true;
-
 	std::cerr << "Unrecognised message attribute: '" << Name << "'" << std::endl;
-	RetVal=false;
-
-	return RetVal;
 }
 
-bool MusicBrainz5::CMessage::ParseElement(const XMLNode& Node)
+void MusicBrainz5::CMessage::ParseElement(const XMLNode& Node)
 {
-	bool RetVal=true;
-
 	std::string NodeName=Node.getName();
 
 	if (NodeName=="text")
-		RetVal=ProcessItem(Node,m_d->m_Text);
+		ProcessItem(Node,m_d->m_Text);
 	else
 	{
 		std::cerr << "Unrecognised message element: '" << NodeName << "'" << std::endl;
-		RetVal=false;
 	}
-
-	return RetVal;
 }
 
 std::string MusicBrainz5::CMessage::GetElementName()

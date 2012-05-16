@@ -104,54 +104,44 @@ MusicBrainz5::CCDStub *MusicBrainz5::CCDStub::Clone()
 	return new CCDStub(*this);
 }
 
-bool MusicBrainz5::CCDStub::ParseAttribute(const std::string& Name, const std::string& Value)
+void MusicBrainz5::CCDStub::ParseAttribute(const std::string& Name, const std::string& Value)
 {
-	bool RetVal=true;
-
 	if ("id"==Name)
 		m_d->m_ID=Value;
 	else
 	{
 		std::cerr << "Unrecognised cdstub attribute: '" << Name << "'" << std::endl;
-		RetVal=false;
 	}
-
-	return RetVal;
 }
 
-bool MusicBrainz5::CCDStub::ParseElement(const XMLNode& Node)
+void MusicBrainz5::CCDStub::ParseElement(const XMLNode& Node)
 {
-	bool RetVal=true;
-
 	std::string NodeName=Node.getName();
 
 	if ("title"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_Title);
+		ProcessItem(Node,m_d->m_Title);
 	}
 	else if ("artist"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_Artist);
+		ProcessItem(Node,m_d->m_Artist);
 	}
 	else if ("barcode"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_Barcode);
+		ProcessItem(Node,m_d->m_Barcode);
 	}
 	else if ("comment"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_Comment);
+		ProcessItem(Node,m_d->m_Comment);
 	}
 	else if ("track-list"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_NonMBTrackList);
+		ProcessItem(Node,m_d->m_NonMBTrackList);
 	}
 	else
 	{
 		std::cerr << "Unrecognised cd stub element: '" << NodeName << "'" << std::endl;
-		RetVal=false;
 	}
-
-	return RetVal;
 }
 
 std::string MusicBrainz5::CCDStub::GetElementName()

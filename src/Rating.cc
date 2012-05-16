@@ -87,33 +87,23 @@ MusicBrainz5::CRating *MusicBrainz5::CRating::Clone()
 	return new CRating(*this);
 }
 
-bool MusicBrainz5::CRating::ParseAttribute(const std::string& Name, const std::string& Value)
+void MusicBrainz5::CRating::ParseAttribute(const std::string& Name, const std::string& Value)
 {
-	bool RetVal=true;
-
 	if ("votes-count"==Name)
 	{
-		RetVal=ProcessItem(Value,m_d->m_VotesCount);
+		ProcessItem(Value,m_d->m_VotesCount);
 	}
 	else
 	{
 		std::cerr << "Unrecognised rating attribute: '" << Name << "'" << std::endl;
-		RetVal=false;
 	}
-
-	return RetVal;
 }
 
-bool MusicBrainz5::CRating::ParseElement(const XMLNode& Node)
+void MusicBrainz5::CRating::ParseElement(const XMLNode& Node)
 {
-	bool RetVal=true;
-
 	std::string NodeName=Node.getName();
 
 	std::cerr << "Unrecognised rating attribute: '" << NodeName << "'" << std::endl;
-	RetVal=false;
-
-	return RetVal;
 }
 
 std::string MusicBrainz5::CRating::GetElementName()

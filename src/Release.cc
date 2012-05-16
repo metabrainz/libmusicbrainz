@@ -173,98 +173,88 @@ MusicBrainz5::CRelease *MusicBrainz5::CRelease::Clone()
 	return new CRelease(*this);
 }
 
-bool MusicBrainz5::CRelease::ParseAttribute(const std::string& Name, const std::string& Value)
+void MusicBrainz5::CRelease::ParseAttribute(const std::string& Name, const std::string& Value)
 {
-	bool RetVal=true;
-
 	if ("id"==Name)
 		m_d->m_ID=Value;
 	else
 	{
 		std::cerr << "Unrecognised release attribute: '" << Name << "'" << std::endl;
-		RetVal=false;
 	}
-
-	return RetVal;
 }
 
-bool MusicBrainz5::CRelease::ParseElement(const XMLNode& Node)
+void MusicBrainz5::CRelease::ParseElement(const XMLNode& Node)
 {
-	bool RetVal=true;
-
 	std::string NodeName=Node.getName();
 
 	if ("title"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_Title);
+		ProcessItem(Node,m_d->m_Title);
 	}
 	else if ("status"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_Status);
+		ProcessItem(Node,m_d->m_Status);
 	}
 	else if ("quality"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_Quality);
+		ProcessItem(Node,m_d->m_Quality);
 	}
 	else if ("disambiguation"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_Disambiguation);
+		ProcessItem(Node,m_d->m_Disambiguation);
 	}
 	else if ("packaging"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_Packaging);
+		ProcessItem(Node,m_d->m_Packaging);
 	}
 	else if ("text-representation"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_TextRepresentation);
+		ProcessItem(Node,m_d->m_TextRepresentation);
 	}
 	else if ("artist-credit"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_ArtistCredit);
+		ProcessItem(Node,m_d->m_ArtistCredit);
 	}
 	else if ("release-group"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_ReleaseGroup);
+		ProcessItem(Node,m_d->m_ReleaseGroup);
 	}
 	else if ("date"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_Date);
+		ProcessItem(Node,m_d->m_Date);
 	}
 	else if ("country"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_Country);
+		ProcessItem(Node,m_d->m_Country);
 	}
 	else if ("barcode"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_Barcode);
+		ProcessItem(Node,m_d->m_Barcode);
 	}
 	else if ("asin"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_ASIN);
+		ProcessItem(Node,m_d->m_ASIN);
 	}
 	else if ("label-info-list"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_LabelInfoList);
+		ProcessItem(Node,m_d->m_LabelInfoList);
 	}
 	else if ("medium-list"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_MediumList);
+		ProcessItem(Node,m_d->m_MediumList);
 	}
 	else if ("relation-list"==NodeName)
 	{
-		RetVal=ProcessRelationList(Node,m_d->m_RelationListList);
+		ProcessRelationList(Node,m_d->m_RelationListList);
 	}
 	else if ("collection-list"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_CollectionList);
+		ProcessItem(Node,m_d->m_CollectionList);
 	}
 	else
 	{
 		std::cerr << "Unrecognised release element: '" << NodeName << "'" << std::endl;
-		RetVal=false;
 	}
-
-	return RetVal;
 }
 
 std::string MusicBrainz5::CRelease::GetElementName()

@@ -225,10 +225,8 @@ MusicBrainz5::CArtist *MusicBrainz5::CArtist::Clone()
 	return new CArtist(*this);
 }
 
-bool MusicBrainz5::CArtist::ParseAttribute(const std::string& Name, const std::string& Value)
+void MusicBrainz5::CArtist::ParseAttribute(const std::string& Name, const std::string& Value)
 {
-	bool RetVal=true;
-
 	if ("id"==Name)
 		m_d->m_ID=Value;
 	else if ("type"==Name)
@@ -237,35 +235,31 @@ bool MusicBrainz5::CArtist::ParseAttribute(const std::string& Name, const std::s
 	{
 		std::cerr << "Unrecognised artist attribute: '" << Name << "'" << std::endl;
 	}
-
-	return RetVal;
 }
 
-bool MusicBrainz5::CArtist::ParseElement(const XMLNode& Node)
+void MusicBrainz5::CArtist::ParseElement(const XMLNode& Node)
 {
-	bool RetVal=true;
-
 	std::string NodeName=Node.getName();
 
 	if ("name"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_Name);
+		ProcessItem(Node,m_d->m_Name);
 	}
 	else if ("sort-name"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_SortName);
+		ProcessItem(Node,m_d->m_SortName);
 	}
 	else if ("gender"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_Gender);
+		ProcessItem(Node,m_d->m_Gender);
 	}
 	else if ("country"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_Country);
+		ProcessItem(Node,m_d->m_Country);
 	}
 	else if ("disambiguation"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_Disambiguation);
+		ProcessItem(Node,m_d->m_Disambiguation);
 	}
 	else if ("ipi"==NodeName)
 	{
@@ -273,63 +267,60 @@ bool MusicBrainz5::CArtist::ParseElement(const XMLNode& Node)
 	}
 	else if ("ipi-list"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_IPIList);
+		ProcessItem(Node,m_d->m_IPIList);
 	}
 	else if ("life-span"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_Lifespan);
+		ProcessItem(Node,m_d->m_Lifespan);
 	}
 	else if ("alias-list"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_AliasList);
+		ProcessItem(Node,m_d->m_AliasList);
 	}
 	else if ("recording-list"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_RecordingList);
+		ProcessItem(Node,m_d->m_RecordingList);
 	}
 	else if ("release-list"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_ReleaseList);
+		ProcessItem(Node,m_d->m_ReleaseList);
 	}
 	else if ("release-group-list"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_ReleaseGroupList);
+		ProcessItem(Node,m_d->m_ReleaseGroupList);
 	}
 	else if ("label-list"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_LabelList);
+		ProcessItem(Node,m_d->m_LabelList);
 	}
 	else if ("work-list"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_WorkList);
+		ProcessItem(Node,m_d->m_WorkList);
 	}
 	else if ("relation-list"==NodeName)
 	{
-		RetVal=ProcessRelationList(Node,m_d->m_RelationListList);
+		ProcessRelationList(Node,m_d->m_RelationListList);
 	}
 	else if ("tag-list"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_TagList);
+		ProcessItem(Node,m_d->m_TagList);
 	}
 	else if ("user-tag-list"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_UserTagList);
+		ProcessItem(Node,m_d->m_UserTagList);
 	}
 	else if ("rating"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_Rating);
+		ProcessItem(Node,m_d->m_Rating);
 	}
 	else if ("user-rating"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_UserRating);
+		ProcessItem(Node,m_d->m_UserRating);
 	}
 	else
 	{
 		std::cerr << "Unrecognised artist element: '" << NodeName << "'" << std::endl;
-		RetVal=false;
 	}
-
-	return RetVal;
 }
 
 std::string MusicBrainz5::CArtist::GetElementName()

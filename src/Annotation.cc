@@ -80,46 +80,36 @@ MusicBrainz5::CAnnotation *MusicBrainz5::CAnnotation::Clone()
 	return new CAnnotation(*this);
 }
 
-bool MusicBrainz5::CAnnotation::ParseAttribute(const std::string& Name, const std::string& Value)
+void MusicBrainz5::CAnnotation::ParseAttribute(const std::string& Name, const std::string& Value)
 {
-	bool RetVal=true;
-
 	if ("type"==Name)
 		m_d->m_Type=Value;
 	else
 	{
 		std::cerr << "Unrecognised annotation attribute: '" << Name << "'" << std::endl;
-		RetVal=false;
 	}
-
-	return RetVal;
 }
 
-bool MusicBrainz5::CAnnotation::ParseElement(const XMLNode& Node)
+void MusicBrainz5::CAnnotation::ParseElement(const XMLNode& Node)
 {
-	bool RetVal=true;
-
 	std::string NodeName=Node.getName();
 
 	if ("entity"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_Entity);
+		ProcessItem(Node,m_d->m_Entity);
 	}
 	else if ("name"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_Name);
+		ProcessItem(Node,m_d->m_Name);
 	}
 	else if ("text"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_Text);
+		ProcessItem(Node,m_d->m_Text);
 	}
 	else
 	{
 		std::cerr << "Unrecognised annotation element: '" << NodeName << "'" << std::endl;
-		RetVal=false;
 	}
-
-	return RetVal;
 }
 
 std::string MusicBrainz5::CAnnotation::GetElementName()

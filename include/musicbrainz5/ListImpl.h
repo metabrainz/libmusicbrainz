@@ -101,26 +101,20 @@ namespace MusicBrainz5
 		}
 
 	protected:
-		bool ParseElement(const XMLNode& Node)
+		void ParseElement(const XMLNode& Node)
 		{
-			bool RetVal=true;
-
 			std::string NodeName=Node.getName();
 
 			if (T::GetElementName()==NodeName)
 			{
 				T *Item=0;
 
-				RetVal=ProcessItem(Node,Item);
-				if (RetVal)
-					AddItem(Item);
+				ProcessItem(Node,Item);
+				AddItem(Item);
 			}
 			else
-				RetVal=CList::ParseElement(Node);
-
-			return RetVal;
+				CList::ParseElement(Node);
 		}
-
 	};
 }
 

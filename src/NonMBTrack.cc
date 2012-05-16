@@ -83,41 +83,31 @@ MusicBrainz5::CNonMBTrack *MusicBrainz5::CNonMBTrack::Clone()
 	return new CNonMBTrack(*this);
 }
 
-bool MusicBrainz5::CNonMBTrack::ParseAttribute(const std::string& Name, const std::string& /*Value*/)
+void MusicBrainz5::CNonMBTrack::ParseAttribute(const std::string& Name, const std::string& /*Value*/)
 {
-	bool RetVal=true;
-
 	std::cerr << "Unrecognised non MB track attribute: '" << Name << "'" << std::endl;
-	RetVal=false;
-
-	return RetVal;
 }
 
-bool MusicBrainz5::CNonMBTrack::ParseElement(const XMLNode& Node)
+void MusicBrainz5::CNonMBTrack::ParseElement(const XMLNode& Node)
 {
-	bool RetVal=true;
-
 	std::string NodeName=Node.getName();
 
 	if ("title"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_Title);
+		ProcessItem(Node,m_d->m_Title);
 	}
 	else if ("artist"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_Artist);
+		ProcessItem(Node,m_d->m_Artist);
 	}
 	else if ("length"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_Length);
+		ProcessItem(Node,m_d->m_Length);
 	}
 	else
 	{
 		std::cerr << "Unrecognised non MB track element: '" << NodeName << "'" << std::endl;
-		RetVal=false;
 	}
-
-	return RetVal;
 }
 
 std::string MusicBrainz5::CNonMBTrack::GetElementName()

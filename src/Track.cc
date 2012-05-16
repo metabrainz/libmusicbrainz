@@ -114,53 +114,43 @@ MusicBrainz5::CTrack *MusicBrainz5::CTrack::Clone()
 	return new CTrack(*this);
 }
 
-bool MusicBrainz5::CTrack::ParseAttribute(const std::string& Name, const std::string& /*Value*/)
+void MusicBrainz5::CTrack::ParseAttribute(const std::string& Name, const std::string& /*Value*/)
 {
-	bool RetVal=true;
-
 	std::cerr << "Unrecognised track attribute: '" << Name << "'" << std::endl;
-	RetVal=false;
-
-	return RetVal;
 }
 
-bool MusicBrainz5::CTrack::ParseElement(const XMLNode& Node)
+void MusicBrainz5::CTrack::ParseElement(const XMLNode& Node)
 {
-	bool RetVal=true;
-
 	std::string NodeName=Node.getName();
 
 	if ("position"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_Position);
+		ProcessItem(Node,m_d->m_Position);
 	}
 	else if ("title"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_Title);
+		ProcessItem(Node,m_d->m_Title);
 	}
 	else if ("recording"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_Recording);
+		ProcessItem(Node,m_d->m_Recording);
 	}
 	else if ("length"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_Length);
+		ProcessItem(Node,m_d->m_Length);
 	}
 	else if ("artist-credit"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_ArtistCredit);
+		ProcessItem(Node,m_d->m_ArtistCredit);
 	}
 	else if ("number"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_Number);
+		ProcessItem(Node,m_d->m_Number);
 	}
 	else
 	{
 		std::cerr << "Unrecognised track element: '" << NodeName << "'" << std::endl;
-		RetVal=false;
 	}
-
-	return RetVal;
 }
 
 std::string MusicBrainz5::CTrack::GetElementName()

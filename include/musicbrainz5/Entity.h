@@ -48,7 +48,7 @@ namespace MusicBrainz5
 
 		virtual CEntity *Clone()=0;
 
-		bool Parse(const XMLNode& Node);
+		void Parse(const XMLNode& Node);
 
 		std::map<std::string,std::string> ExtAttributes() const;
 		std::map<std::string,std::string> ExtElements() const;
@@ -57,21 +57,17 @@ namespace MusicBrainz5
 		static std::string GetElementName();
 
 	protected:
-		bool ProcessRelationList(const XMLNode& Node, CRelationListList* & RetVal);
+		void ProcessRelationList(const XMLNode& Node, CRelationListList* & RetVal);
 
 		template<typename T>
-		bool ProcessItem(const XMLNode& Node, T* & RetVal)
+		void ProcessItem(const XMLNode& Node, T* & RetVal)
 		{
 			RetVal=new T(Node);
-
-			return true;
 		}
 
 		template<class T>
-		bool ProcessItem(const XMLNode& Node, T& RetVal)
+		void ProcessItem(const XMLNode& Node, T& RetVal)
 		{
-			bool Ret=true;
-
 			std::stringstream os;
 			if (Node.getText())
 				os << (const char *)Node.getText();
@@ -79,51 +75,39 @@ namespace MusicBrainz5
 			os >> RetVal;
 			if (os.fail())
 			{
-				Ret=false;
 				std::cerr << "Error parsing value '";
 				if (Node.getText())
 					std::cerr << Node.getText();
 				std::cerr << "'" << std::endl;
 			}
-
-			return Ret;
 		}
 
 		template<typename T>
-		bool ProcessItem(const std::string& Text, T& RetVal)
+		void ProcessItem(const std::string& Text, T& RetVal)
 		{
-			bool Ret=true;
-
 			std::stringstream os;
 			os << Text;
 
 			os >> RetVal;
 			if (os.fail())
 			{
-				Ret=false;
 				std::cerr << "Error parsing value '" << Text << "'" << std::endl;
 			}
-
-			return Ret;
 		}
 
-		bool ProcessItem(const XMLNode& Node, std::string& RetVal)
+		void ProcessItem(const XMLNode& Node, std::string& RetVal)
 		{
 			if (Node.getText())
 				RetVal=Node.getText();
-
-			return true;
-
 		}
 
-		virtual bool ParseAttribute(const std::string& Name, const std::string& Value)=0;
-		virtual bool ParseElement(const XMLNode& Node)=0;
+		virtual void ParseAttribute(const std::string& Name, const std::string& Value)=0;
+		virtual void ParseElement(const XMLNode& Node)=0;
 
 	private:
 		CEntityPrivate *m_d;
 
 		void Cleanup();
-
 	};
 }
 

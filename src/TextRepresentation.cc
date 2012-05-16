@@ -76,37 +76,27 @@ MusicBrainz5::CTextRepresentation *MusicBrainz5::CTextRepresentation::Clone()
 	return new CTextRepresentation(*this);
 }
 
-bool MusicBrainz5::CTextRepresentation::ParseAttribute(const std::string& Name, const std::string& /*Value*/)
+void MusicBrainz5::CTextRepresentation::ParseAttribute(const std::string& Name, const std::string& /*Value*/)
 {
-	bool RetVal=true;
-
 	std::cerr << "Unrecognised textrepresentation attribute: '" << Name << "'" << std::endl;
-	RetVal=false;
-
-	return RetVal;
 }
 
-bool MusicBrainz5::CTextRepresentation::ParseElement(const XMLNode& Node)
+void MusicBrainz5::CTextRepresentation::ParseElement(const XMLNode& Node)
 {
-	bool RetVal=true;
-
 	std::string NodeName=Node.getName();
 
 	if ("language"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_Language);
+		ProcessItem(Node,m_d->m_Language);
 	}
 	else if ("script"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_Script);
+		ProcessItem(Node,m_d->m_Script);
 	}
 	else
 	{
 		std::cerr << "Unrecognised textrepresentation element: '" << NodeName << "'" << std::endl;
-		RetVal=false;
 	}
-
-	return RetVal;
 }
 
 std::string MusicBrainz5::CTextRepresentation::GetElementName()

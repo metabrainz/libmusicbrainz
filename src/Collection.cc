@@ -99,45 +99,36 @@ MusicBrainz5::CCollection *MusicBrainz5::CCollection::Clone()
 	return new CCollection(*this);
 }
 
-bool MusicBrainz5::CCollection::ParseAttribute(const std::string& Name, const std::string& Value)
+void MusicBrainz5::CCollection::ParseAttribute(const std::string& Name, const std::string& Value)
 {
-	bool RetVal=true;
-
 	if ("id"==Name)
 		m_d->m_ID=Value;
 	else
 	{
 		std::cerr << "Unrecognised collection attribute: '" << Name << "'" << std::endl;
-		RetVal=false;
 	}
-
-	return RetVal;
 }
 
-bool MusicBrainz5::CCollection::ParseElement(const XMLNode& Node)
+void MusicBrainz5::CCollection::ParseElement(const XMLNode& Node)
 {
-	bool RetVal=true;
-
 	std::string NodeName=Node.getName();
 
 	if ("name"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_Name);
+		ProcessItem(Node,m_d->m_Name);
 	}
 	else if ("editor"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_Editor);
+		ProcessItem(Node,m_d->m_Editor);
 	}
 	else if ("release-list"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_ReleaseList);
+		ProcessItem(Node,m_d->m_ReleaseList);
 	}
 	else
 	{
 		std::cerr << "Unrecognised collection element: '" << NodeName << "'" << std::endl;
-		RetVal=false;
 	}
-	return RetVal;
 }
 
 std::string MusicBrainz5::CCollection::GetElementName()
