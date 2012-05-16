@@ -43,7 +43,10 @@ IF(WIN32)
 ENDIF(WIN32)
 
 IF(CMAKE_COMPILER_IS_GNUCXX)
-		SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Werror -Wextra -pedantic-errors")
+		SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -pedantic-errors")
+		IF(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/../.git)
+			SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Werror")
+		ENDIF(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/../.git)
 		set_source_files_properties(mb4_c.cc PROPERTIES COMPILE_FLAGS "-Wno-deprecated-declarations")
 ENDIF(CMAKE_COMPILER_IS_GNUCXX)
 

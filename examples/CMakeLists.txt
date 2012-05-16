@@ -8,10 +8,16 @@ ADD_EXECUTABLE(search_c search_c.c)
 ADD_EXECUTABLE(collections collections.cc)
 
 IF(CMAKE_COMPILER_IS_GNUCXX)
-		SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Werror -Wextra -pedantic-errors")
+		SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -pedantic-errors")
+		IF(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/../.git)
+			SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Werror")
+		ENDIF(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/../.git)
 ENDIF(CMAKE_COMPILER_IS_GNUCXX)
 
 IF(CMAKE_COMPILER_IS_GNUCC)
-		SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Werror -Wextra -pedantic-errors")
+		SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Wextra -pedantic-errors")
+		IF(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/../.git)
+			SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Werror")
+		ENDIF(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/../.git)
 ENDIF(CMAKE_COMPILER_IS_GNUCC)
 
