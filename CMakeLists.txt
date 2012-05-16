@@ -1,14 +1,14 @@
 cmake_minimum_required(VERSION 2.6)
 
 PROJECT(libmusicbrainz4)
-SET(PROJECT_VERSION 4.0.2)
+SET(PROJECT_VERSION 4.0.3)
 
 # 1. If the library source code has changed at all since the last update, then increment revision.
 # 2. If any interfaces have been added, removed, or changed since the last update, increment current, and set revision to 0.
 # 3. If any interfaces have been added since the last public release, then increment age.
 # 4. If any interfaces have been removed since the last public release, then set age to 0.
 SET(musicbrainz4_SOVERSION_CURRENT  5)
-SET(musicbrainz4_SOVERSION_REVISION 0)
+SET(musicbrainz4_SOVERSION_REVISION 1)
 SET(musicbrainz4_SOVERSION_AGE      2)
 
 MATH(EXPR musicbrainz4_SOVERSION_MAJOR "${musicbrainz4_SOVERSION_CURRENT} - ${musicbrainz4_SOVERSION_AGE}")
