@@ -74,33 +74,23 @@ MusicBrainz4::CUserTag *MusicBrainz4::CUserTag::Clone()
 	return new CUserTag(*this);
 }
 
-bool MusicBrainz4::CUserTag::ParseAttribute(const std::string& Name, const std::string& /*Value*/)
+void MusicBrainz4::CUserTag::ParseAttribute(const std::string& Name, const std::string& /*Value*/)
 {
-	bool RetVal=true;
-
 	std::cerr << "Unrecognised usertag attribute: '" << Name << "'" << std::endl;
-	RetVal=false;
-
-	return RetVal;
 }
 
-bool MusicBrainz4::CUserTag::ParseElement(const XMLNode& Node)
+void MusicBrainz4::CUserTag::ParseElement(const XMLNode& Node)
 {
-	bool RetVal=true;
-
 	std::string NodeName=Node.getName();
 
 	if ("name"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_Name);
+		ProcessItem(Node,m_d->m_Name);
 	}
 	else
 	{
 		std::cerr << "Unrecognised UserTag element: '" << NodeName << "'" << std::endl;
-		RetVal=false;
 	}
-
-	return RetVal;
 }
 
 std::string MusicBrainz4::CUserTag::GetElementName()

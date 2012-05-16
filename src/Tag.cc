@@ -81,40 +81,30 @@ MusicBrainz4::CTag *MusicBrainz4::CTag::Clone()
 	return new CTag(*this);
 }
 
-bool MusicBrainz4::CTag::ParseAttribute(const std::string& Name, const std::string& Value)
+void MusicBrainz4::CTag::ParseAttribute(const std::string& Name, const std::string& Value)
 {
-	bool RetVal=true;
-
 	if ("count"==Name)
 	{
-		RetVal=ProcessItem(Value,m_d->m_Count);
+		ProcessItem(Value,m_d->m_Count);
 	}
 	else
 	{
 		std::cerr << "Unrecognised tag attribute: '" << Name << "'" << std::endl;
-		RetVal=false;
 	}
-
-	return RetVal;
 }
 
-bool MusicBrainz4::CTag::ParseElement(const XMLNode& Node)
+void MusicBrainz4::CTag::ParseElement(const XMLNode& Node)
 {
-	bool RetVal=true;
-
 	std::string NodeName=Node.getName();
 
 	if ("name"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_Name);
+		ProcessItem(Node,m_d->m_Name);
 	}
 	else
 	{
 		std::cerr << "Unrecognised tag element: '" << NodeName << "'" << std::endl;
-		RetVal=false;
 	}
-
-	return RetVal;
 }
 
 std::string MusicBrainz4::CTag::GetElementName()

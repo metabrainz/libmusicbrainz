@@ -89,10 +89,8 @@ MusicBrainz4::CAlias *MusicBrainz4::CAlias::Clone()
 	return new CAlias(*this);
 }
 
-bool MusicBrainz4::CAlias::ParseAttribute(const std::string& Name, const std::string& Value)
+void MusicBrainz4::CAlias::ParseAttribute(const std::string& Name, const std::string& Value)
 {
-	bool RetVal=true;
-
 	if ("locale"==Name)
 		m_d->m_Locale=Value;
 	else if ("sort-name"==Name)
@@ -108,22 +106,13 @@ bool MusicBrainz4::CAlias::ParseAttribute(const std::string& Name, const std::st
 	else
 	{
 		std::cerr << "Unrecognised alias attribute: '" << Name << "'" << std::endl;
-		RetVal=false;
 	}
-
-	return RetVal;
-
 }
 
-bool MusicBrainz4::CAlias::ParseElement(const XMLNode& Node)
+void MusicBrainz4::CAlias::ParseElement(const XMLNode& Node)
 {
-	bool RetVal=true;
-
 	std::string NodeName=Node.getName();
 	std::cerr << "Unrecognised alias element: '" << NodeName << std::endl;
-	RetVal=false;
-
-	return RetVal;
 }
 
 std::string MusicBrainz4::CAlias::GetElementName()

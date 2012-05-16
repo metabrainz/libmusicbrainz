@@ -349,10 +349,8 @@ MusicBrainz4::CMetadata *MusicBrainz4::CMetadata::Clone()
 	return new CMetadata(*this);
 }
 
-bool MusicBrainz4::CMetadata::ParseAttribute(const std::string& Name, const std::string& Value)
+void MusicBrainz4::CMetadata::ParseAttribute(const std::string& Name, const std::string& Value)
 {
-	bool RetVal=true;
-
 	if ("xmlns"==Name)
 		m_d->m_XMLNS=Value;
 	else if ("xmlns:ext"==Name)
@@ -364,133 +362,125 @@ bool MusicBrainz4::CMetadata::ParseAttribute(const std::string& Name, const std:
 	else
 	{
 		std::cerr << "Unrecognised metadata attribute: '" << Name << "'" << std::endl;
-		RetVal=false;
 	}
-
-	return RetVal;
 }
 
-bool MusicBrainz4::CMetadata::ParseElement(const XMLNode& Node)
+void MusicBrainz4::CMetadata::ParseElement(const XMLNode& Node)
 {
-	bool RetVal=true;
-
 	std::string NodeName=Node.getName();
 
 	if ("artist"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_Artist);
+		ProcessItem(Node,m_d->m_Artist);
 	}
 	else if ("release"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_Release);
+		ProcessItem(Node,m_d->m_Release);
 	}
 	else if ("release-group"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_ReleaseGroup);
+		ProcessItem(Node,m_d->m_ReleaseGroup);
 	}
 	else if ("recording"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_Recording);
+		ProcessItem(Node,m_d->m_Recording);
 	}
 	else if ("label"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_Label);
+		ProcessItem(Node,m_d->m_Label);
 	}
 	else if ("work"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_Work);
+		ProcessItem(Node,m_d->m_Work);
 	}
 	else if ("puid"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_PUID);
+		ProcessItem(Node,m_d->m_PUID);
 	}
 	else if ("isrc"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_ISRC);
+		ProcessItem(Node,m_d->m_ISRC);
 	}
 	else if ("disc"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_Disc);
+		ProcessItem(Node,m_d->m_Disc);
 	}
 	else if ("rating"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_Rating);
+		ProcessItem(Node,m_d->m_Rating);
 	}
 	else if ("user-rating"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_UserRating);
+		ProcessItem(Node,m_d->m_UserRating);
 	}
 	else if ("collection"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_Collection);
+		ProcessItem(Node,m_d->m_Collection);
 	}
 	else if ("artist-list"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_ArtistList);
+		ProcessItem(Node,m_d->m_ArtistList);
 	}
 	else if ("release-list"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_ReleaseList);
+		ProcessItem(Node,m_d->m_ReleaseList);
 	}
 	else if ("release-group-list"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_ReleaseGroupList);
+		ProcessItem(Node,m_d->m_ReleaseGroupList);
 	}
 	else if ("recording-list"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_RecordingList);
+		ProcessItem(Node,m_d->m_RecordingList);
 	}
 	else if ("label-list"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_LabelList);
+		ProcessItem(Node,m_d->m_LabelList);
 	}
 	else if ("work-list"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_WorkList);
+		ProcessItem(Node,m_d->m_WorkList);
 	}
 	else if ("isrc-list"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_ISRCList);
+		ProcessItem(Node,m_d->m_ISRCList);
 	}
 	else if ("annotation-list"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_AnnotationList);
+		ProcessItem(Node,m_d->m_AnnotationList);
 	}
 	else if ("cdstub-list"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_CDStubList);
+		ProcessItem(Node,m_d->m_CDStubList);
 	}
 	else if ("freedb-disc-list"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_FreeDBDiscList);
+		ProcessItem(Node,m_d->m_FreeDBDiscList);
 	}
 	else if ("tag-list"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_TagList);
+		ProcessItem(Node,m_d->m_TagList);
 	}
 	else if ("user-tag-list"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_UserTagList);
+		ProcessItem(Node,m_d->m_UserTagList);
 	}
 	else if ("collection-list"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_CollectionList);
+		ProcessItem(Node,m_d->m_CollectionList);
 	}
 	else if ("cdstub"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_CDStub);
+		ProcessItem(Node,m_d->m_CDStub);
 	}
 	else if ("message"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_Message);
+		ProcessItem(Node,m_d->m_Message);
 	}
 	else
 	{
 		std::cerr << "Unrecognised metadata element: '" << NodeName << "'" << std::endl;
-		RetVal=false;
 	}
-
-	return RetVal;
 }
 
 std::string MusicBrainz4::CMetadata::GetElementName()

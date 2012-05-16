@@ -97,43 +97,32 @@ MusicBrainz4::CNameCredit *MusicBrainz4::CNameCredit::Clone()
 	return new CNameCredit(*this);
 }
 
-bool MusicBrainz4::CNameCredit::ParseAttribute(const std::string& Name, const std::string& Value)
+void MusicBrainz4::CNameCredit::ParseAttribute(const std::string& Name, const std::string& Value)
 {
-	bool RetVal=true;
-
 	if ("joinphrase"==Name)
 		m_d->m_JoinPhrase=Value;
 	else
 	{
 		std::cerr << "Unrecognised namecredit attribute: '" << Name << "'" << std::endl;
-		RetVal=false;
 	}
-
-	return RetVal;
 }
 
-bool MusicBrainz4::CNameCredit::ParseElement(const XMLNode& Node)
+void MusicBrainz4::CNameCredit::ParseElement(const XMLNode& Node)
 {
-	bool RetVal=true;
-
-
 	std::string NodeName=Node.getName();
 
 	if ("name"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_Name);
+		ProcessItem(Node,m_d->m_Name);
 	}
 	else if ("artist"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_Artist);
+		ProcessItem(Node,m_d->m_Artist);
 	}
 	else
 	{
 		std::cerr << "Unrecognised name credit element: '" << NodeName << "'" << std::endl;
-		RetVal=false;
 	}
-
-	return RetVal;
 }
 
 std::string MusicBrainz4::CNameCredit::GetElementName()

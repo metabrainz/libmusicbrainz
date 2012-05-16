@@ -76,21 +76,17 @@ MusicBrainz4::CRelationList *MusicBrainz4::CRelationList::Clone()
 	return new CRelationList(*this);
 }
 
-bool MusicBrainz4::CRelationList::ParseAttribute(const std::string& Name, const std::string& Value)
+void MusicBrainz4::CRelationList::ParseAttribute(const std::string& Name, const std::string& Value)
 {
-	bool RetVal=true;
-
 	if ("target-type"==Name)
-		RetVal=ProcessItem(Value,m_d->m_TargetType);
+		ProcessItem(Value,m_d->m_TargetType);
 	else
-		RetVal=CListImpl<CRelation>::ParseAttribute(Name,Value);
-
-	return RetVal;
+		CListImpl<CRelation>::ParseAttribute(Name,Value);
 }
 
-bool MusicBrainz4::CRelationList::ParseElement(const XMLNode& Node)
+void MusicBrainz4::CRelationList::ParseElement(const XMLNode& Node)
 {
-	return CListImpl<CRelation>::ParseElement(Node);
+	CListImpl<CRelation>::ParseElement(Node);
 }
 
 std::string MusicBrainz4::CRelationList::GetElementName()

@@ -99,42 +99,32 @@ MusicBrainz4::CDisc *MusicBrainz4::CDisc::Clone()
 	return new CDisc(*this);
 }
 
-bool MusicBrainz4::CDisc::ParseAttribute(const std::string& Name, const std::string& Value)
+void MusicBrainz4::CDisc::ParseAttribute(const std::string& Name, const std::string& Value)
 {
-	bool RetVal=true;
-
 	if ("id"==Name)
-		RetVal=ProcessItem(Value,m_d->m_ID);
+		ProcessItem(Value,m_d->m_ID);
 	else
 	{
 		std::cerr << "Unrecognised disc attribute: '" << Name << "'" << std::endl;
-		RetVal=false;
 	}
-
-	return RetVal;
 }
 
-bool MusicBrainz4::CDisc::ParseElement(const XMLNode& Node)
+void MusicBrainz4::CDisc::ParseElement(const XMLNode& Node)
 {
-	bool RetVal=true;
-
 	std::string NodeName=Node.getName();
 
 	if ("sectors"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_Sectors);
+		ProcessItem(Node,m_d->m_Sectors);
 	}
 	else if ("release-list"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_ReleaseList);
+		ProcessItem(Node,m_d->m_ReleaseList);
 	}
 	else
 	{
 		std::cerr << "Unrecognised disc element: '" << NodeName << "'" << std::endl;
-		RetVal=false;
 	}
-
-	return RetVal;
 }
 
 std::string MusicBrainz4::CDisc::GetElementName()

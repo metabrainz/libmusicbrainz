@@ -76,10 +76,8 @@ void MusicBrainz4::CEntity::Cleanup()
 {
 }
 
-bool MusicBrainz4::CEntity::Parse(const XMLNode& Node)
+void MusicBrainz4::CEntity::Parse(const XMLNode& Node)
 {
-	bool RetVal=true;
-
 	if (!Node.isEmpty())
 	{
 		for (int count=0;count<Node.nAttribute();count++)
@@ -88,11 +86,9 @@ bool MusicBrainz4::CEntity::Parse(const XMLNode& Node)
 			std::string Value=Node.getAttributeValue(count);
 
 			if ("ext:"==Name.substr(0,4))
-			{
 				m_d->m_ExtAttributes[Name.substr(4)]=Value;
-			}
 			else
-				RetVal=RetVal && ParseAttribute(Name,Value);
+				ParseAttribute(Name,Value);
 		}
 
 		//std::cout << "Node: " << std::endl << Node.createXMLString(true) << std::endl;
@@ -107,15 +103,11 @@ bool MusicBrainz4::CEntity::Parse(const XMLNode& Node)
 				Value=ChildNode.getText();
 
 			if ("ext:"==Name.substr(0,4))
-			{
 				m_d->m_ExtElements[Name.substr(4)]=Value;
-			}
 			else
-				RetVal=RetVal && ParseElement(ChildNode);
+				ParseElement(ChildNode);
 		}
 	}
-
-	return RetVal;
 }
 
 std::map<std::string,std::string> MusicBrainz4::CEntity::ExtAttributes() const
@@ -128,7 +120,7 @@ std::map<std::string,std::string> MusicBrainz4::CEntity::ExtElements() const
 	return m_d->m_ExtElements;
 }
 
-bool MusicBrainz4::CEntity::ProcessRelationList(const XMLNode& Node, CRelationListList* & RetVal)
+void MusicBrainz4::CEntity::ProcessRelationList(const XMLNode& Node, CRelationListList* & RetVal)
 {
 	if (0==RetVal)
 		RetVal=new CRelationListList;
@@ -137,9 +129,8 @@ bool MusicBrainz4::CEntity::ProcessRelationList(const XMLNode& Node, CRelationLi
 	ProcessItem(Node,RelationList);
 	RetVal->Add(RelationList);
 	delete RelationList;
-
-	return true;
 }
+
 std::ostream& MusicBrainz4::CEntity::Serialise(std::ostream& os) const
 {
 	if (!ExtAttributes().empty())

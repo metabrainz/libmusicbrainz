@@ -84,26 +84,16 @@ MusicBrainz4::CUserRating *MusicBrainz4::CUserRating::Clone()
 	return new CUserRating(*this);
 }
 
-bool MusicBrainz4::CUserRating::ParseAttribute(const std::string& Name, const std::string& /*Value*/)
+void MusicBrainz4::CUserRating::ParseAttribute(const std::string& Name, const std::string& /*Value*/)
 {
-	bool RetVal=true;
-
 	std::cerr << "Unrecognised userrating attribute: '" << Name << "'" << std::endl;
-	RetVal=false;
-
-	return RetVal;
 }
 
-bool MusicBrainz4::CUserRating::ParseElement(const XMLNode& Node)
+void MusicBrainz4::CUserRating::ParseElement(const XMLNode& Node)
 {
-	bool RetVal=true;
-
 	std::string Name=Node.getName();
 
 	std::cerr << "Unrecognised userrating element: '" << Name << "'" << std::endl;
-	RetVal=false;
-
-	return RetVal;
 }
 
 std::string MusicBrainz4::CUserRating::GetElementName()

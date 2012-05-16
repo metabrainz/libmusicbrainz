@@ -111,49 +111,39 @@ MusicBrainz4::CMedium *MusicBrainz4::CMedium::Clone()
 	return new CMedium(*this);
 }
 
-bool MusicBrainz4::CMedium::ParseAttribute(const std::string& Name, const std::string& /*Value*/)
+void MusicBrainz4::CMedium::ParseAttribute(const std::string& Name, const std::string& /*Value*/)
 {
-	bool RetVal=true;
-
 	std::cerr << "Unrecognised medium attribute: '" << Name << "'" << std::endl;
-	RetVal=false;
-
-	return RetVal;
 }
 
-bool MusicBrainz4::CMedium::ParseElement(const XMLNode& Node)
+void MusicBrainz4::CMedium::ParseElement(const XMLNode& Node)
 {
-	bool RetVal=true;
-
 	std::string NodeName=Node.getName();
 
 	if ("title"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_Title);
+		ProcessItem(Node,m_d->m_Title);
 	}
 	else if ("position"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_Position);
+		ProcessItem(Node,m_d->m_Position);
 	}
 	else if ("format"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_Format);
+		ProcessItem(Node,m_d->m_Format);
 	}
 	else if ("disc-list"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_DiscList);
+		ProcessItem(Node,m_d->m_DiscList);
 	}
 	else if ("track-list"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_TrackList);
+		ProcessItem(Node,m_d->m_TrackList);
 	}
 	else
 	{
 		std::cerr << "Unrecognised medium element: '" << NodeName << "'" << std::endl;
-		RetVal=false;
 	}
-
-	return RetVal;
 }
 
 std::string MusicBrainz4::CMedium::GetElementName()

@@ -89,26 +89,16 @@ MusicBrainz4::CISWC *MusicBrainz4::CISWC::Clone()
 	return new CISWC(*this);
 }
 
-bool MusicBrainz4::CISWC::ParseAttribute(const std::string& Name, const std::string& /*Value*/)
+void MusicBrainz4::CISWC::ParseAttribute(const std::string& Name, const std::string& /*Value*/)
 {
-	bool RetVal=true;
-
 	std::cerr << "Unrecognised ISWC attribute: '" << Name << "'" << std::endl;
-	RetVal=false;
-
-	return RetVal;
 }
 
-bool MusicBrainz4::CISWC::ParseElement(const XMLNode& Node)
+void MusicBrainz4::CISWC::ParseElement(const XMLNode& Node)
 {
-	bool RetVal=true;
-
 	std::string NodeName=Node.getName();
 
 	std::cerr << "Unrecognised ISWC element: '" << NodeName << "'" << std::endl;
-	RetVal=false;
-
-	return RetVal;
 }
 
 std::string MusicBrainz4::CISWC::GetElementName()

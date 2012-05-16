@@ -76,20 +76,14 @@ MusicBrainz4::CSecondaryTypeList *MusicBrainz4::CSecondaryTypeList::Clone()
 	return new CSecondaryTypeList(*this);
 }
 
-bool MusicBrainz4::CSecondaryTypeList::ParseAttribute(const std::string& Name, const std::string& Value)
+void MusicBrainz4::CSecondaryTypeList::ParseAttribute(const std::string& Name, const std::string& Value)
 {
-	return CListImpl<CSecondaryType>::ParseAttribute(Name,Value);
+	CListImpl<CSecondaryType>::ParseAttribute(Name,Value);
 }
 
-bool MusicBrainz4::CSecondaryTypeList::ParseElement(const XMLNode& Node)
+void MusicBrainz4::CSecondaryTypeList::ParseElement(const XMLNode& Node)
 {
-	bool RetVal=true;
-
-	std::string NodeName=Node.getName();
-
-	RetVal=CListImpl<CSecondaryType>::ParseElement(Node);
-
-	return RetVal;
+	CListImpl<CSecondaryType>::ParseElement(Node);
 }
 
 std::string MusicBrainz4::CSecondaryTypeList::GetElementName()

@@ -83,26 +83,16 @@ MusicBrainz4::CIPI *MusicBrainz4::CIPI::Clone()
 	return new CIPI(*this);
 }
 
-bool MusicBrainz4::CIPI::ParseAttribute(const std::string& Name, const std::string& /*Value*/)
+void MusicBrainz4::CIPI::ParseAttribute(const std::string& Name, const std::string& /*Value*/)
 {
-	bool RetVal=true;
-
 	std::cerr << "Unrecognised IPI attribute: '" << Name << "'" << std::endl;
-	RetVal=false;
-
-	return RetVal;
 }
 
-bool MusicBrainz4::CIPI::ParseElement(const XMLNode& Node)
+void MusicBrainz4::CIPI::ParseElement(const XMLNode& Node)
 {
-	bool RetVal=true;
-
 	std::string Name=Node.getName();
 
 	std::cerr << "Unrecognised IPI element: '" << Name << "'" << std::endl;
-	RetVal=false;
-
-	return RetVal;
 }
 
 std::string MusicBrainz4::CIPI::GetElementName()

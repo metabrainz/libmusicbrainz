@@ -104,55 +104,44 @@ MusicBrainz4::CFreeDBDisc *MusicBrainz4::CFreeDBDisc::Clone()
 	return new CFreeDBDisc(*this);
 }
 
-bool MusicBrainz4::CFreeDBDisc::ParseAttribute(const std::string& Name, const std::string& Value)
+void MusicBrainz4::CFreeDBDisc::ParseAttribute(const std::string& Name, const std::string& Value)
 {
-	bool RetVal=true;
-
-
 	if ("id"==Name)
 		m_d->m_ID=Value;
 	else
 	{
 		std::cerr << "Unrecognised freedb disc attribute: '" << Name << "'" << std::endl;
-		RetVal=false;
 	}
-
-	return RetVal;
 }
 
-bool MusicBrainz4::CFreeDBDisc::ParseElement(const XMLNode& Node)
+void MusicBrainz4::CFreeDBDisc::ParseElement(const XMLNode& Node)
 {
-	bool RetVal=true;
-
 	std::string NodeName=Node.getName();
 
 	if ("title"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_Title);
+		ProcessItem(Node,m_d->m_Title);
 	}
 	else if ("artist"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_Artist);
+		ProcessItem(Node,m_d->m_Artist);
 	}
 	else if ("category"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_Category);
+		ProcessItem(Node,m_d->m_Category);
 	}
 	else if ("year"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_Year);
+		ProcessItem(Node,m_d->m_Year);
 	}
 	else if ("nonmb-track-list"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_NonMBTrackList);
+		ProcessItem(Node,m_d->m_NonMBTrackList);
 	}
 	else
 	{
 		std::cerr << "Unrecognised freedb disc element: '" << NodeName << "'" << std::endl;
-		RetVal=false;
 	}
-
-	return RetVal;
 }
 
 std::string MusicBrainz4::CFreeDBDisc::GetElementName()

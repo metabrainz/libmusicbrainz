@@ -76,20 +76,14 @@ MusicBrainz4::CISWCList *MusicBrainz4::CISWCList::Clone()
 	return new CISWCList(*this);
 }
 
-bool MusicBrainz4::CISWCList::ParseAttribute(const std::string& Name, const std::string& Value)
+void MusicBrainz4::CISWCList::ParseAttribute(const std::string& Name, const std::string& Value)
 {
-	return CListImpl<CISWC>::ParseAttribute(Name,Value);
+	CListImpl<CISWC>::ParseAttribute(Name,Value);
 }
 
-bool MusicBrainz4::CISWCList::ParseElement(const XMLNode& Node)
+void MusicBrainz4::CISWCList::ParseElement(const XMLNode& Node)
 {
-	bool RetVal=true;
-
-	std::string NodeName=Node.getName();
-
-	RetVal=CListImpl<CISWC>::ParseElement(Node);
-
-	return RetVal;
+	CListImpl<CISWC>::ParseElement(Node);
 }
 
 std::string MusicBrainz4::CISWCList::GetElementName()

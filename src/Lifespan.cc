@@ -78,41 +78,31 @@ MusicBrainz4::CLifespan *MusicBrainz4::CLifespan::Clone()
 	return new CLifespan(*this);
 }
 
-bool MusicBrainz4::CLifespan::ParseAttribute(const std::string& Name, const std::string& /*Value*/)
+void MusicBrainz4::CLifespan::ParseAttribute(const std::string& Name, const std::string& /*Value*/)
 {
-	bool RetVal=true;
-
 	std::cerr << "Unrecognised lifespan attribute: '" << Name << "'" << std::endl;
-	RetVal=false;
-
-	return RetVal;
 }
 
-bool MusicBrainz4::CLifespan::ParseElement(const XMLNode& Node)
+void MusicBrainz4::CLifespan::ParseElement(const XMLNode& Node)
 {
-	bool RetVal=true;
-
 	std::string NodeName=Node.getName();
 
 	if ("begin"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_Begin);
+		ProcessItem(Node,m_d->m_Begin);
 	}
 	else if ("end"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_End);
+		ProcessItem(Node,m_d->m_End);
 	}
 	else if ("ended"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_Ended);
+		ProcessItem(Node,m_d->m_Ended);
 	}
 	else
 	{
 		std::cerr << "Unrecognised lifespan element: '" << NodeName << "'" << std::endl;
-		RetVal=false;
 	}
-
-	return RetVal;
 }
 
 std::string MusicBrainz4::CLifespan::GetElementName()

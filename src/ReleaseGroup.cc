@@ -174,10 +174,8 @@ MusicBrainz4::CReleaseGroup *MusicBrainz4::CReleaseGroup::Clone()
 	return new CReleaseGroup(*this);
 }
 
-bool MusicBrainz4::CReleaseGroup::ParseAttribute(const std::string& Name, const std::string& Value)
+void MusicBrainz4::CReleaseGroup::ParseAttribute(const std::string& Name, const std::string& Value)
 {
-	bool RetVal=true;
-
 	if ("id"==Name)
 		m_d->m_ID=Value;
 	else if ("type"==Name)
@@ -185,73 +183,65 @@ bool MusicBrainz4::CReleaseGroup::ParseAttribute(const std::string& Name, const 
 	else
 	{
 		std::cerr << "Unrecognised releasegroup attribute: '" << Name << "'" << std::endl;
-		RetVal=false;
 	}
-
-	return RetVal;
 }
 
-bool MusicBrainz4::CReleaseGroup::ParseElement(const XMLNode& Node)
+void MusicBrainz4::CReleaseGroup::ParseElement(const XMLNode& Node)
 {
-	bool RetVal=true;
-
 	std::string NodeName=Node.getName();
 
 	if ("primary-type"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_PrimaryType);
+		ProcessItem(Node,m_d->m_PrimaryType);
 	}
 	else if ("title"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_Title);
+		ProcessItem(Node,m_d->m_Title);
 	}
 	else if ("disambiguation"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_Disambiguation);
+		ProcessItem(Node,m_d->m_Disambiguation);
 	}
 	else if ("first-release-date"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_FirstReleaseDate);
+		ProcessItem(Node,m_d->m_FirstReleaseDate);
 	}
 	else if ("artist-credit"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_ArtistCredit);
+		ProcessItem(Node,m_d->m_ArtistCredit);
 	}
 	else if ("release-list"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_ReleaseList);
+		ProcessItem(Node,m_d->m_ReleaseList);
 	}
 	else if ("relation-list"==NodeName)
 	{
-		RetVal=ProcessRelationList(Node,m_d->m_RelationListList);
+		ProcessRelationList(Node,m_d->m_RelationListList);
 	}
 	else if ("tag-list"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_TagList);
+		ProcessItem(Node,m_d->m_TagList);
 	}
 	else if ("user-tag-list"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_UserTagList);
+		ProcessItem(Node,m_d->m_UserTagList);
 	}
 	else if ("rating"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_Rating);
+		ProcessItem(Node,m_d->m_Rating);
 	}
 	else if ("user-rating"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_UserRating);
+		ProcessItem(Node,m_d->m_UserRating);
 	}
 	else if ("secondary-type-list"==NodeName)
 	{
-		RetVal=ProcessItem(Node,m_d->m_SecondaryTypeList);
+		ProcessItem(Node,m_d->m_SecondaryTypeList);
 	}
 	else
 	{
 		std::cerr << "Unrecognised release group element: '" << NodeName << "'" << std::endl;
-		RetVal=false;
 	}
-
-	return RetVal;
 }
 
 std::string MusicBrainz4::CReleaseGroup::GetElementName()

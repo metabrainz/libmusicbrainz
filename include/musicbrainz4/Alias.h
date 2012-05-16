@@ -58,8 +58,8 @@ namespace MusicBrainz4
 		static std::string GetElementName();
 
 	protected:
-		virtual bool ParseAttribute(const std::string& Name, const std::string& Value);
-		virtual bool ParseElement(const XMLNode& Node);
+		virtual void ParseAttribute(const std::string& Name, const std::string& Value);
+		virtual void ParseElement(const XMLNode& Node);
 
 	private:
 		CAliasPrivate * const m_d;
