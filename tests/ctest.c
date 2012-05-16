@@ -814,4 +814,5 @@ void CompileTest()
 	DummyDouble=DummyDouble;
 	DummyBool=DummyBool;
 	DummyResult=DummyResult;
+	SecondaryType=SecondaryType;
 }
