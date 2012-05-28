@@ -532,6 +532,7 @@ void CompileTest()
 	AttributeList=mb5_relation_get_attributelist(Relation);
 	mb5_relation_get_begin(Relation,Str,Size);
 	mb5_relation_get_end(Relation,Str,Size);
+	mb5_relation_get_ended(Relation,Str,Size);
 	Artist=mb5_relation_get_artist(Relation);
 	Release=mb5_relation_get_release(Relation);
 	ReleaseGroup=mb5_relation_get_releasegroup(Relation);

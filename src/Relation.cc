@@ -56,6 +56,7 @@ class MusicBrainz5::CRelationPrivate
 		CAttributeList *m_AttributeList;
 		std::string m_Begin;
 		std::string m_End;
+		std::string m_Ended;
 		CArtist *m_Artist;
 		CRelease *m_Release;
 		CReleaseGroup *m_ReleaseGroup;
@@ -100,6 +101,7 @@ MusicBrainz5::CRelation& MusicBrainz5::CRelation::operator =(const CRelation& Ot
 
 		m_d->m_Begin=Other.m_d->m_Begin;
 		m_d->m_End=Other.m_d->m_End;
+		m_d->m_Ended=Other.m_d->m_Ended;
 
 		if (Other.m_d->m_Artist)
 			m_d->m_Artist=new CArtist(*Other.m_d->m_Artist);
@@ -193,6 +195,10 @@ void MusicBrainz5::CRelation::ParseElement(const XMLNode& Node)
 	{
 		ProcessItem(Node,m_d->m_End);
 	}
+	else if ("ended"==NodeName)
+	{
+		ProcessItem(Node,m_d->m_Ended);
+	}
 	else if ("artist"==NodeName)
 	{
 		ProcessItem(Node,m_d->m_Artist);
@@ -258,6 +264,11 @@ std::string MusicBrainz5::CRelation::End() const
 	return m_d->m_End;
 }
 
+std::string MusicBrainz5::CRelation::Ended() const
+{
+	return m_d->m_Ended;
+}
+
 MusicBrainz5::CArtist *MusicBrainz5::CRelation::Artist() const
 {
 	return m_d->m_Artist;
@@ -303,6 +314,7 @@ std::ostream& MusicBrainz5::CRelation::Serialise(std::ostream& os) const
 
 	os << "\tBegin:     " << Begin() << std::endl;
 	os << "\tEnd:       " << End() << std::endl;
+	os << "\tEnded:     " << Ended() << std::endl;
 
 	if (Artist())
 		os << *Artist() << std::endl;

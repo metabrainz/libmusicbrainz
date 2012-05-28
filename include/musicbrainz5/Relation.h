@@ -60,6 +60,7 @@ namespace MusicBrainz5
 		CAttributeList *AttributeList() const;
 		std::string Begin() const;
 		std::string End() const;
+		std::string Ended() const;
 		CArtist *Artist() const;
 		CRelease *Release() const;
 		CReleaseGroup *ReleaseGroup() const;
