@@ -547,6 +547,7 @@ void CompileTest()
 	AttributeList=mb4_relation_get_attributelist(Relation);
 	mb4_relation_get_begin(Relation,Str,Size);
 	mb4_relation_get_end(Relation,Str,Size);
+	mb4_relation_get_ended(Relation,Str,Size);
 	Artist=mb4_relation_get_artist(Relation);
 	Release=mb4_relation_get_release(Relation);
 	ReleaseGroup=mb4_relation_get_releasegroup(Relation);
