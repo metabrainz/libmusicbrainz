@@ -333,30 +333,30 @@ std::ostream& MusicBrainz4::CWork::Serialise(std::ostream& os) const
 	os << "\tTitle:          " << Title() << std::endl;
 
 	if (ArtistCredit())
-		os << ArtistCredit() << std::endl;
+		os << *ArtistCredit() << std::endl;
 
 	if (ISWCList())
-		os << ISWCList() << std::endl;
+		os << *ISWCList() << std::endl;
 
 	os << "\tDisambiguation: " << Disambiguation() << std::endl;
 
 	if (AliasList())
-		os << AliasList() << std::endl;
+		os << *AliasList() << std::endl;
 
 	if (RelationListList())
-		os << RelationListList() << std::endl;
+		os << *RelationListList() << std::endl;
 
 	if (TagList())
-		os << TagList() << std::endl;
+		os << *TagList() << std::endl;
 
 	if (UserTagList())
-		os << UserTagList() << std::endl;
+		os << *UserTagList() << std::endl;
 
 	if (Rating())
-		os << Rating() << std::endl;
+		os << *Rating() << std::endl;
 
 	if (UserRating())
-		os << UserRating() << std::endl;
+		os << *UserRating() << std::endl;
 
 	os << "\tLanguage:       " << Language() << std::endl;
 

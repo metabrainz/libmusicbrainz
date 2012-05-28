@@ -310,7 +310,7 @@ std::ostream& MusicBrainz4::CRelation::Serialise(std::ostream& os) const
 	os << "\tDirection: " << Direction() << std::endl;
 
 	if (AttributeList())
-		os << AttributeList() << std::endl;
+		os << *AttributeList() << std::endl;
 
 	os << "\tBegin:     " << Begin() << std::endl;
 	os << "\tEnd:       " << End() << std::endl;
