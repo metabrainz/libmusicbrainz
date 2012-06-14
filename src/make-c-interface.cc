@@ -33,7 +33,7 @@
 
 #include "musicbrainz4/xmlParser.h"
 
-void ProcessBoilerplate(const XMLNode& Node, std::ofstream& Source, std::ofstream& Include);
+void ProcessBoilerplate(const XMLNode& Node, std::ofstream& Source, std::ofstream& Include, const std::string& Path);
 void ProcessHeader(const XMLNode& Node, std::ofstream& Source, std::ofstream& Include);
 void ProcessEntity(const XMLNode& Node, std::ofstream& Source, std::ofstream& Include);
 void ProcessClass(const XMLNode& Node, std::ofstream& Source, std::ofstream& Include);
@@ -80,7 +80,7 @@ int main(int argc, const char *argv[])
 				std::string Name=Node.getName();
 
 				if ("boilerplate"==Name)
-					ProcessBoilerplate(Node,Source,Include);
+					ProcessBoilerplate(Node,Source,Include,argv[1]);
 				else if ("header"==Name)
 					ProcessHeader(Node,Source,Include);
 				else if ("declare"==Name)
@@ -156,13 +156,13 @@ void ProcessHeader(const XMLNode& /*Node*/, std::ofstream& Source, std::ofstream
 	Include << os.str() << std::endl;
 }
 
-void ProcessBoilerplate(const XMLNode& Node, std::ofstream& Source, std::ofstream& Include)
+void ProcessBoilerplate(const XMLNode& Node, std::ofstream& Source, std::ofstream& Include, const std::string& Path)
 {
 	std::ofstream *File=GetFile(Node,Source,Include);
 
 	if (Node.isAttributeSet("file"))
 	{
-		std::string FileName=Node.getAttribute("file");
+		std::string FileName=Path+"/"+Node.getAttribute("file");
 		std::ifstream InFile(FileName.c_str());
 		if (InFile.is_open())
 			*File << InFile.rdbuf() << std::endl;
