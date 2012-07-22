@@ -39,4 +39,28 @@
 
 #endif
 
+
+#ifdef _MSC_VER
+#	pragma warning (disable : 4251) 
 #endif
+
+#if (defined(_WIN32) || defined(_WIN64))
+#	ifdef MB_API_EXPORTS
+#		define MB_API __declspec(dllexport)
+#	else
+#		define MB_API __declspec(dllimport)
+#	endif
+#else
+#	ifdef GCC_HASCLASSVISIBILITY
+#		define MB_API __attribute__ ((visibility("default")))
+#	else
+#		define MB_API
+#	endif
+#endif
+
+
+
+#endif
+
+
+

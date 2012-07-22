@@ -32,12 +32,13 @@
 
 #include "musicbrainz5/xmlParser.h"
 
+#include "musicbrainz5/ISWC.h"
+
 namespace MusicBrainz5
 {
-	class CISWC;
 	class CISWCListPrivate;
 
-	class CISWCList: public CListImpl<CISWC>
+	class MB_API CISWCList: public CListImpl<CISWC>
 	{
 	public:
 		CISWCList(const XMLNode& Node=XMLNode::emptyNode());

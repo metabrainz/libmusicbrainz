@@ -38,7 +38,7 @@ namespace MusicBrainz5
 
 	class CArtist;
 
-	class CNameCredit: public CEntity
+	class MB_API CNameCredit: public CEntity
 	{
 	public:
 		CNameCredit(const XMLNode& Node=XMLNode::emptyNode());

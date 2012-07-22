@@ -28,6 +28,8 @@
 #include <string>
 #include <iostream>
 
+#include "musicbrainz5/defines.h"
+
 #include "musicbrainz5/Entity.h"
 
 #include "musicbrainz5/xmlParser.h"
@@ -36,7 +38,7 @@ namespace MusicBrainz5
 {
 	class CAliasPrivate;
 
-	class CAlias: public CEntity
+	class MB_API CAlias: public CEntity
 	{
 	public:
 		CAlias(const XMLNode& Node);

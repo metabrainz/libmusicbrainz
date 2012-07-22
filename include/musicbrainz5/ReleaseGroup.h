@@ -46,7 +46,7 @@ namespace MusicBrainz5
 	class CUserRating;
 	class CSecondaryType;
 
-	class CReleaseGroup: public CEntity
+	class MB_API CReleaseGroup: public CEntity
 	{
 	public:
 		CReleaseGroup(const XMLNode& Node=XMLNode::emptyNode());

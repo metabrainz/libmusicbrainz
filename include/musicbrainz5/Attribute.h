@@ -36,7 +36,7 @@ namespace MusicBrainz5
 {
 	class CAttributePrivate;
 
-	class CAttribute: public CEntity
+	class MB_API CAttribute: public CEntity
 	{
 	public:
 		CAttribute(const XMLNode& Node=XMLNode::emptyNode());

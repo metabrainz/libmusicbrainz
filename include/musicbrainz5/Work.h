@@ -45,7 +45,7 @@ namespace MusicBrainz5
 	class CRating;
 	class CUserRating;
 
-	class CWork: public CEntity
+	class MB_API CWork: public CEntity
 	{
 	public:
 		CWork(const XMLNode& Node=XMLNode::emptyNode());

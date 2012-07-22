@@ -36,7 +36,7 @@ namespace MusicBrainz5
 {
 	class CTextRepresentationPrivate;
 
-	class CTextRepresentation: public CEntity
+	MB_API class CTextRepresentation: public CEntity
 	{
 	public:
 		CTextRepresentation(const XMLNode& Node=XMLNode::emptyNode());

@@ -46,7 +46,7 @@ namespace MusicBrainz5
 	class CRating;
 	class CUserRating;
 
-	class CLabel: public CEntity
+	class MB_API CLabel: public CEntity
 	{
 	public:
 		CLabel(const XMLNode& Node=XMLNode::emptyNode());

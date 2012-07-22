@@ -35,7 +35,7 @@ namespace MusicBrainz5
 
 	class CRelationList;
 
-	class CRelationListList
+	class MB_API CRelationListList
 	{
 	public:
 		CRelationListList();

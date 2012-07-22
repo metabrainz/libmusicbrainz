@@ -36,7 +36,7 @@ namespace MusicBrainz5
 {
 	class CUserTagPrivate;
 
-	class CUserTag: public CEntity
+	class MB_API CUserTag: public CEntity
 	{
 	public:
 		CUserTag(const XMLNode& Node);

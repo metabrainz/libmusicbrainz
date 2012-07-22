@@ -45,7 +45,7 @@ namespace MusicBrainz5
 	class CReleaseGroup;
 	class CMedium;
 
-	class CRelease: public CEntity
+	class MB_API CRelease: public CEntity
 	{
 	public:
 		CRelease(const XMLNode& Node=XMLNode::emptyNode());

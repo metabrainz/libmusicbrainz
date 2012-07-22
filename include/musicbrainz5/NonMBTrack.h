@@ -36,7 +36,7 @@ namespace MusicBrainz5
 {
 	class CNonMBTrackPrivate;
 
-	class CNonMBTrack: public CEntity
+	class MB_API CNonMBTrack: public CEntity
 	{
 	public:
 		CNonMBTrack(const XMLNode& Node);

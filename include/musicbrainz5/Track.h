@@ -39,7 +39,7 @@ namespace MusicBrainz5
 	class CRecording;
 	class CArtistCredit;
 
-	class CTrack: public CEntity
+	class MB_API CTrack: public CEntity
 	{
 	public:
 		CTrack(const XMLNode& Node=XMLNode::emptyNode());

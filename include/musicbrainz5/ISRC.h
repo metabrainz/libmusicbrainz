@@ -34,7 +34,7 @@ namespace MusicBrainz5
 {
 	class CISRCPrivate;
 
-	class CISRC: public CEntity
+	class MB_API CISRC: public CEntity
 	{
 	public:
 		CISRC(const XMLNode& Node=XMLNode::emptyNode());

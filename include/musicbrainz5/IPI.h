@@ -36,7 +36,7 @@ namespace MusicBrainz5
 {
 	class CIPIPrivate;
 
-	class CIPI: public CEntity
+	class MB_API CIPI: public CEntity
 	{
 	public:
 		CIPI(const XMLNode& Node=XMLNode::emptyNode());

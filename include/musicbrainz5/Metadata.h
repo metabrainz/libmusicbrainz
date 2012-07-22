@@ -65,7 +65,7 @@ namespace MusicBrainz5
 	class CCDStub;
 	class CMessage;
 
-	class CMetadata: public CEntity
+	class MB_API CMetadata: public CEntity
 	{
 	public:
 		CMetadata(const XMLNode& Node=XMLNode::emptyNode());

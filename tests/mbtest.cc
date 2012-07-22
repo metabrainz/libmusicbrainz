@@ -24,7 +24,9 @@
 
 #include <iostream>
 
-#include <strings.h>
+#ifndef _MSC_VER
+	#include <strings.h>
+#endif
 
 #include "musicbrainz5/Query.h"
 #include "musicbrainz5/Release.h"
