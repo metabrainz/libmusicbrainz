@@ -30,4 +30,4 @@
  *
  * @return 1 if DiscID found, 0 otherwise
  */
-	unsigned char mb5_medium_contains_discid(Mb5Medium Medium, const char *DiscID);
+	MB_API unsigned char mb5_medium_contains_discid(Mb5Medium Medium, const char *DiscID);

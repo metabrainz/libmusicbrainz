@@ -35,7 +35,7 @@
  *				finished with.
  */
 
-	Mb5Query mb5_query_new(const char *UserAgent, const char *Server, int Port);
+	MB_API Mb5Query mb5_query_new(const char *UserAgent, const char *Server, int Port);
 
 /**
  * Set the username for authenticating to MusicBrainz
@@ -45,7 +45,7 @@
  * @param Query #Mb5Query object
  * @param UserName Username to use
  */
-	void mb5_query_set_username(Mb5Query Query, const char *UserName);
+	MB_API void mb5_query_set_username(Mb5Query Query, const char *UserName);
 
 /**
  * Set the password for authenticating to MusicBrainz
@@ -55,7 +55,7 @@
  * @param Query #Mb5Query object
  * @param Password Password to use
  */
-	void mb5_query_set_password(Mb5Query Query, const char *Password);
+	MB_API void mb5_query_set_password(Mb5Query Query, const char *Password);
 
 /**
  * Set the proxy server
@@ -65,7 +65,7 @@
  * @param Query #Mb5Query object
  * @param ProxyHost Proxy server to use
  */
-	void mb5_query_set_proxyhost(Mb5Query Query, const char *ProxyHost);
+	MB_API void mb5_query_set_proxyhost(Mb5Query Query, const char *ProxyHost);
 
 /**
  *	Set the port to use on the proxy server
@@ -75,7 +75,7 @@
  * @param Query #Mb5Query object
  * @param ProxyPort Port to use on proxy server
  */
-	void mb5_query_set_proxyport(Mb5Query Query, int ProxyPort);
+	MB_API void mb5_query_set_proxyport(Mb5Query Query, int ProxyPort);
 
 /**
  *	Set the username to use to authenticate to the proxy server
@@ -85,7 +85,7 @@
  * @param Query #Mb5Query object
  * @param	ProxyUserName User name to use
  */
-	void mb5_query_set_proxyusername(Mb5Query Query, const char *ProxyUserName);
+	MB_API void mb5_query_set_proxyusername(Mb5Query Query, const char *ProxyUserName);
 
 /**
  * Set the password to use to authenticate to the proxy server
@@ -95,7 +95,7 @@
  * @param Query #Mb5Query object
  * @param ProxyPassword Password to use
  */
-	void mb5_query_set_proxypassword(Mb5Query Query, const char *ProxyPassword);
+	MB_API void mb5_query_set_proxypassword(Mb5Query Query, const char *ProxyPassword);
 
 /**
  *	Return a list of releases that match the specified Disc ID
@@ -108,7 +108,7 @@
  * @return A #Mb5ReleaseList object. This object <b>must</b> be deleted once
  *				finished with.
  */
-	Mb5ReleaseList mb5_query_lookup_discid(Mb5Query Query, const char *DiscID);
+	MB_API Mb5ReleaseList mb5_query_lookup_discid(Mb5Query Query, const char *DiscID);
 
 /**
  * Return full information about a specific release
@@ -121,7 +121,7 @@
  * @return A #Mb5Release object. This object <b>must</b> be deleted once
  *				finished with.
  */
-	Mb5Release mb5_query_lookup_release(Mb5Query Query, const char *Release);
+	MB_API Mb5Release mb5_query_lookup_release(Mb5Query Query, const char *Release);
 
 /**
  *	Perform a generic query
@@ -139,7 +139,7 @@
  * @return A #Mb5Metadata object. This object <b>must</b> be deleted once
  *				finished with.
  */
-	Mb5Metadata mb5_query_query(Mb5Query Query, const char *Entity, const char *ID, const char *Resource, int NumParams, char **ParamNames, char **ParamValues);
+	MB_API Mb5Metadata mb5_query_query(Mb5Query Query, const char *Entity, const char *ID, const char *Resource, int NumParams, char **ParamNames, char **ParamValues);
 
 /**
  *	Add a list of releases to a collection
@@ -153,7 +153,7 @@
  *
  * @return 0 on failure, 1 on success
  */
-	unsigned char mb5_query_add_collection_entries(Mb5Query Query, const char *Collection, int NumEntries, const char **Entries);
+	MB_API unsigned char mb5_query_add_collection_entries(Mb5Query Query, const char *Collection, int NumEntries, const char **Entries);
 
 /**
  *	Delete a list of releases from a collection
@@ -167,7 +167,7 @@
  *
  * @return 0 on failure, 1 on success
  */
-	unsigned char mb5_query_delete_collection_entries(Mb5Query Query, const char *Collection, int NumEntries, const char **Entries);
+	MB_API unsigned char mb5_query_delete_collection_entries(Mb5Query Query, const char *Collection, int NumEntries, const char **Entries);
 
 /**
  * @see MusicBrainz5::CQuery::tQueryResult
@@ -191,5 +191,5 @@
  *
  * @return Last query result code
  */
-	tQueryResult mb5_query_get_lastresult(Mb5Query Query);
+	MB_API tQueryResult mb5_query_get_lastresult(Mb5Query Query);
 
