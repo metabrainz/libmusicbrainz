@@ -52,7 +52,7 @@
 #	endif
 #else
 #	ifdef GCC_HASCLASSVISIBILITY
-#		define MB_API __attribute__ ((visibility("default")))
+#		define MB_API /*__attribute__ ((visibility("default")))*/
 #	else
 #		define MB_API
 #	endif
