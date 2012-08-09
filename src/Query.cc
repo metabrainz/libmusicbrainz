@@ -50,6 +50,9 @@
 #include "musicbrainz5/ReleaseList.h"
 #include "musicbrainz5/Release.h"
 
+
+const int MinTimeBetweenRequestsInSeconds = 2;
+
 class MusicBrainz5::CQueryPrivate
 {
 	public:
@@ -292,8 +295,7 @@ MusicBrainz5::CRelease MusicBrainz5::CQuery::LookupRelease(const std::string& Re
 		if (m_d->m_Server.find("musicbrainz.org")!=std::string::npos)
 		{
 			static struct timeval LastRequest;
-			const int TimeBetweenRequests=2;
-
+			
 			struct timeval TimeNow;
 			gettimeofday(&TimeNow,0);
 
@@ -306,9 +308,9 @@ MusicBrainz5::CRelease MusicBrainz5::CQuery::LookupRelease(const std::string& Re
 					gettimeofday(&TimeNow,0);
 					timersub(&TimeNow,&LastRequest,&Diff);
 
-					if (Diff.tv_sec<TimeBetweenRequests)
+					if (Diff.tv_sec < MinTimeBetweenRequestsInSeconds)
 						usleep(100000);
-				}	while (Diff.tv_sec<TimeBetweenRequests);
+				}	while (Diff.tv_sec < MinTimeBetweenRequestsInSeconds);
 			}
 
 			memcpy(&LastRequest,&TimeNow,sizeof(LastRequest));
@@ -320,7 +322,7 @@ MusicBrainz5::CRelease MusicBrainz5::CQuery::LookupRelease(const std::string& Re
 		if (m_d->m_Server.find("musicbrainz.org") != std::string::npos)
 		{
 			static DWORD LastRequest = 0;
-			const int TimeBetweenRequestsInMilliSeconds = 2000;
+			static const int MinTimeBetweenRequestsInMilliseconds = MinTimeBetweenRequestsInSeconds * 1000;
 			
 			DWORD TimeNow = timeGetTime();
 			if (LastRequest != 0)
@@ -332,9 +334,9 @@ MusicBrainz5::CRelease MusicBrainz5::CQuery::LookupRelease(const std::string& Re
 					TimeNow = timeGetTime();
 					Diff = TimeNow - LastRequest;
 
-					if (Diff < TimeBetweenRequestsInMilliSeconds)
+					if (Diff < MinTimeBetweenRequestsInMilliseconds)
 						Sleep(100);
-				}	while (Diff < TimeBetweenRequestsInMilliSeconds);
+				}	while (Diff < MinTimeBetweenRequestsInMilliseconds);
 			}
 
 			LastRequest = TimeNow;

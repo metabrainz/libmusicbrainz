@@ -26,6 +26,17 @@ you link in the C++ standard library:
 
     gcc -o test_app test_app.c -lmusicbrainz5 -lm -lstdc++
 
+	
+Generating the libmusicbrainz5 Visual Studio solution using CMake GUI
+---------------------
+1.) Point CMake at the libmusicbrainz source. Specify a build location and click Configure. Specify the appropriate generator.
+2.) CMake should complain that it cannot find Neon. Download it from http://www.webdav.org/neon/ and extract it.
+3.) In Visual Studio command prompt (not regular cmd.exe), navigate to the Neon extract folder and execute:
+	nmake /f neon.mak
+4.) In CMake, set NEON_INCLUDE_DIR to {neon_extract}\src and NEON_LIBRARIES to {neon_extract}\libneon.lib
+5.) Click Configure again and then Generate. This will have generated a VS solution for you which should build without issue.
+
+	
 Contact
 -------
 
