@@ -26,6 +26,33 @@ And to install the built library run (as root):
 
    make install
 
+Cross Compiling
+===============
+
+Cross compiling is a little more involved due to the automatic generation
+of the C interface source files. Your cross compilation environment will
+need appropriate headers and libraries for any dependencies.
+
+First set up a toolchain file as specified here:
+
+	http://www.cmake.org/Wiki/CMake_Cross_Compiling#The_toolchain_file
+
+Then build natively to generate the appropriate make-c-interface file
+
+mkdir build-native
+cd build-native
+cmake ..
+make
+
+Finally, cross compile, telling cmake where to find your toolchain and the
+make-c-interface binary:
+
+mkdir build-cross
+cd build-cross
+cmake -DCMAKE_TOOLCHAIN_FILE=~/powerpc-cross \
+	-DIMPORT_EXECUTABLES=../build-native/ImportExecutables.cmake ..
+make
+
 CMake Options
 =============
 
