@@ -159,6 +159,7 @@ MusicBrainz5::CMetadata MusicBrainz5::CQuery::PerformQuery(const std::string& Qu
 #endif
 
 			XMLResults Results;
+			memset(&Results, 0, sizeof(Results));
 			XMLNode *TopNode = XMLRootNode::parseString(strData, &Results);
 			if (Results.code==eXMLErrorNone)
 			{
@@ -395,6 +396,7 @@ bool MusicBrainz5::CQuery::EditCollection(const std::string& CollectionID, const
 #endif
 
 				XMLResults Results;
+				memset(&Results, 0, sizeof(Results));
 				XMLNode *TopNode = XMLRootNode::parseString(strData, &Results);
 				if (Results.code==eXMLErrorNone)
 				{
