@@ -87,14 +87,22 @@ MusicBrainz5::CUserRating *MusicBrainz5::CUserRating::Clone()
 
 void MusicBrainz5::CUserRating::ParseAttribute(const std::string& Name, const std::string& /*Value*/)
 {
+#ifdef _MB5_DEBUG_
 	std::cerr << "Unrecognised userrating attribute: '" << Name << "'" << std::endl;
+#else
+	(void)Name;
+#endif
 }
 
 void MusicBrainz5::CUserRating::ParseElement(const XMLNode& Node)
 {
+#ifdef _MB5_DEBUG_
 	std::string Name=Node.getName();
 
 	std::cerr << "Unrecognised userrating element: '" << Name << "'" << std::endl;
+#else
+	(void)Node;
+#endif
 }
 
 std::string MusicBrainz5::CUserRating::GetElementName()

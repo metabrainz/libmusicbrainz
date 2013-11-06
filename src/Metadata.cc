@@ -369,10 +369,12 @@ void MusicBrainz5::CMetadata::ParseAttribute(const std::string& Name, const std:
 		m_d->m_Generator=Value;
 	else if ("created"==Name)
 		m_d->m_Created=Value;
+#ifdef _MB5_DEBUG_
 	else
 	{
 		std::cerr << "Unrecognised metadata attribute: '" << Name << "'" << std::endl;
 	}
+#endif
 }
 
 void MusicBrainz5::CMetadata::ParseElement(const XMLNode& Node)
@@ -491,10 +493,12 @@ void MusicBrainz5::CMetadata::ParseElement(const XMLNode& Node)
 	{
 		ProcessItem(Node,m_d->m_URL);
 	}
+#ifdef _MB5_DEBUG_
 	else
 	{
 		std::cerr << "Unrecognised metadata element: '" << NodeName << "'" << std::endl;
 	}
+#endif
 }
 
 std::string MusicBrainz5::CMetadata::GetElementName()

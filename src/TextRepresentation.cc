@@ -79,7 +79,11 @@ MusicBrainz5::CTextRepresentation *MusicBrainz5::CTextRepresentation::Clone()
 
 void MusicBrainz5::CTextRepresentation::ParseAttribute(const std::string& Name, const std::string& /*Value*/)
 {
+#ifdef _MB5_DEBUG_
 	std::cerr << "Unrecognised textrepresentation attribute: '" << Name << "'" << std::endl;
+#else
+	(void)Name;
+#endif
 }
 
 void MusicBrainz5::CTextRepresentation::ParseElement(const XMLNode& Node)
@@ -94,10 +98,12 @@ void MusicBrainz5::CTextRepresentation::ParseElement(const XMLNode& Node)
 	{
 		ProcessItem(Node,m_d->m_Script);
 	}
+#ifdef _MB5_DEBUG_
 	else
 	{
 		std::cerr << "Unrecognised textrepresentation element: '" << NodeName << "'" << std::endl;
 	}
+#endif
 }
 
 std::string MusicBrainz5::CTextRepresentation::GetElementName()

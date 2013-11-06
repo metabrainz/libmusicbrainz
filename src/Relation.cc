@@ -170,10 +170,12 @@ void MusicBrainz5::CRelation::ParseAttribute(const std::string& Name, const std:
 		m_d->m_Type=Value;
 	else if ("type-id"==Name)
 		m_d->m_TypeID=Value;
+#ifdef _MB5_DEBUG_
 	else
 	{
 		std::cerr << "Unrecognised relation attribute: '" << Name << "'" << std::endl;
 	}
+#endif
 }
 
 void MusicBrainz5::CRelation::ParseElement(const XMLNode& Node)
@@ -228,10 +230,12 @@ void MusicBrainz5::CRelation::ParseElement(const XMLNode& Node)
 	{
 		ProcessItem(Node,m_d->m_Work);
 	}
+#ifdef _MB5_DEBUG_
 	else
 	{
 		std::cerr << "Unrecognised relation element: '" << NodeName << "'" << std::endl;
 	}
+#endif
 }
 
 std::string MusicBrainz5::CRelation::GetElementName()

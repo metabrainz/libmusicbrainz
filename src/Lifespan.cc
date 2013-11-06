@@ -81,7 +81,11 @@ MusicBrainz5::CLifespan *MusicBrainz5::CLifespan::Clone()
 
 void MusicBrainz5::CLifespan::ParseAttribute(const std::string& Name, const std::string& /*Value*/)
 {
+#ifdef _MB5_DEBUG_
 	std::cerr << "Unrecognised lifespan attribute: '" << Name << "'" << std::endl;
+#else
+	(void)Name;
+#endif
 }
 
 void MusicBrainz5::CLifespan::ParseElement(const XMLNode& Node)
@@ -100,10 +104,12 @@ void MusicBrainz5::CLifespan::ParseElement(const XMLNode& Node)
 	{
 		ProcessItem(Node,m_d->m_Ended);
 	}
+#ifdef _MB5_DEBUG_
 	else
 	{
 		std::cerr << "Unrecognised lifespan element: '" << NodeName << "'" << std::endl;
 	}
+#endif
 }
 
 std::string MusicBrainz5::CLifespan::GetElementName()

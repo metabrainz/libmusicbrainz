@@ -109,10 +109,12 @@ void MusicBrainz5::CFreeDBDisc::ParseAttribute(const std::string& Name, const st
 {
 	if ("id"==Name)
 		m_d->m_ID=Value;
+#ifdef _MB5_DEBUG_
 	else
 	{
 		std::cerr << "Unrecognised freedb disc attribute: '" << Name << "'" << std::endl;
 	}
+#endif
 }
 
 void MusicBrainz5::CFreeDBDisc::ParseElement(const XMLNode& Node)
@@ -139,10 +141,12 @@ void MusicBrainz5::CFreeDBDisc::ParseElement(const XMLNode& Node)
 	{
 		ProcessItem(Node,m_d->m_NonMBTrackList);
 	}
+#ifdef _MB5_DEBUG_
 	else
 	{
 		std::cerr << "Unrecognised freedb disc element: '" << NodeName << "'" << std::endl;
 	}
+#endif
 }
 
 std::string MusicBrainz5::CFreeDBDisc::GetElementName()

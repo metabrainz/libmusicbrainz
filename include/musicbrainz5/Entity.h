@@ -74,6 +74,7 @@ namespace MusicBrainz5
 				os << (const char *)Node.getText();
 
 			os >> RetVal;
+#ifdef _MB5_DEBUG_
 			if (os.fail())
 			{
 				std::cerr << "Error parsing value '";
@@ -81,6 +82,7 @@ namespace MusicBrainz5
 					std::cerr << Node.getText();
 				std::cerr << "'" << std::endl;
 			}
+#endif
 		}
 
 		template<typename T>
@@ -90,10 +92,12 @@ namespace MusicBrainz5
 			os << Text;
 
 			os >> RetVal;
+#ifdef _MB5_DEBUG_
 			if (os.fail())
 			{
 				std::cerr << "Error parsing value '" << Text << "'" << std::endl;
 			}
+#endif
 		}
 
 		void ProcessItem(const XMLNode& Node, std::string& RetVal)

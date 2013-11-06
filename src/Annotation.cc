@@ -85,10 +85,12 @@ void MusicBrainz5::CAnnotation::ParseAttribute(const std::string& Name, const st
 {
 	if ("type"==Name)
 		m_d->m_Type=Value;
+#ifdef _MB5_DEBUG_
 	else
 	{
 		std::cerr << "Unrecognised annotation attribute: '" << Name << "'" << std::endl;
 	}
+#endif
 }
 
 void MusicBrainz5::CAnnotation::ParseElement(const XMLNode& Node)
@@ -107,10 +109,12 @@ void MusicBrainz5::CAnnotation::ParseElement(const XMLNode& Node)
 	{
 		ProcessItem(Node,m_d->m_Text);
 	}
+#ifdef _MB5_DEBUG_
 	else
 	{
 		std::cerr << "Unrecognised annotation element: '" << NodeName << "'" << std::endl;
 	}
+#endif
 }
 
 std::string MusicBrainz5::CAnnotation::GetElementName()

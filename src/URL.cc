@@ -102,10 +102,12 @@ void MusicBrainz5::CURL::ParseAttribute(const std::string& Name, const std::stri
 {
 	if ("id"==Name)
 		m_d->m_ID=Value;
+#ifdef _MB5_DEBUG_
 	else
 	{
 		std::cerr << "Unrecognised url attribute: '" << Name << "'" << std::endl;
 	}
+#endif
 }
 
 void MusicBrainz5::CURL::ParseElement(const XMLNode& Node)
@@ -120,10 +122,12 @@ void MusicBrainz5::CURL::ParseElement(const XMLNode& Node)
 	{
 		ProcessRelationList(Node,m_d->m_RelationListList);
 	}
+#ifdef _MB5_DEBUG_
 	else
 	{
 		std::cerr << "Unrecognised url element: '" << NodeName << "'" << std::endl;
 	}
+#endif
 }
 
 std::string MusicBrainz5::CURL::GetElementName()

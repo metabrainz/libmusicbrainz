@@ -117,7 +117,11 @@ MusicBrainz5::CTrack *MusicBrainz5::CTrack::Clone()
 
 void MusicBrainz5::CTrack::ParseAttribute(const std::string& Name, const std::string& /*Value*/)
 {
+#ifdef _MB5_DEBUG_
 	std::cerr << "Unrecognised track attribute: '" << Name << "'" << std::endl;
+#else
+	(void)Name;
+#endif
 }
 
 void MusicBrainz5::CTrack::ParseElement(const XMLNode& Node)
@@ -148,10 +152,12 @@ void MusicBrainz5::CTrack::ParseElement(const XMLNode& Node)
 	{
 		ProcessItem(Node,m_d->m_Number);
 	}
+#ifdef _MB5_DEBUG_
 	else
 	{
 		std::cerr << "Unrecognised track element: '" << NodeName << "'" << std::endl;
 	}
+#endif
 }
 
 std::string MusicBrainz5::CTrack::GetElementName()

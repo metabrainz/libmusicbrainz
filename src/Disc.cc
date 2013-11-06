@@ -104,10 +104,12 @@ void MusicBrainz5::CDisc::ParseAttribute(const std::string& Name, const std::str
 {
 	if ("id"==Name)
 		ProcessItem(Value,m_d->m_ID);
+#ifdef _MB5_DEBUG_
 	else
 	{
 		std::cerr << "Unrecognised disc attribute: '" << Name << "'" << std::endl;
 	}
+#endif
 }
 
 void MusicBrainz5::CDisc::ParseElement(const XMLNode& Node)
@@ -122,10 +124,12 @@ void MusicBrainz5::CDisc::ParseElement(const XMLNode& Node)
 	{
 		ProcessItem(Node,m_d->m_ReleaseList);
 	}
+#ifdef _MB5_DEBUG_
 	else
 	{
 		std::cerr << "Unrecognised disc element: '" << NodeName << "'" << std::endl;
 	}
+#endif
 }
 
 std::string MusicBrainz5::CDisc::GetElementName()

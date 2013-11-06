@@ -104,10 +104,12 @@ void MusicBrainz5::CCollection::ParseAttribute(const std::string& Name, const st
 {
 	if ("id"==Name)
 		m_d->m_ID=Value;
+#ifdef _MB5_DEBUG_
 	else
 	{
 		std::cerr << "Unrecognised collection attribute: '" << Name << "'" << std::endl;
 	}
+#endif
 }
 
 void MusicBrainz5::CCollection::ParseElement(const XMLNode& Node)
@@ -126,10 +128,12 @@ void MusicBrainz5::CCollection::ParseElement(const XMLNode& Node)
 	{
 		ProcessItem(Node,m_d->m_ReleaseList);
 	}
+#ifdef _MB5_DEBUG_
 	else
 	{
 		std::cerr << "Unrecognised collection element: '" << NodeName << "'" << std::endl;
 	}
+#endif
 }
 
 std::string MusicBrainz5::CCollection::GetElementName()

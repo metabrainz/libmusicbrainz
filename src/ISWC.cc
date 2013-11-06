@@ -92,14 +92,22 @@ MusicBrainz5::CISWC *MusicBrainz5::CISWC::Clone()
 
 void MusicBrainz5::CISWC::ParseAttribute(const std::string& Name, const std::string& /*Value*/)
 {
+#ifdef _MB5_DEBUG_
 	std::cerr << "Unrecognised ISWC attribute: '" << Name << "'" << std::endl;
+#else
+	(void)Name;
+#endif
 }
 
 void MusicBrainz5::CISWC::ParseElement(const XMLNode& Node)
 {
+#ifdef _MB5_DEBUG_
 	std::string NodeName=Node.getName();
 
 	std::cerr << "Unrecognised ISWC element: '" << NodeName << "'" << std::endl;
+#else
+	(void)Node;
+#endif
 }
 
 std::string MusicBrainz5::CISWC::GetElementName()

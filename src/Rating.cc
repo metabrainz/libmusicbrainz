@@ -94,17 +94,23 @@ void MusicBrainz5::CRating::ParseAttribute(const std::string& Name, const std::s
 	{
 		ProcessItem(Value,m_d->m_VotesCount);
 	}
+#ifdef _MB5_DEBUG_
 	else
 	{
 		std::cerr << "Unrecognised rating attribute: '" << Name << "'" << std::endl;
 	}
+#endif
 }
 
 void MusicBrainz5::CRating::ParseElement(const XMLNode& Node)
 {
+#ifdef _MB5_DEBUG_
 	std::string NodeName=Node.getName();
 
 	std::cerr << "Unrecognised rating attribute: '" << NodeName << "'" << std::endl;
+#else
+	(void)Node;
+#endif
 }
 
 std::string MusicBrainz5::CRating::GetElementName()

@@ -104,16 +104,23 @@ void MusicBrainz5::CAlias::ParseAttribute(const std::string& Name, const std::st
 		m_d->m_BeginDate=Value;
 	else if ("end-date"==Name)
 		m_d->m_EndDate=Value;
+#ifdef _MB5_DEBUG_
 	else
 	{
 		std::cerr << "Unrecognised alias attribute: '" << Name << "'" << std::endl;
 	}
+#endif
 }
 
 void MusicBrainz5::CAlias::ParseElement(const XMLNode& Node)
 {
+#ifdef _MB5_DEBUG_
 	std::string NodeName=Node.getName();
+
 	std::cerr << "Unrecognised alias element: '" << NodeName << std::endl;
+#else
+	(void)Node;
+#endif
 }
 
 std::string MusicBrainz5::CAlias::GetElementName()

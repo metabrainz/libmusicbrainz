@@ -180,8 +180,10 @@ void MusicBrainz5::CWork::ParseAttribute(const std::string& Name, const std::str
 		m_d->m_ID=Value;
 	else if ("type"==Name)
 		m_d->m_Type=Value;
+#ifdef _MB5_DEBUG_
 	else
 		std::cerr << "Unrecognised work attribute: '" << Name << "'" << std::endl;
+#endif
 }
 
 void MusicBrainz5::CWork::ParseElement(const XMLNode& Node)
@@ -232,10 +234,12 @@ void MusicBrainz5::CWork::ParseElement(const XMLNode& Node)
 	{
 		ProcessItem(Node,m_d->m_Language);
 	}
+#ifdef _MB5_DEBUG_
 	else
 	{
 		std::cerr << "Unrecognised work element: '" << NodeName << "'" << std::endl;
 	}
+#endif
 }
 
 std::string MusicBrainz5::CWork::GetElementName()
