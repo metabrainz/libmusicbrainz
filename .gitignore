@@ -7,3 +7,4 @@ config.h
 libmusicbrainz5.pc
 docs/
 install_manifest.txt
+ImportExecutables.cmake
