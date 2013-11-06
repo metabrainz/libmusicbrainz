@@ -52,6 +52,7 @@
 #include "musicbrainz5/IPI.h"
 #include "musicbrainz5/IPIList.h"
 #include "musicbrainz5/Lifespan.h"
+#include "musicbrainz5/URL.h"
 
 void PrintRelationList(MusicBrainz5::CRelationList *RelationList)
 {
@@ -66,7 +67,20 @@ void PrintRelationList(MusicBrainz5::CRelationList *RelationList)
 
 int main(int argc, const char *argv[])
 {
-	MusicBrainz5::CQuery MB2("MBTest/v1.0","test.musicbrainz.org");
+	MusicBrainz5::CQuery MB2("MBTest/v1.0","musicbrainz.org");
+
+	MusicBrainz5::CQuery::tParamMap ParamsURL;
+	ParamsURL["resource"]="http://en.wikipedia.org/wiki/Tokyo";
+	ParamsURL["inc"]="area-rels";
+	MusicBrainz5::CMetadata MetadataURL=MB2.Query("url","","",ParamsURL);
+
+	MusicBrainz5::CURL *URL=MetadataURL.URL();
+	if (URL)
+		std::cout << "URL: " << *URL << std::endl;
+	else
+		std::cout << "No URL returned" << std::endl;
+
+	return 0;
 
 	MusicBrainz5::CQuery::tParamMap Params5;
 	Params5["inc"]="aliases";

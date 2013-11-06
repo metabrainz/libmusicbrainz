@@ -61,6 +61,7 @@
 #include "musicbrainz5/LabelInfo.h"
 #include "musicbrainz5/LabelInfoList.h"
 #include "musicbrainz5/Message.h"
+#include "musicbrainz5/URL.h"
 
 class MusicBrainz5::CMetadataPrivate
 {
@@ -93,7 +94,8 @@ class MusicBrainz5::CMetadataPrivate
 			m_UserTagList(0),
 			m_CollectionList(0),
 			m_CDStub(0),
-			m_Message(0)
+			m_Message(0),
+			m_URL(0)
 		{
 		}
 
@@ -129,6 +131,7 @@ class MusicBrainz5::CMetadataPrivate
 		CCollectionList *m_CollectionList;
 		CCDStub *m_CDStub;
 		CMessage *m_Message;
+		CURL *m_URL;
 };
 
 MusicBrainz5::CMetadata::CMetadata(const XMLNode& Node)
@@ -246,6 +249,9 @@ MusicBrainz5::CMetadata& MusicBrainz5::CMetadata::operator =(const CMetadata& Ot
 
 		if (Other.m_d->m_Message)
 			m_d->m_Message=new CMessage(*Other.m_d->m_Message);
+
+		if (Other.m_d->m_URL)
+			m_d->m_URL=new CURL(*Other.m_d->m_URL);
 	}
 
 	return *this;
@@ -343,6 +349,9 @@ void MusicBrainz5::CMetadata::Cleanup()
 
 	delete m_d->m_Message;
 	m_d->m_Message=0;
+
+	delete m_d->m_URL;
+	m_d->m_URL=0;
 }
 
 MusicBrainz5::CMetadata *MusicBrainz5::CMetadata::Clone()
@@ -477,6 +486,10 @@ void MusicBrainz5::CMetadata::ParseElement(const XMLNode& Node)
 	else if ("message"==NodeName)
 	{
 		ProcessItem(Node,m_d->m_Message);
+	}
+	else if ("url"==NodeName)
+	{
+		ProcessItem(Node,m_d->m_URL);
 	}
 	else
 	{
@@ -649,6 +662,11 @@ MusicBrainz5::CMessage *MusicBrainz5::CMetadata::Message() const
 	return m_d->m_Message;
 }
 
+MusicBrainz5::CURL *MusicBrainz5::CMetadata::URL() const
+{
+	return m_d->m_URL;
+}
+
 std::ostream& MusicBrainz5::CMetadata::Serialise(std::ostream& os) const
 {
 	os << "Metadata:" << std::endl;
@@ -740,6 +758,9 @@ std::ostream& MusicBrainz5::CMetadata::Serialise(std::ostream& os) const
 
 	if (Message())
 		os << *Message() << std::endl;
+
+	if (URL())
+		os << *URL() << std::endl;
 
 	return os;
 }

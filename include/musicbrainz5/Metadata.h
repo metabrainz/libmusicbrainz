@@ -65,6 +65,7 @@ namespace MusicBrainz5
 	class CWork;
 	class CCDStub;
 	class CMessage;
+	class CURL;
 
 	class CMetadata: public CEntity
 	{
@@ -108,6 +109,7 @@ namespace MusicBrainz5
 		CCollectionList *CollectionList() const;
 		CCDStub *CDStub() const;
 		CMessage *Message() const;
+		CURL *URL() const;
 
 		virtual std::ostream& Serialise(std::ostream& os) const;
 		static std::string GetElementName();
