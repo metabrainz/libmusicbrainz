@@ -84,6 +84,7 @@
 #include "musicbrainz5/TextRepresentation.h"
 #include "musicbrainz5/Track.h"
 #include "musicbrainz5/TrackList.h"
+#include "musicbrainz5/URL.h"
 #include "musicbrainz5/UserRating.h"
 #include "musicbrainz5/UserTag.h"
 #include "musicbrainz5/UserTagList.h"

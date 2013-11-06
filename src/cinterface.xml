@@ -208,6 +208,7 @@ extern "C"
 		<property name="collectionlist" uppername="CollectionList" type="object"/>
 		<property name="cdstub" uppername="CDStub" type="object"/>
 		<property name="message" type="object"/>
+		<property name="url" uppername="URL" type="object"/>
 	</class>
 	<class name="namecredit" uppername="NameCredit">
 		<property name="joinphrase" uppername="JoinPhrase" type="string"/>
@@ -251,6 +252,7 @@ extern "C"
 	</class>
 	<class name="relation">
 		<property name="type" type="string"/>
+		<property name="typeid" uppername="TypeID" type="string"/>
 		<property name="target" type="string"/>
 		<property name="direction" type="string"/>
 		<property name="attributelist" uppername="AttributeList" type="object"/>
@@ -324,6 +326,11 @@ extern "C"
 	</class>
 	<class name="usertag" uppername="UserTag">
 		<property name="name" type="string"/>
+	</class>
+	<class name="url" uppername="URL">
+		<property name="id" uppername="ID" type="string"/>
+		<property name="resource" type="string"/>
+		<property name="relationlistlist" uppername="RelationListList" type="object"/>
 	</class>
 	<class name="work">
 		<property name="id" uppername="ID" type="string"/>

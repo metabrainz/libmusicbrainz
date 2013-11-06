@@ -281,6 +281,7 @@ void CompileTest()
 	Mb5TextRepresentation TextRepresentation=0;
 	Mb5Track Track=0;
 	Mb5TrackList TrackList=0;
+	Mb5URL URL=0;
 	Mb5UserRating UserRating=0;
 	Mb5UserTag UserTag=0;
 	Mb5UserTagList UserTagList=0;
@@ -468,6 +469,7 @@ void CompileTest()
 	CollectionList=mb5_metadata_get_collectionlist(Metadata);
 	CDStub=mb5_metadata_get_cdstub(Metadata);
 	Message=mb5_metadata_get_message(Metadata);
+	URL=mb5_metadata_get_url(Metadata);
 	Metadata=mb5_metadata_clone(Metadata);
 	mb5_metadata_delete(Metadata);
 
@@ -528,6 +530,7 @@ void CompileTest()
 	mb5_recording_delete(Recording);
 
 	mb5_relation_get_type(Relation,Str,Size);
+	mb5_relation_get_typeid(Relation,Str,Size);
 	mb5_relation_get_target(Relation,Str,Size);
 	mb5_relation_get_direction(Relation,Str,Size);
 	AttributeList=mb5_relation_get_attributelist(Relation);
@@ -598,6 +601,10 @@ void CompileTest()
 	mb5_track_get_number(Track,Str,Size);
 	Track=mb5_track_clone(Track);
 	mb5_track_delete(Track);
+
+	mb5_url_get_id(URL,Str,Size);
+	mb5_url_get_resource(URL,Str,Size);
+	RelationListList=mb5_url_get_relationlistlist(URL);
 
 	DummyInt=mb5_userrating_get_userrating(UserRating);
 	UserRating=mb5_userrating_clone(UserRating);
