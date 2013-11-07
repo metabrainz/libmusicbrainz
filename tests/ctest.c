@@ -56,14 +56,86 @@ int main(int argc, const char *argv[])
 	Mb5Query Query=0;
 	char DiscID[256]="tLGBAiCflG8ZI6lFcOt87vXjEcI-";
 
-	Query=mb5_query_new("ctest","test.musicbrainz.org",0);
+	Query=mb5_query_new("ctest","musicbrainz.org",0);
 	if (Query)
 	{
 		char Version[256];
 		Mb5Metadata Metadata=0;
 
+		char **ParamNames;
+		char **ParamValues;
+
 		mb5_query_get_version(Query,Version,sizeof(Version));
 		printf("Version is '%s'\n",Version);
+
+		ParamNames=malloc(sizeof(char *));
+		ParamNames[0]=malloc(256);
+		ParamValues=malloc(sizeof(char *));
+		ParamValues[0]=malloc(256);
+
+		strcpy(ParamNames[0],"inc");
+		strcpy(ParamValues[0],"url-rels");
+
+		Metadata=mb5_query_query(Query,"artist","52b3cad0-9622-4b39-ab22-9a0d44c7b86f","",1,ParamNames,ParamValues);
+		if (Metadata)
+		{
+			Mb5Artist Artist=mb5_metadata_get_artist(Metadata);
+			if (Artist)
+			{
+				Mb5RelationListList RelationListList=mb5_artist_get_relationlistlist(Artist);
+
+				if (RelationListList)
+				{
+					int RelationListNum;
+
+					printf("Got relation list list, size %d\n",mb5_relationlist_list_size(RelationListList));
+
+					for (RelationListNum=0;RelationListNum<mb5_relationlist_list_size(RelationListList);RelationListNum++)
+					{
+						Mb5RelationList RelationList=mb5_relationlist_list_item(RelationListList,RelationListNum);
+
+						if (RelationList)
+						{
+							int RelationNum;
+
+							printf("Got relation list, size %d\n",mb5_relation_list_size(RelationList));
+
+							for (RelationNum=0;RelationNum<mb5_relation_list_size(RelationList);RelationNum++)
+							{
+								Mb5Relation Relation=mb5_relation_list_item(RelationList,RelationNum);
+								if (Relation)
+								{
+									char Target[256];
+									Mb5TargetItem TargetItem;
+
+									mb5_relation_get_target(Relation,Target,sizeof(Target));
+									printf("Target: '%s'\n",Target);
+
+									TargetItem=mb5_relation_get_targetitem(Relation);
+									if (TargetItem)
+									{
+										char Target[256];
+										char ID[256];
+
+										mb5_targetitem_get_id(TargetItem,ID,sizeof(ID));
+										mb5_targetitem_get_target(TargetItem,Target,sizeof(Target));
+
+										printf("Target ID: '%s', target: '%s'\n",ID,Target);
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+
+			mb5_metadata_delete(Metadata);
+		}
+
+		free(ParamNames[0]);
+		free(ParamValues[0]);
+
+		return 0;
 
 		Metadata=mb5_query_query(Query,"work","b0d17375-5593-390e-a936-1a65ce74c630","",0,NULL,NULL);
 		if (Metadata)
@@ -278,6 +350,7 @@ void CompileTest()
 	Mb5SecondaryTypeList SecondaryTypeList=0;
 	Mb5Tag Tag=0;
 	Mb5TagList TagList=0;
+	Mb5TargetItem TargetItem=0;
 	Mb5TextRepresentation TextRepresentation=0;
 	Mb5Track Track=0;
 	Mb5TrackList TrackList=0;
@@ -532,6 +605,7 @@ void CompileTest()
 	mb5_relation_get_type(Relation,Str,Size);
 	mb5_relation_get_typeid(Relation,Str,Size);
 	mb5_relation_get_target(Relation,Str,Size);
+	TargetItem=mb5_relation_get_targetitem(Relation);
 	mb5_relation_get_direction(Relation,Str,Size);
 	AttributeList=mb5_relation_get_attributelist(Relation);
 	mb5_relation_get_begin(Relation,Str,Size);
@@ -587,6 +661,9 @@ void CompileTest()
 	mb5_tag_get_name(Tag,Str,Size);
 	Tag=mb5_tag_clone(Tag);
 	mb5_tag_delete(Tag);
+
+	mb5_targetitem_get_id(TargetItem,Str,Size);
+	mb5_targetitem_get_target(TargetItem,Str,Size);
 
 	mb5_textrepresentation_get_language(TextRepresentation,Str,Size);
 	mb5_textrepresentation_get_script(TextRepresentation,Str,Size);

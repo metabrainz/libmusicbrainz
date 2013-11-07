@@ -53,6 +53,7 @@
 #include "musicbrainz5/IPIList.h"
 #include "musicbrainz5/Lifespan.h"
 #include "musicbrainz5/URL.h"
+#include "musicbrainz5/TargetItem.h"
 
 void PrintRelationList(MusicBrainz5::CRelationList *RelationList)
 {
@@ -68,6 +69,45 @@ void PrintRelationList(MusicBrainz5::CRelationList *RelationList)
 int main(int argc, const char *argv[])
 {
 	MusicBrainz5::CQuery MB2("MBTest/v1.0","musicbrainz.org");
+
+	MusicBrainz5::CQuery::tParamMap ParamsTargetID;
+	ParamsTargetID["inc"]="url-rels";
+	MusicBrainz5::CMetadata MetadataTargetID=MB2.Query("artist","52b3cad0-9622-4b39-ab22-9a0d44c7b86f","",ParamsTargetID);
+
+	MusicBrainz5::CArtist *TargetIDArtist=MetadataTargetID.Artist();
+	if (TargetIDArtist)
+	{
+		std::cout << "Artist: " << *TargetIDArtist << std::endl;
+
+		MusicBrainz5::CRelationListList *List=TargetIDArtist->RelationListList();
+		for (int count=0;count<List->NumItems();count++)
+		{
+			MusicBrainz5::CRelationList *RelationList=List->Item(count);
+
+			if (RelationList)
+			{
+				for (int RelNum=0;RelNum<RelationList->NumItems();RelNum++)
+				{
+					MusicBrainz5::CRelation *Relation=RelationList->Item(RelNum);
+
+					if (Relation)
+					{
+						std::cout << "Relation target: '" << Relation->Target() << "'" << std::endl;
+
+						MusicBrainz5::CTargetItem *TargetItem=Relation->TargetItem();
+						if (TargetItem)
+						{
+							std::cout << "TargetItem: " << *TargetItem << std::endl;
+						}
+					}
+				}
+			}
+		}
+	}
+	else
+		std::cout << "No artist returned" << std::endl;
+
+	return 0;
 
 	MusicBrainz5::CQuery::tParamMap ParamsURL;
 	ParamsURL["resource"]="http://en.wikipedia.org/wiki/Tokyo";

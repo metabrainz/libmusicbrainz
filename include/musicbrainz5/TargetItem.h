@@ -2,7 +2,7 @@
 
    libmusicbrainz5 - Client library to access MusicBrainz
 
-   Copyright (C) 2012 Andrew Hawkins
+   Copyright (C) 2013 Andrew Hawkins
 
    This file is part of libmusicbrainz5.
 
@@ -23,54 +23,32 @@
 
 ----------------------------------------------------------------------------*/
 
-#ifndef _MUSICBRAINZ5_RELATION_H
-#define _MUSICBRAINZ5_RELATION_H
+#ifndef _MUSICBRAINZ5_TARGETITEM_H
+#define _MUSICBRAINZ5_TARGETITEM_H
 
 #include <string>
 #include <iostream>
 
 #include "musicbrainz5/Entity.h"
-#include "musicbrainz5/AttributeList.h"
 
 #include "musicbrainz5/xmlParser.h"
 
 namespace MusicBrainz5
 {
-	class CRelationPrivate;
+	class CTargetItemPrivate;
 
-	class CArtist;
-	class CRelease;
-	class CReleaseGroup;
-	class CRecording;
-	class CLabel;
-	class CWork;
-	class CTargetItem;
-
-	class CRelation: public CEntity
+	class CTargetItem: public CEntity
 	{
 	public:
-		CRelation(const XMLNode& Node=XMLNode::emptyNode());
-		CRelation(const CRelation& Other);
-		CRelation& operator =(const CRelation& Other);
-		virtual ~CRelation();
+		CTargetItem(const XMLNode& Node);
+		CTargetItem(const CTargetItem& Other);
+		CTargetItem& operator =(const CTargetItem& Other);
+		virtual ~CTargetItem();
 
-		virtual CRelation *Clone();
+		virtual CTargetItem *Clone();
 
-		std::string Type() const;
-		std::string TypeID() const;
-		LIBMB5_DEPRECATED(MusicBrainz5::CRelation::TargetItem) std::string Target() const;
-		CTargetItem *TargetItem() const;
-		std::string Direction() const;
-		CAttributeList *AttributeList() const;
-		std::string Begin() const;
-		std::string End() const;
-		std::string Ended() const;
-		CArtist *Artist() const;
-		CRelease *Release() const;
-		CReleaseGroup *ReleaseGroup() const;
-		CRecording *Recording() const;
-		CLabel *Label() const;
-		CWork *Work() const;
+		std::string ID() const;
+		std::string Target() const;
 
 		virtual std::ostream& Serialise(std::ostream& os) const;
 		static std::string GetElementName();
@@ -80,9 +58,7 @@ namespace MusicBrainz5
 		virtual void ParseElement(const XMLNode& Node);
 
 	private:
-		void Cleanup();
-
-		CRelationPrivate * const m_d;
+		CTargetItemPrivate * const m_d;
 	};
 }
 

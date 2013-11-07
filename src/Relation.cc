@@ -36,12 +36,14 @@
 #include "musicbrainz5/Work.h"
 #include "musicbrainz5/AttributeList.h"
 #include "musicbrainz5/Attribute.h"
+#include "musicbrainz5/TargetItem.h"
 
 class MusicBrainz5::CRelationPrivate
 {
 	public:
 		CRelationPrivate()
-		:	m_AttributeList(0),
+		:	m_TargetItem(0),
+			m_AttributeList(0),
 			m_Artist(0),
 			m_Release(0),
 			m_ReleaseGroup(0),
@@ -53,7 +55,7 @@ class MusicBrainz5::CRelationPrivate
 
 		std::string m_Type;
 		std::string m_TypeID;
-		std::string m_Target;
+		CTargetItem *m_TargetItem;
 		std::string m_Direction;
 		CAttributeList *m_AttributeList;
 		std::string m_Begin;
@@ -96,7 +98,10 @@ MusicBrainz5::CRelation& MusicBrainz5::CRelation::operator =(const CRelation& Ot
 
 		m_d->m_Type=Other.m_d->m_Type;
 		m_d->m_TypeID=Other.m_d->m_TypeID;
-		m_d->m_Target=Other.m_d->m_Target;
+
+		if (Other.m_d->m_TargetItem)
+			m_d->m_TargetItem=new CTargetItem(*Other.m_d->m_TargetItem);
+
 		m_d->m_Direction=Other.m_d->m_Direction;
 
 		if (Other.m_d->m_AttributeList)
@@ -137,6 +142,9 @@ MusicBrainz5::CRelation::~CRelation()
 
 void MusicBrainz5::CRelation::Cleanup()
 {
+	delete m_d->m_TargetItem;
+	m_d->m_TargetItem=0;
+
 	delete m_d->m_AttributeList;
 	m_d->m_AttributeList=0;
 
@@ -184,7 +192,7 @@ void MusicBrainz5::CRelation::ParseElement(const XMLNode& Node)
 
 	if ("target"==NodeName)
 	{
-		ProcessItem(Node,m_d->m_Target);
+		ProcessItem(Node,m_d->m_TargetItem);
 	}
 	else if ("direction"==NodeName)
 	{
@@ -255,7 +263,17 @@ std::string MusicBrainz5::CRelation::TypeID() const
 
 std::string MusicBrainz5::CRelation::Target() const
 {
-	return m_d->m_Target;
+	std::string Ret;
+
+	if (m_d->m_TargetItem)
+		Ret=m_d->m_TargetItem->Target();
+
+	return Ret;
+}
+
+MusicBrainz5::CTargetItem *MusicBrainz5::CRelation::TargetItem() const
+{
+	return m_d->m_TargetItem;
 }
 
 std::string MusicBrainz5::CRelation::Direction() const
@@ -321,7 +339,10 @@ std::ostream& MusicBrainz5::CRelation::Serialise(std::ostream& os) const
 
 	os << "\tType:      " << Type() << std::endl;
 	os << "\tTypeID:    " << TypeID() << std::endl;
-	os << "\tTarget:    " << Target() << std::endl;
+
+	if (TargetItem())
+		os << *TargetItem() << std::endl;
+
 	os << "\tDirection: " << Direction() << std::endl;
 
 	if (AttributeList())

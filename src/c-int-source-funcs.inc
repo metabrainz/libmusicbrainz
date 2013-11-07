@@ -81,6 +81,7 @@
 #include "musicbrainz5/SecondaryTypeList.h"
 #include "musicbrainz5/Tag.h"
 #include "musicbrainz5/TagList.h"
+#include "musicbrainz5/TargetItem.h"
 #include "musicbrainz5/TextRepresentation.h"
 #include "musicbrainz5/Track.h"
 #include "musicbrainz5/TrackList.h"

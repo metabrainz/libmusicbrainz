@@ -12,7 +12,7 @@ SET(_sources Alias.cc Annotation.cc Artist.cc ArtistCredit.cc Attribute.cc CDStu
 	NonMBTrack.cc PUID.cc	Query.cc Rating.cc Recording.cc Relation.cc RelationList.cc 
 	Release.cc ReleaseGroup.cc Tag.cc	TextRepresentation.cc Track.cc UserRating.cc 
 	UserTag.cc Work.cc xmlParser.cpp RelationListList.cc ISWCList.cc ISWC.cc 
-	SecondaryType.cc SecondaryTypeList.cc IPI.cc URL.cc)
+	SecondaryType.cc SecondaryTypeList.cc IPI.cc URL.cc TargetItem.cc)
 
 # when crosscompiling import the executable targets from a file
 IF(CMAKE_CROSSCOMPILING)

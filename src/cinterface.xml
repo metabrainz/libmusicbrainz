@@ -253,7 +253,8 @@ extern "C"
 	<class name="relation">
 		<property name="type" type="string"/>
 		<property name="typeid" uppername="TypeID" type="string"/>
-		<property name="target" type="string"/>
+		<property name="target" type="string" deprecated="true" replacement="mb5_relation_get_targetitem"/>
+		<property name="targetitem" uppername="TargetItem" type="object"/>
 		<property name="direction" type="string"/>
 		<property name="attributelist" uppername="AttributeList" type="object"/>
 		<property name="begin" type="string"/>
@@ -312,6 +313,10 @@ extern "C"
 	<class name="textrepresentation" uppername="TextRepresentation">
 		<property name="language" type="string"/>
 		<property name="script" type="string"/>
+	</class>
+	<class name="targetitem" uppername="TargetItem">
+		<property name="id" uppername="ID" type="string"/>
+		<property name="target" type="string"/>
 	</class>
 	<class name="track">
 		<property name="position" type="integer"/>
