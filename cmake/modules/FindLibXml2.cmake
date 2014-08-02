@@ -1,0 +1,18 @@
+INCLUDE(FindPackageHandleStandardArgs)
+FIND_PACKAGE(PkgConfig)
+PKG_CHECK_MODULES(PKG_LIBXML2 libxml-2.0)
+
+FIND_PATH(LIBXML2_INCLUDE_DIR libxml/tree.h
+    PATHS
+    ${PKG_LIBXML2_INCLUDE_DIRS}
+    /usr/include
+    /usr/local/include
+)
+
+FIND_LIBRARY(LIBXML2_LIBRARIES xml2
+    ${PKG_LIBXML2_LIBRARY_DIRS}
+    /usr/lib
+    /usr/local/lib
+)
+
+FIND_PACKAGE_HANDLE_STANDARD_ARGS(LibXml2 DEFAULT_MSG LIBXML2_LIBRARIES LIBXML2_INCLUDE_DIR)
