@@ -217,7 +217,7 @@ extern "C"
 		<property name="artist" type="string"/>
 		<property name="length" type="integer"/>
 	</class>
-	<class name="puid" uppername="PUID" uppername="PUID">
+	<class name="puid" uppername="PUID">
 		<property name="id" uppername="ID" type="string"/>
 		<property name="recordinglist" uppername="RecordingList" type="object"/>
 	</class>
