@@ -26,9 +26,22 @@
 #define _MUSICBRAINZ5_XMLPARSER_H
 
 #include <string>
-#include <libxml/tree.h>
 
-typedef xmlError XMLResults;
+struct _xmlNode;
+typedef _xmlNode* xmlNodePtr;
+
+struct _xmlDoc;
+typedef _xmlDoc* xmlDocPtr;
+
+struct _xmlAttr;
+typedef _xmlAttr* xmlAttrPtr;
+
+struct XMLResults
+{
+    std::string message;
+    int line;
+    int code;
+};
 
 const int eXMLErrorNone = 0;
 

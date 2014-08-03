@@ -29,6 +29,7 @@
 #include "musicbrainz5/xmlParser.h"
 
 #include <cstring>
+#include <libxml/tree.h>
 
 XMLNode::XMLNode(xmlNodePtr node)
     : mNode(node)
@@ -44,25 +45,31 @@ XMLNode XMLNode::emptyNode()
     return XMLNode(NULL);
 }
 
-XMLNode *XMLRootNode::parseFile(const std::string &filename, xmlErrorPtr results)
+XMLNode *XMLRootNode::parseFile(const std::string &filename, XMLResults* results)
 {
     xmlDocPtr doc;
 
     doc = xmlParseFile(filename.c_str());
     if ((doc == NULL) && (results != NULL)) {
-        xmlCopyError(xmlGetLastError(), results);
+        xmlErrorPtr error = xmlGetLastError();
+        results->message = error->message;
+        results->line = error->line;
+        results->code = error->code;
     }
 
     return new XMLRootNode(doc);
 }
 
-XMLNode *XMLRootNode::parseString(const std::string &xml, xmlErrorPtr results)
+XMLNode *XMLRootNode::parseString(const std::string &xml, XMLResults* results)
 {
     xmlDocPtr doc;
 
     doc = xmlParseMemory(xml.c_str(), xml.length());
     if ((doc == NULL) && (results != NULL)) {
-        xmlCopyError(xmlGetLastError(), results);
+        xmlErrorPtr error = xmlGetLastError();
+        results->message = error->message;
+        results->line = error->line;
+        results->code = error->code;
     }
 
     return new XMLRootNode(doc);

@@ -33,6 +33,7 @@
 #include <unistd.h>
 #include <vector>
 #include <string>
+#include <cstdlib>
 
 #include "musicbrainz5/xmlParser.h"
 
@@ -54,7 +55,6 @@ int main(int argc, const char *argv[])
 	{
 		std::string XMLFile=std::string(argv[1])+"/"+argv[2];
 		XMLResults Results;
-		memset(&Results, 0, sizeof(Results));
 		XMLNode *TopNode=XMLRootNode::parseFile(XMLFile.c_str(),&Results);
 		if (!TopNode->isEmpty())
 		{
