@@ -54,8 +54,8 @@ int main(int argc, const char *argv[])
 	{
 		std::string XMLFile=std::string(argv[1])+"/"+argv[2];
 		XMLResults Results;
-		XMLNode *TopNode=XMLRootNode::parseFile(XMLFile.c_str(),&Results);
 		memset(&Results, 0, sizeof(Results));
+		XMLNode *TopNode=XMLRootNode::parseFile(XMLFile.c_str(),&Results);
 		if (!TopNode->isEmpty())
 		{
 			std::cout << "Generating '" << argv[3] << "/" << argv[4] << "' and '" << argv[3] << "/" << argv[5] << "'" << std::endl;
