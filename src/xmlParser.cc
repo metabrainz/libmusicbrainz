@@ -30,6 +30,15 @@
 
 #include <cstring>
 
+XMLNode::XMLNode(xmlNodePtr node)
+    : mNode(node)
+{
+}
+
+XMLNode::~XMLNode()
+{
+}
+
 XMLNode XMLNode::emptyNode()
 {
     return XMLNode(NULL);
@@ -104,9 +113,25 @@ bool XMLNode::isAttributeSet(const char *name) const
     return (this->getAttributeRaw(name) != NULL);
 }
 
+bool XMLNode::operator ==(const XMLNode &rhs) const
+{
+    return mNode == rhs.mNode;
+}
+
+bool operator !=(const XMLNode &lhs, const XMLNode &rhs)
+{
+    return !(lhs == rhs);
+}
+
 XMLRootNode::XMLRootNode(xmlDocPtr doc): XMLNode(xmlDocGetRootElement(doc)),
                                          mDoc(doc)
 {
+}
+
+XMLRootNode::~XMLRootNode()
+{
+    if (mDoc != NULL)
+        xmlFreeDoc(mDoc);
 }
 
 static xmlNodePtr skipTextNodes(xmlNodePtr node)
@@ -145,4 +170,24 @@ bool XMLNode::isEmpty() const
     return mNode == NULL;
 }
 
+XMLAttribute::XMLAttribute(xmlAttrPtr attr)
+    : mAttr(attr)
+{
+}
+
+bool XMLAttribute::isEmpty() const {
+    return (mAttr == NULL);
+}
+
+std::string XMLAttribute::name() const {
+    return std::string((const char *)mAttr->name);
+}
+
+std::string XMLAttribute::value() const {
+    return std::string((const char *)mAttr->children->content);
+}
+
+const XMLAttribute XMLAttribute::next() const {
+    return XMLAttribute(mAttr->next);
+}
 

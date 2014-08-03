@@ -39,7 +39,7 @@ class XMLNode
         static XMLNode emptyNode();
         bool isEmpty() const;
 
-        virtual ~XMLNode() {};
+        virtual ~XMLNode();
 
         const XMLAttribute getAttribute(const char *name = NULL) const;
         bool isAttributeSet(const char *name) const;
@@ -49,10 +49,10 @@ class XMLNode
         const char *getName() const;
         const char *getText() const;
 
-        friend bool operator== (const XMLNode &lhs, const XMLNode &rhs);
+        bool operator ==(const XMLNode &rhs) const;
 
     protected:
-        XMLNode(xmlNodePtr node): mNode(node) {};
+        XMLNode(xmlNodePtr node);
 
         xmlNodePtr mNode;
 
@@ -60,15 +60,7 @@ class XMLNode
         xmlAttrPtr getAttributeRaw(const char *name) const;
 };
 
-inline bool operator== (const XMLNode &lhs, const XMLNode &rhs)
-{
-    return (lhs.mNode == rhs.mNode);
-}
-
-inline bool operator!= (const XMLNode &lhs, const XMLNode &rhs)
-{
-        return !(lhs == rhs);
-}
+bool operator !=(const XMLNode &lhs, const XMLNode &rhs);
 
 class XMLRootNode: public XMLNode
 {
@@ -76,36 +68,26 @@ class XMLRootNode: public XMLNode
         static XMLNode* parseString(const std::string &xml, XMLResults *results);
         static XMLNode* parseFile(const std::string &filename, XMLResults *results);
 
-        virtual ~XMLRootNode() { if (mDoc != NULL) xmlFreeDoc(mDoc); };
+        virtual ~XMLRootNode();
 
     private:
         XMLRootNode(xmlDocPtr doc);
 
-        mutable xmlDocPtr mDoc;
+        xmlDocPtr mDoc;
 };
 
 class XMLAttribute
 {
     public:
-        bool isEmpty() const {
-            return (mAttr == NULL);
-        }
-
-        std::string name() const {
-            return std::string((const char *)mAttr->name);
-        }
-
-        std::string value() const {
-            return std::string((const char *)mAttr->children->content);
-        }
-        const XMLAttribute next() const {
-            return XMLAttribute(mAttr->next);
-        }
+        bool isEmpty() const;
+        std::string name() const;
+        std::string value() const;
+        const XMLAttribute next() const;
 
         friend const XMLAttribute XMLNode::getAttribute(const char *name) const;
 
     private:
-        XMLAttribute(xmlAttrPtr attr): mAttr(attr) {};
+        XMLAttribute(xmlAttrPtr attr);
         xmlAttrPtr mAttr;
 };
 
