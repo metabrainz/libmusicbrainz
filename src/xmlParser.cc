@@ -47,7 +47,7 @@ XMLNode *XMLRootNode::parseFile(const std::string &filename, xmlErrorPtr results
     return new XMLRootNode(doc);
 }
 
-XMLNode *XMLRootNode::parseString(std::string &xml, xmlErrorPtr results)
+XMLNode *XMLRootNode::parseString(const std::string &xml, xmlErrorPtr results)
 {
     xmlDocPtr doc;
 

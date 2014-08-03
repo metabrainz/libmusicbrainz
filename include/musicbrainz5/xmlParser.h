@@ -73,7 +73,7 @@ inline bool operator!= (const XMLNode &lhs, const XMLNode &rhs)
 class XMLRootNode: public XMLNode
 {
     public:
-        static XMLNode* parseString(std::string &xml, XMLResults *results);
+        static XMLNode* parseString(const std::string &xml, XMLResults *results);
         static XMLNode* parseFile(const std::string &filename, XMLResults *results);
 
         virtual ~XMLRootNode() { if (mDoc != NULL) xmlFreeDoc(mDoc); };
