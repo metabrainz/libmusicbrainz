@@ -41,6 +41,8 @@ struct XMLResults
     std::string message;
     int line;
     int code;
+
+    XMLResults();
 };
 
 const int eXMLErrorNone = 0;

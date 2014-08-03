@@ -31,6 +31,11 @@
 #include <cstring>
 #include <libxml/tree.h>
 
+XMLResults::XMLResults()
+    : line(0),
+      code(eXMLErrorNone)
+{}
+
 XMLNode::XMLNode(xmlNodePtr node)
     : mNode(node)
 {
