@@ -68,6 +68,53 @@ void PrintRelationList(MusicBrainz5::CRelationList *RelationList)
 
 int main(int argc, const char *argv[])
 {
+	//http://musicbrainz.org/ws/2/artist/4b585938-f271-45e2-b19a-91c634b5e396
+	//http://musicbrainz.org/ws/2/artist/9d1ebcfe-4c15-4d18-95d3-d919898638a1?inc=aliases
+	//http://musicbrainz.org/ws/2/release/c0afd87f-2f90-4c4d-b69d-ec150660fa5a?inc=artist-credits%2Blabels%2Bdiscids%2Brecordings
+	//http://musicbrainz.org/ws/2/label/1ca5ed29-e00b-4ea5-b817-0bcca0e04946?inc=aliases
+
+	//Metadata
+	//	Area
+	//	Place
+	//	Area list
+	//	Place list
+	//	URL list
+	//	Entity list
+	//	
+	//Artist
+	//	Area
+	//	Begin area
+	//	End area
+	//
+	//Release
+	//	Release event list
+	//	
+	//Recording
+	//	Video
+	//	
+	//Label
+	//	Area
+	//	
+	//URL
+	//	URL attribute extension
+	//	
+	//Relation
+	//	ID
+	//	Area
+	//	
+	//Track
+	//	ID
+	//	
+	//New elements
+	//	Area
+	//	Place
+	//	Release event
+	//	Area list
+	//	Place list
+	//	URL list
+	//	Release event list
+	//	Entity list
+	//	
 	MusicBrainz5::CQuery MB2("MBTest/v1.0","musicbrainz.org");
 
 	MusicBrainz5::CQuery::tParamMap ParamsTargetID;
