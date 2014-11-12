@@ -86,14 +86,20 @@ MusicBrainz5::CIPI *MusicBrainz5::CIPI::Clone()
 
 void MusicBrainz5::CIPI::ParseAttribute(const std::string& Name, const std::string& /*Value*/)
 {
+#ifdef _MB5_DEBUG_
 	std::cerr << "Unrecognised IPI attribute: '" << Name << "'" << std::endl;
+#else
+	(void)Name;
+#endif
 }
 
 void MusicBrainz5::CIPI::ParseElement(const XMLNode& Node)
 {
 	std::string Name=Node.getName();
 
+#ifdef _MB5_DEBUG_
 	std::cerr << "Unrecognised IPI element: '" << Name << "'" << std::endl;
+#endif
 }
 
 std::string MusicBrainz5::CIPI::GetElementName()

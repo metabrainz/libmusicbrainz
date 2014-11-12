@@ -106,7 +106,9 @@ void MusicBrainz5::CCollection::ParseAttribute(const std::string& Name, const st
 		m_d->m_ID=Value;
 	else
 	{
+#ifdef _MB5_DEBUG_
 		std::cerr << "Unrecognised collection attribute: '" << Name << "'" << std::endl;
+#endif
 	}
 }
 
@@ -128,7 +130,9 @@ void MusicBrainz5::CCollection::ParseElement(const XMLNode& Node)
 	}
 	else
 	{
+#ifdef _MB5_DEBUG_
 		std::cerr << "Unrecognised collection element: '" << NodeName << "'" << std::endl;
+#endif
 	}
 }
 

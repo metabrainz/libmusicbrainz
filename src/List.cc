@@ -109,7 +109,9 @@ void MusicBrainz5::CList::ParseAttribute(const std::string& Name, const std::str
 		ProcessItem(Value,m_d->m_Count);
 	else
 	{
+#ifdef _MB5_DEBUG_
 		std::cerr << "Unrecognised list attribute: '" << Name << "'" << std::endl;
+#endif
 	}
 }
 
@@ -117,7 +119,9 @@ void MusicBrainz5::CList::ParseElement(const XMLNode& Node)
 {
 	std::string NodeName=Node.getName();
 
+#ifdef _MB5_DEBUG_
 	std::cerr << "Unrecognised list element: '" << NodeName << "'" << std::endl;
+#endif
 }
 
 std::string MusicBrainz5::CList::GetElementName()

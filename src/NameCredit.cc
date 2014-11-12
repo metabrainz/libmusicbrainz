@@ -104,7 +104,9 @@ void MusicBrainz5::CNameCredit::ParseAttribute(const std::string& Name, const st
 		m_d->m_JoinPhrase=Value;
 	else
 	{
+#ifdef _MB5_DEBUG_
 		std::cerr << "Unrecognised namecredit attribute: '" << Name << "'" << std::endl;
+#endif
 	}
 }
 
@@ -122,7 +124,9 @@ void MusicBrainz5::CNameCredit::ParseElement(const XMLNode& Node)
 	}
 	else
 	{
+#ifdef _MB5_DEBUG_
 		std::cerr << "Unrecognised name credit element: '" << NodeName << "'" << std::endl;
+#endif
 	}
 }
 

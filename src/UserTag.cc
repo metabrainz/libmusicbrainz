@@ -77,7 +77,11 @@ MusicBrainz5::CUserTag *MusicBrainz5::CUserTag::Clone()
 
 void MusicBrainz5::CUserTag::ParseAttribute(const std::string& Name, const std::string& /*Value*/)
 {
+#ifdef _MB5_DEBUG_
 	std::cerr << "Unrecognised usertag attribute: '" << Name << "'" << std::endl;
+#else
+	(void)Name;
+#endif
 }
 
 void MusicBrainz5::CUserTag::ParseElement(const XMLNode& Node)
@@ -90,7 +94,9 @@ void MusicBrainz5::CUserTag::ParseElement(const XMLNode& Node)
 	}
 	else
 	{
+#ifdef _MB5_DEBUG_
 		std::cerr << "Unrecognised UserTag element: '" << NodeName << "'" << std::endl;
+#endif
 	}
 }
 

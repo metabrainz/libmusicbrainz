@@ -98,7 +98,11 @@ MusicBrainz5::CArtistCredit *MusicBrainz5::CArtistCredit::Clone()
 
 void MusicBrainz5::CArtistCredit::ParseAttribute(const std::string& Name, const std::string& /*Value*/)
 {
+#ifdef _MB5_DEBUG_
 	std::cerr << "Unrecognised artistcredit attribute: '" << Name << "'" << std::endl;
+#else
+	(void)Name;
+#endif
 }
 
 void MusicBrainz5::CArtistCredit::ParseElement(const XMLNode& Node)
@@ -112,7 +116,9 @@ void MusicBrainz5::CArtistCredit::ParseElement(const XMLNode& Node)
 	}
 	else
 	{
+#ifdef _MB5_DEBUG_
 		std::cerr << "Unrecognised artistcredit element: '" << NodeName << "'" << std::endl;
+#endif
 	}
 }
 

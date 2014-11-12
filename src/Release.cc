@@ -180,7 +180,9 @@ void MusicBrainz5::CRelease::ParseAttribute(const std::string& Name, const std::
 		m_d->m_ID=Value;
 	else
 	{
+#ifdef _MB5_DEBUG_
 		std::cerr << "Unrecognised release attribute: '" << Name << "'" << std::endl;
+#endif
 	}
 }
 
@@ -254,7 +256,9 @@ void MusicBrainz5::CRelease::ParseElement(const XMLNode& Node)
 	}
 	else
 	{
+#ifdef _MB5_DEBUG_
 		std::cerr << "Unrecognised release element: '" << NodeName << "'" << std::endl;
+#endif
 	}
 }
 

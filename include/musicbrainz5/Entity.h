@@ -76,10 +76,12 @@ namespace MusicBrainz5
 			os >> RetVal;
 			if (os.fail())
 			{
+#ifdef _MB5_DEBUG_
 				std::cerr << "Error parsing value '";
 				if (Node.getText())
 					std::cerr << Node.getText();
 				std::cerr << "'" << std::endl;
+#endif
 			}
 		}
 
@@ -92,7 +94,9 @@ namespace MusicBrainz5
 			os >> RetVal;
 			if (os.fail())
 			{
+#ifdef _MB5_DEBUG_
 				std::cerr << "Error parsing value '" << Text << "'" << std::endl;
+#endif
 			}
 		}
 

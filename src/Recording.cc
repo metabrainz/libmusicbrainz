@@ -157,7 +157,9 @@ void MusicBrainz5::CRecording::ParseAttribute(const std::string& Name, const std
 		m_d->m_ID=Value;
 	else
 	{
+#ifdef _MB5_DEBUG_
 		std::cerr << "Unrecognised recording attribute: '" << Name << "'" << std::endl;
+#endif
 	}
 }
 
@@ -215,7 +217,9 @@ void MusicBrainz5::CRecording::ParseElement(const XMLNode& Node)
 	}
 	else
 	{
+#ifdef _MB5_DEBUG_
 		std::cerr << "Unrecognised recording element: '" << NodeName << "'" << std::endl;
+#endif
 	}
 }
 

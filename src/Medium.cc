@@ -114,7 +114,11 @@ MusicBrainz5::CMedium *MusicBrainz5::CMedium::Clone()
 
 void MusicBrainz5::CMedium::ParseAttribute(const std::string& Name, const std::string& /*Value*/)
 {
+#ifdef _MB5_DEBUG_
 	std::cerr << "Unrecognised medium attribute: '" << Name << "'" << std::endl;
+#else
+	(void)Name;
+#endif
 }
 
 void MusicBrainz5::CMedium::ParseElement(const XMLNode& Node)
@@ -143,7 +147,9 @@ void MusicBrainz5::CMedium::ParseElement(const XMLNode& Node)
 	}
 	else
 	{
+#ifdef _MB5_DEBUG_
 		std::cerr << "Unrecognised medium element: '" << NodeName << "'" << std::endl;
+#endif
 	}
 }
 

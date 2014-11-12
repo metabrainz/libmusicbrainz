@@ -66,7 +66,7 @@ void PrintRelationList(MusicBrainz5::CRelationList *RelationList)
 
 int main(int argc, const char *argv[])
 {
-	MusicBrainz5::CQuery MB2("MBTest/v1.0","test.musicbrainz.org");
+	MusicBrainz5::CQuery MB2("MBTest/v1.0","musicbrainz.org");
 
 	MusicBrainz5::CQuery::tParamMap Params5;
 	Params5["inc"]="aliases";
@@ -83,11 +83,11 @@ int main(int argc, const char *argv[])
 		}
 	}
 
-	return 0;
+//	return 0;
 
 	MusicBrainz5::CMetadata Metadata8=MB2.Query("release-group","2eefe885-f050-426d-93f0-29c5eb8b4f9a");
 	std::cout << Metadata8 << std::endl;
-	return 0;
+//	return 0;
 
 	MusicBrainz5::CMetadata Metadata7=MB2.Query("artist","4b585938-f271-45e2-b19a-91c634b5e396");
 	Artist=Metadata7.Artist();
@@ -107,7 +107,7 @@ int main(int argc, const char *argv[])
 		}
 	}
 
-	return 0;
+//	return 0;
 
 	MusicBrainz5::CMetadata Metadata6=MB2.Query("release-group","2eefe885-f050-426d-93f0-29c5eb8b4f9a");
 	MusicBrainz5::CReleaseGroup *ReleaseGroup=Metadata6.ReleaseGroup();
@@ -133,7 +133,7 @@ int main(int argc, const char *argv[])
 		}
 	}
 
-	return 0;
+//	return 0;
 
 	MusicBrainz5::CMetadata Metadata4=MB2.Query("work","b0d17375-5593-390e-a936-1a65ce74c630");
 
@@ -192,7 +192,7 @@ int main(int argc, const char *argv[])
 		}
 	}
 
-	return 0;
+//	return 0;
 
 	MusicBrainz5::CQuery MB("MBTest/v1.0");
 
@@ -222,7 +222,7 @@ int main(int argc, const char *argv[])
 		}
 	}
 
-	return 0;
+//	return 0;
 
 	MusicBrainz5::CQuery::tParamMap Params;
 	Params["inc"]="artists labels recordings release-groups url-rels discids recording-level-rels work-level-rels work-rels artist-rels";
@@ -271,7 +271,7 @@ int main(int argc, const char *argv[])
 		}
 	}
 
-	return 0;
+//	return 0;
 
 	MusicBrainz5::CMetadata Metadata=MB.Query("collection");
 	MusicBrainz5::CCollectionList *CollectionList=Metadata.CollectionList();
@@ -298,7 +298,7 @@ int main(int argc, const char *argv[])
 		MB.Query("collection",Collection->ID(),"releases");
 	}
 
-	return 0;
+//	return 0;
 
 	std::string DiscID="arIS30RPWowvwNEqsqdDnZzDGhk-";
 

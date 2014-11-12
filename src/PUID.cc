@@ -103,7 +103,9 @@ void MusicBrainz5::CPUID::ParseAttribute(const std::string& Name, const std::str
 		m_d->m_ID=Value;
 	else
 	{
+#ifdef _MB5_DEBUG_
 		std::cerr << "Unrecognised puid attribute: '" << Name << "'" << std::endl;
+#endif
 	}
 }
 
@@ -117,7 +119,9 @@ void MusicBrainz5::CPUID::ParseElement(const XMLNode& Node)
 	}
 	else
 	{
+#ifdef _MB5_DEBUG_
 		std::cerr << "Unrecognised PUID element: '" << NodeName << "'" << std::endl;
+#endif
 	}
 }
 

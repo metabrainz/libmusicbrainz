@@ -98,7 +98,11 @@ MusicBrainz5::CLabelInfo *MusicBrainz5::CLabelInfo::Clone()
 
 void MusicBrainz5::CLabelInfo::ParseAttribute(const std::string& Name, const std::string& /*Value*/)
 {
+#ifdef _MB5_DEBUG_
 	std::cerr << "Unrecognised labelinfo attribute: '" << Name << "'" << std::endl;
+#else
+	(void)Name;
+#endif
 }
 
 void MusicBrainz5::CLabelInfo::ParseElement(const XMLNode& Node)
@@ -115,7 +119,9 @@ void MusicBrainz5::CLabelInfo::ParseElement(const XMLNode& Node)
 	}
 	else
 	{
+#ifdef _MB5_DEBUG_
 		std::cerr << "Unrecognised label info element: '" << NodeName << "'" << std::endl;
+#endif
 	}
 }
 

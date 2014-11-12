@@ -234,7 +234,9 @@ void MusicBrainz5::CArtist::ParseAttribute(const std::string& Name, const std::s
 		m_d->m_Type=Value;
 	else
 	{
+#ifdef _MB5_DEBUG_
 		std::cerr << "Unrecognised artist attribute: '" << Name << "'" << std::endl;
+#endif
 	}
 }
 
@@ -320,7 +322,9 @@ void MusicBrainz5::CArtist::ParseElement(const XMLNode& Node)
 	}
 	else
 	{
+#ifdef _MB5_DEBUG_
 		std::cerr << "Unrecognised artist element: '" << NodeName << "'" << std::endl;
+#endif
 	}
 }
 

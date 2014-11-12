@@ -183,7 +183,9 @@ void MusicBrainz5::CReleaseGroup::ParseAttribute(const std::string& Name, const 
 	}
 	else
 	{
+#ifdef _MB5_DEBUG_
 		std::cerr << "Unrecognised releasegroup attribute: '" << Name << "'" << std::endl;
+#endif
 	}
 }
 
@@ -241,7 +243,9 @@ void MusicBrainz5::CReleaseGroup::ParseElement(const XMLNode& Node)
 	}
 	else
 	{
+#ifdef _MB5_DEBUG_
 		std::cerr << "Unrecognised release group element: '" << NodeName << "'" << std::endl;
+#endif
 	}
 }
 

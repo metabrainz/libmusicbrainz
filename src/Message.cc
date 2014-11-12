@@ -77,7 +77,11 @@ MusicBrainz5::CMessage *MusicBrainz5::CMessage::Clone()
 
 void MusicBrainz5::CMessage::ParseAttribute(const std::string& Name, const std::string& /*Value*/)
 {
+#ifdef _MB5_DEBUG_
 	std::cerr << "Unrecognised message attribute: '" << Name << "'" << std::endl;
+#else
+	(void)Name;
+#endif
 }
 
 void MusicBrainz5::CMessage::ParseElement(const XMLNode& Node)
@@ -88,7 +92,9 @@ void MusicBrainz5::CMessage::ParseElement(const XMLNode& Node)
 		ProcessItem(Node,m_d->m_Text);
 	else
 	{
+#ifdef _MB5_DEBUG_
 		std::cerr << "Unrecognised message element: '" << NodeName << "'" << std::endl;
+#endif
 	}
 }
 

@@ -111,7 +111,9 @@ void MusicBrainz5::CCDStub::ParseAttribute(const std::string& Name, const std::s
 		m_d->m_ID=Value;
 	else
 	{
+#ifdef _MB5_DEBUG_
 		std::cerr << "Unrecognised cdstub attribute: '" << Name << "'" << std::endl;
+#endif
 	}
 }
 
@@ -141,7 +143,9 @@ void MusicBrainz5::CCDStub::ParseElement(const XMLNode& Node)
 	}
 	else
 	{
+#ifdef _MB5_DEBUG_
 		std::cerr << "Unrecognised cd stub element: '" << NodeName << "'" << std::endl;
+#endif
 	}
 }
 

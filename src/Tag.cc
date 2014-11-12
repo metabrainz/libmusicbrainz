@@ -90,7 +90,9 @@ void MusicBrainz5::CTag::ParseAttribute(const std::string& Name, const std::stri
 	}
 	else
 	{
+#ifdef _MB5_DEBUG_
 		std::cerr << "Unrecognised tag attribute: '" << Name << "'" << std::endl;
+#endif
 	}
 }
 
@@ -104,7 +106,9 @@ void MusicBrainz5::CTag::ParseElement(const XMLNode& Node)
 	}
 	else
 	{
+#ifdef _MB5_DEBUG_
 		std::cerr << "Unrecognised tag element: '" << NodeName << "'" << std::endl;
+#endif
 	}
 }
 

@@ -197,7 +197,9 @@ void MusicBrainz5::CLabel::ParseAttribute(const std::string& Name, const std::st
 		m_d->m_Type=Value;
 	else
 	{
+#ifdef _MB5_DEBUG_
 		std::cerr << "Unrecognised label attribute: '" << Name << "'" << std::endl;
+#endif
 	}
 }
 
@@ -267,7 +269,9 @@ void MusicBrainz5::CLabel::ParseElement(const XMLNode& Node)
 	}
 	else
 	{
+#ifdef _MB5_DEBUG_
 		std::cerr << "Unrecognised label element: '" << NodeName << "'" << std::endl;
+#endif
 	}
 }
 

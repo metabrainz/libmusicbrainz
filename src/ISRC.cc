@@ -103,7 +103,9 @@ void MusicBrainz5::CISRC::ParseAttribute(const std::string& Name, const std::str
 		m_d->m_ID=Value;
 	else
 	{
+#ifdef _MB5_DEBUG_
 		std::cerr << "Unrecognised isrc attribute: '" << Name << "'" << std::endl;
+#endif
 	}
 }
 
@@ -117,7 +119,9 @@ void MusicBrainz5::CISRC::ParseElement(const XMLNode& Node)
 	}
 	else
 	{
+#ifdef _MB5_DEBUG_
 		std::cerr << "Unrecognised ISRC element: '" << NodeName << "'" << std::endl;
+#endif
 	}
 }
 

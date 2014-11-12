@@ -36,6 +36,26 @@
 #include "ne_string.h"
 #include "ne_request.h"
 
+#if defined(__GNUC__)
+__attribute__((constructor))
+#else
+	#error Non GCC compiler detected
+#endif
+static void initialize_neon() 
+{
+	ne_sock_init();
+}
+
+#if defined(__GNUC__)
+__attribute__((destructor))
+#else
+	#error Non GCC compiler detected
+#endif
+static void destroy_neon() 
+{
+	ne_sock_exit();
+}
+
 class MusicBrainz5::CHTTPFetchPrivate
 {
 	public:
@@ -147,8 +167,6 @@ int MusicBrainz5::CHTTPFetch::Fetch(const std::string& URL, const std::string& R
 
 	m_d->m_Data.clear();
 
-	ne_sock_init();
-
 	ne_session *sess=ne_session_create("http", m_d->m_Host.c_str(), m_d->m_Port);
 	if (sess)
 	{
@@ -229,8 +247,6 @@ int MusicBrainz5::CHTTPFetch::Fetch(const std::string& URL, const std::string& R
 				break;
 		}
 	}
-
-	ne_sock_exit();
 
 	return Ret;
 }
