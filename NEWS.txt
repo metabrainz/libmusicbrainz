@@ -1,3 +1,10 @@
+Changes for libmusicbrainz 5.1.0
+--------------------------------
+
+   - Fix LMB-33 - Handle 'ended' element in 'relation'
+   - Fix LMB-34 - Remove non-free XML parser and replace with libxml2
+   - Add support for cross-compilation and building out of tree
+
 Changes for libmusicbrainz 5.0.1
 --------------------------------
 
