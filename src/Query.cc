@@ -34,6 +34,7 @@
 
 #include <sstream>
 #include <iostream>
+#include <cstdlib>
 
 #include <string.h>
 #include <unistd.h>
@@ -159,15 +160,16 @@ MusicBrainz5::CMetadata MusicBrainz5::CQuery::PerformQuery(const std::string& Qu
 #endif
 
 			XMLResults Results;
-			XMLNode TopNode=XMLNode::parseString(strData.c_str(), 0, &Results);
-			if (Results.error==eXMLErrorNone)
+			XMLNode *TopNode = XMLRootNode::parseString(strData, &Results);
+			if (Results.code==eXMLErrorNone)
 			{
-				XMLNode MetadataNode=TopNode.getChildNode("metadata");
+				XMLNode MetadataNode=*TopNode;
 				if (!MetadataNode.isEmpty())
 				{
 					Metadata=CMetadata(MetadataNode);
 				}
 			}
+			delete TopNode;
 		}
 	}
 
@@ -394,10 +396,10 @@ bool MusicBrainz5::CQuery::EditCollection(const std::string& CollectionID, const
 #endif
 
 				XMLResults Results;
-				XMLNode TopNode=XMLNode::parseString(strData.c_str(), 0, &Results);
-				if (Results.error==eXMLErrorNone)
+				XMLNode *TopNode = XMLRootNode::parseString(strData, &Results);
+				if (Results.code==eXMLErrorNone)
 				{
-					XMLNode MetadataNode=TopNode.getChildNode("metadata");
+					XMLNode MetadataNode=*TopNode;
 					if (!MetadataNode.isEmpty())
 					{
 						CMetadata Metadata(MetadataNode);
@@ -406,6 +408,7 @@ bool MusicBrainz5::CQuery::EditCollection(const std::string& CollectionID, const
 							RetVal=RetVal && true;
 					}
 				}
+				delete TopNode;
 			}
 		}
 

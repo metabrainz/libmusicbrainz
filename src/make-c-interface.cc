@@ -29,8 +29,11 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <cstring>
+#include <unistd.h>
 #include <vector>
 #include <string>
+#include <cstdlib>
 
 #include "musicbrainz5/xmlParser.h"
 
@@ -52,8 +55,8 @@ int main(int argc, const char *argv[])
 	{
 		std::string XMLFile=std::string(argv[1])+"/"+argv[2];
 		XMLResults Results;
-		XMLNode TopNode=XMLNode::parseFile(XMLFile.c_str(),"cinterface",&Results);
-		if (!TopNode.isEmpty())
+		XMLNode *TopNode=XMLRootNode::parseFile(XMLFile.c_str(),&Results);
+		if (!TopNode->isEmpty())
 		{
 			std::cout << "Generating '" << argv[3] << "/" << argv[4] << "' and '" << argv[3] << "/" << argv[5] << "'" << std::endl;
 
@@ -75,9 +78,10 @@ int main(int argc, const char *argv[])
 				return 1;
 			}
 
-			for (int count=0;count<TopNode.nChildNode();count++)
+			for (XMLNode Node = TopNode->getChildNode();
+			     !Node.isEmpty();
+			     Node = Node.next())
 			{
-				XMLNode Node=TopNode.getChildNode(count);
 				std::string Name=Node.getName();
 
 				if ("boilerplate"==Name)
@@ -85,7 +89,7 @@ int main(int argc, const char *argv[])
 				else if ("header"==Name)
 					ProcessHeader(Node,Source,Include);
 				else if ("declare"==Name)
-					ProcessDeclare(TopNode,Source,Include);
+					ProcessDeclare(*TopNode,Source,Include);
 				else if ("entity"==Name)
 					ProcessEntity(Node,Source,Include);
 				else if ("class"==Name)
@@ -101,9 +105,11 @@ int main(int argc, const char *argv[])
 		}
 		else
 		{
-			std::cerr << "Error reading XML: " << XMLNode::getError(Results.error) << " at line " << Results.nLine << std::endl;
+			std::cerr << "Error reading XML: " << Results.message << " at line " << Results.line << std::endl;
 			return 1;
 		}
+                if (TopNode != NULL)
+                    delete TopNode;
 	}
 
 	return 0;
@@ -115,7 +121,7 @@ std::ofstream *GetFile(const XMLNode& Node, std::ofstream& Source, std::ofstream
 
 	if (Node.isAttributeSet("target"))
 	{
-		std::string Target=Node.getAttribute("target");
+		std::string Target=Node.getAttribute("target").value();
 		if ("source"==Target)
 			File=&Source;
 		else if ("include"==Target)
@@ -164,7 +170,7 @@ void ProcessBoilerplate(const XMLNode& Node, std::ofstream& Source, std::ofstrea
 
 	if (Node.isAttributeSet("file"))
 	{
-		std::string FileName=Path+"/"+Node.getAttribute("file");
+		std::string FileName=Path+"/"+Node.getAttribute("file").value();
 		std::ifstream InFile(FileName.c_str());
 		if (InFile.is_open())
 			*File << InFile.rdbuf() << std::endl;
@@ -265,11 +271,11 @@ void ProcessClass(const XMLNode& Node, std::ofstream& Source, std::ofstream& Inc
 {
 	if (Node.isAttributeSet("name"))
 	{
-		std::string LowerName=Node.getAttribute("name");
+		std::string LowerName=Node.getAttribute("name").value();
 
 		std::string UpperName=LowerName;
 		if (Node.isAttributeSet("uppername"))
-			UpperName=Node.getAttribute("uppername");
+			UpperName=Node.getAttribute("uppername").value();
 		else
 			UpperName[0]=toupper(UpperName[0]);
 
@@ -296,24 +302,25 @@ void ProcessClass(const XMLNode& Node, std::ofstream& Source, std::ofstream& Inc
 
 		Source << "  MB5_C_CLONE(" << UpperName << "," << LowerName << ")" << std::endl;
 
-		for (int count=0;count<Node.nChildNode();count++)
+		for (XMLNode ChildNode = Node.getChildNode();
+		     !ChildNode.isEmpty();
+		     ChildNode = ChildNode.next())
 		{
-			XMLNode ChildNode=Node.getChildNode(count);
 			std::string Name=ChildNode.getName();
 
 			if ("property"==Name)
 			{
 				if (ChildNode.isAttributeSet("name") && ChildNode.isAttributeSet("type"))
 				{
-					std::string PropertyLowerName=ChildNode.getAttribute("name");
+					std::string PropertyLowerName=ChildNode.getAttribute("name").value();
 
 					std::string PropertyUpperName=PropertyLowerName;
 					if (ChildNode.isAttributeSet("uppername"))
-						PropertyUpperName=ChildNode.getAttribute("uppername");
+						PropertyUpperName=ChildNode.getAttribute("uppername").value();
 					else
 						PropertyUpperName[0]=toupper(PropertyUpperName[0]);
 
-					std::string PropertyType=ChildNode.getAttribute("type");
+					std::string PropertyType=ChildNode.getAttribute("type").value();
 
 					if ("string"==PropertyType)
 					{
@@ -322,13 +329,13 @@ void ProcessClass(const XMLNode& Node, std::ofstream& Source, std::ofstream& Inc
 
 						if (ChildNode.isAttributeSet("deprecated"))
 						{
-							std::string StrDeprecated=ChildNode.getAttribute("deprecated");
+							std::string StrDeprecated=ChildNode.getAttribute("deprecated").value();
 
 							if (StrDeprecated=="true")
 								Deprecated=true;
 
 							if (ChildNode.isAttributeSet("replacement"))
-								Replacement=ChildNode.getAttribute("replacement");
+								Replacement=ChildNode.getAttribute("replacement").value();
 						}
 
 						Include << "/**" << std::endl;
@@ -472,11 +479,11 @@ void ProcessList(const XMLNode& Node, std::ofstream& Source, std::ofstream& Incl
 {
 	if (Node.isAttributeSet("name"))
 	{
-		std::string LowerName=Node.getAttribute("name");
+		std::string LowerName=Node.getAttribute("name").value();
 
 		std::string UpperName=LowerName;
 		if (Node.isAttributeSet("uppername"))
-			UpperName=Node.getAttribute("uppername");
+			UpperName=Node.getAttribute("uppername").value();
 		else
 			UpperName[0]=toupper(UpperName[0]);
 
@@ -534,24 +541,25 @@ void ProcessList(const XMLNode& Node, std::ofstream& Source, std::ofstream& Incl
 
 		Source << "  MB5_C_CLONE(" << UpperName << "List," << LowerName << "_list)" << std::endl;
 
-		for (int count=0;count<Node.nChildNode();count++)
+		for (XMLNode ChildNode = Node.getChildNode();
+		     !ChildNode.isEmpty();
+		     ChildNode = ChildNode.next())
 		{
-			XMLNode ChildNode=Node.getChildNode(count);
 			std::string Name=ChildNode.getName();
 
 			if ("property"==Name)
 			{
 				if (ChildNode.isAttributeSet("name") && ChildNode.isAttributeSet("type"))
 				{
-					std::string PropertyLowerName=ChildNode.getAttribute("name");
+					std::string PropertyLowerName=ChildNode.getAttribute("name").value();
 
 					std::string PropertyUpperName=PropertyLowerName;
 					if (ChildNode.isAttributeSet("uppername"))
-						PropertyUpperName=ChildNode.getAttribute("uppername");
+						PropertyUpperName=ChildNode.getAttribute("uppername").value();
 					else
 						PropertyUpperName[0]=toupper(PropertyUpperName[0]);
 
-					std::string PropertyType=ChildNode.getAttribute("type");
+					std::string PropertyType=ChildNode.getAttribute("type").value();
 
 					if ("string"==PropertyType)
 					{
@@ -639,18 +647,19 @@ void ProcessDeclare(const XMLNode& Node, std::ofstream& /*Source*/, std::ofstrea
 	std::vector<std::string> Classes;
 	Classes.push_back("Entity");
 
-	for (int count=0;count<Node.nChildNode();count++)
+	for (XMLNode ChildNode = Node.getChildNode();
+	     !ChildNode.isEmpty();
+	     ChildNode = ChildNode.next())
 	{
-		XMLNode ChildNode=Node.getChildNode(count);
 		std::string Name=ChildNode.getName();
 
 		if ("class"==Name || "list"==Name)
 		{
 			if (ChildNode.isAttributeSet("name"))
 			{
-				std::string UpperName=ChildNode.getAttribute("name");
+				std::string UpperName=ChildNode.getAttribute("name").value();
 				if (ChildNode.isAttributeSet("uppername"))
-					UpperName=ChildNode.getAttribute("uppername");
+					UpperName=ChildNode.getAttribute("uppername").value();
 				else
 					UpperName[0]=toupper(UpperName[0]);
 
