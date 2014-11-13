@@ -1,0 +1,25 @@
+var class_music_brainz5_1_1_c_release_group =
+[
+    [ "CReleaseGroup", "class_music_brainz5_1_1_c_release_group.html#af5e9f4fb30b8a714f26821f8505767c9", null ],
+    [ "CReleaseGroup", "class_music_brainz5_1_1_c_release_group.html#a5248083d4a692abf4314ba7b960a0547", null ],
+    [ "~CReleaseGroup", "class_music_brainz5_1_1_c_release_group.html#a796b4f0394a5d5d09249b27c5ca6ab6c", null ],
+    [ "ArtistCredit", "class_music_brainz5_1_1_c_release_group.html#ac6ddae95b35049d1637885e617f13398", null ],
+    [ "Clone", "class_music_brainz5_1_1_c_release_group.html#a60ddf530315f813fe0aaf7408a8933ce", null ],
+    [ "Disambiguation", "class_music_brainz5_1_1_c_release_group.html#a6f0e86395a57debbcb8f86741fe8a4e5", null ],
+    [ "FirstReleaseDate", "class_music_brainz5_1_1_c_release_group.html#a6a0dd8f0413d65d31bc5210a70855f0f", null ],
+    [ "GetElementName", "class_music_brainz5_1_1_c_release_group.html#afce2c50a7c56e35e9b3bd94e5b23005f", null ],
+    [ "ID", "class_music_brainz5_1_1_c_release_group.html#af67531401b28afc3164ca4832eea1499", null ],
+    [ "operator=", "class_music_brainz5_1_1_c_release_group.html#af34708465e3e32b7f259827bc0d3a7dd", null ],
+    [ "ParseAttribute", "class_music_brainz5_1_1_c_release_group.html#a5902b955ebea5de990c0418eca86e060", null ],
+    [ "ParseElement", "class_music_brainz5_1_1_c_release_group.html#a48831a7b22c6cb99e9c1c9701001c381", null ],
+    [ "PrimaryType", "class_music_brainz5_1_1_c_release_group.html#aeed9e010d73a12ed97dc98b497d6fe88", null ],
+    [ "Rating", "class_music_brainz5_1_1_c_release_group.html#aa1884a255fee89419c76b3e149f95717", null ],
+    [ "RelationListList", "class_music_brainz5_1_1_c_release_group.html#aff22ac3fa143e712f433dd9a24c6de3b", null ],
+    [ "ReleaseList", "class_music_brainz5_1_1_c_release_group.html#a1edacb0d4128dbecdb1830561d0b62e5", null ],
+    [ "SecondaryTypeList", "class_music_brainz5_1_1_c_release_group.html#a60cbece5a88a513d62bd867af178a6f9", null ],
+    [ "Serialise", "class_music_brainz5_1_1_c_release_group.html#a642d36cb1644a210a0e4504d3566966e", null ],
+    [ "TagList", "class_music_brainz5_1_1_c_release_group.html#a8578721a77fa82c67f06bce97ff4221d", null ],
+    [ "Title", "class_music_brainz5_1_1_c_release_group.html#a6ba0d45254148224f3ef482d29649e8b", null ],
+    [ "UserRating", "class_music_brainz5_1_1_c_release_group.html#a6f6c379abad6ee84aaa7e8f4d14225dc", null ],
+    [ "UserTagList", "class_music_brainz5_1_1_c_release_group.html#a31dd213988e2a125f23caeaa755effe3", null ]
+];

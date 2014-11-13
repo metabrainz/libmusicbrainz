@@ -1,0 +1,25 @@
+var class_music_brainz5_1_1_c_recording =
+[
+    [ "CRecording", "class_music_brainz5_1_1_c_recording.html#ade21923fe4855bbea33d5c4d30fffb2f", null ],
+    [ "CRecording", "class_music_brainz5_1_1_c_recording.html#acb395346485b2fb2b550713da3261830", null ],
+    [ "~CRecording", "class_music_brainz5_1_1_c_recording.html#a8f6b41014819635a652f96cecbec6a70", null ],
+    [ "ArtistCredit", "class_music_brainz5_1_1_c_recording.html#a11770eaf59920ebbf790bd1018e974bb", null ],
+    [ "Clone", "class_music_brainz5_1_1_c_recording.html#af080c39def312e3784eb98246b351e2d", null ],
+    [ "Disambiguation", "class_music_brainz5_1_1_c_recording.html#a636f4e0c769ae23aefc336ad351f077e", null ],
+    [ "GetElementName", "class_music_brainz5_1_1_c_recording.html#aee18b30e1646b4b5c5cad9580c08d200", null ],
+    [ "ID", "class_music_brainz5_1_1_c_recording.html#a52296c64b6eb09110ec4856186a1ad60", null ],
+    [ "ISRCList", "class_music_brainz5_1_1_c_recording.html#aa6082c8c744899beda7be70c94d2e796", null ],
+    [ "Length", "class_music_brainz5_1_1_c_recording.html#a146925671a6c48b6a0eaa8e24920159b", null ],
+    [ "operator=", "class_music_brainz5_1_1_c_recording.html#ac89c3758a399191ee336db179ab80c7c", null ],
+    [ "ParseAttribute", "class_music_brainz5_1_1_c_recording.html#ab5929e77b0740f62d6adedeab07445e7", null ],
+    [ "ParseElement", "class_music_brainz5_1_1_c_recording.html#afbc6411eaad67123023e637f909327f5", null ],
+    [ "PUIDList", "class_music_brainz5_1_1_c_recording.html#ac6f4d0befff61806f9392a0446419a2f", null ],
+    [ "Rating", "class_music_brainz5_1_1_c_recording.html#ad8e0a7bb0298ff429e2d8308619d1685", null ],
+    [ "RelationListList", "class_music_brainz5_1_1_c_recording.html#aa86e482b4d74c98fb5a6bc55611cc150", null ],
+    [ "ReleaseList", "class_music_brainz5_1_1_c_recording.html#ac0db06dfc1eff1112f6f6135caa3cd63", null ],
+    [ "Serialise", "class_music_brainz5_1_1_c_recording.html#a15e660fced966d939cf543a3ed403300", null ],
+    [ "TagList", "class_music_brainz5_1_1_c_recording.html#af19bde90b233536d02571dd8654c37bb", null ],
+    [ "Title", "class_music_brainz5_1_1_c_recording.html#ae5d46ee2924e75f438559ce723981995", null ],
+    [ "UserRating", "class_music_brainz5_1_1_c_recording.html#aacc534a436f57744aa01602944b4016d", null ],
+    [ "UserTagList", "class_music_brainz5_1_1_c_recording.html#a4c6b792dc49c1791259f675257d44dad", null ]
+];

@@ -1,0 +1,25 @@
+var class_music_brainz5_1_1_c_work =
+[
+    [ "CWork", "class_music_brainz5_1_1_c_work.html#a36945f04b3fdf570d1b55ea52864142a", null ],
+    [ "CWork", "class_music_brainz5_1_1_c_work.html#a08bff9611f881aaac374ec9579c49a82", null ],
+    [ "~CWork", "class_music_brainz5_1_1_c_work.html#a071f722bdcebb2fe7a1ade1666aa8c0d", null ],
+    [ "AliasList", "class_music_brainz5_1_1_c_work.html#a076c360ef697decee5e3b51c30972c87", null ],
+    [ "ArtistCredit", "class_music_brainz5_1_1_c_work.html#a2aef5e12548d1a2de752ca0492ba1c32", null ],
+    [ "Clone", "class_music_brainz5_1_1_c_work.html#aae2ae39e6dc6a76b38366e2675492eb1", null ],
+    [ "Disambiguation", "class_music_brainz5_1_1_c_work.html#a6643e8a69955dca324051a78a4ca6df3", null ],
+    [ "GetElementName", "class_music_brainz5_1_1_c_work.html#a6fd062716674e391c6aab595a5d096c2", null ],
+    [ "ID", "class_music_brainz5_1_1_c_work.html#a89b557bc37ca47291fa8ec8d59a5a902", null ],
+    [ "ISWCList", "class_music_brainz5_1_1_c_work.html#a65f6e49089c85701fc628a1ea0b85ab8", null ],
+    [ "Language", "class_music_brainz5_1_1_c_work.html#aed6312fded0f75fdcf95c1caff9529a4", null ],
+    [ "operator=", "class_music_brainz5_1_1_c_work.html#aac4582f910d73da896fd0cc04c3c07cd", null ],
+    [ "ParseAttribute", "class_music_brainz5_1_1_c_work.html#a1e562508791b2630f4cbf269336a908e", null ],
+    [ "ParseElement", "class_music_brainz5_1_1_c_work.html#a335d0fbd075edfb949c575861fdc4ff3", null ],
+    [ "Rating", "class_music_brainz5_1_1_c_work.html#a4db3354c3dc903d3f491a2638f274fcf", null ],
+    [ "RelationListList", "class_music_brainz5_1_1_c_work.html#ae2c4647df57a181de62ace534804425c", null ],
+    [ "Serialise", "class_music_brainz5_1_1_c_work.html#a4c5d7153a349f942766af32146e52004", null ],
+    [ "TagList", "class_music_brainz5_1_1_c_work.html#a417c71d70fed45ec043603df39d24375", null ],
+    [ "Title", "class_music_brainz5_1_1_c_work.html#a06f9bc7c9add84ce810d473a0dc34601", null ],
+    [ "Type", "class_music_brainz5_1_1_c_work.html#a959731888bf0b22a7c569e048b736324", null ],
+    [ "UserRating", "class_music_brainz5_1_1_c_work.html#aad6d98ff6b80678f7ed3e61074a080b9", null ],
+    [ "UserTagList", "class_music_brainz5_1_1_c_work.html#a87dd0a2266981b9f7730de4384898031", null ]
+];
