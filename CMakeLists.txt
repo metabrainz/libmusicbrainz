@@ -48,5 +48,5 @@ ADD_DEPENDENCIES(docs src_gen)
 
 ADD_CUSTOM_TARGET(dist
     rm -rf "libmusicbrainz-${PROJECT_VERSION}"
-    COMMAND git archive --prefix="libmusicbrainz-${PROJECT_VERSION}/" release-${PROJECT_VERSION} | gzip -9 > libmusicbrainz-${PROJECT_VERSION}.tar.gz
+    COMMAND git archive --prefix="libmusicbrainz-${PROJECT_VERSION}/" master | gzip -9 > libmusicbrainz-${PROJECT_VERSION}.tar.gz
 )
