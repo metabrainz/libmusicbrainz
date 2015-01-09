@@ -157,7 +157,7 @@ std::string GetMapValue(std::map<std::string,std::string> Map, int Item)
 		if (o) \
 		{ \
 			try { \
-				((MusicBrainz5::C##TYPE1 *)o)->Set##PROP1(str); \
+				((MusicBrainz5::C##TYPE1 *)o)->Set##PROP1(str ? str : ""); \
 			} \
 			catch (...) { \
 			} \
