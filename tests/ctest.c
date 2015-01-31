@@ -261,6 +261,8 @@ void CompileTest()
 	Mb5NameCreditList NameCreditList=0;
 	Mb5NonMBTrack NonMBTrack=0;
 	Mb5NonMBTrackList NonMBTrackList=0;
+	Mb5Offset Offset=0;
+	Mb5OffsetList OffsetList=0;
 	Mb5PUID PUID=0;
 	Mb5PUIDList PUIDList=0;
 	Mb5Query Query=0;
@@ -482,6 +484,11 @@ void CompileTest()
 	Artist=mb5_namecredit_get_artist(NameCredit);
 	NameCredit=mb5_namecredit_clone(NameCredit);
 	mb5_namecredit_delete(NameCredit);
+
+	DummyInt=mb5_offset_get_offset(Offset);
+	DummyInt=mb5_offset_get_position(Offset);
+	Offset=mb5_offset_clone(Offset);
+	mb5_offset_delete(Offset);
 
 	mb5_puid_get_id(PUID,Str,Size);
 	RecordingList=mb5_puid_get_recordinglist(PUID);
@@ -733,6 +740,13 @@ void CompileTest()
 	DummyInt=mb5_nonmbtrack_list_get_count(NonMBTrackList);
 	DummyInt=mb5_nonmbtrack_list_get_offset(NonMBTrackList);
 	mb5_nonmbtrack_list_delete(NonMBTrackList);
+
+	DummyInt=mb5_offset_list_size(OffsetList);
+	Offset=mb5_offset_list_item(OffsetList,0);
+	OffsetList=mb5_offset_list_clone(OffsetList);
+	DummyInt=mb5_offset_list_get_count(OffsetList);
+	DummyInt=mb5_offset_list_get_offset(OffsetList);
+	mb5_offset_list_delete(OffsetList);
 
 	DummyInt=mb5_puid_list_size(PUIDList);
 	PUID=mb5_puid_list_item(PUIDList,0);
