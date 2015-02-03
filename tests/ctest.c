@@ -362,6 +362,7 @@ void CompileTest()
 
 	mb5_disc_get_id(Disc,Str,Size);
 	DummyInt=mb5_disc_get_sectors(Disc);
+	OffsetList=mb5_disc_get_offsetlist(Disc);
 	ReleaseList=mb5_disc_get_releaselist(Disc);
 	Disc=mb5_disc_clone(Disc);
 	mb5_disc_delete(Disc);
@@ -485,8 +486,8 @@ void CompileTest()
 	NameCredit=mb5_namecredit_clone(NameCredit);
 	mb5_namecredit_delete(NameCredit);
 
-	DummyInt=mb5_offset_get_offset(Offset);
 	DummyInt=mb5_offset_get_position(Offset);
+	DummyInt=mb5_offset_get_offset(Offset);
 	Offset=mb5_offset_clone(Offset);
 	mb5_offset_delete(Offset);
 
