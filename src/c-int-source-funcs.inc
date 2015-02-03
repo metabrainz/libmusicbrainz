@@ -66,6 +66,8 @@
 #include "musicbrainz5/NameCreditList.h"
 #include "musicbrainz5/NonMBTrack.h"
 #include "musicbrainz5/NonMBTrackList.h"
+#include "musicbrainz5/Offset.h"
+#include "musicbrainz5/OffsetList.h"
 #include "musicbrainz5/PUID.h"
 #include "musicbrainz5/PUIDList.h"
 #include "musicbrainz5/Rating.h"

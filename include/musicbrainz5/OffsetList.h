@@ -23,51 +23,16 @@
 
 ----------------------------------------------------------------------------*/
 
-#ifndef _MUSICBRAINZ5_DISC_H
-#define _MUSICBRAINZ5_DISC_H
+#ifndef _MUSICBRAINZ5_OFFSET_LIST_H
+#define _MUSICBRAINZ5_OFFSET_LIST_H
 
-#include "musicbrainz5/Entity.h"
-#include "musicbrainz5/OffsetList.h"
-#include "musicbrainz5/ReleaseList.h"
-
-#include "musicbrainz5/Lifespan.h"
-
-#include <string>
-#include <iostream>
-
-#include "musicbrainz5/xmlParser.h"
+#include "musicbrainz5/ListImpl.h"
 
 namespace MusicBrainz5
 {
-	class CDiscPrivate;
+	class COffset;
 
-	class CDisc: public CEntity
-	{
-	public:
-		CDisc(const XMLNode& Node=XMLNode::emptyNode());
-		CDisc(const CDisc& Other);
-		CDisc& operator =(const CDisc& Other);
-		virtual ~CDisc();
-
-		virtual CDisc *Clone();
-
-		std::string ID() const;
-		int Sectors() const;
-		COffsetList *OffsetList() const;
-		CReleaseList *ReleaseList() const;
-
-		virtual std::ostream& Serialise(std::ostream& os) const;
-		static std::string GetElementName();
-
-	protected:
-		virtual void ParseAttribute(const std::string& Name, const std::string& Value);
-		virtual void ParseElement(const XMLNode& Node);
-
-	private:
-		void Cleanup();
-
-		CDiscPrivate * const m_d;
-	};
+	typedef CListImpl<COffset> COffsetList;
 }
 
 #endif
