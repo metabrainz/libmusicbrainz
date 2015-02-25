@@ -28,6 +28,8 @@
 
 #include "musicbrainz5/Disc.h"
 
+#include "musicbrainz5/OffsetList.h"
+#include "musicbrainz5/Offset.h"
 #include "musicbrainz5/ReleaseList.h"
 #include "musicbrainz5/Release.h"
 
@@ -36,12 +38,14 @@ class MusicBrainz5::CDiscPrivate
 	public:
 		CDiscPrivate()
 		:	m_Sectors(0),
+			m_OffsetList(0),
 			m_ReleaseList(0)
 		{
 		}
 
 		std::string m_ID;
 		int m_Sectors;
+		COffsetList *m_OffsetList;
 		CReleaseList *m_ReleaseList;
 };
 
@@ -75,6 +79,8 @@ MusicBrainz5::CDisc& MusicBrainz5::CDisc::operator =(const CDisc& Other)
 		m_d->m_ID=Other.m_d->m_ID;
 		m_d->m_Sectors=Other.m_d->m_Sectors;
 
+		if (Other.m_d->m_OffsetList)
+			m_d->m_OffsetList=new COffsetList(*Other.m_d->m_OffsetList);
 		if (Other.m_d->m_ReleaseList)
 			m_d->m_ReleaseList=new CReleaseList(*Other.m_d->m_ReleaseList);
 	}
@@ -91,6 +97,8 @@ MusicBrainz5::CDisc::~CDisc()
 
 void MusicBrainz5::CDisc::Cleanup()
 {
+	delete m_d->m_OffsetList;
+	m_d->m_OffsetList=0;
 	delete m_d->m_ReleaseList;
 	m_d->m_ReleaseList=0;
 }
@@ -120,6 +128,9 @@ void MusicBrainz5::CDisc::ParseElement(const XMLNode& Node)
 	{
 		ProcessItem(Node,m_d->m_Sectors);
 	}
+	else if ("offset-list"==NodeName) {
+		ProcessItem(Node,m_d->m_OffsetList);
+	}
 	else if ("release-list"==NodeName)
 	{
 		ProcessItem(Node,m_d->m_ReleaseList);
@@ -147,6 +158,11 @@ int MusicBrainz5::CDisc::Sectors() const
 	return m_d->m_Sectors;
 }
 
+MusicBrainz5::COffsetList *MusicBrainz5::CDisc::OffsetList() const
+{
+	return m_d->m_OffsetList;
+}
+
 MusicBrainz5::CReleaseList *MusicBrainz5::CDisc::ReleaseList() const
 {
 	return m_d->m_ReleaseList;
@@ -161,6 +177,8 @@ std::ostream& MusicBrainz5::CDisc::Serialise(std::ostream& os) const
 	os << "\tID:      " << ID() << std::endl;
 	os << "\tSectors: " << Sectors() << std::endl;
 
+	if (OffsetList())
+		os << *OffsetList() << std::endl;
 	if (ReleaseList())
 		os << *ReleaseList() << std::endl;
 

@@ -66,6 +66,8 @@
 #include "musicbrainz5/NameCreditList.h"
 #include "musicbrainz5/NonMBTrack.h"
 #include "musicbrainz5/NonMBTrackList.h"
+#include "musicbrainz5/Offset.h"
+#include "musicbrainz5/OffsetList.h"
 #include "musicbrainz5/PUID.h"
 #include "musicbrainz5/PUIDList.h"
 #include "musicbrainz5/Rating.h"
@@ -157,7 +159,7 @@ std::string GetMapValue(std::map<std::string,std::string> Map, int Item)
 		if (o) \
 		{ \
 			try { \
-				((MusicBrainz5::C##TYPE1 *)o)->Set##PROP1(str); \
+				((MusicBrainz5::C##TYPE1 *)o)->Set##PROP1(str ? str : ""); \
 			} \
 			catch (...) { \
 			} \

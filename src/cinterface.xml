@@ -114,6 +114,7 @@ extern "C"
 	<class name="disc">
 		<property name="id" uppername="ID" type="string"/>
 		<property name="sectors" type="integer"/>
+		<property name="offsetlist" uppername="OffsetList" type="object"/>
 		<property name="releaselist" uppername="ReleaseList" type="object"/>
 	</class>
 	<class name="freedbdisc" uppername="FreeDBDisc">
@@ -216,6 +217,10 @@ extern "C"
 		<property name="title" type="string"/>
 		<property name="artist" type="string"/>
 		<property name="length" type="integer"/>
+	</class>
+	<class name="offset">
+		<property name="position" type="integer"/>
+		<property name="offset" type="integer"/>
 	</class>
 	<class name="puid" uppername="PUID">
 		<property name="id" uppername="ID" type="string"/>
@@ -356,6 +361,7 @@ extern "C"
 	</list>
 	<list name="namecredit" uppername="NameCredit"/>
 	<list name="nonmbtrack" uppername="NonMBTrack"/>
+	<list name="offset"/>
 	<list name="puid" uppername="PUID"/>
 	<list name="recording"/>
 	<list name="relation">
