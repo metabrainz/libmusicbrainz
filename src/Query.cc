@@ -147,7 +147,7 @@ MusicBrainz5::CMetadata MusicBrainz5::CQuery::PerformQuery(const std::string& Qu
 		int Ret=Fetch.Fetch(Query);
 
 #ifdef _MB5_DEBUG_
-		std::cerr << "Ret: " << Ret << std::endl;
+		//std::cerr << "Ret: " << Ret << std::endl;
 #endif
 
 		if (Ret>0)
@@ -156,7 +156,7 @@ MusicBrainz5::CMetadata MusicBrainz5::CQuery::PerformQuery(const std::string& Qu
 			std::string strData(Data.begin(),Data.end());
 
 #ifdef _MB5_DEBUG_
-			std::cerr << "Ret is '" << strData << "'" << std::endl;
+			//std::cerr << "Ret is '" << strData << "'" << std::endl;
 #endif
 
 			XMLResults Results;
@@ -248,7 +248,7 @@ MusicBrainz5::CMetadata MusicBrainz5::CQuery::Query(const std::string& Entity, c
 		os << "?" << URLEncode(Params);
 
 #ifdef _MB5_DEBUG_
-	std::cerr << "Query is '" << os.str() << "'" << std::endl;
+	//std::cerr << "Query is '" << os.str() << "'" << std::endl;
 #endif
 
 	return PerformQuery(os.str());
@@ -377,13 +377,13 @@ bool MusicBrainz5::CQuery::EditCollection(const std::string& CollectionID, const
 		try
 		{
 #ifdef _MB5_DEBUG_
-			std::cerr << "Collection " << Action << " Query is '" << Query << "'" << std::endl;
+			//std::cerr << "Collection " << Action << " Query is '" << Query << "'" << std::endl;
 #endif
 
 			int Ret=Fetch.Fetch(Query,Action);
 
 #ifdef _MB5_DEBUG_
-			std::cerr << "Collection Ret: " << Ret << std::endl;
+			//std::cerr << "Collection Ret: " << Ret << std::endl;
 #endif
 
 			if (Ret>0)
@@ -392,7 +392,7 @@ bool MusicBrainz5::CQuery::EditCollection(const std::string& CollectionID, const
 				std::string strData(Data.begin(),Data.end());
 
 #ifdef _MB5_DEBUG_
-				std::cerr << "Collection " << Action << " ret is '" << strData << "'" << std::endl;
+				//std::cerr << "Collection " << Action << " ret is '" << strData << "'" << std::endl;
 #endif
 
 				XMLResults Results;
