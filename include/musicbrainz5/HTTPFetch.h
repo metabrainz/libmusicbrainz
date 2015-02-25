@@ -33,7 +33,7 @@ namespace MusicBrainz5
 {
 	class CHTTPFetchPrivate;
 
-	class CExceptionBase: public std::exception
+	class MB_API CExceptionBase: public std::exception
 	{
 	public:
 		CExceptionBase(const std::string& ErrorMessage, const std::string& Exception)
@@ -60,7 +60,7 @@ namespace MusicBrainz5
 	 * Exception thrown when an error occurs connecting to web service
 	 */
 
-	class CConnectionError: public CExceptionBase
+	class MB_API CConnectionError: public CExceptionBase
 	{
 	public:
 			CConnectionError(const std::string& ErrorMessage)
@@ -73,7 +73,7 @@ namespace MusicBrainz5
 	 * Exception thrown when a connection to the web service times out
 	 */
 
-	class CTimeoutError: public CExceptionBase
+	class MB_API CTimeoutError: public CExceptionBase
 	{
 	public:
 			CTimeoutError(const std::string& ErrorMessage)
@@ -86,7 +86,7 @@ namespace MusicBrainz5
 	 * Exception thrown when an authentication error occurs
 	 */
 
-	class CAuthenticationError: public CExceptionBase
+	class MB_API CAuthenticationError: public CExceptionBase
 	{
 	public:
 			CAuthenticationError(const std::string& ErrorMessage)
@@ -99,7 +99,7 @@ namespace MusicBrainz5
 	 * Exception thrown when an error occurs fetching data
 	 */
 
-	class CFetchError: public CExceptionBase
+	class MB_API CFetchError: public CExceptionBase
 	{
 	public:
 			CFetchError(const std::string& ErrorMessage)
@@ -112,7 +112,7 @@ namespace MusicBrainz5
 	 * Exception thrown when an invalid request is made
 	 */
 
-	class CRequestError: public CExceptionBase
+	class MB_API CRequestError: public CExceptionBase
 	{
 	public:
 			CRequestError(const std::string& ErrorMessage)
@@ -125,7 +125,7 @@ namespace MusicBrainz5
 	 * Exception thrown when the requested resource is not found
 	 */
 
-	class CResourceNotFoundError: public CExceptionBase
+	class MB_API CResourceNotFoundError: public CExceptionBase
 	{
 	public:
 			CResourceNotFoundError(const std::string& ErrorMessage)
@@ -140,7 +140,7 @@ namespace MusicBrainz5
 	 * Object to be used to make HTTP requests
 	 *
 	 */
-	class CHTTPFetch
+	class MB_API CHTTPFetch
 	{
 	public:
 		/**

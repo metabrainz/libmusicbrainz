@@ -35,7 +35,7 @@ namespace MusicBrainz5
 {
 	class CCollectionPrivate;
 
-	class CCollection: public CEntity
+	class MB_API CCollection: public CEntity
 	{
 	public:
 		CCollection(const XMLNode& Node);

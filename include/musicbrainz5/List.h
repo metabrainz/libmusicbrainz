@@ -34,7 +34,7 @@ namespace MusicBrainz5
 {
 	class CListPrivate;
 
-	class CList: public CEntity
+	class MB_API CList: public CEntity
 	{
 	public:
 		CList();

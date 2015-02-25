@@ -37,7 +37,7 @@ namespace MusicBrainz5
 {
 	class CSecondaryTypePrivate;
 
-	class CSecondaryType: public CEntity
+	class MB_API CSecondaryType: public CEntity
 	{
 	public:
 		CSecondaryType(const XMLNode& Node=XMLNode::emptyNode());

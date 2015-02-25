@@ -38,7 +38,7 @@ namespace MusicBrainz5
 {
 	class CCDStubPrivate;
 
-	class CCDStub: public CEntity
+	class MB_API CCDStub: public CEntity
 	{
 	public:
 		CCDStub(const XMLNode& Node);

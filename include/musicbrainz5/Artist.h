@@ -50,7 +50,7 @@ namespace MusicBrainz5
 	class CRating;
 	class CUserRating;
 
-	class CArtist: public CEntity
+	class MB_API CArtist: public CEntity
 	{
 	public:
 		CArtist(const XMLNode& Node=XMLNode::emptyNode());

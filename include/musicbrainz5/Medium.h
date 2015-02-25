@@ -39,7 +39,7 @@ namespace MusicBrainz5
 {
 	class CMediumPrivate;
 
-	class CMedium: public CEntity
+	class MB_API CMedium: public CEntity
 	{
 	public:
 		CMedium(const XMLNode& Node=XMLNode::emptyNode());

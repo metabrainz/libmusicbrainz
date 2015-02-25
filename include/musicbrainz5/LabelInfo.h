@@ -39,7 +39,7 @@ namespace MusicBrainz5
 
 	class CLabel;
 
-	class CLabelInfo: public CEntity
+	class MB_API CLabelInfo: public CEntity
 	{
 	public:
 		CLabelInfo(const XMLNode& Node=XMLNode::emptyNode());

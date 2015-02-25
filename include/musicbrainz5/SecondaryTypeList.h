@@ -33,12 +33,13 @@
 
 #include "musicbrainz5/xmlParser.h"
 
+#include "musicbrainz5/SecondaryType.h"
+
 namespace MusicBrainz5
 {
-	class CSecondaryType;
 	class CSecondaryTypeListPrivate;
 
-	class CSecondaryTypeList: public CListImpl<CSecondaryType>
+	class MB_API CSecondaryTypeList : public CListImpl<CSecondaryType>
 	{
 	public:
 		CSecondaryTypeList(const XMLNode& Node=XMLNode::emptyNode());

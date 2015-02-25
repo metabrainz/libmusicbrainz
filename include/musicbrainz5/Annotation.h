@@ -37,7 +37,7 @@ namespace MusicBrainz5
 {
 	class CAnnotationPrivate;
 
-	class CAnnotation: public CEntity
+	class MB_API CAnnotation: public CEntity
 	{
 	public:
 		CAnnotation(const XMLNode& Node);

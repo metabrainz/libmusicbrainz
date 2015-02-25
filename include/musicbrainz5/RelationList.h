@@ -33,12 +33,13 @@
 
 #include "musicbrainz5/xmlParser.h"
 
+#include "musicbrainz5/Relation.h"
+
 namespace MusicBrainz5
 {
-	class CRelation;
 	class CRelationListPrivate;
 
-	class CRelationList: public CListImpl<CRelation>
+	class MB_API CRelationList: public CListImpl<CRelation>
 	{
 	public:
 		CRelationList(const XMLNode& Node);

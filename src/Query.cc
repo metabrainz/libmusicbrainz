@@ -37,8 +37,12 @@
 #include <cstdlib>
 
 #include <string.h>
-#include <unistd.h>
-#include <sys/time.h>
+#ifndef _MSC_VER
+	#include <unistd.h>
+	#include <sys/time.h>
+#else
+	#include <Windows.h>
+#endif
 
 #include <ne_uri.h>
 
@@ -47,6 +51,7 @@
 #include "musicbrainz5/Message.h"
 #include "musicbrainz5/ReleaseList.h"
 #include "musicbrainz5/Release.h"
+
 
 class MusicBrainz5::CQueryPrivate
 {
@@ -71,6 +76,8 @@ class MusicBrainz5::CQueryPrivate
 		CQuery::tQueryResult m_LastResult;
 		int m_LastHTTPCode;
 		std::string m_LastErrorMessage;
+
+		static const int s_MinTimeBetweenRequestsInSeconds = 2;
 };
 
 MusicBrainz5::CQuery::CQuery(const std::string& UserAgent, const std::string& Server, int Port)
@@ -284,33 +291,62 @@ MusicBrainz5::CRelease MusicBrainz5::CQuery::LookupRelease(const std::string& Re
 	return Release;
 }
 
-void MusicBrainz5::CQuery::WaitRequest() const
-{
-	if (m_d->m_Server.find("musicbrainz.org")!=std::string::npos)
+
+#ifndef _MSC_VER
+	void MusicBrainz5::CQuery::WaitRequest() const
 	{
-		static struct timeval LastRequest;
-		const int TimeBetweenRequests=2;
-
-		struct timeval TimeNow;
-		gettimeofday(&TimeNow,0);
-
-		if (LastRequest.tv_sec!=0 || LastRequest.tv_usec!=0)
+		if (m_d->m_Server.find("musicbrainz.org")!=std::string::npos)
 		{
-			struct timeval Diff;
+			static struct timeval LastRequest;
+			
+			struct timeval TimeNow;
+			gettimeofday(&TimeNow,0);
 
-			do
+			if (LastRequest.tv_sec!=0 || LastRequest.tv_usec!=0)
 			{
-				gettimeofday(&TimeNow,0);
-				timersub(&TimeNow,&LastRequest,&Diff);
+				struct timeval Diff;
 
-				if (Diff.tv_sec<TimeBetweenRequests)
-					usleep(100000);
-			}	while (Diff.tv_sec<TimeBetweenRequests);
+				do
+				{
+					gettimeofday(&TimeNow,0);
+					timersub(&TimeNow,&LastRequest,&Diff);
+
+					if (Diff.tv_sec < m_d->s_MinTimeBetweenRequestsInSeconds)
+						usleep(100000);
+				}	while (Diff.tv_sec < m_d->s_MinTimeBetweenRequestsInSeconds);
+			}
+
+			memcpy(&LastRequest,&TimeNow,sizeof(LastRequest));
 		}
-
-		memcpy(&LastRequest,&TimeNow,sizeof(LastRequest));
 	}
-}
+#else
+	void MusicBrainz5::CQuery::WaitRequest() const
+	{
+		if (m_d->m_Server.find("musicbrainz.org") != std::string::npos)
+		{
+			static DWORD LastRequest = 0;
+			static const int MinTimeBetweenRequestsInMilliseconds = m_d->s_MinTimeBetweenRequestsInSeconds * 1000;
+			
+			DWORD TimeNow = timeGetTime();
+			if (LastRequest != 0)
+			{
+				DWORD Diff;
+				
+				do
+				{
+					TimeNow = timeGetTime();
+					Diff = TimeNow - LastRequest;
+
+					if (Diff < MinTimeBetweenRequestsInMilliseconds)
+						Sleep(100);
+				}	while (Diff < MinTimeBetweenRequestsInMilliseconds);
+			}
+
+			LastRequest = TimeNow;
+		}
+	}
+
+#endif
 
 bool MusicBrainz5::CQuery::AddCollectionEntries(const std::string& CollectionID, const std::vector<std::string>& Entries)
 {

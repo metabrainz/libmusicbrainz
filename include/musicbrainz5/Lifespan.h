@@ -37,7 +37,7 @@ namespace MusicBrainz5
 {
 	class CLifespanPrivate;
 
-	class CLifespan: public CEntity
+	class MB_API CLifespan: public CEntity
 	{
 	public:
 		CLifespan(const XMLNode& Node=XMLNode::emptyNode());

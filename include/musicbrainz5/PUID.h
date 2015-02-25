@@ -37,7 +37,7 @@ namespace MusicBrainz5
 {
 	class CPUIDPrivate;
 
-	class CPUID: public CEntity
+	class MB_API CPUID: public CEntity
 	{
 	public:
 		CPUID(const XMLNode& Node=XMLNode::emptyNode());

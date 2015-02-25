@@ -182,7 +182,7 @@ namespace MusicBrainz5
 	 * library. Users of the C library should take note of the documentation for each
 	 * individual function in mb5_c.h
 	 */
-	class CQuery
+	class MB_API CQuery
 	{
 	public:
 		typedef std::map<std::string,std::string> tParamMap;

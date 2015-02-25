@@ -38,7 +38,7 @@ namespace MusicBrainz5
 {
 	class CFreeDBDiscPrivate;
 
-	class CFreeDBDisc: public CEntity
+	class MB_API CFreeDBDisc: public CEntity
 	{
 	public:
 		CFreeDBDisc(const XMLNode& Node);

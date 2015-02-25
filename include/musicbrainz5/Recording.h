@@ -52,7 +52,7 @@ namespace MusicBrainz5
 	class CRating;
 	class CUserRating;
 
-	class CRecording: public CEntity
+	class MB_API CRecording: public CEntity
 	{
 	public:
 		CRecording(const XMLNode& Node=XMLNode::emptyNode());

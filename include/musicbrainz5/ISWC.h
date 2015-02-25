@@ -29,6 +29,8 @@
 #include <string>
 #include <iostream>
 
+#include "musicbrainz5/defines.h"
+
 #include "musicbrainz5/Entity.h"
 
 #include "musicbrainz5/xmlParser.h"
@@ -37,7 +39,7 @@ namespace MusicBrainz5
 {
 	class CISWCPrivate;
 
-	class CISWC: public CEntity
+	class MB_API CISWC: public CEntity
 	{
 	public:
 		CISWC(const XMLNode& Node=XMLNode::emptyNode());

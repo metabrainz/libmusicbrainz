@@ -36,7 +36,7 @@ namespace MusicBrainz5
 {
 	class CUserRatingPrivate;
 
-	class CUserRating: public CEntity
+	class MB_API CUserRating: public CEntity
 	{
 	public:
 		CUserRating(const XMLNode& Node);

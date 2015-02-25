@@ -33,12 +33,14 @@
 
 #include "musicbrainz5/xmlParser.h"
 
+#include "musicbrainz5/Medium.h"
+
+
 namespace MusicBrainz5
 {
-	class CMedium;
 	class CMediumListPrivate;
 
-	class CMediumList: public CListImpl<CMedium>
+	class MB_API CMediumList: public CListImpl<CMedium>
 	{
 	public:
 		CMediumList(const XMLNode& Node=XMLNode::emptyNode());

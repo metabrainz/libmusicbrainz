@@ -37,7 +37,7 @@ namespace MusicBrainz5
 {
 	class CTagPrivate;
 
-	class CTag: public CEntity
+	class MB_API CTag: public CEntity
 	{
 	public:
 		CTag(const XMLNode& Node);

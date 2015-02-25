@@ -37,7 +37,7 @@ namespace MusicBrainz5
 {
 	class CMessagePrivate;
 
-	class CMessage: public CEntity
+	class MB_API CMessage: public CEntity
 	{
 	public:
 		CMessage(const XMLNode& Node);

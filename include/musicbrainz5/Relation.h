@@ -45,7 +45,7 @@ namespace MusicBrainz5
 	class CLabel;
 	class CWork;
 
-	class CRelation: public CEntity
+	class MB_API CRelation: public CEntity
 	{
 	public:
 		CRelation(const XMLNode& Node=XMLNode::emptyNode());

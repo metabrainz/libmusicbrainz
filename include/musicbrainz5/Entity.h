@@ -31,7 +31,9 @@
 #include <sstream>
 #include <map>
 
+#include "musicbrainz5/defines.h"
 #include "musicbrainz5/xmlParser.h"
+
 
 namespace MusicBrainz5
 {
@@ -39,7 +41,7 @@ namespace MusicBrainz5
 
 	class CRelationListList;
 
-	class CEntity
+	class MB_API CEntity
 	{
 	public:
 		CEntity();
@@ -116,6 +118,6 @@ namespace MusicBrainz5
 	};
 }
 
-std::ostream& operator << (std::ostream& os, const MusicBrainz5::CEntity& Entity);
+MB_API std::ostream& operator << (std::ostream& os, const MusicBrainz5::CEntity& Entity);
 
 #endif

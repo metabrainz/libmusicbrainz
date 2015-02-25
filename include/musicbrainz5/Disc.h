@@ -41,7 +41,7 @@ namespace MusicBrainz5
 {
 	class CDiscPrivate;
 
-	class CDisc: public CEntity
+	class MB_API CDisc: public CEntity
 	{
 	public:
 		CDisc(const XMLNode& Node=XMLNode::emptyNode());
