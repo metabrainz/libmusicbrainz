@@ -81,10 +81,12 @@ void MusicBrainz5::CEntity::Parse(const XMLNode& Node)
 {
 	if (!Node.isEmpty())
 	{
-		for (int count=0;count<Node.nAttribute();count++)
+		for (XMLAttribute Attr = Node.getAttribute();
+		    !Attr.isEmpty();
+		    Attr = Attr.next())
 		{
-			std::string Name=Node.getAttributeName(count);
-			std::string Value=Node.getAttributeValue(count);
+			std::string Name=Attr.name();
+			std::string Value=Attr.value();
 
 			if ("ext:"==Name.substr(0,4))
 				m_d->m_ExtAttributes[Name.substr(4)]=Value;
@@ -94,10 +96,10 @@ void MusicBrainz5::CEntity::Parse(const XMLNode& Node)
 
 		//std::cout << "Node: " << std::endl << Node.createXMLString(true) << std::endl;
 
-		for (int count=0;count<Node.nChildNode();count++)
+		for (XMLNode ChildNode = Node.getChildNode();
+		     !ChildNode.isEmpty();
+		     ChildNode = ChildNode.next())
 		{
-			XMLNode ChildNode=Node.getChildNode(count);
-
 			std::string Name=ChildNode.getName();
 			std::string Value;
 			if (ChildNode.getText())
