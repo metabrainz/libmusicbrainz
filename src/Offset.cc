@@ -100,13 +100,19 @@ void MusicBrainz5::COffset::ParseAttribute(const std::string& Name, const std::s
 		ProcessItem(Value,m_d->m_Position);
 	else
 	{
+#ifdef _MB5_DEBUG_
 		std::cerr << "Unrecognised offset attribute: '" << Name << "'" << std::endl;
+#endif
 	}
 }
 
 void MusicBrainz5::COffset::ParseElement(const XMLNode& Node)
 {
+#ifdef _MB5_DEBUG_
 	std::cerr << "Unrecognised offset element: '" << Node.getName() << "'" << std::endl;
+#else
+	(void)Node;
+#endif
 }
 
 std::string MusicBrainz5::COffset::GetElementName()
