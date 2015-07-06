@@ -7,12 +7,13 @@ INCLUDE_DIRECTORIES(
 	${LIBXML2_INCLUDE_DIR}
 )
 
-SET(_sources Alias.cc Annotation.cc Artist.cc ArtistCredit.cc Attribute.cc CDStub.cc Collection.cc
+SET(_sources_cc Alias.cc Annotation.cc Artist.cc ArtistCredit.cc Attribute.cc CDStub.cc Collection.cc
 	Disc.cc Entity.cc FreeDBDisc.cc HTTPFetch.cc ISRC.cc Label.cc LabelInfo.cc Lifespan.cc List.cc
-	mb5_c.cc Medium.cc MediumList.cc Message.cc Metadata.cc NameCredit.cc NonMBTrack.cc Offset.cc PUID.cc
+	Medium.cc MediumList.cc Message.cc Metadata.cc NameCredit.cc NonMBTrack.cc Offset.cc PUID.cc
 	Query.cc Rating.cc Recording.cc Relation.cc RelationList.cc Release.cc ReleaseGroup.cc Tag.cc
 	TextRepresentation.cc Track.cc UserRating.cc UserTag.cc Work.cc xmlParser.cc
 	RelationListList.cc ISWCList.cc ISWC.cc SecondaryType.cc SecondaryTypeList.cc IPI.cc)
+SET(_sources_c mb5_c.cc)
 
 # when crosscompiling import the executable targets from a file
 IF(CMAKE_CROSSCOMPILING)
@@ -41,11 +42,18 @@ ADD_CUSTOM_COMMAND(
 
 ADD_CUSTOM_TARGET(src_gen DEPENDS mb5_c.h)
 
-ADD_LIBRARY(musicbrainz5 SHARED ${_sources})
+ADD_LIBRARY(musicbrainz5cc SHARED ${_sources_cc})
+ADD_LIBRARY(musicbrainz5 SHARED ${_sources_c})
 
-SET_TARGET_PROPERTIES(musicbrainz5 PROPERTIES
+SET_TARGET_PROPERTIES(musicbrainz5cc PROPERTIES
     VERSION ${musicbrainz5_VERSION}
     SOVERSION ${musicbrainz5_SOVERSION}
+    DEFINE_SYMBOL MB_API_EXPORTS
+)
+
+SET_TARGET_PROPERTIES(musicbrainz5 PROPERTIES
+    VERSION ${musicbrainz5c_VERSION}
+    SOVERSION ${musicbrainz5c_SOVERSION}
     DEFINE_SYMBOL MB_API_EXPORTS
 )
 
@@ -58,7 +66,8 @@ if(CMAKE_BUILD_TYPE STREQUAL Debug)
 	ENDIF(CMAKE_COMPILER_IS_GNUCXX)
 endif(CMAKE_BUILD_TYPE STREQUAL Debug)
 
-TARGET_LINK_LIBRARIES(musicbrainz5 ${NEON_LIBRARIES} ${LIBXML2_LIBRARIES})
+TARGET_LINK_LIBRARIES(musicbrainz5cc ${NEON_LIBRARIES} ${LIBXML2_LIBRARIES})
+TARGET_LINK_LIBRARIES(musicbrainz5 musicbrainz5cc)
 
 IF(WIN32)
     TARGET_LINK_LIBRARIES(musicbrainz5 wsock32 winmm ws2_32)

@@ -5,6 +5,7 @@ Makefile
 cmake_install.cmake
 config.h
 libmusicbrainz5.pc
+libmusicbrainz5cc.pc
 docs/
 install_manifest.txt
 ImportExecutables.cmake
