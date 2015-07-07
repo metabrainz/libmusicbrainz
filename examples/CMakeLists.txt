@@ -3,13 +3,19 @@ INCLUDE_DIRECTORIES(
 	${CMAKE_CURRENT_BINARY_DIR}/../include
 	${LIBXML2_INCLUDE_DIR}
 )
-LINK_LIBRARIES(musicbrainz5 ${NEON_LIBRARIES} ${LIBXML2_LIBRARIES})
 
 ADD_EXECUTABLE(cdlookup cdlookup.cc)
 ADD_EXECUTABLE(cdlookup_c cdlookup_c.c)
 ADD_EXECUTABLE(search search.cc)
 ADD_EXECUTABLE(search_c search_c.c)
 ADD_EXECUTABLE(collections collections.cc)
+
+TARGET_LINK_LIBRARIES(cdlookup musicbrainz5cc)
+TARGET_LINK_LIBRARIES(cdlookup_c musicbrainz5)
+TARGET_LINK_LIBRARIES(search musicbrainz5cc)
+TARGET_LINK_LIBRARIES(search_c musicbrainz5)
+TARGET_LINK_LIBRARIES(cdlookup musicbrainz5cc)
+TARGET_LINK_LIBRARIES(collections musicbrainz5)
 
 IF(CMAKE_COMPILER_IS_GNUCXX)
 		SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -pedantic-errors")

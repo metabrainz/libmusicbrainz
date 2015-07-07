@@ -92,7 +92,7 @@
 #include "musicbrainz5/Work.h"
 #include "musicbrainz5/WorkList.h"
 
-std::string GetMapName(std::map<std::string,std::string> Map, int Item)
+static std::string GetMapName(std::map<std::string,std::string> Map, int Item)
 {
 	std::string Ret;
 
@@ -114,7 +114,7 @@ std::string GetMapName(std::map<std::string,std::string> Map, int Item)
 	return Ret;
 }
 
-std::string GetMapValue(std::map<std::string,std::string> Map, int Item)
+static std::string GetMapValue(std::map<std::string,std::string> Map, int Item)
 {
 	std::string Ret;
 
