@@ -81,4 +81,4 @@ IF(CMAKE_COMPILER_IS_GNUCXX)
 		#set_source_files_properties(mb5_c.cc PROPERTIES COMPILE_FLAGS "-Wno-deprecated-declarations")
 ENDIF(CMAKE_COMPILER_IS_GNUCXX)
 
-INSTALL(TARGETS musicbrainz5 DESTINATION ${LIB_INSTALL_DIR})
+INSTALL(TARGETS musicbrainz5cc musicbrainz5 DESTINATION ${LIB_INSTALL_DIR})
