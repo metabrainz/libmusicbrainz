@@ -26,9 +26,9 @@
 #ifndef _MUSICBRAINZ5_QUERY_H
 #define _MUSICBRAINZ5_QUERY_H
 
-#include "defines.h"
+#include "musicbrainz5/defines.h"
 
-#include "Entity.h"
+#include "musicbrainz5/Entity.h"
 
 #include "musicbrainz5/ReleaseList.h"
 #include "musicbrainz5/Metadata.h"
