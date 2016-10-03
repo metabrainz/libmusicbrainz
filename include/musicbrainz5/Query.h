@@ -67,7 +67,7 @@
  * @par
  *     <tt>gcc -o test_app test_app.c -lmusicbrainz5 -lm -lstdc++</tt>
  *
- * @par Example:
+ * @par Example
  *
  * A brief example showing how to lookup a list of releases matching a disc id
  *
