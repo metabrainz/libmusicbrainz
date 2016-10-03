@@ -209,7 +209,7 @@ namespace MusicBrainz5
 		 * This is the constructor for the MusicBrainz::CQuery object.
 		 *
 		 * @param UserAgent User agent to use in any queries and submissions. The format
-		 * 		is @c "application-version", where application is your application's name
+		 *		is @c "application-version", where application is your application's name
 		 *		and version is a version number which may not contain a '-' character.
 		 * @param Server Server to be used (defaults to musicbrainz.org if not specified)
 		 * @param Port Port to use (defaults to 80 if not specified)
