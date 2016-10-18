@@ -135,7 +135,7 @@ namespace MusicBrainz5
 	};
 
 	/**
-	 * @brief Object for make HTTP requests
+	 * @brief Object for making HTTP requests
 	 *
 	 * Object to be used to make HTTP requests
 	 *

@@ -26,9 +26,9 @@
 #ifndef _MUSICBRAINZ5_QUERY_H
 #define _MUSICBRAINZ5_QUERY_H
 
-#include "defines.h"
+#include "musicbrainz5/defines.h"
 
-#include "Entity.h"
+#include "musicbrainz5/Entity.h"
 
 #include "musicbrainz5/ReleaseList.h"
 #include "musicbrainz5/Metadata.h"
@@ -67,7 +67,7 @@
  * @par
  *     <tt>gcc -o test_app test_app.c -lmusicbrainz5 -lm -lstdc++</tt>
  *
- * @par Example:
+ * @par Example
  *
  * A brief example showing how to lookup a list of releases matching a disc id
  *
@@ -209,7 +209,7 @@ namespace MusicBrainz5
 		 * This is the constructor for the MusicBrainz::CQuery object.
 		 *
 		 * @param UserAgent User agent to use in any queries and submissions. The format
-		 * 		is @c "application-version", where application is your application's name
+		 *		is @c "application-version", where application is your application's name
 		 *		and version is a version number which may not contain a '-' character.
 		 * @param Server Server to be used (defaults to musicbrainz.org if not specified)
 		 * @param Port Port to use (defaults to 80 if not specified)
