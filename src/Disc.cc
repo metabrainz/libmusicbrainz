@@ -128,7 +128,8 @@ void MusicBrainz5::CDisc::ParseElement(const XMLNode& Node)
 	{
 		ProcessItem(Node,m_d->m_Sectors);
 	}
-	else if ("offset-list"==NodeName) {
+	else if ("offset-list"==NodeName)
+	{
 		ProcessItem(Node,m_d->m_OffsetList);
 	}
 	else if ("release-list"==NodeName)
