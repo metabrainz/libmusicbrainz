@@ -3,6 +3,14 @@ cmake_minimum_required(VERSION 2.6)
 PROJECT(libmusicbrainz5)
 SET(PROJECT_VERSION 5.1.0)
 
+INCLUDE(CheckCXXSourceCompiles)
+CHECK_CXX_SOURCE_COMPILES("#include <string>\n#if !defined(_GLIBCXX_USE_CXX11_ABI) || _GLIBCXX_USE_CXX11_ABI != 1\n#error not using CXX11 ABI\n#endif\nint main() {}" USING_CXX11_ABI)
+IF(USING_CXX11_ABI)
+SET(musicbrainz5_SOVERSION_v5 "v5")
+ELSE()
+SET(musicbrainz5_SOVERSION_v5 "")
+ENDIF()
+
 # 1. If the library source code has changed at all since the last update, then increment revision.
 # 2. If any interfaces have been added, removed, or changed since the last update, increment current, and set revision to 0.
 # 3. If any interfaces have been added since the last public release, then increment age.
@@ -15,7 +23,7 @@ MATH(EXPR musicbrainz5_SOVERSION_MAJOR "${musicbrainz5_SOVERSION_CURRENT} - ${mu
 MATH(EXPR musicbrainz5_SOVERSION_MINOR "${musicbrainz5_SOVERSION_AGE}")
 MATH(EXPR musicbrainz5_SOVERSION_PATCH "${musicbrainz5_SOVERSION_REVISION}")
 
-SET(musicbrainz5_VERSION ${musicbrainz5_SOVERSION_MAJOR}.${musicbrainz5_SOVERSION_MINOR}.${musicbrainz5_SOVERSION_PATCH})
+SET(musicbrainz5_VERSION ${musicbrainz5_SOVERSION_MAJOR}${musicbrainz5_SOVERSION_v5}.${musicbrainz5_SOVERSION_MINOR}.${musicbrainz5_SOVERSION_PATCH})
 SET(musicbrainz5_SOVERSION ${musicbrainz5_SOVERSION_MAJOR})
 
 SET(musicbrainz5c_SOVERSION_CURRENT  2)
