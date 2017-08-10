@@ -42,6 +42,8 @@
 #include "musicbrainz5/UserTag.h"
 #include "musicbrainz5/SecondaryTypeList.h"
 #include "musicbrainz5/SecondaryType.h"
+#include "musicbrainz5/Alias.h"
+#include "musicbrainz5/AliasList.h"
 
 class MusicBrainz5::CReleaseGroupPrivate
 {
@@ -54,7 +56,8 @@ class MusicBrainz5::CReleaseGroupPrivate
 			m_UserTagList(0),
 			m_Rating(0),
 			m_UserRating(0),
-			m_SecondaryTypeList(0)
+			m_SecondaryTypeList(0),
+			m_AliasList(0)
 		{
 		}
 
@@ -71,6 +74,7 @@ class MusicBrainz5::CReleaseGroupPrivate
 		CRating *m_Rating;
 		CUserRating *m_UserRating;
 		CSecondaryTypeList *m_SecondaryTypeList;
+		CAliasList *m_AliasList;
 };
 
 MusicBrainz5::CReleaseGroup::CReleaseGroup(const XMLNode& Node)
@@ -129,6 +133,9 @@ MusicBrainz5::CReleaseGroup& MusicBrainz5::CReleaseGroup::operator =(const CRele
 
 		if (Other.m_d->m_SecondaryTypeList)
 			m_d->m_SecondaryTypeList=new CSecondaryTypeList(*Other.m_d->m_SecondaryTypeList);
+
+		if (Other.m_d->m_AliasList)
+			m_d->m_AliasList=new CAliasList(*Other.m_d->m_AliasList);
 	}
 
 	return *this;
@@ -166,6 +173,9 @@ void MusicBrainz5::CReleaseGroup::Cleanup()
 
 	delete m_d->m_SecondaryTypeList;
 	m_d->m_SecondaryTypeList=0;
+
+	delete m_d->m_AliasList;
+	m_d->m_AliasList=0;
 }
 
 MusicBrainz5::CReleaseGroup *MusicBrainz5::CReleaseGroup::Clone()
@@ -240,6 +250,10 @@ void MusicBrainz5::CReleaseGroup::ParseElement(const XMLNode& Node)
 	else if ("secondary-type-list"==NodeName)
 	{
 		ProcessItem(Node,m_d->m_SecondaryTypeList);
+	}
+	else if ("alias-list"==NodeName)
+	{
+		ProcessItem(Node,m_d->m_AliasList);
 	}
 	else
 	{
@@ -319,6 +333,11 @@ MusicBrainz5::CSecondaryTypeList *MusicBrainz5::CReleaseGroup::SecondaryTypeList
 	return m_d->m_SecondaryTypeList;
 }
 
+MusicBrainz5::CAliasList *MusicBrainz5::CReleaseGroup::AliasList() const
+{
+	return m_d->m_AliasList;
+}
+
 std::ostream& MusicBrainz5::CReleaseGroup::Serialise(std::ostream& os) const
 {
 	os << "Release group:" << std::endl;
@@ -354,6 +373,9 @@ std::ostream& MusicBrainz5::CReleaseGroup::Serialise(std::ostream& os) const
 
 	if (SecondaryTypeList())
 		os << *SecondaryTypeList() << std::endl;
+
+	if (AliasList())
+		os << *AliasList() << std::endl;
 
 	return os;
 }
