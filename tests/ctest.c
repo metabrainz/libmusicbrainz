@@ -568,6 +568,7 @@ void CompileTest()
 	MediumList=mb5_release_get_mediumlist(Release);
 	RelationListList=mb5_release_get_relationlistlist(Release);
 	CollectionList=mb5_release_get_collectionlist(Release);
+	AliasList=mb5_release_get_aliaslist(Release);
 	MediumList=mb5_release_media_matching_discid(Release,"discid");
 	Release=mb5_release_clone(Release);
 	mb5_release_delete(Release);

@@ -285,6 +285,7 @@ extern "C"
 		<property name="mediumlist" uppername="MediumList" type="object"/>
 		<property name="relationlist" uppername="RelationList" type="relationlist"/>
 		<property name="collectionlist" uppername="CollectionList" type="object"/>
+		<property name="aliaslist" uppername="AliasList" type="object"/>
 	</class>
 	<boilerplate target="include" file="c-int-release-defines.inc"/>
 	<boilerplate target="source" file="c-int-release-source.inc"/>
