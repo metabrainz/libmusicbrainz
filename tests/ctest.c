@@ -532,6 +532,7 @@ void CompileTest()
 	UserTagList=mb5_recording_get_usertaglist(Recording);
 	Rating=mb5_recording_get_rating(Recording);
 	UserRating=mb5_recording_get_userrating(Recording);
+	AliasList=mb5_recording_get_aliaslist(Recording);
 	Recording=mb5_recording_clone(Recording);
 	mb5_recording_delete(Recording);
 

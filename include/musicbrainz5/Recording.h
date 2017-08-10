@@ -41,6 +41,7 @@ namespace MusicBrainz5
 #include "musicbrainz5/RelationList.h"
 #include "musicbrainz5/TagList.h"
 #include "musicbrainz5/UserTagList.h"
+#include "musicbrainz5/AliasList.h"
 
 #include "musicbrainz5/xmlParser.h"
 
@@ -75,6 +76,7 @@ namespace MusicBrainz5
 		CUserTagList *UserTagList() const;
 		CRating *Rating() const;
 		CUserRating *UserRating() const;
+		CAliasList *AliasList() const;
 
 		virtual std::ostream& Serialise(std::ostream& os) const;
 		static std::string GetElementName();

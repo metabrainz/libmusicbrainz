@@ -251,6 +251,7 @@ extern "C"
 		<property name="usertaglist" uppername="UserTagList" type="object"/>
 		<property name="rating" type="object"/>
 		<property name="userrating" uppername="UserRating" type="object"/>
+		<property name="aliaslist" uppername="AliasList" type="object"/>
 	</class>
 	<class name="relation">
 		<property name="type" type="string"/>

@@ -43,6 +43,8 @@
 #include "musicbrainz5/Tag.h"
 #include "musicbrainz5/UserTagList.h"
 #include "musicbrainz5/UserTag.h"
+#include "musicbrainz5/Alias.h"
+#include "musicbrainz5/AliasList.h"
 
 class MusicBrainz5::CRecordingPrivate
 {
@@ -57,7 +59,8 @@ class MusicBrainz5::CRecordingPrivate
 			m_TagList(0),
 			m_UserTagList(0),
 			m_Rating(0),
-			m_UserRating(0)
+			m_UserRating(0),
+			m_AliasList(0)
 		{
 		}
 
@@ -74,6 +77,7 @@ class MusicBrainz5::CRecordingPrivate
 		CUserTagList *m_UserTagList;
 		CRating *m_Rating;
 		CUserRating *m_UserRating;
+		CAliasList *m_AliasList;
 };
 
 MusicBrainz5::CRecording::CRecording(const XMLNode& Node)
@@ -134,6 +138,9 @@ MusicBrainz5::CRecording& MusicBrainz5::CRecording::operator =(const CRecording&
 
 		if (Other.m_d->m_UserRating)
 			m_d->m_UserRating=new CUserRating(*Other.m_d->m_UserRating);
+
+		if (Other.m_d->m_AliasList)
+			m_d->m_AliasList=new CAliasList(*Other.m_d->m_AliasList);
 	}
 
 	return *this;
@@ -215,6 +222,10 @@ void MusicBrainz5::CRecording::ParseElement(const XMLNode& Node)
 	{
 		ProcessItem(Node,m_d->m_UserRating);
 	}
+	else if ("alias-list"==NodeName)
+	{
+		ProcessItem(Node,m_d->m_AliasList);
+	}
 	else
 	{
 #ifdef _MB5_DEBUG_
@@ -256,6 +267,9 @@ void MusicBrainz5::CRecording::Cleanup()
 
 	delete m_d->m_UserRating;
 	m_d->m_UserRating=0;
+
+	delete m_d->m_AliasList;
+	m_d->m_AliasList=0;
 }
 
 std::string MusicBrainz5::CRecording::ID() const
@@ -323,6 +337,11 @@ MusicBrainz5::CUserRating *MusicBrainz5::CRecording::UserRating() const
 	return m_d->m_UserRating;
 }
 
+MusicBrainz5::CAliasList *MusicBrainz5::CRecording::AliasList() const
+{
+	return m_d->m_AliasList;
+}
+
 std::ostream& MusicBrainz5::CRecording::Serialise(std::ostream& os) const
 {
 	os << "Recording:" << std::endl;
@@ -360,6 +379,9 @@ std::ostream& MusicBrainz5::CRecording::Serialise(std::ostream& os) const
 
 	if (UserRating())
 		os << *UserRating() << std::endl;
+
+	if (AliasList())
+		os << *AliasList() << std::endl;
 
 	return os;
 }
