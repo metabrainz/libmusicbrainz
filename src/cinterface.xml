@@ -303,6 +303,7 @@ extern "C"
 		<property name="rating" type="object"/>
 		<property name="userrating" uppername="UserRating" type="object"/>
 		<property name="secondarytypelist" uppername="SecondaryTypeList" type="object"/>
+		<property name="aliaslist" uppername="AliasList" type="object"/>
 	</class>
 	<class name="secondarytype" uppername="SecondaryType">
 		<property name="secondarytype" uppername="SecondaryType" type="string"/>

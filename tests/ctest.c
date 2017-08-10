@@ -586,6 +586,7 @@ void CompileTest()
 	Rating=mb5_releasegroup_get_rating(ReleaseGroup);
 	UserRating=mb5_releasegroup_get_userrating(ReleaseGroup);
 	SecondaryTypeList=mb5_releasegroup_get_secondarytypelist(ReleaseGroup);
+	AliasList=mb5_releasegroup_get_aliaslist(ReleaseGroup);
 	ReleaseGroup=mb5_releasegroup_clone(ReleaseGroup);
 	mb5_releasegroup_delete(ReleaseGroup);
 
