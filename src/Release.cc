@@ -43,6 +43,8 @@
 #include "musicbrainz5/Medium.h"
 #include "musicbrainz5/Collection.h"
 #include "musicbrainz5/CollectionList.h"
+#include "musicbrainz5/Alias.h"
+#include "musicbrainz5/AliasList.h"
 
 class MusicBrainz5::CReleasePrivate
 {
@@ -54,7 +56,8 @@ class MusicBrainz5::CReleasePrivate
 			m_LabelInfoList(0),
 			m_MediumList(0),
 			m_RelationListList(0),
-			m_CollectionList(0)
+			m_CollectionList(0),
+			m_AliasList(0)
 		{
 		}
 
@@ -75,6 +78,7 @@ class MusicBrainz5::CReleasePrivate
 		CMediumList *m_MediumList;
 		CRelationListList *m_RelationListList;
 		CCollectionList *m_CollectionList;
+		CAliasList *m_AliasList;
 };
 
 MusicBrainz5::CRelease::CRelease(const XMLNode& Node)
@@ -136,6 +140,9 @@ MusicBrainz5::CRelease& MusicBrainz5::CRelease::operator =(const CRelease& Other
 
 		if (Other.m_d->m_CollectionList)
 			m_d->m_CollectionList=new CCollectionList(*Other.m_d->m_CollectionList);
+
+		if (Other.m_d->m_AliasList)
+			m_d->m_AliasList=new CAliasList(*Other.m_d->m_AliasList);
 	}
 
 	return *this;
@@ -167,6 +174,12 @@ void MusicBrainz5::CRelease::Cleanup()
 
 	delete m_d->m_RelationListList;
 	m_d->m_RelationListList=0;
+
+	delete m_d->m_CollectionList;
+	m_d->m_CollectionList=0;
+
+	delete m_d->m_AliasList;
+	m_d->m_AliasList=0;
 }
 
 MusicBrainz5::CRelease *MusicBrainz5::CRelease::Clone()
@@ -253,6 +266,10 @@ void MusicBrainz5::CRelease::ParseElement(const XMLNode& Node)
 	else if ("collection-list"==NodeName)
 	{
 		ProcessItem(Node,m_d->m_CollectionList);
+	}
+	else if ("alias-list"==NodeName)
+	{
+		ProcessItem(Node,m_d->m_AliasList);
 	}
 	else
 	{
@@ -352,6 +369,11 @@ MusicBrainz5::CCollectionList *MusicBrainz5::CRelease::CollectionList() const
 	return m_d->m_CollectionList;
 }
 
+MusicBrainz5::CAliasList *MusicBrainz5::CRelease::AliasList() const
+{
+	return m_d->m_AliasList;
+}
+
 MusicBrainz5::CMediumList MusicBrainz5::CRelease::MediaMatchingDiscID(const std::string& DiscID) const
 {
 	MusicBrainz5::CMediumList Ret;
@@ -408,6 +430,9 @@ std::ostream& MusicBrainz5::CRelease::Serialise(std::ostream& os) const
 
 	if (CollectionList())
 		os << *CollectionList() << std::endl;
+
+	if (AliasList())
+		os << *AliasList() << std::endl;
 
 	return os;
 }

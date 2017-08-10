@@ -31,6 +31,7 @@
 #include "musicbrainz5/RelationList.h"
 #include "musicbrainz5/MediumList.h"
 #include "musicbrainz5/CollectionList.h"
+#include "musicbrainz5/AliasList.h"
 
 #include "musicbrainz5/xmlParser.h"
 
@@ -73,6 +74,7 @@ namespace MusicBrainz5
 		CMediumList *MediumList() const;
 		CRelationListList *RelationListList() const;
 		CCollectionList *CollectionList() const;
+		CAliasList *AliasList() const;
 
 		CMediumList MediaMatchingDiscID(const std::string& DiscID) const;
 
