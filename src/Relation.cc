@@ -64,6 +64,8 @@ class MusicBrainz5::CRelationPrivate
 		CRecording *m_Recording;
 		CLabel *m_Label;
 		CWork *m_Work;
+		std::string m_SourceCredit;
+		std::string m_TargetCredit;
 };
 
 MusicBrainz5::CRelation::CRelation(const XMLNode& Node)
@@ -121,6 +123,9 @@ MusicBrainz5::CRelation& MusicBrainz5::CRelation::operator =(const CRelation& Ot
 
 		if (Other.m_d->m_Work)
 			m_d->m_Work=new CWork(*Other.m_d->m_Work);
+
+		m_d->m_SourceCredit=Other.m_d->m_SourceCredit;
+		m_d->m_TargetCredit=Other.m_d->m_TargetCredit;
 	}
 
 	return *this;
@@ -226,6 +231,14 @@ void MusicBrainz5::CRelation::ParseElement(const XMLNode& Node)
 	{
 		ProcessItem(Node,m_d->m_Work);
 	}
+	else if ("source-credit"==NodeName)
+	{
+		ProcessItem(Node,m_d->m_SourceCredit);
+	}
+	else if ("target-credit"==NodeName)
+	{
+		ProcessItem(Node,m_d->m_TargetCredit);
+	}
 	else
 	{
 #ifdef _MB5_DEBUG_
@@ -304,22 +317,32 @@ MusicBrainz5::CWork *MusicBrainz5::CRelation::Work() const
 	return m_d->m_Work;
 }
 
+std::string MusicBrainz5::CRelation::SourceCredit() const
+{
+	return m_d->m_SourceCredit;
+}
+
+std::string MusicBrainz5::CRelation::TargetCredit() const
+{
+	return m_d->m_TargetCredit;
+}
+
 std::ostream& MusicBrainz5::CRelation::Serialise(std::ostream& os) const
 {
 	os << "Relation:" << std::endl;
 
 	CEntity::Serialise(os);
 
-	os << "\tType:      " << Type() << std::endl;
-	os << "\tTarget:    " << Target() << std::endl;
-	os << "\tDirection: " << Direction() << std::endl;
+	os << "\tType:         " << Type() << std::endl;
+	os << "\tTarget:       " << Target() << std::endl;
+	os << "\tDirection:    " << Direction() << std::endl;
 
 	if (AttributeList())
 		os << *AttributeList() << std::endl;
 
-	os << "\tBegin:     " << Begin() << std::endl;
-	os << "\tEnd:       " << End() << std::endl;
-	os << "\tEnded:     " << Ended() << std::endl;
+	os << "\tBegin:        " << Begin() << std::endl;
+	os << "\tEnd:          " << End() << std::endl;
+	os << "\tEnded:        " << Ended() << std::endl;
 
 	if (Artist())
 		os << *Artist() << std::endl;
@@ -338,6 +361,9 @@ std::ostream& MusicBrainz5::CRelation::Serialise(std::ostream& os) const
 
 	if (Work())
 		os << *Work() << std::endl;
+
+	os << "\tSourceCredit: " << SourceCredit() << std::endl;
+	os << "\tTargetCredit: " << TargetCredit() << std::endl;
 
 	return os;
 }

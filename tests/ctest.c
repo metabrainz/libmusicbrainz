@@ -549,6 +549,8 @@ void CompileTest()
 	Recording=mb5_relation_get_recording(Relation);
 	Label=mb5_relation_get_label(Relation);
 	Work=mb5_relation_get_work(Relation);
+	mb5_relation_get_sourcecredit(Relation,Str,Size);
+	mb5_relation_get_targetcredit(Relation,Str,Size);
 	Relation=mb5_relation_clone(Relation);
 	mb5_relation_delete(Relation);
 

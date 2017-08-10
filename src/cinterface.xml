@@ -267,6 +267,8 @@ extern "C"
 		<property name="recording" type="object"/>
 		<property name="label" type="object"/>
 		<property name="work" type="object"/>
+		<property name="sourcecredit" uppername="SourceCredit" type="string"/>
+		<property name="targetcredit" uppername="TargetCredit" type="string"/>
 	</class>
 	<class name="release">
 		<property name="id" uppername="ID" type="string"/>

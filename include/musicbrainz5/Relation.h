@@ -68,6 +68,8 @@ namespace MusicBrainz5
 		CRecording *Recording() const;
 		CLabel *Label() const;
 		CWork *Work() const;
+		std::string SourceCredit() const;
+		std::string TargetCredit() const;
 
 		virtual std::ostream& Serialise(std::ostream& os) const;
 		static std::string GetElementName();
