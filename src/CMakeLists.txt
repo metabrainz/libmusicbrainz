@@ -14,7 +14,7 @@ SET(_sources_cc Alias.cc Annotation.cc Artist.cc ArtistCredit.cc Attribute.cc CD
 	TextRepresentation.cc Track.cc UserRating.cc UserTag.cc Work.cc xmlParser.cc
 	RelationListList.cc ISWCList.cc ISWC.cc SecondaryType.cc SecondaryTypeList.cc IPI.cc ReleaseEvent.cc
 	ReleaseEventList.cc Area.cc ISO31661Code.cc ISO31661CodeList.cc ISO31662Code.cc ISO31662CodeList.cc
-	ISO31663Code.cc ISO31663CodeList.cc)
+	ISO31663Code.cc ISO31663CodeList.cc CoverArtArchive.cc)
 SET(_sources_c mb5_c.cc)
 
 # when crosscompiling import the executable targets from a file

@@ -128,6 +128,13 @@ extern "C"
 		<property name="editor" type="string"/>
 		<property name="releaselist" uppername="ReleaseList" type="object"/>
 	</class>
+	<class name="coverartarchive" uppername="CoverArtArchive">
+		<property name="artwork" type="string"/>
+		<property name="count" type="integer"/>
+		<property name="front" type="string"/>
+		<property name="back" type="string"/>
+		<property name="darkened" type="string"/>
+	</class>
 	<class name="disc">
 		<property name="id" uppername="ID" type="string"/>
 		<property name="sectors" type="integer"/>
@@ -311,6 +318,7 @@ extern "C"
 		<property name="releaseeventlist" uppername="ReleaseEventList" type="object"/>
 		<property name="barcode" type="string"/>
 		<property name="asin" uppername="ASIN" type="string"/>
+		<property name="coverartarchive" uppername="CoverArtArchive" type="object"/>
 		<property name="labelinfolist" uppername="LabelInfoList" type="object"/>
 		<property name="mediumlist" uppername="MediumList" type="object"/>
 		<property name="relationlist" uppername="RelationList" type="relationlist"/>

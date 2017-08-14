@@ -239,6 +239,7 @@ void CompileTest()
 	Mb5CDStubList CDStubList=0;
 	Mb5Collection Collection=0;
 	Mb5CollectionList CollectionList=0;
+	Mb5CoverArtArchive CoverArtArchive=0;
 	Mb5Disc Disc=0;
 	Mb5DiscList DiscList=0;
 	Mb5FreeDBDisc FreeDBDisc=0;
@@ -386,6 +387,14 @@ void CompileTest()
 	NonMBTrackList=mb5_cdstub_get_nonmbtracklist(CDStub);
 	CDStub=mb5_cdstub_clone(CDStub);
 	mb5_cdstub_delete(CDStub);
+
+	mb5_coverartarchive_get_artwork(CoverArtArchive,Str,Size);
+	DummyInt=mb5_coverartarchive_get_count(CoverArtArchive);
+	mb5_coverartarchive_get_front(CoverArtArchive,Str,Size);
+	mb5_coverartarchive_get_back(CoverArtArchive,Str,Size);
+	mb5_coverartarchive_get_darkened(CoverArtArchive,Str,Size);
+	Release=mb5_coverartarchive_clone(CoverArtArchive);
+	mb5_coverartarchive_delete(CoverArtArchive);
 
 	mb5_disc_get_id(Disc,Str,Size);
 	DummyInt=mb5_disc_get_sectors(Disc);
@@ -607,6 +616,7 @@ void CompileTest()
 	ReleaseEventList=mb5_release_get_releaseeventlist(Release);
 	mb5_release_get_barcode(Release,Str,Size);
 	mb5_release_get_asin(Release,Str,Size);
+	CoverArtArchive=mb5_release_get_coverartarchive(Release);
 	LabelInfoList=mb5_release_get_labelinfolist(Release);
 	MediumList=mb5_release_get_mediumlist(Release);
 	RelationListList=mb5_release_get_relationlistlist(Release);

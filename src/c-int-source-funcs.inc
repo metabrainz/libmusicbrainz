@@ -45,6 +45,7 @@
 #include "musicbrainz5/CDStubList.h"
 #include "musicbrainz5/Collection.h"
 #include "musicbrainz5/CollectionList.h"
+#include "musicbrainz5/CoverArtArchive.h"
 #include "musicbrainz5/Disc.h"
 #include "musicbrainz5/DiscList.h"
 #include "musicbrainz5/FreeDBDisc.h"

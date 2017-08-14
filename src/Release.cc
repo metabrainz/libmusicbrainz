@@ -36,6 +36,7 @@
 #include "musicbrainz5/Medium.h"
 #include "musicbrainz5/ReleaseEvent.h"
 #include "musicbrainz5/ReleaseEventList.h"
+#include "musicbrainz5/CoverArtArchive.h"
 #include "musicbrainz5/LabelInfoList.h"
 #include "musicbrainz5/LabelInfo.h"
 #include "musicbrainz5/RelationList.h"
@@ -56,6 +57,7 @@ class MusicBrainz5::CReleasePrivate
 			m_ArtistCredit(0),
 			m_ReleaseGroup(0),
 			m_ReleaseEventList(0),
+			m_CoverArtArchive(0),
 			m_LabelInfoList(0),
 			m_MediumList(0),
 			m_RelationListList(0),
@@ -78,6 +80,7 @@ class MusicBrainz5::CReleasePrivate
 		CReleaseEventList *m_ReleaseEventList;
 		std::string m_Barcode;
 		std::string m_ASIN;
+		CCoverArtArchive *m_CoverArtArchive;
 		CLabelInfoList *m_LabelInfoList;
 		CMediumList *m_MediumList;
 		CRelationListList *m_RelationListList;
@@ -137,6 +140,9 @@ MusicBrainz5::CRelease& MusicBrainz5::CRelease::operator =(const CRelease& Other
 		m_d->m_Barcode=Other.m_d->m_Barcode;
 		m_d->m_ASIN=Other.m_d->m_ASIN;
 
+		if (Other.m_d->m_CoverArtArchive)
+			m_d->m_CoverArtArchive=new CCoverArtArchive(*Other.m_d->m_CoverArtArchive);
+
 		if (Other.m_d->m_LabelInfoList)
 			m_d->m_LabelInfoList=new CLabelInfoList(*Other.m_d->m_LabelInfoList);
 
@@ -176,6 +182,9 @@ void MusicBrainz5::CRelease::Cleanup()
 
 	delete m_d->m_ReleaseEventList;
 	m_d->m_ReleaseEventList=0;
+
+	delete m_d->m_CoverArtArchive;
+	m_d->m_CoverArtArchive=0;
 
 	delete m_d->m_LabelInfoList;
 	m_d->m_LabelInfoList=0;
@@ -265,6 +274,10 @@ void MusicBrainz5::CRelease::ParseElement(const XMLNode& Node)
 	else if ("asin"==NodeName)
 	{
 		ProcessItem(Node,m_d->m_ASIN);
+	}
+	else if ("cover-art-archive"==NodeName)
+	{
+		ProcessItem(Node,m_d->m_CoverArtArchive);
 	}
 	else if ("label-info-list"==NodeName)
 	{
@@ -369,6 +382,11 @@ std::string MusicBrainz5::CRelease::ASIN() const
 	return m_d->m_ASIN;
 }
 
+MusicBrainz5::CCoverArtArchive *MusicBrainz5::CRelease::CoverArtArchive() const
+{
+	return m_d->m_CoverArtArchive;
+}
+
 MusicBrainz5::CLabelInfoList *MusicBrainz5::CRelease::LabelInfoList() const
 {
 	return m_d->m_LabelInfoList;
@@ -442,6 +460,9 @@ std::ostream& MusicBrainz5::CRelease::Serialise(std::ostream& os) const
 
 	os << "\tBarcode:             " << Barcode() << std::endl;
 	os << "\tASIN:                " << ASIN() << std::endl;
+
+	if (CoverArtArchive())
+		os << *CoverArtArchive() << std::endl;
 
 	if (LabelInfoList())
 		os << *LabelInfoList() << std::endl;
