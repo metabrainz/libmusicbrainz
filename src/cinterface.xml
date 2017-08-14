@@ -333,6 +333,8 @@ extern "C"
 	</class>
 	<class name="releasegroup" uppername="ReleaseGroup">
 		<property name="id" uppername="ID" type="string"/>
+		<property name="type" type="string"/>
+		<property name="typeid" uppername="TypeID" type="string"/>
 		<property name="primarytype" uppername="PrimaryType" type="string"/>
 		<property name="title" type="string"/>
 		<property name="disambiguation" type="string"/>

@@ -62,6 +62,8 @@ class MusicBrainz5::CReleaseGroupPrivate
 		}
 
 		std::string m_ID;
+		std::string m_Type;
+		std::string m_TypeID;
 		std::string m_PrimaryType;
 		std::string m_Title;
 		std::string m_Disambiguation;
@@ -105,6 +107,8 @@ MusicBrainz5::CReleaseGroup& MusicBrainz5::CReleaseGroup::operator =(const CRele
 		CEntity::operator =(Other);
 
 		m_d->m_ID=Other.m_d->m_ID;
+		m_d->m_Type=Other.m_d->m_Type;
+		m_d->m_TypeID=Other.m_d->m_TypeID;
 		m_d->m_PrimaryType=Other.m_d->m_PrimaryType;
 		m_d->m_Title=Other.m_d->m_Title;
 		m_d->m_Disambiguation=Other.m_d->m_Disambiguation;
@@ -188,9 +192,9 @@ void MusicBrainz5::CReleaseGroup::ParseAttribute(const std::string& Name, const 
 	if ("id"==Name)
 		m_d->m_ID=Value;
 	else if ("type"==Name)
-	{
-		//Ignore type
-	}
+		m_d->m_Type=Value;
+	else if ("type-id"==Name)
+		m_d->m_TypeID=Value;
 	else
 	{
 #ifdef _MB5_DEBUG_
@@ -273,6 +277,16 @@ std::string MusicBrainz5::CReleaseGroup::ID() const
 	return m_d->m_ID;
 }
 
+std::string MusicBrainz5::CReleaseGroup::Type() const
+{
+	return m_d->m_Type;
+}
+
+std::string MusicBrainz5::CReleaseGroup::TypeID() const
+{
+	return m_d->m_TypeID;
+}
+
 std::string MusicBrainz5::CReleaseGroup::PrimaryType() const
 {
 	return m_d->m_PrimaryType;
@@ -345,6 +359,8 @@ std::ostream& MusicBrainz5::CReleaseGroup::Serialise(std::ostream& os) const
 	CEntity::Serialise(os);
 
 	os << "\tID:                 " << ID() << std::endl;
+	os << "\tType:               " << Type() << std::endl;
+	os << "\tTypeID:             " << TypeID() << std::endl;
 	os << "\tPrimaryType:        " << PrimaryType() << std::endl;
 	os << "\tTitle:              " << Title() << std::endl;
 	os << "\tDisambiguation:     " << Disambiguation() << std::endl;

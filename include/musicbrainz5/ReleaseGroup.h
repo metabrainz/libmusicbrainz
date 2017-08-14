@@ -60,6 +60,8 @@ namespace MusicBrainz5
 		virtual CReleaseGroup *Clone();
 
 		std::string ID() const;
+		std::string Type() const;
+		std::string TypeID() const;
 		std::string PrimaryType() const;
 		std::string Title() const;
 		std::string Disambiguation() const;

@@ -632,6 +632,8 @@ void CompileTest()
 	mb5_releaseevent_delete(ReleaseEvent);
 
 	mb5_releasegroup_get_id(ReleaseGroup,Str,Size);
+	mb5_releasegroup_get_type(ReleaseGroup,Str,Size);
+	mb5_releasegroup_get_typeid(ReleaseGroup,Str,Size);
 	mb5_releasegroup_get_primarytype(ReleaseGroup,Str,Size);
 	mb5_releasegroup_get_firstreleasedate(ReleaseGroup,Str,Size);
 	mb5_releasegroup_get_title(ReleaseGroup,Str,Size);
