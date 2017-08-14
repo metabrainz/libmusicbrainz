@@ -658,6 +658,7 @@ void CompileTest()
 	TextRepresentation=mb5_textrepresentation_clone(TextRepresentation);
 	mb5_textrepresentation_delete(TextRepresentation);
 
+	mb5_track_get_id(Track,Str,Size);
 	DummyInt=mb5_track_get_position(Track);
 	mb5_track_get_title(Track,Str,Size);
 	Recording=mb5_track_get_recording(Track);

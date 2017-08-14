@@ -50,6 +50,7 @@ namespace MusicBrainz5
 
 		virtual CTrack *Clone();
 
+		std::string ID() const;
 		int Position() const;
 		std::string Title() const;
 		CRecording *Recording() const;

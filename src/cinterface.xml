@@ -359,6 +359,7 @@ extern "C"
 		<property name="script" type="string"/>
 	</class>
 	<class name="track">
+		<property name="id" uppername="ID" type="string"/>
 		<property name="position" type="integer"/>
 		<property name="title" type="string"/>
 		<property name="recording" type="object"/>

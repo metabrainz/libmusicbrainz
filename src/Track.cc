@@ -42,6 +42,8 @@ class MusicBrainz5::CTrackPrivate
 		{
 		}
 
+
+		std::string m_ID;
 		int m_Position;
 		std::string m_Title;
 		CRecording *m_Recording;
@@ -77,6 +79,7 @@ MusicBrainz5::CTrack& MusicBrainz5::CTrack::operator =(const CTrack& Other)
 
 		CEntity::operator =(Other);
 
+		m_d->m_ID=Other.m_d->m_ID;
 		m_d->m_Position=Other.m_d->m_Position;
 		m_d->m_Title=Other.m_d->m_Title;
 
@@ -115,13 +118,16 @@ MusicBrainz5::CTrack *MusicBrainz5::CTrack::Clone()
 	return new CTrack(*this);
 }
 
-void MusicBrainz5::CTrack::ParseAttribute(const std::string& Name, const std::string& /*Value*/)
+void MusicBrainz5::CTrack::ParseAttribute(const std::string& Name, const std::string& Value)
 {
+	if ("id"==Name)
+		m_d->m_ID=Value;
+	else
+	{
 #ifdef _MB5_DEBUG_
-	std::cerr << "Unrecognised track attribute: '" << Name << "'" << std::endl;
-#else
-	(void)Name;
+		std::cerr << "Unrecognised track attribute: '" << Name << "'" << std::endl;
 #endif
+	}
 }
 
 void MusicBrainz5::CTrack::ParseElement(const XMLNode& Node)
@@ -165,6 +171,11 @@ std::string MusicBrainz5::CTrack::GetElementName()
 	return "track";
 }
 
+std::string MusicBrainz5::CTrack::ID() const
+{
+	return m_d->m_ID;
+}
+
 int MusicBrainz5::CTrack::Position() const
 {
 	return m_d->m_Position;
@@ -201,6 +212,7 @@ std::ostream& MusicBrainz5::CTrack::Serialise(std::ostream& os) const
 
 	CEntity::Serialise(os);
 
+	os << "\tID:       " << ID() << std::endl;
 	os << "\tPosition: " << Position() << std::endl;
 	os << "\tTitle:    " << Title() << std::endl;
 
