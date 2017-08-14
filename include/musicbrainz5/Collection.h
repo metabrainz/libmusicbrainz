@@ -27,6 +27,7 @@
 #define _MUSICBRAINZ5_COLLECTION_H
 
 #include "musicbrainz5/Entity.h"
+#include "musicbrainz5/ArtistList.h"
 #include "musicbrainz5/ReleaseList.h"
 
 #include "musicbrainz5/xmlParser.h"
@@ -48,6 +49,7 @@ namespace MusicBrainz5
 		std::string ID() const;
 		std::string Name() const;
 		std::string Editor() const;
+		CArtistList *ArtistList() const;
 		CReleaseList *ReleaseList() const;
 
 		virtual std::ostream& Serialise(std::ostream& os) const;

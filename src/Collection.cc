@@ -28,6 +28,8 @@
 
 #include "musicbrainz5/Collection.h"
 
+#include "musicbrainz5/ArtistList.h"
+#include "musicbrainz5/Artist.h"
 #include "musicbrainz5/ReleaseList.h"
 #include "musicbrainz5/Release.h"
 
@@ -35,13 +37,15 @@ class MusicBrainz5::CCollectionPrivate
 {
 	public:
 		CCollectionPrivate()
-		:	 m_ReleaseList(0)
+		:	m_ArtistList(0),
+			m_ReleaseList(0)
 		{
 		}
 
 		std::string m_ID;
 		std::string m_Name;
 		std::string m_Editor;
+		CArtistList *m_ArtistList;
 		CReleaseList *m_ReleaseList;
 };
 MusicBrainz5::CCollection::CCollection(const XMLNode& Node)
@@ -75,6 +79,9 @@ MusicBrainz5::CCollection& MusicBrainz5::CCollection::operator =(const CCollecti
 		m_d->m_Name=Other.m_d->m_Name;
 		m_d->m_Editor=Other.m_d->m_Editor;
 
+		if (Other.m_d->m_ArtistList)
+			m_d->m_ArtistList=new CArtistList(*Other.m_d->m_ArtistList);
+
 		if (Other.m_d->m_ReleaseList)
 			m_d->m_ReleaseList=new CReleaseList(*Other.m_d->m_ReleaseList);
 	}
@@ -91,6 +98,9 @@ MusicBrainz5::CCollection::~CCollection()
 
 void MusicBrainz5::CCollection::Cleanup()
 {
+	delete m_d->m_ArtistList;
+	m_d->m_ArtistList=0;
+
 	delete m_d->m_ReleaseList;
 	m_d->m_ReleaseList=0;
 }
@@ -124,6 +134,10 @@ void MusicBrainz5::CCollection::ParseElement(const XMLNode& Node)
 	{
 		ProcessItem(Node,m_d->m_Editor);
 	}
+	else if ("artist-list"==NodeName)
+	{
+		ProcessItem(Node,m_d->m_ArtistList);
+	}
 	else if ("release-list"==NodeName)
 	{
 		ProcessItem(Node,m_d->m_ReleaseList);
@@ -156,6 +170,11 @@ std::string MusicBrainz5::CCollection::Editor() const
 	return m_d->m_Editor;
 }
 
+MusicBrainz5::CArtistList *MusicBrainz5::CCollection::ArtistList() const
+{
+	return m_d->m_ArtistList;
+}
+
 MusicBrainz5::CReleaseList *MusicBrainz5::CCollection::ReleaseList() const
 {
 	return m_d->m_ReleaseList;
@@ -170,6 +189,11 @@ std::ostream& MusicBrainz5::CCollection::Serialise(std::ostream& os) const
 	os << "\tID:     " << ID() << std::endl;
 	os << "\tName:   " << Name() << std::endl;
 	os << "\tEditor: " << Editor() << std::endl;
+
+	if (ArtistList())
+
+		os << *ArtistList() << std::endl;
+
 
 	if (ReleaseList())
 		os << *ReleaseList() << std::endl;

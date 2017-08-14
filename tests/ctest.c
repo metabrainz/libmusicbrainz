@@ -407,6 +407,7 @@ void CompileTest()
 	mb5_collection_get_id(Collection,Str,Size);
 	mb5_collection_get_name(Collection,Str,Size);
 	mb5_collection_get_editor(Collection,Str,Size);
+	ArtistList=mb5_collection_get_artistlist(Collection);
 	ReleaseList=mb5_collection_get_releaselist(Collection);
 	Collection=mb5_collection_clone(Collection);
 	mb5_collection_delete(Collection);

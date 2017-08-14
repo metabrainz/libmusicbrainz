@@ -127,6 +127,7 @@ extern "C"
 		<property name="id" uppername="ID" type="string"/>
 		<property name="name" type="string"/>
 		<property name="editor" type="string"/>
+		<property name="artistlist" uppername="ArtistList" type="object"/>
 		<property name="releaselist" uppername="ReleaseList" type="object"/>
 	</class>
 	<class name="coverartarchive" uppername="CoverArtArchive">
