@@ -51,6 +51,7 @@ namespace MusicBrainz5
 		std::string Text() const;
 		std::string SortName() const;
 		std::string Type() const;
+		std::string TypeID() const;
 		std::string Primary() const;
 		std::string BeginDate() const;
 		std::string EndDate() const;

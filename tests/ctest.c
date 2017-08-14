@@ -317,6 +317,7 @@ void CompileTest()
 	mb5_alias_get_text(Alias,Str,Size);
 	mb5_alias_get_sortname(Alias,Str,Size);
 	mb5_alias_get_type(Alias,Str,Size);
+	mb5_alias_get_typeid(Alias,Str,Size);
 	mb5_alias_get_primary(Alias,Str,Size);
 	mb5_alias_get_begindate(Alias,Str,Size);
 	mb5_alias_get_enddate(Alias,Str,Size);

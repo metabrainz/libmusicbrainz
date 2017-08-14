@@ -35,6 +35,7 @@ public:
 		std::string m_Text;
 		std::string m_SortName;
 		std::string m_Type;
+		std::string m_TypeID;
 		std::string m_Primary;
 		std::string m_BeginDate;
 		std::string m_EndDate;
@@ -72,6 +73,7 @@ MusicBrainz5::CAlias& MusicBrainz5::CAlias::operator =(const CAlias& Other)
 		m_d->m_Text=Other.m_d->m_Text;
 		m_d->m_SortName=Other.m_d->m_SortName;
 		m_d->m_Type=Other.m_d->m_Type;
+		m_d->m_TypeID=Other.m_d->m_TypeID;
 		m_d->m_Primary=Other.m_d->m_Primary;
 		m_d->m_BeginDate=Other.m_d->m_BeginDate;
 		m_d->m_EndDate=Other.m_d->m_EndDate;
@@ -98,6 +100,8 @@ void MusicBrainz5::CAlias::ParseAttribute(const std::string& Name, const std::st
 		m_d->m_SortName=Value;
 	else if ("type"==Name)
 		m_d->m_Type=Value;
+	else if ("type-id"==Name)
+		m_d->m_TypeID=Value;
 	else if ("primary"==Name)
 		m_d->m_Primary=Value;
 	else if ("begin-date"==Name)
@@ -145,6 +149,11 @@ std::string MusicBrainz5::CAlias::Type() const
 	return m_d->m_Type;
 }
 
+std::string MusicBrainz5::CAlias::TypeID() const
+{
+	return m_d->m_TypeID;
+}
+
 std::string MusicBrainz5::CAlias::Primary() const
 {
 	return m_d->m_Primary;
@@ -170,6 +179,7 @@ std::ostream& MusicBrainz5::CAlias::Serialise(std::ostream& os) const
 	os << "\tText:      " << Text() << std::endl;
 	os << "\tSort Name: " << SortName() << std::endl;
 	os << "\tType:      " << Type() << std::endl;
+	os << "\tTypeID:    " << TypeID() << std::endl;
 	os << "\tPrimary:   " << Primary() << std::endl;
 	os << "\tBeginDate: " << BeginDate() << std::endl;
 	os << "\tEndDate:   " << EndDate() << std::endl;
