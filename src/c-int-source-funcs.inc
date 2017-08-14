@@ -48,6 +48,8 @@
 #include "musicbrainz5/CoverArtArchive.h"
 #include "musicbrainz5/Disc.h"
 #include "musicbrainz5/DiscList.h"
+#include "musicbrainz5/Event.h"
+#include "musicbrainz5/EventList.h"
 #include "musicbrainz5/FreeDBDisc.h"
 #include "musicbrainz5/FreeDBDiscList.h"
 #include "musicbrainz5/IPI.h"

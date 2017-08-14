@@ -52,6 +52,8 @@
 #include "musicbrainz5/IPI.h"
 #include "musicbrainz5/IPIList.h"
 #include "musicbrainz5/Lifespan.h"
+#include "musicbrainz5/Event.h"
+#include "musicbrainz5/EventList.h"
 
 void PrintRelationList(MusicBrainz5::CRelationList *RelationList)
 {
@@ -67,6 +69,32 @@ void PrintRelationList(MusicBrainz5::CRelationList *RelationList)
 int main(int argc, const char *argv[])
 {
 	MusicBrainz5::CQuery MB2("MBTest/v1.0","musicbrainz.org");
+	MusicBrainz5::CQuery::tParamMap Params19;
+	Params19["collection"]="25053a0e-168a-34ac-ab17-aa66f3a4efeb";
+
+	MusicBrainz5::CMetadata Metadata19=MB2.Query("event","","",Params19);
+	MusicBrainz5::CEventList *EventList19=Metadata19.EventList();
+	if (EventList19)
+	{
+		std::cout << *EventList19 << std::endl;
+	}
+
+	return 0;
+
+	MusicBrainz5::CMetadata Metadata18=MB2.Query("collection","25053a0e-168a-34ac-ab17-aa66f3a4efeb");
+	MusicBrainz5::CCollection *Collection18=Metadata18.Collection();
+	if (Collection18)
+	{
+		std::cout << *Collection18 << std::endl;
+
+		MusicBrainz5::CEventList *EventList=Collection18->EventList();
+		if (EventList)
+		{
+			std::cout << "EventList: count = " << EventList->Count() << std::endl;
+		}
+	}
+
+	return 0;
 
 	MusicBrainz5::CMetadata Metadata17=MB2.Query("collection","360b6e9f-1b70-4636-a064-6e3dafc8e76c");
 	MusicBrainz5::CCollection *Collection17=Metadata17.Collection();

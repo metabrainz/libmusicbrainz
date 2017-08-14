@@ -2,7 +2,7 @@
 
    libmusicbrainz5 - Client library to access MusicBrainz
 
-   Copyright (C) 2012 Andrew Hawkins
+   Copyright (C) 2017 Andrew Hawkins
 
    This file is part of libmusicbrainz5.
 
@@ -23,36 +23,52 @@
 
 ----------------------------------------------------------------------------*/
 
-#ifndef _MUSICBRAINZ5_COLLECTION_H
-#define _MUSICBRAINZ5_COLLECTION_H
+#ifndef _MUSICBRAINZ5_EVENT_H
+#define _MUSICBRAINZ5_EVENT_H
 
-#include "musicbrainz5/Entity.h"
-#include "musicbrainz5/ArtistList.h"
-#include "musicbrainz5/EventList.h"
-#include "musicbrainz5/ReleaseList.h"
+#include <string>
+#include <iostream>
 
 #include "musicbrainz5/xmlParser.h"
 
+#include "musicbrainz5/AliasList.h"
+#include "musicbrainz5/RelationListList.h"
+#include "musicbrainz5/TagList.h"
+#include "musicbrainz5/UserTagList.h"
+
 namespace MusicBrainz5
 {
-	class CCollectionPrivate;
+	class CEventPrivate;
+	class CLifespan;
+	class CRating;
+	class CUserRating;
 
-	class CCollection: public CEntity
+	class CEvent: public CEntity
 	{
 	public:
-		CCollection(const XMLNode& Node);
-		CCollection(const CCollection& Other);
-		CCollection& operator =(const CCollection& Other);
-		virtual ~CCollection();
+		CEvent(const XMLNode& Node=XMLNode::emptyNode());
+		CEvent(const CEvent& Other);
+		CEvent& operator =(const CEvent& Other);
+		virtual ~CEvent();
 
-		virtual CCollection *Clone();
+		virtual CEvent *Clone();
 
 		std::string ID() const;
+		std::string Type() const;
+		std::string TypeID() const;
 		std::string Name() const;
-		std::string Editor() const;
-		CArtistList *ArtistList() const;
-		CEventList *EventList() const;
-		CReleaseList *ReleaseList() const;
+		std::string Disambiguation() const;
+		std::string Cancelled() const;
+		CLifespan *Lifespan() const;
+		std::string Time() const;
+		std::string Setlist() const;
+		std::string Annotation() const;
+		CAliasList *AliasList() const;
+		CRelationListList *RelationListList() const;
+		CTagList *TagList() const;
+		CUserTagList *UserTagList() const;
+		CRating *Rating() const;
+		CUserRating *UserRating() const;
 
 		virtual std::ostream& Serialise(std::ostream& os) const;
 		static std::string GetElementName();
@@ -64,7 +80,7 @@ namespace MusicBrainz5
 	private:
 		void Cleanup();
 
-		CCollectionPrivate * const m_d;
+		CEventPrivate * const m_d;
 	};
 }
 

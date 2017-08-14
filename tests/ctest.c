@@ -298,6 +298,8 @@ void CompileTest()
 	Mb5UserTagList UserTagList=0;
 	Mb5Work Work=0;
 	Mb5WorkList WorkList=0;
+	Mb5Event Event=0;
+	Mb5EventList EventList=0;
 	char Str[256];
 	int Size=sizeof(Str);
 	int DummyInt=0;
@@ -412,6 +414,25 @@ void CompileTest()
 	Collection=mb5_collection_clone(Collection);
 	mb5_collection_delete(Collection);
 
+	mb5_event_get_id(Event,Str,Size);
+	mb5_event_get_type(Event,Str,Size);
+	mb5_event_get_typeid(Event,Str,Size);
+	mb5_event_get_name(Event,Str,Size);
+	mb5_event_get_disambiguation(Event,Str,Size);
+	mb5_event_get_cancelled(Event,Str,Size);
+	Lifespan=mb5_event_get_lifespan(Event);
+	mb5_event_get_time(Event,Str,Size);
+	mb5_event_get_setlist(Event,Str,Size);
+	mb5_event_get_annotation(Event,Str,Size);
+	AliasList=mb5_event_get_aliaslist(Event);
+	RelationListList=mb5_event_get_relationlistlist(Event);
+	TagList=mb5_event_get_taglist(Event);
+	UserTagList=mb5_event_get_usertaglist(Event);
+	Rating=mb5_event_get_rating(Event);
+	UserRating=mb5_event_get_userrating(Event);
+	Event=mb5_event_clone(Event);
+	mb5_event_delete(Event);
+
 	mb5_freedbdisc_get_id(FreeDBDisc,Str,Size);
 	mb5_freedbdisc_get_title(FreeDBDisc,Str,Size);
 	mb5_freedbdisc_get_artist(FreeDBDisc,Str,Size);
@@ -499,6 +520,7 @@ void CompileTest()
 	Recording=mb5_metadata_get_recording(Metadata);
 	Label=mb5_metadata_get_label(Metadata);
 	Work=mb5_metadata_get_work(Metadata);
+	Event=mb5_metadata_get_event(Metadata);
 	PUID=mb5_metadata_get_puid(Metadata);
 	ISRC=mb5_metadata_get_isrc(Metadata);
 	Disc=mb5_metadata_get_disc(Metadata);
@@ -512,6 +534,7 @@ void CompileTest()
 	RecordingList=mb5_metadata_get_recordinglist(Metadata);
 	LabelList=mb5_metadata_get_labellist(Metadata);
 	WorkList=mb5_metadata_get_worklist(Metadata);
+	EventList=mb5_metadata_get_eventlist(Metadata);
 	ISRCList=mb5_metadata_get_isrclist(Metadata);
 	AnnotationList=mb5_metadata_get_annotationlist(Metadata);
 	CDStubList=mb5_metadata_get_cdstublist(Metadata);
@@ -694,6 +717,8 @@ void CompileTest()
 	Rating=mb5_work_get_rating(Work);
 	UserRating=mb5_work_get_userrating(Work);
 	mb5_work_get_language(Work,Str,Size);
+	Work=mb5_work_clone(Work);
+	mb5_work_delete(Work);
 
 	mb5_alias_list_size(AliasList);
 	Alias=mb5_alias_list_item(AliasList,0);
@@ -743,6 +768,13 @@ void CompileTest()
 	DummyInt=mb5_disc_list_get_count(DiscList);
 	DummyInt=mb5_disc_list_get_offset(DiscList);
 	mb5_disc_list_delete(DiscList);
+
+	DummyInt=mb5_event_list_size(EventList);
+	Event=mb5_event_list_item(EventList,0);
+	EventList=mb5_event_list_clone(EventList);
+	DummyInt=mb5_event_list_get_count(EventList);
+	DummyInt=mb5_event_list_get_offset(EventList);
+	mb5_event_list_delete(EventList);
 
 	DummyInt=mb5_freedbdisc_list_size(FreeDBDiscList);
 	FreeDBDisc=mb5_freedbdisc_list_item(FreeDBDiscList,0);

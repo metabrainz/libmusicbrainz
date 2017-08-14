@@ -40,6 +40,8 @@
 #include "musicbrainz5/LabelList.h"
 #include "musicbrainz5/Work.h"
 #include "musicbrainz5/WorkList.h"
+#include "musicbrainz5/Event.h"
+#include "musicbrainz5/EventList.h"
 #include "musicbrainz5/PUID.h"
 #include "musicbrainz5/ISRC.h"
 #include "musicbrainz5/ISRCList.h"
@@ -72,6 +74,7 @@ class MusicBrainz5::CMetadataPrivate
 			m_Recording(0),
 			m_Label(0),
 			m_Work(0),
+			m_Event(0),
 			m_PUID(0),
 			m_ISRC(0),
 			m_Disc(0),
@@ -85,6 +88,7 @@ class MusicBrainz5::CMetadataPrivate
 			m_RecordingList(0),
 			m_LabelList(0),
 			m_WorkList(0),
+			m_EventList(0),
 			m_ISRCList(0),
 			m_AnnotationList(0),
 			m_CDStubList(0),
@@ -107,6 +111,7 @@ class MusicBrainz5::CMetadataPrivate
 		CRecording *m_Recording;
 		CLabel *m_Label;
 		CWork *m_Work;
+		CEvent *m_Event;
 		CPUID *m_PUID;
 		CISRC *m_ISRC;
 		CDisc *m_Disc;
@@ -120,6 +125,7 @@ class MusicBrainz5::CMetadataPrivate
 		CRecordingList *m_RecordingList;
 		CLabelList *m_LabelList;
 		CWorkList *m_WorkList;
+		CEventList *m_EventList;
 		CISRCList *m_ISRCList;
 		CAnnotationList *m_AnnotationList;
 		CCDStubList *m_CDStubList;
@@ -181,6 +187,9 @@ MusicBrainz5::CMetadata& MusicBrainz5::CMetadata::operator =(const CMetadata& Ot
 		if (Other.m_d->m_Work)
 			m_d->m_Work=new CWork(*Other.m_d->m_Work);
 
+		if (Other.m_d->m_Event)
+			m_d->m_Event=new CEvent(*Other.m_d->m_Event);
+
 		if (Other.m_d->m_PUID)
 			m_d->m_PUID=new CPUID(*Other.m_d->m_PUID);
 
@@ -219,6 +228,9 @@ MusicBrainz5::CMetadata& MusicBrainz5::CMetadata::operator =(const CMetadata& Ot
 
 		if (Other.m_d->m_WorkList)
 			m_d->m_WorkList=new CWorkList(*Other.m_d->m_WorkList);
+
+		if (Other.m_d->m_EventList)
+			m_d->m_EventList=new CEventList(*Other.m_d->m_EventList);
 
 		if (Other.m_d->m_ISRCList)
 			m_d->m_ISRCList=new CISRCList(*Other.m_d->m_ISRCList);
@@ -278,6 +290,9 @@ void MusicBrainz5::CMetadata::Cleanup()
 	delete m_d->m_Work;
 	m_d->m_Work=0;
 
+	delete m_d->m_Event;
+	m_d->m_Event=0;
+
 	delete m_d->m_PUID;
 	m_d->m_PUID=0;
 
@@ -316,6 +331,9 @@ void MusicBrainz5::CMetadata::Cleanup()
 
 	delete m_d->m_WorkList;
 	m_d->m_WorkList=0;
+
+	delete m_d->m_EventList;
+	m_d->m_EventList=0;
 
 	delete m_d->m_ISRCList;
 	m_d->m_ISRCList=0;
@@ -396,6 +414,10 @@ void MusicBrainz5::CMetadata::ParseElement(const XMLNode& Node)
 	{
 		ProcessItem(Node,m_d->m_Work);
 	}
+	else if ("event"==NodeName)
+	{
+		ProcessItem(Node,m_d->m_Event);
+	}
 	else if ("puid"==NodeName)
 	{
 		ProcessItem(Node,m_d->m_PUID);
@@ -443,6 +465,10 @@ void MusicBrainz5::CMetadata::ParseElement(const XMLNode& Node)
 	else if ("work-list"==NodeName)
 	{
 		ProcessItem(Node,m_d->m_WorkList);
+	}
+	else if ("event-list"==NodeName)
+	{
+		ProcessItem(Node,m_d->m_EventList);
 	}
 	else if ("isrc-list"==NodeName)
 	{
@@ -543,6 +569,11 @@ MusicBrainz5::CWork *MusicBrainz5::CMetadata::Work() const
 	return m_d->m_Work;
 }
 
+MusicBrainz5::CEvent *MusicBrainz5::CMetadata::Event() const
+{
+	return m_d->m_Event;
+}
+
 MusicBrainz5::CPUID *MusicBrainz5::CMetadata::PUID() const
 {
 	return m_d->m_PUID;
@@ -606,6 +637,11 @@ MusicBrainz5::CLabelList *MusicBrainz5::CMetadata::LabelList() const
 MusicBrainz5::CWorkList *MusicBrainz5::CMetadata::WorkList() const
 {
 	return m_d->m_WorkList;
+}
+
+MusicBrainz5::CEventList *MusicBrainz5::CMetadata::EventList() const
+{
+	return m_d->m_EventList;
 }
 
 MusicBrainz5::CISRCList *MusicBrainz5::CMetadata::ISRCList() const
@@ -682,6 +718,9 @@ std::ostream& MusicBrainz5::CMetadata::Serialise(std::ostream& os) const
 	if (Work())
 		os << *Work() << std::endl;
 
+	if (Event())
+		os << *Event() << std::endl;
+
 	if (PUID())
 		os << *PUID() << std::endl;
 
@@ -717,6 +756,9 @@ std::ostream& MusicBrainz5::CMetadata::Serialise(std::ostream& os) const
 
 	if (WorkList())
 		os << *WorkList() << std::endl;
+
+	if (EventList())
+		os << *EventList() << std::endl;
 
 	if (ISRCList())
 		os << *ISRCList() << std::endl;
