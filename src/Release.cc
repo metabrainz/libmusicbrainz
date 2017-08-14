@@ -34,6 +34,8 @@
 #include "musicbrainz5/ArtistCredit.h"
 #include "musicbrainz5/ReleaseGroup.h"
 #include "musicbrainz5/Medium.h"
+#include "musicbrainz5/ReleaseEvent.h"
+#include "musicbrainz5/ReleaseEventList.h"
 #include "musicbrainz5/LabelInfoList.h"
 #include "musicbrainz5/LabelInfo.h"
 #include "musicbrainz5/RelationList.h"
@@ -53,6 +55,7 @@ class MusicBrainz5::CReleasePrivate
 		:	m_TextRepresentation(0),
 			m_ArtistCredit(0),
 			m_ReleaseGroup(0),
+			m_ReleaseEventList(0),
 			m_LabelInfoList(0),
 			m_MediumList(0),
 			m_RelationListList(0),
@@ -72,6 +75,7 @@ class MusicBrainz5::CReleasePrivate
 		CReleaseGroup *m_ReleaseGroup;
 		std::string m_Date;
 		std::string m_Country;
+		CReleaseEventList *m_ReleaseEventList;
 		std::string m_Barcode;
 		std::string m_ASIN;
 		CLabelInfoList *m_LabelInfoList;
@@ -126,6 +130,10 @@ MusicBrainz5::CRelease& MusicBrainz5::CRelease::operator =(const CRelease& Other
 
 		m_d->m_Date=Other.m_d->m_Date;
 		m_d->m_Country=Other.m_d->m_Country;
+
+		if (Other.m_d->m_ReleaseEventList)
+			m_d->m_ReleaseEventList=new CReleaseEventList(*Other.m_d->m_ReleaseEventList);
+
 		m_d->m_Barcode=Other.m_d->m_Barcode;
 		m_d->m_ASIN=Other.m_d->m_ASIN;
 
@@ -165,6 +173,9 @@ void MusicBrainz5::CRelease::Cleanup()
 
 	delete m_d->m_ReleaseGroup;
 	m_d->m_ReleaseGroup=0;
+
+	delete m_d->m_ReleaseEventList;
+	m_d->m_ReleaseEventList=0;
 
 	delete m_d->m_LabelInfoList;
 	m_d->m_LabelInfoList=0;
@@ -242,6 +253,10 @@ void MusicBrainz5::CRelease::ParseElement(const XMLNode& Node)
 	else if ("country"==NodeName)
 	{
 		ProcessItem(Node,m_d->m_Country);
+	}
+	else if ("release-event-list"==NodeName)
+	{
+		ProcessItem(Node,m_d->m_ReleaseEventList);
 	}
 	else if ("barcode"==NodeName)
 	{
@@ -339,6 +354,11 @@ std::string MusicBrainz5::CRelease::Country() const
 	return m_d->m_Country;
 }
 
+MusicBrainz5::CReleaseEventList *MusicBrainz5::CRelease::ReleaseEventList() const
+{
+	return m_d->m_ReleaseEventList;
+}
+
 std::string MusicBrainz5::CRelease::Barcode() const
 {
 	return m_d->m_Barcode;
@@ -416,6 +436,10 @@ std::ostream& MusicBrainz5::CRelease::Serialise(std::ostream& os) const
 
 	os << "\tDate:                " << Date() << std::endl;
 	os << "\tCountry:             " << Country() << std::endl;
+
+	if (ReleaseEventList())
+		os << *ReleaseEventList() << std::endl;
+
 	os << "\tBarcode:             " << Barcode() << std::endl;
 	os << "\tASIN:                " << ASIN() << std::endl;
 

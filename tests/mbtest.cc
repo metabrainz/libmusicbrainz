@@ -68,6 +68,17 @@ int main(int argc, const char *argv[])
 {
 	MusicBrainz5::CQuery MB2("MBTest/v1.0","musicbrainz.org");
 
+	MusicBrainz5::CQuery::tParamMap Params16;
+	Params16["inc"]="artists labels recordings release-groups url-rels discids artist-credits";
+	MusicBrainz5::CMetadata Metadata16=MB2.Query("release","f54a5ecf-aaa2-32e3-a734-804bea01c3a9","",Params16);
+	MusicBrainz5::CRelease *Release16=Metadata16.Release();
+	if (Release16)
+	{
+		std::cout << *Release16 << std::endl;
+	}
+
+	return 0;
+
 	MusicBrainz5::CQuery::tParamMap Params5;
 	Params5["inc"]="aliases";
 	MusicBrainz5::CMetadata Metadata5=MB2.Query("artist","4b585938-f271-45e2-b19a-91c634b5e396","",Params5);

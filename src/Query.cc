@@ -248,7 +248,7 @@ MusicBrainz5::CMetadata MusicBrainz5::CQuery::Query(const std::string& Entity, c
 		os << "?" << URLEncode(Params);
 
 #ifdef _MB5_DEBUG_
-	//std::cerr << "Query is '" << os.str() << "'" << std::endl;
+	std::cerr << "Query is '" << os.str() << "'" << std::endl;
 #endif
 
 	return PerformQuery(os.str());
@@ -261,7 +261,10 @@ MusicBrainz5::CReleaseList MusicBrainz5::CQuery::LookupDiscID(const std::string&
 
 	MusicBrainz5::CReleaseList ReleaseList;
 
-	CMetadata Metadata=Query("discid",DiscID);
+	tParamMap Params;
+	Params["inc"]="aliases";
+
+	CMetadata Metadata=Query("discid",DiscID,"",Params);
 
 	CDisc *Disc=Metadata.Disc();
 	if (Disc && Disc->ReleaseList())
@@ -275,7 +278,7 @@ MusicBrainz5::CRelease MusicBrainz5::CQuery::LookupRelease(const std::string& Re
 	MusicBrainz5::CRelease Release;
 
 	tParamMap Params;
-	Params["inc"]="artists labels recordings release-groups url-rels discids artist-credits";
+	Params["inc"]="artists labels recordings release-groups url-rels discids artist-credits aliases";
 
 	CMetadata Metadata=Query("release",ReleaseID,"",Params);
 	if (Metadata.Release())

@@ -229,6 +229,7 @@ void CompileTest()
 	Mb5AliasList AliasList=0;
 	Mb5Annotation Annotation=0;
 	Mb5AnnotationList AnnotationList=0;
+	Mb5Area Area=0;
 	Mb5Artist Artist=0;
 	Mb5ArtistCredit ArtistCredit=0;
 	Mb5ArtistList ArtistList=0;
@@ -244,6 +245,12 @@ void CompileTest()
 	Mb5FreeDBDiscList FreeDBDiscList=0;
 	Mb5IPI IPI=0;
 	Mb5IPIList IPIList=0;
+	Mb5ISO31661Code ISO31661Code=0;
+	Mb5ISO31661CodeList ISO31661CodeList=0;
+	Mb5ISO31662Code ISO31662Code=0;
+	Mb5ISO31662CodeList ISO31662CodeList=0;
+	Mb5ISO31663Code ISO31663Code=0;
+	Mb5ISO31663CodeList ISO31663CodeList=0;
 	Mb5ISRC ISRC=0;
 	Mb5ISRCList ISRCList=0;
 	Mb5ISWC ISWC=0;
@@ -273,6 +280,8 @@ void CompileTest()
 	Mb5RelationList RelationList=0;
 	Mb5RelationListList RelationListList=0;
 	Mb5Release Release=0;
+	Mb5ReleaseEvent ReleaseEvent=0;
+	Mb5ReleaseEventList ReleaseEventList=0;
 	Mb5ReleaseGroup ReleaseGroup=0;
 	Mb5ReleaseGroupList ReleaseGroupList=0;
 	Mb5ReleaseList ReleaseList=0;
@@ -319,6 +328,24 @@ void CompileTest()
 	mb5_annotation_get_text(Annotation,Str,Size);
 	Annotation=mb5_annotation_clone(Annotation);
 	mb5_annotation_delete(Annotation);
+
+	mb5_area_get_id(Area,Str,Size);
+	mb5_area_get_type(Area,Str,Size);
+	mb5_area_get_typeid(Area,Str,Size);
+	mb5_area_get_name(Area,Str,Size);
+	mb5_area_get_sortname(Area,Str,Size);
+	mb5_area_get_disambiguation(Area,Str,Size);
+	ISO31661CodeList=mb5_area_get_iso31661codelist(Area);
+	ISO31662CodeList=mb5_area_get_iso31662codelist(Area);
+	ISO31663CodeList=mb5_area_get_iso31663codelist(Area);
+	mb5_area_get_annotation(Area,Str,Size);
+	Lifespan=mb5_area_get_lifespan(Area);
+	AliasList=mb5_area_get_aliaslist(Area);
+	RelationList=mb5_area_get_relationlist(Area);
+	TagList=mb5_area_get_taglist(Area);
+	UserTagList=mb5_area_get_usertaglist(Area);
+	Area=mb5_area_clone(Area);
+	mb5_area_delete(Area);
 
 	mb5_artist_get_id(Artist,Str,Size);
 	mb5_artist_get_type(Artist,Str,Size);
@@ -386,6 +413,18 @@ void CompileTest()
 	mb5_ipi_get_ipi(IPI,Str,Size);
 	IPI=mb5_ipi_clone(IPI);
 	mb5_ipi_delete(IPI);
+
+	mb5_iso31661code_get_code(ISO31661Code,Str,Size);
+	ISO31661Code=mb5_iso31661code_clone(ISO31661Code);
+	mb5_iso31661code_delete(ISO31661Code);
+
+	mb5_iso31662code_get_code(ISO31662Code,Str,Size);
+	ISO31662Code=mb5_iso31662code_clone(ISO31662Code);
+	mb5_iso31662code_delete(ISO31662Code);
+
+	mb5_iso31663code_get_code(ISO31663Code,Str,Size);
+	ISO31663Code=mb5_iso31663code_clone(ISO31663Code);
+	mb5_iso31663code_delete(ISO31663Code);
 
 	mb5_isrc_get_id(ISRC,Str,Size);
 	RecordingList=mb5_isrc_get_recordinglist(ISRC);
@@ -565,6 +604,7 @@ void CompileTest()
 	ReleaseGroup=mb5_release_get_releasegroup(Release);
 	mb5_release_get_date(Release,Str,Size);
 	mb5_release_get_country(Release,Str,Size);
+	ReleaseEventList=mb5_release_get_releaseeventlist(Release);
 	mb5_release_get_barcode(Release,Str,Size);
 	mb5_release_get_asin(Release,Str,Size);
 	LabelInfoList=mb5_release_get_labelinfolist(Release);
@@ -575,6 +615,11 @@ void CompileTest()
 	MediumList=mb5_release_media_matching_discid(Release,"discid");
 	Release=mb5_release_clone(Release);
 	mb5_release_delete(Release);
+
+	mb5_releaseevent_get_date(ReleaseEvent,Str,Size);
+	Area=mb5_releaseevent_get_area(ReleaseEvent);
+	Release=mb5_releaseevent_clone(ReleaseEvent);
+	mb5_releaseevent_delete(ReleaseEvent);
 
 	mb5_releasegroup_get_id(ReleaseGroup,Str,Size);
 	mb5_releasegroup_get_primarytype(ReleaseGroup,Str,Size);
@@ -697,6 +742,27 @@ void CompileTest()
 	DummyInt=mb5_ipi_list_get_offset(IPIList);
 	mb5_ipi_list_delete(IPIList);
 
+	DummyInt=mb5_iso31661code_list_size(ISO31661CodeList);
+	ISRC=mb5_iso31661code_list_item(ISO31661CodeList,0);
+	ISRCList=mb5_iso31661code_list_clone(ISO31661CodeList);
+	DummyInt=mb5_iso31661code_list_get_count(ISO31661CodeList);
+	DummyInt=mb5_iso31661code_list_get_offset(ISO31661CodeList);
+	mb5_iso31661code_list_delete(ISO31661CodeList);
+
+	DummyInt=mb5_iso31662code_list_size(ISO31662CodeList);
+	ISRC=mb5_iso31662code_list_item(ISO31662CodeList,0);
+	ISRCList=mb5_iso31662code_list_clone(ISO31662CodeList);
+	DummyInt=mb5_iso31662code_list_get_count(ISO31662CodeList);
+	DummyInt=mb5_iso31662code_list_get_offset(ISO31662CodeList);
+	mb5_iso31662code_list_delete(ISO31662CodeList);
+
+	DummyInt=mb5_iso31663code_list_size(ISO31663CodeList);
+	ISRC=mb5_iso31663code_list_item(ISO31663CodeList,0);
+	ISRCList=mb5_iso31663code_list_clone(ISO31663CodeList);
+	DummyInt=mb5_iso31663code_list_get_count(ISO31663CodeList);
+	DummyInt=mb5_iso31663code_list_get_offset(ISO31663CodeList);
+	mb5_iso31663code_list_delete(ISO31663CodeList);
+
 	DummyInt=mb5_isrc_list_size(ISRCList);
 	ISRC=mb5_isrc_list_item(ISRCList,0);
 	ISRCList=mb5_isrc_list_clone(ISRCList);
@@ -789,6 +855,13 @@ void CompileTest()
 	DummyInt=mb5_release_list_get_count(ReleaseList);
 	DummyInt=mb5_release_list_get_offset(ReleaseList);
 	mb5_release_list_delete(ReleaseList);
+
+	DummyInt=mb5_releaseevent_list_size(ReleaseEventList);
+	Release=mb5_releaseevent_list_item(ReleaseEventList,0);
+	ReleaseEventList=mb5_releaseevent_list_clone(ReleaseEventList);
+	DummyInt=mb5_releaseevent_list_get_count(ReleaseEventList);
+	DummyInt=mb5_releaseevent_list_get_offset(ReleaseEventList);
+	mb5_releaseevent_list_delete(ReleaseEventList);
 
 	DummyInt=mb5_releasegroup_list_size(ReleaseGroupList);
 	ReleaseGroup=mb5_releasegroup_list_item(ReleaseGroupList,0);

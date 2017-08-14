@@ -69,6 +69,23 @@ extern "C"
 		<property name="name" type="string"/>
 		<property name="text" type="string"/>
 	</class>
+	<class name="area">
+		<property name="id" uppername="ID" type="string"/>
+		<property name="type" type="string"/>
+		<property name="typeid" uppername="TypeID" type="string"/>
+		<property name="name" type="string"/>
+		<property name="sortname" uppername="SortName" type="string"/>
+		<property name="disambiguation" type="string"/>
+		<property name="iso31661codelist" uppername="ISO31661CodeList" type="object"/>
+		<property name="iso31662codelist" uppername="ISO31662CodeList" type="object"/>
+		<property name="iso31663codelist" uppername="ISO31663CodeList" type="object"/>
+		<property name="annotation" type="string"/>
+		<property name="lifespan" type="object"/>
+		<property name="aliaslist" uppername="AliasList" type="object"/>
+		<property name="relationlist" uppername="RelationList" type="object"/>
+		<property name="taglist" uppername="TagList" type="object"/>
+		<property name="usertaglist" uppername="UserTagList" type="object"/>
+	</class>
 	<class name="artist">
 		<property name="id" uppername="ID" type="string"/>
 		<property name="type" type="string"/>
@@ -127,6 +144,15 @@ extern "C"
 	</class>
 	<class name="ipi" uppername="IPI">
 		<property name="ipi" uppername="IPI" type="string"/>
+	</class>
+	<class name="iso31661code" uppername="ISO31661Code">
+		<property name="code" type="string"/>
+	</class>
+	<class name="iso31662code" uppername="ISO31662Code">
+		<property name="code" type="string"/>
+	</class>
+	<class name="iso31663code" uppername="ISO31663Code">
+		<property name="code" type="string"/>
 	</class>
 	<class name="isrc" uppername="ISRC">
 		<property name="id" uppername="ID" type="string"/>
@@ -282,6 +308,7 @@ extern "C"
 		<property name="releasegroup" uppername="ReleaseGroup" type="object"/>
 		<property name="date" type="string"/>
 		<property name="country" type="string"/>
+		<property name="releaseeventlist" uppername="ReleaseEventList" type="object"/>
 		<property name="barcode" type="string"/>
 		<property name="asin" uppername="ASIN" type="string"/>
 		<property name="labelinfolist" uppername="LabelInfoList" type="object"/>
@@ -292,6 +319,10 @@ extern "C"
 	</class>
 	<boilerplate target="include" file="c-int-release-defines.inc"/>
 	<boilerplate target="source" file="c-int-release-source.inc"/>
+	<class name="releaseevent" uppername="ReleaseEvent">
+		<property name="date" type="string"/>
+		<property name="area" type="object"/>
+	</class>
 	<class name="releasegroup" uppername="ReleaseGroup">
 		<property name="id" uppername="ID" type="string"/>
 		<property name="primarytype" uppername="PrimaryType" type="string"/>
@@ -357,6 +388,9 @@ extern "C"
 	<list name="disc"/>
 	<list name="freedbdisc" uppername="FreeDBDisc"/>
 	<list name="ipi" uppername="IPI"/>
+	<list name="iso31661code" uppername="ISO31661Code"/>
+	<list name="iso31662code" uppername="ISO31662Code"/>
+	<list name="iso31663code" uppername="ISO31663Code"/>
 	<list name="isrc" uppername="ISRC"/>
 	<list name="iswc" uppername="ISWC"/>
 	<list name="label"/>
@@ -374,6 +408,7 @@ extern "C"
 	</list>
 	<list name="relationlist" uppername="RelationList"/>
 	<list name="release"/>
+	<list name="releaseevent" uppername="ReleaseEvent"/>
 	<list name="releasegroup" uppername="ReleaseGroup"/>
 	<list name="secondarytype" uppername="SecondaryType"/>
 	<list name="tag"/>

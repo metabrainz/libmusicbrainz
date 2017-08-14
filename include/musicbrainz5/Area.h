@@ -2,7 +2,7 @@
 
    libmusicbrainz5 - Client library to access MusicBrainz
 
-   Copyright (C) 2012 Andrew Hawkins
+   Copyright (C) 2017 Andrew Hawkins
 
    This file is part of libmusicbrainz5.
 
@@ -23,62 +23,52 @@
 
 ----------------------------------------------------------------------------*/
 
-#ifndef _MUSICBRAINZ5_RELEASE_H
-#define _MUSICBRAINZ5_RELEASE_H
+#ifndef _MUSICBRAINZ5_AREA_H
+#define _MUSICBRAINZ5_AREA_H
 
 #include "musicbrainz5/Entity.h"
-#include "musicbrainz5/ReleaseEventList.h"
-#include "musicbrainz5/LabelInfoList.h"
-#include "musicbrainz5/RelationList.h"
-#include "musicbrainz5/MediumList.h"
-#include "musicbrainz5/CollectionList.h"
+
+#include "musicbrainz5/ISO31661CodeList.h"
+#include "musicbrainz5/ISO31662CodeList.h"
+#include "musicbrainz5/ISO31663CodeList.h"
 #include "musicbrainz5/AliasList.h"
+#include "musicbrainz5/RelationList.h"
+#include "musicbrainz5/TagList.h"
+#include "musicbrainz5/UserTagList.h"
 
 #include "musicbrainz5/xmlParser.h"
 
-#include <string>
-#include <iostream>
-
 namespace MusicBrainz5
 {
-	class CReleasePrivate;
+	class CAreaPrivate;
 
-	class CTextRepresentation;
-	class CArtistCredit;
-	class CReleaseGroup;
-	class CMedium;
+	class CLifespan;
 
-	class CRelease: public CEntity
+	class CArea: public CEntity
 	{
 	public:
-		CRelease(const XMLNode& Node=XMLNode::emptyNode());
-		CRelease(const CRelease& Other);
-		CRelease& operator =(const CRelease& Other);
-		virtual ~CRelease();
+		CArea(const XMLNode& Node=XMLNode::emptyNode());
+		CArea(const CArea& Other);
+		CArea& operator =(const CArea& Other);
+		virtual ~CArea();
 
-		virtual CRelease *Clone();
+		virtual CArea *Clone();
 
 		std::string ID() const;
-		std::string Title() const;
-		std::string Status() const;
-		std::string Quality() const;
+		std::string Type() const;
+		std::string TypeID() const;
+		std::string Name() const;
+		std::string SortName() const;
 		std::string Disambiguation() const;
-		std::string Packaging() const;
-		CTextRepresentation *TextRepresentation() const;
-		CArtistCredit *ArtistCredit() const;
-		CReleaseGroup *ReleaseGroup() const;
-		std::string Date() const;
-		std::string Country() const;
-		CReleaseEventList *ReleaseEventList() const;
-		std::string Barcode() const;
-		std::string ASIN() const;
-		CLabelInfoList *LabelInfoList() const;
-		CMediumList *MediumList() const;
-		CRelationListList *RelationListList() const;
-		CCollectionList *CollectionList() const;
+		CISO31661CodeList *ISO31661CodeList() const;
+		CISO31662CodeList *ISO31662CodeList() const;
+		CISO31663CodeList *ISO31663CodeList() const;
+		std::string Annotation() const;
+		CLifespan *Lifespan() const;
 		CAliasList *AliasList() const;
-
-		CMediumList MediaMatchingDiscID(const std::string& DiscID) const;
+		CRelationList *RelationList() const;
+		CTagList *TagList() const;
+		CUserTagList *UserTagList() const;
 
 		virtual std::ostream& Serialise(std::ostream& os) const;
 		static std::string GetElementName();
@@ -90,7 +80,7 @@ namespace MusicBrainz5
 	private:
 		void Cleanup();
 
-		CReleasePrivate * const m_d;
+		CAreaPrivate * const m_d;
 	};
 }
 
