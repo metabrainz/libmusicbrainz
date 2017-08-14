@@ -289,6 +289,7 @@ extern "C"
 	</class>
 	<class name="relation">
 		<property name="type" type="string"/>
+		<property name="typeid" uppername="TypeID" type="string"/>
 		<property name="target" type="string"/>
 		<property name="direction" type="string"/>
 		<property name="attributelist" uppername="AttributeList" type="object"/>

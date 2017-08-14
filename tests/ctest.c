@@ -586,6 +586,7 @@ void CompileTest()
 	mb5_recording_delete(Recording);
 
 	mb5_relation_get_type(Relation,Str,Size);
+	mb5_relation_get_typeid(Relation,Str,Size);
 	mb5_relation_get_target(Relation,Str,Size);
 	mb5_relation_get_direction(Relation,Str,Size);
 	AttributeList=mb5_relation_get_attributelist(Relation);

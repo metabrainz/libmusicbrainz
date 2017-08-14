@@ -56,6 +56,7 @@ namespace MusicBrainz5
 		virtual CRelation *Clone();
 
 		std::string Type() const;
+		std::string TypeID() const;
 		std::string Target() const;
 		std::string Direction() const;
 		CAttributeList *AttributeList() const;
