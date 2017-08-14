@@ -36,28 +36,8 @@
 namespace MusicBrainz5
 {
 	class CISWC;
-	class CISWCListPrivate;
 
-	class CISWCList: public CListImpl<CISWC>
-	{
-	public:
-		CISWCList(const XMLNode& Node=XMLNode::emptyNode());
-		CISWCList(const CISWCList& Other);
-		CISWCList& operator =(const CISWCList& Other);
-		virtual ~CISWCList();
-
-		virtual CISWCList *Clone();
-
-		virtual std::ostream& Serialise(std::ostream& os) const;
-		static std::string GetElementName();
-
-	protected:
-		virtual void ParseAttribute(const std::string& Name, const std::string& Value);
-		virtual void ParseElement(const XMLNode& Node);
-
-	private:
-		CISWCListPrivate * const m_d;
-	};
+	typedef CListImpl<CISWC> CISWCList;
 }
 
 #endif

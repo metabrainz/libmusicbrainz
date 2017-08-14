@@ -36,28 +36,8 @@
 namespace MusicBrainz5
 {
 	class CReleaseEvent;
-	class CReleaseEventListPrivate;
 
-	class CReleaseEventList: public CListImpl<CReleaseEvent>
-	{
-	public:
-		CReleaseEventList(const XMLNode& Node=XMLNode::emptyNode());
-		CReleaseEventList(const CReleaseEventList& Other);
-		CReleaseEventList& operator =(const CReleaseEventList& Other);
-		virtual ~CReleaseEventList();
-
-		virtual CReleaseEventList *Clone();
-
-		virtual std::ostream& Serialise(std::ostream& os) const;
-		static std::string GetElementName();
-
-	protected:
-		virtual void ParseAttribute(const std::string& Name, const std::string& Value);
-		virtual void ParseElement(const XMLNode& Node);
-
-	private:
-		CReleaseEventListPrivate * const m_d;
-	};
+	typedef CListImpl<CReleaseEvent> CReleaseEventList;
 }
 
 #endif

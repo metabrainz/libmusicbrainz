@@ -36,28 +36,8 @@
 namespace MusicBrainz5
 {
 	class CSecondaryType;
-	class CSecondaryTypeListPrivate;
 
-	class CSecondaryTypeList: public CListImpl<CSecondaryType>
-	{
-	public:
-		CSecondaryTypeList(const XMLNode& Node=XMLNode::emptyNode());
-		CSecondaryTypeList(const CSecondaryTypeList& Other);
-		CSecondaryTypeList& operator =(const CSecondaryTypeList& Other);
-		virtual ~CSecondaryTypeList();
-
-		virtual CSecondaryTypeList *Clone();
-
-		virtual std::ostream& Serialise(std::ostream& os) const;
-		static std::string GetElementName();
-
-	protected:
-		virtual void ParseAttribute(const std::string& Name, const std::string& Value);
-		virtual void ParseElement(const XMLNode& Node);
-
-	private:
-		CSecondaryTypeListPrivate * const m_d;
-	};
+	typedef CListImpl<CSecondaryType> CSecondaryTypeList;
 }
 
 #endif

@@ -28,8 +28,11 @@
 
 #include "musicbrainz5/Area.h"
 
+#include "musicbrainz5/ISO31661Code.h"
 #include "musicbrainz5/ISO31661CodeList.h"
+#include "musicbrainz5/ISO31662Code.h"
 #include "musicbrainz5/ISO31662CodeList.h"
+#include "musicbrainz5/ISO31663Code.h"
 #include "musicbrainz5/ISO31663CodeList.h"
 #include "musicbrainz5/Lifespan.h"
 #include "musicbrainz5/Alias.h"

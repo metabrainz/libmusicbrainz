@@ -36,28 +36,8 @@
 namespace MusicBrainz5
 {
 	class CISO31661Code;
-	class CISO31661CodeListPrivate;
 
-	class CISO31661CodeList: public CListImpl<CISO31661Code>
-	{
-	public:
-		CISO31661CodeList(const XMLNode& Node=XMLNode::emptyNode());
-		CISO31661CodeList(const CISO31661CodeList& Other);
-		CISO31661CodeList& operator =(const CISO31661CodeList& Other);
-		virtual ~CISO31661CodeList();
-
-		virtual CISO31661CodeList *Clone();
-
-		virtual std::ostream& Serialise(std::ostream& os) const;
-		static std::string GetElementName();
-
-	protected:
-		virtual void ParseAttribute(const std::string& Name, const std::string& Value);
-		virtual void ParseElement(const XMLNode& Node);
-
-	private:
-		CISO31661CodeListPrivate * const m_d;
-	};
+	typedef CListImpl<CISO31661Code> CISO31661CodeList;
 }
 
 #endif
