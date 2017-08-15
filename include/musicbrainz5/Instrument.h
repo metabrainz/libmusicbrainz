@@ -23,38 +23,44 @@
 
 ----------------------------------------------------------------------------*/
 
-#ifndef _MUSICBRAINZ5_COLLECTION_H
-#define _MUSICBRAINZ5_COLLECTION_H
+#ifndef _MUSICBRAINZ5_INSTRUMENT_H
+#define _MUSICBRAINZ5_INSTRUMENT_H
+
+#include <string>
+#include <iostream>
 
 #include "musicbrainz5/Entity.h"
-#include "musicbrainz5/ArtistList.h"
-#include "musicbrainz5/EventList.h"
-#include "musicbrainz5/InstrumentList.h"
-#include "musicbrainz5/ReleaseList.h"
+#include "musicbrainz5/AliasList.h"
+#include "musicbrainz5/RelationList.h"
+#include "musicbrainz5/TagList.h"
+#include "musicbrainz5/UserTagList.h"
 
 #include "musicbrainz5/xmlParser.h"
 
 namespace MusicBrainz5
 {
-	class CCollectionPrivate;
-
-	class CCollection: public CEntity
+	class CInstrumentPrivate;
+	class CInstrument: public CEntity
 	{
 	public:
-		CCollection(const XMLNode& Node);
-		CCollection(const CCollection& Other);
-		CCollection& operator =(const CCollection& Other);
-		virtual ~CCollection();
+		CInstrument(const XMLNode& Node=XMLNode::emptyNode());
+		CInstrument(const CInstrument& Other);
+		CInstrument& operator =(const CInstrument& Other);
+		virtual ~CInstrument();
 
-		virtual CCollection *Clone();
+		virtual CInstrument *Clone();
 
 		std::string ID() const;
+		std::string Type() const;
+		std::string TypeID() const;
 		std::string Name() const;
-		std::string Editor() const;
-		CArtistList *ArtistList() const;
-		CEventList *EventList() const;
-		CInstrumentList *InstrumentList() const;
-		CReleaseList *ReleaseList() const;
+		std::string Disambiguation() const;
+		std::string Description() const;
+		std::string Annotation() const;
+		CAliasList *AliasList() const;
+		CRelationList *RelationList() const;
+		CTagList *TagList() const;
+		CUserTagList *UserTagList() const;
 
 		virtual std::ostream& Serialise(std::ostream& os) const;
 		static std::string GetElementName();
@@ -66,7 +72,7 @@ namespace MusicBrainz5
 	private:
 		void Cleanup();
 
-		CCollectionPrivate * const m_d;
+		CInstrumentPrivate * const m_d;
 	};
 }
 

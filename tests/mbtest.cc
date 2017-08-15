@@ -70,6 +70,33 @@ int main(int argc, const char *argv[])
 {
 	MusicBrainz5::CQuery MB2("MBTest/v1.0","musicbrainz.org");
 
+	MusicBrainz5::CQuery::tParamMap Params23;
+	Params23["collection"]="8e5c49ea-adda-4434-a906-73492e5a679c";
+
+	MusicBrainz5::CMetadata Metadata23=MB2.Query("instrument","","",Params23);
+	MusicBrainz5::CInstrumentList *InstrumentList23=Metadata23.InstrumentList();
+	if (InstrumentList23)
+	{
+		std::cout << *InstrumentList23 << std::endl;
+	}
+
+	return 0;
+
+	MusicBrainz5::CMetadata Metadata22=MB2.Query("collection","8e5c49ea-adda-4434-a906-73492e5a679c");
+	MusicBrainz5::CCollection *Collection22=Metadata22.Collection();
+	if (Collection22)
+	{
+		std::cout << *Collection22 << std::endl;
+
+		MusicBrainz5::CInstrumentList *InstrumentList=Collection22->InstrumentList();
+		if (InstrumentList)
+		{
+			std::cout << "InstrumentList: count = " << InstrumentList->Count() << std::endl;
+		}
+	}
+
+	return 0;
+
 	MusicBrainz5::CQuery::tParamMap Params21;
 	Params21["inc"]="series-rels";
 	MusicBrainz5::CMetadata Metadata21=MB2.Query("event","3a348c4d-7677-4d5f-be06-9c8173980be5","",Params21);

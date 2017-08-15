@@ -40,6 +40,8 @@
 #include "musicbrainz5/LabelList.h"
 #include "musicbrainz5/Work.h"
 #include "musicbrainz5/WorkList.h"
+#include "musicbrainz5/Instrument.h"
+#include "musicbrainz5/InstrumentList.h"
 #include "musicbrainz5/Event.h"
 #include "musicbrainz5/EventList.h"
 #include "musicbrainz5/PUID.h"
@@ -74,6 +76,7 @@ class MusicBrainz5::CMetadataPrivate
 			m_Recording(0),
 			m_Label(0),
 			m_Work(0),
+			m_Instrument(0),
 			m_Event(0),
 			m_PUID(0),
 			m_ISRC(0),
@@ -88,6 +91,7 @@ class MusicBrainz5::CMetadataPrivate
 			m_RecordingList(0),
 			m_LabelList(0),
 			m_WorkList(0),
+			m_InstrumentList(0),
 			m_EventList(0),
 			m_ISRCList(0),
 			m_AnnotationList(0),
@@ -111,6 +115,7 @@ class MusicBrainz5::CMetadataPrivate
 		CRecording *m_Recording;
 		CLabel *m_Label;
 		CWork *m_Work;
+		CInstrument *m_Instrument;
 		CEvent *m_Event;
 		CPUID *m_PUID;
 		CISRC *m_ISRC;
@@ -125,6 +130,7 @@ class MusicBrainz5::CMetadataPrivate
 		CRecordingList *m_RecordingList;
 		CLabelList *m_LabelList;
 		CWorkList *m_WorkList;
+		CInstrumentList *m_InstrumentList;
 		CEventList *m_EventList;
 		CISRCList *m_ISRCList;
 		CAnnotationList *m_AnnotationList;
@@ -187,6 +193,9 @@ MusicBrainz5::CMetadata& MusicBrainz5::CMetadata::operator =(const CMetadata& Ot
 		if (Other.m_d->m_Work)
 			m_d->m_Work=new CWork(*Other.m_d->m_Work);
 
+		if (Other.m_d->m_Instrument)
+			m_d->m_Instrument=new CInstrument(*Other.m_d->m_Instrument);
+
 		if (Other.m_d->m_Event)
 			m_d->m_Event=new CEvent(*Other.m_d->m_Event);
 
@@ -228,6 +237,9 @@ MusicBrainz5::CMetadata& MusicBrainz5::CMetadata::operator =(const CMetadata& Ot
 
 		if (Other.m_d->m_WorkList)
 			m_d->m_WorkList=new CWorkList(*Other.m_d->m_WorkList);
+
+		if (Other.m_d->m_InstrumentList)
+			m_d->m_InstrumentList=new CInstrumentList(*Other.m_d->m_InstrumentList);
 
 		if (Other.m_d->m_EventList)
 			m_d->m_EventList=new CEventList(*Other.m_d->m_EventList);
@@ -290,6 +302,9 @@ void MusicBrainz5::CMetadata::Cleanup()
 	delete m_d->m_Work;
 	m_d->m_Work=0;
 
+	delete m_d->m_Instrument;
+	m_d->m_Instrument=0;
+
 	delete m_d->m_Event;
 	m_d->m_Event=0;
 
@@ -331,6 +346,9 @@ void MusicBrainz5::CMetadata::Cleanup()
 
 	delete m_d->m_WorkList;
 	m_d->m_WorkList=0;
+
+	delete m_d->m_InstrumentList;
+	m_d->m_InstrumentList=0;
 
 	delete m_d->m_EventList;
 	m_d->m_EventList=0;
@@ -414,6 +432,10 @@ void MusicBrainz5::CMetadata::ParseElement(const XMLNode& Node)
 	{
 		ProcessItem(Node,m_d->m_Work);
 	}
+	else if ("instrument"==NodeName)
+	{
+		ProcessItem(Node,m_d->m_Instrument);
+	}
 	else if ("event"==NodeName)
 	{
 		ProcessItem(Node,m_d->m_Event);
@@ -465,6 +487,10 @@ void MusicBrainz5::CMetadata::ParseElement(const XMLNode& Node)
 	else if ("work-list"==NodeName)
 	{
 		ProcessItem(Node,m_d->m_WorkList);
+	}
+	else if ("instrument-list"==NodeName)
+	{
+		ProcessItem(Node,m_d->m_InstrumentList);
 	}
 	else if ("event-list"==NodeName)
 	{
@@ -569,6 +595,11 @@ MusicBrainz5::CWork *MusicBrainz5::CMetadata::Work() const
 	return m_d->m_Work;
 }
 
+MusicBrainz5::CInstrument *MusicBrainz5::CMetadata::Instrument() const
+{
+	return m_d->m_Instrument;
+}
+
 MusicBrainz5::CEvent *MusicBrainz5::CMetadata::Event() const
 {
 	return m_d->m_Event;
@@ -637,6 +668,11 @@ MusicBrainz5::CLabelList *MusicBrainz5::CMetadata::LabelList() const
 MusicBrainz5::CWorkList *MusicBrainz5::CMetadata::WorkList() const
 {
 	return m_d->m_WorkList;
+}
+
+MusicBrainz5::CInstrumentList *MusicBrainz5::CMetadata::InstrumentList() const
+{
+	return m_d->m_InstrumentList;
 }
 
 MusicBrainz5::CEventList *MusicBrainz5::CMetadata::EventList() const
@@ -718,6 +754,9 @@ std::ostream& MusicBrainz5::CMetadata::Serialise(std::ostream& os) const
 	if (Work())
 		os << *Work() << std::endl;
 
+	if (Instrument())
+		os << *Instrument() << std::endl;
+
 	if (Event())
 		os << *Event() << std::endl;
 
@@ -756,6 +795,9 @@ std::ostream& MusicBrainz5::CMetadata::Serialise(std::ostream& os) const
 
 	if (WorkList())
 		os << *WorkList() << std::endl;
+
+	if (InstrumentList())
+		os << *InstrumentList() << std::endl;
 
 	if (EventList())
 		os << *EventList() << std::endl;

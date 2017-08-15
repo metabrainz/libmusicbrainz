@@ -244,6 +244,8 @@ void CompileTest()
 	Mb5DiscList DiscList=0;
 	Mb5FreeDBDisc FreeDBDisc=0;
 	Mb5FreeDBDiscList FreeDBDiscList=0;
+	Mb5Instrument Instrument=0;
+	Mb5InstrumentList InstrumentList=0;
 	Mb5IPI IPI=0;
 	Mb5IPIList IPIList=0;
 	Mb5ISO31661Code ISO31661Code=0;
@@ -442,6 +444,20 @@ void CompileTest()
 	FreeDBDisc=mb5_freedbdisc_clone(FreeDBDisc);
 	mb5_freedbdisc_delete(FreeDBDisc);
 
+	mb5_instrument_get_id(Instrument,Str,Size);
+	mb5_instrument_get_type(Instrument,Str,Size);
+	mb5_instrument_get_typeid(Instrument,Str,Size);
+	mb5_instrument_get_name(Instrument,Str,Size);
+	mb5_instrument_get_disambiguation(Instrument,Str,Size);
+	mb5_instrument_get_description(Instrument,Str,Size);
+	mb5_instrument_get_annotation(Instrument,Str,Size);
+	AliasList=mb5_instrument_get_aliaslist(Instrument);
+	RelationList=mb5_instrument_get_relationlist(Instrument);
+	TagList=mb5_instrument_get_taglist(Instrument);
+	UserTagList=mb5_instrument_get_usertaglist(Instrument);
+	Instrument=mb5_instrument_clone(Instrument);
+	mb5_instrument_delete(Instrument);
+
 	mb5_ipi_get_ipi(IPI,Str,Size);
 	IPI=mb5_ipi_clone(IPI);
 	mb5_ipi_delete(IPI);
@@ -520,6 +536,7 @@ void CompileTest()
 	Recording=mb5_metadata_get_recording(Metadata);
 	Label=mb5_metadata_get_label(Metadata);
 	Work=mb5_metadata_get_work(Metadata);
+	Instrument=mb5_metadata_get_instrument(Metadata);
 	Event=mb5_metadata_get_event(Metadata);
 	PUID=mb5_metadata_get_puid(Metadata);
 	ISRC=mb5_metadata_get_isrc(Metadata);
@@ -534,6 +551,7 @@ void CompileTest()
 	RecordingList=mb5_metadata_get_recordinglist(Metadata);
 	LabelList=mb5_metadata_get_labellist(Metadata);
 	WorkList=mb5_metadata_get_worklist(Metadata);
+	InstrumentList=mb5_metadata_get_instrumentlist(Metadata);
 	EventList=mb5_metadata_get_eventlist(Metadata);
 	ISRCList=mb5_metadata_get_isrclist(Metadata);
 	AnnotationList=mb5_metadata_get_annotationlist(Metadata);
@@ -782,6 +800,13 @@ void CompileTest()
 	DummyInt=mb5_freedbdisc_list_get_count(FreeDBDiscList);
 	DummyInt=mb5_freedbdisc_list_get_offset(FreeDBDiscList);
 	mb5_freedbdisc_list_delete(FreeDBDiscList);
+
+	DummyInt=mb5_instrument_list_size(InstrumentList);
+	UserTag=mb5_instrument_list_item(InstrumentList,0);
+	UserTagList=mb5_instrument_list_clone(InstrumentList);
+	DummyInt=mb5_instrument_list_get_count(InstrumentList);
+	DummyInt=mb5_instrument_list_get_offset(InstrumentList);
+	mb5_instrument_list_delete(InstrumentList);
 
 	DummyInt=mb5_ipi_list_size(IPIList);
 	ISRC=mb5_ipi_list_item(IPIList,0);

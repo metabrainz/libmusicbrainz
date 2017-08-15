@@ -169,6 +169,19 @@ extern "C"
 		<property name="year" type="string"/>
 		<property name="nonmbtracklist" uppername="NonMBTrackList" type="object"/>
 	</class>
+	<class name="instrument">
+		<property name="id" uppername="ID" type="string"/>
+		<property name="type" type="string"/>
+		<property name="typeid" uppername="TypeID" type="string"/>
+		<property name="name" type="string"/>
+		<property name="disambiguation" type="string"/>
+		<property name="description" type="string"/>
+		<property name="annotation" type="string"/>
+		<property name="aliaslist" uppername="AliasList" type="object"/>
+		<property name="relationlist" uppername="RelationList" type="object"/>
+		<property name="taglist" uppername="TagList" type="object"/>
+		<property name="usertaglist" uppername="UserTagList" type="object"/>
+	</class>
 	<class name="ipi" uppername="IPI">
 		<property name="ipi" uppername="IPI" type="string"/>
 	</class>
@@ -238,6 +251,7 @@ extern "C"
 		<property name="recording" type="object"/>
 		<property name="label" type="object"/>
 		<property name="work" type="object"/>
+		<property name="instrument" type="object"/>
 		<property name="event" type="object"/>
 		<property name="puid" uppername="PUID" type="object"/>
 		<property name="isrc" uppername="ISRC" type="object"/>
@@ -252,6 +266,7 @@ extern "C"
 		<property name="recordinglist" uppername="RecordingList" type="object"/>
 		<property name="labellist" uppername="LabelList" type="object"/>
 		<property name="worklist" uppername="WorkList" type="object"/>
+		<property name="instrumentlist" uppername="InstrumentList" type="object"/>
 		<property name="eventlist" uppername="EventList" type="object"/>
 		<property name="isrclist" uppername="ISRCList" type="object"/>
 		<property name="annotationlist" uppername="AnnotationList" type="object"/>
@@ -422,6 +437,7 @@ extern "C"
 	<list name="disc"/>
 	<list name="event"/>
 	<list name="freedbdisc" uppername="FreeDBDisc"/>
+	<list name="instrument"/>
 	<list name="ipi" uppername="IPI"/>
 	<list name="iso31661code" uppername="ISO31661Code"/>
 	<list name="iso31662code" uppername="ISO31662Code"/>

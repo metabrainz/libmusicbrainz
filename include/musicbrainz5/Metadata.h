@@ -30,6 +30,7 @@
 #include "musicbrainz5/ReleaseList.h"
 #include "musicbrainz5/ArtistList.h"
 #include "musicbrainz5/WorkList.h"
+#include "musicbrainz5/InstrumentList.h"
 #include "musicbrainz5/EventList.h"
 #include "musicbrainz5/ISRCList.h"
 #include "musicbrainz5/LabelInfoList.h"
@@ -64,6 +65,7 @@ namespace MusicBrainz5
 	class CCollection;
 	class CArtist;
 	class CWork;
+	class CInstrument;
 	class CEvent;
 	class CCDStub;
 	class CMessage;
@@ -88,6 +90,7 @@ namespace MusicBrainz5
 		CRecording *Recording() const;
 		CLabel *Label() const;
 		CWork *Work() const;
+		CInstrument *Instrument() const;
 		CEvent *Event() const;
 		CPUID *PUID() const;
 		CISRC *ISRC() const;
@@ -102,6 +105,7 @@ namespace MusicBrainz5
 		CRecordingList *RecordingList() const;
 		CLabelList *LabelList() const;
 		CWorkList *WorkList() const;
+		CInstrumentList *InstrumentList() const;
 		CEventList *EventList() const;
 		CISRCList *ISRCList() const;
 		CAnnotationList *AnnotationList() const;

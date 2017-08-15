@@ -32,6 +32,8 @@
 #include "musicbrainz5/Artist.h"
 #include "musicbrainz5/EventList.h"
 #include "musicbrainz5/Event.h"
+#include "musicbrainz5/InstrumentList.h"
+#include "musicbrainz5/Instrument.h"
 #include "musicbrainz5/ReleaseList.h"
 #include "musicbrainz5/Release.h"
 
@@ -41,6 +43,7 @@ class MusicBrainz5::CCollectionPrivate
 		CCollectionPrivate()
 		:	m_ArtistList(0),
 			m_EventList(0),
+			m_InstrumentList(0),
 			m_ReleaseList(0)
 		{
 		}
@@ -50,6 +53,7 @@ class MusicBrainz5::CCollectionPrivate
 		std::string m_Editor;
 		CArtistList *m_ArtistList;
 		CEventList *m_EventList;
+		CInstrumentList *m_InstrumentList;
 		CReleaseList *m_ReleaseList;
 };
 MusicBrainz5::CCollection::CCollection(const XMLNode& Node)
@@ -89,6 +93,9 @@ MusicBrainz5::CCollection& MusicBrainz5::CCollection::operator =(const CCollecti
 		if (Other.m_d->m_EventList)
 			m_d->m_EventList=new CEventList(*Other.m_d->m_EventList);
 
+		if (Other.m_d->m_InstrumentList)
+			m_d->m_InstrumentList=new CInstrumentList(*Other.m_d->m_InstrumentList);
+
 		if (Other.m_d->m_ReleaseList)
 			m_d->m_ReleaseList=new CReleaseList(*Other.m_d->m_ReleaseList);
 	}
@@ -110,6 +117,9 @@ void MusicBrainz5::CCollection::Cleanup()
 
 	delete m_d->m_EventList;
 	m_d->m_EventList=0;
+
+	delete m_d->m_InstrumentList;
+	m_d->m_InstrumentList=0;
 
 	delete m_d->m_ReleaseList;
 	m_d->m_ReleaseList=0;
@@ -151,6 +161,10 @@ void MusicBrainz5::CCollection::ParseElement(const XMLNode& Node)
 	else if ("event-list"==NodeName)
 	{
 		ProcessItem(Node,m_d->m_EventList);
+	}
+	else if ("instrument-list"==NodeName)
+	{
+		ProcessItem(Node,m_d->m_InstrumentList);
 	}
 	else if ("release-list"==NodeName)
 	{
@@ -194,6 +208,11 @@ MusicBrainz5::CEventList *MusicBrainz5::CCollection::EventList() const
 	return m_d->m_EventList;
 }
 
+MusicBrainz5::CInstrumentList *MusicBrainz5::CCollection::InstrumentList() const
+{
+	return m_d->m_InstrumentList;
+}
+
 MusicBrainz5::CReleaseList *MusicBrainz5::CCollection::ReleaseList() const
 {
 	return m_d->m_ReleaseList;
@@ -214,6 +233,9 @@ std::ostream& MusicBrainz5::CCollection::Serialise(std::ostream& os) const
 
 	if (EventList())
 		os << *EventList() << std::endl;
+
+	if (InstrumentList())
+		os << *InstrumentList() << std::endl;
 
 	if (ReleaseList())
 		os << *ReleaseList() << std::endl;
