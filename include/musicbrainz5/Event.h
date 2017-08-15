@@ -32,7 +32,7 @@
 #include "musicbrainz5/xmlParser.h"
 
 #include "musicbrainz5/AliasList.h"
-#include "musicbrainz5/RelationListList.h"
+#include "musicbrainz5/RelationList.h"
 #include "musicbrainz5/TagList.h"
 #include "musicbrainz5/UserTagList.h"
 
@@ -64,7 +64,7 @@ namespace MusicBrainz5
 		std::string Setlist() const;
 		std::string Annotation() const;
 		CAliasList *AliasList() const;
-		CRelationListList *RelationListList() const;
+		CRelationList *RelationList() const;
 		CTagList *TagList() const;
 		CUserTagList *UserTagList() const;
 		CRating *Rating() const;

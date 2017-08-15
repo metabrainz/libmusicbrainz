@@ -70,13 +70,24 @@ int main(int argc, const char *argv[])
 {
 	MusicBrainz5::CQuery MB2("MBTest/v1.0","musicbrainz.org");
 
-	MusicBrainz5::CQuery::tParamMap Params16;
-	Params16["inc"]="artists labels recordings release-groups url-rels discids artist-credits aliases";
-	MusicBrainz5::CMetadata Metadata16=MB2.Query("release","f54a5ecf-aaa2-32e3-a734-804bea01c3a9","",Params16);
-	MusicBrainz5::CRelease *Release16=Metadata16.Release();
-	if (Release16)
+	MusicBrainz5::CQuery::tParamMap Params21;
+	Params21["inc"]="series-rels";
+	MusicBrainz5::CMetadata Metadata21=MB2.Query("event","3a348c4d-7677-4d5f-be06-9c8173980be5","",Params21);
+	MusicBrainz5::CEvent *Event21=Metadata21.Event();
+	if (Event21)
 	{
-		std::cout << "******" << std::endl << *Release16 << std::endl;
+		std::cout << *Event21 << std::endl;
+	}
+
+	return 0;
+
+	MusicBrainz5::CQuery::tParamMap Params20;
+	Params20["inc"]="artists labels recordings release-groups url-rels discids artist-credits aliases";
+	MusicBrainz5::CMetadata Metadata20=MB2.Query("release","f54a5ecf-aaa2-32e3-a734-804bea01c3a9","",Params20);
+	MusicBrainz5::CRelease *Release20=Metadata20.Release();
+	if (Release20)
+	{
+		std::cout << *Release20 << std::endl;
 	}
 
 	return 0;

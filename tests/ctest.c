@@ -425,7 +425,7 @@ void CompileTest()
 	mb5_event_get_setlist(Event,Str,Size);
 	mb5_event_get_annotation(Event,Str,Size);
 	AliasList=mb5_event_get_aliaslist(Event);
-	RelationListList=mb5_event_get_relationlistlist(Event);
+	RelationList=mb5_event_get_relationlist(Event);
 	TagList=mb5_event_get_taglist(Event);
 	UserTagList=mb5_event_get_usertaglist(Event);
 	Rating=mb5_event_get_rating(Event);

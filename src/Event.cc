@@ -46,7 +46,7 @@ class MusicBrainz5::CEventPrivate
 		CEventPrivate()
 		:	m_Lifespan(0),
 			m_AliasList(0),
-			m_RelationListList(0),
+			m_RelationList(0),
 			m_TagList(0),
 			m_UserTagList(0),
 			m_Rating(0),
@@ -65,7 +65,7 @@ class MusicBrainz5::CEventPrivate
 		std::string m_Setlist;
 		std::string m_Annotation;
 		CAliasList *m_AliasList;
-		CRelationListList *m_RelationListList;
+		CRelationList *m_RelationList;
 		CTagList *m_TagList;
 		CUserTagList *m_UserTagList;
 		CRating *m_Rating;
@@ -116,8 +116,8 @@ MusicBrainz5::CEvent& MusicBrainz5::CEvent::operator =(const CEvent& Other)
 		if (Other.m_d->m_AliasList)
 			m_d->m_AliasList=new CAliasList(*Other.m_d->m_AliasList);
 
-		if (Other.m_d->m_RelationListList)
-			m_d->m_RelationListList=new CRelationListList(*Other.m_d->m_RelationListList);
+		if (Other.m_d->m_RelationList)
+			m_d->m_RelationList=new CRelationList(*Other.m_d->m_RelationList);
 
 		if (Other.m_d->m_TagList)
 			m_d->m_TagList=new CTagList(*Other.m_d->m_TagList);
@@ -150,8 +150,8 @@ void MusicBrainz5::CEvent::Cleanup()
 	delete m_d->m_AliasList;
 	m_d->m_AliasList=0;
 
-	delete m_d->m_RelationListList;
-	m_d->m_RelationListList=0;
+	delete m_d->m_RelationList;
+	m_d->m_RelationList=0;
 
 	delete m_d->m_TagList;
 	m_d->m_TagList=0;
@@ -225,7 +225,7 @@ void MusicBrainz5::CEvent::ParseElement(const XMLNode& Node)
 	}
 	else if ("relation-list"==NodeName)
 	{
-		ProcessRelationList(Node,m_d->m_RelationListList);
+		ProcessItem(Node,m_d->m_RelationList);
 	}
 	else if ("tag-list"==NodeName)
 	{
@@ -311,9 +311,9 @@ MusicBrainz5::CAliasList *MusicBrainz5::CEvent::AliasList() const
 	return m_d->m_AliasList;
 }
 
-MusicBrainz5::CRelationListList *MusicBrainz5::CEvent::RelationListList() const
+MusicBrainz5::CRelationList *MusicBrainz5::CEvent::RelationList() const
 {
-	return m_d->m_RelationListList;
+	return m_d->m_RelationList;
 }
 
 MusicBrainz5::CTagList *MusicBrainz5::CEvent::TagList() const
@@ -359,8 +359,8 @@ std::ostream& MusicBrainz5::CEvent::Serialise(std::ostream& os) const
 	if (AliasList())
 		os << *AliasList() << std::endl;
 
-	if (RelationListList())
-		os << *RelationListList() << std::endl;
+	if (RelationList())
+		os << *RelationList() << std::endl;
 
 	if (TagList())
 		os << *TagList() << std::endl;

@@ -155,7 +155,7 @@ extern "C"
 		<property name="setlist" type="string"/>
 		<property name="annotation" type="string"/>
 		<property name="aliaslist" uppername="AliasList" type="object"/>
-		<property name="relationlist" uppername="RelationList" type="relationlist"/>
+		<property name="relationlist" uppername="RelationList" type="object"/>
 		<property name="taglist" uppername="TagList" type="object"/>
 		<property name="usertaglist" uppername="UserTagList" type="object"/>
 		<property name="rating" type="object"/>
