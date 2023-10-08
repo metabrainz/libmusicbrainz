@@ -30,6 +30,7 @@
 
 #include <cstring>
 #include <libxml/tree.h>
+#include <libxml/parser.h>
 
 XMLResults::XMLResults()
     : line(0),
