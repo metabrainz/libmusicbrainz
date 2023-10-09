@@ -30,6 +30,7 @@
 
 #include <cstring>
 #include <libxml/tree.h>
+#include <libxml/parser.h>
 
 XMLResults::XMLResults()
     : line(0),
@@ -56,7 +57,7 @@ XMLNode *XMLRootNode::parseFile(const std::string &filename, XMLResults* results
 
     doc = xmlParseFile(filename.c_str());
     if ((doc == NULL) && (results != NULL)) {
-        xmlErrorPtr error = xmlGetLastError();
+        const xmlError *error = xmlGetLastError();
         results->message = error->message;
         results->line = error->line;
         results->code = error->code;
@@ -71,7 +72,7 @@ XMLNode *XMLRootNode::parseString(const std::string &xml, XMLResults* results)
 
     doc = xmlParseMemory(xml.c_str(), xml.length());
     if ((doc == NULL) && (results != NULL)) {
-        xmlErrorPtr error = xmlGetLastError();
+        const xmlError *error = xmlGetLastError();
         results->message = error->message;
         results->line = error->line;
         results->code = error->code;
