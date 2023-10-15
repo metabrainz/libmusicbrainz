@@ -182,8 +182,10 @@ int MusicBrainz5::CHTTPFetch::Fetch(const std::string& URL, const std::string& R
 		}
 
 		ne_request *req = ne_request_create(sess, Request.c_str(), URL.c_str());
+		ne_buffer *body = ne_buffer_create();
+
 		if (Request=="PUT")
-			ne_set_request_body_buffer(req,0,0);
+			ne_set_request_body_buffer(req, body->data, ne_buffer_size(body));
 
 		if (Request!="GET")
 			ne_set_request_flag(req, NE_REQFLAG_IDEMPOTENT, 0);
@@ -194,6 +196,8 @@ int MusicBrainz5::CHTTPFetch::Fetch(const std::string& URL, const std::string& R
 		m_d->m_Status = ne_get_status(req)->code;
 
 		Ret=m_d->m_Data.size();
+
+		ne_buffer_destroy(body);
 
 		ne_request_destroy(req);
 
