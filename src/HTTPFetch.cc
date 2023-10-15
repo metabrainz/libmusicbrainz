@@ -69,6 +69,7 @@ class MusicBrainz5::CHTTPFetchPrivate
 
 		std::string m_UserAgent;
 		std::string m_Host;
+		std::string m_Scheme;
 		int m_Port;
 		std::vector<unsigned char> m_Data;
 		int m_Result;
@@ -91,8 +92,10 @@ MusicBrainz5::CHTTPFetch::CHTTPFetch(const std::string& UserAgent, const std::st
 		if (m_d->m_UserAgent[Pos]=='-')
 			m_d->m_UserAgent[Pos]='/';
 
- 	m_d->m_Host=Host;
+	m_d->m_Host=Host;
 	m_d->m_Port=Port;
+
+	m_d->m_Scheme = (Port == 443) ? "https" : "http";
 
 	// Parse http_proxy environmnent variable
 	const char *http_proxy = getenv("http_proxy");
@@ -167,12 +170,17 @@ int MusicBrainz5::CHTTPFetch::Fetch(const std::string& URL, const std::string& R
 
 	m_d->m_Data.clear();
 
-	ne_session *sess=ne_session_create("http", m_d->m_Host.c_str(), m_d->m_Port);
+	ne_session *sess=ne_session_create(m_d->m_Scheme.c_str(), m_d->m_Host.c_str(), m_d->m_Port);
 	if (sess)
 	{
 		ne_set_useragent(sess, m_d->m_UserAgent.c_str());
 
 		ne_set_server_auth(sess, httpAuth, this);
+
+		if (m_d->m_Scheme == "https")
+		{
+			ne_ssl_trust_default_ca(sess);
+		}
 
 		// Use proxy server
 		if (!m_d->m_ProxyHost.empty())
