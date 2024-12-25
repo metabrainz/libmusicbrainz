@@ -182,8 +182,6 @@ int MusicBrainz5::CHTTPFetch::Fetch(const std::string& URL, const std::string& R
 		}
 
 		ne_request *req = ne_request_create(sess, Request.c_str(), URL.c_str());
-		if (Request=="PUT")
-			ne_set_request_body_buffer(req,0,0);
 
 		if (Request!="GET")
 			ne_set_request_flag(req, NE_REQFLAG_IDEMPOTENT, 0);
