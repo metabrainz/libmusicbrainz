@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.6)
+cmake_minimum_required(VERSION 3.5)
 
 PROJECT(libmusicbrainz5)
 SET(PROJECT_VERSION 5.1.0)
