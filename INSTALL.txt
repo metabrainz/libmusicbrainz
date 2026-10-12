@@ -10,8 +10,11 @@ Dependencies
 
 Before you start, make sure you have installed following libraries:
 
- * Neon -- HTTP client library
-   http://www.webdav.org/neon/
+ * libcurl -- HTTP client library
+   https://curl.se/libcurl/
+
+ * libxml2 -- XML parser library
+   https://gitlab.gnome.org/GNOME/libxml2
 
 Building
 ========

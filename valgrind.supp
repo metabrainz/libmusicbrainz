@@ -15,14 +15,6 @@
    ...
 }
 {
-   ne_sock_init
-   Memcheck:Leak
-   ...
-   obj:/usr/lib/libneon-gnutls.so.27.2.3
-   fun:ne_sock_init
-   ...
-}
-{
    gcry_create_nonce
    Memcheck:Leak
    ...

@@ -28,22 +28,75 @@
 
 #include "musicbrainz5/HTTPFetch.h"
 
-#include <stdlib.h>
-#include <string.h>
+#include <sstream>
 
-#include "ne_session.h"
-#include "ne_auth.h"
-#include "ne_string.h"
-#include "ne_request.h"
+#include <curl/curl.h>
+
+#ifdef _WIN32
+	#include <windows.h>
+
+	typedef CRITICAL_SECTION tLock;
+
+	static void initLock(tLock *Lock) { InitializeCriticalSection(Lock); }
+	static void destroyLock(tLock *Lock) { DeleteCriticalSection(Lock); }
+	static void lock(tLock *Lock) { EnterCriticalSection(Lock); }
+	static void unlock(tLock *Lock) { LeaveCriticalSection(Lock); }
+#else
+	#include <pthread.h>
+
+	typedef pthread_mutex_t tLock;
+
+	static void initLock(tLock *Lock) { pthread_mutex_init(Lock,0); }
+	static void destroyLock(tLock *Lock) { pthread_mutex_destroy(Lock); }
+	static void lock(tLock *Lock) { pthread_mutex_lock(Lock); }
+	static void unlock(tLock *Lock) { pthread_mutex_unlock(Lock); }
+#endif
+
+// Connections, DNS lookups and TLS sessions are shared between all requests
+// made by the library, so consecutive requests can reuse the same connection
+static CURLSH *SharedData=0;
+static tLock SharedLocks[CURL_LOCK_DATA_LAST];
+
+static void lockSharedData(CURL *handle, curl_lock_data data, curl_lock_access access, void *userptr)
+{
+	(void)handle;
+	(void)access;
+	(void)userptr;
+
+	lock(&SharedLocks[data]);
+}
+
+static void unlockSharedData(CURL *handle, curl_lock_data data, void *userptr)
+{
+	(void)handle;
+	(void)userptr;
+
+	unlock(&SharedLocks[data]);
+}
 
 #if defined(__GNUC__)
 __attribute__((constructor))
 #else
 	#error Non GCC compiler detected
 #endif
-static void initialize_neon() 
+static void initialize_curl()
 {
-	ne_sock_init();
+	curl_global_init(CURL_GLOBAL_DEFAULT);
+
+	for (int Lock=0;Lock<CURL_LOCK_DATA_LAST;Lock++)
+		initLock(&SharedLocks[Lock]);
+
+	SharedData=curl_share_init();
+	if (SharedData)
+	{
+		curl_share_setopt(SharedData, CURLSHOPT_LOCKFUNC, lockSharedData);
+		curl_share_setopt(SharedData, CURLSHOPT_UNLOCKFUNC, unlockSharedData);
+		curl_share_setopt(SharedData, CURLSHOPT_SHARE, CURL_LOCK_DATA_DNS);
+		curl_share_setopt(SharedData, CURLSHOPT_SHARE, CURL_LOCK_DATA_SSL_SESSION);
+#if LIBCURL_VERSION_NUM >= 0x073900
+		curl_share_setopt(SharedData, CURLSHOPT_SHARE, CURL_LOCK_DATA_CONNECT);
+#endif
+	}
 }
 
 #if defined(__GNUC__)
@@ -51,9 +104,18 @@ __attribute__((destructor))
 #else
 	#error Non GCC compiler detected
 #endif
-static void destroy_neon() 
+static void destroy_curl()
 {
-	ne_sock_exit();
+	if (SharedData)
+	{
+		curl_share_cleanup(SharedData);
+		SharedData=0;
+	}
+
+	for (int Lock=0;Lock<CURL_LOCK_DATA_LAST;Lock++)
+		destroyLock(&SharedLocks[Lock]);
+
+	curl_global_cleanup();
 }
 
 class MusicBrainz5::CHTTPFetchPrivate
@@ -73,6 +135,7 @@ class MusicBrainz5::CHTTPFetchPrivate
 		std::vector<unsigned char> m_Data;
 		int m_Result;
 		int m_Status;
+		std::string m_StatusLine;
 		std::string m_ErrorMessage;
 		std::string m_UserName;
 		std::string m_Password;
@@ -81,6 +144,68 @@ class MusicBrainz5::CHTTPFetchPrivate
 		std::string m_ProxyUserName;
 		std::string m_ProxyPassword;
 };
+
+static size_t curlWriteCallback(char *ptr, size_t size, size_t nmemb, void *userdata)
+{
+	std::vector<unsigned char> *buffer = reinterpret_cast<std::vector<unsigned char> *>(userdata);
+
+	buffer->insert(buffer->end(),ptr,ptr+size*nmemb);
+
+	return size*nmemb;
+}
+
+static size_t curlHeaderCallback(char *buffer, size_t size, size_t nitems, void *userdata)
+{
+	std::string *StatusLine = reinterpret_cast<std::string *>(userdata);
+	std::string Header(buffer,size*nitems);
+
+	// Keep the reason phrase of the last status line (e.g. "404 Not Found"),
+	// which is what libneon used to report as the error message
+	if (Header.compare(0,5,"HTTP/")==0)
+	{
+		std::string::size_type Pos=Header.find(' ');
+		if (Pos!=std::string::npos)
+		{
+			*StatusLine=Header.substr(Pos+1);
+
+			std::string::size_type End=StatusLine->find_last_not_of("\r\n ");
+			StatusLine->erase(End==std::string::npos ? 0 : End+1);
+		}
+	}
+
+	return size*nitems;
+}
+
+// Reason phrases for status codes the web service returns, for responses
+// that don't include one (HTTP/2 has no reason phrase)
+static const char *reasonPhrase(long Status)
+{
+	switch (Status)
+	{
+		case 200: return "OK";
+		case 400: return "Bad Request";
+		case 401: return "Unauthorized";
+		case 403: return "Forbidden";
+		case 404: return "Not Found";
+		case 407: return "Proxy Authentication Required";
+		case 500: return "Internal Server Error";
+		case 502: return "Bad Gateway";
+		case 503: return "Service Unavailable";
+		case 504: return "Gateway Timeout";
+		default: return 0;
+	}
+}
+
+static size_t curlReadCallback(char *buffer, size_t size, size_t nitems, void *userdata)
+{
+	(void)buffer;
+	(void)size;
+	(void)nitems;
+	(void)userdata;
+
+	// Requests are sent with an empty body
+	return 0;
+}
 
 MusicBrainz5::CHTTPFetch::CHTTPFetch(const std::string& UserAgent, const std::string& Host, int Port)
 :	m_d(new CHTTPFetchPrivate)
@@ -94,36 +219,7 @@ MusicBrainz5::CHTTPFetch::CHTTPFetch(const std::string& UserAgent, const std::st
  	m_d->m_Host=Host;
 	m_d->m_Port=Port;
 
-	// Parse http_proxy environmnent variable
-	const char *http_proxy = getenv("http_proxy");
-	if (http_proxy)
-	{
-		ne_uri uri;
-		if (!ne_uri_parse(http_proxy, &uri))
-		{
-			if (uri.host)
-				m_d->m_ProxyHost = uri.host;
-			if (uri.port)
-				m_d->m_ProxyPort = uri.port;
-
-			if (uri.userinfo)
-			{
-				char *pos = strchr(uri.userinfo, ':');
-				if (pos)
-				{
-					*pos = '\0';
-					m_d->m_ProxyUserName = uri.userinfo;
-					m_d->m_ProxyPassword = pos + 1;
-				}
-				else
-				{
-					m_d->m_ProxyUserName = uri.userinfo;
-				}
-			}
-		}
-
-		ne_uri_free(&uri);
-	}
+	// The http_proxy environment variable is handled by libcurl itself
 }
 
 MusicBrainz5::CHTTPFetch::~CHTTPFetch()
@@ -166,57 +262,123 @@ int MusicBrainz5::CHTTPFetch::Fetch(const std::string& URL, const std::string& R
 	int Ret=0;
 
 	m_d->m_Data.clear();
+	m_d->m_Result=CURLE_OK;
+	m_d->m_Status=0;
+	m_d->m_StatusLine.clear();
+	m_d->m_ErrorMessage.clear();
 
-	ne_session *sess=ne_session_create("http", m_d->m_Host.c_str(), m_d->m_Port);
-	if (sess)
+	CURL *curl=curl_easy_init();
+	if (curl)
 	{
-		ne_set_useragent(sess, m_d->m_UserAgent.c_str());
+		std::stringstream os;
+		os << (m_d->m_Port==443 ? "https" : "http") << "://" << m_d->m_Host << ":" << m_d->m_Port << URL;
+		std::string FullURL=os.str();
 
-		ne_set_server_auth(sess, httpAuth, this);
+		char ErrorBuffer[CURL_ERROR_SIZE];
+		ErrorBuffer[0]='\0';
+
+		struct curl_slist *Headers=0;
+
+		curl_easy_setopt(curl, CURLOPT_URL, FullURL.c_str());
+		curl_easy_setopt(curl, CURLOPT_USERAGENT, m_d->m_UserAgent.c_str());
+		curl_easy_setopt(curl, CURLOPT_ERRORBUFFER, ErrorBuffer);
+		curl_easy_setopt(curl, CURLOPT_NOSIGNAL, 1L);
+
+		if (SharedData)
+			curl_easy_setopt(curl, CURLOPT_SHARE, SharedData);
+
+		// Abort if the server stops sending data for two minutes
+		curl_easy_setopt(curl, CURLOPT_LOW_SPEED_LIMIT, 1L);
+		curl_easy_setopt(curl, CURLOPT_LOW_SPEED_TIME, 120L);
+
+		curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, curlWriteCallback);
+		curl_easy_setopt(curl, CURLOPT_WRITEDATA, &m_d->m_Data);
+		curl_easy_setopt(curl, CURLOPT_HEADERFUNCTION, curlHeaderCallback);
+		curl_easy_setopt(curl, CURLOPT_HEADERDATA, &m_d->m_StatusLine);
+
+		if (!m_d->m_UserName.empty())
+		{
+			curl_easy_setopt(curl, CURLOPT_USERNAME, m_d->m_UserName.c_str());
+			curl_easy_setopt(curl, CURLOPT_PASSWORD, m_d->m_Password.c_str());
+			curl_easy_setopt(curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC | CURLAUTH_DIGEST);
+		}
 
 		// Use proxy server
 		if (!m_d->m_ProxyHost.empty())
 		{
-			ne_session_proxy(sess, m_d->m_ProxyHost.c_str(), m_d->m_ProxyPort);
-			ne_set_proxy_auth(sess, proxyAuth, this);
+			curl_easy_setopt(curl, CURLOPT_PROXY, m_d->m_ProxyHost.c_str());
+			if (m_d->m_ProxyPort)
+				curl_easy_setopt(curl, CURLOPT_PROXYPORT, (long)m_d->m_ProxyPort);
 		}
 
-		ne_request *req = ne_request_create(sess, Request.c_str(), URL.c_str());
+		if (!m_d->m_ProxyUserName.empty())
+		{
+			curl_easy_setopt(curl, CURLOPT_PROXYUSERNAME, m_d->m_ProxyUserName.c_str());
+			curl_easy_setopt(curl, CURLOPT_PROXYPASSWORD, m_d->m_ProxyPassword.c_str());
+			curl_easy_setopt(curl, CURLOPT_PROXYAUTH, CURLAUTH_BASIC | CURLAUTH_DIGEST);
+		}
+
 		if (Request=="PUT")
-			ne_set_request_body_buffer(req,0,0);
+		{
+			curl_easy_setopt(curl, CURLOPT_UPLOAD, 1L);
+			curl_easy_setopt(curl, CURLOPT_INFILESIZE, 0L);
+			curl_easy_setopt(curl, CURLOPT_READFUNCTION, curlReadCallback);
 
-		if (Request!="GET")
-			ne_set_request_flag(req, NE_REQFLAG_IDEMPOTENT, 0);
+			Headers=curl_slist_append(Headers, "Expect:");
+			curl_easy_setopt(curl, CURLOPT_HTTPHEADER, Headers);
+		}
+		else if (Request!="GET")
+			curl_easy_setopt(curl, CURLOPT_CUSTOMREQUEST, Request.c_str());
 
-		ne_add_response_body_reader(req, ne_accept_2xx, httpResponseReader, &m_d->m_Data);
+		CURLcode Result=curl_easy_perform(curl);
 
-		m_d->m_Result = ne_request_dispatch(req);
-		m_d->m_Status = ne_get_status(req)->code;
+		long Status=0;
+		curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &Status);
+
+		m_d->m_Result=Result;
+		m_d->m_Status=Status;
+
+		if (Result!=CURLE_OK)
+			m_d->m_ErrorMessage=ErrorBuffer[0] ? ErrorBuffer : curl_easy_strerror(Result);
+		else if (m_d->m_StatusLine.find(' ')!=std::string::npos)
+			m_d->m_ErrorMessage=m_d->m_StatusLine;
+		else
+		{
+			std::stringstream StatusStream;
+			StatusStream << Status;
+
+			const char *Reason=reasonPhrase(Status);
+			if (Reason)
+				StatusStream << " " << Reason;
+
+			m_d->m_ErrorMessage=StatusStream.str();
+		}
+
+		curl_slist_free_all(Headers);
+		curl_easy_cleanup(curl);
+
+		// Only the body of successful responses is returned, as with libneon
+		if (m_d->m_Status<200 || m_d->m_Status>299)
+			m_d->m_Data.clear();
 
 		Ret=m_d->m_Data.size();
 
-		ne_request_destroy(req);
-
-		m_d->m_ErrorMessage = ne_get_error(sess);
-
-		ne_session_destroy(sess);
-
 		switch (m_d->m_Result)
 		{
-			case NE_OK:
+			case CURLE_OK:
 				break;
 
-			case NE_CONNECT:
-			case NE_LOOKUP:
+			case CURLE_COULDNT_CONNECT:
+			case CURLE_COULDNT_RESOLVE_HOST:
+			case CURLE_COULDNT_RESOLVE_PROXY:
 				throw CConnectionError(m_d->m_ErrorMessage);
 				break;
 
-			case NE_TIMEOUT:
+			case CURLE_OPERATION_TIMEDOUT:
 				throw CTimeoutError(m_d->m_ErrorMessage);
 				break;
 
-			case NE_AUTH:
-			case NE_PROXYAUTH:
+			case CURLE_LOGIN_DENIED:
 				throw CAuthenticationError(m_d->m_ErrorMessage);
 				break;
 
@@ -235,6 +397,7 @@ int MusicBrainz5::CHTTPFetch::Fetch(const std::string& URL, const std::string& R
 				break;
 
 			case 401:
+			case 407:
 				throw CAuthenticationError(m_d->m_ErrorMessage);
 				break;
 
@@ -249,37 +412,6 @@ int MusicBrainz5::CHTTPFetch::Fetch(const std::string& URL, const std::string& R
 	}
 
 	return Ret;
-}
-
-int MusicBrainz5::CHTTPFetch::httpAuth(void *userdata, const char *realm, int attempts,
-					 char *username, char *password)
-{
-	realm=realm;
-
-	MusicBrainz5::CHTTPFetch *Fetch = (MusicBrainz5::CHTTPFetch *)userdata;
-	strncpy(username, Fetch->m_d->m_UserName.c_str(), NE_ABUFSIZ);
-	strncpy(password, Fetch->m_d->m_Password.c_str(), NE_ABUFSIZ);
-	return attempts;
-}
-
-int MusicBrainz5::CHTTPFetch::proxyAuth(void *userdata, const char *realm, int attempts,
-					 char *username, char *password)
-{
-	realm=realm;
-
-	MusicBrainz5::CHTTPFetch *Fetch = (MusicBrainz5::CHTTPFetch *)userdata;
-	strncpy(username, Fetch->m_d->m_ProxyUserName.c_str(), NE_ABUFSIZ);
-	strncpy(password, Fetch->m_d->m_ProxyPassword.c_str(), NE_ABUFSIZ);
-	return attempts;
-}
-
-int MusicBrainz5::CHTTPFetch::httpResponseReader(void *userdata, const char *buf, size_t len)
-{
-	std::vector<unsigned char> *buffer = reinterpret_cast<std::vector<unsigned char> *>(userdata);
-
-	buffer->insert(buffer->end(),buf,buf+len);
-
-	return 0;
 }
 
 std::vector<unsigned char> MusicBrainz5::CHTTPFetch::Data() const

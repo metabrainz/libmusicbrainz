@@ -40,7 +40,7 @@
 #include <unistd.h>
 #include <sys/time.h>
 
-#include <ne_uri.h>
+#include <curl/curl.h>
 
 #include "musicbrainz5/HTTPFetch.h"
 #include "musicbrainz5/Disc.h"
@@ -482,9 +482,16 @@ std::string MusicBrainz5::CQuery::UserAgent() const
 
 std::string MusicBrainz5::CQuery::URIEscape(const std::string &URI)
 {
-	char *EscURIStr = ne_path_escape(URI.c_str());
-	std::string EscURI((const char *)EscURIStr);
-	free(EscURIStr);
+	std::string EscURI;
+
+	// No handle is needed: before libcurl 7.82.0 it was only used on EBCDIC builds
+	char *EscURIStr=curl_easy_escape(0, URI.c_str(), (int)URI.length());
+	if (EscURIStr)
+	{
+		EscURI=EscURIStr;
+		curl_free(EscURIStr);
+	}
+
 	return EscURI;
 }
 

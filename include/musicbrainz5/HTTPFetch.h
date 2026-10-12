@@ -248,11 +248,12 @@ namespace MusicBrainz5
 		std::vector<unsigned char> Data() const;
 
 		/**
-		 * @brief libneon result code from the request
+		 * @brief libcurl result code from the request
 		 *
-		 * Return the result code from the request
+		 * Return the result code from the request. Versions of the library
+		 * built with libneon returned a libneon result code instead.
 		 *
-		 * @return libneon result code from the request
+		 * @return libcurl result code (CURLcode) from the request
 		 */
 
 		int Result() const;
@@ -279,10 +280,6 @@ namespace MusicBrainz5
 
 	private:
 		CHTTPFetchPrivate * const m_d;
-
-		static int httpAuth(void *userdata, const char *realm, int attempts, char *username, char *password);
-		static int proxyAuth(void *userdata, const char *realm, int attempts, char *username, char *password);
-		static int httpResponseReader(void *userdata, const char *buf, size_t len);
 	};
 }
 
